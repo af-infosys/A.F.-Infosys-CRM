@@ -264,39 +264,196 @@ export const getAllRecords = async (req, res) => {
   }
 };
 
-// Controller function to fetch all unique areas (societies) from the Google Sheet.
+/**
+ * Helper function to get all areas from the Google Sheet with their row indices.
+ * This is used internally by addArea and EditArea to manage IDs and row numbers.
+ */
+const _getAllAreasWithRowIndex = async () => {
+  const client = await auth.getClient();
+  const googleSheets = google.sheets({ version: "v4", auth: client });
+
+  const response = await googleSheets.spreadsheets.values.get({
+    spreadsheetId: SPREADSHEET_ID,
+    range: `${AREAS_SHEET}!A:B`, // Read both ID (Column A) and Area Name (Column B)
+  });
+
+  const values = response.data.values || [];
+  const areasWithIndex = [];
+  // Assuming header is in row 1, data starts from row 2 (index 1 in 0-based array)
+  for (let i = 0; i < values.length; i++) {
+    // Iterate through all rows including header for accurate row index
+    const row = values[i];
+    // Ensure both ID (column A) and Area Name (column B) exist for a valid entry
+    if (row[0] && row[1]) {
+      areasWithIndex.push({
+        id: row[0].trim(), // ID from column A
+        name: row[1].trim(), // Area Name from column B
+        rowIndex: i + 1, // Actual row number in Google Sheet (1-based)
+      });
+    }
+  }
+  return areasWithIndex;
+};
+
+/**
+ * Controller function to fetch all unique areas (societies) from the Google Sheet.
+ * This function returns objects with 'id' and 'name'.
+ */
 export const getAllAreas = async (req, res) => {
   try {
     const client = await auth.getClient();
     const googleSheets = google.sheets({ version: "v4", auth: client });
 
-    // "Areas" શીટમાંથી ડેટા વાંચો
     const response = await googleSheets.spreadsheets.values.get({
       spreadsheetId: SPREADSHEET_ID,
-      range: `${AREAS_SHEET}!B:B`, // A કૉલમમાંથી તમામ ડેટા વાંચો
+      range: `${AREAS_SHEET}!A:B`, // Read both ID (A) and Area Name (B) columns
     });
 
     const values = response.data.values || [];
-    const uniqueAreas = new Set();
+    const areas = [];
 
-    // પ્રથમ કૉલમમાંથી (ઇન્ડેક્સ 0) અનન્ય વિસ્તારો કાઢો
-    // હેડર પંક્તિને છોડવા માટે i ને 1 થી શરૂ કરો
-    for (let i = 0; i < values.length; i++) {
-      // જો હેડર ન હોય તો 0 થી શરૂ કરો, અન્યથા 1 થી
-      if (values[i][0]) {
-        // જો સેલ ખાલી ન હોય
-        uniqueAreas.add(values[i][0].trim());
+    // Assuming header is in row 1, data starts from row 2.
+    // Start from index 1 to skip the header row.
+    for (let i = 1; i < values.length; i++) {
+      const row = values[i];
+      if (row[0] && row[1]) {
+        // Ensure both ID and Area Name exist
+        areas.push({
+          id: row[0].trim(), // ID from column A
+          name: row[1].trim(), // Area Name from column B
+        });
       }
     }
 
     res.status(200).json({
       message: "Areas fetched successfully!",
-      data: Array.from(uniqueAreas), // Set ને એરેમાં રૂપાંતરિત કરો
+      data: areas,
     });
   } catch (error) {
     console.error("Error fetching areas from Google Sheet:", error.message);
     res.status(500).json({
       message: "Failed to fetch areas from Google Sheet.",
+      error: error.message,
+    });
+  }
+};
+
+/**
+ * Controller function to add a new area to the Google Sheet with auto-incrementing ID.
+ * @param {object} req - The Express request object, containing areaName in `req.body`.
+ * @param {object} res - The Express response object.
+ */
+export const addArea = async (req, res) => {
+  try {
+    const client = await auth.getClient();
+    const googleSheets = google.sheets({ version: "v4", auth: client });
+
+    const { areaName } = req.body;
+
+    if (!areaName || typeof areaName !== "string" || areaName.trim() === "") {
+      return res
+        .status(400)
+        .json({
+          message: "Area name is required and must be a non-empty string.",
+        });
+    }
+
+    // Get all existing areas to determine the next ID
+    const existingAreas = await _getAllAreasWithRowIndex();
+    let nextId = 1;
+
+    // Filter out potential header row and non-numeric IDs, then find the max
+    const numericIds = existingAreas
+      .filter((area) => area.rowIndex > 1) // Exclude header row from ID calculation
+      .map((area) => parseInt(area.id, 10))
+      .filter((id) => !isNaN(id));
+
+    if (numericIds.length > 0) {
+      nextId = Math.max(...numericIds) + 1;
+    }
+
+    // Append the new area with auto-incremented ID to the AREAS_SHEET
+    const response = await googleSheets.spreadsheets.values.append({
+      spreadsheetId: SPREADSHEET_ID,
+      range: `${AREAS_SHEET}!A:B`, // Append to columns A and B
+      valueInputOption: "RAW",
+      resource: {
+        values: [[nextId, areaName.trim()]], // New ID in A, Area Name in B
+      },
+    });
+
+    res.status(201).json({
+      message: "Area added successfully to Google Sheet!",
+      area: { id: nextId, name: areaName.trim() },
+      data: response.data,
+    });
+  } catch (error) {
+    console.error("Error adding area to Google Sheet:", error.message);
+    res.status(500).json({
+      message: "Failed to add area to Google Sheet.",
+      error: error.message,
+    });
+  }
+};
+
+/**
+ * Controller function to edit an existing area in the Google Sheet.
+ * This function expects the ID from Column A of the sheet as `req.params.id`.
+ * @param {object} req - The Express request object, containing `id` in `req.params` and `newAreaName` in `req.body`.
+ * @param {object} res - The Express response object.
+ */
+export const EditArea = async (req, res) => {
+  try {
+    const client = await auth.getClient();
+    const googleSheets = google.sheets({ version: "v4", auth: client });
+
+    const { id } = req.params; // This `id` is the value from Column A (e.g., "1", "2", "3")
+    const { newAreaName } = req.body;
+
+    if (
+      !newAreaName ||
+      typeof newAreaName !== "string" ||
+      newAreaName.trim() === ""
+    ) {
+      return res
+        .status(400)
+        .json({
+          message: "New area name is required and must be a non-empty string.",
+        });
+    }
+
+    // Fetch all areas with their row indices to find the row number corresponding to the given ID
+    const allAreas = await _getAllAreasWithRowIndex();
+    // Find the area by matching the ID from req.params.id with the ID in column A
+    const areaToEdit = allAreas.find((area) => String(area.id) === String(id));
+
+    if (!areaToEdit) {
+      return res
+        .status(404)
+        .json({ message: `Area with ID '${id}' not found.` });
+    }
+
+    const rowNumber = areaToEdit.rowIndex; // Get the actual row number in the Google Sheet
+
+    // Update the specific cell (Column B) in the AREAS_SHEET at the found row number
+    const response = await googleSheets.spreadsheets.values.update({
+      spreadsheetId: SPREADSHEET_ID,
+      range: `${AREAS_SHEET}!B${rowNumber}`, // Update column B at the specified row
+      valueInputOption: "RAW",
+      resource: {
+        values: [[newAreaName.trim()]], // Wrap in a nested array for a single cell update
+      },
+    });
+
+    res.status(200).json({
+      message: `Area with ID '${id}' updated successfully!`,
+      updatedArea: { id: id, name: newAreaName.trim(), row: rowNumber },
+      data: response.data,
+    });
+  } catch (error) {
+    console.error("Error editing area in Google Sheet:", error.message);
+    res.status(500).json({
+      message: "Failed to edit area in Google Sheet.",
       error: error.message,
     });
   }
