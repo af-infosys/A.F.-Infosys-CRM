@@ -3,7 +3,13 @@ import User from "../models/User.js";
 
 const generateToken = (user) => {
   return jwt.sign(
-    { id: user._id, role: user.role, email: user.email, name: user.name },
+    {
+      id: user._id,
+      role: user.role,
+      email: user.email,
+      name: user.name,
+      work: user?.work,
+    },
     process.env.JWT_SECRET,
     { expiresIn: "2d" }
   );
@@ -50,7 +56,12 @@ export const loginUser = async (req, res) => {
     console.log(user);
     res.status(200).json({
       token,
-      user: { id: user._id, role: user.role, name: user.name },
+      user: {
+        id: user._id,
+        role: user.role,
+        name: user.name,
+        work: user?.work || {},
+      },
     });
   } catch (error) {
     res.status(500).json({ message: "Login failed", error: error.message });

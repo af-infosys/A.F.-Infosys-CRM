@@ -13,7 +13,8 @@ export default function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      await login(email, password);
+      let email_lower = email;
+      await login(email_lower.toLowerCase(), password);
       navigate("/");
     } catch (err) {
       alert("Login failed");

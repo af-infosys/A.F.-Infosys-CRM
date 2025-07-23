@@ -37,6 +37,7 @@ app.get("/", (req, res) => {
 });
 app.use("/api/auth", authRoutes);
 app.use("/api/leads", inquiryRoutes);
+app.use("/api/users", userRoutes);
 
 // Reciept Automation Script Start
 async function fetchDataFromSheet(sheetId, recordId) {
@@ -184,7 +185,8 @@ async function connectToWhatsApp() {
 }
 
 import { google } from "googleapis";
-import sheetRoutes from "./routes/sheetRoutes.js";
+import survayRoutes from "./routes/survayRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 
 // --- Google Sheets Configuration ---
 // IMPORTANT: Replace with your actual service account key file path and sheet details
@@ -467,7 +469,7 @@ app.get("/get-all-sheet-data", async (req, res) => {
 });
 // Reciept Automation Script End
 
-app.use("/api/sheet", sheetRoutes);
+app.use("/api/sheet", survayRoutes);
 
 // connectToWhatsApp();
 

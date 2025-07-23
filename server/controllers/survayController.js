@@ -135,14 +135,6 @@ const auth = new google.auth.GoogleAuth({
   scopes: ["https://www.googleapis.com/auth/spreadsheets"],
 });
 
-/**
- * Controller function to add a new record (form submission) to the Google Sheet.
- * This function expects a JSON body from the client containing the form data.
- *
- * @param {object} req - The Express request object, containing the form data in `req.body`.
- * @param {object} res - The Express response object, used to send back success or error messages.
- */
-
 export const addSheetRecord = async (req, res) => {
   try {
     // 1. Get the authenticated client
@@ -181,8 +173,6 @@ export const addSheetRecord = async (req, res) => {
       return res.status(400).json({ message: "Missing required form fields." });
     }
 
-    // 4. Prepare the row data for Google Sheets
-    // buildPropertyDescription ફંક્શનને req.body પાસ કરો
     const description = buildPropertyDescription(req.body);
 
     const rowData = [
@@ -264,10 +254,6 @@ export const getAllRecords = async (req, res) => {
   }
 };
 
-/**
- * Helper function to get all areas from the Google Sheet with their row indices.
- * This is used internally by addArea and EditArea to manage IDs and row numbers.
- */
 const _getAllAreasWithRowIndex = async () => {
   const client = await auth.getClient();
   const googleSheets = google.sheets({ version: "v4", auth: client });
@@ -295,10 +281,122 @@ const _getAllAreasWithRowIndex = async () => {
   return areasWithIndex;
 };
 
-/**
- * Controller function to fetch all unique areas (societies) from the Google Sheet.
- * This function returns objects with 'id' and 'name'.
- */
+// Controller function to fetch all records from the Google Sheet.
+export const getRecord = async (req, res) => {
+  try {
+    const client = await auth.getClient();
+    const googleSheets = google.sheets({ version: "v4", auth: client });
+
+    // Google Sheet
+    const response = await googleSheets.spreadsheets.values.get({
+      spreadsheetId: SPREADSHEET_ID,
+      range: `${DATA_SHEET}!A4:ZZ`,
+    });
+
+    const records = response.data.values || [];
+
+    const { id } = req.params;
+
+    const record =
+      records.find((record) => Number(record[0]) === Number(id)) || [];
+
+    res.status(200).json({
+      message: "Records fetched successfully!",
+      data: record,
+    });
+  } catch (error) {
+    console.error("Error fetching records from Google Sheet:", error.message);
+    res.status(500).json({
+      message: "Failed to fetch records from Google Sheet.",
+      error: error.message,
+    });
+  }
+};
+
+export const editSheetRecord = async (req, res) => {
+  try {
+    const client = await auth.getClient();
+    const googleSheets = google.sheets({ version: "v4", auth: client });
+
+    // Fetch current records
+    const response = await googleSheets.spreadsheets.values.get({
+      spreadsheetId: SPREADSHEET_ID,
+      range: `${DATA_SHEET}!A4:ZZ`,
+    });
+
+    const records = response.data.values || [];
+    const { id } = req.params;
+
+    // Find the matching row index
+    const rowIndex = records.findIndex(
+      (record) => Number(record[0]) === Number(id)
+    );
+    if (rowIndex === -1) {
+      return res.status(404).json({ message: "Record not found" });
+    }
+
+    const rowNumber = rowIndex + 4; // Adjust for A4 start
+
+    // Convert req.body to a flat array
+    const {
+      serialNumber,
+      areaName,
+      propertyNumber,
+      ownerName,
+      oldPropertyNumber,
+      mobileNumber,
+      propertyNameOnRecord,
+      houseCategory,
+      kitchenCount,
+      bathroomCount,
+      verandaCount,
+      tapCount,
+      toiletCount,
+      remarks,
+      floors,
+    } = req.body;
+
+    const updatedRow = [
+      serialNumber,
+      areaName,
+      propertyNumber,
+      ownerName,
+      oldPropertyNumber,
+      mobileNumber,
+      propertyNameOnRecord,
+      houseCategory,
+      kitchenCount,
+      bathroomCount,
+      verandaCount,
+      tapCount,
+      toiletCount,
+      remarks,
+      JSON.stringify(floors), // Floors stored as JSON string
+    ];
+
+    // Update the sheet row
+    await googleSheets.spreadsheets.values.update({
+      spreadsheetId: SPREADSHEET_ID,
+      range: `${DATA_SHEET}!A${rowNumber}:ZZ${rowNumber}`,
+      valueInputOption: "USER_ENTERED",
+      requestBody: {
+        values: [updatedRow],
+      },
+    });
+
+    res.status(200).json({
+      message: "Record updated successfully!",
+      updatedRow,
+    });
+  } catch (error) {
+    console.error("Error updating record:", error.message);
+    res.status(500).json({
+      message: "Failed to update record",
+      error: error.message,
+    });
+  }
+};
+
 export const getAllAreas = async (req, res) => {
   try {
     const client = await auth.getClient();
@@ -338,11 +436,6 @@ export const getAllAreas = async (req, res) => {
   }
 };
 
-/**
- * Controller function to add a new area to the Google Sheet with auto-incrementing ID.
- * @param {object} req - The Express request object, containing areaName in `req.body`.
- * @param {object} res - The Express response object.
- */
 export const addArea = async (req, res) => {
   try {
     const client = await auth.getClient();
@@ -351,11 +444,9 @@ export const addArea = async (req, res) => {
     const { areaName } = req.body;
 
     if (!areaName || typeof areaName !== "string" || areaName.trim() === "") {
-      return res
-        .status(400)
-        .json({
-          message: "Area name is required and must be a non-empty string.",
-        });
+      return res.status(400).json({
+        message: "Area name is required and must be a non-empty string.",
+      });
     }
 
     // Get all existing areas to determine the next ID
@@ -396,12 +487,6 @@ export const addArea = async (req, res) => {
   }
 };
 
-/**
- * Controller function to edit an existing area in the Google Sheet.
- * This function expects the ID from Column A of the sheet as `req.params.id`.
- * @param {object} req - The Express request object, containing `id` in `req.params` and `newAreaName` in `req.body`.
- * @param {object} res - The Express response object.
- */
 export const EditArea = async (req, res) => {
   try {
     const client = await auth.getClient();
@@ -415,11 +500,9 @@ export const EditArea = async (req, res) => {
       typeof newAreaName !== "string" ||
       newAreaName.trim() === ""
     ) {
-      return res
-        .status(400)
-        .json({
-          message: "New area name is required and must be a non-empty string.",
-        });
+      return res.status(400).json({
+        message: "New area name is required and must be a non-empty string.",
+      });
     }
 
     // Fetch all areas with their row indices to find the row number corresponding to the given ID
@@ -454,6 +537,48 @@ export const EditArea = async (req, res) => {
     console.error("Error editing area in Google Sheet:", error.message);
     res.status(500).json({
       message: "Failed to edit area in Google Sheet.",
+      error: error.message,
+    });
+  }
+};
+
+export const DeleteArea = async (req, res) => {
+  try {
+    const client = await auth.getClient();
+    const googleSheets = google.sheets({ version: "v4", auth: client });
+
+    const { id } = req.params; // This `id` is the value from Column A (e.g., "1", "2", "3")
+
+    // Fetch all areas with their row indices to find the row number corresponding to the given ID
+    const allAreas = await _getAllAreasWithRowIndex();
+    // Find the area by matching the ID from req.params.id with the ID in column A
+    const areaToDelete = allAreas.find(
+      (area) => String(area.id) === String(id)
+    );
+
+    if (!areaToDelete) {
+      return res
+        .status(404)
+        .json({ message: `Area with ID '${id}' not found.` });
+    }
+
+    const rowNumber = areaToDelete.rowIndex; // Get the actual row number in the Google Sheet
+
+    // Delete the specific cell (Column B) in the AREAS_SHEET at the found row number
+    const response = await googleSheets.spreadsheets.values.delete({
+      spreadsheetId: SPREADSHEET_ID,
+      range: `${AREAS_SHEET}!B${rowNumber}`, // Delete column B at the specified row
+    });
+
+    res.status(200).json({
+      message: `Area with ID '${id}' deleted successfully!`,
+      deletedArea: { id: id, row: rowNumber },
+      data: response.data,
+    });
+  } catch (error) {
+    console.error("Error deleting area in Google Sheet:", error.message);
+    res.status(500).json({
+      message: "Failed to delete area in Google Sheet.",
       error: error.message,
     });
   }

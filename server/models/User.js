@@ -22,6 +22,10 @@ const userSchema = new mongoose.Schema(
       required: true,
       default: "operator",
     },
+
+    work: {
+      type: Object,
+    },
   },
   { timestamps: true }
 );
