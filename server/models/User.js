@@ -18,13 +18,13 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["owner", "telecaller", "surveyor", "accountant", "operator"],
+      enum: ["owner", "telecaller", "surveyor", "accountant", "operator", "md"],
       required: true,
       default: "operator",
     },
 
     work: {
-      type: Object,
+      type: String,
     },
   },
   { timestamps: true }

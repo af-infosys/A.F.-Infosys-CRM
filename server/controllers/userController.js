@@ -1,83 +1,83 @@
 import User from "../models/User.js";
 
+// 🔹 Fetch all users
 export const getAllUsers = async (req, res) => {
   try {
     const users = await User.find();
-
-    res.json(users);
+    res.status(200).json(users);
   } catch (err) {
     res.status(500).json({ message: "DB Error", error: err });
   }
 };
 
+// 🔹 Get user name by ID
+export const getUserName = async (req, res) => {
+  try {
+    console.log(req.params);
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    res.status(200).json({ name: user.name || "Unknown" });
+  } catch (err) {
+    res.status(500).json({ message: "DB Error", error: err });
+  }
+};
+
+// 🔹 Edit user info
 export const editUser = async (req, res) => {
   try {
     const user = await User.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
     });
 
+    if (!user) return res.status(404).json({ message: "User not found" });
+
     res.status(200).json({
       message: "User updated successfully",
-      user: { id: user._id, role: user.role, name: user.name },
+      user: {
+        id: user._id,
+        name: user.name,
+        role: user.role,
+      },
     });
   } catch (err) {
     res.status(500).json({ message: "DB Error", error: err });
   }
 };
 
-export const assignUserWork = async (req, res) => {
+// 🔹 Assign, Edit or Delete User Work (Reusable handler)
+const updateUserWork = async (req, res, action) => {
   try {
-    const user = await User.findByIdAndUpdate(
-      req.params.id,
-      { work: req.body },
-      {
-        new: true,
-      }
-    );
+    const update =
+      action === "delete" ? { work: "" } : { work: req.body.workSheetId };
+
+    const user = await User.findByIdAndUpdate(req.params.id, update, {
+      new: true,
+    });
+
+    if (!user) return res.status(404).json({ message: "User not found" });
 
     res.status(200).json({
-      message: "Work Assigned successfully",
-      user: { id: user._id, role: user.role, name: user.name },
+      message:
+        action === "delete"
+          ? "Work deleted successfully"
+          : action === "edit"
+          ? "Work updated successfully"
+          : "Work assigned successfully",
+      user: {
+        id: user._id,
+        name: user.name,
+        role: user.role,
+      },
     });
   } catch (err) {
     res.status(500).json({ message: "DB Error", error: err });
   }
 };
 
-export const editUserWork = async (req, res) => {
-  try {
-    const user = await User.findByIdAndUpdate(
-      req.params.id,
-      { work: req.body },
-      {
-        new: true,
-      }
-    );
+// 🔹 Exported endpoints using the reusable handler
+export const assignUserWork = (req, res) => updateUserWork(req, res, "assign");
 
-    res.status(200).json({
-      message: "Work Updated successfully",
-      user: { id: user._id, role: user.role, name: user.name },
-    });
-  } catch (err) {
-    res.status(500).json({ message: "DB Error", error: err });
-  }
-};
+export const editUserWork = (req, res) => updateUserWork(req, res, "edit");
 
-export const deleteUserWork = async (req, res) => {
-  try {
-    const user = await User.findByIdAndUpdate(
-      req.params.id,
-      { work: { gaam: "", taluka: "", district: "" } },
-      {
-        new: true,
-      }
-    );
-
-    res.status(200).json({
-      message: "Work Deleted successfully",
-      user: { id: user._id, role: user.role, name: user.name },
-    });
-  } catch (err) {
-    res.status(500).json({ message: "DB Error", error: err });
-  }
-};
+export const deleteUserWork = (req, res) => updateUserWork(req, res, "delete");

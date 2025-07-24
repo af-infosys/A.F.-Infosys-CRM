@@ -10,6 +10,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import Login from "../features/staff/Login";
 import Staff from "../features/staff/Staff";
 import AddStaff from "../features/staff/AddStaff";
+import Work from "../features/staff/Work";
 
 export default function AppRoutes() {
   return (
@@ -39,7 +40,7 @@ export default function AppRoutes() {
         <Route path="/orders" element={<OrderValuation />} />
 
         <Route
-          path="/staff"
+          path="/staff/manage"
           element={
             <ProtectedRoute allowedRoles={["owner"]}>
               <Staff />
@@ -51,6 +52,14 @@ export default function AppRoutes() {
           element={
             <ProtectedRoute allowedRoles={["owner"]}>
               <AddStaff />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/staff/work"
+          element={
+            <ProtectedRoute allowedRoles={["owner"]}>
+              <Work />
             </ProtectedRoute>
           }
         />

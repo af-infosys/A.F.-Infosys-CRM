@@ -5,6 +5,7 @@ import {
   editUser,
   editUserWork,
   getAllUsers,
+  getUserName,
 } from "../controllers/userController.js";
 import {
   authenticateToken,
@@ -12,9 +13,6 @@ import {
 } from "../middleware/auth.middleware.js";
 
 const userRoutes = express.Router();
-
-userRoutes.get("/", authenticateToken, authorizeRoles("owner"), getAllUsers);
-userRoutes.put("/", authenticateToken, authorizeRoles("owner"), editUser);
 
 userRoutes.post(
   "/work/:id",
@@ -34,5 +32,9 @@ userRoutes.delete(
   authorizeRoles("owner"),
   deleteUserWork
 );
+
+userRoutes.get("/:id", authenticateToken, getUserName);
+userRoutes.get("/", authenticateToken, authorizeRoles("owner"), getAllUsers);
+userRoutes.put("/", authenticateToken, authorizeRoles("owner"), editUser);
 
 export default userRoutes;

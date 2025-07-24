@@ -64,13 +64,40 @@ export default function DashboardLayout() {
             ))}
 
             {user.role === "owner" && (
-              <NavLink
-                to={`/staff`}
-                cclassName={({ isActive }) => (isActive ? "active" : "")}
-                onClick={() => setIsSidebarOpen(false)}
-              >
-                Manage Staff
-              </NavLink>
+              <div>
+                <div
+                  className="main-link"
+                  onClick={() =>
+                    setOpenMenu(openMenu === "/staff" ? null : "/staff")
+                  }
+                >
+                  Manage Staff
+                </div>
+
+                <div className="sub-links">
+                  <NavLink
+                    to={`/staff/manage`}
+                    cclassName={({ isActive }) => (isActive ? "active" : "")}
+                    onClick={() => setIsSidebarOpen(false)}
+                  >
+                    Manage
+                  </NavLink>
+                  <NavLink
+                    to={`/staff/add`}
+                    cclassName={({ isActive }) => (isActive ? "active" : "")}
+                    onClick={() => setIsSidebarOpen(false)}
+                  >
+                    Add
+                  </NavLink>
+                  <NavLink
+                    to={"/staff/work"}
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                    onClick={() => setIsSidebarOpen(false)}
+                  >
+                    Work
+                  </NavLink>
+                </div>
+              </div>
             )}
           </nav>
         </div>

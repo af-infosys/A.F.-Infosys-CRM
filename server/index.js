@@ -5,6 +5,7 @@ import { connectDB } from "./config/db.js";
 
 import authRoutes from "./routes/authRoutes.js";
 import inquiryRoutes from "./routes/inquiryRoutes.js";
+import workRoutes from "./routes/workRoutes.js";
 import qrcode from "qrcode-terminal";
 
 import WASocket, {
@@ -38,6 +39,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/leads", inquiryRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/work", workRoutes);
 
 // Reciept Automation Script Start
 async function fetchDataFromSheet(sheetId, recordId) {

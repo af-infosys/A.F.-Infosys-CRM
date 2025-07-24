@@ -27,11 +27,9 @@ const Staff = () => {
   const [showPassword, setShowPassword] = useState({}); // State to manage password visibility per user ID
   const [isWorkModalOpen, setIsWorkModalOpen] = useState(false);
   const [currentStaffForWork, setCurrentStaffForWork] = useState(null); // Staff member whose work is being edited/assigned
-  const [workFormData, setWorkFormData] = useState({
-    gaam: "",
-    taluka: "",
-    district: "",
-  });
+
+  const [workSheetId, setWorkSheetId] = useState();
+
   const [actionMessage, setActionMessage] = useState(""); // For success/error messages after work operations
 
   const navigate = useNavigate();
@@ -74,7 +72,7 @@ const Staff = () => {
   // Handle opening the work assignment/edit modal
   const openWorkModal = (staff) => {
     setCurrentStaffForWork(staff);
-    setWorkFormData(staff.work || { gaam: "", taluka: "", district: "" }); // Pre-fill if work exists
+    setWorkSheetId(staff.workSheetId || "");
     setIsWorkModalOpen(true);
     setActionMessage("");
   };
@@ -83,41 +81,32 @@ const Staff = () => {
   const closeWorkModal = () => {
     setIsWorkModalOpen(false);
     setCurrentStaffForWork(null);
-    setWorkFormData({ gaam: "", taluka: "", district: "" });
-  };
-
-  // Handle changes in work form inputs
-  const handleWorkFormChange = (e) => {
-    const { name, value } = e.target;
-    setWorkFormData((prev) => ({ ...prev, [name]: value.trim() }));
+    setWorkSheetId("");
   };
 
   // Handle assigning or editing work
   const handleAssignEditWork = async () => {
     if (!currentStaffForWork) return;
-
     setLoading(true);
     setActionMessage("");
 
-    const isEditing =
-      currentStaffForWork.work &&
-      (currentStaffForWork.work.gaam ||
-        currentStaffForWork.work.taluka ||
-        currentStaffForWork.work.district);
-
     try {
-      const method = isEditing ? "PUT" : "POST";
+      const method =
+        currentStaffForWork.workSheetId || currentStaffForWork.work
+          ? "PUT"
+          : "POST";
+
       const endpoint = `${await apiPath()}/api/users/work/${
         currentStaffForWork?._id
       }`;
 
       const response = await fetch(endpoint, {
-        method: method,
+        method,
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-        body: JSON.stringify(workFormData),
+        body: JSON.stringify({ workSheetId }), // ⬅️ send only this
       });
 
       if (!response.ok) {
@@ -129,17 +118,15 @@ const Staff = () => {
 
       const result = await response.json();
       setActionMessage(
-        `કાર્ય સફળતાપૂર્વક ${isEditing ? "સંપાદિત" : "સોંપાયેલ"}: ${
+        `કાર્ય સફળતાપૂર્વક ${method === "PUT" ? "સંપાદિત" : "સોંપાયેલ"}: ${
           result.message
         }`
       );
       closeWorkModal();
-      fetchUsers(); // Refresh staff list to show updated work
+      fetchUsers();
     } catch (err) {
       console.error("Error assigning/editing work:", err);
-      setActionMessage(
-        `કાર્ય ${isEditing ? "સંપાદિત" : "સોંપવામાં"} નિષ્ફળ: ${err.message}`
-      );
+      setActionMessage(`કાર્ય નિષ્ફળ: ${err.message}`);
     } finally {
       setLoading(false);
     }
@@ -182,6 +169,35 @@ const Staff = () => {
       setLoading(false);
     }
   };
+
+  const [workEntries, setWorkEntries] = useState([]);
+
+  // --- Fetch Work Entries ---
+  const fetchWorkEntries = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(`${await apiPath()}/api/work`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const result = await response.json();
+      setWorkEntries(result.data);
+    } catch (err) {
+      console.error("Error fetching work entries:", err);
+      setError("કાર્યની વિગતો લાવવામાં નિષ્ફળ.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchWorkEntries();
+  }, []);
 
   return (
     <div className="p-8">
@@ -332,28 +348,36 @@ const Staff = () => {
                           {staff.email}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {staff.work &&
-                          (staff.work.gaam ||
-                            staff.work.taluka ||
-                            staff.work.district) ? (
-                            <>
-                              <p>ગામ: {staff.work.gaam || "N/A"}</p>
-                              <p>તાલુકો: {staff.work.taluka || "N/A"}</p>
-                              <p>જિલ્લો: {staff.work.district || "N/A"}</p>
-                            </>
-                          ) : (
-                            <p className="text-gray-400">Not Assigned</p>
-                          )}
+                          {(() => {
+                            const assignedEntry = workEntries.find(
+                              (entry) => entry._id === staff.work
+                            );
+                            if (!assignedEntry)
+                              return (
+                                <p className="text-gray-400">Not Assigned</p>
+                              );
+
+                            return (
+                              <>
+                                <p>ગામ: {assignedEntry.spot?.gaam || "N/A"}</p>
+                                <p>
+                                  તાલુકો: {assignedEntry.spot?.taluka || "N/A"}
+                                </p>
+                                <p>
+                                  જિલ્લો:{" "}
+                                  {assignedEntry.spot?.district || "N/A"}
+                                </p>
+                              </>
+                            );
+                          })()}
                         </td>
+
                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                           <div className="flex space-x-2">
                             <button
                               onClick={() => openWorkModal(staff)}
                               className={`inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white transition-colors duration-200 ${
-                                staff.work &&
-                                (staff.work.gaam ||
-                                  staff.work.taluka ||
-                                  staff.work.district)
+                                workEntries.find((e) => e._id === staff.work)
                                   ? "bg-yellow-500 hover:bg-yellow-600"
                                   : "bg-green-600 hover:bg-green-700"
                               }`}
@@ -374,43 +398,38 @@ const Staff = () => {
                                 <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                               </svg>
                               <span className="ml-1">
-                                {staff.work &&
-                                (staff.work.gaam ||
-                                  staff.work.taluka ||
-                                  staff.work.district)
+                                {workEntries.find((e) => e._id === staff.work)
                                   ? "Edit"
                                   : "Assign"}
                               </span>
                             </button>
-                            {staff.work &&
-                              (staff.work.gaam ||
-                                staff.work.taluka ||
-                                staff.work.district) && (
-                                <button
-                                  onClick={() => handleDeleteWork(staff._id)}
-                                  className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 transition-colors duration-200"
+
+                            {workEntries.find((e) => e._id === staff.work) && (
+                              <button
+                                onClick={() => handleDeleteWork(staff._id)}
+                                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 transition-colors duration-200"
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeWidth="2"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  className="lucide lucide-trash-2"
                                 >
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="16"
-                                    height="16"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth="2"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    className="lucide lucide-trash-2"
-                                  >
-                                    <path d="M3 6h18" />
-                                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-                                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-                                    <line x1="10" x2="10" y1="11" y2="17" />
-                                    <line x1="14" x2="14" y1="11" y2="17" />
-                                  </svg>
-                                  <span className="ml-1">Remove</span>
-                                </button>
-                              )}
+                                  <path d="M3 6h18" />
+                                  <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                                  <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                                  <line x1="10" x2="10" y1="11" y2="17" />
+                                  <line x1="14" x2="14" y1="11" y2="17" />
+                                </svg>
+                                <span className="ml-1">Remove</span>
+                              </button>
+                            )}
                           </div>
                         </td>
                       </tr>
@@ -464,57 +483,23 @@ const Staff = () => {
               </span>
             </h3>
             <div className="space-y-4">
-              <div>
-                <label
-                  htmlFor="gaam"
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                >
-                  ગામ:
-                </label>
-                <input
-                  type="text"
-                  id="gaam"
-                  name="gaam"
-                  value={workFormData.gaam}
-                  onChange={handleWorkFormChange}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  disabled={loading}
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="taluka"
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                >
-                  તાલુકો:
-                </label>
-                <input
-                  type="text"
-                  id="taluka"
-                  name="taluka"
-                  value={workFormData.taluka}
-                  onChange={handleWorkFormChange}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  disabled={loading}
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="district"
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                >
-                  જિલ્લો:
-                </label>
-                <input
-                  type="text"
-                  id="district"
-                  name="district"
-                  value={workFormData.district}
-                  onChange={handleWorkFormChange}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  disabled={loading}
-                />
-              </div>
+              <select
+                id="sheetId"
+                name="sheetId"
+                value={workSheetId}
+                onChange={(e) => setWorkSheetId(e.target.value)}
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option disabled value="">
+                  Select Sheet Id
+                </option>
+                {workEntries.map((workEntry) => (
+                  <option key={workEntry._id} value={workEntry._id}>
+                    {workEntry.sheetId} - {workEntry.spot?.gaam},{" "}
+                    {workEntry.spot?.taluka}
+                  </option>
+                ))}
+              </select>
             </div>
             <div className="flex justify-end gap-4 mt-6">
               <button
