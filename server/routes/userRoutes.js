@@ -33,7 +33,7 @@ userRoutes.delete(
   deleteUserWork
 );
 
-userRoutes.get("/:id", authenticateToken, getUserName);
+userRoutes.get("/:id", getUserName);
 userRoutes.get("/", authenticateToken, authorizeRoles("owner"), getAllUsers);
 userRoutes.put("/", authenticateToken, authorizeRoles("owner"), editUser);
 

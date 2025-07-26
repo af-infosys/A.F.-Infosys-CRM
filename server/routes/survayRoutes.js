@@ -3,6 +3,7 @@ import {
   addArea,
   addSheetRecord,
   editSheetRecord,
+  deleteSheetRecord,
   EditArea,
   getAllAreas,
   getAllRecords,
@@ -21,7 +22,8 @@ survayRoutes.delete("/areas/:id", DeleteArea);
 // General routes for / (records)
 survayRoutes.post("/add", addSheetRecord);
 survayRoutes.get("/", getAllRecords);
-survayRoutes.get("/:id", getRecord); // This will now correctly only match numeric IDs
+survayRoutes.get("/:id", getRecord);
 survayRoutes.put("/:id", editSheetRecord);
+survayRoutes.delete("/:id", deleteSheetRecord);
 
 export default survayRoutes;

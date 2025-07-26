@@ -89,6 +89,7 @@ const AddStaff = () => {
             <option value="surveyor">Surveyor</option>
             <option value="accountant">Accountant</option>
             <option value="operator">Operator</option>
+            <option value="md">Managing Director</option>
           </select>
           <button type="submit" className="btn">
             Add Staff

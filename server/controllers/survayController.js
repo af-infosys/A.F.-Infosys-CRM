@@ -160,6 +160,7 @@ export const addSheetRecord = async (req, res) => {
       toiletCount,
       remarks,
       floors,
+      survayor,
     } = req.body;
 
     // Basic validation: Check if essential fields are present
@@ -192,6 +193,7 @@ export const addSheetRecord = async (req, res) => {
       remarks,
       JSON.stringify(floors),
       description, // વર્ણનને rowData માં ઉમેરો
+      JSON.stringify(survayor),
     ];
 
     // 5. Append the row to the Google Sheet
@@ -392,6 +394,77 @@ export const editSheetRecord = async (req, res) => {
     console.error("Error updating record:", error.message);
     res.status(500).json({
       message: "Failed to update record",
+      error: error.message,
+    });
+  }
+};
+
+export const deleteSheetRecord = async (req, res) => {
+  try {
+    const client = await auth.getClient();
+    const googleSheets = google.sheets({ version: "v4", auth: client });
+
+    // Step 1: Get the sheetId (numeric ID of the sheet)
+    const sheetMeta = await googleSheets.spreadsheets.get({
+      spreadsheetId: SPREADSHEET_ID,
+    });
+
+    const sheet = sheetMeta.data.sheets.find(
+      (s) => s.properties.title === DATA_SHEET
+    );
+
+    if (!sheet) {
+      return res.status(404).json({ message: "Sheet not found" });
+    }
+
+    const sheetId = sheet.properties.sheetId;
+
+    // Step 2: Get the current records from A4 onwards
+    const response = await googleSheets.spreadsheets.values.get({
+      spreadsheetId: SPREADSHEET_ID,
+      range: `${DATA_SHEET}!A4:ZZ`,
+    });
+
+    const records = response.data.values || [];
+    const { id } = req.params;
+
+    const rowIndex = records.findIndex(
+      (record) => Number(record[0]) === Number(id)
+    );
+
+    if (rowIndex === -1) {
+      return res.status(404).json({ message: "Record not found" });
+    }
+
+    const rowNumber = rowIndex + 3; // Row index is 0-based, A4 is row 4, so shift by +3
+
+    // Step 3: Delete the actual row using batchUpdate
+    await googleSheets.spreadsheets.batchUpdate({
+      spreadsheetId: SPREADSHEET_ID,
+      requestBody: {
+        requests: [
+          {
+            deleteDimension: {
+              range: {
+                sheetId,
+                dimension: "ROWS",
+                startIndex: rowNumber,
+                endIndex: rowNumber + 1,
+              },
+            },
+          },
+        ],
+      },
+    });
+
+    res.status(200).json({
+      message: "Record deleted successfully",
+      deletedRow: rowNumber + 1,
+    });
+  } catch (error) {
+    console.error("Error deleting record:", error.message);
+    res.status(500).json({
+      message: "Failed to delete record",
       error: error.message,
     });
   }
