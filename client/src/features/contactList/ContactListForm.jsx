@@ -410,7 +410,7 @@ const ContactListForm = () => {
 
         {/* Field 8: Jilla  / જિલ્લો */}
 
-        {!isEditMode ? (
+        {isEditMode ? (
           <>
             <div className="form-field">
               <label htmlFor="workVillage" className="form-label">
