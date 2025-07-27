@@ -410,128 +410,132 @@ const ContactListForm = () => {
 
         {/* Field 8: Jilla  / જિલ્લો */}
 
-        <div className="form-field">
-          <label htmlFor="workVillage" className="form-label">
-            11. Which village do you want to work for ? / કયા ગામનું કામ કરવાનું
-            છે
-          </label>
-          <input
-            type="text"
-            id="workVillage"
-            name="workVillage"
-            className="form-input"
-            value={formData?.workVillage}
-            onChange={handleChange}
-          />
-        </div>
-        {/* Field 8: Jilla  / જિલ્લો */}
+        {!isEditMode ? (
+          <>
+            <div className="form-field">
+              <label htmlFor="workVillage" className="form-label">
+                11. Which village do you want to work for ? / કયા ગામનું કામ
+                કરવાનું છે
+              </label>
+              <input
+                type="text"
+                id="workVillage"
+                name="workVillage"
+                className="form-input"
+                value={formData?.workVillage}
+                onChange={handleChange}
+              />
+            </div>
+            {/* Field 8: Jilla  / જિલ્લો */}
 
-        <div className="form-field">
-          <label htmlFor="clientAnswer" className="form-label">
-            12. What did the customer/client answer ? / જવાબ શું આપ્યો કસ્ટમર /
-            ગ્રાહક
-          </label>
-          <input
-            type="text"
-            id="clientAnswer"
-            name="clientAnswer"
-            className="form-input"
-            value={formData?.clientAnswer}
-            onChange={handleChange}
-          />
-        </div>
-        {/* Field 8: Jilla  / જિલ્લો */}
+            <div className="form-field">
+              <label htmlFor="clientAnswer" className="form-label">
+                12. What did the customer/client answer ? / જવાબ શું આપ્યો
+                કસ્ટમર / ગ્રાહક
+              </label>
+              <input
+                type="text"
+                id="clientAnswer"
+                name="clientAnswer"
+                className="form-input"
+                value={formData?.clientAnswer}
+                onChange={handleChange}
+              />
+            </div>
+            {/* Field 8: Jilla  / જિલ્લો */}
 
-        <div className="form-field">
-          <label htmlFor="numberOfHouses" className="form-label">
-            13. How many households/villages are there? / ઘર/ ખાતા ગામના કેટલા
-            છે
-          </label>
-          <input
-            type="text"
-            id="numberOfHouses"
-            name="numberOfHouses"
-            className="form-input"
-            value={formData?.numberOfHouses}
-            onChange={handleChange}
-          />
-        </div>
-        {/* Field 8: Jilla  / જિલ્લો */}
+            <div className="form-field">
+              <label htmlFor="numberOfHouses" className="form-label">
+                13. How many households/villages are there? / ઘર/ ખાતા ગામના
+                કેટલા છે
+              </label>
+              <input
+                type="text"
+                id="numberOfHouses"
+                name="numberOfHouses"
+                className="form-input"
+                value={formData?.numberOfHouses}
+                onChange={handleChange}
+              />
+            </div>
+            {/* Field 8: Jilla  / જિલ્લો */}
 
-        <div className="form-field">
-          <label htmlFor="price" className="form-label">
-            14. Price per household account / ભાવ ઘર ખાતા દીઠ
-          </label>
-          <input
-            type="text"
-            id="price"
-            name="price"
-            className="form-input"
-            value={formData?.price}
-            onChange={handleChange}
-          />
-        </div>
+            <div className="form-field">
+              <label htmlFor="price" className="form-label">
+                14. Price per household account / ભાવ ઘર ખાતા દીઠ
+              </label>
+              <input
+                type="text"
+                id="price"
+                name="price"
+                className="form-input"
+                value={formData?.price}
+                onChange={handleChange}
+              />
+            </div>
 
-        {/* Field 15: Jilla  / જિલ્લો */}
-        <div className="form-field">
-          <label htmlFor="estimatedBill" className="form-label">
-            15. Estimated bill amount Rs. / અંદાજીત બીલ રકમ રૂ
-          </label>
-          <input
-            type="text"
-            id="estimatedBill"
-            name="estimatedBill"
-            className="form-input"
-            value={formData?.estimatedBill}
-            onChange={handleChange}
-          />
-        </div>
+            {/* Field 15: Jilla  / જિલ્લો */}
+            <div className="form-field">
+              <label htmlFor="estimatedBill" className="form-label">
+                15. Estimated bill amount Rs. / અંદાજીત બીલ રકમ રૂ
+              </label>
+              <input
+                type="text"
+                id="estimatedBill"
+                name="estimatedBill"
+                className="form-input"
+                value={formData?.estimatedBill}
+                onChange={handleChange}
+              />
+            </div>
 
-        {/* Field 16: Jilla  / જિલ્લો */}
-        <div className="form-field">
-          <label htmlFor="budget" className="form-label">
-            16. How much money can the customer afford to pay for the
-            house/account? / કસ્ટમરને કેટલા પૈસા સુધી પોસાય ઘર/ખાતા
-          </label>
-          <input
-            type="text"
-            id="budget"
-            name="budget"
-            className="form-input"
-            value={formData?.budget}
-            onChange={handleChange}
-          />
-        </div>
+            {/* Field 16: Jilla  / જિલ્લો */}
+            <div className="form-field">
+              <label htmlFor="budget" className="form-label">
+                16. How much money can the customer afford to pay for the
+                house/account? / કસ્ટમરને કેટલા પૈસા સુધી પોસાય ઘર/ખાતા
+              </label>
+              <input
+                type="text"
+                id="budget"
+                name="budget"
+                className="form-input"
+                value={formData?.budget}
+                onChange={handleChange}
+              />
+            </div>
 
-        {/* Field 17: Jilla  / જિલ્લો */}
-        <div className="form-field">
-          <label htmlFor="dateOfCall" className="form-label">
-            17. Date of call Telecaller / ફોન કર્યા તારીખ ટેલીકોલર
-          </label>
-          <input
-            type="date"
-            id="dateOfCall"
-            name="dateOfCall"
-            className="form-input"
-            value={formData?.dateOfCall}
-            onChange={handleChange}
-          />
-        </div>
+            {/* Field 17: Jilla  / જિલ્લો */}
+            <div className="form-field">
+              <label htmlFor="dateOfCall" className="form-label">
+                17. Date of call Telecaller / ફોન કર્યા તારીખ ટેલીકોલર
+              </label>
+              <input
+                type="date"
+                id="dateOfCall"
+                name="dateOfCall"
+                className="form-input"
+                value={formData?.dateOfCall}
+                onChange={handleChange}
+              />
+            </div>
 
-        {/* Field 18 Jilla  / જિલ્લો */}
-        <div className="form-field">
-          <label htmlFor="meetingDate" className="form-label">
-            18. Meeting date: Meet in person. / મીટીંગ તારીખ રૂબરુ મળવા જવુ
-          </label>
-          <input
-            type="date"
-            id="meetingDate"
-            name="meetingDate"
-            className="form-input"
-            value={formData?.meetingDate}
-            onChange={handleChange}
-          />
-        </div>
+            {/* Field 18 Jilla  / જિલ્લો */}
+            <div className="form-field">
+              <label htmlFor="meetingDate" className="form-label">
+                18. Meeting date: Meet in person. / મીટીંગ તારીખ રૂબરુ મળવા જવુ
+              </label>
+              <input
+                type="date"
+                id="meetingDate"
+                name="meetingDate"
+                className="form-input"
+                value={formData?.meetingDate}
+                onChange={handleChange}
+              />
+            </div>
+          </>
+        ) : null}
 
         {/* Field 17: રીમાર્કસ */}
         {/* <div className="form-field md:col-span-2">
