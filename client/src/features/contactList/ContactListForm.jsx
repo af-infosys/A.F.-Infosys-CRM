@@ -61,10 +61,14 @@ const ContactListForm = () => {
 
       setFormData((prevData) => ({
         ...prevData,
-        serialNumber: result.data[result.data?.length - 1][0],
+        serialNumber: Number(result.data[result.data?.length - 1][0]) + 1,
       }));
 
-      console.log("Index Data:", result.data?.length);
+      console.log(
+        "Index Data:",
+        result.data?.length,
+        Number(result.data[result.data?.length - 1][0]) + 1
+      );
     } catch (err) {
       console.error("Error fetching records:", err);
     }
@@ -231,9 +235,11 @@ const ContactListForm = () => {
           {isEditMode ? "Loading Records..." : "Submiting Form..."}
         </div>
       )}
+
       {formError && (
         <div className="text-center text-red-600 text-lg mb-4">{formError}</div>
       )}
+
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
           {/* Field 1: અનું ક્રમાંક */}
@@ -249,8 +255,8 @@ const ContactListForm = () => {
               placeholder="દા.ત. 001"
               value={formData?.serialNumber}
               onChange={handleChange}
-              required
               disabled={isEditMode}
+              required
             />
           </div>
 
@@ -315,7 +321,6 @@ const ContactListForm = () => {
               className="form-select"
               value={formData?.category}
               onChange={handleChange}
-              required
             >
               <option value="">category</option>
               <option value="tm">Talati Kam Mantri</option>
@@ -337,7 +342,6 @@ const ContactListForm = () => {
             placeholder="village"
             value={formData?.village}
             onChange={handleChange}
-            required
           />
         </div>
 
@@ -353,7 +357,6 @@ const ContactListForm = () => {
             className="form-input"
             value={formData?.villageOfCharge}
             onChange={handleChange}
-            required
           />
         </div>
 
@@ -370,7 +373,6 @@ const ContactListForm = () => {
             className="form-input"
             value={formData?.taluko}
             onChange={handleChange}
-            required
           />
         </div>
 
@@ -387,7 +389,6 @@ const ContactListForm = () => {
             className="form-input"
             value={formData?.jilla}
             onChange={handleChange}
-            required
           />
         </div>
 
@@ -404,7 +405,6 @@ const ContactListForm = () => {
             className="form-input"
             value={formData?.whatBusiness}
             onChange={handleChange}
-            required
           />
         </div>
 
@@ -422,7 +422,6 @@ const ContactListForm = () => {
             className="form-input"
             value={formData?.workVillage}
             onChange={handleChange}
-            required
           />
         </div>
         {/* Field 8: Jilla  / જિલ્લો */}
@@ -439,7 +438,6 @@ const ContactListForm = () => {
             className="form-input"
             value={formData?.clientAnswer}
             onChange={handleChange}
-            required
           />
         </div>
         {/* Field 8: Jilla  / જિલ્લો */}
@@ -456,7 +454,6 @@ const ContactListForm = () => {
             className="form-input"
             value={formData?.numberOfHouses}
             onChange={handleChange}
-            required
           />
         </div>
         {/* Field 8: Jilla  / જિલ્લો */}
@@ -472,7 +469,6 @@ const ContactListForm = () => {
             className="form-input"
             value={formData?.price}
             onChange={handleChange}
-            required
           />
         </div>
 
@@ -488,7 +484,6 @@ const ContactListForm = () => {
             className="form-input"
             value={formData?.estimatedBill}
             onChange={handleChange}
-            required
           />
         </div>
 
@@ -505,7 +500,6 @@ const ContactListForm = () => {
             className="form-input"
             value={formData?.budget}
             onChange={handleChange}
-            required
           />
         </div>
 
@@ -521,7 +515,6 @@ const ContactListForm = () => {
             className="form-input"
             value={formData?.dateOfCall}
             onChange={handleChange}
-            required
           />
         </div>
 
@@ -537,7 +530,6 @@ const ContactListForm = () => {
             className="form-input"
             value={formData?.meetingDate}
             onChange={handleChange}
-            required
           />
         </div>
 

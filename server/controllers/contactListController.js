@@ -72,28 +72,28 @@ export const addSheetRecord = async (req, res) => {
     }
 
     const rowData = [
-      serialNumber,
-      customerFullName,
+      serialNumber || "",
+      customerFullName || "",
 
-      mobileNo,
-      whatsaapNo,
-      category,
-      village,
-      villageOfCharge,
-      taluko,
-      jilla,
+      mobileNo || "",
+      whatsaapNo || "",
+      category || "",
+      village || "",
+      villageOfCharge || "",
+      taluko || "",
+      jilla || "",
 
-      whatBusiness,
-      workVillage,
-      clientAnswer,
-      numberOfHouses,
-      price,
-      estimatedBill,
-      budget,
-      dateOfCall,
-      meetingDate,
+      whatBusiness || "",
+      workVillage || "",
+      clientAnswer || "",
+      numberOfHouses || "",
+      price || "",
+      estimatedBill || "",
+      budget || "",
+      dateOfCall || "",
+      meetingDate || "",
 
-      JSON.stringify(telecaller),
+      JSON.stringify(telecaller || {}),
     ];
 
     // 5. Append the row to the Google Sheet
