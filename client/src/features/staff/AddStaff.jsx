@@ -11,7 +11,7 @@ const AddStaff = () => {
     name: "",
     email: "",
     password: "",
-    role: "tellecaller",
+    role: "telecaller",
   });
 
   const navigate = useNavigate();
@@ -38,7 +38,7 @@ const AddStaff = () => {
       setStatus("✅ Staff Registered Successfully!");
       setFormData({ name: "", email: "", password: "", role: "surveyor" });
 
-      navigate("/staff");
+      navigate("/staff/manage");
     } catch (err) {
       const msg = err?.response?.data?.message || "Something went wrong.";
       setStatus(`❌ ${msg}`);
@@ -99,7 +99,7 @@ const AddStaff = () => {
             type="button"
             className="btn view-btn"
             onClick={() => {
-              navigate("/staff");
+              navigate("/staff/manage");
             }}
           >
             View All Staff

@@ -36,6 +36,7 @@ connectDB();
 app.get("/", (req, res) => {
   res.send("A.F. Infosys Smart Management CRM, Server is Running!");
 });
+
 app.use("/api/auth", authRoutes);
 app.use("/api/leads", inquiryRoutes);
 app.use("/api/users", userRoutes);
@@ -189,6 +190,7 @@ async function connectToWhatsApp() {
 import { google } from "googleapis";
 import survayRoutes from "./routes/survayRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import ContactListRoutes from "./routes/contactListRoutes.js";
 
 // --- Google Sheets Configuration ---
 // IMPORTANT: Replace with your actual service account key file path and sheet details
@@ -472,6 +474,7 @@ app.get("/get-all-sheet-data", async (req, res) => {
 // Reciept Automation Script End
 
 app.use("/api/sheet", survayRoutes);
+app.use("/api/contactList", ContactListRoutes);
 
 // connectToWhatsApp();
 

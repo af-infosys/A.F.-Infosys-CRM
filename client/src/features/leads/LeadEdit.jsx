@@ -226,7 +226,9 @@ export default function LeadEdit() {
           </div>
 
           <div>
-            <label htmlFor="pricePerHouse">8 ઘર/ખાતા દીઠ ભાવ</label>
+            <label htmlFor="pricePerHouse">
+              8 ભાવ ઘર/ <br /> ખાતા દીઠ
+            </label>
             <input
               id="pricePerHouse"
               name="pricePerHouse"

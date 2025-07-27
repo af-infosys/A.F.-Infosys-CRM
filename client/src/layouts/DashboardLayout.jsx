@@ -1,5 +1,5 @@
 import { NavLink, Outlet } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./DashboardLayout.scss";
 import { useAuth } from "../config/AuthContext";
 
@@ -16,6 +16,24 @@ export default function DashboardLayout() {
     { label: "Customer List", base: "/customers" },
     { label: "Order Valuation", base: "/orders" },
   ];
+
+  // Effect for loading external CSS and JS (Tailwind)
+  useEffect(() => {
+    const link = document.createElement("link");
+    link.href =
+      "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap";
+    link.rel = "stylesheet";
+    document.head.appendChild(link);
+
+    const tailwindScript = document.createElement("script");
+    tailwindScript.src = "https://cdn.tailwindcss.com";
+    document.head.appendChild(tailwindScript);
+
+    return () => {
+      document.head.removeChild(link);
+      document.head.removeChild(tailwindScript);
+    };
+  }, []);
 
   return (
     <div className="dashboard-layout">

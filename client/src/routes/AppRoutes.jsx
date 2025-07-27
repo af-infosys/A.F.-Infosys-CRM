@@ -1,7 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import DashboardLayout from "../layouts/DashboardLayout";
 import LeadDashboard from "../features/leads/LeadDashboard";
-import CustomerList from "../features/customers/CustomerList";
 import OrderValuation from "../features/orders/OrderValuation";
 import LeadForm from "../features/leads/LeadForm";
 import LeadEdit from "../features/leads/LeadEdit";
@@ -11,6 +10,8 @@ import Login from "../features/staff/Login";
 import Staff from "../features/staff/Staff";
 import AddStaff from "../features/staff/AddStaff";
 import Work from "../features/staff/Work";
+import ContactListForm from "../features/contactList/ContactListForm";
+import ContactListReport from "../features/contactList/ContactListReport";
 
 export default function AppRoutes() {
   return (
@@ -36,7 +37,9 @@ export default function AppRoutes() {
         <Route path="/leads/form" element={<LeadForm />} />
         <Route path="/leads/edit/:id" element={<LeadEdit />} />
 
-        <Route path="/customers" element={<CustomerList />} />
+        <Route path="/customers/form" element={<ContactListForm />} />
+        <Route path="/customers/form/:id" element={<ContactListForm />} />
+        <Route path="/customers/report" element={<ContactListReport />} />
         <Route path="/orders" element={<OrderValuation />} />
 
         <Route
