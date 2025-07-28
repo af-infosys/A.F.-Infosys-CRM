@@ -19,7 +19,7 @@ const ContactListForm = () => {
 
     mobileNo: "",
     whatsaapNo: "",
-    category: "",
+    category: "TCM",
     village: "",
     villageOfCharge: "",
     taluko: "",
