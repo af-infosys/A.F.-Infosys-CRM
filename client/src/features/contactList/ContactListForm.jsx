@@ -318,7 +318,7 @@ const ContactListForm = () => {
               1. અનું કૂમાંક
             </label>
             <input
-              type="text"
+              type="number"
               id="serialNumber"
               name="serialNumber"
               className="form-input"

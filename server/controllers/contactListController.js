@@ -72,7 +72,7 @@ export const addSheetRecord = async (req, res) => {
     }
 
     const rowData = [
-      serialNumber?.trim() || "",
+      serialNumber || "",
       customerFullName?.trim() || "",
 
       mobileNo?.trim() || "",
