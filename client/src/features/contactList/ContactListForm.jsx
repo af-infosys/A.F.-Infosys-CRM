@@ -387,8 +387,8 @@ const ContactListForm = () => {
               value={formData?.category}
               onChange={handleChange}
             >
-              <option value="tcm">Talati Kam Mantri</option>
-              <option value="sarpanch">Sarpanch</option>
+              <option value="TCM">TCM / તલાટી કમ મંત્રી</option>
+              <option value="Sarpanch">Sarpanch / સરપંચ</option>
             </select>
           </div>
         </div>

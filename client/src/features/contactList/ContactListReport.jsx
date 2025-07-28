@@ -151,6 +151,7 @@ const ContactListReport = () => {
               {Array.from({ length: 19 }).map((_, index) => (
                 <th
                   className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-lg"
+                  style={{ textAlign: "center" }}
                   key={index}
                 >
                   {index + 1}
