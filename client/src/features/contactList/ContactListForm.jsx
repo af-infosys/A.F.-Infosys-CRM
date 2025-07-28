@@ -55,6 +55,8 @@ const ContactListForm = () => {
   const [talukas, setTalukas] = useState([]);
   const [districts, setDistricts] = useState([]);
 
+  const [villageInfoMap, setVillageInfoMap] = useState({}); // { villageName: { taluka, district } }
+
   const fetchIndex = async () => {
     try {
       const response = await fetch(`${await apiPath()}/api/contactList`);
@@ -63,39 +65,44 @@ const ContactListForm = () => {
       }
       const result = await response.json();
 
-      if (result?.data) {
-        if (result?.data?.length === 0) {
-          return;
-        }
-      } else {
-        return;
-      }
+      const data = result?.data;
+      if (!Array.isArray(data) || data.length === 0) return;
 
+      // Set new serial number
       setFormData((prevData) => ({
         ...prevData,
-        serialNumber:
-          Number(result?.data[result?.data?.length - 1][0]) + 1 || "",
+        serialNumber: Number(data[data.length - 1][0]) + 1 || "",
       }));
 
-      const villageNames = result?.data
-        ?.map((item) => item[5]?.trim())
-        .filter(Boolean);
-      const talukaNames = result?.data
-        .map((item) => item[7]?.trim())
-        .filter(Boolean);
-      const districtNames = result?.data
-        .map((item) => item[8]?.trim())
-        .filter(Boolean);
+      const villageSet = new Set();
+      const talukaSet = new Set();
+      const districtSet = new Set();
+      const mapping = {};
 
-      setVillages([...new Set(villageNames)]);
-      setTalukas([...new Set(talukaNames)]);
-      setDistricts([...new Set(districtNames)]);
+      for (let item of data) {
+        const village = item[5]?.trim();
+        const taluka = item[7]?.trim();
+        const district = item[8]?.trim();
 
-      console.log(
-        "Index Data:",
-        result.data?.length,
-        Number(result?.data[result?.data?.length - 1][0]) + 1
-      );
+        if (village) villageSet.add(village);
+        if (taluka) talukaSet.add(taluka);
+        if (district) districtSet.add(district);
+
+        if (village && taluka && district) {
+          mapping[village] = {
+            taluka,
+            district,
+          };
+        }
+      }
+
+      setVillages([...villageSet]);
+      setTalukas([...talukaSet]);
+      setDistricts([...districtSet]);
+      setVillageInfoMap(mapping);
+
+      console.log("Index Data:", data.length);
+      console.log("Village Map:", mapping);
     } catch (err) {
       console.error("Error fetching records:", err);
     }
@@ -107,6 +114,20 @@ const ContactListForm = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    if (name === "village") {
+      const matched = villageInfoMap[value];
+      if (matched) {
+        setFormData((prev) => ({
+          ...prev,
+          [name]: value,
+
+          taluko: matched.taluka,
+          jilla: matched.district,
+        }));
+        return;
+      }
+    }
 
     // Convert Gujarati digits to English
     const englishValue = convertGujaratiToEnglishDigits(value);
@@ -206,6 +227,7 @@ const ContactListForm = () => {
 
       setFormLoading(true);
       setFormError(null);
+
       try {
         const response = await fetch(
           `${await apiPath()}/api/contactList/${id}`
