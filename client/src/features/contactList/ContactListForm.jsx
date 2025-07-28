@@ -19,7 +19,7 @@ const ContactListForm = () => {
 
     mobileNo: "",
     whatsaapNo: "",
-    category: "",
+    category: "TCM",
     village: "",
     villageOfCharge: "",
     taluko: "",
@@ -37,6 +37,8 @@ const ContactListForm = () => {
 
     telecaller: { id: user?.id, name: user?.name, time: new Date() },
   });
+
+  console.log(formData);
 
   const [formLoading, setFormLoading] = useState(false);
   const [formError, setFormError] = useState(null);
