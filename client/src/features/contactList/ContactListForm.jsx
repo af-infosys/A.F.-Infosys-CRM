@@ -52,6 +52,8 @@ const ContactListForm = () => {
   };
 
   const [villages, setVillages] = useState([]);
+  const [talukas, setTalukas] = useState([]);
+  const [districts, setDistricts] = useState([]);
 
   const fetchIndex = async () => {
     try {
@@ -78,12 +80,16 @@ const ContactListForm = () => {
       const villageNames = result?.data
         ?.map((item) => item[5]?.trim())
         .filter(Boolean);
+      const talukaNames = result?.data
+        .map((item) => item[7]?.trim())
+        .filter(Boolean);
+      const districtNames = result?.data
+        .map((item) => item[8]?.trim())
+        .filter(Boolean);
 
-      // Optional: remove duplicates
-      const uniqueVillages = [...new Set(villageNames)];
-
-      setVillages(uniqueVillages);
-      console.log(uniqueVillages);
+      setVillages([...new Set(villageNames)]);
+      setTalukas([...new Set(talukaNames)]);
+      setDistricts([...new Set(districtNames)]);
 
       console.log(
         "Index Data:",
@@ -431,6 +437,7 @@ const ContactListForm = () => {
             8. Taluko / તાલુકો
           </label>
           <input
+            list="taluka-options"
             type="text"
             id="taluko"
             name="taluko"
@@ -438,6 +445,12 @@ const ContactListForm = () => {
             value={formData?.taluko}
             onChange={handleChange}
           />
+
+          <datalist id="taluka-options">
+            {talukas.map((t, i) => (
+              <option key={i} value={t} />
+            ))}
+          </datalist>
         </div>
 
         {/* Field 8: Jilla  / જિલ્લો */}
@@ -446,6 +459,7 @@ const ContactListForm = () => {
             9. Jilla / જિલ્લો
           </label>
           <input
+            list="district-options"
             type="text"
             id="jilla"
             name="jilla"
@@ -453,6 +467,12 @@ const ContactListForm = () => {
             value={formData?.jilla}
             onChange={handleChange}
           />
+
+          <datalist id="district-options">
+            {districts.map((d, i) => (
+              <option key={i} value={d} />
+            ))}
+          </datalist>
         </div>
 
         {/* Field 8: Jilla  / જિલ્લો */}
