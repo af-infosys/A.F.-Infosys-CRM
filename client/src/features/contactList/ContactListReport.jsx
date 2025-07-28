@@ -11,8 +11,6 @@ const ContactListReport = () => {
 
   const navigate = useNavigate();
 
-  const { user } = useAuth();
-
   const fetchRecords = async () => {
     try {
       const response = await fetch(`${await apiPath()}/api/contactList`);
@@ -61,7 +59,11 @@ const ContactListReport = () => {
         by - A.F. Infosys
       </h2>
 
-      <br />
+      <div className="flex justify-between items-center">
+        <button className="add-btn" onClick={() => navigate("/customers/form")}>
+          Add New Customer
+        </button>
+      </div>
 
       {error ? (
         <div className="flex justify-center items-center h-screen text-red-600">
