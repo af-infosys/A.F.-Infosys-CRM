@@ -12,7 +12,6 @@ export default function DashboardLayout() {
   console.log(user);
 
   const menuItems = [
-    { label: "Customer List", base: "/customers" },
     { label: "Lead Inquiry", base: "/leads" },
     { label: "Order Valuation", base: "/orders" },
   ];
@@ -52,6 +51,41 @@ export default function DashboardLayout() {
         <div className="navigation">
           <h1 className="text-2xl font-bold mb-6">A.F. Infosys</h1>
           <nav className="flex flex-col gap-4">
+            <div>
+              <div
+                className="main-link"
+                onClick={() =>
+                  setOpenMenu(openMenu === "/staff" ? null : "/staff")
+                }
+              >
+                Customer List
+              </div>
+
+              <div className="sub-links">
+                <NavLink
+                  to={`/customers/form`}
+                  cclassName={({ isActive }) => (isActive ? "active" : "")}
+                  onClick={() => setIsSidebarOpen(false)}
+                >
+                  Add (form)
+                </NavLink>
+                <NavLink
+                  to={`/customers/overview`}
+                  cclassName={({ isActive }) => (isActive ? "active" : "")}
+                  onClick={() => setIsSidebarOpen(false)}
+                >
+                  Overview
+                </NavLink>
+                <NavLink
+                  to={"/customers/report"}
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                  onClick={() => setIsSidebarOpen(false)}
+                >
+                  Report
+                </NavLink>
+              </div>
+            </div>
+
             {menuItems.map(({ label, base }) => (
               <div key={base}>
                 <div

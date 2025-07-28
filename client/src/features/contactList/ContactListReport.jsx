@@ -61,7 +61,7 @@ const ContactListReport = () => {
 
       <div className="flex justify-between items-center">
         <button className="add-btn" onClick={() => navigate("/customers/form")}>
-          Add New Customer
+          Add New Customer Record
         </button>
       </div>
 

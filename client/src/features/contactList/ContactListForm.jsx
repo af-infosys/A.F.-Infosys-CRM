@@ -177,7 +177,8 @@ const ContactListForm = () => {
       if (response.ok) {
         console.log("Success:", result.message);
         alert(`Successfully ${isEditMode ? "Updated" : "Sumbited"}!`);
-        navigate("/customers/report");
+        isEditMode && navigate(`/customers/report`);
+        navigate("/customers/overview");
 
         // Reset form only if it's a new submission
         if (!isEditMode) {

@@ -12,6 +12,7 @@ import AddStaff from "../features/staff/AddStaff";
 import Work from "../features/staff/Work";
 import ContactListForm from "../features/contactList/ContactListForm";
 import ContactListReport from "../features/contactList/ContactListReport";
+import ContactListReportOverview from "../features/contactList/ContactListReportOverview";
 
 export default function AppRoutes() {
   return (
@@ -40,6 +41,10 @@ export default function AppRoutes() {
         <Route path="/customers/form" element={<ContactListForm />} />
         <Route path="/customers/form/:id" element={<ContactListForm />} />
         <Route path="/customers/report" element={<ContactListReport />} />
+        <Route
+          path="/customers/overview"
+          element={<ContactListReportOverview />}
+        />
         <Route path="/orders" element={<OrderValuation />} />
 
         <Route
