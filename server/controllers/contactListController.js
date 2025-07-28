@@ -7,7 +7,7 @@ import { google } from "googleapis";
 const SPREADSHEET_ID = process.env.CRM_SPREADSHEET_ID;
 // શીટનું નામ તમારી Google Sheet માંના વાસ્તવિક નામ સાથે સુનિશ્ચિત કરો.
 // જો તમારી શીટનું નામ "PropertyData" હોય તો તેને આ રીતે રાખો, અન્યથા તેને બદલો.
-const DATA_SHEET = "Contact List";
+const DATA_SHEET = "ContactList";
 
 let credentials;
 
@@ -141,6 +141,8 @@ export const getAllRecords = async (req, res) => {
     });
 
     const records = response.data.values || [];
+
+    console.log(response);
 
     res.status(200).json({
       message: "Records fetched successfully!",

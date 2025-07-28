@@ -148,6 +148,20 @@ const ContactListReport = () => {
               </tr>
             </thead>
 
+            {/* Index Start */}
+            <tr>
+              {/* 1 to 18 th for index */}
+              {Array.from({ length: 19 }).map((_, index) => (
+                <th
+                  className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-lg"
+                  key={index}
+                >
+                  {index + 1}
+                </th>
+              ))}
+            </tr>
+            {/* Index End */}
+
             <tbody className="bg-white divide-y divide-gray-200">
               {records.map((record, index) => {
                 let survayorData = record[18];

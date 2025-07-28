@@ -59,15 +59,29 @@ const ContactListForm = () => {
       }
       const result = await response.json();
 
+      if (result?.data) {
+        if (result?.data?.length === 0) {
+          return;
+        }
+      } else {
+        return;
+      }
+
       setFormData((prevData) => ({
         ...prevData,
-        serialNumber: Number(result.data[result.data?.length - 1][0]) + 1,
+        serialNumber:
+          Number(result?.data[result?.data?.length - 1][0]) + 1 || "",
       }));
+
+      //     village: record[5] || "",
+      //     villageOfCharge: record[6] || "",
+      //     taluko: record[7] || "",
+      //     jilla: record[8] || "",
 
       console.log(
         "Index Data:",
         result.data?.length,
-        Number(result.data[result.data?.length - 1][0]) + 1
+        Number(result?.data[result?.data?.length - 1][0]) + 1
       );
     } catch (err) {
       console.error("Error fetching records:", err);
@@ -86,6 +100,14 @@ const ContactListForm = () => {
       ...prevData,
       [name]: englishValue,
     }));
+
+    if (sameNumber && name === "mobileNo") {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: englishValue,
+        whatsaapNo: englishValue,
+      }));
+    }
 
     console.log(formData);
   };
@@ -222,6 +244,19 @@ const ContactListForm = () => {
     fetchRecordForEdit();
   }, [id, isEditMode, user?.id]);
 
+  const [sameNumber, setSameNumber] = useState(false);
+
+  const handleSameNumber = () => {
+    setSameNumber((prev) => !prev);
+  };
+
+  useEffect(() => {
+    setFormData((prevData) => ({
+      ...prevData,
+      whatsaapNo: sameNumber ? prevData.mobileNo : "",
+    }));
+  }, [sameNumber]);
+
   return (
     <div className="form-container p-8">
       {/* Added margin for sidebar */}
@@ -308,6 +343,23 @@ const ContactListForm = () => {
               value={formData?.whatsaapNo}
               onChange={handleChange}
             />
+
+            <div style={{ display: "flex", gap: ".5rem" }}>
+              <input
+                type="checkbox"
+                id="sameNumber"
+                name="sameNumber"
+                checked={sameNumber}
+                onChange={handleSameNumber}
+                className="form-checkbox"
+                placeholder="જો હોય તો દાખલ કરો"
+              />
+
+              <label htmlFor="sameNumber" style={{ userSelect: "none" }}>
+                {" "}
+                Same Number
+              </label>
+            </div>
           </div>
 
           {/* Field 5: મકાન category */}
@@ -361,7 +413,6 @@ const ContactListForm = () => {
         </div>
 
         {/* Field 8: Jilla  / જિલ્લો */}
-
         <div className="form-field">
           <label htmlFor="taluko" className="form-label">
             8. Taluko / તાલુકો
@@ -377,7 +428,6 @@ const ContactListForm = () => {
         </div>
 
         {/* Field 8: Jilla  / જિલ્લો */}
-
         <div className="form-field">
           <label htmlFor="jilla" className="form-label">
             9. Jilla / જિલ્લો
@@ -393,25 +443,24 @@ const ContactListForm = () => {
         </div>
 
         {/* Field 8: Jilla  / જિલ્લો */}
-
-        <div className="form-field">
-          <label htmlFor="whatBusiness" className="form-label">
-            10. What business did you call for? / કયુ કામ વસ્તુ માટે ફોન કરેલ
-          </label>
-          <input
-            type="text"
-            id="whatBusiness"
-            name="whatBusiness"
-            className="form-input"
-            value={formData?.whatBusiness}
-            onChange={handleChange}
-          />
-        </div>
-
-        {/* Field 8: Jilla  / જિલ્લો */}
-
         {isEditMode ? (
           <>
+            {/* Field 8: Jilla  / જિલ્લો */}
+            <div className="form-field">
+              <label htmlFor="whatBusiness" className="form-label">
+                10. What business did you call for? / કયુ કામ વસ્તુ માટે ફોન
+                કરેલ
+              </label>
+              <input
+                type="text"
+                id="whatBusiness"
+                name="whatBusiness"
+                className="form-input"
+                value={formData?.whatBusiness}
+                onChange={handleChange}
+              />
+            </div>
+
             <div className="form-field">
               <label htmlFor="workVillage" className="form-label">
                 11. Which village do you want to work for ? / કયા ગામનું કામ
