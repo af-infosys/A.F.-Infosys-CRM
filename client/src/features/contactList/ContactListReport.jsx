@@ -91,10 +91,7 @@ const ContactListReport = () => {
                 <th className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Whatsaap No. <br /> વોટસેઅપ નબંર
                 </th>
-                <th
-                  className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  style={{ minWidth: "300px" }}
-                >
+                <th className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Category Customer <br /> કેટેગરી
                 </th>
                 <th className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">

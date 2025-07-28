@@ -381,8 +381,7 @@ const ContactListForm = () => {
               value={formData?.category}
               onChange={handleChange}
             >
-              <option value="">category</option>
-              <option value="tm">Talati Kam Mantri</option>
+              <option value="tcm">Talati Kam Mantri</option>
               <option value="sarpanch">Sarpanch</option>
             </select>
           </div>
