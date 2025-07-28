@@ -75,13 +75,15 @@ const ContactListForm = () => {
           Number(result?.data[result?.data?.length - 1][0]) + 1 || "",
       }));
 
-      console.log(result?.data);
-      const villageNames = result?.data?.map((item) => item[5]).filter(Boolean);
+      const villageNames = result?.data
+        ?.map((item) => item[5]?.trim())
+        .filter(Boolean);
 
       // Optional: remove duplicates
       const uniqueVillages = [...new Set(villageNames)];
 
       setVillages(uniqueVillages);
+      console.log(uniqueVillages);
 
       console.log(
         "Index Data:",
@@ -115,8 +117,6 @@ const ContactListForm = () => {
         whatsaapNo: englishValue,
       }));
     }
-
-    console.log(formData);
   };
 
   const handleSubmit = async (e) => {
@@ -394,6 +394,7 @@ const ContactListForm = () => {
             6. Village / ગામ
           </label>
           <input
+            list="village-options"
             type="text"
             id="village"
             name="village"
