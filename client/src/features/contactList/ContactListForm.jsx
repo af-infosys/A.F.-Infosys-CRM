@@ -19,7 +19,7 @@ const ContactListForm = () => {
 
     mobileNo: "",
     whatsaapNo: "",
-    category: "TCM",
+    category: "",
     village: "",
     villageOfCharge: "",
     taluko: "",
@@ -409,7 +409,9 @@ const ContactListForm = () => {
               value={formData?.category}
               onChange={handleChange}
             >
-              <option value="TCM">TCM / તલાટી કમ મંત્રી</option>
+              <option value="TCM" selected>
+                TCM / તલાટી કમ મંત્રી
+              </option>
               <option value="Sarpanch">Sarpanch / સરપંચ</option>
             </select>
           </div>
