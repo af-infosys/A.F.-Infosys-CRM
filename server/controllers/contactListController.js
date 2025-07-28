@@ -142,8 +142,6 @@ export const getAllRecords = async (req, res) => {
 
     const records = response.data.values || [];
 
-    console.log(response);
-
     res.status(200).json({
       message: "Records fetched successfully!",
       data: records,

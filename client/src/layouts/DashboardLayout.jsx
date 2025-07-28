@@ -12,8 +12,8 @@ export default function DashboardLayout() {
   console.log(user);
 
   const menuItems = [
-    { label: "Lead Inquiry", base: "/leads" },
     { label: "Customer List", base: "/customers" },
+    { label: "Lead Inquiry", base: "/leads" },
     { label: "Order Valuation", base: "/orders" },
   ];
 

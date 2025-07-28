@@ -51,6 +51,8 @@ const ContactListForm = () => {
     );
   };
 
+  const [villages, setVillages] = useState([]);
+
   const fetchIndex = async () => {
     try {
       const response = await fetch(`${await apiPath()}/api/contactList`);
@@ -73,10 +75,13 @@ const ContactListForm = () => {
           Number(result?.data[result?.data?.length - 1][0]) + 1 || "",
       }));
 
-      //     village: record[5] || "",
-      //     villageOfCharge: record[6] || "",
-      //     taluko: record[7] || "",
-      //     jilla: record[8] || "",
+      console.log(result?.data);
+      const villageNames = result?.data?.map((item) => item[5]).filter(Boolean);
+
+      // Optional: remove duplicates
+      const uniqueVillages = [...new Set(villageNames)];
+
+      setVillages(uniqueVillages);
 
       console.log(
         "Index Data:",
@@ -88,7 +93,9 @@ const ContactListForm = () => {
     }
   };
 
-  if (!isEditMode) fetchIndex();
+  useEffect(() => {
+    if (!isEditMode) fetchIndex();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -395,6 +402,12 @@ const ContactListForm = () => {
             value={formData?.village}
             onChange={handleChange}
           />
+
+          <datalist id="village-options">
+            {villages?.map((village, index) => (
+              <option key={index} value={village} />
+            ))}
+          </datalist>
         </div>
 
         {/* Field 7: મોબાઈલ નંબર */}

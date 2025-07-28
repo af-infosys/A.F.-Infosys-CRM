@@ -32,7 +32,7 @@ export default function AppRoutes() {
           </ProtectedRoute>
         }
       >
-        <Route index element={<LeadForm />} />
+        <Route index element={<ContactListForm />} />
         <Route path="/leads/report" element={<LeadDashboard />} />
         <Route path="/leads/form" element={<LeadForm />} />
         <Route path="/leads/edit/:id" element={<LeadEdit />} />
