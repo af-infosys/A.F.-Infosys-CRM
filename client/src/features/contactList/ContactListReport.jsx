@@ -164,7 +164,7 @@ const ContactListReport = () => {
 
             <tbody className="bg-white divide-y divide-gray-200">
               {records.map((record, index) => {
-                let survayorData = record[18];
+                let survayorData = record[19];
 
                 if (typeof survayorData === "string") {
                   try {

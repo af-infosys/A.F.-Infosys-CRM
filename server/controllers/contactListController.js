@@ -71,7 +71,10 @@ export const addSheetRecord = async (req, res) => {
       return res.status(400).json({ message: "Missing required form fields." });
     }
 
+    const GeneratedID = Date.now();
+
     const rowData = [
+      GeneratedID,
       serialNumber || "",
       customerFullName?.trim() || "",
 
@@ -202,9 +205,7 @@ export const editSheetRecord = async (req, res) => {
     const { id } = req.params;
 
     // Find the matching row index
-    const rowIndex = records.findIndex(
-      (record) => Number(record[0]) === Number(id)
-    );
+    const rowIndex = records.findIndex((record) => record[0] == id);
     if (rowIndex === -1) {
       return res.status(404).json({ message: "Record not found" });
     }
@@ -238,6 +239,7 @@ export const editSheetRecord = async (req, res) => {
     } = req.body;
 
     const updatedRow = [
+      id,
       serialNumber,
       customerFullName,
 

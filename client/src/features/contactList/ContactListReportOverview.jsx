@@ -187,7 +187,7 @@ const ContactListReportOverview = () => {
 
             <tbody className="bg-white divide-y divide-gray-200">
               {records.map((record, index) => {
-                let survayorData = record[18];
+                let survayorData = record[19];
 
                 if (typeof survayorData === "string") {
                   try {
@@ -203,44 +203,44 @@ const ContactListReportOverview = () => {
                     {/* અહીં Google Sheet માંથી આવતા ડેટાને કૉલમમાં મેપ કરો */}
                     {/* અનું કૂમાંક (serialNumber) */}
                     <td className="px-1 py-2 whitespace-nowrap text-sm font-medium text-gray-900">
-                      {record[0]}
+                      {record[1]}
                     </td>
                     {/* Customer Full Name */}
                     <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
-                      {record[1]}
+                      {record[2]}
                     </td>{" "}
                     {/* Mobile No. <br /> */}
                     <td className="px-1 py-2 whitespace-nowrap text-sm text-gray-500">
                       <a
-                        href={`tel:${record[2]}`}
+                        href={`tel:${record[3]}`}
                         className="text-blue-600 hover:underline"
                       >
-                        {record[2]}
+                        {record[3]}
                       </a>
                     </td>{" "}
                     {/* Whatsaap No.  */}
                     <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
-                      {record[3]}
+                      {record[4]}
                     </td>
                     {/* Category Customer  */}
                     <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
-                      {record[4]}
+                      {record[5]}
                     </td>{" "}
                     {/* Village  */}
                     <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
-                      {record[5]}
+                      {record[6]}
                     </td>
                     {/* Village of charge  */}
                     <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
-                      {record[6]}
+                      {record[7]}
                     </td>
                     {/* Taluko  */}
                     <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
-                      {record[7]}
+                      {record[8]}
                     </td>
                     {/* Jilla  */}
                     <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
-                      {record[8]}
+                      {record[9]}
                     </td>
                     {/* Action */}
                     <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">

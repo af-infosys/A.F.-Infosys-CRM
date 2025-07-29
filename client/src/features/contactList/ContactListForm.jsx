@@ -74,7 +74,11 @@ const ContactListForm = () => {
       // Set new serial number
       setFormData((prevData) => ({
         ...prevData,
-        serialNumber: Number(data[data.length - 1][0]) + 1 || "",
+        serialNumber: Number(data[data.length - 1][1]) + 1 || "",
+
+        village: data[data.length - 1][6] || "",
+        taluko: data[data.length - 1][8] || "",
+        jilla: data[data.length - 1][9] || "",
       }));
 
       const villageSet = new Set();
@@ -83,9 +87,9 @@ const ContactListForm = () => {
       const mapping = {};
 
       for (let item of data) {
-        const village = item[5]?.trim();
-        const taluka = item[7]?.trim();
-        const district = item[8]?.trim();
+        const village = item[6]?.trim();
+        const taluka = item[8]?.trim();
+        const district = item[9]?.trim();
 
         if (village) villageSet.add(village);
         if (taluka) talukaSet.add(taluka);
@@ -246,26 +250,26 @@ const ContactListForm = () => {
         if (record) {
           // Populate formData
           setFormData({
-            serialNumber: record[0] || "",
-            customerFullName: record[1] || "",
+            serialNumber: record[1] || "",
+            customerFullName: record[2] || "",
 
-            mobileNo: record[2] || "",
-            whatsaapNo: record[3] || "",
-            category: record[4] || "",
-            village: record[5] || "",
-            villageOfCharge: record[6] || "",
-            taluko: record[7] || "",
-            jilla: record[8] || "",
+            mobileNo: record[3] || "",
+            whatsaapNo: record[4] || "",
+            category: record[5] || "",
+            village: record[6] || "",
+            villageOfCharge: record[7] || "",
+            taluko: record[8] || "",
+            jilla: record[9] || "",
 
-            whatBusiness: record[9] || "",
-            workVillage: record[10] || "",
-            clientAnswer: record[11] || "",
-            numberOfHouses: record[12] || "",
-            price: record[13] || "",
-            estimatedBill: record[14] || "",
-            budget: record[15] || "",
-            dateOfCall: record[16] || "",
-            meetingDate: record[17] || "",
+            whatBusiness: record[10] || "",
+            workVillage: record[11] || "",
+            clientAnswer: record[12] || "",
+            numberOfHouses: record[13] || "",
+            price: record[14] || "",
+            estimatedBill: record[15] || "",
+            budget: record[16] || "",
+            dateOfCall: record[17] || "",
+            meetingDate: record[18] || "",
 
             telecaller: { id: user?.id, name: user?.name, time: new Date() },
           });
