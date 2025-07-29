@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./LeadForm.scss";
 import apiPath from "../../isProduction";
+import customerCategory from "../customerCategoryList";
 
 export default function LeadForm() {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ export default function LeadForm() {
     houseCount: "",
     pricePerHouse: "",
     inquiryFor: "",
-    designation: "",
+    designation: "TCM",
     district: "",
     taluko: "",
     referenceSource: "",
@@ -267,8 +268,14 @@ function Select({ name, label, value, onChange, required }) {
         onChange={onChange}
         required={required}
       >
-        <option value="TCM">TCM / તલાટી કમ મંત્રી</option>
-        <option value="Sarpanch">Sarpanch / સરપંચ</option>
+        {/* <option value="TCM">TCM / તલાટી કમ મંત્રી</option>
+        <option value="Sarpanch">Sarpanch / સરપંચ</option> */}
+
+        {customerCategory?.map((category, index) => (
+          <option key={index} value={category.value}>
+            {category.label}
+          </option>
+        ))}
       </select>
     </div>
   );

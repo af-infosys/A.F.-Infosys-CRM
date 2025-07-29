@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import "./Form.scss";
 import { useAuth } from "../../config/AuthContext";
 import apiPath from "../../isProduction";
+import customerCategory from "../customerCategoryList";
 
 const ContactListForm = () => {
   const { user } = useAuth();
@@ -412,10 +413,16 @@ const ContactListForm = () => {
               value={formData?.category}
               onChange={handleChange}
             >
-              <option value="TCM" selected>
+              {/* <option value="TCM" selected>
                 TCM / તલાટી કમ મંત્રી
               </option>
-              <option value="Sarpanch">Sarpanch / સરપંચ</option>
+              <option value="Sarpanch">Sarpanch / સરપંચ</option> */}
+
+              {customerCategory?.map((category, index) => (
+                <option key={index} value={category.value}>
+                  {category.label}
+                </option>
+              ))}
             </select>
           </div>
         </div>

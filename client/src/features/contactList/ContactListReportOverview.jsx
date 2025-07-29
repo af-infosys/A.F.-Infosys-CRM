@@ -145,14 +145,14 @@ const ContactListReportOverview = () => {
                   તાલુકો
                 </th>
                 <th
-                  className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tr-lg"
+                  className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
                   style={{ color: "white", background: background }}
                 >
                   જિલ્લો
                 </th>
 
                 <th
-                  className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tr-lg"
+                  className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
                   style={{ color: "white", background: background }}
                 >
                   Updated by
