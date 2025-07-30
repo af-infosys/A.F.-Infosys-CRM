@@ -76,7 +76,6 @@ const ContactListForm = () => {
         ...prevData,
         serialNumber: Number(data[data.length - 1][1]) + 1 || "",
 
-        village: data[data.length - 1][6] || "",
         taluko: data[data.length - 1][8] || "",
         jilla: data[data.length - 1][9] || "",
       }));
