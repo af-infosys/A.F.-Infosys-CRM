@@ -332,7 +332,6 @@ const ContactListForm = () => {
               placeholder="દા.ત. 001"
               value={formData?.serialNumber}
               onChange={handleChange}
-              disabled={isEditMode}
               required
             />
           </div>
