@@ -33,6 +33,8 @@ const ContactListReportOverview = () => {
   }, []);
 
   const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this record?")) return;
+
     try {
       await fetch(`${await apiPath()}/api/contactList/${id}`, {
         method: "DELETE",

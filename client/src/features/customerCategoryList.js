@@ -3,10 +3,12 @@ const customerCategory = [
     value: "TCM",
     label: "TCM / તલાટી કમ મંત્રી",
   },
+
   {
     value: "SARPANCH",
     label: "SARPANCH / સરપંચ",
   },
+
   {
     value: "VCE",
     label: "VCE / પંચાયત ઓપરેટર",
@@ -70,6 +72,11 @@ const customerCategory = [
   {
     value: "RMP",
     label: "RMP / રાજય મંડળ પ્રમુખ",
+  },
+
+  {
+    value: "AF",
+    label: "AF / વ્યાપારી",
   },
 ];
 
