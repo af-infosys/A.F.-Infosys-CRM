@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Report.scss"; // CSS ને હવે ઇનલાઇન કરવામાં આવ્યું છે
-import { useAuth } from "../../config/AuthContext";
+import "./Report.scss";
 import apiPath from "../../isProduction";
 
 const ContactListReport = () => {

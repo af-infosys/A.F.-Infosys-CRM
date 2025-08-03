@@ -39,6 +39,20 @@ const ContactListForm = () => {
     telecaller: { id: user?.id, name: user?.name, time: new Date() },
   });
 
+  const [callHistory, setCallHistory] = useState([
+    {
+      whatBusiness: "",
+      workVillage: "",
+      clientAnswer: "",
+      numberOfHouses: "",
+      price: "",
+      estimatedBill: "",
+      budget: "",
+      dateOfCall: "",
+      meetingDate: "",
+    },
+  ]);
+
   console.log(formData);
 
   const [formLoading, setFormLoading] = useState(false);
@@ -58,7 +72,7 @@ const ContactListForm = () => {
   const [talukas, setTalukas] = useState([]);
   const [districts, setDistricts] = useState([]);
 
-  const [villageInfoMap, setVillageInfoMap] = useState({}); // { villageName: { taluka, district } }
+  const [villageInfoMap, setVillageInfoMap] = useState({});
 
   const fetchIndex = async () => {
     try {
@@ -159,6 +173,7 @@ const ContactListForm = () => {
 
     const fullFormData = {
       ...formData,
+      callHistory,
     };
 
     try {
@@ -198,18 +213,34 @@ const ContactListForm = () => {
             taluko: "",
             jilla: "",
 
-            whatBusiness: "",
-            workVillage: "",
-            clientAnswer: "",
-            numberOfHouses: "",
-            price: "",
-            estimatedBill: "",
-            budget: "",
-            dateOfCall: "",
-            meetingDate: "",
+            // whatBusiness: "",
+            // workVillage: "",
+            // clientAnswer: "",
+            // numberOfHouses: "",
+            // price: "",
+            // estimatedBill: "",
+            // budget: "",
+            // dateOfCall: "",
+            // meetingDate: "",
 
             telecaller: { id: user?.id, name: user?.name, time: new Date() },
           });
+
+          setCallHistory([
+            // whatBusiness: record[10] || "",
+
+            {
+              whatBusiness: "",
+              workVillage: "",
+              clientAnswer: "",
+              numberOfHouses: "",
+              price: "",
+              estimatedBill: "",
+              budget: "",
+              dateOfCall: "",
+              meetingDate: "",
+            },
+          ]);
         }
       } else {
         console.error("Error submitting form:", result.message);
@@ -260,18 +291,54 @@ const ContactListForm = () => {
             taluko: record[8] || "",
             jilla: record[9] || "",
 
-            whatBusiness: record[10] || "",
-            workVillage: record[11] || "",
-            clientAnswer: record[12] || "",
-            numberOfHouses: record[13] || "",
-            price: record[14] || "",
-            estimatedBill: record[15] || "",
-            budget: record[16] || "",
-            dateOfCall: record[17] || "",
-            meetingDate: record[18] || "",
+            // whatBusiness: record[10] || "",
+            // workVillage: record[11] || "",
+            // clientAnswer: record[12] || "",
+            // numberOfHouses: record[13] || "",
+            // price: record[14] || "",
+            // estimatedBill: record[15] || "",
+            // budget: record[16] || "",
+            // dateOfCall: record[17] || "",
+            // meetingDate: record[18] || "",
 
             telecaller: { id: user?.id, name: user?.name, time: new Date() },
           });
+
+          if (record[10]) {
+            try {
+              const parsedFloors = JSON.parse(record[10]);
+              setCallHistory(parsedFloors);
+            } catch (jsonError) {
+              console.error("Error parsing floors JSON:", jsonError);
+              setCallHistory([
+                {
+                  whatBusiness: "",
+                  workVillage: "",
+                  clientAnswer: "",
+                  numberOfHouses: "",
+                  price: "",
+                  estimatedBill: "",
+                  budget: "",
+                  dateOfCall: "",
+                  meetingDate: "",
+                },
+              ]);
+            }
+          } else {
+            setCallHistory([
+              {
+                whatBusiness: "",
+                workVillage: "",
+                clientAnswer: "",
+                numberOfHouses: "",
+                price: "",
+                estimatedBill: "",
+                budget: "",
+                dateOfCall: "",
+                meetingDate: "",
+              },
+            ]);
+          }
         } else {
           setFormError("No Records Found!");
         }
@@ -298,6 +365,32 @@ const ContactListForm = () => {
       whatsaapNo: sameNumber ? prevData.mobileNo : "",
     }));
   }, [sameNumber]);
+
+  const handleCallHistoryChange = (index, e) => {
+    const { name, value } = e.target;
+
+    const updatedFloors = callHistory.map((call, i) =>
+      i === index ? { ...call, [name]: value } : call
+    );
+    setCallHistory(updatedFloors);
+  };
+
+  const addCallHistory = () => {
+    setCallHistory((prevHistory) => [
+      ...prevHistory,
+      {
+        whatBusiness: "",
+        workVillage: "",
+        clientAnswer: "",
+        numberOfHouses: "",
+        price: "",
+        estimatedBill: "",
+        budget: "",
+        dateOfCall: "",
+        meetingDate: "",
+      },
+    ]);
+  };
 
   return (
     <div className="form-container p-8">
@@ -513,147 +606,177 @@ const ContactListForm = () => {
 
         {/* Field 8: Jilla  / જિલ્લો */}
         {isEditMode ? (
-          <>
-            {/* Field 8: Jilla  / જિલ્લો */}
-            <div className="form-field">
-              <label htmlFor="whatBusiness" className="form-label">
-                10. What business did you call for? / કયુ કામ વસ્તુ માટે ફોન
-                કરેલ
-              </label>
-              <input
-                type="text"
-                id="whatBusiness"
-                name="whatBusiness"
-                className="form-input"
-                value={formData?.whatBusiness}
-                onChange={handleChange}
-              />
-            </div>
+          <div>
+            {callHistory
+              ? callHistory?.map((call, index) => (
+                  <div key={index}>
+                    {/* Field 8: Jilla  / જિલ્લો */}
+                    <div className="form-field">
+                      <label htmlFor="whatBusiness" className="form-label">
+                        10. What business did you call for? / કયુ કામ વસ્તુ માટે
+                        ફોન કરેલ
+                      </label>
+                      <input
+                        type="text"
+                        id="whatBusiness"
+                        name="whatBusiness"
+                        className="form-input"
+                        value={call?.whatBusiness}
+                        onChange={(e) => handleCallHistoryChange(index, e)}
+                      />
+                    </div>
 
-            <div className="form-field">
-              <label htmlFor="workVillage" className="form-label">
-                11. Which village do you want to work for ? / કયા ગામનું કામ
-                કરવાનું છે
-              </label>
-              <input
-                type="text"
-                id="workVillage"
-                name="workVillage"
-                className="form-input"
-                value={formData?.workVillage}
-                onChange={handleChange}
-              />
-            </div>
-            {/* Field 8: Jilla  / જિલ્લો */}
+                    <div className="form-field">
+                      <label htmlFor="workVillage" className="form-label">
+                        11. Which village do you want to work for ? / કયા ગામનું
+                        કામ કરવાનું છે
+                      </label>
+                      <input
+                        type="text"
+                        id="workVillage"
+                        name="workVillage"
+                        className="form-input"
+                        value={call?.workVillage}
+                        onChange={(e) => handleCallHistoryChange(index, e)}
+                      />
+                    </div>
+                    {/* Field 8: Jilla  / જિલ્લો */}
 
-            <div className="form-field">
-              <label htmlFor="clientAnswer" className="form-label">
-                12. What did the customer/client answer ? / જવાબ શું આપ્યો
-                કસ્ટમર / ગ્રાહક
-              </label>
-              <input
-                type="text"
-                id="clientAnswer"
-                name="clientAnswer"
-                className="form-input"
-                value={formData?.clientAnswer}
-                onChange={handleChange}
-              />
-            </div>
-            {/* Field 8: Jilla  / જિલ્લો */}
+                    <div className="form-field">
+                      <label htmlFor="clientAnswer" className="form-label">
+                        12. What did the customer/client answer ? / જવાબ શું
+                        આપ્યો કસ્ટમર / ગ્રાહક
+                      </label>
+                      <input
+                        type="text"
+                        id="clientAnswer"
+                        name="clientAnswer"
+                        className="form-input"
+                        value={call?.clientAnswer}
+                        onChange={(e) => handleCallHistoryChange(index, e)}
+                      />
+                    </div>
+                    {/* Field 8: Jilla  / જિલ્લો */}
 
-            <div className="form-field">
-              <label htmlFor="numberOfHouses" className="form-label">
-                13. How many households/villages are there? / ઘર/ ખાતા ગામના
-                કેટલા છે
-              </label>
-              <input
-                type="text"
-                id="numberOfHouses"
-                name="numberOfHouses"
-                className="form-input"
-                value={formData?.numberOfHouses}
-                onChange={handleChange}
-              />
-            </div>
-            {/* Field 8: Jilla  / જિલ્લો */}
+                    <div className="form-field">
+                      <label htmlFor="numberOfHouses" className="form-label">
+                        13. How many households/villages are there? / ઘર/ ખાતા
+                        ગામના કેટલા છે
+                      </label>
+                      <input
+                        type="text"
+                        id="numberOfHouses"
+                        name="numberOfHouses"
+                        className="form-input"
+                        value={call?.numberOfHouses}
+                        onChange={(e) => handleCallHistoryChange(index, e)}
+                      />
+                    </div>
+                    {/* Field 8: Jilla  / જિલ્લો */}
 
-            <div className="form-field">
-              <label htmlFor="price" className="form-label">
-                14. Price per household account / ભાવ ઘર ખાતા દીઠ
-              </label>
-              <input
-                type="text"
-                id="price"
-                name="price"
-                className="form-input"
-                value={formData?.price}
-                onChange={handleChange}
-              />
-            </div>
+                    <div className="form-field">
+                      <label htmlFor="price" className="form-label">
+                        14. Price per household account / ભાવ ઘર ખાતા દીઠ
+                      </label>
+                      <input
+                        type="text"
+                        id="price"
+                        name="price"
+                        className="form-input"
+                        value={call?.price}
+                        onChange={(e) => handleCallHistoryChange(index, e)}
+                      />
+                    </div>
 
-            {/* Field 15: Jilla  / જિલ્લો */}
-            <div className="form-field">
-              <label htmlFor="estimatedBill" className="form-label">
-                15. Estimated bill amount Rs. / અંદાજીત બીલ રકમ રૂ
-              </label>
-              <input
-                type="text"
-                id="estimatedBill"
-                name="estimatedBill"
-                className="form-input"
-                value={formData?.estimatedBill}
-                onChange={handleChange}
-              />
-            </div>
+                    {/* Field 15: Jilla  / જિલ્લો */}
+                    <div className="form-field">
+                      <label htmlFor="estimatedBill" className="form-label">
+                        15. Estimated bill amount Rs. / અંદાજીત બીલ રકમ રૂ
+                      </label>
+                      <input
+                        type="text"
+                        id="estimatedBill"
+                        name="estimatedBill"
+                        className="form-input"
+                        value={call?.estimatedBill}
+                        onChange={(e) => handleCallHistoryChange(index, e)}
+                      />
+                    </div>
 
-            {/* Field 16: Jilla  / જિલ્લો */}
-            <div className="form-field">
-              <label htmlFor="budget" className="form-label">
-                16. How much money can the customer afford to pay for the
-                house/account? / કસ્ટમરને કેટલા પૈસા સુધી પોસાય ઘર/ખાતા
-              </label>
-              <input
-                type="text"
-                id="budget"
-                name="budget"
-                className="form-input"
-                value={formData?.budget}
-                onChange={handleChange}
-              />
-            </div>
+                    {/* Field 16: Jilla  / જિલ્લો */}
+                    <div className="form-field">
+                      <label htmlFor="budget" className="form-label">
+                        16. How much money can the customer afford to pay for
+                        the house/account? / કસ્ટમરને કેટલા પૈસા સુધી પોસાય
+                        ઘર/ખાતા
+                      </label>
+                      <input
+                        type="text"
+                        id="budget"
+                        name="budget"
+                        className="form-input"
+                        value={call?.budget}
+                        onChange={(e) => handleCallHistoryChange(index, e)}
+                      />
+                    </div>
 
-            {/* Field 17: Jilla  / જિલ્લો */}
-            <div className="form-field">
-              <label htmlFor="dateOfCall" className="form-label">
-                17. Date of call Telecaller / ફોન કર્યા તારીખ ટેલીકોલર
-              </label>
-              <input
-                type="date"
-                id="dateOfCall"
-                name="dateOfCall"
-                className="form-input"
-                value={formData?.dateOfCall}
-                onChange={handleChange}
-              />
-            </div>
+                    {/* Field 17: Jilla  / જિલ્લો */}
+                    <div className="form-field">
+                      <label htmlFor="dateOfCall" className="form-label">
+                        17. Date of call Telecaller / ફોન કર્યા તારીખ ટેલીકોલર
+                      </label>
+                      <input
+                        type="date"
+                        id="dateOfCall"
+                        name="dateOfCall"
+                        className="form-input"
+                        value={call?.dateOfCall}
+                        onChange={(e) => handleCallHistoryChange(index, e)}
+                      />
+                    </div>
 
-            {/* Field 18 Jilla  / જિલ્લો */}
-            <div className="form-field">
-              <label htmlFor="meetingDate" className="form-label">
-                18. Meeting date: Meet in person. / મીટીંગ તારીખ રૂબરુ મળવા જવુ
-              </label>
-              <input
-                type="date"
-                id="meetingDate"
-                name="meetingDate"
-                className="form-input"
-                value={formData?.meetingDate}
-                onChange={handleChange}
-              />
-            </div>
-          </>
+                    {/* Field 18 Jilla  / જિલ્લો */}
+                    <div className="form-field">
+                      <label htmlFor="meetingDate" className="form-label">
+                        18. Meeting date: Meet in person. / મીટીંગ તારીખ રૂબરુ
+                        મળવા જવુ
+                      </label>
+                      <input
+                        type="date"
+                        id="meetingDate"
+                        name="meetingDate"
+                        className="form-input"
+                        value={call?.meetingDate}
+                        onChange={(e) => handleCallHistoryChange(index, e)}
+                      />
+                    </div>
+                  </div>
+                ))
+              : null}
+          </div>
         ) : null}
+
+        <br />
+
+        <button
+          type="button"
+          onClick={addCallHistory}
+          className="add-floor-button"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fillRule="evenodd"
+              d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+              clipRule="evenodd"
+            />
+          </svg>
+          Add New Call Detail
+        </button>
 
         {/* Field 17: રીમાર્કસ */}
         {/* <div className="form-field md:col-span-2">

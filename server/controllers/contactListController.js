@@ -53,15 +53,17 @@ export const addSheetRecord = async (req, res) => {
       taluko,
       jilla,
 
-      whatBusiness,
-      workVillage,
-      clientAnswer,
-      numberOfHouses,
-      price,
-      estimatedBill,
-      budget,
-      dateOfCall,
-      meetingDate,
+      callHistory,
+
+      // whatBusiness,
+      // workVillage,
+      // clientAnswer,
+      // numberOfHouses,
+      // price,
+      // estimatedBill,
+      // budget,
+      // dateOfCall,
+      // meetingDate,
 
       telecaller,
     } = req.body;
@@ -86,18 +88,22 @@ export const addSheetRecord = async (req, res) => {
       taluko?.trim() || "",
       jilla?.trim() || "",
 
-      whatBusiness?.trim() || "",
-      workVillage?.trim() || "",
-      clientAnswer?.trim() || "",
-      numberOfHouses?.trim() || "",
-      price?.trim() || "",
-      estimatedBill?.trim() || "",
-      budget?.trim() || "",
-      dateOfCall?.trim() || "",
-      meetingDate?.trim() || "",
+      JSON.stringify(callHistory || []),
+
+      // whatBusiness?.trim() || "",
+      // workVillage?.trim() || "",
+      // clientAnswer?.trim() || "",
+      // numberOfHouses?.trim() || "",
+      // price?.trim() || "",
+      // estimatedBill?.trim() || "",
+      // budget?.trim() || "",
+      // dateOfCall?.trim() || "",
+      // meetingDate?.trim() || "",
 
       JSON.stringify(telecaller || {}),
     ];
+
+    console.log(callHistory);
 
     // 5. Append the row to the Google Sheet
     const response = await googleSheets.spreadsheets.values.append({
@@ -225,15 +231,17 @@ export const editSheetRecord = async (req, res) => {
       taluko,
       jilla,
 
-      whatBusiness,
-      workVillage,
-      clientAnswer,
-      numberOfHouses,
-      price,
-      estimatedBill,
-      budget,
-      dateOfCall,
-      meetingDate,
+      callHistory,
+
+      // whatBusiness,
+      // workVillage,
+      // clientAnswer,
+      // numberOfHouses,
+      // price,
+      // estimatedBill,
+      // budget,
+      // dateOfCall,
+      // meetingDate,
 
       telecaller,
     } = req.body;
@@ -251,15 +259,17 @@ export const editSheetRecord = async (req, res) => {
       taluko,
       jilla,
 
-      whatBusiness,
-      workVillage,
-      clientAnswer,
-      numberOfHouses,
-      price,
-      estimatedBill,
-      budget,
-      dateOfCall,
-      meetingDate,
+      JSON.stringify(callHistory),
+
+      // whatBusiness,
+      // workVillage,
+      // clientAnswer,
+      // numberOfHouses,
+      // price,
+      // estimatedBill,
+      // budget,
+      // dateOfCall,
+      // meetingDate,
 
       JSON.stringify(telecaller),
     ];

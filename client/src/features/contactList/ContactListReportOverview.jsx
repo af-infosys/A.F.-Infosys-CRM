@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Report.scss"; // CSS ને હવે ઇનલાઇન કરવામાં આવ્યું છે
+import "./Report.scss";
 import apiPath from "../../isProduction";
 
 const ContactListReportOverview = () => {
@@ -189,7 +189,7 @@ const ContactListReportOverview = () => {
 
             <tbody className="bg-white divide-y divide-gray-200">
               {records.map((record, index) => {
-                let survayorData = record[19];
+                let survayorData = record[11];
 
                 if (typeof survayorData === "string") {
                   try {
@@ -257,11 +257,21 @@ const ContactListReportOverview = () => {
                       }}
                     >
                       <button
+                        onClick={() =>
+                          navigate(`/customers/add-call/${record[0]}`)
+                        }
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                      >
+                        Add Call Detail
+                      </button>
+
+                      <button
                         onClick={() => navigate(`/customers/form/${record[0]}`)}
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                       >
                         Edit
                       </button>
+
                       <button
                         onClick={() => handleDelete(record[0])}
                         className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
