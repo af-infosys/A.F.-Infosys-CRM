@@ -26,21 +26,15 @@ const ContactListForm = () => {
     taluko: "",
     jilla: "",
 
-    whatBusiness: "",
-    workVillage: "",
-    clientAnswer: "",
-    numberOfHouses: "",
-    price: "",
-    estimatedBill: "",
-    budget: "",
-    dateOfCall: "",
-    meetingDate: "",
+    listCreated: "",
+    listReceived: "",
 
     telecaller: { id: user?.id, name: user?.name, time: new Date() },
   });
 
   const [callHistory, setCallHistory] = useState([
     {
+      incoming: false,
       whatBusiness: "",
       workVillage: "",
       clientAnswer: "",
@@ -83,15 +77,18 @@ const ContactListForm = () => {
       const result = await response.json();
 
       const data = result?.data;
-      if (!Array.isArray(data) || data.length === 0) return;
+      if (!Array.isArray(data) || data?.length === 0) return;
 
       // Set new serial number
       setFormData((prevData) => ({
         ...prevData,
-        serialNumber: Number(data[data.length - 1][1]) + 1 || "",
+        serialNumber: Number(data[data?.length - 1][1]) + 1 || "",
 
-        taluko: data[data.length - 1][8] || "",
-        jilla: data[data.length - 1][9] || "",
+        taluko: data[data?.length - 1][8] || "",
+        jilla: data[data?.length - 1][9] || "",
+
+        listCreated: data[data?.length - 1][11] || "",
+        listReceived: data[data?.length - 1][12] || "",
       }));
 
       const villageSet = new Set();
@@ -213,15 +210,8 @@ const ContactListForm = () => {
             taluko: "",
             jilla: "",
 
-            // whatBusiness: "",
-            // workVillage: "",
-            // clientAnswer: "",
-            // numberOfHouses: "",
-            // price: "",
-            // estimatedBill: "",
-            // budget: "",
-            // dateOfCall: "",
-            // meetingDate: "",
+            listCreated: "",
+            listReceived: "",
 
             telecaller: { id: user?.id, name: user?.name, time: new Date() },
           });
@@ -230,6 +220,7 @@ const ContactListForm = () => {
             // whatBusiness: record[10] || "",
 
             {
+              incoming: false,
               whatBusiness: "",
               workVillage: "",
               clientAnswer: "",
@@ -291,15 +282,8 @@ const ContactListForm = () => {
             taluko: record[8] || "",
             jilla: record[9] || "",
 
-            // whatBusiness: record[10] || "",
-            // workVillage: record[11] || "",
-            // clientAnswer: record[12] || "",
-            // numberOfHouses: record[13] || "",
-            // price: record[14] || "",
-            // estimatedBill: record[15] || "",
-            // budget: record[16] || "",
-            // dateOfCall: record[17] || "",
-            // meetingDate: record[18] || "",
+            listCreated: record[11] || "",
+            listReceived: record[12] || "",
 
             telecaller: { id: user?.id, name: user?.name, time: new Date() },
           });
@@ -312,6 +296,7 @@ const ContactListForm = () => {
               console.error("Error parsing floors JSON:", jsonError);
               setCallHistory([
                 {
+                  incoming: false,
                   whatBusiness: "",
                   workVillage: "",
                   clientAnswer: "",
@@ -327,6 +312,7 @@ const ContactListForm = () => {
           } else {
             setCallHistory([
               {
+                incoming: false,
                 whatBusiness: "",
                 workVillage: "",
                 clientAnswer: "",
@@ -369,16 +355,27 @@ const ContactListForm = () => {
   const handleCallHistoryChange = (index, e) => {
     const { name, value } = e.target;
 
-    const updatedFloors = callHistory.map((call, i) =>
+    const updatedHistory = callHistory.map((call, i) =>
       i === index ? { ...call, [name]: value } : call
     );
-    setCallHistory(updatedFloors);
+    setCallHistory(updatedHistory);
+  };
+
+  const handleCallHistoryCheckboxChange = (index, e) => {
+    const { name, checked } = e.target;
+
+    const updatedHistory = callHistory.map((call, i) =>
+      i === index ? { ...call, [name]: checked } : call
+    );
+
+    setCallHistory(updatedHistory);
   };
 
   const addCallHistory = () => {
     setCallHistory((prevHistory) => [
       ...prevHistory,
       {
+        incoming: false,
         whatBusiness: "",
         workVillage: "",
         clientAnswer: "",
@@ -390,6 +387,14 @@ const ContactListForm = () => {
         meetingDate: "",
       },
     ]);
+  };
+
+  const deleteCallHistory = (indexToDelete) => {
+    if (!window.confirm("Are you sure you want to delete this record?")) return;
+
+    setCallHistory((prevHistory) =>
+      prevHistory.filter((_, index) => index !== indexToDelete)
+    );
   };
 
   function useRouteChange(callback) {
@@ -440,7 +445,7 @@ const ContactListForm = () => {
           {/* Field 1: અનું ક્રમાંક */}
           <div className="form-field">
             <label htmlFor="serialNumber" className="form-label">
-              1. અનું કૂમાંક
+              1. અનું ક્રમાંક
             </label>
             <input
               type="number"
@@ -483,7 +488,7 @@ const ContactListForm = () => {
               id="mobileNo"
               name="mobileNo"
               className="form-input"
-              placeholder="Mobile No."
+              placeholder="e.g. 7201840095, 9429703896"
               value={formData?.mobileNo}
               onChange={handleChange}
               disabled={isEditMode && formLoading}
@@ -643,14 +648,67 @@ const ContactListForm = () => {
             {callHistory
               ? callHistory?.map((call, index) => (
                   <div key={index} className="call-history">
-                    <h2>Call {index + 1}</h2>
+                    <div className="flex justify-between items-center mb-2">
+                      <h2 className="font-semibold">Call {index + 1}</h2>
+
+                      <button
+                        type="button"
+                        onClick={() => deleteCallHistory(index)}
+                        className="delete-call-button text-red-600 text-sm flex items-center gap-1"
+                        disabled={isEditMode && formLoading}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-4 w-4"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M6 6a1 1 0 011-1h6a1 1 0 011 1v10a1 1 0 11-2 0V7H8v9a1 1 0 11-2 0V6zM4 4a1 1 0 011-1h10a1 1 0 011 1v1H4V4z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                        Remove
+                      </button>
+                    </div>
                     <br />
 
-                    {/* Field 8: Jilla  / જિલ્લો */}
+                    <div
+                      className="form-field"
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "start",
+                        gap: "1rem",
+                      }}
+                    >
+                      <label
+                        htmlFor={`incoming-${index}`}
+                        className="form-label"
+                        style={{ whiteSpace: "nowrap", userSelect: "none" }}
+                      >
+                        Incoming Call / આવેલ
+                      </label>
+                      <input
+                        type="checkbox"
+                        id={`incoming-${index}`}
+                        name="incoming"
+                        className="form-input"
+                        checked={call?.incoming || false}
+                        onChange={(e) =>
+                          handleCallHistoryCheckboxChange(index, e)
+                        }
+                        disabled={isEditMode && formLoading}
+                        style={{ margin: "none", maxWidth: "fit-content" }}
+                      />
+                    </div>
+
+                    {/* Field 8: What business did you call for */}
                     <div className="form-field">
                       <label htmlFor="whatBusiness" className="form-label">
-                        1. What business did you call for? / કયુ કામ વસ્તુ માટે
-                        ફોન કરેલ
+                        A{")"} What business did you call for? / કયુ કામ વસ્તુ
+                        માટે ફોન કરેલ
                       </label>
                       <input
                         type="text"
@@ -665,8 +723,8 @@ const ContactListForm = () => {
 
                     <div className="form-field">
                       <label htmlFor="workVillage" className="form-label">
-                        2. Which village do you want to work for ? / કયા ગામનું
-                        કામ કરવાનું છે
+                        B{")"} Which village do you want to work for ? / કયા
+                        ગામનું કામ કરવાનું છે
                       </label>
                       <input
                         type="text"
@@ -682,7 +740,7 @@ const ContactListForm = () => {
 
                     <div className="form-field">
                       <label htmlFor="clientAnswer" className="form-label">
-                        3. What did the customer/client answer ? / જવાબ શું
+                        c{")"} What did the customer/client answer ? / જવાબ શું
                         આપ્યો કસ્ટમર / ગ્રાહક
                       </label>
                       <input
@@ -699,8 +757,8 @@ const ContactListForm = () => {
 
                     <div className="form-field">
                       <label htmlFor="numberOfHouses" className="form-label">
-                        4. How many households/villages are there? / ઘર/ ખાતા
-                        ગામના કેટલા છે
+                        D{")"} How many households/villages are there? / ઘર/
+                        ખાતા ગામના કેટલા છે
                       </label>
                       <input
                         type="text"
@@ -716,7 +774,7 @@ const ContactListForm = () => {
 
                     <div className="form-field">
                       <label htmlFor="price" className="form-label">
-                        5. Price per household account / ભાવ ઘર ખાતા દીઠ
+                        E{")"} Price per household account / ભાવ ઘર ખાતા દીઠ
                       </label>
                       <input
                         type="text"
@@ -732,7 +790,7 @@ const ContactListForm = () => {
                     {/* Field 15: Jilla  / જિલ્લો */}
                     <div className="form-field">
                       <label htmlFor="estimatedBill" className="form-label">
-                        6. Estimated bill amount Rs. / અંદાજીત બીલ રકમ રૂ
+                        F{")"} Estimated bill amount Rs. / અંદાજીત બીલ રકમ રૂ
                       </label>
                       <input
                         type="text"
@@ -755,8 +813,9 @@ const ContactListForm = () => {
                     {/* Field 16: Jilla  / જિલ્લો */}
                     <div className="form-field">
                       <label htmlFor="budget" className="form-label">
-                        7. How much money can the customer afford to pay for the
-                        house/account? / કસ્ટમરને કેટલા પૈસા સુધી પોસાય ઘર/ખાતા
+                        G{")"} How much money can the customer afford to pay for
+                        the house/account? / કસ્ટમરને કેટલા પૈસા સુધી પોસાય
+                        ઘર/ખાતા
                       </label>
                       <input
                         type="text"
@@ -772,7 +831,8 @@ const ContactListForm = () => {
                     {/* Field 17: Jilla  / જિલ્લો */}
                     <div className="form-field">
                       <label htmlFor="dateOfCall" className="form-label">
-                        8. Date of call Telecaller / ફોન કર્યા તારીખ ટેલીકોલર
+                        H{")"} Date of call Telecaller / ફોન કર્યા તારીખ
+                        ટેલીકોલર
                       </label>
                       <input
                         type="date"
@@ -788,8 +848,8 @@ const ContactListForm = () => {
                     {/* Field 18 Jilla  / જિલ્લો */}
                     <div className="form-field">
                       <label htmlFor="meetingDate" className="form-label">
-                        9. Meeting date: Meet in person. / મીટીંગ તારીખ રૂબરુ
-                        મળવા જવુ
+                        I{")"} Meeting date: Meet in person. / મીટીંગ તારીખ
+                        રૂબરુ મળવા જવુ
                       </label>
                       <input
                         type="date"
@@ -806,6 +866,40 @@ const ContactListForm = () => {
               : null}
           </div>
         ) : null}
+
+        <br />
+
+        {/* Field 11: Date the List was Created in the office ઑફીસમા યાદી બનાવેલ તારીખ */}
+        <div className="form-field">
+          <label htmlFor="listCreated" className="form-label">
+            11. Date the List was Created in the office ઑફીસમા યાદી બનાવેલ તારીખ
+          </label>
+          <input
+            type="date"
+            id="listCreated"
+            name="listCreated"
+            className="form-input"
+            value={formData?.listCreated}
+            onChange={handleChange}
+            disabled={isEditMode && formLoading}
+          />
+        </div>
+
+        {/* Field 11: Date the List was Created in the office ઑફીસમા યાદી બનાવેલ તારીખ */}
+        <div className="form-field">
+          <label htmlFor="listCreated" className="form-label">
+            12. Date Received By the Company કમ્પની ને મળેલ તારીખ
+          </label>
+          <input
+            type="date"
+            id="listReceived"
+            name="listReceived"
+            className="form-input"
+            value={formData?.listReceived}
+            onChange={handleChange}
+            disabled={isEditMode && formLoading}
+          />
+        </div>
 
         <br />
 

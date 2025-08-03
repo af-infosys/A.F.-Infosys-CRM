@@ -91,7 +91,7 @@ const ContactListReport = () => {
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-lg"
                     style={{ color: "white", background: background }}
                   >
-                    અનું કૂમાંક
+                    અનું ક્રમાંક
                   </th>
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -199,6 +199,20 @@ const ContactListReport = () => {
                   >
                     મીટીંગ તારીખ રૂબરુ મળવા જવુ
                   </th>
+                  {/* Entry Date */}
+                  <th
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    style={{ color: "white", background: background }}
+                  >
+                    ઑફીસમા યાદી બનાવેલ તારીખ
+                  </th>
+                  <th
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    style={{ color: "white", background: background }}
+                  >
+                    કમ્પની ને મળેલ તારીખ
+                  </th>
+                  {/* Status */}
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
                     style={{ color: "white", background: background }}
@@ -217,7 +231,7 @@ const ContactListReport = () => {
               {/* Index Start */}
               <tr>
                 {/* 1 to 18 th for index */}
-                {Array.from({ length: 20 }).map((_, index) => (
+                {Array.from({ length: 22 }).map((_, index) => (
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
                     style={{
@@ -235,7 +249,7 @@ const ContactListReport = () => {
 
               <tbody className="bg-white divide-y divide-gray-200">
                 {records.map((record, index) => {
-                  let survayorData = record[11];
+                  let survayorData = record[13];
 
                   if (typeof survayorData === "string") {
                     try {
@@ -258,16 +272,13 @@ const ContactListReport = () => {
                   }
 
                   function formatDate(date) {
-                    return date
-                      ? new Date(date).toLocaleDateString("en-GB", {
-                          day: "numeric",
-                          month: "short",
-                          year: "numeric",
-                        })
-                      : " ";
+                    if (!date) return " ";
+                    const d = new Date(date);
+                    const day = d.getDate();
+                    const month = d.toLocaleString("en-US", { month: "short" });
+                    const year = d.getFullYear();
+                    return `${day} ${month}, ${year}`;
                   }
-
-                  console.log(callHistory);
 
                   return (
                     <tr key={index}>
@@ -355,18 +366,31 @@ const ContactListReport = () => {
                         {callHistory[callHistory?.length - 1]?.budget || " "}
                       </td>
                       <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
-                        {() =>
-                          formatDate(
-                            callHistory[callHistory?.length - 1]?.dateOfCall
-                          )
-                        }
+                        <p style={{ whiteSpace: "nowrap" }}>
+                          {formatDate(
+                            callHistory[callHistory?.length - 1]?.dateOfCall ||
+                              ""
+                          )}
+                        </p>
                       </td>
                       <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
-                        {() =>
-                          formatDate(
-                            callHistory?.[callHistory.length - 1]?.meetingDate
-                          )
-                        }
+                        <p style={{ whiteSpace: "nowrap" }}>
+                          {formatDate(
+                            callHistory?.[callHistory.length - 1]
+                              ?.meetingDate || ""
+                          )}
+                        </p>
+                      </td>
+                      {/* Data Entry Resources Dates */}
+                      <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
+                        <p style={{ whiteSpace: "nowrap" }}>
+                          {formatDate(record[11] || "")}
+                        </p>
+                      </td>
+                      <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
+                        <p style={{ whiteSpace: "nowrap" }}>
+                          {formatDate(record[12] || "")}
+                        </p>
                       </td>
                       {/* Action */}
                       <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">

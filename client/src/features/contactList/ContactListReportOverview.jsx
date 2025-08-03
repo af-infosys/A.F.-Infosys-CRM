@@ -98,7 +98,7 @@ const ContactListReportOverview = () => {
                   className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-lg"
                   style={{ color: "white", background: background }}
                 >
-                  અનું કૂમાંક
+                  અનું ક્રમાંક
                 </th>
                 <th
                   className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -189,7 +189,7 @@ const ContactListReportOverview = () => {
 
             <tbody className="bg-white divide-y divide-gray-200">
               {records.map((record, index) => {
-                let survayorData = record[11];
+                let survayorData = record[13];
 
                 if (typeof survayorData === "string") {
                   try {

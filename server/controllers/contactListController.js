@@ -55,6 +55,9 @@ export const addSheetRecord = async (req, res) => {
 
       callHistory,
 
+      listCreated,
+      listReceived,
+
       // whatBusiness,
       // workVillage,
       // clientAnswer,
@@ -95,6 +98,9 @@ export const addSheetRecord = async (req, res) => {
       jilla?.trim() || "",
 
       JSON.stringify(callHistory || []),
+
+      listCreated || "",
+      listReceived || "",
 
       // whatBusiness?.trim() || "",
       // workVillage?.trim() || "",
@@ -239,6 +245,9 @@ export const editSheetRecord = async (req, res) => {
 
       callHistory,
 
+      listCreated,
+      listReceived,
+
       // whatBusiness,
       // workVillage,
       // clientAnswer,
@@ -266,6 +275,9 @@ export const editSheetRecord = async (req, res) => {
       jilla,
 
       JSON.stringify(callHistory),
+
+      listCreated,
+      listReceived,
 
       // whatBusiness,
       // workVillage,

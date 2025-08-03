@@ -83,7 +83,7 @@ const AddCall = () => {
           //   meetingDate: "",
 
           setCallHistory([]);
-          navigate("/customers/overview");
+          navigate("/customers/report");
         }
       } else {
         setError("No Records Found!");
@@ -94,14 +94,14 @@ const AddCall = () => {
       setError(
         "Error Fetching Records! Try Again Later. OR Contact the Admin."
       );
-      navigate("/customers/overview");
+      navigate("/customers/report");
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    if (!id) navigate("/customers/overview");
+    if (!id) navigate("/customers/report");
     fetchRecords();
   }, []);
 
@@ -240,8 +240,15 @@ const AddCall = () => {
           id="estimatedBill"
           name="estimatedBill"
           className="form-input"
-          value={newCall.estimatedBill}
-          onChange={handleChange}
+          // value={newCall.estimatedBill}
+
+          value={
+            Number(newCall?.numberOfHouses) && Number(newCall?.price)
+              ? Number(newCall?.numberOfHouses) * Number(newCall?.price)
+              : ""
+          }
+          readOnly
+          // onChange={handleChange}
         />
       </div>
 
