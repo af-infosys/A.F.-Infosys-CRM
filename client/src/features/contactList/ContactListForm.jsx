@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import "./Form.scss";
 import { useAuth } from "../../config/AuthContext";
@@ -392,6 +392,31 @@ const ContactListForm = () => {
     ]);
   };
 
+  function useRouteChange(callback) {
+    const location = useLocation();
+
+    useEffect(() => {
+      callback(location.pathname);
+    }, [location.pathname]);
+  }
+
+  useRouteChange((path) => {
+    console.log("Route changed to:", path);
+  });
+
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      e.preventDefault();
+      e.returnValue = ""; // This triggers the default browser confirmation
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
+
   return (
     <div className="form-container p-8">
       {/* Added margin for sidebar */}
@@ -425,6 +450,7 @@ const ContactListForm = () => {
               placeholder="દા.ત. 001"
               value={formData?.serialNumber}
               onChange={handleChange}
+              disabled={isEditMode && formLoading}
               required
             />
           </div>
@@ -442,6 +468,7 @@ const ContactListForm = () => {
               placeholder="customer Full Name"
               value={formData?.customerFullName}
               onChange={handleChange}
+              disabled={isEditMode && formLoading}
               required
             />
           </div>
@@ -459,7 +486,7 @@ const ContactListForm = () => {
               placeholder="Mobile No."
               value={formData?.mobileNo}
               onChange={handleChange}
-              required
+              disabled={isEditMode && formLoading}
             />
           </div>
 
@@ -476,6 +503,7 @@ const ContactListForm = () => {
               placeholder="જો હોય તો દાખલ કરો"
               value={formData?.whatsaapNo}
               onChange={handleChange}
+              disabled={isEditMode && formLoading}
             />
 
             <div style={{ display: "flex", gap: ".5rem" }}>
@@ -507,6 +535,7 @@ const ContactListForm = () => {
               className="form-select"
               value={formData?.category}
               onChange={handleChange}
+              disabled={isEditMode && formLoading}
             >
               {/* <option value="TCM" selected>
                 TCM / તલાટી કમ મંત્રી
@@ -536,6 +565,7 @@ const ContactListForm = () => {
             placeholder="village"
             value={formData?.village}
             onChange={handleChange}
+            disabled={isEditMode && formLoading}
           />
 
           <datalist id="village-options">
@@ -557,6 +587,7 @@ const ContactListForm = () => {
             className="form-input"
             value={formData?.villageOfCharge}
             onChange={handleChange}
+            disabled={isEditMode && formLoading}
           />
         </div>
 
@@ -573,6 +604,7 @@ const ContactListForm = () => {
             className="form-input"
             value={formData?.taluko}
             onChange={handleChange}
+            disabled={isEditMode && formLoading}
           />
 
           <datalist id="taluka-options">
@@ -595,6 +627,7 @@ const ContactListForm = () => {
             className="form-input"
             value={formData?.jilla}
             onChange={handleChange}
+            disabled={isEditMode && formLoading}
           />
 
           <datalist id="district-options">
@@ -609,11 +642,14 @@ const ContactListForm = () => {
           <div>
             {callHistory
               ? callHistory?.map((call, index) => (
-                  <div key={index}>
+                  <div key={index} className="call-history">
+                    <h2>Call {index + 1}</h2>
+                    <br />
+
                     {/* Field 8: Jilla  / જિલ્લો */}
                     <div className="form-field">
                       <label htmlFor="whatBusiness" className="form-label">
-                        10. What business did you call for? / કયુ કામ વસ્તુ માટે
+                        1. What business did you call for? / કયુ કામ વસ્તુ માટે
                         ફોન કરેલ
                       </label>
                       <input
@@ -623,12 +659,13 @@ const ContactListForm = () => {
                         className="form-input"
                         value={call?.whatBusiness}
                         onChange={(e) => handleCallHistoryChange(index, e)}
+                        disabled={isEditMode && formLoading}
                       />
                     </div>
 
                     <div className="form-field">
                       <label htmlFor="workVillage" className="form-label">
-                        11. Which village do you want to work for ? / કયા ગામનું
+                        2. Which village do you want to work for ? / કયા ગામનું
                         કામ કરવાનું છે
                       </label>
                       <input
@@ -638,13 +675,14 @@ const ContactListForm = () => {
                         className="form-input"
                         value={call?.workVillage}
                         onChange={(e) => handleCallHistoryChange(index, e)}
+                        disabled={isEditMode && formLoading}
                       />
                     </div>
                     {/* Field 8: Jilla  / જિલ્લો */}
 
                     <div className="form-field">
                       <label htmlFor="clientAnswer" className="form-label">
-                        12. What did the customer/client answer ? / જવાબ શું
+                        3. What did the customer/client answer ? / જવાબ શું
                         આપ્યો કસ્ટમર / ગ્રાહક
                       </label>
                       <input
@@ -654,13 +692,14 @@ const ContactListForm = () => {
                         className="form-input"
                         value={call?.clientAnswer}
                         onChange={(e) => handleCallHistoryChange(index, e)}
+                        disabled={isEditMode && formLoading}
                       />
                     </div>
                     {/* Field 8: Jilla  / જિલ્લો */}
 
                     <div className="form-field">
                       <label htmlFor="numberOfHouses" className="form-label">
-                        13. How many households/villages are there? / ઘર/ ખાતા
+                        4. How many households/villages are there? / ઘર/ ખાતા
                         ગામના કેટલા છે
                       </label>
                       <input
@@ -670,13 +709,14 @@ const ContactListForm = () => {
                         className="form-input"
                         value={call?.numberOfHouses}
                         onChange={(e) => handleCallHistoryChange(index, e)}
+                        disabled={isEditMode && formLoading}
                       />
                     </div>
                     {/* Field 8: Jilla  / જિલ્લો */}
 
                     <div className="form-field">
                       <label htmlFor="price" className="form-label">
-                        14. Price per household account / ભાવ ઘર ખાતા દીઠ
+                        5. Price per household account / ભાવ ઘર ખાતા દીઠ
                       </label>
                       <input
                         type="text"
@@ -685,30 +725,38 @@ const ContactListForm = () => {
                         className="form-input"
                         value={call?.price}
                         onChange={(e) => handleCallHistoryChange(index, e)}
+                        disabled={isEditMode && formLoading}
                       />
                     </div>
 
                     {/* Field 15: Jilla  / જિલ્લો */}
                     <div className="form-field">
                       <label htmlFor="estimatedBill" className="form-label">
-                        15. Estimated bill amount Rs. / અંદાજીત બીલ રકમ રૂ
+                        6. Estimated bill amount Rs. / અંદાજીત બીલ રકમ રૂ
                       </label>
                       <input
                         type="text"
                         id="estimatedBill"
                         name="estimatedBill"
                         className="form-input"
-                        value={call?.estimatedBill}
-                        onChange={(e) => handleCallHistoryChange(index, e)}
+                        // value={call?.estimatedBill}
+
+                        value={
+                          Number(call?.numberOfHouses) && Number(call?.price)
+                            ? Number(call?.numberOfHouses) * Number(call?.price)
+                            : ""
+                        }
+                        readOnly
+                        // onChange={(e) => handleCallHistoryChange(index, e)}
+                        disabled={isEditMode && formLoading}
                       />
                     </div>
 
                     {/* Field 16: Jilla  / જિલ્લો */}
                     <div className="form-field">
                       <label htmlFor="budget" className="form-label">
-                        16. How much money can the customer afford to pay for
-                        the house/account? / કસ્ટમરને કેટલા પૈસા સુધી પોસાય
-                        ઘર/ખાતા
+                        7. How much money can the customer afford to pay for the
+                        house/account? / કસ્ટમરને કેટલા પૈસા સુધી પોસાય ઘર/ખાતા
                       </label>
                       <input
                         type="text"
@@ -717,13 +765,14 @@ const ContactListForm = () => {
                         className="form-input"
                         value={call?.budget}
                         onChange={(e) => handleCallHistoryChange(index, e)}
+                        disabled={isEditMode && formLoading}
                       />
                     </div>
 
                     {/* Field 17: Jilla  / જિલ્લો */}
                     <div className="form-field">
                       <label htmlFor="dateOfCall" className="form-label">
-                        17. Date of call Telecaller / ફોન કર્યા તારીખ ટેલીકોલર
+                        8. Date of call Telecaller / ફોન કર્યા તારીખ ટેલીકોલર
                       </label>
                       <input
                         type="date"
@@ -732,13 +781,14 @@ const ContactListForm = () => {
                         className="form-input"
                         value={call?.dateOfCall}
                         onChange={(e) => handleCallHistoryChange(index, e)}
+                        disabled={isEditMode && formLoading}
                       />
                     </div>
 
                     {/* Field 18 Jilla  / જિલ્લો */}
                     <div className="form-field">
                       <label htmlFor="meetingDate" className="form-label">
-                        18. Meeting date: Meet in person. / મીટીંગ તારીખ રૂબરુ
+                        9. Meeting date: Meet in person. / મીટીંગ તારીખ રૂબરુ
                         મળવા જવુ
                       </label>
                       <input
@@ -748,6 +798,7 @@ const ContactListForm = () => {
                         className="form-input"
                         value={call?.meetingDate}
                         onChange={(e) => handleCallHistoryChange(index, e)}
+                        disabled={isEditMode && formLoading}
                       />
                     </div>
                   </div>
@@ -758,25 +809,28 @@ const ContactListForm = () => {
 
         <br />
 
-        <button
-          type="button"
-          onClick={addCallHistory}
-          className="add-floor-button"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            viewBox="0 0 20 20"
-            fill="currentColor"
+        {isEditMode && (
+          <button
+            type="button"
+            onClick={addCallHistory}
+            className="add-floor-button"
+            disabled={isEditMode && formLoading}
           >
-            <path
-              fillRule="evenodd"
-              d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-              clipRule="evenodd"
-            />
-          </svg>
-          Add New Call Detail
-        </button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                clipRule="evenodd"
+              />
+            </svg>
+            Add New Call Detail
+          </button>
+        )}
 
         {/* Field 17: રીમાર્કસ */}
         {/* <div className="form-field md:col-span-2">
@@ -793,7 +847,11 @@ const ContactListForm = () => {
           ></textarea>
         </div> */}
 
-        <button type="submit" className="submit-button">
+        <button
+          type="submit"
+          className="submit-button"
+          disabled={isEditMode && formLoading}
+        >
           {isEditMode ? "Update" : "Submit"}
         </button>
       </form>

@@ -83,21 +83,25 @@ const AddCall = () => {
           //   meetingDate: "",
 
           setCallHistory([]);
+          navigate("/customers/overview");
         }
       } else {
         setError("No Records Found!");
       }
     } catch (err) {
       console.error("Error fetching records:", err);
+
       setError(
         "Error Fetching Records! Try Again Later. OR Contact the Admin."
       );
+      navigate("/customers/overview");
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
+    if (!id) navigate("/customers/overview");
     fetchRecords();
   }, []);
 

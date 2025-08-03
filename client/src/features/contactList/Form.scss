@@ -196,3 +196,18 @@ body {
   background-color: #059669; /* Darker green */
   transform: translateY(-1px);
 }
+
+input:disabled,
+select:disabled,
+button:disabled {
+  background: #191e2746;
+  cursor: not-allowed;
+}
+
+.call-history {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+  background-color: #edf6ff;
+}

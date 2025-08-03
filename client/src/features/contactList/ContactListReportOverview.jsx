@@ -213,12 +213,26 @@ const ContactListReportOverview = () => {
                     </td>{" "}
                     {/* Mobile No. <br /> */}
                     <td className="px-1 py-2 whitespace-nowrap text-sm text-gray-500">
-                      <a
-                        href={`tel:${record[3]}`}
-                        className="text-blue-600 hover:underline"
-                      >
-                        {record[3]}
-                      </a>
+                      {record[3]?.includes(",") ? (
+                        record[3]?.split(",")?.map((number, index) => (
+                          <>
+                            <a
+                              key={index}
+                              href={`tel:${number?.trim()}`}
+                              className="text-blue-600 hover:underline"
+                            >
+                              {number?.trim()}
+                            </a>{" "}
+                          </>
+                        ))
+                      ) : (
+                        <a
+                          href={`tel:${record[3]?.trim()}`}
+                          className="text-blue-600 hover:underline"
+                        >
+                          {record[3]?.trim()}
+                        </a>
+                      )}
                     </td>{" "}
                     {/* Whatsaap No.  */}
                     <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">

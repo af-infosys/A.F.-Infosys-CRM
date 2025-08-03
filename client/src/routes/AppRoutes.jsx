@@ -14,6 +14,7 @@ import ContactListForm from "../features/contactList/ContactListForm";
 import ContactListReport from "../features/contactList/ContactListReport";
 import ContactListReportOverview from "../features/contactList/ContactListReportOverview";
 import AddCall from "../features/contactList/AddCall";
+import SummaryReport from "../features/contactList/SummaryReport";
 
 export default function AppRoutes() {
   return (
@@ -47,6 +48,8 @@ export default function AppRoutes() {
           path="/customers/overview"
           element={<ContactListReportOverview />}
         />
+        <Route path="/customers/summary" element={<SummaryReport />} />
+
         <Route path="/orders" element={<OrderValuation />} />
 
         <Route

@@ -73,7 +73,13 @@ export const addSheetRecord = async (req, res) => {
       return res.status(400).json({ message: "Missing required form fields." });
     }
 
-    const GeneratedID = Date.now();
+    function generateUniqueID() {
+      const timestamp = Date.now().toString(36); // base36 = numbers + letters
+      const randomStr = Math.random().toString(36).substring(2, 10); // 8 random chars
+      return timestamp + randomStr;
+    }
+
+    const GeneratedID = generateUniqueID();
 
     const rowData = [
       GeneratedID,
@@ -181,7 +187,7 @@ export const getRecord = async (req, res) => {
     const { id } = req.params;
 
     const record =
-      records.find((record) => Number(record[0]) === Number(id)) || [];
+      records.find((record) => record[0]?.trim() === id?.trim()) || [];
 
     res.status(200).json({
       message: "Records fetched successfully!",
