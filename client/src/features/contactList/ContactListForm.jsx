@@ -32,6 +32,23 @@ const ContactListForm = () => {
     telecaller: { id: user?.id, name: user?.name, time: new Date() },
   });
 
+  // [
+  //   ID,
+  //   serialNumber,
+  //   customerFullName,
+  //   mobileNo,
+  //   whatsaapNo,
+  //   category,
+  //   village,
+  //   villageOfCharge,
+  //   taluko,
+  //   jilla,
+  //   callHistory,
+  //   listCreated,
+  //   listReceived,
+  //   telecaller,
+  // ];
+
   const [callHistory, setCallHistory] = useState([
     {
       incoming: false,
@@ -718,6 +735,7 @@ const ContactListForm = () => {
                         value={call?.whatBusiness}
                         onChange={(e) => handleCallHistoryChange(index, e)}
                         disabled={isEditMode && formLoading}
+                        required
                       />
                     </div>
 

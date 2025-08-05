@@ -1,21 +1,17 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+
 import { connectDB } from "./config/db.js";
 
 import authRoutes from "./routes/authRoutes.js";
 import inquiryRoutes from "./routes/inquiryRoutes.js";
 import workRoutes from "./routes/workRoutes.js";
-import qrcode from "qrcode-terminal";
-
-import WASocket, {
-  DisconnectReason,
-  useMultiFileAuthState,
-  fetchLatestBaileysVersion,
-} from "@whiskeysockets/baileys";
 
 let socket;
 let isConnected = false;
+
+// import { startWhatsApp } from "./config/whatsapp.js";
 
 import job from "./cron.js";
 
@@ -124,6 +120,7 @@ app.post("/send-receipt", async (req, res) => {
         },
       ],
     };
+
     await socket.sendMessage(jid, buttonMessage);
     console.log(`[Success] Sent receipt for m_id ${recordId} to ${jid}`);
     res
@@ -137,55 +134,6 @@ app.post("/send-receipt", async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 });
-
-// --- 6. WHATSAPP CONNECTION LOGIC (THIS IS THE UPDATED PART) ---
-async function connectToWhatsApp() {
-  const { state, saveCreds } = await useMultiFileAuthState("auth_info_baileys");
-  const { version } = await fetchLatestBaileysVersion();
-
-  socket = WASocket({
-    // printQRInTerminal: true, // This option is deprecated, we remove it.
-    auth: state,
-    version,
-    browser: ["AF-Infosys", "ReceiptBot", "1.0"],
-  });
-
-  socket.ev.on("creds.update", saveCreds);
-
-  socket.ev.on("connection.update", (update) => {
-    // We destructure qr from the update object
-    const { connection, lastDisconnect, qr } = update;
-
-    // ** THIS IS THE NEW LOGIC TO HANDLE THE QR CODE **
-    if (qr) {
-      console.log("QR Code received, please scan with your phone's WhatsApp:");
-      qrcode.generate(qr, { small: true }); // Print the QR code to the terminal
-    }
-
-    if (connection === "close") {
-      isConnected = false;
-      const shouldReconnect =
-        lastDisconnect?.error?.output?.statusCode !==
-        DisconnectReason.loggedOut;
-      console.log(
-        "Connection closed. Reason:",
-        lastDisconnect?.error,
-        ". Reconnecting:",
-        shouldReconnect
-      );
-      if (shouldReconnect) {
-        connectToWhatsApp();
-      } else {
-        console.log("❌ Disconnected permanently. You were logged out.");
-      }
-    } else if (connection === "open") {
-      isConnected = true;
-      console.log(
-        "✅ WhatsApp connection opened successfully! Ready to send receipts."
-      );
-    }
-  });
-}
 
 import { google } from "googleapis";
 import survayRoutes from "./routes/survayRoutes.js";
@@ -366,6 +314,7 @@ app.post("/update-sheet-record", async (req, res) => {
 // This endpoint is duplicated from the original code. I recommend reviewing if it's still needed
 // or if its functionality can be merged into `/update-sheet-record`.
 // For now, I'm keeping it as is, but flagged for review.
+
 app.post("/update-receipt", async (req, res) => {
   const { milkatId, receiptNumber } = req.body;
 
@@ -476,10 +425,18 @@ app.get("/get-all-sheet-data", async (req, res) => {
 app.use("/api/sheet", survayRoutes);
 app.use("/api/contactList", ContactListRoutes);
 
-// connectToWhatsApp();
+import connectWhatsAPP, {
+  sendMessageToWhatsApp,
+  checkWhatsAppNumbers,
+} from "./config/whatsapp.js";
+
+app.post("/send-message", sendMessageToWhatsApp);
+
+app.post("/check-whatsapp-numbers", checkWhatsAppNumbers);
 
 // Server
 const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`🚀 Server running on port ${PORT}`);
+  connectWhatsAPP();
 });

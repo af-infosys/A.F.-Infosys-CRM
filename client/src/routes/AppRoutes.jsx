@@ -15,6 +15,7 @@ import ContactListReport from "../features/contactList/ContactListReport";
 import ContactListReportOverview from "../features/contactList/ContactListReportOverview";
 import AddCall from "../features/contactList/AddCall";
 import SummaryReport from "../features/contactList/SummaryReport";
+import InvalidNumbers from "../features/contactList/InvalidNumbers";
 
 export default function AppRoutes() {
   return (
@@ -49,6 +50,7 @@ export default function AppRoutes() {
           element={<ContactListReportOverview />}
         />
         <Route path="/customers/summary" element={<SummaryReport />} />
+        <Route path="/customers/invalid" element={<InvalidNumbers />} />
 
         <Route path="/orders" element={<OrderValuation />} />
 

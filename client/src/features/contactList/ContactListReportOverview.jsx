@@ -51,6 +51,15 @@ const ContactListReportOverview = () => {
     }
   };
 
+  function formatDate(date) {
+    if (!date) return " ";
+    const d = new Date(date);
+    const day = d.getDate();
+    const month = d.toLocaleString("en-US", { month: "short" });
+    const year = d.getFullYear();
+    return `${day} ${month}, ${year}`;
+  }
+
   const background = "#007bff";
 
   return (
@@ -260,13 +269,33 @@ const ContactListReportOverview = () => {
                     </td>
                     {/* Action */}
                     <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
-                      {survayorData?.name || "Unknown"}
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <p style={{ whiteSpace: "nowrap", fontSize: "13px" }}>
+                          {survayorData?.name || "Unknown"}
+                        </p>
+                        {survayorData?.time && (
+                          <p
+                            style={{
+                              whiteSpace: "nowrap",
+                              fontSize: "10px",
+                              marginTop: "-5px",
+                            }}
+                          >
+                            {formatDate(survayorData?.time)}
+                          </p>
+                        )}
+                      </div>
                     </td>
                     <td
                       className="px-1 py-2 whitespace-normal text-sm text-gray-500"
                       style={{
                         display: "flex",
-                        gap: ".5rem",
+                        gap: ".3rem",
                         alignItems: "center",
                       }}
                     >
@@ -274,21 +303,24 @@ const ContactListReportOverview = () => {
                         onClick={() =>
                           navigate(`/customers/add-call/${record[0]}`)
                         }
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
+                        style={{ whiteSpace: "nowrap", fontSize: "10px" }}
                       >
                         Add Call Detail
                       </button>
 
                       <button
                         onClick={() => navigate(`/customers/form/${record[0]}`)}
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
+                        style={{ whiteSpace: "nowrap", fontSize: "10px" }}
                       >
                         Edit
                       </button>
 
                       <button
                         onClick={() => handleDelete(record[0])}
-                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
+                        style={{ whiteSpace: "nowrap", fontSize: "10px" }}
                       >
                         Delete
                       </button>

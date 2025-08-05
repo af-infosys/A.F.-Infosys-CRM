@@ -7,6 +7,11 @@ const ContactListReport = () => {
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isSelectionMode, setIsSelectionMode] = useState(false);
+  const [selectedRecords, setSelectedRecords] = useState([]);
+  const [sendingStatus, setSendingStatus] = useState("");
+
+  const [invalid, setInvalid] = useState([]);
 
   const navigate = useNavigate();
 
@@ -43,15 +48,111 @@ const ContactListReport = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-      setRecords(records.filter((record) => record.id !== id));
-
-      fetchRecords();
+      setRecords(records.filter((record) => record[0] !== id));
     } catch (err) {
       console.error("Error deleting record:", err);
     }
   };
 
+  const handleCheckboxChange = (recordId) => {
+    setSelectedRecords((prevSelected) =>
+      prevSelected.includes(recordId)
+        ? prevSelected.filter((id) => id !== recordId)
+        : [...prevSelected, recordId]
+    );
+  };
+
+  const handleSelectAll = (e) => {
+    if (e.target.checked) {
+      const allRecordIds = records.map((record) => record[0]);
+      setSelectedRecords(allRecordIds);
+    } else {
+      setSelectedRecords([]);
+    }
+  };
+
+  const sendMessageToWhatsApp = async () => {
+    if (selectedRecords.length === 0) {
+      alert("Please select at least one record to send a message.");
+      return;
+    }
+
+    setSendingStatus("Sending messages...");
+    try {
+      const selectedWhatsAppNumbers = records
+        .filter((record) => selectedRecords.includes(record[0]))
+        .map((record) => record[4])
+        .filter(Boolean); // Filter out any empty or null numbers
+
+      const response = await fetch(`${await apiPath()}/api/sendMessage`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({ numbers: selectedWhatsAppNumbers }),
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const result = await response.json();
+      setSendingStatus(`Successfully sent ${result.sentCount} messages!`);
+      // You may want to clear selected records after sending
+      setSelectedRecords([]);
+    } catch (error) {
+      console.error("Error sending messages:", error);
+      setSendingStatus("Failed to send messages. Please try again.");
+    }
+  };
+
+  const checkWhatsAppNumbers = async () => {
+    if (selectedRecords.length === 0) {
+      alert("Please select at least one record to check.");
+      return;
+    }
+
+    setSendingStatus("Checking numbers...");
+    try {
+      const selectedWhatsAppNumbers = records
+        .filter((record) => selectedRecords.includes(record[0]))
+        .map((record) => record[4])
+        .filter(Boolean);
+
+      const response = await fetch(
+        `${await apiPath()}/check-whatsapp-numbers`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify({ numbers: selectedWhatsAppNumbers }),
+        }
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const result = await response.json();
+
+      if (result?.invalid.length > 0) {
+        setInvalid(result?.invalid);
+      }
+      setSendingStatus(
+        `Check complete: ${result?.valid.length} valid numbers found, ${result?.invalid.length} invalid numbers found.`
+      );
+      // Optionally, you can log or display the valid numbers
+      console.log("Valid WhatsApp numbers:", result?.valid, result?.invalid);
+    } catch (error) {
+      console.error("Error checking numbers:", error);
+      setSendingStatus("Failed to check numbers. Please try again.");
+    }
+  };
+
   const background = "#007bff";
+
+  const handleViewInvalids = () => {
+    navigate("/customers/invalid", { state: { invalid } });
+  };
 
   return (
     <>
@@ -63,8 +164,28 @@ const ContactListReport = () => {
         <h2 className="text-xl text-center mb-8 text-gray-600">
           by - A.F. Infosys
         </h2>
-
-        <div className="flex justify-between items-center gap-2">
+        {sendingStatus && (
+          <div
+            className="text-center p-3 text-white font-bold rounded-md mb-4"
+            style={{ backgroundColor: background }}
+          >
+            {sendingStatus}
+            {invalid && (
+              <button>
+                <span
+                  className="ml-2 cursor-pointer"
+                  onClick={handleViewInvalids}
+                >
+                  View Invalids
+                </span>
+              </button>
+            )}{" "}
+          </div>
+        )}
+        <div
+          className="flex justify-between items-center gap-1 mb-4 flex-wrap"
+          style={{ userSelect: "none" }}
+        >
           <button
             className="add-btn"
             onClick={() => navigate("/customers/form")}
@@ -72,6 +193,62 @@ const ContactListReport = () => {
           >
             Add New Customer Record
           </button>
+
+          <div style={{ display: "flex", gap: ".4rem", flexWrap: "wrap" }}>
+            {isSelectionMode ? (
+              <>
+                <button
+                  onClick={sendMessageToWhatsApp}
+                  disabled={selectedRecords.length === 0 || !!sendingStatus}
+                  className="add-btn flex items-center gap-2"
+                  style={{
+                    fontSize: ".8rem",
+                    padding: ".8rem .9rem",
+                    background: "green",
+                    opacity:
+                      selectedRecords.length === 0 || !!sendingStatus ? 0.5 : 1,
+                  }}
+                >
+                  Send Message
+                </button>
+
+                <button
+                  onClick={checkWhatsAppNumbers}
+                  disabled={selectedRecords.length === 0 || !!sendingStatus}
+                  className="add-btn flex items-center gap-2"
+                  style={{
+                    fontSize: ".8rem",
+                    padding: ".8rem .9rem",
+                    background: "green",
+                    opacity:
+                      selectedRecords.length === 0 || !!sendingStatus ? 0.5 : 1,
+                  }}
+                >
+                  Check Valid Numbers
+                </button>
+              </>
+            ) : null}
+
+            <button
+              onClick={() => setIsSelectionMode(!isSelectionMode)}
+              className="add-btn flex items-center gap-2"
+              style={{ fontSize: ".8rem", padding: ".8rem .9rem" }}
+            >
+              {isSelectionMode ? "Exit Selection" : "Select Records"}
+              {!isSelectionMode && (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  className="bi bi-whatsapp"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L.05 15l4.204-1.102a7.933 7.933 0 0 0 3.79.998h.006c4.366 0 7.92-3.558 7.924-7.926a7.864 7.864 0 0 0-2.342-5.556zm-1.157 1.353a6.708 6.708 0 0 1-4.904 2.19c-.58 0-1.15-.09-1.697-.26l-.42-.16-.39.2c-1.395.736-2.583 1.954-3.327 3.42l-.08.19.12.06c.725.372 1.488.57 2.26.572h.002c1.745 0 3.398-.67 4.673-1.876a6.67 6.67 0 0 0 1.848-4.735v-.002zm-1.802 4.75a.94.94 0 0 1-.66-.27l-2.028-1.986c-.19-.184-.44-.27-.7-.27-.26 0-.51.09-.7.27l-1.015 1.01-.002.002a.84.84 0 0 1-.65.26c-.25 0-.5-.09-.69-.28l-.51-.51a.92.92 0 0 1 0-1.31L7.54 3.73c.184-.19.44-.28.7-.28s.51.09.7.28l.5.5c.18.18.28.43.28.69s-.1.5-.28.69l-.6.6c.19.19.44.28.7.28s.51-.09.7-.28l2.028-1.986a.93.93 0 0 1 1.31 0c.37.37.37 1 0 1.37l-2.028 1.986a.94.94 0 0 1-.66.27z" />
+                </svg>
+              )}
+            </button>
+          </div>
         </div>
 
         {error ? (
@@ -87,8 +264,25 @@ const ContactListReport = () => {
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
+                  {isSelectionMode && (
+                    <th
+                      className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-lg"
+                      style={{ color: "white", background: background }}
+                    >
+                      <input
+                        type="checkbox"
+                        onChange={handleSelectAll}
+                        checked={
+                          selectedRecords.length === records.length &&
+                          records.length > 0
+                        }
+                      />
+                    </th>
+                  )}
                   <th
-                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-lg"
+                    className={`px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider ${
+                      !isSelectionMode && "rounded-tl-lg"
+                    }`}
                     style={{ color: "white", background: background }}
                   >
                     અનું ક્રમાંક
@@ -147,7 +341,11 @@ const ContactListReport = () => {
                   </th>
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    style={{ color: "white", background: background }}
+                    style={{
+                      color: "white",
+                      background: background,
+                      minWidth: "150px",
+                    }}
                   >
                     કયુ કામ વસ્તુ માટે ફોન કરેલ
                   </th>
@@ -220,7 +418,9 @@ const ContactListReport = () => {
                     Updated by
                   </th>
                   <th
-                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tr-lg"
+                    className={`px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider ${
+                      !isSelectionMode && "rounded-tr-lg"
+                    }`}
                     style={{ color: "white", background: background }}
                   >
                     Action
@@ -230,6 +430,18 @@ const ContactListReport = () => {
 
               {/* Index Start */}
               <tr>
+                {isSelectionMode && (
+                  <th
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    style={{
+                      textAlign: "center",
+                      color: "white",
+                      background: background,
+                    }}
+                  >
+                    #
+                  </th>
+                )}
                 {/* 1 to 18 th for index */}
                 {Array.from({ length: 22 }).map((_, index) => (
                   <th
@@ -282,6 +494,15 @@ const ContactListReport = () => {
 
                   return (
                     <tr key={index}>
+                      {isSelectionMode && (
+                        <td className="px-1 py-2 whitespace-nowrap text-sm font-medium text-gray-900 text-center">
+                          <input
+                            type="checkbox"
+                            checked={selectedRecords.includes(record[0])}
+                            onChange={() => handleCheckboxChange(record[0])}
+                          />
+                        </td>
+                      )}
                       {/* અહીં Google Sheet માંથી આવતા ડેટાને કૉલમમાં મેપ કરો */}
                       {/* અનું કૂમાંક (serialNumber) */}
                       <td className="px-1 py-2 whitespace-nowrap text-sm font-medium text-gray-900">
@@ -394,13 +615,33 @@ const ContactListReport = () => {
                       </td>
                       {/* Action */}
                       <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
-                        {survayorData?.name || "Unknown"}
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                          }}
+                        >
+                          <p style={{ whiteSpace: "nowrap", fontSize: "13px" }}>
+                            {survayorData?.name || "Unknown"}
+                          </p>
+                          {survayorData?.time && (
+                            <p
+                              style={{
+                                whiteSpace: "nowrap",
+                                fontSize: "10px",
+                                marginTop: "-5px",
+                              }}
+                            >
+                              {formatDate(survayorData?.time)}
+                            </p>
+                          )}
+                        </div>
                       </td>
                       <td
                         className="px-1 py-2 whitespace-normal text-sm text-gray-500"
                         style={{
                           display: "flex",
-                          gap: ".5rem",
+                          gap: ".3rem",
                           alignItems: "center",
                         }}
                       >
@@ -408,7 +649,8 @@ const ContactListReport = () => {
                           onClick={() =>
                             navigate(`/customers/add-call/${record[0]}`)
                           }
-                          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
+                          style={{ whiteSpace: "nowrap", fontSize: "10px" }}
                         >
                           Add Call Detail
                         </button>
@@ -417,14 +659,16 @@ const ContactListReport = () => {
                           onClick={() =>
                             navigate(`/customers/form/${record[0]}`)
                           }
-                          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
+                          style={{ whiteSpace: "nowrap", fontSize: "10px" }}
                         >
                           Edit
                         </button>
 
                         <button
                           onClick={() => handleDelete(record[0])}
-                          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                          className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
+                          style={{ whiteSpace: "nowrap", fontSize: "10px" }}
                         >
                           Delete
                         </button>
@@ -436,7 +680,7 @@ const ContactListReport = () => {
                 {records.length === 0 && !loading && !error && (
                   <tr>
                     <td
-                      colSpan="11"
+                      colSpan={isSelectionMode ? "23" : "22"}
                       className="px-6 py-4 text-center text-gray-500"
                     >
                       No Records Found!
