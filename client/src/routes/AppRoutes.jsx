@@ -50,7 +50,7 @@ export default function AppRoutes() {
           element={<ContactListReportOverview />}
         />
         <Route path="/customers/summary" element={<SummaryReport />} />
-        <Route path="/customers/invalid" element={<InvalidNumbers />} />
+        <Route path="/customers/invalids" element={<InvalidNumbers />} />
 
         <Route path="/orders" element={<OrderValuation />} />
 

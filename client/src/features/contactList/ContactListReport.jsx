@@ -151,7 +151,9 @@ const ContactListReport = () => {
   const background = "#007bff";
 
   const handleViewInvalids = () => {
-    navigate("/customers/invalid", { state: { invalid } });
+    const numbersString = JSON.stringify(invalid);
+    const encodedNumbers = encodeURIComponent(numbersString);
+    navigate(`/customers/invalids?numbers=${encodedNumbers}`);
   };
 
   return (
@@ -170,15 +172,23 @@ const ContactListReport = () => {
             style={{ backgroundColor: background }}
           >
             {sendingStatus}
-            {invalid && (
-              <button>
-                <span
-                  className="ml-2 cursor-pointer"
+            {invalid?.length > 0 && (
+              <>
+                <br />
+                <button
+                  style={{
+                    background: "orange",
+                    color: "white",
+                    borderRadius: "20px",
+                    padding: ".3rem 1rem",
+                    marginTop: ".4rem",
+                  }}
                   onClick={handleViewInvalids}
+                  className="ml-2 cursor-pointer"
                 >
                   View Invalids
-                </span>
-              </button>
+                </button>
+              </>
             )}{" "}
           </div>
         )}
