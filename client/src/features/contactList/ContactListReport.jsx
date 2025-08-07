@@ -557,7 +557,7 @@ const ContactListReport = () => {
                           href={`wa.me/91${record[4]?.trim()}`}
                           className="text-blue-600 hover:underline"
                         >
-                          {record[4].trim()}
+                          {record[4]?.trim()}
                         </a>
                       </td>
                       {/* Category Customer  */}
