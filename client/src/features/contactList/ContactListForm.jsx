@@ -145,7 +145,7 @@ const ContactListForm = () => {
 
   useEffect(() => {
     if (!isEditMode) fetchIndex();
-  }, []);
+  }, [isEditMode]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -359,7 +359,7 @@ const ContactListForm = () => {
     };
 
     fetchRecordForEdit();
-  }, [id, isEditMode, user?.id]);
+  }, [id, isEditMode, user?.id, user?.name]);
 
   const [sameNumber, setSameNumber] = useState(false);
 
@@ -425,7 +425,7 @@ const ContactListForm = () => {
 
     useEffect(() => {
       callback(location.pathname);
-    }, [location.pathname]);
+    }, [callback, location.pathname]);
   }
 
   useRouteChange((path) => {

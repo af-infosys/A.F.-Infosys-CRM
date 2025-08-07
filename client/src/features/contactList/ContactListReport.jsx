@@ -407,6 +407,12 @@ const ContactListReport = () => {
                   >
                     મીટીંગ તારીખ રૂબરુ મળવા જવુ
                   </th>
+                  <th
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    style={{ color: "white", background: background }}
+                  >
+                    Reminder Date
+                  </th>
                   {/* Entry Date */}
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -453,7 +459,7 @@ const ContactListReport = () => {
                   </th>
                 )}
                 {/* 1 to 18 th for index */}
-                {Array.from({ length: 22 }).map((_, index) => (
+                {Array.from({ length: 23 }).map((_, index) => (
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
                     style={{
@@ -609,6 +615,15 @@ const ContactListReport = () => {
                           {formatDate(
                             callHistory?.[callHistory.length - 1]
                               ?.meetingDate || ""
+                          )}
+                        </p>
+                      </td>
+                      {/* Reminder Date */}
+                      <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
+                        <p style={{ whiteSpace: "nowrap" }}>
+                          {formatDate(
+                            callHistory?.[callHistory.length - 1]
+                              ?.reminderDate || ""
                           )}
                         </p>
                       </td>

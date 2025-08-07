@@ -88,6 +88,14 @@ export default function DashboardLayout() {
                       Report
                     </NavLink>
 
+                    <NavLink
+                      to={"/customers/reminders"}
+                      className={({ isActive }) => (isActive ? "active" : "")}
+                      onClick={() => setIsSidebarOpen(false)}
+                    >
+                      Reminders
+                    </NavLink>
+
                     {user.role === "owner" && (
                       <NavLink
                         to={"/customers/summary"}

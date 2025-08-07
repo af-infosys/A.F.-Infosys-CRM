@@ -27,6 +27,7 @@ const AddCall = () => {
 
   const [callHistory, setCallHistory] = useState([]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const fetchRecords = async () => {
     try {
       const response = await fetch(`${await apiPath()}/api/contactList/${id}`);
@@ -105,7 +106,7 @@ const AddCall = () => {
   useEffect(() => {
     if (!id) navigate("/customers/report");
     fetchRecords();
-  }, []);
+  }, [fetchRecords, id, navigate]);
 
   const handleChange = async (e) => {
     const { name, value } = e.target;
