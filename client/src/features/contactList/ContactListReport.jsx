@@ -84,7 +84,7 @@ const ContactListReport = () => {
         .map((record) => record[4])
         .filter(Boolean); // Filter out any empty or null numbers
 
-      const response = await fetch(`${await apiPath()}/api/sendMessage`, {
+      const response = await fetch(`${await apiPath()}/send-message`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

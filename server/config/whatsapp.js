@@ -59,40 +59,39 @@ export default async function connectWhatsAPP() {
 
 // ✅ This will be used by your Express API
 export async function sendMessageToWhatsApp(req, res) {
-  const { phoneNumber, text, imageUrl, videoUrl } = req.body;
+  const { numbers } = req.body;
 
-  if (!phoneNumber) {
-    return res.status(400).json({ error: "Missing phoneNumber" });
+  if (!numbers || !Array.isArray(numbers) || numbers.length === 0) {
+    return res.status(400).json({ error: "Missing or invalid numbers array" });
   }
+
+  const imageUrl =
+    "https://afinfosys.netlify.app/server/assets/VisitingCard.jpeg";
 
   try {
     if (!socket) throw new Error("WhatsApp not connected yet");
 
-    const jid = phoneNumber.includes("@s.whatsapp.net")
-      ? phoneNumber
-      : phoneNumber + "@s.whatsapp.net";
+    for (const phone of numbers) {
+      const jid = phone.includes("@s.whatsapp.net")
+        ? phone
+        : phone + "@s.whatsapp.net";
 
-    await socket.sendPresenceUpdate("composing", jid);
-    await new Promise((r) => setTimeout(r, 1000));
+      await socket.sendPresenceUpdate("composing", jid);
+      await new Promise((r) => setTimeout(r, 1000));
 
-    if (imageUrl) {
       await socket.sendMessage(jid, {
         image: { url: imageUrl },
-        caption: text || "",
+        caption: "", // Send image without caption
       });
-    } else if (videoUrl) {
-      await socket.sendMessage(jid, {
-        video: { url: videoUrl },
-        caption: text || "",
-      });
-    } else if (text) {
-      await socket.sendMessage(jid, { text });
+
+      await socket.sendPresenceUpdate("paused", jid);
+      console.log(`📤 Sent image to ${jid}`);
     }
 
-    await socket.sendPresenceUpdate("paused", jid);
-
-    console.log(`📤 Sent to ${jid}`);
-    res.json({ success: true });
+    res.json({
+      success: true,
+      message: `Sent to ${numbers.length} numbers`,
+    });
   } catch (err) {
     console.error("❌ Error:", err.message);
     res.status(500).json({ error: err.message });
