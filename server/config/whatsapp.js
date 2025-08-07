@@ -1,20 +1,20 @@
 import {
   makeWASocket,
-  DisconnectReason,
   useMultiFileAuthState,
+  DisconnectReason,
   fetchLatestBaileysVersion,
 } from "@whiskeysockets/baileys";
-
 import qrcode from "qrcode-terminal";
 
 let socket;
+const store = {}; // You can optionally connect this to a message store like `@adiwajshing/baileys-md`
 
 const getMessage = (key) => {
   const { id } = key;
   return store[id]?.message;
 };
 
-// 🔌 WhatsApp Socket Connection
+// 🔌 Start WhatsApp Connection
 export default async function connectWhatsAPP() {
   const { state, saveCreds } = await useMultiFileAuthState("auth");
   const { version } = await fetchLatestBaileysVersion();
@@ -42,7 +42,7 @@ export default async function connectWhatsAPP() {
         lastDisconnect?.error?.output?.statusCode !==
         DisconnectReason.loggedOut;
 
-      console.log("Connection closed. Reconnect?", shouldReconnect);
+      console.log("🔌 Connection closed. Reconnect?", shouldReconnect);
 
       if (shouldReconnect) {
         connectWhatsAPP();
@@ -57,41 +57,47 @@ export default async function connectWhatsAPP() {
   });
 }
 
-// ✅ This will be used by your Express API
-export async function sendMessageToWhatsApp(req, res) {
-  const { numbers } = req.body;
+// ✅ To be used in API routes or controllers
+export function getSocket() {
+  return socket;
+}
 
-  if (!numbers || !Array.isArray(numbers) || numbers.length === 0) {
-    return res.status(400).json({ error: "Missing or invalid numbers array" });
+export async function sendMessageToWhatsApp(req, res) {
+  const { number, text, imageUrl, videoUrl } = req.body;
+
+  if (!number) {
+    return res.status(400).json({ error: "Missing number" });
   }
 
-  const imageUrl =
-    "https://afinfosys.netlify.app/server/assets/VisitingCard.jpeg";
-
   try {
-    if (!socket) throw new Error("WhatsApp not connected yet");
+    if (!socket)
+      return res.status(503).json({ error: "WhatsApp not connected yet" });
 
-    for (const phone of numbers) {
-      const jid = phone.includes("@s.whatsapp.net")
-        ? phone
-        : phone + "@s.whatsapp.net";
+    const jid = number.includes("@s.whatsapp.net")
+      ? number
+      : number + "@s.whatsapp.net";
 
-      await socket.sendPresenceUpdate("composing", jid);
-      await new Promise((r) => setTimeout(r, 1000));
+    await socket.sendPresenceUpdate("composing", jid);
+    await new Promise((r) => setTimeout(r, 1000));
 
+    if (imageUrl) {
       await socket.sendMessage(jid, {
         image: { url: imageUrl },
-        caption: "", // Send image without caption
+        caption: text || "",
       });
-
-      await socket.sendPresenceUpdate("paused", jid);
-      console.log(`📤 Sent image to ${jid}`);
+    } else if (videoUrl) {
+      await socket.sendMessage(jid, {
+        video: { url: videoUrl },
+        caption: text || "",
+      });
+    } else if (text) {
+      await socket.sendMessage(jid, { text });
     }
 
-    res.json({
-      success: true,
-      message: `Sent to ${numbers.length} numbers`,
-    });
+    await socket.sendPresenceUpdate("paused", jid);
+
+    console.log(`📤 Sent to ${jid}`);
+    res.json({ success: true });
   } catch (err) {
     console.error("❌ Error:", err.message);
     res.status(500).json({ error: err.message });

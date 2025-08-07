@@ -96,7 +96,7 @@ const ContactListReport = () => {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const result = await response.json();
-      setSendingStatus(`Successfully sent ${result.sentCount} messages!`);
+      setSendingStatus(`Successfully sent ${result.sent} messages!`);
       // You may want to clear selected records after sending
       setSelectedRecords([]);
     } catch (error) {
@@ -553,7 +553,12 @@ const ContactListReport = () => {
                       </td>{" "}
                       {/* Whatsaap No. */}
                       <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
-                        {record[4]}
+                        <a
+                          href={`wa.me/91${record[4]?.trim()}`}
+                          className="text-blue-600 hover:underline"
+                        >
+                          {record[4].trim()}
+                        </a>
                       </td>
                       {/* Category Customer  */}
                       <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">

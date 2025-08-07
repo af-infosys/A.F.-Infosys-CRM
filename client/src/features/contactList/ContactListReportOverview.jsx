@@ -245,7 +245,12 @@ const ContactListReportOverview = () => {
                     </td>{" "}
                     {/* Whatsaap No.  */}
                     <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
-                      {record[4]}
+                      <a
+                        href={`wa.me/91${record[4]?.trim()}`}
+                        className="text-blue-600 hover:underline"
+                      >
+                        {record[4].trim()}
+                      </a>
                     </td>
                     {/* Category Customer  */}
                     <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
