@@ -61,6 +61,7 @@ const ContactListForm = () => {
       budget: "",
       dateOfCall: "",
       meetingDate: "",
+      reminderDate: "",
     },
   ]);
 
@@ -210,8 +211,9 @@ const ContactListForm = () => {
       if (response.ok) {
         console.log("Success:", result.message);
         alert(`Successfully ${isEditMode ? "Updated" : "Sumbited"}!`);
-        isEditMode && navigate(`/customers/report`);
-        navigate("/customers/overview");
+        isEditMode
+          ? navigate(`/customers/report`)
+          : navigate("/customers/overview");
 
         // Reset form only if it's a new submission
         if (!isEditMode) {
@@ -247,6 +249,7 @@ const ContactListForm = () => {
               budget: "",
               dateOfCall: "",
               meetingDate: "",
+              reminderDate: "",
             },
           ]);
         }
@@ -323,6 +326,7 @@ const ContactListForm = () => {
                   budget: "",
                   dateOfCall: "",
                   meetingDate: "",
+                  reminderDate: "",
                 },
               ]);
             }
@@ -339,6 +343,7 @@ const ContactListForm = () => {
                 budget: "",
                 dateOfCall: "",
                 meetingDate: "",
+                reminderDate: "",
               },
             ]);
           }
@@ -402,6 +407,7 @@ const ContactListForm = () => {
         budget: "",
         dateOfCall: "",
         meetingDate: "",
+        reminderDate: "",
       },
     ]);
   };
@@ -875,6 +881,22 @@ const ContactListForm = () => {
                         name="meetingDate"
                         className="form-input"
                         value={call?.meetingDate}
+                        onChange={(e) => handleCallHistoryChange(index, e)}
+                        disabled={isEditMode && formLoading}
+                      />
+                    </div>
+
+                    {/* Field 18 Jilla  / જિલ્લો */}
+                    <div className="form-field">
+                      <label htmlFor="reminderDate" className="form-label">
+                        J{")"} Reminder date: Follow Up. / ગ્રાહકને ફરી કોલ કરવો
+                      </label>
+                      <input
+                        type="date"
+                        id="reminderDate"
+                        name="reminderDate"
+                        className="form-input"
+                        value={call?.reminderDate}
                         onChange={(e) => handleCallHistoryChange(index, e)}
                         disabled={isEditMode && formLoading}
                       />

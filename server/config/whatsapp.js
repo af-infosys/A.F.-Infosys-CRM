@@ -58,9 +58,8 @@ export default async function connectWhatsAPP() {
 }
 
 // ✅ This will be used by your Express API
-
 export async function sendMessageToWhatsApp(req, res) {
-  const { phoneNumber, message = "Hello from the bot!" } = req.body;
+  const { phoneNumber, text, imageUrl, videoUrl } = req.body;
 
   if (!phoneNumber) {
     return res.status(400).json({ error: "Missing phoneNumber" });
@@ -69,20 +68,33 @@ export async function sendMessageToWhatsApp(req, res) {
   try {
     if (!socket) throw new Error("WhatsApp not connected yet");
 
-    const jid = number.includes("@s.whatsapp.net")
-      ? number
-      : number + "@s.whatsapp.net";
+    const jid = phoneNumber.includes("@s.whatsapp.net")
+      ? phoneNumber
+      : phoneNumber + "@s.whatsapp.net";
 
     await socket.sendPresenceUpdate("composing", jid);
-    await new Promise((res) => setTimeout(res, 1000)); // short delay
-    await socket.sendMessage(jid, { message });
+    await new Promise((r) => setTimeout(r, 1000));
+
+    if (imageUrl) {
+      await socket.sendMessage(jid, {
+        image: { url: imageUrl },
+        caption: text || "",
+      });
+    } else if (videoUrl) {
+      await socket.sendMessage(jid, {
+        video: { url: videoUrl },
+        caption: text || "",
+      });
+    } else if (text) {
+      await socket.sendMessage(jid, { text });
+    }
+
     await socket.sendPresenceUpdate("paused", jid);
 
-    console.log(`📤 Sent to ${number}: ${message}`);
-
-    res.json({ success: true, phoneNumber });
+    console.log(`📤 Sent to ${jid}`);
+    res.json({ success: true });
   } catch (err) {
-    console.error("❌ Error sending message:", err.message);
+    console.error("❌ Error:", err.message);
     res.status(500).json({ error: err.message });
   }
 }

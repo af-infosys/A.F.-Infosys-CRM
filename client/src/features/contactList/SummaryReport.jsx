@@ -314,17 +314,16 @@ const SummaryReport = () => {
               )}
             </tbody>
           </table>
-
-          <div className="mt-4 flex justify-end">
-            <button
-              onClick={addSummaryRow}
-              className="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700"
-            >
-              ➕ Add Date-wise Summary Row
-            </button>
-          </div>
         </div>
       )}
+      <div className="mt-4 flex justify-end">
+        <button
+          onClick={addSummaryRow}
+          className="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700"
+        >
+          ➕ Add Date-wise Summary Row
+        </button>
+      </div>
     </div>
   );
 };

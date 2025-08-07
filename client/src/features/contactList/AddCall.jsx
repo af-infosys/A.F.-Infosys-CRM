@@ -22,6 +22,7 @@ const AddCall = () => {
     budget: "",
     dateOfCall: "",
     meetingDate: "",
+    reminderDate: "",
   });
 
   const [callHistory, setCallHistory] = useState([]);
@@ -81,6 +82,7 @@ const AddCall = () => {
           //   budget: "",
           //   dateOfCall: "",
           //   meetingDate: "",
+          //   reminderDate: "",
 
           setCallHistory([]);
           navigate("/customers/report");
@@ -138,7 +140,7 @@ const AddCall = () => {
       if (response.ok) {
         console.log("Success:", result.message);
         alert(`Successfully Sumbited!`);
-        navigate("/customers/overview");
+        navigate("/customers/report");
       } else {
         console.error("Error submitting form:", result.message);
         setError(`Error While Submiting: ${result.message}`);
@@ -291,6 +293,20 @@ const AddCall = () => {
           name="meetingDate"
           className="form-input"
           value={newCall.meetingDate}
+          onChange={handleChange}
+        />
+      </div>
+
+      <div className="form-field">
+        <label htmlFor="reminderDate" className="form-label">
+          10. Reminder date: Follow Up. / ગ્રાહકને ફરી કોલ કરવો
+        </label>
+        <input
+          type="date"
+          id="reminderDate"
+          name="reminderDate"
+          className="form-input"
+          value={newCall.reminderDate}
           onChange={handleChange}
         />
       </div>

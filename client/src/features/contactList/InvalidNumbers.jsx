@@ -370,7 +370,10 @@ const InvalidNumbers = () => {
                       )}
                     </td>{" "}
                     {/* Whatsaap No. */}
-                    <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
+                    <td
+                      className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                      style={{ background: "#ffb3b3b2" }}
+                    >
                       {record[4]}
                     </td>
                     {/* Category Customer  */}
