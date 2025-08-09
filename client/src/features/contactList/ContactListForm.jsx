@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { data, useLocation, useNavigate, useParams } from "react-router-dom";
 
 import "./Form.scss";
 import { useAuth } from "../../config/AuthContext";
 import apiPath from "../../isProduction";
 import customerCategory from "../customerCategoryList";
+import handleShareCall from "./handleShareCall";
 
 const ContactListForm = () => {
   const { user } = useAuth();
@@ -900,6 +901,15 @@ const ContactListForm = () => {
                         onChange={(e) => handleCallHistoryChange(index, e)}
                         disabled={isEditMode && formLoading}
                       />
+                    </div>
+
+                    <div
+                      className="form-field"
+                      onClick={() => handleShareCall(call, formData)}
+                    >
+                      <button className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-colors duration-200">
+                        Share Call Detail
+                      </button>
                     </div>
                   </div>
                 ))

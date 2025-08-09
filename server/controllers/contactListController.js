@@ -385,3 +385,7 @@ export const deleteSheetRecord = async (req, res) => {
     });
   }
 };
+
+export const updateRecievedMessage = async (number, msg) => {};
+
+export const updateSentMessage = async (number, msg) => {};

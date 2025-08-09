@@ -10,8 +10,10 @@ const ContactListReport = () => {
   const [isSelectionMode, setIsSelectionMode] = useState(false);
   const [selectedRecords, setSelectedRecords] = useState([]);
   const [sendingStatus, setSendingStatus] = useState("");
-
   const [invalid, setInvalid] = useState([]);
+
+  // New state to track status for each record
+  const [messageStatuses, setMessageStatuses] = useState({});
 
   const navigate = useNavigate();
 
@@ -73,41 +75,76 @@ const ContactListReport = () => {
 
   const sendMessageToWhatsApp = async () => {
     if (selectedRecords.length === 0) {
-      alert("Please select at least one record to send a message.");
+      // Replaced alert with a more user-friendly UI approach
+      setSendingStatus("Please select at least one record to send a message.");
       return;
     }
 
-    setSendingStatus("Sending messages...");
-    try {
-      const selectedWhatsAppNumbers = records
-        .filter((record) => selectedRecords.includes(record[0]))
-        .map((record) => record[4])
-        .filter(Boolean); // Filter out any empty or null numbers
+    setSendingStatus(
+      `Sending messages to ${selectedRecords.length} contacts...`
+    );
 
-      const response = await fetch(`${await apiPath()}/send-message`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify({ numbers: selectedWhatsAppNumbers }),
-      });
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+    // Create an object to track statuses for each selected record
+    const initialStatuses = {};
+    selectedRecords.forEach((id) => {
+      initialStatuses[id] = "sending";
+    });
+    setMessageStatuses(initialStatuses);
+
+    // Iterate over selected records and send messages one by one
+    for (const recordId of selectedRecords) {
+      const record = records.find((r) => r[0] === recordId);
+      if (!record) continue;
+
+      const number = String(record[4]).trim();
+      const formattedNumber = number.length === 10 ? `91${number}` : number;
+
+      try {
+        const response = await fetch(`${await apiPath()}/send-message`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          // Send a single number per request
+          body: JSON.stringify({
+            number: formattedNumber,
+            imageUrl:
+              "https://afinfosys.netlify.app/server/assets/VisitingCard.jpeg",
+            // text: "Your message here",
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        // Update the status for this specific record to 'sent'
+        setMessageStatuses((prevStatuses) => ({
+          ...prevStatuses,
+          [recordId]: "sent",
+        }));
+      } catch (error) {
+        console.error(`Error sending message to ${formattedNumber}:`, error);
+
+        // On failure, set this specific record to a 'failed' state
+        setMessageStatuses((prevStatuses) => ({
+          ...prevStatuses,
+          [recordId]: "failed",
+        }));
       }
-      const result = await response.json();
-      setSendingStatus(`Successfully sent ${result.sent} messages!`);
-      // You may want to clear selected records after sending
-      setSelectedRecords([]);
-    } catch (error) {
-      console.error("Error sending messages:", error);
-      setSendingStatus("Failed to send messages. Please try again.");
     }
+
+    setSendingStatus(
+      "All messages have been processed. Check individual statuses below."
+    );
+    // Clear selected records after all messages are processed
+    setSelectedRecords([]);
   };
 
   const checkWhatsAppNumbers = async () => {
     if (selectedRecords.length === 0) {
-      alert("Please select at least one record to check.");
+      setSendingStatus("Please select at least one record to check.");
       return;
     }
 
@@ -115,8 +152,7 @@ const ContactListReport = () => {
     try {
       const selectedWhatsAppNumbers = records
         .filter((record) => selectedRecords.includes(record[0]))
-        .map((record) => record[4])
-        .filter(Boolean);
+        .map((record) => String(record[4]).trim());
 
       const response = await fetch(
         `${await apiPath()}/check-whatsapp-numbers`,
@@ -140,7 +176,6 @@ const ContactListReport = () => {
       setSendingStatus(
         `Check complete: ${result?.valid.length} valid numbers found, ${result?.invalid.length} invalid numbers found.`
       );
-      // Optionally, you can log or display the valid numbers
       console.log("Valid WhatsApp numbers:", result?.valid, result?.invalid);
     } catch (error) {
       console.error("Error checking numbers:", error);
@@ -154,6 +189,34 @@ const ContactListReport = () => {
     const numbersString = JSON.stringify(invalid);
     const encodedNumbers = encodeURIComponent(numbersString);
     navigate(`/customers/invalids?numbers=${encodedNumbers}`);
+  };
+
+  // Helper function to get status color and text
+  const getStatusDisplay = (recordId) => {
+    const status = messageStatuses[recordId];
+    if (!status) return null;
+
+    let color = "";
+    let text = "";
+
+    switch (status) {
+      case "sending":
+        color = "text-yellow-500";
+        text = "Sending...";
+        break;
+      case "sent":
+        color = "text-green-500";
+        text = "Done!";
+        break;
+      case "failed":
+        color = "text-red-500";
+        text = "Failed";
+        break;
+      default:
+        return null;
+    }
+
+    return <span className={`${color} font-bold ml-2`}>({text})</span>;
   };
 
   return (
@@ -209,14 +272,20 @@ const ContactListReport = () => {
               <>
                 <button
                   onClick={sendMessageToWhatsApp}
-                  disabled={selectedRecords.length === 0 || !!sendingStatus}
+                  disabled={
+                    selectedRecords.length === 0 ||
+                    Object.values(messageStatuses).includes("sending")
+                  }
                   className="add-btn flex items-center gap-2"
                   style={{
                     fontSize: ".8rem",
                     padding: ".8rem .9rem",
                     background: "green",
                     opacity:
-                      selectedRecords.length === 0 || !!sendingStatus ? 0.5 : 1,
+                      selectedRecords.length === 0 ||
+                      Object.values(messageStatuses).includes("sending")
+                        ? 0.5
+                        : 1,
                   }}
                 >
                   Send Message
@@ -224,14 +293,20 @@ const ContactListReport = () => {
 
                 <button
                   onClick={checkWhatsAppNumbers}
-                  disabled={selectedRecords.length === 0 || !!sendingStatus}
+                  disabled={
+                    selectedRecords.length === 0 ||
+                    !!sendingStatus.includes("Checking")
+                  }
                   className="add-btn flex items-center gap-2"
                   style={{
                     fontSize: ".8rem",
                     padding: ".8rem .9rem",
                     background: "green",
                     opacity:
-                      selectedRecords.length === 0 || !!sendingStatus ? 0.5 : 1,
+                      selectedRecords.length === 0 ||
+                      !!sendingStatus.includes("Checking")
+                        ? 0.5
+                        : 1,
                   }}
                 >
                   Check Valid Numbers
@@ -516,6 +591,7 @@ const ContactListReport = () => {
                             type="checkbox"
                             checked={selectedRecords.includes(record[0])}
                             onChange={() => handleCheckboxChange(record[0])}
+                            disabled={!!messageStatuses[record[0]]}
                           />
                         </td>
                       )}
@@ -552,13 +628,14 @@ const ContactListReport = () => {
                         )}
                       </td>{" "}
                       {/* Whatsaap No. */}
-                      <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
+                      <td className="px-1 py-2 whitespace-normal text-sm text-gray-500 flex items-center">
                         <a
                           href={`https://wa.me/91${record[4]?.trim()}`}
                           className="text-blue-600 hover:underline"
                         >
                           {record[4]?.trim()}
                         </a>
+                        {isSelectionMode && getStatusDisplay(record[0])}
                       </td>
                       {/* Category Customer  */}
                       <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">

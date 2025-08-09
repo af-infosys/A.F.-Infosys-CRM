@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import apiPath from "../../isProduction";
 import { useAuth } from "../../config/AuthContext";
+import handleShareCall from "./handleShareCall";
 
 const AddCall = () => {
   const { user } = useAuth();
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [data, setData] = useState([]);
+  const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -141,6 +142,8 @@ const AddCall = () => {
       if (response.ok) {
         console.log("Success:", result.message);
         alert(`Successfully Sumbited!`);
+
+        handleShareCall(newCall, data);
         navigate("/customers/report");
       } else {
         console.error("Error submitting form:", result.message);
@@ -159,7 +162,11 @@ const AddCall = () => {
       <h2>Add Call Details</h2>
       <h3>Call History</h3>
 
-      <p>{loading ? "Loading..." : data?.customerFullName}</p>
+      <br />
+      <p style={{ fontSize: "2rem", textAlign: "center" }}>
+        {loading ? "Loading..." : data?.customerFullName}
+      </p>
+      <br />
 
       {error && <p className="error">{error}</p>}
 
@@ -311,6 +318,10 @@ const AddCall = () => {
           onChange={handleChange}
         />
       </div>
+
+      {/* <button className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-colors duration-200">
+        Share Call Detail
+      </button> */}
 
       <button type="submit" className="submit-button">
         Submit

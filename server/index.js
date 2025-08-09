@@ -425,8 +425,11 @@ app.get("/get-all-sheet-data", async (req, res) => {
 app.use("/api/sheet", survayRoutes);
 app.use("/api/contactList", ContactListRoutes);
 
-import connectWhatsAPP, { checkWhatsAppNumbers } from "./config/whatsapp.js";
-import { sendMessageToWhatsApp } from "./controllers/sendController.js";
+import connectWhatsAPP, {
+  checkWhatsAppNumbers,
+  sendMessageToWhatsApp,
+} from "./config/whatsapp.js";
+// import { sendMessageToWhatsApp } from "./controllers/sendController.js";
 
 app.post("/send-message", sendMessageToWhatsApp);
 app.post("/check-whatsapp-numbers", checkWhatsAppNumbers);

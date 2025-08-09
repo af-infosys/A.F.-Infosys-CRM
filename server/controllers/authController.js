@@ -11,7 +11,7 @@ const generateToken = (user) => {
       work: user?.work,
     },
     process.env.JWT_SECRET,
-    { expiresIn: "2d" }
+    { expiresIn: "365d" }
   );
 };
 
