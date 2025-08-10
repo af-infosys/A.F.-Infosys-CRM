@@ -32,6 +32,11 @@ const auth = new google.auth.GoogleAuth({
   scopes: ["https://www.googleapis.com/auth/spreadsheets"],
 });
 
+const getSheets = async () => {
+  const client = await auth.getClient();
+  return google.sheets({ version: "v4", auth: client });
+};
+
 export const addSheetRecord = async (req, res) => {
   try {
     // 1. Get the authenticated client
@@ -386,6 +391,155 @@ export const deleteSheetRecord = async (req, res) => {
   }
 };
 
-export const updateRecievedMessage = async (number, msg) => {};
+const normalizeNumber = (number) => {
+  if (!number) return "";
+  const digitsOnly = number.trim().replace(/\D/g, "");
+  if (digitsOnly.length === 10) {
+    return `91${digitsOnly}`;
+  }
+  return digitsOnly;
+};
 
-export const updateSentMessage = async (number, msg) => {};
+// --- Update record with a received message ---
+export const updateRecievedMessage = async (
+  number,
+  text,
+  timestamp,
+  senderName
+) => {
+  try {
+    const googleSheets = await getSheets();
+    const normalizedIncomingNumber = normalizeNumber(number);
+
+    const response = await googleSheets.spreadsheets.values.get({
+      spreadsheetId: SPREADSHEET_ID,
+      range: `${DATA_SHEET}!A5:ZZ`,
+    });
+
+    const records = response.data.values || [];
+
+    const rowIndex = records.findIndex((record) => {
+      const normalizedRecordNumber = normalizeNumber(record[4]);
+      return normalizedRecordNumber === normalizedIncomingNumber;
+    });
+
+    if (rowIndex === -1) {
+      console.error(`Record not found for number: ${number}`);
+      return {
+        message: "Record not found for this number, no update performed.",
+      };
+    }
+
+    const rowNumber = rowIndex + 5;
+    const existingRow = records[rowIndex];
+
+    // Get existing reply history from column P (index 15)
+    let replyHistory = [];
+    try {
+      replyHistory = existingRow[15] ? JSON.parse(existingRow[15]) : [];
+    } catch (e) {
+      console.error("Error parsing existing reply history:", e.message);
+      replyHistory = [];
+    }
+
+    const newMessage = {
+      from: senderName,
+      text: text,
+      timestamp: new Date(timestamp).toISOString(),
+    };
+    replyHistory.push(newMessage);
+
+    const updatedCellData = JSON.stringify(replyHistory);
+    // Update column P
+    const updatedRange = `${DATA_SHEET}!P${rowNumber}`;
+
+    await googleSheets.spreadsheets.values.update({
+      spreadsheetId: SPREADSHEET_ID,
+      range: updatedRange,
+      valueInputOption: "RAW",
+      requestBody: {
+        values: [[updatedCellData]],
+      },
+    });
+
+    return {
+      message: "Reply history updated successfully!",
+      updatedMessage: newMessage,
+    };
+  } catch (error) {
+    console.error("Error updating reply history:", error.message);
+    throw new Error("Failed to update record with new message.");
+  }
+};
+
+// --- Update record with a sent message ---
+export const updateSentMessage = async (
+  number,
+  text,
+  timestamp,
+  senderName
+) => {
+  try {
+    const googleSheets = await getSheets();
+    const normalizedIncomingNumber = normalizeNumber(number);
+
+    const response = await googleSheets.spreadsheets.values.get({
+      spreadsheetId: SPREADSHEET_ID,
+      range: `${DATA_SHEET}!A5:ZZ`,
+    });
+
+    const records = response.data.values || [];
+
+    const rowIndex = records.findIndex((record) => {
+      const normalizedRecordNumber = normalizeNumber(record[4]);
+      return normalizedRecordNumber === normalizedIncomingNumber;
+    });
+
+    if (rowIndex === -1) {
+      console.error(`Record not found for number: ${number}`);
+      return {
+        message: "Record not found for this number, no update performed.",
+      };
+    }
+
+    const rowNumber = rowIndex + 5;
+    const existingRow = records[rowIndex];
+
+    // Get existing sent history from column O (index 14)
+    let sentHistory = [];
+    try {
+      sentHistory = existingRow[14] ? JSON.parse(existingRow[14]) : [];
+    } catch (e) {
+      console.error("Error parsing existing sent history:", e.message);
+      sentHistory = [];
+    }
+
+    const newMessage = {
+      from: senderName,
+      text: text,
+      timestamp: new Date(timestamp).toISOString(),
+    };
+    sentHistory.push(newMessage);
+
+    const updatedCellData = JSON.stringify(sentHistory);
+    // Update column O
+    const updatedRange = `${DATA_SHEET}!O${rowNumber}`;
+
+    await googleSheets.spreadsheets.values.update({
+      spreadsheetId: SPREADSHEET_ID,
+      range: updatedRange,
+      valueInputOption: "RAW",
+      requestBody: {
+        values: [[updatedCellData]],
+      },
+    });
+
+    return {
+      message: "Reply history updated successfully!",
+      updatedMessage: newMessage,
+    };
+  } catch (error) {
+    console.error("Error updating reply history:", error.message);
+    throw new Error("Failed to update record with new message.");
+  }
+};

@@ -70,6 +70,10 @@ import {
 } from "@whiskeysockets/baileys";
 import qrcode from "qrcode-terminal";
 import { Boom } from "@hapi/boom"; // Import Boom for better error handling
+import {
+  updateRecievedMessage,
+  updateSentMessage,
+} from "../controllers/contactListController.js";
 
 let socket;
 const store = {};
@@ -78,6 +82,31 @@ const lastMessageMap = new Map(); // 🆕 Store last message per user
 const getMessage = (key) => {
   const { id } = key;
   return store[id]?.message;
+};
+
+// --- Helper function to get message content ---
+const extractMessageContent = (msg) => {
+  // Check for various message types
+  if (msg.message?.extendedTextMessage?.text) {
+    return msg.message.extendedTextMessage.text;
+  }
+  if (msg.message?.conversation) {
+    return msg.message.conversation;
+  }
+  if (msg.message?.imageMessage) {
+    return "[Image]";
+  }
+  if (msg.message?.videoMessage) {
+    return "[Video]";
+  }
+  if (msg.message?.audioMessage) {
+    return "[Audio]";
+  }
+  if (msg.message?.documentMessage) {
+    return "[Document]";
+  }
+  // Fallback for other message types or no content
+  return "";
 };
 
 // 🔌 Start WhatsApp Connection
@@ -155,77 +184,110 @@ export default async function connectWhatsAPP() {
 
       // ✅ 2. Skip messages sent before bot started
       if (messageTimestamp < BOT_START_TIME) {
-        // console.log("⏩ Old message ignored:", extractMessageText(msg));
         continue;
       }
 
       // ✅ 3. Skip already seen messages
       if (isMessageSeen(key.id)) {
-        // console.log("👀 Already replied:", extractMessageText(msg));
         continue;
       }
 
-      // ✅ 4. Extract text
-      const text = extractMessageText(msg);
-      if (!text) return;
+      // ✅ NEW: Use the new helper to get content for any message type
+      const content = extractMessageContent(msg);
+      if (!content) {
+        console.log("Skipping message with no readable content:", key.id);
+        continue;
+      }
 
-      console.log(`📩 Message from ${sender}: "${text}"`);
+      const number = jid.split("@")[0];
 
-      // 🧠 Store user message in conversation history
-      const history = conversationMemory.get(jid) || [];
-      history.push({ role: "user", content: text });
-      if (history.length > MAX_HISTORY) history.shift();
-      conversationMemory.set(jid, history);
-
-      // ✅ 7. Delay reply logic (core update)
-      pendingMessages.set(jid, [
-        ...(pendingMessages.get(jid) || []),
-        { id: key.id, msg, timestamp: Date.now() },
-      ]);
-
-      // Delay bot reply
-      // Start typing while waiting
-      await socket.sendPresenceUpdate("composing", jid);
-
-      setTimeout(async () => {
-        const pendings = pendingMessages.get(jid);
-        if (!pendings) return;
-
-        const current = pendings.find((m) => m.id === key.id);
-        if (!current) return;
-
-        const lastManual = recentActivityMap.get(jid);
-        if (lastManual && lastManual > current.timestamp) {
-          console.log(
-            "🙈 Skipping bot reply (manual reply came in time):",
-            text
+      // Use an if/else block to track messages based on who sent them
+      if (key.fromMe) {
+        // Track messages sent by us
+        try {
+          const result = await updateSentMessage(
+            number,
+            content,
+            messageTimestamp * 1000,
+            sender
           );
+          console.log(
+            "✅ Google Sheet update for SENT message success:",
+            result
+          );
+        } catch (e) {
+          console.error(
+            "❌ Failed to update Google Sheet with sent message:",
+            e.message
+          );
+        }
+        console.log(`➡️ Message to ${sender}: "${content}"`);
+      } else {
+        // Track messages received from a customer
+        try {
+          const result = await updateRecievedMessage(
+            number,
+            content,
+            messageTimestamp * 1000,
+            sender
+          );
+          console.log(
+            "✅ Google Sheet update for RECEIVED message success:",
+            result
+          );
+        } catch (e) {
+          console.error(
+            "❌ Failed to update Google Sheet with new message:",
+            e.message
+          );
+        }
+        console.log(`📩 Message from ${sender}: "${content}"`);
+
+        // 🧠 Store user message in conversation history
+        const history = conversationMemory.get(jid) || [];
+        history.push({ role: "user", content: content });
+        if (history.length > MAX_HISTORY) history.shift();
+        conversationMemory.set(jid, history);
+
+        // ✅ 7. Delay reply logic (core update)
+        pendingMessages.set(jid, [
+          ...(pendingMessages.get(jid) || []),
+          { id: key.id, msg, timestamp: Date.now() },
+        ]);
+
+        await socket.sendPresenceUpdate("composing", jid);
+
+        setTimeout(async () => {
+          const pendings = pendingMessages.get(jid);
+          if (!pendings) return;
+
+          const current = pendings.find((m) => m.id === key.id);
+          if (!current) return;
+
+          const lastManual = recentActivityMap.get(jid);
+          if (lastManual && lastManual > current.timestamp) {
+            console.log(
+              "🙈 Skipping bot reply (manual reply came in time):",
+              content
+            );
+            pendingMessages.set(
+              jid,
+              pendings.filter((m) => m.id !== key.id)
+            );
+
+            await socket.sendPresenceUpdate("paused", jid);
+            return;
+          }
+
+          recentActivityMap.set(jid, Date.now());
+
           pendingMessages.set(
             jid,
             pendings.filter((m) => m.id !== key.id)
           );
-
-          // Stop typing since we won't reply
           await socket.sendPresenceUpdate("paused", jid);
-          return;
-        }
-
-        // const reply = await fetchGeminiReply(sender, jid);
-        // const reply = `Hello, ${sender}`;
-        // await socket.sendMessage(jid, { text: reply }, { quoted: msg });
-
-        recentActivityMap.set(jid, Date.now());
-        // console.log(`🤖 Replied to ${sender}: "${reply}"`);
-
-        // Clean up and stop typing
-        pendingMessages.set(
-          jid,
-          pendings.filter((m) => m.id !== key.id)
-        );
-        await socket.sendPresenceUpdate("paused", jid);
-      }, DELAY_REPLY_MS);
-
-      //
+        }, DELAY_REPLY_MS);
+      }
     }
   });
 
