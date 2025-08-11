@@ -763,7 +763,7 @@ const ContactListForm = () => {
 
                     <div className="form-field">
                       <label htmlFor="clientAnswer" className="form-label">
-                        c{")"} જવાબ શું આપ્યો કસ્ટમર / ગ્રાહક
+                        c{")"} ગ્રાહકે શું જવાબ આપ્યો
                       </label>
                       <input
                         type="text"

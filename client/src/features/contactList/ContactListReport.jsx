@@ -73,9 +73,33 @@ const ContactListReport = () => {
     }
   };
 
+  const handleSelectByTaluka = (taluka) => {
+    // Find all record IDs that match the given taluka
+    const recordsToSelect = records
+      .filter((record) => record[8]?.trim() === taluka?.trim())
+      .map((record) => record[0]);
+
+    // Check if all of these records are already selected
+    const allAreSelected = recordsToSelect.every((id) =>
+      selectedRecords.includes(id)
+    );
+
+    // If all are selected, unselect them. Otherwise, add them to the selection.
+    if (allAreSelected) {
+      setSelectedRecords((prevSelected) =>
+        prevSelected.filter((id) => !recordsToSelect.includes(id))
+      );
+    } else {
+      setSelectedRecords((prevSelected) => {
+        const newSelected = new Set(prevSelected);
+        recordsToSelect.forEach((id) => newSelected.add(id));
+        return Array.from(newSelected);
+      });
+    }
+  };
+
   const sendMessageToWhatsApp = async () => {
     if (selectedRecords.length === 0) {
-      // Replaced alert with a more user-friendly UI approach
       setSendingStatus("Please select at least one record to send a message.");
       return;
     }
@@ -84,14 +108,12 @@ const ContactListReport = () => {
       `Sending messages to ${selectedRecords.length} contacts...`
     );
 
-    // Create an object to track statuses for each selected record
     const initialStatuses = {};
     selectedRecords.forEach((id) => {
       initialStatuses[id] = "sending";
     });
     setMessageStatuses(initialStatuses);
 
-    // Iterate over selected records and send messages one by one
     for (const recordId of selectedRecords) {
       const record = records.find((r) => r[0] === recordId);
       if (!record) continue;
@@ -106,12 +128,10 @@ const ContactListReport = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-          // Send a single number per request
           body: JSON.stringify({
             number: formattedNumber,
             imageUrl:
               "https://afinfosys.netlify.app/server/assets/VisitingCard.jpeg",
-            // text: "Your message here",
           }),
         });
 
@@ -119,7 +139,6 @@ const ContactListReport = () => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        // Update the status for this specific record to 'sent'
         setMessageStatuses((prevStatuses) => ({
           ...prevStatuses,
           [recordId]: "sent",
@@ -127,7 +146,6 @@ const ContactListReport = () => {
       } catch (error) {
         console.error(`Error sending message to ${formattedNumber}:`, error);
 
-        // On failure, set this specific record to a 'failed' state
         setMessageStatuses((prevStatuses) => ({
           ...prevStatuses,
           [recordId]: "failed",
@@ -138,7 +156,6 @@ const ContactListReport = () => {
     setSendingStatus(
       "All messages have been processed. Check individual statuses below."
     );
-    // Clear selected records after all messages are processed
     setSelectedRecords([]);
   };
 
@@ -191,7 +208,6 @@ const ContactListReport = () => {
     navigate(`/customers/invalids?numbers=${encodedNumbers}`);
   };
 
-  // Helper function to get status color and text
   const getStatusDisplay = (recordId) => {
     const status = messageStatuses[recordId];
     if (!status) return null;
@@ -221,7 +237,10 @@ const ContactListReport = () => {
 
   return (
     <>
-      <div className="container mx-auto p-2 sm:p-6 lg:p-8">
+      <div
+        className="container mx-auto p-2 sm:p-6 lg:p-8"
+        style={{ paddingBottom: `${isSelectionMode ? "300px" : "100px"}` }}
+      >
         <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">
           Customer List Report [ C. L . R. ] / ટેલીકોલર ફોર્મ દરરોજ ફોન કરેલ
           યાદી
@@ -262,12 +281,29 @@ const ContactListReport = () => {
           <button
             className="add-btn"
             onClick={() => navigate("/customers/form")}
-            style={{ fontSize: ".8rem", padding: ".8rem .9rem" }}
+            style={{ fontSize: ".8rem", padding: ".8rem .9rem", margin: "0" }}
           >
             Add New Customer Record
           </button>
 
-          <div style={{ display: "flex", gap: ".4rem", flexWrap: "wrap" }}>
+          <div
+            style={
+              isSelectionMode
+                ? {
+                    position: "fixed",
+                    bottom: "0",
+                    left: "0",
+                    width: "100vw",
+                    padding: "1rem",
+                    background: "white",
+                    zIndex: 100,
+                    display: "flex",
+                    gap: ".4rem",
+                    flexWrap: "wrap",
+                  }
+                : { display: "flex", gap: ".4rem", flexWrap: "wrap" }
+            }
+          >
             {isSelectionMode ? (
               <>
                 <button
@@ -281,6 +317,7 @@ const ContactListReport = () => {
                     fontSize: ".8rem",
                     padding: ".8rem .9rem",
                     background: "green",
+                    margin: "0",
                     opacity:
                       selectedRecords.length === 0 ||
                       Object.values(messageStatuses).includes("sending")
@@ -302,6 +339,8 @@ const ContactListReport = () => {
                     fontSize: ".8rem",
                     padding: ".8rem .9rem",
                     background: "green",
+                    margin: "0",
+
                     opacity:
                       selectedRecords.length === 0 ||
                       !!sendingStatus.includes("Checking")
@@ -317,9 +356,21 @@ const ContactListReport = () => {
             <button
               onClick={() => setIsSelectionMode(!isSelectionMode)}
               className="add-btn flex items-center gap-2"
-              style={{ fontSize: ".8rem", padding: ".8rem .9rem" }}
+              style={{
+                fontSize: ".8rem",
+                padding: ".8rem .9rem",
+
+                margin: "0",
+              }}
             >
-              {isSelectionMode ? "Exit Selection" : "Select Records"}
+              {isSelectionMode ? (
+                <p>
+                  Exit Selection{" "}
+                  <b style={{ fontSize: "1rem" }}>{selectedRecords.length}</b>
+                </p>
+              ) : (
+                "Select Records"
+              )}
               {!isSelectionMode && (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -650,7 +701,17 @@ const ContactListReport = () => {
                         {record[7]}
                       </td>
                       {/* Taluko  */}
-                      <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
+                      <td
+                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                        onClick={() =>
+                          isSelectionMode &&
+                          record[8] &&
+                          handleSelectByTaluka(record[8])
+                        }
+                        style={{
+                          cursor: isSelectionMode ? "pointer" : "default",
+                        }}
+                      >
                         {record[8]}
                       </td>
                       {/* Jilla  */}
@@ -787,7 +848,7 @@ const ContactListReport = () => {
                 {records.length === 0 && !loading && !error && (
                   <tr>
                     <td
-                      colSpan={isSelectionMode ? "23" : "22"}
+                      colSpan="25"
                       className="px-6 py-4 text-center text-gray-500"
                     >
                       No Records Found!
