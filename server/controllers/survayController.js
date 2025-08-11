@@ -7,11 +7,6 @@ import { google } from "googleapis";
 function buildPropertyDescription(formData) {
   const descriptionParts = [];
 
-  /**
-   * અરબી અંકોને ગુજરાતી અંકોમાં રૂપાંતરિત કરે છે.
-   * @param {number|string} number - રૂપાંતરિત કરવાની સંખ્યા.
-   * @returns {string} ગુજરાતી અંકોમાં રૂપાંતરિત થયેલ સ્ટ્રિંગ.
-   */
   const convertToArabicToGujaratiNumerals = (number) => {
     const arabicNumerals = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
     const gujaratiNumerals = ["૦", "૧", "૨", "૩", "૪", "૫", "૬", "૭", "૮", "૯"];
@@ -29,39 +24,46 @@ function buildPropertyDescription(formData) {
   if (formData.floors && formData.floors.length > 0) {
     formData.floors.forEach((floor, index) => {
       // દરેક માળ માટે રૂમના પ્રકારો અને સંખ્યાઓનું વર્ણન
-      // ખાતરી કરો કે slabRooms, tinRooms, woodenRooms, tileRooms નંબર તરીકે છે
-      const slabRoomsNum = Number(floor.slabRooms);
-      const tinRoomsNum = Number(floor.tinRooms);
-      const woodenRoomsNum = Number(floor.woodenRooms);
-      const tileRoomsNum = Number(floor.tileRooms);
+      // હવે રૂમના પ્રકારો માટે nested લૂપનો ઉપયોગ કરો
 
-      if (slabRoomsNum > 0) {
-        descriptionParts.push(
-          `${floor.type} સ્લેબવાળા ${
-            floor.roomHallShopGodown
-          }-${convertToArabicToGujaratiNumerals(slabRoomsNum)}`
-        );
-      }
-      if (tinRoomsNum > 0) {
-        descriptionParts.push(
-          `${floor.type} પતરાવાળી ${
-            floor.roomHallShopGodown
-          }-${convertToArabicToGujaratiNumerals(tinRoomsNum)}`
-        );
-      }
-      if (woodenRoomsNum > 0) {
-        descriptionParts.push(
-          `${floor.type} પીઢીયાવાળી ${
-            floor.roomHallShopGodown
-          }-${convertToArabicToGujaratiNumerals(woodenRoomsNum)}`
-        );
-      }
-      if (tileRoomsNum > 0) {
-        descriptionParts.push(
-          `${floor.type} નળિયાવાળી ${
-            floor.roomHallShopGodown
-          }-${convertToArabicToGujaratiNumerals(tileRoomsNum)}`
-        );
+      if (floor.roomDetails && floor.roomDetails.length > 0) {
+        floor.roomDetails.forEach((room) => {
+          // ખાતરી કરો કે સંખ્યાઓ યોગ્ય રીતે રૂપાંતરિત થાય છે
+          const slabRoomsNum = Number(room.slabRooms);
+          const tinRoomsNum = Number(room.tinRooms);
+          const woodenRoomsNum = Number(room.woodenRooms);
+          const tileRoomsNum = Number(room.tileRooms);
+          const floorType = floor.type; // પાકા / કાચા
+
+          if (slabRoomsNum > 0) {
+            descriptionParts.push(
+              `${floorType} સ્લેબવાળા ${
+                room.roomHallShopGodown
+              }-${convertToArabicToGujaratiNumerals(slabRoomsNum)}`
+            );
+          }
+          if (tinRoomsNum > 0) {
+            descriptionParts.push(
+              `${floorType} પતરાવાળી ${
+                room.roomHallShopGodown
+              }-${convertToArabicToGujaratiNumerals(tinRoomsNum)}`
+            );
+          }
+          if (woodenRoomsNum > 0) {
+            descriptionParts.push(
+              `${floorType} પીઢીયાવાળી ${
+                room.roomHallShopGodown
+              }-${convertToArabicToGujaratiNumerals(woodenRoomsNum)}`
+            );
+          }
+          if (tileRoomsNum > 0) {
+            descriptionParts.push(
+              `${floorType} નળિયાવાળી ${
+                room.roomHallShopGodown
+              }-${convertToArabicToGujaratiNumerals(tileRoomsNum)}`
+            );
+          }
+        });
       }
     });
   }
@@ -88,18 +90,18 @@ function buildPropertyDescription(formData) {
   }
 
   // નળની ગણતરી
-  if (formData.tapCount > 0) {
-    descriptionParts.push(
-      `નળ-${convertToArabicToGujaratiNumerals(formData.tapCount)}`
-    );
-  }
+  // if (formData.tapCount > 0) {
+  //   descriptionParts.push(
+  //     `નળ-${convertToArabicToGujaratiNumerals(formData.tapCount)}`
+  //   );
+  // }
 
-  // શોચાલયની ગણતરી
-  if (formData.toiletCount > 0) {
-    descriptionParts.push(
-      `શોચાલય-${convertToArabicToGujaratiNumerals(formData.toiletCount)}`
-    );
-  }
+  // // શોચાલયની ગણતરી
+  // if (formData.toiletCount > 0) {
+  //   descriptionParts.push(
+  //     `શોચાલય-${convertToArabicToGujaratiNumerals(formData.toiletCount)}`
+  //   );
+  // }
 
   // બધા ભાગોને કોમા અને સ્પેસથી જોડો
   return descriptionParts.join(", ");
@@ -358,6 +360,8 @@ export const editSheetRecord = async (req, res) => {
       floors,
     } = req.body;
 
+    const description = buildPropertyDescription(req.body);
+
     const updatedRow = [
       serialNumber,
       areaName,
@@ -374,6 +378,7 @@ export const editSheetRecord = async (req, res) => {
       toiletCount,
       remarks,
       JSON.stringify(floors), // Floors stored as JSON string
+      description,
     ];
 
     // Update the sheet row
