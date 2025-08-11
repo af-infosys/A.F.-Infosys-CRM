@@ -487,7 +487,7 @@ const ContactListForm = () => {
           {/* Field 2: મિલ્કત ક્રમાંક */}
           <div className="form-field">
             <label htmlFor="customerFullName" className="form-label">
-              2. Customer Full Name / કસ્ટમર & ગ્રાહકનું પુરૂ નામ
+              2. કસ્ટમર & ગ્રાહકનું પુરૂ નામ
             </label>
             <input
               type="text"
@@ -505,7 +505,7 @@ const ContactListForm = () => {
           {/* Field 4: માલિકનું નામ */}
           <div className="form-field">
             <label htmlFor="mobileNo" className="form-label">
-              3. Mobile No. / મોબાઈલ નંબર
+              3. મોબાઈલ નંબર
             </label>
             <input
               type="text"
@@ -522,7 +522,7 @@ const ContactListForm = () => {
           {/* Field 5: જુનો મિલકત નંબર */}
           <div className="form-field">
             <label htmlFor="whatsaapNo" className="form-label">
-              4. Whatsaap No. / વોટસેઅપ નબંર
+              4. વોટસેઅપ નબંર
             </label>
             <input
               type="text"
@@ -556,7 +556,7 @@ const ContactListForm = () => {
           {/* Field 5: મકાન category */}
           <div className="form-field">
             <label htmlFor="category" className="form-label">
-              5. Category Customer / કેટેગરી
+              5. કેટેગરી
             </label>
             <select
               id="category"
@@ -583,7 +583,7 @@ const ContactListForm = () => {
         {/* Field 7: મિલ્ક્ત પર લખેલ નામ મકાન/દુકાન/ કારખાના/ કંપનીનું નામ */}
         <div className="form-field md:col-span-2">
           <label htmlFor="village" className="form-label">
-            6. Village / ગામ
+            6. ગામ
           </label>
           <input
             list="village-options"
@@ -607,7 +607,7 @@ const ContactListForm = () => {
         {/* Field 7: મોબાઈલ નંબર */}
         <div className="form-field">
           <label htmlFor="villageOfCharge" className="form-label">
-            7. Village of charge / ચાર્જ નું ગામ
+            7. ચાર્જ નું ગામ
           </label>
           <input
             type="text"
@@ -623,7 +623,7 @@ const ContactListForm = () => {
         {/* Field 8: Jilla  / જિલ્લો */}
         <div className="form-field">
           <label htmlFor="taluko" className="form-label">
-            8. Taluko / તાલુકો
+            8. તાલુકો
           </label>
           <input
             list="taluka-options"
@@ -646,7 +646,7 @@ const ContactListForm = () => {
         {/* Field 8: Jilla  / જિલ્લો */}
         <div className="form-field">
           <label htmlFor="jilla" className="form-label">
-            9. Jilla / જિલ્લો
+            9. જિલ્લો
           </label>
           <input
             list="district-options"
@@ -731,8 +731,7 @@ const ContactListForm = () => {
                     {/* Field 8: What business did you call for */}
                     <div className="form-field">
                       <label htmlFor="whatBusiness" className="form-label">
-                        A{")"} What business did you call for? / કયુ કામ વસ્તુ
-                        માટે ફોન કરેલ
+                        A{")"} કયુ કામ વસ્તુ માટે ફોન કરેલ
                       </label>
                       <input
                         type="text"
@@ -748,8 +747,7 @@ const ContactListForm = () => {
 
                     <div className="form-field">
                       <label htmlFor="workVillage" className="form-label">
-                        B{")"} Which village do you want to work for ? / કયા
-                        ગામનું કામ કરવાનું છે
+                        B{")"} કયા ગામનું કામ કરવાનું છે
                       </label>
                       <input
                         type="text"
@@ -765,8 +763,7 @@ const ContactListForm = () => {
 
                     <div className="form-field">
                       <label htmlFor="clientAnswer" className="form-label">
-                        c{")"} What did the customer/client answer ? / જવાબ શું
-                        આપ્યો કસ્ટમર / ગ્રાહક
+                        c{")"} જવાબ શું આપ્યો કસ્ટમર / ગ્રાહક
                       </label>
                       <input
                         type="text"
@@ -782,8 +779,7 @@ const ContactListForm = () => {
 
                     <div className="form-field">
                       <label htmlFor="numberOfHouses" className="form-label">
-                        D{")"} How many households/villages are there? / ઘર/
-                        ખાતા ગામના કેટલા છે
+                        D{")"} ઘર/ખાતા ગામના કેટલા છે
                       </label>
                       <input
                         type="text"
@@ -799,7 +795,7 @@ const ContactListForm = () => {
 
                     <div className="form-field">
                       <label htmlFor="price" className="form-label">
-                        E{")"} Price per household account / ભાવ ઘર ખાતા દીઠ
+                        E{")"} ભાવ ઘર ખાતા દીઠ
                       </label>
                       <input
                         type="text"
@@ -815,7 +811,7 @@ const ContactListForm = () => {
                     {/* Field 15: Jilla  / જિલ્લો */}
                     <div className="form-field">
                       <label htmlFor="estimatedBill" className="form-label">
-                        F{")"} Estimated bill amount Rs. / અંદાજીત બીલ રકમ રૂ
+                        F{")"} અંદાજીત બીલ રકમ રૂ
                       </label>
                       <input
                         type="text"
@@ -838,9 +834,7 @@ const ContactListForm = () => {
                     {/* Field 16: Jilla  / જિલ્લો */}
                     <div className="form-field">
                       <label htmlFor="budget" className="form-label">
-                        G{")"} How much money can the customer afford to pay for
-                        the house/account? / કસ્ટમરને કેટલા પૈસા સુધી પોસાય
-                        ઘર/ખાતા
+                        G{")"} કસ્ટમરને કેટલા પૈસા સુધી પોસાય ઘર/ખાતા
                       </label>
                       <input
                         type="text"
@@ -856,8 +850,7 @@ const ContactListForm = () => {
                     {/* Field 17: Jilla  / જિલ્લો */}
                     <div className="form-field">
                       <label htmlFor="dateOfCall" className="form-label">
-                        H{")"} Date of call Telecaller / ફોન કર્યા તારીખ
-                        ટેલીકોલર
+                        H{")"} ફોન કર્યા તારીખ ટેલીકોલર
                       </label>
                       <input
                         type="date"
@@ -873,8 +866,7 @@ const ContactListForm = () => {
                     {/* Field 18 Jilla  / જિલ્લો */}
                     <div className="form-field">
                       <label htmlFor="meetingDate" className="form-label">
-                        I{")"} Meeting date: Meet in person. / મીટીંગ તારીખ
-                        રૂબરુ મળવા જવુ
+                        I{")"} મીટીંગ તારીખ રૂબરુ મળવા જવુ
                       </label>
                       <input
                         type="date"
@@ -890,7 +882,7 @@ const ContactListForm = () => {
                     {/* Field 18 Jilla  / જિલ્લો */}
                     <div className="form-field">
                       <label htmlFor="reminderDate" className="form-label">
-                        J{")"} Reminder date: Follow Up. / ગ્રાહકને ફરી કોલ કરવો
+                        J{")"} ગ્રાહકને ફરી કોલ કરવો
                       </label>
                       <input
                         type="date"
@@ -922,7 +914,7 @@ const ContactListForm = () => {
         {/* Field 11: Date the List was Created in the office ઑફીસમા યાદી બનાવેલ તારીખ */}
         <div className="form-field">
           <label htmlFor="listCreated" className="form-label">
-            11. Date the List was Created in the office ઑફીસમા યાદી બનાવેલ તારીખ
+            11. ઑફીસમા યાદી બનાવેલ તારીખ
           </label>
           <input
             type="date"
@@ -938,7 +930,7 @@ const ContactListForm = () => {
         {/* Field 11: Date the List was Created in the office ઑફીસમા યાદી બનાવેલ તારીખ */}
         <div className="form-field">
           <label htmlFor="listCreated" className="form-label">
-            12. Date Received By the Company કમ્પની ને મળેલ તારીખ
+            12. કમ્પની ને મળેલ તારીખ
           </label>
           <input
             type="date"

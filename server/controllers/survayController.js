@@ -33,7 +33,7 @@ function buildPropertyDescription(formData) {
           const tinRoomsNum = Number(room.tinRooms);
           const woodenRoomsNum = Number(room.woodenRooms);
           const tileRoomsNum = Number(room.tileRooms);
-          const floorType = floor.type; // પાકા / કાચા
+          const floorType = room.type; // પાકા / કાચા
 
           if (slabRoomsNum > 0) {
             descriptionParts.push(
