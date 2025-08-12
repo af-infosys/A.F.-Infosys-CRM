@@ -2,11 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Report.scss";
 import apiPath from "../../isProduction";
+import { useAuth } from "../../config/AuthContext";
 
 const ContactListReportOverview = () => {
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const { user } = useAuth();
 
   const navigate = useNavigate();
 
@@ -322,13 +325,16 @@ const ContactListReportOverview = () => {
                         Edit
                       </button>
 
-                      <button
-                        onClick={() => handleDelete(record[0])}
-                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
-                        style={{ whiteSpace: "nowrap", fontSize: "10px" }}
-                      >
-                        Delete
-                      </button>
+                      {(user.name === survayorData?.name ||
+                        user.role === "owner") && (
+                        <button
+                          onClick={() => handleDelete(record[0])}
+                          className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
+                          style={{ whiteSpace: "nowrap", fontSize: "10px" }}
+                        >
+                          Delete
+                        </button>
+                      )}
                     </td>
                   </tr>
                 );

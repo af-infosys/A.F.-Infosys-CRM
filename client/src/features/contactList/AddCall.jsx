@@ -98,7 +98,7 @@ const AddCall = () => {
       setError(
         "Error Fetching Records! Try Again Later. OR Contact the Admin."
       );
-      navigate("/customers/report");
+      // navigate("/customers/report");
     } finally {
       setLoading(false);
     }
@@ -107,7 +107,7 @@ const AddCall = () => {
   useEffect(() => {
     if (!id) navigate("/customers/report");
     fetchRecords();
-  }, [fetchRecords, id, navigate]);
+  }, []);
 
   const handleChange = async (e) => {
     const { name, value } = e.target;

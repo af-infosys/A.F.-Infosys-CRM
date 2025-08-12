@@ -481,6 +481,7 @@ const ContactListForm = () => {
               onChange={handleChange}
               disabled={isEditMode && formLoading}
               required
+              style={{ maxWidth: "100px" }}
             />
           </div>
 

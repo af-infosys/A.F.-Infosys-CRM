@@ -17,6 +17,7 @@ import AddCall from "../features/contactList/AddCall";
 import SummaryReport from "../features/contactList/SummaryReport";
 import InvalidNumbers from "../features/contactList/InvalidNumbers";
 import RemindersReport from "../features/contactList/RemindersReport";
+import SurvayReport from "../features/survay/SurvayReport";
 
 export default function AppRoutes() {
   return (
@@ -55,6 +56,15 @@ export default function AppRoutes() {
         <Route path="/customers/reminders" element={<RemindersReport />} />
 
         <Route path="/orders" element={<OrderValuation />} />
+
+        <Route
+          path="/survay"
+          element={
+            <ProtectedRoute allowedRoles={["owner"]}>
+              <SurvayReport />
+            </ProtectedRoute>
+          }
+        />
 
         <Route
           path="/staff/manage"
