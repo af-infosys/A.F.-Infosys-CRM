@@ -14,6 +14,7 @@ const AddCall = () => {
   const [error, setError] = useState(null);
 
   const [newCall, setNewCall] = useState({
+    incoming: false,
     whatBusiness: "",
     workVillage: "",
     clientAnswer: "",
@@ -117,6 +118,15 @@ const AddCall = () => {
     }));
   };
 
+  const handleCheckboxChange = (e) => {
+    const { name, checked } = e.target;
+
+    setNewCall((prev) => ({
+      ...prev,
+      [name]: checked,
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -170,9 +180,37 @@ const AddCall = () => {
 
       {error && <p className="error">{error}</p>}
 
+      <div
+        className="form-field"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "start",
+          gap: "1rem",
+        }}
+      >
+        <label
+          htmlFor={`incoming`}
+          className="form-label"
+          style={{ whiteSpace: "nowrap", userSelect: "none" }}
+        >
+          Incoming Call / આવેલ
+        </label>
+        <input
+          type="checkbox"
+          id={`incoming`}
+          name="incoming"
+          className="form-input"
+          checked={newCall?.incoming || false}
+          onChange={handleCheckboxChange}
+          style={{ margin: "none", maxWidth: "fit-content" }}
+        />
+      </div>
+
       <div className="form-field">
         <label htmlFor="whatBusiness" className="form-label">
-          1. What business did you call for? / કયુ કામ વસ્તુ માટે ફોન કરેલ
+          A{") "} {/* What business did you call for?  */}
+          કયુ કામ વસ્તુ માટે ફોન કરેલ
         </label>
         <input
           type="text"
@@ -186,7 +224,8 @@ const AddCall = () => {
 
       <div className="form-field">
         <label htmlFor="workVillage" className="form-label">
-          2. Which village do you want to work for ? / કયા ગામનું કામ કરવાનું છે
+          B{") "} {/* Which village do you want to work for ? */}
+          કયા ગામનું કામ કરવાનું છે
         </label>
         <input
           type="text"
@@ -195,13 +234,15 @@ const AddCall = () => {
           className="form-input"
           value={newCall.workVillage}
           onChange={handleChange}
+          style={{ maxWidth: "200px" }}
         />
       </div>
 
       <div className="form-field">
         <label htmlFor="clientAnswer" className="form-label">
-          3. What did the customer/client answer ? / જવાબ શું આપ્યો કસ્ટમર /
-          ગ્રાહક
+          C{") "}
+          {/* What did the customer/client answer ? / */}
+          જવાબ શું આપ્યો કસ્ટમર / ગ્રાહક
         </label>
         <input
           type="text"
@@ -213,110 +254,155 @@ const AddCall = () => {
         />
       </div>
 
-      <div className="form-field">
-        <label htmlFor="numberOfHouses" className="form-label">
-          4. How many households/villages are there? / ઘર/ ખાતા ગામના કેટલા છે
-        </label>
-        <input
-          type="text"
-          id="numberOfHouses"
-          name="numberOfHouses"
-          className="form-input"
-          value={newCall.numberOfHouses}
-          onChange={handleChange}
-        />
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: ".5rem",
+        }}
+      >
+        <div className="form-field" style={{ maxWidth: "100px" }}>
+          <label htmlFor="numberOfHouses" className="form-label">
+            D{") "} {/* How many households/villages are there? / */}
+            ઘર/ ખાતા ગામના કેટલા છે
+          </label>
+          <input
+            type="text"
+            id="numberOfHouses"
+            name="numberOfHouses"
+            className="form-input"
+            value={newCall.numberOfHouses}
+            onChange={(e) => {
+              handleChange(e);
+
+              setCallHistory((prev) => [
+                ...prev,
+                {
+                  ...newCall,
+                  estimatedBill:
+                    Number(newCall?.numberOfHouses) && Number(newCall?.price)
+                      ? Number(newCall?.numberOfHouses) * Number(newCall?.price)
+                      : "",
+                },
+              ]);
+            }}
+            maxLength="6"
+          />
+        </div>
+
+        <div className="form-field" style={{ maxWidth: "65px" }}>
+          <label htmlFor="price" className="form-label">
+            E{") "} {/* Price per household account /  */}
+            ભાવ ઘર ખાતા દીઠ
+          </label>
+          <input
+            type="text"
+            id="price"
+            name="price"
+            className="form-input"
+            value={newCall.price}
+            onChange={(e) => {
+              handleChange(e);
+
+              setCallHistory((prev) => [
+                ...prev,
+                {
+                  ...newCall,
+                  estimatedBill:
+                    Number(newCall?.numberOfHouses) && Number(newCall?.price)
+                      ? Number(newCall?.numberOfHouses) * Number(newCall?.price)
+                      : "",
+                },
+              ]);
+            }}
+            maxLength="3"
+          />
+        </div>
+
+        <div className="form-field" style={{ maxWidth: "140px" }}>
+          <label htmlFor="estimatedBill" className="form-label">
+            F{") "} {/* Estimated bill amount Rs. / */}
+            અંદાજીત બીલ રકમ રૂ
+          </label>
+          <input
+            type="text"
+            id="estimatedBill"
+            name="estimatedBill"
+            className="form-input"
+            // value={newCall.estimatedBill}
+
+            value={
+              Number(newCall?.numberOfHouses) && Number(newCall?.price)
+                ? Number(newCall?.numberOfHouses) * Number(newCall?.price)
+                : ""
+            }
+            readOnly
+            // onChange={handleChange}
+          />
+        </div>
+
+        <div className="form-field" style={{ maxWidth: "130px" }}>
+          <label htmlFor="budget" className="form-label">
+            G{") "}
+            {/* How much money can the customer afford to pay for the
+          house/account? / */}
+            કસ્ટમરને કેટલા પૈસા સુધી પોસાય ઘર/ખાતા
+          </label>
+          <input
+            type="text"
+            id="budget"
+            name="budget"
+            className="form-input"
+            value={newCall.budget}
+            onChange={handleChange}
+          />
+        </div>
       </div>
 
-      <div className="form-field">
-        <label htmlFor="price" className="form-label">
-          5. Price per household account / ભાવ ઘર ખાતા દીઠ
-        </label>
-        <input
-          type="text"
-          id="price"
-          name="price"
-          className="form-input"
-          value={newCall.price}
-          onChange={handleChange}
-        />
-      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+        <div className="form-field">
+          <label htmlFor="dateOfCall" className="form-label">
+            H{") "} {/* Date of call Telecaller /  */}
+            ફોન કર્યા તારીખ ટેલીકોલર
+          </label>
+          <input
+            type="date"
+            id="dateOfCall"
+            name="dateOfCall"
+            className="form-input"
+            value={newCall.dateOfCall}
+            onChange={handleChange}
+          />
+        </div>
 
-      <div className="form-field">
-        <label htmlFor="estimatedBill" className="form-label">
-          6. Estimated bill amount Rs. / અંદાજીત બીલ રકમ રૂ
-        </label>
-        <input
-          type="text"
-          id="estimatedBill"
-          name="estimatedBill"
-          className="form-input"
-          // value={newCall.estimatedBill}
+        <div className="form-field">
+          <label htmlFor="meetingDate" className="form-label">
+            I{") "} {/* Meeting date: Meet in person. / */}
+            મીટીંગ તારીખ રૂબરુ મળવા જવુ
+          </label>
+          <input
+            type="date"
+            id="meetingDate"
+            name="meetingDate"
+            className="form-input"
+            value={newCall.meetingDate}
+            onChange={handleChange}
+          />
+        </div>
 
-          value={
-            Number(newCall?.numberOfHouses) && Number(newCall?.price)
-              ? Number(newCall?.numberOfHouses) * Number(newCall?.price)
-              : ""
-          }
-          readOnly
-          // onChange={handleChange}
-        />
-      </div>
-
-      <div className="form-field">
-        <label htmlFor="budget" className="form-label">
-          7. How much money can the customer afford to pay for the
-          house/account? / કસ્ટમરને કેટલા પૈસા સુધી પોસાય ઘર/ખાતા
-        </label>
-        <input
-          type="text"
-          id="budget"
-          name="budget"
-          className="form-input"
-          value={newCall.budget}
-          onChange={handleChange}
-        />
-      </div>
-
-      <div className="form-field">
-        <label htmlFor="dateOfCall" className="form-label">
-          8. Date of call Telecaller / ફોન કર્યા તારીખ ટેલીકોલર
-        </label>
-        <input
-          type="date"
-          id="dateOfCall"
-          name="dateOfCall"
-          className="form-input"
-          value={newCall.dateOfCall}
-          onChange={handleChange}
-        />
-      </div>
-
-      <div className="form-field">
-        <label htmlFor="meetingDate" className="form-label">
-          9. Meeting date: Meet in person. / મીટીંગ તારીખ રૂબરુ મળવા જવુ
-        </label>
-        <input
-          type="date"
-          id="meetingDate"
-          name="meetingDate"
-          className="form-input"
-          value={newCall.meetingDate}
-          onChange={handleChange}
-        />
-      </div>
-
-      <div className="form-field">
-        <label htmlFor="reminderDate" className="form-label">
-          10. Reminder date: Follow Up. / ગ્રાહકને ફરી કોલ કરવો
-        </label>
-        <input
-          type="date"
-          id="reminderDate"
-          name="reminderDate"
-          className="form-input"
-          value={newCall.reminderDate}
-          onChange={handleChange}
-        />
+        <div className="form-field">
+          <label htmlFor="reminderDate" className="form-label">
+            J{") "} Reminder date: Follow Up. (ગ્રાહકને ફરી કોલ કરવો)
+          </label>
+          <input
+            type="date"
+            id="reminderDate"
+            name="reminderDate"
+            className="form-input"
+            value={newCall.reminderDate}
+            onChange={handleChange}
+          />
+        </div>
       </div>
 
       {/* <button className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-colors duration-200">

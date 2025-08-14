@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { data, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import "./Form.scss";
 import { useAuth } from "../../config/AuthContext";
@@ -481,7 +481,8 @@ const ContactListForm = () => {
               onChange={handleChange}
               disabled={isEditMode && formLoading}
               required
-              style={{ maxWidth: "100px" }}
+              style={{ maxWidth: "82px" }}
+              maxLength="5"
             />
           </div>
 
@@ -534,6 +535,8 @@ const ContactListForm = () => {
               value={formData?.whatsaapNo}
               onChange={handleChange}
               disabled={isEditMode && formLoading}
+              style={{ maxWidth: "140px" }}
+              maxLength="10"
             />
 
             <div style={{ display: "flex", gap: ".5rem" }}>
@@ -566,6 +569,7 @@ const ContactListForm = () => {
               value={formData?.category}
               onChange={handleChange}
               disabled={isEditMode && formLoading}
+              style={{ maxWidth: "200px" }}
             >
               {/* <option value="TCM" selected>
                 TCM / તલાટી કમ મંત્રી
@@ -581,7 +585,7 @@ const ContactListForm = () => {
           </div>
         </div>
 
-        {/* Field 7: મિલ્ક્ત પર લખેલ નામ મકાન/દુકાન/ કારખાના/ કંપનીનું નામ */}
+        {/* Field 6: Gaam */}
         <div className="form-field md:col-span-2">
           <label htmlFor="village" className="form-label">
             6. ગામ
@@ -596,6 +600,7 @@ const ContactListForm = () => {
             value={formData?.village}
             onChange={handleChange}
             disabled={isEditMode && formLoading}
+            style={{ maxWidth: "200px" }}
           />
 
           <datalist id="village-options">
@@ -618,53 +623,56 @@ const ContactListForm = () => {
             value={formData?.villageOfCharge}
             onChange={handleChange}
             disabled={isEditMode && formLoading}
+            style={{ maxWidth: "200px" }}
           />
         </div>
 
-        {/* Field 8: Jilla  / જિલ્લો */}
-        <div className="form-field">
-          <label htmlFor="taluko" className="form-label">
-            8. તાલુકો
-          </label>
-          <input
-            list="taluka-options"
-            type="text"
-            id="taluko"
-            name="taluko"
-            className="form-input"
-            value={formData?.taluko}
-            onChange={handleChange}
-            disabled={isEditMode && formLoading}
-          />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+          {/* Field 8: Jilla  / જિલ્લો */}
+          <div className="form-field">
+            <label htmlFor="taluko" className="form-label">
+              8. તાલુકો
+            </label>
+            <input
+              list="taluka-options"
+              type="text"
+              id="taluko"
+              name="taluko"
+              className="form-input"
+              value={formData?.taluko}
+              onChange={handleChange}
+              disabled={isEditMode && formLoading}
+            />
 
-          <datalist id="taluka-options">
-            {talukas.map((t, i) => (
-              <option key={i} value={t} />
-            ))}
-          </datalist>
-        </div>
+            <datalist id="taluka-options">
+              {talukas.map((t, i) => (
+                <option key={i} value={t} />
+              ))}
+            </datalist>
+          </div>
 
-        {/* Field 8: Jilla  / જિલ્લો */}
-        <div className="form-field">
-          <label htmlFor="jilla" className="form-label">
-            9. જિલ્લો
-          </label>
-          <input
-            list="district-options"
-            type="text"
-            id="jilla"
-            name="jilla"
-            className="form-input"
-            value={formData?.jilla}
-            onChange={handleChange}
-            disabled={isEditMode && formLoading}
-          />
+          {/* Field 8: Jilla  / જિલ્લો */}
+          <div className="form-field">
+            <label htmlFor="jilla" className="form-label">
+              9. જિલ્લો
+            </label>
+            <input
+              list="district-options"
+              type="text"
+              id="jilla"
+              name="jilla"
+              className="form-input"
+              value={formData?.jilla}
+              onChange={handleChange}
+              disabled={isEditMode && formLoading}
+            />
 
-          <datalist id="district-options">
-            {districts.map((d, i) => (
-              <option key={i} value={d} />
-            ))}
-          </datalist>
+            <datalist id="district-options">
+              {districts.map((d, i) => (
+                <option key={i} value={d} />
+              ))}
+            </datalist>
+          </div>
         </div>
 
         {/* Field 8: Jilla  / જિલ્લો */}
@@ -758,13 +766,14 @@ const ContactListForm = () => {
                         value={call?.workVillage}
                         onChange={(e) => handleCallHistoryChange(index, e)}
                         disabled={isEditMode && formLoading}
+                        style={{ maxWidth: "200px" }}
                       />
                     </div>
                     {/* Field 8: Jilla  / જિલ્લો */}
 
                     <div className="form-field">
                       <label htmlFor="clientAnswer" className="form-label">
-                        c{")"} ગ્રાહકે શું જવાબ આપ્યો
+                        C{")"} ગ્રાહકે શું જવાબ આપ્યો
                       </label>
                       <input
                         type="text"
@@ -778,74 +787,86 @@ const ContactListForm = () => {
                     </div>
                     {/* Field 8: Jilla  / જિલ્લો */}
 
-                    <div className="form-field">
-                      <label htmlFor="numberOfHouses" className="form-label">
-                        D{")"} ઘર/ખાતા ગામના કેટલા છે
-                      </label>
-                      <input
-                        type="text"
-                        id="numberOfHouses"
-                        name="numberOfHouses"
-                        className="form-input"
-                        value={call?.numberOfHouses}
-                        onChange={(e) => handleCallHistoryChange(index, e)}
-                        disabled={isEditMode && formLoading}
-                      />
-                    </div>
-                    {/* Field 8: Jilla  / જિલ્લો */}
+                    <div
+                      style={{
+                        display: "flex",
+                        flexWrap: "wrap",
+                        gap: ".5rem",
+                      }}
+                    >
+                      <div className="form-field" style={{ maxWidth: "100px" }}>
+                        <label htmlFor="numberOfHouses" className="form-label">
+                          D{")"} ઘર/ખાતા ગામના કેટલા છે
+                        </label>
+                        <input
+                          type="text"
+                          id="numberOfHouses"
+                          name="numberOfHouses"
+                          className="form-input"
+                          value={call?.numberOfHouses}
+                          onChange={(e) => handleCallHistoryChange(index, e)}
+                          disabled={isEditMode && formLoading}
+                          // style={{ width: "100%" }}
+                          maxLength="6"
+                        />
+                      </div>
+                      {/* Field 8: Jilla  / જિલ્લો */}
 
-                    <div className="form-field">
-                      <label htmlFor="price" className="form-label">
-                        E{")"} ભાવ ઘર ખાતા દીઠ
-                      </label>
-                      <input
-                        type="text"
-                        id="price"
-                        name="price"
-                        className="form-input"
-                        value={call?.price}
-                        onChange={(e) => handleCallHistoryChange(index, e)}
-                        disabled={isEditMode && formLoading}
-                      />
-                    </div>
+                      <div className="form-field" style={{ maxWidth: "65px" }}>
+                        <label htmlFor="price" className="form-label">
+                          E{")"} ભાવ ઘર ખાતા દીઠ
+                        </label>
+                        <input
+                          type="text"
+                          id="price"
+                          name="price"
+                          className="form-input"
+                          value={call?.price}
+                          onChange={(e) => handleCallHistoryChange(index, e)}
+                          disabled={isEditMode && formLoading}
+                          maxLength="3"
+                        />
+                      </div>
 
-                    {/* Field 15: Jilla  / જિલ્લો */}
-                    <div className="form-field">
-                      <label htmlFor="estimatedBill" className="form-label">
-                        F{")"} અંદાજીત બીલ રકમ રૂ
-                      </label>
-                      <input
-                        type="text"
-                        id="estimatedBill"
-                        name="estimatedBill"
-                        className="form-input"
-                        // value={call?.estimatedBill}
+                      {/* Field 15: Jilla  / જિલ્લો */}
+                      <div className="form-field" style={{ maxWidth: "140px" }}>
+                        <label htmlFor="estimatedBill" className="form-label">
+                          F{")"} અંદાજીત બીલ રકમ રૂ
+                        </label>
+                        <input
+                          type="text"
+                          id="estimatedBill"
+                          name="estimatedBill"
+                          className="form-input"
+                          // value={call?.estimatedBill}
 
-                        value={
-                          Number(call?.numberOfHouses) && Number(call?.price)
-                            ? Number(call?.numberOfHouses) * Number(call?.price)
-                            : ""
-                        }
-                        readOnly
-                        // onChange={(e) => handleCallHistoryChange(index, e)}
-                        disabled={isEditMode && formLoading}
-                      />
-                    </div>
+                          value={
+                            Number(call?.numberOfHouses) && Number(call?.price)
+                              ? Number(call?.numberOfHouses) *
+                                Number(call?.price)
+                              : ""
+                          }
+                          readOnly
+                          // onChange={(e) => handleCallHistoryChange(index, e)}
+                          disabled={isEditMode && formLoading}
+                        />
+                      </div>
 
-                    {/* Field 16: Jilla  / જિલ્લો */}
-                    <div className="form-field">
-                      <label htmlFor="budget" className="form-label">
-                        G{")"} કસ્ટમરને કેટલા પૈસા સુધી પોસાય ઘર/ખાતા
-                      </label>
-                      <input
-                        type="text"
-                        id="budget"
-                        name="budget"
-                        className="form-input"
-                        value={call?.budget}
-                        onChange={(e) => handleCallHistoryChange(index, e)}
-                        disabled={isEditMode && formLoading}
-                      />
+                      {/* Field 16: Jilla  / જિલ્લો */}
+                      <div className="form-field" style={{ maxWidth: "130px" }}>
+                        <label htmlFor="budget" className="form-label">
+                          G{")"} કસ્ટમરને કેટલા પૈસા સુધી પોસાય ઘર/ખાતા
+                        </label>
+                        <input
+                          type="text"
+                          id="budget"
+                          name="budget"
+                          className="form-input"
+                          value={call?.budget}
+                          onChange={(e) => handleCallHistoryChange(index, e)}
+                          disabled={isEditMode && formLoading}
+                        />
+                      </div>
                     </div>
 
                     {/* Field 17: Jilla  / જિલ્લો */}
@@ -912,36 +933,38 @@ const ContactListForm = () => {
 
         <br />
 
-        {/* Field 11: Date the List was Created in the office ઑફીસમા યાદી બનાવેલ તારીખ */}
-        <div className="form-field">
-          <label htmlFor="listCreated" className="form-label">
-            11. ઑફીસમા યાદી બનાવેલ તારીખ
-          </label>
-          <input
-            type="date"
-            id="listCreated"
-            name="listCreated"
-            className="form-input"
-            value={formData?.listCreated}
-            onChange={handleChange}
-            disabled={isEditMode && formLoading}
-          />
-        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+          {/* Field 11: Date the List was Created in the office ઑફીસમા યાદી બનાવેલ તારીખ */}
+          <div className="form-field">
+            <label htmlFor="listCreated" className="form-label">
+              11. ઑફીસમા યાદી બનાવેલ તારીખ
+            </label>
+            <input
+              type="date"
+              id="listCreated"
+              name="listCreated"
+              className="form-input"
+              value={formData?.listCreated}
+              onChange={handleChange}
+              disabled={isEditMode && formLoading}
+            />
+          </div>
 
-        {/* Field 11: Date the List was Created in the office ઑફીસમા યાદી બનાવેલ તારીખ */}
-        <div className="form-field">
-          <label htmlFor="listCreated" className="form-label">
-            12. કમ્પની ને મળેલ તારીખ
-          </label>
-          <input
-            type="date"
-            id="listReceived"
-            name="listReceived"
-            className="form-input"
-            value={formData?.listReceived}
-            onChange={handleChange}
-            disabled={isEditMode && formLoading}
-          />
+          {/* Field 11: Date the List was Created in the office ઑફીસમા યાદી બનાવેલ તારીખ */}
+          <div className="form-field">
+            <label htmlFor="listCreated" className="form-label">
+              12. કમ્પની ને મળેલ તારીખ
+            </label>
+            <input
+              type="date"
+              id="listReceived"
+              name="listReceived"
+              className="form-input"
+              value={formData?.listReceived}
+              onChange={handleChange}
+              disabled={isEditMode && formLoading}
+            />
+          </div>
         </div>
 
         <br />
