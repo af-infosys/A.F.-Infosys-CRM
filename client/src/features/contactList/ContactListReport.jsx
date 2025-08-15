@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Report.scss";
+import "../Report.scss";
 import apiPath from "../../isProduction";
 
 const ContactListReport = () => {

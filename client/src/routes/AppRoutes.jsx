@@ -1,7 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import DashboardLayout from "../layouts/DashboardLayout";
 import LeadDashboard from "../features/leads/LeadDashboard";
-import OrderValuation from "../features/orders/OrderValuation";
 import LeadForm from "../features/leads/LeadForm";
 import LeadEdit from "../features/leads/LeadEdit";
 
@@ -18,6 +17,7 @@ import SummaryReport from "../features/contactList/SummaryReport";
 import InvalidNumbers from "../features/contactList/InvalidNumbers";
 import RemindersReport from "../features/contactList/RemindersReport";
 import SurvayReport from "../features/survay/SurvayReport";
+import OrderValuationReport from "../features/orderValuation/orderValuationReport";
 
 export default function AppRoutes() {
   return (
@@ -55,8 +55,6 @@ export default function AppRoutes() {
         <Route path="/customers/invalids" element={<InvalidNumbers />} />
         <Route path="/customers/reminders" element={<RemindersReport />} />
 
-        <Route path="/orders" element={<OrderValuation />} />
-
         <Route
           path="/survay"
           element={
@@ -66,6 +64,15 @@ export default function AppRoutes() {
           }
         />
 
+        {/* Order Valuation Routes Start */}
+        <Route path="/orderValuation">
+          <Route path="form" />
+
+          <Route path="report" element={<OrderValuationReport />} />
+        </Route>
+        {/* Order Valuation Routes End */}
+
+        {/* Staff Routes Start */}
         <Route
           path="/staff/manage"
           element={
@@ -91,6 +98,7 @@ export default function AppRoutes() {
           }
         />
       </Route>
+      {/* Staff Routes End */}
 
       <Route path="/login" element={<Login />} />
     </Routes>
