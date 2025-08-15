@@ -627,7 +627,7 @@ const ContactListForm = () => {
           />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-4">
           {/* Field 8: Jilla  / જિલ્લો */}
           <div className="form-field">
             <label htmlFor="taluko" className="form-label">
@@ -887,24 +887,8 @@ const ContactListForm = () => {
 
                     {/* Field 18 Jilla  / જિલ્લો */}
                     <div className="form-field">
-                      <label htmlFor="meetingDate" className="form-label">
-                        I{")"} મીટીંગ તારીખ રૂબરુ મળવા જવુ
-                      </label>
-                      <input
-                        type="date"
-                        id="meetingDate"
-                        name="meetingDate"
-                        className="form-input"
-                        value={call?.meetingDate}
-                        onChange={(e) => handleCallHistoryChange(index, e)}
-                        disabled={isEditMode && formLoading}
-                      />
-                    </div>
-
-                    {/* Field 18 Jilla  / જિલ્લો */}
-                    <div className="form-field">
                       <label htmlFor="reminderDate" className="form-label">
-                        J{")"} ગ્રાહકને ફરી કોલ કરવો
+                        I{")"} ગ્રાહકને ફરી કોલ કરવો
                       </label>
                       <input
                         type="date"
@@ -912,6 +896,22 @@ const ContactListForm = () => {
                         name="reminderDate"
                         className="form-input"
                         value={call?.reminderDate}
+                        onChange={(e) => handleCallHistoryChange(index, e)}
+                        disabled={isEditMode && formLoading}
+                      />
+                    </div>
+
+                    {/* Field 18 Jilla  / જિલ્લો */}
+                    <div className="form-field">
+                      <label htmlFor="meetingDate" className="form-label">
+                        J{")"} મીટીંગ તારીખ રૂબરુ મળવા જવુ
+                      </label>
+                      <input
+                        type="date"
+                        id="meetingDate"
+                        name="meetingDate"
+                        className="form-input"
+                        value={call?.meetingDate}
                         onChange={(e) => handleCallHistoryChange(index, e)}
                         disabled={isEditMode && formLoading}
                       />

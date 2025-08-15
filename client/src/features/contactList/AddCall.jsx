@@ -376,8 +376,22 @@ const AddCall = () => {
         </div>
 
         <div className="form-field">
+          <label htmlFor="reminderDate" className="form-label">
+            I{") "} Reminder date: Follow Up. (ગ્રાહકને ફરી કોલ કરવો)
+          </label>
+          <input
+            type="date"
+            id="reminderDate"
+            name="reminderDate"
+            className="form-input"
+            value={newCall.reminderDate}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="form-field">
           <label htmlFor="meetingDate" className="form-label">
-            I{") "} {/* Meeting date: Meet in person. / */}
+            J{") "} {/* Meeting date: Meet in person. / */}
             મીટીંગ તારીખ રૂબરુ મળવા જવુ
           </label>
           <input
@@ -386,20 +400,6 @@ const AddCall = () => {
             name="meetingDate"
             className="form-input"
             value={newCall.meetingDate}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div className="form-field">
-          <label htmlFor="reminderDate" className="form-label">
-            J{") "} Reminder date: Follow Up. (ગ્રાહકને ફરી કોલ કરવો)
-          </label>
-          <input
-            type="date"
-            id="reminderDate"
-            name="reminderDate"
-            className="form-input"
-            value={newCall.reminderDate}
             onChange={handleChange}
           />
         </div>
