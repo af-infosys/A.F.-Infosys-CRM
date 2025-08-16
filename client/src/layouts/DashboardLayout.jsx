@@ -182,6 +182,49 @@ export default function DashboardLayout() {
               </div>
             )}
 
+            {user.role === "owner" && (
+              <div>
+                <div
+                  className="main-link"
+                  onClick={() =>
+                    setOpenMenu(openMenu === "/bills" ? null : "/bills")
+                  }
+                >
+                  Bill
+                </div>
+
+                {openMenu === "/bills" && (
+                  <div className="sub-links">
+                    {/* <NavLink
+                      to={`/bills/report`}
+                      cclassName={({ isActive }) => (isActive ? "active" : "")}
+                      onClick={() => setIsSidebarOpen(false)}
+                    >
+                      Report
+                    </NavLink> */}
+
+                    <NavLink
+                      to={`/bills/view`}
+                      cclassName={({ isActive }) => (isActive ? "active" : "")}
+                      onClick={() => setIsSidebarOpen(false)}
+                    >
+                      View
+                    </NavLink>
+
+                    {/* {user.role === "owner" && (
+                      <NavLink
+                        to={"/customers/summary"}
+                        className={({ isActive }) => (isActive ? "active" : "")}
+                        onClick={() => setIsSidebarOpen(false)}
+                      >
+                        Summary
+                      </NavLink>
+                    )} */}
+                  </div>
+                )}
+              </div>
+            )}
+
             {menuItems.map(({ label, base }) => (
               <div key={base}>
                 <div

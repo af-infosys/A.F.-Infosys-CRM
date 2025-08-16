@@ -18,6 +18,7 @@ import InvalidNumbers from "../features/contactList/InvalidNumbers";
 import RemindersReport from "../features/contactList/RemindersReport";
 import SurvayReport from "../features/survay/SurvayReport";
 import OrderValuationReport from "../features/orderValuation/orderValuationReport";
+import BillView from "../features/bill/BillView";
 
 export default function AppRoutes() {
   return (
@@ -71,6 +72,14 @@ export default function AppRoutes() {
           <Route path="report" element={<OrderValuationReport />} />
         </Route>
         {/* Order Valuation Routes End */}
+
+        {/* Bill Routes Start */}
+        <Route path="bills">
+          {/* <Route path="form" element={<BillForm />} /> */}
+          <Route path="view" element={<BillView />} />
+          {/* <Route path="report" element={<BillReport />} /> */}
+        </Route>
+        {/* Bill Routes End */}
 
         {/* Staff Routes Start */}
         <Route

@@ -6,6 +6,24 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    mobile: {
+      type: String,
+    },
+
+    role: {
+      type: String,
+      enum: ["owner", "md", "telecaller", "surveyor", "operator", "accountant"],
+      required: true,
+      default: "operator",
+    },
+
+    // 1. Chairman / Owner
+    // 2. Managin Director
+    // 3. Telecaller
+    // 4. Survayor
+    // 5. Operator
+    // 6. Accountant
+
     email: {
       type: String,
       required: true,
@@ -16,15 +34,49 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    role: {
+
+    address: {
       type: String,
-      enum: ["owner", "telecaller", "surveyor", "accountant", "operator", "md"],
-      required: true,
-      default: "operator",
+    },
+    village: {
+      type: String,
+    },
+    taluko: {
+      type: String,
+    },
+    district: {
+      type: String,
+    },
+
+    dob: {
+      type: String,
+    },
+    addhar: {
+      type: String,
+    },
+    age: {
+      type: String,
+    },
+
+    education: {
+      type: String,
+    },
+    experience: {
+      type: String,
+    },
+    behaviour: {
+      type: String,
     },
 
     work: {
       type: String,
+    },
+
+    account: {
+      type: String,
+    },
+    payemntHistory: {
+      type: Array,
     },
   },
   { timestamps: true }
