@@ -139,6 +139,71 @@ const OrderValuationReport = () => {
               </div>
             </div>
 
+            {/* Info Start */}
+            <div
+              style={{
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                gap: ".1rem",
+                alignItems: "end",
+              }}
+            >
+              <h2
+                style={{
+                  fontSize: "1.1rem",
+                }}
+              >
+                તાલુકો :– <b>{"Test"}</b>
+              </h2>
+
+              <h2
+                style={{
+                  fontSize: "1.1rem",
+                }}
+              >
+                જિલ્લો :- <b>{"Test"}</b>
+              </h2>
+
+              <h2
+                style={{
+                  fontSize: "1.1rem",
+                }}
+              >
+                તારીખ :– <b>{"Test"}</b>
+              </h2>
+
+              <span
+                style={{
+                  fontSize: "1.1rem",
+                  textAlign: "center",
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <span>જુથ પંચાયત છે હા/ ના</span>
+                <span>ગામના નામ નીચે લખવા</span>
+              </span>
+
+              <h2
+                style={{
+                  fontSize: "1.1rem",
+                }}
+              >
+                આકારણીનું વર્ષ :– <b>{"Test"}</b>
+              </h2>
+
+              <h2
+                style={{
+                  fontSize: "1.1rem",
+                }}
+              >
+                વેરા રજીસ્ટરનું વર્ષ :– <b>{"Test"}</b>
+              </h2>
+            </div>
+            {/* Info End */}
+
             {/* Names Start */}
             <div
               style={{ display: "flex", flexDirection: "column", gap: ".1rem" }}
@@ -208,38 +273,62 @@ const OrderValuationReport = () => {
                   return (
                     <tr key={index}>
                       <td
-                        className="px-1 py-1 whitespace-nowrap text-sm font-medium text-gray-900"
-                        style={{ maxWidth: "10px" }}
+                        className="whitespace-nowrap text-sm font-medium text-gray-900"
+                        style={{
+                          maxWidth: "10px",
+                          padding: "3px 10px",
+                          textAlign: "center",
+                        }}
                       >
                         {index + 1}
                       </td>
                       <td
-                        className="px-1 py-1 whitespace-normal text-sm text-gray-500"
-                        style={{ maxWidth: "10px" }}
+                        className="whitespace-normal text-sm text-gray-500"
+                        style={{
+                          maxWidth: "10px",
+                          padding: "3px 10px",
+                          textAlign: "center",
+                        }}
                       >
                         {alphaIndex[index]}
                       </td>{" "}
                       <td
-                        className="px-1 py-1 whitespace-normal text-sm text-gray-500"
-                        style={{ maxWidth: "200px" }}
+                        className="whitespace-normal text-sm text-gray-500"
+                        style={{
+                          maxWidth: "200px",
+                          padding: "3px 10px",
+                          textAlign: "left",
+                        }}
                       >
                         {record}
                       </td>
                       <td
-                        className="px-1 py-1 whitespace-normal text-sm text-gray-500"
-                        style={{ maxWidth: "30px" }}
+                        className="whitespace-normal text-sm text-gray-500"
+                        style={{
+                          maxWidth: "30px",
+                          padding: "3px 10px",
+                          textAlign: "center",
+                        }}
                       >
                         ....
                       </td>
                       <td
-                        className="px-1 py-1 whitespace-normal text-sm text-gray-500"
-                        style={{ maxWidth: "50px" }}
+                        className="whitespace-normal text-sm text-gray-500"
+                        style={{
+                          maxWidth: "50px",
+                          padding: "3px 10px",
+                          textAlign: "center",
+                        }}
                       >
                         વેરો રૂ।.
                       </td>
                       <td
-                        className="px-1 py-1 whitespace-normal text-sm text-gray-500"
-                        style={{ maxWidth: "30px" }}
+                        className="whitespace-normal text-sm text-gray-500"
+                        style={{
+                          maxWidth: "30px",
+                          padding: "3px 10px",
+                          textAlign: "center",
+                        }}
                       >
                         ....
                       </td>

@@ -19,6 +19,7 @@ import RemindersReport from "../features/contactList/RemindersReport";
 import SurvayReport from "../features/survay/SurvayReport";
 import OrderValuationReport from "../features/orderValuation/orderValuationReport";
 import BillView from "../features/bill/BillView";
+import IncomeReport from "../features/accounts/income/IncomeReport";
 
 export default function AppRoutes() {
   return (
@@ -80,6 +81,13 @@ export default function AppRoutes() {
           {/* <Route path="report" element={<BillReport />} /> */}
         </Route>
         {/* Bill Routes End */}
+
+        {/* Accounts Routes Start */}
+        <Route path="accounts">
+          <Route path="income" element={<IncomeReport />} />
+          {/* <Route path="expense" element={<ExpenseReport />} /> */}
+        </Route>
+        {/* Accounts Routes End */}
 
         {/* Staff Routes Start */}
         <Route

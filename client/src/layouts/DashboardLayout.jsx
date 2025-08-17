@@ -225,6 +225,57 @@ export default function DashboardLayout() {
               </div>
             )}
 
+            {(user.role === "owner" || user.role === "accountant") && (
+              <div>
+                <div
+                  className="main-link"
+                  onClick={() =>
+                    setOpenMenu(openMenu === "/accounts" ? null : "/accounts")
+                  }
+                >
+                  Accounts
+                </div>
+
+                {openMenu === "/accounts" && (
+                  <div className="sub-links">
+                    {/* <NavLink
+                      to={`/accounts/report`}
+                      cclassName={({ isActive }) => (isActive ? "active" : "")}
+                      onClick={() => setIsSidebarOpen(false)}
+                    >
+                      Report
+                    </NavLink> */}
+
+                    <NavLink
+                      to={`/accounts/income`}
+                      cclassName={({ isActive }) => (isActive ? "active" : "")}
+                      onClick={() => setIsSidebarOpen(false)}
+                    >
+                      Income
+                    </NavLink>
+
+                    <NavLink
+                      to={`/accounts/expense`}
+                      cclassName={({ isActive }) => (isActive ? "active" : "")}
+                      onClick={() => setIsSidebarOpen(false)}
+                    >
+                      Expense
+                    </NavLink>
+
+                    {/* {user.role === "owner" && (
+                      <NavLink
+                        to={"/customers/summary"}
+                        className={({ isActive }) => (isActive ? "active" : "")}
+                        onClick={() => setIsSidebarOpen(false)}
+                      >
+                        Summary
+                      </NavLink>
+                    )} */}
+                  </div>
+                )}
+              </div>
+            )}
+
             {menuItems.map(({ label, base }) => (
               <div key={base}>
                 <div
