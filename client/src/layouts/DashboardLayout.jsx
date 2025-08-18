@@ -16,23 +16,23 @@ export default function DashboardLayout() {
     // { label: "Order Valuation", base: "/orders" },
   ];
 
-  // Effect for loading external CSS and JS (Tailwind)
-  useEffect(() => {
-    const link = document.createElement("link");
-    link.href =
-      "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap";
-    link.rel = "stylesheet";
-    document.head.appendChild(link);
+  // // Effect for loading external CSS and JS (Tailwind)
+  // useEffect(() => {
+  //   const link = document.createElement("link");
+  //   link.href =
+  //     "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap";
+  //   link.rel = "stylesheet";
+  //   document.head.appendChild(link);
 
-    const tailwindScript = document.createElement("script");
-    tailwindScript.src = "https://cdn.tailwindcss.com";
-    document.head.appendChild(tailwindScript);
+  //   const tailwindScript = document.createElement("script");
+  //   tailwindScript.src = "https://cdn.tailwindcss.com";
+  //   document.head.appendChild(tailwindScript);
 
-    return () => {
-      document.head.removeChild(link);
-      document.head.removeChild(tailwindScript);
-    };
-  }, []);
+  //   return () => {
+  //     document.head.removeChild(link);
+  //     document.head.removeChild(tailwindScript);
+  //   };
+  // }, []);
 
   return (
     <div className="dashboard-layout">
@@ -69,7 +69,15 @@ export default function DashboardLayout() {
                       cclassName={({ isActive }) => (isActive ? "active" : "")}
                       onClick={() => setIsSidebarOpen(false)}
                     >
-                      Add (form){" "}
+                      1. Add (form)
+                    </NavLink>
+
+                    <NavLink
+                      to={"/customers/report"}
+                      className={({ isActive }) => (isActive ? "active" : "")}
+                      onClick={() => setIsSidebarOpen(false)}
+                    >
+                      2. Report
                     </NavLink>
 
                     <NavLink
@@ -78,14 +86,6 @@ export default function DashboardLayout() {
                       onClick={() => setIsSidebarOpen(false)}
                     >
                       Overview
-                    </NavLink>
-
-                    <NavLink
-                      to={"/customers/report"}
-                      className={({ isActive }) => (isActive ? "active" : "")}
-                      onClick={() => setIsSidebarOpen(false)}
-                    >
-                      Report
                     </NavLink>
 
                     <NavLink

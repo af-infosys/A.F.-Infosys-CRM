@@ -394,6 +394,17 @@ const ContactListForm = () => {
     setCallHistory(updatedHistory);
   };
 
+  const handleCallHistoryRadioChange = (index, e) => {
+    const { value } = e.target;
+    const isIncoming = value === "true";
+
+    const updatedHistory = callHistory.map((call, i) =>
+      i === index ? { ...call, incoming: isIncoming } : call
+    );
+
+    setCallHistory(updatedHistory);
+  };
+
   const addCallHistory = () => {
     setCallHistory((prevHistory) => [
       ...prevHistory,
@@ -451,7 +462,7 @@ const ContactListForm = () => {
       {/* Added margin for sidebar */}
 
       <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">
-        Contact List Form {isEditMode ? "(Update)" : ""}
+        1. Contact List Form {isEditMode ? "(Update)" : ""}
       </h1>
 
       {formLoading && (
@@ -707,35 +718,49 @@ const ContactListForm = () => {
                     </div>
                     <br />
 
-                    <div
-                      className="form-field"
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "start",
-                        gap: "1rem",
-                      }}
-                    >
-                      <label
-                        htmlFor={`incoming-${index}`}
-                        className="form-label"
-                        style={{ whiteSpace: "nowrap", userSelect: "none" }}
+                    <div key={index} className="call-item">
+                      {/* Other call details */}
+                      <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "1rem",
+                        }}
                       >
-                        Incoming Call / આવેલ
-                      </label>
-                      <input
-                        type="checkbox"
-                        id={`incoming-${index}`}
-                        name="incoming"
-                        className="form-input"
-                        checked={call?.incoming || false}
-                        onChange={(e) =>
-                          handleCallHistoryCheckboxChange(index, e)
-                        }
-                        disabled={isEditMode && formLoading}
-                        style={{ margin: "none", maxWidth: "fit-content" }}
-                      />
+                        <label
+                          style={{ whiteSpace: "nowrap", userSelect: "none" }}
+                        >
+                          <input
+                            type="radio"
+                            name={`incoming-${index}`} // Unique name for each radio group
+                            value="true"
+                            checked={call.incoming === true}
+                            onChange={(e) =>
+                              handleCallHistoryRadioChange(index, e)
+                            }
+                            style={{ marginRight: "0.5rem" }}
+                          />
+                          Incoming Call / આવેલ
+                        </label>
+                        <label
+                          style={{ whiteSpace: "nowrap", userSelect: "none" }}
+                        >
+                          <input
+                            type="radio"
+                            name={`incoming-${index}`} // Unique name for each radio group
+                            value="false"
+                            checked={call.incoming === false}
+                            onChange={(e) =>
+                              handleCallHistoryRadioChange(index, e)
+                            }
+                            style={{ marginRight: "0.5rem" }}
+                          />
+                          Outgoing Call / જાવેલ
+                        </label>
+                      </div>
                     </div>
+
+                    <br />
 
                     {/* Field 8: What business did you call for */}
                     <div className="form-field">

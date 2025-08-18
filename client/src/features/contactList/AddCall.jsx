@@ -127,6 +127,16 @@ const AddCall = () => {
     }));
   };
 
+  const handleRadioChange = (e) => {
+    const { value } = e.target;
+    const isIncoming = value === "true";
+
+    setNewCall((prev) => ({
+      ...prev,
+      incoming: isIncoming,
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -180,7 +190,6 @@ const AddCall = () => {
       {error && <p className="error">{error}</p>}
 
       <div
-        className="form-field"
         style={{
           display: "flex",
           alignItems: "center",
@@ -188,23 +197,32 @@ const AddCall = () => {
           gap: "1rem",
         }}
       >
-        <label
-          htmlFor={`incoming`}
-          className="form-label"
-          style={{ whiteSpace: "nowrap", userSelect: "none" }}
-        >
+        <label style={{ whiteSpace: "nowrap", userSelect: "none" }}>
+          <input
+            type="radio"
+            name="incoming"
+            value="false"
+            checked={newCall.incoming === false}
+            onChange={handleRadioChange}
+            style={{ marginRight: "0.5rem" }}
+          />
+          Outgoing Call / કરેલ
+        </label>
+
+        <label style={{ whiteSpace: "nowrap", userSelect: "none" }}>
+          <input
+            type="radio"
+            name="incoming"
+            value="true"
+            checked={newCall.incoming === true}
+            onChange={handleRadioChange}
+            style={{ marginRight: "0.5rem" }}
+          />
           Incoming Call / આવેલ
         </label>
-        <input
-          type="checkbox"
-          id={`incoming`}
-          name="incoming"
-          className="form-input"
-          checked={newCall?.incoming || false}
-          onChange={handleCheckboxChange}
-          style={{ margin: "none", maxWidth: "fit-content" }}
-        />
       </div>
+
+      <br />
 
       <div className="form-field">
         <label htmlFor="whatBusiness" className="form-label">

@@ -51,7 +51,7 @@ function BillView() {
   return (
     // The main container for the bill view. We use Tailwind CSS for styling.
     <div className="bg-gray-100 min-h-screen flex justify-center items-center py-12 px-4">
-      <div className="container mx-auto p-2 sm:p-6 lg:p-8 bg-white shadow-xl rounded-2xl max-w-4xl w-full">
+      <div className="container mx-auto p-2 sm:p-6 lg:p-8 rounded-2xl max-w-4xl w-full">
         {/* Download PDF button */}
         <div className="flex justify-end p-4">
           <button
@@ -72,10 +72,26 @@ function BillView() {
         </h2>
 
         {/* Report - 1 */}
-        <div ref={reportRef} className="flex justify-center">
+        <div
+          ref={reportRef}
+          className="flex justify-center"
+          style={{
+            maxWidth: "100%",
+            overflow: "auto",
+            display: "flex",
+            alignItems: "start",
+            justifyContent: "start",
+          }}
+        >
           <div
             className="table-container rounded-lg shadow-md border border-gray-200"
-            style={{ width: "600px", padding: "1rem", background: "#fff" }}
+            style={{
+              width: "600px",
+              padding: "1rem",
+              background: "#fff",
+
+              minWidth: "800px",
+            }}
           >
             <div className="flex justify-between items-center mb-4 w-full">
               <div className="flex flex-col items-end w-full px-4">

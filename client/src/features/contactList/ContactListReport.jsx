@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../Report.scss";
 import apiPath from "../../isProduction";
+import { useAuth } from "../../config/AuthContext";
 
 const ContactListReport = () => {
   const [records, setRecords] = useState([]);
@@ -235,6 +236,8 @@ const ContactListReport = () => {
     return <span className={`${color} font-bold ml-2`}>({text})</span>;
   };
 
+  const { user } = useAuth();
+
   return (
     <>
       <div
@@ -242,7 +245,7 @@ const ContactListReport = () => {
         style={{ paddingBottom: `${isSelectionMode ? "300px" : "100px"}` }}
       >
         <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">
-          Customer List Report [ C. L . R. ] / ટેલીકોલર ફોર્મ દરરોજ ફોન કરેલ
+          2. Customer List Report [C.L.R.] <br /> ટેલીકોલર ફોર્મ દરરોજ ફોન કરેલ
           યાદી
         </h1>
         <h2 className="text-xl text-center mb-8 text-gray-600">
@@ -428,7 +431,7 @@ const ContactListReport = () => {
                     style={{
                       color: "white",
                       background: background,
-                      minWidth: "150px",
+                      minWidth: "180px",
                     }}
                   >
                     કસ્ટમર / ગ્રાહકનું પુરૂ નામ
@@ -493,9 +496,13 @@ const ContactListReport = () => {
                   </th>
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    style={{ color: "white", background: background }}
+                    style={{
+                      color: "white",
+                      background: background,
+                      minWidth: "180px",
+                    }}
                   >
-                    જવાબ શું આપ્યો કસ્ટમર / ગ્રાહક
+                    ગ્રાહકે શું જવાબ આપ્યો
                   </th>{" "}
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -833,13 +840,15 @@ const ContactListReport = () => {
                           Edit
                         </button>
 
-                        <button
-                          onClick={() => handleDelete(record[0])}
-                          className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
-                          style={{ whiteSpace: "nowrap", fontSize: "10px" }}
-                        >
-                          Delete
-                        </button>
+                        {user.role === "owner" && (
+                          <button
+                            onClick={() => handleDelete(record[0])}
+                            className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
+                            style={{ whiteSpace: "nowrap", fontSize: "10px" }}
+                          >
+                            Delete
+                          </button>
+                        )}
                       </td>
                     </tr>
                   );
