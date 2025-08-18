@@ -88,7 +88,7 @@ const AddCall = () => {
           //   reminderDate: "",
 
           setCallHistory([]);
-          navigate("/customers/report");
+          // navigate("/customers/report");
         }
       } else {
         setError("No Records Found!");
@@ -106,7 +106,7 @@ const AddCall = () => {
   };
 
   useEffect(() => {
-    if (!id) navigate("/customers/report");
+    // if (!id) navigate("/customers/report");
     fetchRecords();
   }, []);
 
@@ -153,7 +153,6 @@ const AddCall = () => {
         console.log("Success:", result.message);
         alert(`Successfully Sumbited!`);
 
-        handleShareCall(newCall, data);
         navigate("/customers/report");
       } else {
         console.error("Error submitting form:", result.message);
@@ -405,9 +404,13 @@ const AddCall = () => {
         </div>
       </div>
 
-      {/* <button className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-colors duration-200">
+      <button
+        className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-colors duration-200"
+        onClick={() => handleShareCall(newCall, data)}
+        type="button"
+      >
         Share Call Detail
-      </button> */}
+      </button>
 
       <button type="submit" className="submit-button">
         Submit
