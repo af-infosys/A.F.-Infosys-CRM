@@ -245,13 +245,14 @@ const AddCall = () => {
       {!loading ? (
         <p
           style={{
-            fontSize: "2rem",
+            fontSize: "1.4rem",
             textAlign: "center",
             display: "flex",
             flexWrap: "wrap",
+            gap: "1rem",
           }}
         >
-          <span>ગામ: {data?.gaam}</span>
+          <span>ગામ: {data?.village}</span>
           <span>તાલુકો: {data?.taluko}</span>
           <span>જિલ્લો: {data?.jilla}</span>
         </p>
