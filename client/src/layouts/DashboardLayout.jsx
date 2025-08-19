@@ -85,7 +85,7 @@ export default function DashboardLayout() {
                       cclassName={({ isActive }) => (isActive ? "active" : "")}
                       onClick={() => setIsSidebarOpen(false)}
                     >
-                      Overview
+                      3. Overview
                     </NavLink>
 
                     <NavLink
@@ -93,7 +93,7 @@ export default function DashboardLayout() {
                       className={({ isActive }) => (isActive ? "active" : "")}
                       onClick={() => setIsSidebarOpen(false)}
                     >
-                      Reminders
+                      4. Reminders
                     </NavLink>
 
                     {user.role === "owner" && (
@@ -102,7 +102,7 @@ export default function DashboardLayout() {
                         className={({ isActive }) => (isActive ? "active" : "")}
                         onClick={() => setIsSidebarOpen(false)}
                       >
-                        Summary
+                        5. Summary
                       </NavLink>
                     )}
                   </div>

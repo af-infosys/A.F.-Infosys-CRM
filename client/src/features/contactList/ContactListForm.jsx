@@ -790,7 +790,7 @@ const ContactListForm = () => {
                               marginRight: "5px",
                             }}
                           />
-                          ફોન આવેલ
+                          આવેલ ફોન
                         </label>
                       </div>
                     </div>

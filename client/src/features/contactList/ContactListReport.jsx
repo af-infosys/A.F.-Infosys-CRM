@@ -443,7 +443,11 @@ const ContactListReport = () => {
             Loading Data...
           </div>
         ) : (
-          <div className="table-container rounded-lg shadow-md border border-gray-200 overflow-y-auto max-h-[70vh]">
+          <div
+            className={`table-container rounded-lg shadow-md border border-gray-200 overflow-y-auto max-h-[${
+              isSelectionMode ? "70vh" : "80vh"
+            }]`}
+          >
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50 sticky top-0 z-10">
                 <tr>

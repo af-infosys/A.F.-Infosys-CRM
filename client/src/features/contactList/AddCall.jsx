@@ -241,6 +241,22 @@ const AddCall = () => {
           </>
         )}
       </p>
+
+      {!loading ? (
+        <p
+          style={{
+            fontSize: "2rem",
+            textAlign: "center",
+            display: "flex",
+            flexWrap: "wrap",
+          }}
+        >
+          <span>ગામ: {data?.gaam}</span>
+          <span>તાલુકો: {data?.taluko}</span>
+          <span>જિલ્લો: {data?.jilla}</span>
+        </p>
+      ) : null}
+
       <br />
       <br />
       <hr />
@@ -302,7 +318,7 @@ const AddCall = () => {
             alt="Incoming"
             style={{ width: "20px", height: "20px", marginRight: "5px" }}
           />
-          ફોન આવેલ
+          આવેલ ફોન
         </label>
       </div>
 
