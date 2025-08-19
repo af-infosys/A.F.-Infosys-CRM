@@ -4,6 +4,10 @@ import "../Report.scss";
 import apiPath from "../../isProduction";
 import { useAuth } from "../../config/AuthContext";
 
+import WhatsappIcon from "../../assets/icon/whatsapp.png";
+import CheckIcon from "../../assets/icon/check.png";
+import SelectIcon from "../../assets/icon/select.png";
+
 const ContactListReport = () => {
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -98,6 +102,8 @@ const ContactListReport = () => {
       });
     }
   };
+
+  const selectedColor = "rgb(255 226 181)";
 
   const sendMessageToWhatsApp = async () => {
     if (selectedRecords.length === 0) {
@@ -321,6 +327,10 @@ const ContactListReport = () => {
                     padding: ".8rem .9rem",
                     background: "green",
                     margin: "0",
+
+                    display: "flex",
+                    alignItems: "center",
+
                     opacity:
                       selectedRecords.length === 0 ||
                       Object.values(messageStatuses).includes("sending")
@@ -328,6 +338,11 @@ const ContactListReport = () => {
                         : 1,
                   }}
                 >
+                  <img
+                    src={WhatsappIcon}
+                    alt="Share to Whatsapp Image"
+                    style={{ width: "20px", height: "20px" }}
+                  />
                   Send Message
                 </button>
 
@@ -344,6 +359,9 @@ const ContactListReport = () => {
                     background: "green",
                     margin: "0",
 
+                    display: "flex",
+                    alignItems: "center",
+
                     opacity:
                       selectedRecords.length === 0 ||
                       !!sendingStatus.includes("Checking")
@@ -351,6 +369,11 @@ const ContactListReport = () => {
                         : 1,
                   }}
                 >
+                  <img
+                    src={CheckIcon}
+                    alt="Share to Whatsapp Image"
+                    style={{ width: "20px", height: "20px" }}
+                  />
                   Check Valid Numbers
                 </button>
               </>
@@ -375,16 +398,11 @@ const ContactListReport = () => {
                 "Select Records"
               )}
               {!isSelectionMode && (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  className="bi bi-whatsapp"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L.05 15l4.204-1.102a7.933 7.933 0 0 0 3.79.998h.006c4.366 0 7.92-3.558 7.924-7.926a7.864 7.864 0 0 0-2.342-5.556zm-1.157 1.353a6.708 6.708 0 0 1-4.904 2.19c-.58 0-1.15-.09-1.697-.26l-.42-.16-.39.2c-1.395.736-2.583 1.954-3.327 3.42l-.08.19.12.06c.725.372 1.488.57 2.26.572h.002c1.745 0 3.398-.67 4.673-1.876a6.67 6.67 0 0 0 1.848-4.735v-.002zm-1.802 4.75a.94.94 0 0 1-.66-.27l-2.028-1.986c-.19-.184-.44-.27-.7-.27-.26 0-.51.09-.7.27l-1.015 1.01-.002.002a.84.84 0 0 1-.65.26c-.25 0-.5-.09-.69-.28l-.51-.51a.92.92 0 0 1 0-1.31L7.54 3.73c.184-.19.44-.28.7-.28s.51.09.7.28l.5.5c.18.18.28.43.28.69s-.1.5-.28.69l-.6.6c.19.19.44.28.7.28s.51-.09.7-.28l2.028-1.986a.93.93 0 0 1 1.31 0c.37.37.37 1 0 1.37l-2.028 1.986a.94.94 0 0 1-.66.27z" />
-                </svg>
+                <img
+                  src={SelectIcon}
+                  alt="Share to Whatsapp Image"
+                  style={{ width: "20px", height: "20px" }}
+                />
               )}
             </button>
           </div>
@@ -655,15 +673,36 @@ const ContactListReport = () => {
                       )}
                       {/* અહીં Google Sheet માંથી આવતા ડેટાને કૉલમમાં મેપ કરો */}
                       {/* અનું કૂમાંક (serialNumber) */}
-                      <td className="px-1 py-2 whitespace-nowrap text-sm font-medium text-gray-900">
+                      <td
+                        className="px-1 py-2 whitespace-nowrap text-sm font-medium text-gray-900"
+                        style={
+                          isSelectionMode && selectedRecords.includes(record[0])
+                            ? { background: selectedColor }
+                            : null
+                        }
+                      >
                         {record[1]}
                       </td>
                       {/* Customer Full Name */}
-                      <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
+                      <td
+                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                        style={
+                          isSelectionMode && selectedRecords.includes(record[0])
+                            ? { background: selectedColor }
+                            : null
+                        }
+                      >
                         {record[2]}
                       </td>{" "}
                       {/* Mobile No.  */}
-                      <td className="px-1 py-2 whitespace-nowrap text-sm text-gray-500">
+                      <td
+                        className="px-1 py-2 whitespace-nowrap text-sm text-gray-500"
+                        style={
+                          isSelectionMode && selectedRecords.includes(record[0])
+                            ? { background: selectedColor }
+                            : null
+                        }
+                      >
                         {record[3]?.includes(",") ? (
                           record[3]?.split(",")?.map((number, index) => (
                             <>
@@ -686,7 +725,14 @@ const ContactListReport = () => {
                         )}
                       </td>{" "}
                       {/* Whatsaap No. */}
-                      <td className="px-1 py-2 whitespace-normal text-sm text-gray-500 flex items-center">
+                      <td
+                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                        style={
+                          isSelectionMode && selectedRecords.includes(record[0])
+                            ? { background: selectedColor }
+                            : null
+                        }
+                      >
                         <a
                           href={`https://wa.me/91${record[4]?.trim()}`}
                           className="text-blue-600 hover:underline"
@@ -696,15 +742,36 @@ const ContactListReport = () => {
                         {isSelectionMode && getStatusDisplay(record[0])}
                       </td>
                       {/* Category Customer  */}
-                      <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
+                      <td
+                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                        style={
+                          isSelectionMode && selectedRecords.includes(record[0])
+                            ? { background: selectedColor }
+                            : null
+                        }
+                      >
                         {record[5]}
                       </td>{" "}
                       {/* Village  */}
-                      <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
+                      <td
+                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                        style={
+                          isSelectionMode && selectedRecords.includes(record[0])
+                            ? { background: selectedColor }
+                            : null
+                        }
+                      >
                         {record[6]}
                       </td>
                       {/* Village of charge  */}
-                      <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
+                      <td
+                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                        style={
+                          isSelectionMode && selectedRecords.includes(record[0])
+                            ? { background: selectedColor }
+                            : null
+                        }
+                      >
                         {record[7]}
                       </td>
                       {/* Taluko  */}
@@ -715,44 +782,111 @@ const ContactListReport = () => {
                           record[8] &&
                           handleSelectByTaluka(record[8])
                         }
-                        style={{
-                          cursor: isSelectionMode ? "pointer" : "default",
-                        }}
+                        style={
+                          isSelectionMode && selectedRecords.includes(record[0])
+                            ? { background: "#ff0" }
+                            : isSelectionMode
+                            ? { cursor: "pointer", background: "#ff0" }
+                            : { cursor: "default" }
+                        }
                       >
                         {record[8]}
                       </td>
                       {/* Jilla  */}
-                      <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
+                      <td
+                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                        style={
+                          isSelectionMode && selectedRecords.includes(record[0])
+                            ? { background: selectedColor }
+                            : null
+                        }
+                      >
                         {record[9]}
                       </td>
                       {/* Call History */}
-                      <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
+                      <td
+                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                        style={
+                          isSelectionMode && selectedRecords.includes(record[0])
+                            ? { background: selectedColor }
+                            : null
+                        }
+                      >
                         {callHistory[callHistory?.length - 1]?.whatBusiness ||
                           " "}
                       </td>
-                      <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
+                      <td
+                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                        style={
+                          isSelectionMode && selectedRecords.includes(record[0])
+                            ? { background: selectedColor }
+                            : null
+                        }
+                      >
                         {callHistory[callHistory?.length - 1]?.workVillage ||
                           " "}
                       </td>{" "}
-                      <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
+                      <td
+                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                        style={
+                          isSelectionMode && selectedRecords.includes(record[0])
+                            ? { background: selectedColor }
+                            : null
+                        }
+                      >
                         {callHistory[callHistory?.length - 1]?.clientAnswer ||
                           " "}
                       </td>{" "}
-                      <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
+                      <td
+                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                        style={
+                          isSelectionMode && selectedRecords.includes(record[0])
+                            ? { background: selectedColor }
+                            : null
+                        }
+                      >
                         {callHistory[callHistory?.length - 1]?.numberOfHouses ||
                           " "}
                       </td>{" "}
-                      <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
+                      <td
+                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                        style={
+                          isSelectionMode && selectedRecords.includes(record[0])
+                            ? { background: selectedColor }
+                            : null
+                        }
+                      >
                         {callHistory[callHistory?.length - 1]?.price || " "}
                       </td>{" "}
-                      <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
+                      <td
+                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                        style={
+                          isSelectionMode && selectedRecords.includes(record[0])
+                            ? { background: selectedColor }
+                            : null
+                        }
+                      >
                         {callHistory[callHistory?.length - 1]?.estimatedBill ||
                           " "}
                       </td>{" "}
-                      <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
+                      <td
+                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                        style={
+                          isSelectionMode && selectedRecords.includes(record[0])
+                            ? { background: selectedColor }
+                            : null
+                        }
+                      >
                         {callHistory[callHistory?.length - 1]?.budget || " "}
                       </td>
-                      <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
+                      <td
+                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                        style={
+                          isSelectionMode && selectedRecords.includes(record[0])
+                            ? { background: selectedColor }
+                            : null
+                        }
+                      >
                         <p style={{ whiteSpace: "nowrap" }}>
                           {formatDate(
                             callHistory[callHistory?.length - 1]?.dateOfCall ||
@@ -760,7 +894,14 @@ const ContactListReport = () => {
                           )}
                         </p>
                       </td>
-                      <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
+                      <td
+                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                        style={
+                          isSelectionMode && selectedRecords.includes(record[0])
+                            ? { background: selectedColor }
+                            : null
+                        }
+                      >
                         <p style={{ whiteSpace: "nowrap" }}>
                           {formatDate(
                             callHistory?.[callHistory.length - 1]
@@ -769,7 +910,14 @@ const ContactListReport = () => {
                         </p>
                       </td>
                       {/* Reminder Date */}
-                      <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
+                      <td
+                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                        style={
+                          isSelectionMode && selectedRecords.includes(record[0])
+                            ? { background: selectedColor }
+                            : null
+                        }
+                      >
                         <p style={{ whiteSpace: "nowrap" }}>
                           {formatDate(
                             callHistory?.[callHistory.length - 1]
@@ -778,18 +926,39 @@ const ContactListReport = () => {
                         </p>
                       </td>
                       {/* Data Entry Resources Dates */}
-                      <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
+                      <td
+                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                        style={
+                          isSelectionMode && selectedRecords.includes(record[0])
+                            ? { background: selectedColor }
+                            : null
+                        }
+                      >
                         <p style={{ whiteSpace: "nowrap" }}>
                           {formatDate(record[11] || "")}
                         </p>
                       </td>
-                      <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
+                      <td
+                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                        style={
+                          isSelectionMode && selectedRecords.includes(record[0])
+                            ? { background: selectedColor }
+                            : null
+                        }
+                      >
                         <p style={{ whiteSpace: "nowrap" }}>
                           {formatDate(record[12] || "")}
                         </p>
                       </td>
                       {/* Action */}
-                      <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
+                      <td
+                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                        style={
+                          isSelectionMode && selectedRecords.includes(record[0])
+                            ? { background: selectedColor }
+                            : null
+                        }
+                      >
                         <div
                           style={{
                             display: "flex",
@@ -818,6 +987,14 @@ const ContactListReport = () => {
                           display: "flex",
                           gap: ".3rem",
                           alignItems: "center",
+                          height: "100%",
+
+                          background: `${
+                            isSelectionMode &&
+                            selectedRecords.includes(record[0])
+                              ? selectedColor
+                              : "#fff"
+                          }`,
                         }}
                       >
                         <button
@@ -834,7 +1011,7 @@ const ContactListReport = () => {
                           onClick={() =>
                             navigate(`/customers/form/${record[0]}`)
                           }
-                          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
+                          className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-1 px-2 rounded"
                           style={{ whiteSpace: "nowrap", fontSize: "10px" }}
                         >
                           Edit

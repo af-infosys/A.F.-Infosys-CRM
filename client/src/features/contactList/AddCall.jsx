@@ -6,6 +6,9 @@ import handleShareCall from "./handleShareCall";
 
 import OutGoing from "../../assets/icon/outgoing-call.png";
 import Incoming from "../../assets/icon/incoming-call.png";
+import MobileNoIcon from "../../assets/icon/mobileNo.png";
+import WhatsappNoIcon from "../../assets/icon/whatsappNo.png";
+import WhatsappIcon from "../../assets/icon/whatsapp.png";
 
 const AddCall = () => {
   const { user } = useAuth();
@@ -181,13 +184,66 @@ const AddCall = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Add Call Details</h2>
-      <h3>Call History</h3>
+      <h2 style={{ textAlign: "center", fontSize: "1.2rem" }}>
+        Add Call Details Form
+      </h2>
+      <h3 style={{ textAlign: "center", fontSize: "1rem" }}>Call History</h3>
 
       <br />
-      <p style={{ fontSize: "2rem", textAlign: "center" }}>
-        {loading ? "Loading..." : data?.customerFullName}
+      <p
+        style={{
+          fontSize: "2rem",
+          textAlign: "center",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        {loading ? (
+          "Loading..."
+        ) : (
+          <>
+            <span>{data?.customerFullName}</span>
+
+            <b
+              style={{
+                fontSize: "1rem",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: ".5rem",
+              }}
+            >
+              {" "}
+              <img
+                src={MobileNoIcon}
+                alt="Phone Number"
+                style={{ width: "20px", height: "20px" }}
+              />{" "}
+              {data?.mobileNo}
+            </b>
+            <b
+              style={{
+                fontSize: "1rem",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: ".5rem",
+              }}
+            >
+              {" "}
+              <img
+                src={WhatsappNoIcon}
+                alt="Whatsapp Number"
+                style={{ width: "20px", height: "20px" }}
+              />{" "}
+              {data?.whatsaapNo}
+            </b>
+          </>
+        )}
       </p>
+      <br />
+      <br />
+      <hr />
       <br />
 
       {error && <p className="error">{error}</p>}
@@ -250,6 +306,8 @@ const AddCall = () => {
         </label>
       </div>
 
+      <br />
+      <hr />
       <br />
 
       <div className="form-field">
@@ -450,17 +508,56 @@ const AddCall = () => {
         </div>
       </div>
 
-      <button
-        className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-colors duration-200"
-        onClick={() => handleShareCall(newCall, data)}
-        type="button"
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          alignItems: "center",
+          gap: "1rem",
+        }}
       >
-        Share Call Detail
-      </button>
+        <button
+          className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-colors duration-200"
+          onClick={() => handleShareCall(newCall, data)}
+          type="button"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: ".5rem",
+            padding: "1rem",
+          }}
+        >
+          <img
+            src={WhatsappNoIcon}
+            alt="Whatsapp Number"
+            style={{
+              width: "20px",
+              height: "20px",
+              background: "#fff",
+              borderRadius: "50px",
+              borderBottomLeftRadius: "0px",
+            }}
+          />{" "}
+          Share Call Detail
+        </button>
 
-      <button type="submit" className="submit-button">
-        Submit
-      </button>
+        <button
+          type="submit"
+          className="submit-button"
+          style={{
+            maxWidth: "fit-content",
+            margin: 0,
+            padding: "1rem",
+            minWidth: "120px",
+          }}
+        >
+          Submit
+        </button>
+      </div>
+
+      <br />
+      <br />
     </form>
   );
 };
