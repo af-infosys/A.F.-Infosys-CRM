@@ -443,13 +443,13 @@ const ContactListReport = () => {
             Loading Data...
           </div>
         ) : (
-          <div className="table-container rounded-lg shadow-md border border-gray-200">
+          <div className="table-container rounded-lg shadow-md border border-gray-200 overflow-y-auto max-h-[70vh]">
             <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+              <thead className="bg-gray-50 sticky top-0 z-10">
                 <tr>
                   {isSelectionMode && (
                     <th
-                      className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-lg"
+                      className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-lg sticky top-0 z-10"
                       style={{ color: "white", background: background }}
                     >
                       <input
@@ -465,13 +465,13 @@ const ContactListReport = () => {
                   <th
                     className={`px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider ${
                       !isSelectionMode && "rounded-tl-lg"
-                    }`}
+                    } sticky top-0 z-10`}
                     style={{ color: "white", background: background }}
                   >
                     અનું ક્રમાંક
                   </th>
                   <th
-                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
                     style={{
                       color: "white",
                       background: background,
@@ -481,49 +481,49 @@ const ContactListReport = () => {
                     કસ્ટમર / ગ્રાહકનું પુરૂ નામ
                   </th>
                   <th
-                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
                     style={{ color: "white", background: background }}
                   >
                     મોબાઈલ નંબર
                   </th>
                   <th
-                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
                     style={{ color: "white", background: background }}
                   >
                     વોટસેઅપ નબંર
                   </th>
                   <th
-                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
                     style={{ color: "white", background: background }}
                   >
                     કેટેગરી
                   </th>
                   <th
-                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
                     style={{ color: "white", background: background }}
                   >
                     ગામ
                   </th>
                   <th
-                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
                     style={{ color: "white", background: background }}
                   >
                     ચાર્જ નું ગામ
                   </th>
                   <th
-                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
                     style={{ color: "white", background: background }}
                   >
                     તાલુકો
                   </th>
                   <th
-                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
                     style={{ color: "white", background: background }}
                   >
                     જિલ્લો
                   </th>
                   <th
-                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
                     style={{
                       color: "white",
                       background: background,
@@ -533,13 +533,13 @@ const ContactListReport = () => {
                     કયુ કામ વસ્તુ માટે ફોન કરેલ
                   </th>
                   <th
-                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
                     style={{ color: "white", background: background }}
                   >
                     કયા ગામનું કામ કરવાનું છે
                   </th>
                   <th
-                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
                     style={{
                       color: "white",
                       background: background,
@@ -549,69 +549,69 @@ const ContactListReport = () => {
                     ગ્રાહકે શું જવાબ આપ્યો
                   </th>{" "}
                   <th
-                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
                     style={{ color: "white", background: background }}
                   >
                     ઘર/ ખાતા ગામના કેટલા છે
                   </th>{" "}
                   <th
-                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
                     style={{ color: "white", background: background }}
                   >
                     ભાવ ઘર ખાતા દીઠ
                   </th>{" "}
                   <th
-                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
                     style={{ color: "white", background: background }}
                   >
                     અંદાજીત બીલ રકમ રૂ
                   </th>{" "}
                   <th
-                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
                     style={{ color: "white", background: background }}
                   >
                     કસ્ટમરને કેટલા પૈસા સુધી પોસાય ઘર/ખાતા
                   </th>{" "}
                   <th
-                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
                     style={{ color: "white", background: background }}
                   >
                     ફોન કર્યા તારીખ ટેલીકોલર
                   </th>{" "}
                   <th
-                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
                     style={{ color: "white", background: background }}
                   >
                     મીટીંગ તારીખ રૂબરુ મળવા જવુ
                   </th>
                   <th
-                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
                     style={{ color: "white", background: background }}
                   >
                     Reminder Date
                   </th>
                   {/* Entry Date */}
                   <th
-                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
                     style={{ color: "white", background: background }}
                   >
                     ઑફીસમા યાદી બનાવેલ તારીખ
                   </th>
                   <th
-                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
                     style={{ color: "white", background: background }}
                   >
                     કમ્પની ને મળેલ તારીખ
                   </th>
                   {/* Status */}
                   <th
-                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
                     style={{ color: "white", background: background }}
                   >
                     Updated by
                   </th>
                   <th
-                    className={`px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider ${
+                    className={`px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10 ${
                       !isSelectionMode && "rounded-tr-lg"
                     }`}
                     style={{ color: "white", background: background }}
@@ -619,38 +619,38 @@ const ContactListReport = () => {
                     Action
                   </th>
                 </tr>
-              </thead>
 
-              {/* Index Start */}
-              <tr>
-                {isSelectionMode && (
-                  <th
-                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    style={{
-                      textAlign: "center",
-                      color: "white",
-                      background: background,
-                    }}
-                  >
-                    #
-                  </th>
-                )}
-                {/* 1 to 18 th for index */}
-                {Array.from({ length: 23 }).map((_, index) => (
-                  <th
-                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    style={{
-                      textAlign: "center",
-                      color: "white",
-                      background: background,
-                    }}
-                    key={index}
-                  >
-                    {index + 1}
-                  </th>
-                ))}
-              </tr>
-              {/* Index End */}
+                {/* Index Start */}
+                <tr>
+                  {isSelectionMode && (
+                    <th
+                      className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      style={{
+                        textAlign: "center",
+                        color: "white",
+                        background: background,
+                      }}
+                    >
+                      #
+                    </th>
+                  )}
+                  {/* 1 to 18 th for index */}
+                  {Array.from({ length: 23 }).map((_, index) => (
+                    <th
+                      className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      style={{
+                        textAlign: "center",
+                        color: "white",
+                        background: background,
+                      }}
+                      key={index}
+                    >
+                      {index + 1}
+                    </th>
+                  ))}
+                </tr>
+                {/* Index End */}
+              </thead>
 
               <tbody className="bg-white divide-y divide-gray-200">
                 {filteredRecords.map((record, index) => {
