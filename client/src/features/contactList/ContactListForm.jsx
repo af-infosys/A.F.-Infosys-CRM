@@ -468,7 +468,7 @@ const ContactListForm = () => {
       {/* Added margin for sidebar */}
 
       <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">
-        1. Contact List Form {isEditMode ? "(Update)" : ""}
+        1. Customer List Form {isEditMode ? "(Update)" : ""}
       </h1>
 
       {formLoading && (

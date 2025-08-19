@@ -69,7 +69,7 @@ export default function DashboardLayout() {
                       cclassName={({ isActive }) => (isActive ? "active" : "")}
                       onClick={() => setIsSidebarOpen(false)}
                     >
-                      1. Add (form)
+                      1. Form
                     </NavLink>
 
                     <NavLink
