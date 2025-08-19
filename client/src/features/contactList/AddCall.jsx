@@ -4,6 +4,9 @@ import apiPath from "../../isProduction";
 import { useAuth } from "../../config/AuthContext";
 import handleShareCall from "./handleShareCall";
 
+import OutGoing from "../../assets/icon/outgoing-call.png";
+import Incoming from "../../assets/icon/incoming-call.png";
+
 const AddCall = () => {
   const { user } = useAuth();
   const { id } = useParams();
@@ -197,7 +200,15 @@ const AddCall = () => {
           gap: "1rem",
         }}
       >
-        <label style={{ whiteSpace: "nowrap", userSelect: "none" }}>
+        <label
+          style={{
+            whiteSpace: "nowrap",
+            userSelect: "none",
+
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
           <input
             type="radio"
             name="incoming"
@@ -206,10 +217,22 @@ const AddCall = () => {
             onChange={handleRadioChange}
             style={{ marginRight: "0.5rem" }}
           />{" "}
+          <img
+            src={OutGoing}
+            alt="Outgoing"
+            style={{ width: "20px", height: "20px", marginRight: "5px" }}
+          />
           ફોન કરેલ
         </label>
 
-        <label style={{ whiteSpace: "nowrap", userSelect: "none" }}>
+        <label
+          style={{
+            whiteSpace: "nowrap",
+            userSelect: "none",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
           <input
             type="radio"
             name="incoming"
@@ -217,6 +240,11 @@ const AddCall = () => {
             checked={newCall.incoming === true}
             onChange={handleRadioChange}
             style={{ marginRight: "0.5rem" }}
+          />
+          <img
+            src={Incoming}
+            alt="Incoming"
+            style={{ width: "20px", height: "20px", marginRight: "5px" }}
           />
           ફોન આવેલ
         </label>

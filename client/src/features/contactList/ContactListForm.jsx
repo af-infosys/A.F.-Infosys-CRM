@@ -7,8 +7,8 @@ import apiPath from "../../isProduction";
 import customerCategory from "../customerCategoryList";
 import handleShareCall from "./handleShareCall";
 
-import OutGoing from "../../assets/outgoing-call.png";
-import Incoming from "../../assets/incoming-call.png";
+import OutGoing from "../../assets/icon/outgoing-call.png";
+import Incoming from "../../assets/icon/incoming-call.png";
 
 const ContactListForm = () => {
   const { user } = useAuth();
@@ -461,7 +461,10 @@ const ContactListForm = () => {
   }, []);
 
   return (
-    <div className="form-container p-8">
+    <div
+      className="form-container"
+      style={{ padding: 0, background: "transparent" }}
+    >
       {/* Added margin for sidebar */}
 
       <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">
@@ -731,7 +734,12 @@ const ContactListForm = () => {
                         }}
                       >
                         <label
-                          style={{ whiteSpace: "nowrap", userSelect: "none" }}
+                          style={{
+                            whiteSpace: "nowrap",
+                            userSelect: "none",
+                            display: "flex",
+                            alignItems: "center",
+                          }}
                         >
                           <input
                             type="radio"
@@ -746,13 +754,22 @@ const ContactListForm = () => {
                           <img
                             src={OutGoing}
                             alt="Outgoing"
-                            style={{ width: "20px", height: "20px" }}
+                            style={{
+                              width: "20px",
+                              height: "20px",
+                              marginRight: "5px",
+                            }}
                           />
                           ફોન કરેલ
                         </label>
 
                         <label
-                          style={{ whiteSpace: "nowrap", userSelect: "none" }}
+                          style={{
+                            whiteSpace: "nowrap",
+                            userSelect: "none",
+                            display: "flex",
+                            alignItems: "center",
+                          }}
                         >
                           <input
                             type="radio"
@@ -767,13 +784,19 @@ const ContactListForm = () => {
                           <img
                             src={Incoming}
                             alt="Incoming"
-                            style={{ width: "20px", height: "20px" }}
+                            style={{
+                              width: "20px",
+                              height: "20px",
+                              marginRight: "5px",
+                            }}
                           />
                           ફોન આવેલ
                         </label>
                       </div>
                     </div>
 
+                    <br />
+                    <hr />
                     <br />
 
                     {/* Field 8: What business did you call for */}
