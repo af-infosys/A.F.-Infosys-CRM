@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import apiPath from "../../isProduction";
 import { useAuth } from "../../config/AuthContext";
@@ -529,7 +529,7 @@ const AddCall = () => {
           }}
         >
           <img
-            src={WhatsappNoIcon}
+            src={WhatsappIcon}
             alt="Whatsapp Number"
             style={{
               width: "20px",

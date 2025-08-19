@@ -7,6 +7,7 @@ import { useAuth } from "../../config/AuthContext";
 import WhatsappIcon from "../../assets/icon/whatsapp.png";
 import CheckIcon from "../../assets/icon/check.png";
 import SelectIcon from "../../assets/icon/select.png";
+import SearchTerm from "../../components/SearchTerm";
 
 const ContactListReport = () => {
   const [records, setRecords] = useState([]);
@@ -244,6 +245,27 @@ const ContactListReport = () => {
 
   const { user } = useAuth();
 
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleSearch = (term) => {
+    console.log("Searching for:", term);
+
+    setSearchTerm(term);
+  };
+
+  // Filtered records
+  const filteredRecords = records.filter((record) => {
+    const fullName = record[2]?.toLowerCase() || "";
+    const phone = record[3]?.toString() || "";
+    const whatsapp = record[4]?.toString() || "";
+
+    return (
+      fullName.includes(searchTerm.toLowerCase()) ||
+      phone.includes(searchTerm) ||
+      whatsapp.includes(searchTerm)
+    );
+  });
+
   return (
     <>
       <div
@@ -407,6 +429,10 @@ const ContactListReport = () => {
             </button>
           </div>
         </div>
+
+        {/* Search Section Start */}
+        <SearchTerm onSearch={handleSearch} />
+        {/* Search Section End */}
 
         {error ? (
           <div className="flex justify-center items-center h-screen text-red-600">
@@ -627,7 +653,7 @@ const ContactListReport = () => {
               {/* Index End */}
 
               <tbody className="bg-white divide-y divide-gray-200">
-                {records.map((record, index) => {
+                {filteredRecords.map((record, index) => {
                   let survayorData = record[13];
 
                   if (typeof survayorData === "string") {
