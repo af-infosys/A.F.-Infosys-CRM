@@ -7,6 +7,9 @@ import apiPath from "../../isProduction";
 import customerCategory from "../customerCategoryList";
 import handleShareCall from "./handleShareCall";
 
+import OutGoing from "../../assets/outgoing-call.png";
+import Incoming from "../../assets/incoming-call.png";
+
 const ContactListForm = () => {
   const { user } = useAuth();
 
@@ -733,21 +736,6 @@ const ContactListForm = () => {
                           <input
                             type="radio"
                             name={`incoming-${index}`} // Unique name for each radio group
-                            value="true"
-                            checked={call.incoming === true}
-                            onChange={(e) =>
-                              handleCallHistoryRadioChange(index, e)
-                            }
-                            style={{ marginRight: "0.5rem" }}
-                          />
-                          Incoming Call / આવેલ
-                        </label>
-                        <label
-                          style={{ whiteSpace: "nowrap", userSelect: "none" }}
-                        >
-                          <input
-                            type="radio"
-                            name={`incoming-${index}`} // Unique name for each radio group
                             value="false"
                             checked={call.incoming === false}
                             onChange={(e) =>
@@ -755,7 +743,33 @@ const ContactListForm = () => {
                             }
                             style={{ marginRight: "0.5rem" }}
                           />
-                          Outgoing Call / જાવેલ
+                          <img
+                            src={OutGoing}
+                            alt="Outgoing"
+                            style={{ width: "20px", height: "20px" }}
+                          />
+                          ફોન કરેલ
+                        </label>
+
+                        <label
+                          style={{ whiteSpace: "nowrap", userSelect: "none" }}
+                        >
+                          <input
+                            type="radio"
+                            name={`incoming-${index}`} // Unique name for each radio group
+                            value="true"
+                            checked={call.incoming === true}
+                            onChange={(e) =>
+                              handleCallHistoryRadioChange(index, e)
+                            }
+                            style={{ marginRight: "0.5rem" }}
+                          />
+                          <img
+                            src={Incoming}
+                            alt="Incoming"
+                            style={{ width: "20px", height: "20px" }}
+                          />
+                          ફોન આવેલ
                         </label>
                       </div>
                     </div>

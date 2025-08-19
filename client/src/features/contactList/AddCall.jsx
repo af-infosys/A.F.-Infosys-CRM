@@ -205,8 +205,8 @@ const AddCall = () => {
             checked={newCall.incoming === false}
             onChange={handleRadioChange}
             style={{ marginRight: "0.5rem" }}
-          />
-          Outgoing Call / કરેલ
+          />{" "}
+          ફોન કરેલ
         </label>
 
         <label style={{ whiteSpace: "nowrap", userSelect: "none" }}>
@@ -218,7 +218,7 @@ const AddCall = () => {
             onChange={handleRadioChange}
             style={{ marginRight: "0.5rem" }}
           />
-          Incoming Call / આવેલ
+          ફોન આવેલ
         </label>
       </div>
 

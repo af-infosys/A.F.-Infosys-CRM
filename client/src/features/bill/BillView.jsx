@@ -90,7 +90,7 @@ function BillView() {
               padding: "1rem",
               background: "#fff",
 
-              minWidth: "800px",
+              minWidth: "620px",
             }}
           >
             <div className="flex justify-between items-center mb-4 w-full">
@@ -100,7 +100,7 @@ function BillView() {
                     SHAHID KALVA | <span>93764 43146</span>
                   </h3>
                   <h3 className="text-base">
-                    E-MAIL :-
+                    E-MAIL :-{" "}
                     <b className="underline">af.infosys146@gmail.com</b>
                   </h3>
                 </div>
