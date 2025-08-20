@@ -16,11 +16,11 @@ const handleShareCall = (call, user) => {
 *📞 New Customer Call Details 📞*
 Name: ${name}
 Phone: +91 ${phone}
-Village: ${gam}
-Taluka: ${taluko}
-District: ${jillo}
-Work Type: ${kam}
-Position: ${hoddo}
+ગામ: ${gam}
+તાલુકો: ${taluko}
+જિલ્લો: ${jillo}
+કામનો પ્રકાર: ${kam}
+હોદ્દો: ${hoddo}
   `;
 
   // URL-encode the message to handle special characters like spaces and newlines

@@ -423,6 +423,8 @@ const ContactListForm = () => {
         dateOfCall: "",
         meetingDate: "",
         reminderDate: "",
+
+        telecaller: { id: user?.id, name: user?.name, time: new Date() },
       },
     ]);
   };

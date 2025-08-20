@@ -497,7 +497,8 @@ const AddCall = () => {
 
         <div className="form-field">
           <label htmlFor="reminderDate" className="form-label">
-            I{") "} Reminder date: Follow Up. (ગ્રાહકને ફરી કોલ કરવો)
+            I{") "}
+            ગ્રાહકને ફરી કોલ કરવો (Reminder date/Follow Up.)
           </label>
           <input
             type="date"
