@@ -506,7 +506,7 @@ const ContactListForm = () => {
           {/* Field 2: મિલ્કત ક્રમાંક */}
           <div className="form-field">
             <label htmlFor="customerFullName" className="form-label">
-              2. કસ્ટમર & ગ્રાહકનું પુરૂ નામ
+              2. ગ્રાહકનું & કસ્ટમર પુરૂ નામ
             </label>
             <input
               type="text"
