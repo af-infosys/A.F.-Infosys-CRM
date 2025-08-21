@@ -384,7 +384,7 @@ export const editSheetRecord = async (req, res) => {
     // ✅ Step 2: Update only column 16th for isInterested
     await googleSheets.spreadsheets.values.update({
       spreadsheetId: SPREADSHEET_ID,
-      range: `${DATA_SHEET}!P${rowNumber}`, // column 16
+      range: `${DATA_SHEET}!Q${rowNumber}`, // column 16
       valueInputOption: "USER_ENTERED",
       requestBody: {
         values: [[isInterested]],
