@@ -338,6 +338,14 @@ export default function DashboardLayout() {
                   >
                     Work
                   </NavLink>
+
+                  <NavLink
+                    to={`/staff/telecallerReport`}
+                    cclassName={({ isActive }) => (isActive ? "active" : "")}
+                    onClick={() => setIsSidebarOpen(false)}
+                  >
+                    Telecaller Report
+                  </NavLink>
                 </div>
               </div>
             )}

@@ -3,24 +3,6 @@ import { useNavigate } from "react-router-dom";
 import apiPath from "../../isProduction";
 
 const Staff = () => {
-  useEffect(() => {
-    // Google Fonts અને Tailwind CSS CDN સ્ક્રિપ્ટો ઉમેરો
-    const link = document.createElement("link");
-    link.href =
-      "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap";
-    link.rel = "stylesheet";
-    document.head.appendChild(link);
-
-    const tailwindScript = document.createElement("script");
-    tailwindScript.src = "https://cdn.tailwindcss.com";
-    document.head.appendChild(tailwindScript);
-
-    return () => {
-      document.head.removeChild(link);
-      document.head.removeChild(tailwindScript);
-    };
-  }, []);
-
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -256,7 +238,7 @@ const Staff = () => {
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {users.map((staff) => (
-                  <tr key={staff.id}>
+                  <tr key={staff._id}>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                       {staff.name}
                     </td>

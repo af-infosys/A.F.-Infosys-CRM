@@ -209,6 +209,7 @@ const ContactListReport = () => {
   };
 
   const background = "#007bff";
+  const callBackground = "rgb(255 161 52)";
 
   const handleViewInvalids = () => {
     const numbersString = JSON.stringify(invalid);
@@ -455,6 +456,7 @@ const ContactListReport = () => {
                     <th
                       className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-lg sticky top-0 z-10"
                       style={{ color: "white", background: background }}
+                      rowSpan="2"
                     >
                       <input
                         type="checkbox"
@@ -471,6 +473,7 @@ const ContactListReport = () => {
                       !isSelectionMode && "rounded-tl-lg"
                     } sticky top-0 z-10`}
                     style={{ color: "white", background: background }}
+                    rowSpan="2"
                   >
                     અનું ક્રમાંક
                   </th>
@@ -481,129 +484,80 @@ const ContactListReport = () => {
                       background: background,
                       minWidth: "180px",
                     }}
+                    rowSpan="2"
                   >
                     કસ્ટમર / ગ્રાહકનું પુરૂ નામ
                   </th>
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
                     style={{ color: "white", background: background }}
+                    rowSpan="2"
                   >
                     મોબાઈલ નંબર
                   </th>
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
                     style={{ color: "white", background: background }}
+                    rowSpan="2"
                   >
                     વોટસેઅપ નબંર
                   </th>
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
                     style={{ color: "white", background: background }}
+                    rowSpan="2"
                   >
                     કેટેગરી
                   </th>
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
                     style={{ color: "white", background: background }}
+                    rowSpan="2"
                   >
                     ગામ
                   </th>
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
                     style={{ color: "white", background: background }}
+                    rowSpan="2"
                   >
                     ચાર્જ નું ગામ
                   </th>
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
                     style={{ color: "white", background: background }}
+                    rowSpan="2"
                   >
                     તાલુકો
                   </th>
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
                     style={{ color: "white", background: background }}
+                    rowSpan="2"
                   >
                     જિલ્લો
                   </th>
+
                   <th
-                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
-                    style={{
-                      color: "white",
-                      background: background,
-                      minWidth: "150px",
-                    }}
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-lg sticky top-0 z-10"
+                    style={{ color: "white", background: callBackground }}
+                    colSpan="10"
                   >
-                    કયુ કામ વસ્તુ માટે ફોન કરેલ
+                    Call History
                   </th>
-                  <th
-                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
-                    style={{ color: "white", background: background }}
-                  >
-                    કયા ગામનું કામ કરવાનું છે
-                  </th>
-                  <th
-                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
-                    style={{
-                      color: "white",
-                      background: background,
-                      minWidth: "180px",
-                    }}
-                  >
-                    ગ્રાહકે શું જવાબ આપ્યો
-                  </th>{" "}
-                  <th
-                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
-                    style={{ color: "white", background: background }}
-                  >
-                    ઘર/ ખાતા ગામના કેટલા છે
-                  </th>{" "}
-                  <th
-                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
-                    style={{ color: "white", background: background }}
-                  >
-                    ભાવ ઘર ખાતા દીઠ
-                  </th>{" "}
-                  <th
-                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
-                    style={{ color: "white", background: background }}
-                  >
-                    અંદાજીત બીલ રકમ રૂ
-                  </th>{" "}
-                  <th
-                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
-                    style={{ color: "white", background: background }}
-                  >
-                    કસ્ટમરને કેટલા પૈસા સુધી પોસાય ઘર/ખાતા
-                  </th>{" "}
-                  <th
-                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
-                    style={{ color: "white", background: background }}
-                  >
-                    ફોન કર્યા તારીખ ટેલીકોલર
-                  </th>{" "}
-                  <th
-                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
-                    style={{ color: "white", background: background }}
-                  >
-                    મીટીંગ તારીખ રૂબરુ મળવા જવુ
-                  </th>
-                  <th
-                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
-                    style={{ color: "white", background: background }}
-                  >
-                    Reminder Date
-                  </th>
+
                   {/* Entry Date */}
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
                     style={{ color: "white", background: background }}
+                    rowSpan="2"
                   >
                     ઑફીસમા યાદી બનાવેલ તારીખ
                   </th>
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
                     style={{ color: "white", background: background }}
+                    rowSpan="2"
                   >
                     કમ્પની ને મળેલ તારીખ
                   </th>
@@ -611,6 +565,7 @@ const ContactListReport = () => {
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
                     style={{ color: "white", background: background }}
+                    rowSpan="2"
                   >
                     Updated by
                   </th>
@@ -619,8 +574,80 @@ const ContactListReport = () => {
                       !isSelectionMode && "rounded-tr-lg"
                     }`}
                     style={{ color: "white", background: background }}
+                    rowSpan="2"
                   >
                     Action
+                  </th>
+                </tr>
+
+                <tr>
+                  <th
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
+                    style={{
+                      color: "white",
+                      background: callBackground,
+                      minWidth: "150px",
+                    }}
+                  >
+                    કયુ કામ વસ્તુ માટે ફોન કરેલ
+                  </th>
+                  <th
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
+                    style={{ color: "white", background: callBackground }}
+                  >
+                    કયા ગામનું કામ કરવાનું છે
+                  </th>
+                  <th
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
+                    style={{
+                      color: "white",
+                      background: callBackground,
+                      minWidth: "180px",
+                    }}
+                  >
+                    ગ્રાહકે શું જવાબ આપ્યો
+                  </th>{" "}
+                  <th
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
+                    style={{ color: "white", background: callBackground }}
+                  >
+                    ઘર/ ખાતા ગામના કેટલા છે
+                  </th>{" "}
+                  <th
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
+                    style={{ color: "white", background: callBackground }}
+                  >
+                    ભાવ ઘર ખાતા દીઠ
+                  </th>{" "}
+                  <th
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
+                    style={{ color: "white", background: callBackground }}
+                  >
+                    અંદાજીત બીલ રકમ રૂ
+                  </th>{" "}
+                  <th
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
+                    style={{ color: "white", background: callBackground }}
+                  >
+                    કસ્ટમરને કેટલા પૈસા સુધી પોસાય ઘર/ખાતા
+                  </th>{" "}
+                  <th
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
+                    style={{ color: "white", background: callBackground }}
+                  >
+                    ફોન કર્યા તારીખ ટેલીકોલર
+                  </th>{" "}
+                  <th
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
+                    style={{ color: "white", background: callBackground }}
+                  >
+                    મીટીંગ તારીખ રૂબરુ મળવા જવુ
+                  </th>
+                  <th
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
+                    style={{ color: "white", background: callBackground }}
+                  >
+                    Reminder Date
                   </th>
                 </tr>
 
@@ -645,7 +672,11 @@ const ContactListReport = () => {
                       style={{
                         textAlign: "center",
                         color: "white",
-                        background: background,
+                        background: [
+                          9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
+                        ].includes(index)
+                          ? callBackground
+                          : background,
                       }}
                       key={index}
                     >
@@ -834,6 +865,7 @@ const ContactListReport = () => {
                         {record[9]}
                       </td>
                       {/* Call History */}
+                      {/* Which type of Work */}
                       <td
                         className="px-1 py-2 whitespace-normal text-sm text-gray-500"
                         style={
@@ -845,6 +877,7 @@ const ContactListReport = () => {
                         {callHistory[callHistory?.length - 1]?.whatBusiness ||
                           " "}
                       </td>
+                      {/* Work Village */}
                       <td
                         className="px-1 py-2 whitespace-normal text-sm text-gray-500"
                         style={
@@ -855,7 +888,8 @@ const ContactListReport = () => {
                       >
                         {callHistory[callHistory?.length - 1]?.workVillage ||
                           " "}
-                      </td>{" "}
+                      </td>
+                      {/* Customer Answer */}
                       <td
                         className="px-1 py-2 whitespace-normal text-sm text-gray-500"
                         style={
@@ -866,7 +900,8 @@ const ContactListReport = () => {
                       >
                         {callHistory[callHistory?.length - 1]?.clientAnswer ||
                           " "}
-                      </td>{" "}
+                      </td>
+                      {/* Number of Houses */}
                       <td
                         className="px-1 py-2 whitespace-normal text-sm text-gray-500"
                         style={
@@ -877,7 +912,8 @@ const ContactListReport = () => {
                       >
                         {callHistory[callHistory?.length - 1]?.numberOfHouses ||
                           " "}
-                      </td>{" "}
+                      </td>
+                      {/* Price */}
                       <td
                         className="px-1 py-2 whitespace-normal text-sm text-gray-500"
                         style={
@@ -887,7 +923,8 @@ const ContactListReport = () => {
                         }
                       >
                         {callHistory[callHistory?.length - 1]?.price || " "}
-                      </td>{" "}
+                      </td>
+                      {/* Bill Amount */}
                       <td
                         className="px-1 py-2 whitespace-normal text-sm text-gray-500"
                         style={
@@ -898,7 +935,8 @@ const ContactListReport = () => {
                       >
                         {callHistory[callHistory?.length - 1]?.estimatedBill ||
                           " "}
-                      </td>{" "}
+                      </td>
+                      {/* Customer Budget */}
                       <td
                         className="px-1 py-2 whitespace-normal text-sm text-gray-500"
                         style={
@@ -909,6 +947,7 @@ const ContactListReport = () => {
                       >
                         {callHistory[callHistory?.length - 1]?.budget || " "}
                       </td>
+                      {/* Call Date */}
                       <td
                         className="px-1 py-2 whitespace-normal text-sm text-gray-500"
                         style={
@@ -924,6 +963,7 @@ const ContactListReport = () => {
                           )}
                         </p>
                       </td>
+                      {/* Meeting Date */}
                       <td
                         className="px-1 py-2 whitespace-normal text-sm text-gray-500"
                         style={

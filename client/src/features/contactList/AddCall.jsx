@@ -10,6 +10,11 @@ import MobileNoIcon from "../../assets/icon/mobileNo.png";
 import WhatsappNoIcon from "../../assets/icon/whatsappNo.png";
 import WhatsappIcon from "../../assets/icon/whatsapp.png";
 
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(relativeTime);
+
 const AddCall = () => {
   const { user } = useAuth();
   const { id } = useParams();
@@ -28,9 +33,12 @@ const AddCall = () => {
     price: "",
     estimatedBill: "",
     budget: "",
-    dateOfCall: "",
+    dateOfCall: dayjs().format("YYYY-MM-DD") || "",
     meetingDate: "",
     reminderDate: "",
+
+    createdAt: { id: user?.id, name: user?.name, time: new Date() },
+    updatedAt: { id: user?.id, name: user?.name, time: new Date() },
   });
 
   const [callHistory, setCallHistory] = useState([]);
@@ -124,15 +132,6 @@ const AddCall = () => {
     }));
   };
 
-  const handleCheckboxChange = (e) => {
-    const { name, checked } = e.target;
-
-    setNewCall((prev) => ({
-      ...prev,
-      [name]: checked,
-    }));
-  };
-
   const handleRadioChange = (e) => {
     const { value } = e.target;
     const isIncoming = value === "true";
@@ -146,7 +145,7 @@ const AddCall = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    setLoading(true);
+    setLoading(true); // Set loading to true when the form is submitted
     setError(null);
 
     const newFormData = { ...data, callHistory: [...callHistory, newCall] };
@@ -178,7 +177,7 @@ const AddCall = () => {
       console.error("Network error or unexpected issue:", error);
       setError("નેટવર્ક ભૂલ અથવા અણધારી સમસ્યા આવી.");
     } finally {
-      setLoading(false);
+      setLoading(false); // Set loading to false when the request is complete (success or error)
     }
   };
 
@@ -569,8 +568,9 @@ const AddCall = () => {
             padding: "1rem",
             minWidth: "120px",
           }}
+          disabled={loading}
         >
-          Submit
+          {loading ? "Submitting..." : "Submit"}
         </button>
       </div>
 

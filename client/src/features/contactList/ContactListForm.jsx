@@ -33,7 +33,7 @@ const ContactListForm = () => {
     listCreated: "",
     listReceived: "",
 
-    telecaller: { id: user?.id, name: user?.name, time: new Date() },
+    isInterested: false,
   });
 
   // [
@@ -160,7 +160,6 @@ const ContactListForm = () => {
         setFormData((prev) => ({
           ...prev,
           [name]: value,
-
           taluko: matched.taluka,
           jilla: matched.district,
         }));
@@ -236,6 +235,8 @@ const ContactListForm = () => {
             listCreated: "",
             listReceived: "",
 
+            isInterested: false,
+
             telecaller: { id: user?.id, name: user?.name, time: new Date() },
           });
 
@@ -308,6 +309,8 @@ const ContactListForm = () => {
 
             listCreated: record[11] || "",
             listReceived: record[12] || "",
+
+            isInterested: record[16] || false,
 
             telecaller: { id: user?.id, name: user?.name, time: new Date() },
           });
@@ -385,6 +388,14 @@ const ContactListForm = () => {
       i === index ? { ...call, [name]: value } : call
     );
     setCallHistory(updatedHistory);
+  };
+
+  const handleCheckboxChange = (e) => {
+    const { name, checked } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: checked,
+    }));
   };
 
   const handleCallHistoryCheckboxChange = (index, e) => {
@@ -484,6 +495,25 @@ const ContactListForm = () => {
       )}
 
       <form onSubmit={handleSubmit}>
+        <div className="form-field">
+          <label
+            htmlFor="isInterested"
+            className="form-label"
+            style={{ userSelect: "none" }}
+          >
+            Interested Customer?
+          </label>
+          <input
+            type="checkbox"
+            id="isInterested"
+            name="isInterested"
+            className="form-checkbox"
+            checked={formData.isInterested}
+            onChange={handleCheckboxChange}
+            disabled={isEditMode && formLoading}
+          />
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
           {/* Field 1: અનું ક્રમાંક */}
           <div className="form-field">

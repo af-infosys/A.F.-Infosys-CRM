@@ -20,6 +20,7 @@ import SurvayReport from "../features/survay/SurvayReport";
 import OrderValuationReport from "../features/orderValuation/orderValuationReport";
 import BillView from "../features/bill/BillView";
 import IncomeReport from "../features/accounts/income/IncomeReport";
+import TelecallerReport from "../features/staff/workStatus/TelecallerReport";
 
 export default function AppRoutes() {
   return (
@@ -111,6 +112,15 @@ export default function AppRoutes() {
           element={
             <ProtectedRoute allowedRoles={["owner"]}>
               <Work />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/staff/telecallerReport"
+          element={
+            <ProtectedRoute allowedRoles={["owner"]}>
+              <TelecallerReport />
             </ProtectedRoute>
           }
         />

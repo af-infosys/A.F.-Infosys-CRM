@@ -213,6 +213,106 @@ export const getRecord = async (req, res) => {
   }
 };
 
+// export const editSheetRecord = async (req, res) => {
+//   try {
+//     const client = await auth.getClient();
+//     const googleSheets = google.sheets({ version: "v4", auth: client });
+
+//     // Fetch current records
+//     const response = await googleSheets.spreadsheets.values.get({
+//       spreadsheetId: SPREADSHEET_ID,
+//       range: `${DATA_SHEET}!A5:ZZ`,
+//     });
+
+//     const records = response.data.values || [];
+//     const { id } = req.params;
+
+//     // Find the matching row index
+//     const rowIndex = records.findIndex((record) => record[0] == id);
+//     if (rowIndex === -1) {
+//       return res.status(404).json({ message: "Record not found" });
+//     }
+
+//     const rowNumber = rowIndex + 5; // Adjust for A5 start
+
+//     // Convert req.body to a flat array
+//     const {
+//       serialNumber,
+//       customerFullName,
+
+//       mobileNo,
+//       whatsaapNo,
+//       category,
+//       village,
+//       villageOfCharge,
+//       taluko,
+//       jilla,
+
+//       callHistory,
+//       // whatBusiness,
+//       // workVillage,
+//       // clientAnswer,
+//       // numberOfHouses,
+//       // price,
+//       // estimatedBill,
+//       // budget,
+//       // dateOfCall,
+//       // meetingDate,
+
+//       listCreated,
+//       listReceived,
+
+//       isInterested,
+
+//       telecaller,
+//     } = req.body;
+
+//     const updatedRow = [
+//       id,
+//       serialNumber,
+//       customerFullName,
+
+//       mobileNo,
+//       whatsaapNo,
+//       category,
+//       village,
+//       villageOfCharge,
+//       taluko,
+//       jilla,
+
+//       JSON.stringify(callHistory),
+
+//       listCreated,
+//       listReceived,
+
+//       JSON.stringify(telecaller),
+
+//       // isInterested at 16
+//     ];
+
+//     // Update the sheet row
+//     await googleSheets.spreadsheets.values.update({
+//       spreadsheetId: SPREADSHEET_ID,
+//       range: `${DATA_SHEET}!A${rowNumber}:ZZ${rowNumber}`,
+//       valueInputOption: "USER_ENTERED",
+//       requestBody: {
+//         values: [updatedRow],
+//       },
+//     });
+
+//     res.status(200).json({
+//       message: "Record updated successfully!",
+//       updatedRow,
+//     });
+//   } catch (error) {
+//     console.error("Error updating record:", error.message);
+//     res.status(500).json({
+//       message: "Failed to update record",
+//       error: error.message,
+//     });
+//   }
+// };
+
 export const editSheetRecord = async (req, res) => {
   try {
     const client = await auth.getClient();
@@ -235,11 +335,10 @@ export const editSheetRecord = async (req, res) => {
 
     const rowNumber = rowIndex + 5; // Adjust for A5 start
 
-    // Convert req.body to a flat array
+    // Extract fields
     const {
       serialNumber,
       customerFullName,
-
       mobileNo,
       whatsaapNo,
       category,
@@ -247,69 +346,57 @@ export const editSheetRecord = async (req, res) => {
       villageOfCharge,
       taluko,
       jilla,
-
       callHistory,
-
       listCreated,
       listReceived,
-
-      // whatBusiness,
-      // workVillage,
-      // clientAnswer,
-      // numberOfHouses,
-      // price,
-      // estimatedBill,
-      // budget,
-      // dateOfCall,
-      // meetingDate,
-
       telecaller,
+      isInterested,
     } = req.body;
 
+    // Build updated row up to telecaller (column N)
     const updatedRow = [
-      id,
-      serialNumber,
-      customerFullName,
-
-      mobileNo,
-      whatsaapNo,
-      category,
-      village,
-      villageOfCharge,
-      taluko,
-      jilla,
-
-      JSON.stringify(callHistory),
-
-      listCreated,
-      listReceived,
-
-      // whatBusiness,
-      // workVillage,
-      // clientAnswer,
-      // numberOfHouses,
-      // price,
-      // estimatedBill,
-      // budget,
-      // dateOfCall,
-      // meetingDate,
-
-      JSON.stringify(telecaller),
+      id, // 0
+      serialNumber, // 1
+      customerFullName, // 2
+      mobileNo, // 3
+      whatsaapNo, // 4
+      category, // 5
+      village, // 6
+      villageOfCharge, // 7
+      taluko, // 8
+      jilla, // 9
+      JSON.stringify(callHistory), // 10
+      listCreated, // 11
+      listReceived, // 12
+      JSON.stringify(telecaller), // 13
     ];
 
-    // Update the sheet row
+    // ✅ Step 1: Update 0 → 13 (columns 14)
     await googleSheets.spreadsheets.values.update({
       spreadsheetId: SPREADSHEET_ID,
-      range: `${DATA_SHEET}!A${rowNumber}:ZZ${rowNumber}`,
+      range: `${DATA_SHEET}!A${rowNumber}:N${rowNumber}`,
       valueInputOption: "USER_ENTERED",
       requestBody: {
         values: [updatedRow],
       },
     });
 
+    // ✅ Step 2: Update only column 16th for isInterested
+    await googleSheets.spreadsheets.values.update({
+      spreadsheetId: SPREADSHEET_ID,
+      range: `${DATA_SHEET}!P${rowNumber}`, // column 16
+      valueInputOption: "USER_ENTERED",
+      requestBody: {
+        values: [[isInterested]],
+      },
+    });
+
     res.status(200).json({
       message: "Record updated successfully!",
-      updatedRow,
+      updatedRow: {
+        ...req.body,
+        rowNumber,
+      },
     });
   } catch (error) {
     console.error("Error updating record:", error.message);
