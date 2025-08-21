@@ -74,6 +74,7 @@ export const addSheetRecord = async (req, res) => {
       // meetingDate,
 
       telecaller,
+      isInterested,
     } = req.body;
 
     // Basic validation: Check if essential fields are present
@@ -118,6 +119,11 @@ export const addSheetRecord = async (req, res) => {
       // meetingDate?.trim() || "",
 
       JSON.stringify(telecaller || {}),
+
+      "", // Sended Messages
+      "", // Recieved Messages
+
+      isInterested || false,
     ];
 
     console.log(callHistory);
