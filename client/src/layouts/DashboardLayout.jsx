@@ -1,7 +1,14 @@
 import { NavLink, Outlet } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./DashboardLayout.scss";
 import { useAuth } from "../config/AuthContext";
+
+import CustomerIcon from "../assets/icon/menu/customer.png";
+import CustomerOverviewIcon from "../assets/icon/menu/user-list-icon.png";
+import CustomerAddIcon from "../assets/icon/menu/user.png";
+import CustomerReportIcon from "../assets/icon/menu/report.png";
+import CustomerSummaryIcon from "../assets/icon/menu/summary.png";
+import CustomerReminderIcon from "../assets/icon/menu/reminder.png";
 
 export default function DashboardLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -59,16 +66,26 @@ export default function DashboardLayout() {
                     setOpenMenu(openMenu === "/customers" ? null : "/customers")
                   }
                 >
-                  Customer List
+                  <img
+                    src={CustomerIcon}
+                    alt="Customer List"
+                    style={{ width: "20px" }}
+                  />
+                  Customer
                 </div>
 
                 {openMenu === "/customers" && (
                   <div className="sub-links">
                     <NavLink
                       to={`/customers/form`}
-                      cclassName={({ isActive }) => (isActive ? "active" : "")}
+                      className={({ isActive }) => (isActive ? "active" : "")}
                       onClick={() => setIsSidebarOpen(false)}
                     >
+                      <img
+                        src={CustomerAddIcon}
+                        alt="Customer List"
+                        style={{ width: "20px" }}
+                      />
                       1. Form
                     </NavLink>
 
@@ -77,6 +94,11 @@ export default function DashboardLayout() {
                       className={({ isActive }) => (isActive ? "active" : "")}
                       onClick={() => setIsSidebarOpen(false)}
                     >
+                      <img
+                        src={CustomerReportIcon}
+                        alt="Customer List"
+                        style={{ width: "20px" }}
+                      />
                       2. Report
                     </NavLink>
 
@@ -85,6 +107,11 @@ export default function DashboardLayout() {
                       cclassName={({ isActive }) => (isActive ? "active" : "")}
                       onClick={() => setIsSidebarOpen(false)}
                     >
+                      <img
+                        src={CustomerOverviewIcon}
+                        alt="Customer List"
+                        style={{ width: "20px" }}
+                      />
                       3. Overview
                     </NavLink>
 
@@ -93,6 +120,11 @@ export default function DashboardLayout() {
                       className={({ isActive }) => (isActive ? "active" : "")}
                       onClick={() => setIsSidebarOpen(false)}
                     >
+                      <img
+                        src={CustomerReminderIcon}
+                        alt="Customer List"
+                        style={{ width: "20px" }}
+                      />
                       4. Reminders
                     </NavLink>
 
@@ -102,6 +134,11 @@ export default function DashboardLayout() {
                         className={({ isActive }) => (isActive ? "active" : "")}
                         onClick={() => setIsSidebarOpen(false)}
                       >
+                        <img
+                          src={CustomerSummaryIcon}
+                          alt="Customer List"
+                          style={{ width: "20px" }}
+                        />
                         5. Summary
                       </NavLink>
                     )}

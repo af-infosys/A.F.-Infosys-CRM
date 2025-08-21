@@ -197,8 +197,13 @@
             border-radius: 6px;
             transition: background 0.2s;
 
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #fffafa21;
+
             &:hover {
-              background-color: #4a5568;
+              background: #6e85ac;
             }
           }
 
@@ -216,8 +221,13 @@
               border-radius: 4px;
               color: #cbd5e0;
 
+              display: flex;
+              align-items: center;
+              gap: 0.5rem;
+              background: #fffafa1a;
+
               &:hover {
-                background-color: #4a5568;
+                background-color: #66748d;
                 color: #ffffff;
               }
 
