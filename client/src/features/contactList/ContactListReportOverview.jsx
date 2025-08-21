@@ -319,22 +319,11 @@ const ContactListReportOverview = () => {
 
                       <button
                         onClick={() => navigate(`/customers/form/${record[0]}`)}
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
+                        className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-1 px-2 rounded"
                         style={{ whiteSpace: "nowrap", fontSize: "10px" }}
                       >
                         Edit
                       </button>
-
-                      {(user.name === survayorData?.name ||
-                        user.role === "owner") && (
-                        <button
-                          onClick={() => handleDelete(record[0])}
-                          className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
-                          style={{ whiteSpace: "nowrap", fontSize: "10px" }}
-                        >
-                          Delete
-                        </button>
-                      )}
                     </td>
                   </tr>
                 );

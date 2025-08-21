@@ -7,8 +7,19 @@ import CustomerIcon from "../assets/icon/menu/customer.png";
 import CustomerOverviewIcon from "../assets/icon/menu/user-list-icon.png";
 import CustomerAddIcon from "../assets/icon/menu/user.png";
 import CustomerReportIcon from "../assets/icon/menu/report.png";
-import CustomerSummaryIcon from "../assets/icon/menu/summary.png";
 import CustomerReminderIcon from "../assets/icon/menu/reminder.png";
+import CustomerSummaryIcon from "../assets/icon/menu/summary.png";
+import InterestedIcon from "../assets/icon/menu/interested.png";
+
+import AccountIcon from "../assets/icon/menu/accounts.png";
+import IncomeIcon from "../assets/icon/menu/income.png";
+import ExpenseIcon from "../assets/icon/menu/expense.png";
+
+import StaffIcon from "../assets/icon/menu/staff.png";
+import ManageIcon from "../assets/icon/menu/manage.png";
+import AddEmpIcon from "../assets/icon/menu/addemp.png";
+import TeleCallerIcon from "../assets/icon/menu/telecaller.png";
+import ProjectManagementIcon from "../assets/icon/menu/project-management.png";
 
 export default function DashboardLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -104,7 +115,7 @@ export default function DashboardLayout() {
 
                     <NavLink
                       to={`/customers/overview`}
-                      cclassName={({ isActive }) => (isActive ? "active" : "")}
+                      className={({ isActive }) => (isActive ? "active" : "")}
                       onClick={() => setIsSidebarOpen(false)}
                     >
                       <img
@@ -142,6 +153,21 @@ export default function DashboardLayout() {
                         5. Summary
                       </NavLink>
                     )}
+
+                    {user.role === "owner" && (
+                      <NavLink
+                        to={"/customers/interested"}
+                        className={({ isActive }) => (isActive ? "active" : "")}
+                        onClick={() => setIsSidebarOpen(false)}
+                      >
+                        <img
+                          src={InterestedIcon}
+                          alt="Customer List"
+                          style={{ width: "20px" }}
+                        />
+                        Interested
+                      </NavLink>
+                    )}
                   </div>
                 )}
               </div>
@@ -162,7 +188,7 @@ export default function DashboardLayout() {
                   <div className="sub-links">
                     <NavLink
                       to={`/survay`}
-                      cclassName={({ isActive }) => (isActive ? "active" : "")}
+                      className={({ isActive }) => (isActive ? "active" : "")}
                       onClick={() => setIsSidebarOpen(false)}
                     >
                       Report
@@ -199,7 +225,7 @@ export default function DashboardLayout() {
                   <div className="sub-links">
                     <NavLink
                       to={`/orderValuation/report`}
-                      cclassName={({ isActive }) => (isActive ? "active" : "")}
+                      className={({ isActive }) => (isActive ? "active" : "")}
                       onClick={() => setIsSidebarOpen(false)}
                     >
                       Report
@@ -234,7 +260,7 @@ export default function DashboardLayout() {
                   <div className="sub-links">
                     {/* <NavLink
                       to={`/bills/report`}
-                      cclassName={({ isActive }) => (isActive ? "active" : "")}
+                      className={({ isActive }) => (isActive ? "active" : "")}
                       onClick={() => setIsSidebarOpen(false)}
                     >
                       Report
@@ -242,7 +268,7 @@ export default function DashboardLayout() {
 
                     <NavLink
                       to={`/bills/view`}
-                      cclassName={({ isActive }) => (isActive ? "active" : "")}
+                      className={({ isActive }) => (isActive ? "active" : "")}
                       onClick={() => setIsSidebarOpen(false)}
                     >
                       View
@@ -270,6 +296,11 @@ export default function DashboardLayout() {
                     setOpenMenu(openMenu === "/accounts" ? null : "/accounts")
                   }
                 >
+                  <img
+                    src={AccountIcon}
+                    alt="Customer List"
+                    style={{ width: "23px" }}
+                  />
                   Accounts
                 </div>
 
@@ -277,7 +308,7 @@ export default function DashboardLayout() {
                   <div className="sub-links">
                     {/* <NavLink
                       to={`/accounts/report`}
-                      cclassName={({ isActive }) => (isActive ? "active" : "")}
+                      className={({ isActive }) => (isActive ? "active" : "")}
                       onClick={() => setIsSidebarOpen(false)}
                     >
                       Report
@@ -285,17 +316,27 @@ export default function DashboardLayout() {
 
                     <NavLink
                       to={`/accounts/income`}
-                      cclassName={({ isActive }) => (isActive ? "active" : "")}
+                      className={({ isActive }) => (isActive ? "active" : "")}
                       onClick={() => setIsSidebarOpen(false)}
                     >
+                      <img
+                        src={IncomeIcon}
+                        alt="Customer List"
+                        style={{ width: "23px" }}
+                      />
                       Income
                     </NavLink>
 
                     <NavLink
                       to={`/accounts/expense`}
-                      cclassName={({ isActive }) => (isActive ? "active" : "")}
+                      className={({ isActive }) => (isActive ? "active" : "")}
                       onClick={() => setIsSidebarOpen(false)}
                     >
+                      <img
+                        src={ExpenseIcon}
+                        alt="Customer List"
+                        style={{ width: "23px" }}
+                      />
                       Expense
                     </NavLink>
 
@@ -325,7 +366,7 @@ export default function DashboardLayout() {
                   <div className="sub-links">
                     <NavLink
                       to={`${base}/form`}
-                      cclassName={({ isActive }) => (isActive ? "active" : "")}
+                      className={({ isActive }) => (isActive ? "active" : "")}
                       onClick={() => setIsSidebarOpen(false)}
                     >
                       Form
@@ -350,38 +391,64 @@ export default function DashboardLayout() {
                     setOpenMenu(openMenu === "/staff" ? null : "/staff")
                   }
                 >
+                  <img
+                    src={StaffIcon}
+                    alt="Customer List"
+                    style={{ width: "23px" }}
+                  />
                   Manage Staff
                 </div>
 
                 <div className="sub-links">
                   <NavLink
                     to={`/staff/manage`}
-                    cclassName={({ isActive }) => (isActive ? "active" : "")}
+                    className={({ isActive }) => (isActive ? "active" : "")}
                     onClick={() => setIsSidebarOpen(false)}
                   >
+                    <img
+                      src={ManageIcon}
+                      alt="Customer List"
+                      style={{ width: "23px" }}
+                    />
                     Manage
                   </NavLink>
                   <NavLink
                     to={`/staff/add`}
-                    cclassName={({ isActive }) => (isActive ? "active" : "")}
+                    className={({ isActive }) => (isActive ? "active" : "")}
                     onClick={() => setIsSidebarOpen(false)}
                   >
+                    <img
+                      src={AddEmpIcon}
+                      alt="Customer List"
+                      style={{ width: "23px" }}
+                    />
                     Add
                   </NavLink>
+
+                  <NavLink
+                    to={`/staff/telecallerReport`}
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                    onClick={() => setIsSidebarOpen(false)}
+                  >
+                    <img
+                      src={TeleCallerIcon}
+                      alt="Customer List"
+                      style={{ width: "23px" }}
+                    />
+                    Telecaller Report
+                  </NavLink>
+
                   <NavLink
                     to={"/staff/work"}
                     className={({ isActive }) => (isActive ? "active" : "")}
                     onClick={() => setIsSidebarOpen(false)}
                   >
-                    Work
-                  </NavLink>
-
-                  <NavLink
-                    to={`/staff/telecallerReport`}
-                    cclassName={({ isActive }) => (isActive ? "active" : "")}
-                    onClick={() => setIsSidebarOpen(false)}
-                  >
-                    Telecaller Report
+                    <img
+                      src={ProjectManagementIcon}
+                      alt="Customer List"
+                      style={{ width: "23px" }}
+                    />
+                    Project
                   </NavLink>
                 </div>
               </div>

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
 import apiPath from "../../../isProduction";
 
 // This is the main component for the Telecaller Work Status Report.
@@ -278,8 +277,19 @@ const TelecallerReport = () => {
                     <table className="min-w-full text-sm text-left text-gray-500">
                       <thead className="text-xs text-gray-700 uppercase bg-gray-200">
                         <tr>
-                          <th scope="col" className="py-3 px-4 rounded-tl-lg">
+                          <th
+                            scope="col"
+                            className="py-3 px-4 rounded-tl-lg"
+                            style={{ width: "100px" }}
+                          >
                             Call Time
+                          </th>
+                          <th
+                            scope="col"
+                            className="py-3 px-4 rounded-tl-lg"
+                            style={{ width: "120px" }}
+                          >
+                            Call Date
                           </th>
                           <th scope="col" className="py-3 px-4">
                             Customer Name
@@ -310,27 +320,36 @@ const TelecallerReport = () => {
                                 className="bg-white border-b hover:bg-gray-50 transition-colors duration-200"
                               >
                                 <td className="py-3 px-4">
-                                  {dayjs(callData.createdAt?.time).format(
+                                  {dayjs(callData?.createdAt?.time).format(
                                     "HH:mm A"
                                   )}
                                 </td>
+                                {/* <td className="py-3 px-4">
+                                  {dayjs(callData?.createdAt?.time).format(
+                                    "YYYY-MM-DD"
+                                  )}
+                                </td> */}
                                 <td className="py-3 px-4 capitalize">
-                                  {callData.customerName}
+                                  {callData?.dateOfCall}
+                                </td>
+
+                                <td className="py-3 px-4 capitalize">
+                                  {callData?.customerName}
                                 </td>
                                 <td className="py-3 px-4">
-                                  {callData.customerNumber}
+                                  {callData?.customerNumber}
                                 </td>
                                 <td className="py-3 px-4 capitalize">
-                                  {callData.customerVillage}
+                                  {callData?.customerVillage}
                                 </td>
                                 <td className="py-3 px-4 capitalize">
-                                  {callData.whatBusiness}
+                                  {callData?.whatBusiness}
                                 </td>
                                 <td className="py-3 px-4 max-w-xs overflow-hidden text-ellipsis whitespace-nowrap">
-                                  {callData.clientAnswer}
+                                  {callData?.clientAnswer}
                                 </td>
                                 <td className="py-3 px-4 max-w-xs overflow-hidden text-ellipsis whitespace-nowrap">
-                                  {callData.workVillage}
+                                  {callData?.workVillage}
                                 </td>
                               </tr>
                             );

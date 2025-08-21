@@ -310,7 +310,7 @@ const ContactListForm = () => {
             listCreated: record[11] || "",
             listReceived: record[12] || "",
 
-            isInterested: record[16] || false,
+            isInterested: record[16] === "TRUE" ? true : false,
 
             telecaller: { id: user?.id, name: user?.name, time: new Date() },
           });
@@ -495,13 +495,21 @@ const ContactListForm = () => {
       )}
 
       <form onSubmit={handleSubmit}>
-        <div className="form-field">
+        <div className="form-field" style={{ display: "flex", gap: ".5rem" }}>
           <label
             htmlFor="isInterested"
             className="form-label"
             style={{ userSelect: "none" }}
           >
-            Interested Customer?
+            રસ ધરાવે છે ? (Interested Customer?){" "}
+            <span
+              style={{
+                fontSize: "1.3rem",
+                color: `${formData.isInterested ? "blue" : "orange"}`,
+              }}
+            >
+              '{formData.isInterested ? "હા" : "ના"}'
+            </span>
           </label>
           <input
             type="checkbox"

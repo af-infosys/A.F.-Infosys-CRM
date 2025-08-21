@@ -21,6 +21,7 @@ import OrderValuationReport from "../features/orderValuation/orderValuationRepor
 import BillView from "../features/bill/BillView";
 import IncomeReport from "../features/accounts/income/IncomeReport";
 import TelecallerReport from "../features/staff/workStatus/TelecallerReport";
+import InterestedList from "../features/contactList/InterestedList";
 
 export default function AppRoutes() {
   return (
@@ -57,6 +58,15 @@ export default function AppRoutes() {
         <Route path="/customers/summary" element={<SummaryReport />} />
         <Route path="/customers/invalids" element={<InvalidNumbers />} />
         <Route path="/customers/reminders" element={<RemindersReport />} />
+
+        <Route
+          path="/customers/interested"
+          element={
+            <ProtectedRoute allowedRoles={["owner"]}>
+              <InterestedList />
+            </ProtectedRoute>
+          }
+        />
 
         <Route
           path="/survay"
