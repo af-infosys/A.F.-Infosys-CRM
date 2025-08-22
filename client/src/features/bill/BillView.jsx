@@ -73,17 +73,16 @@ function BillView() {
 
         {/* Report - 1 */}
         <div
-          ref={reportRef}
-          className="flex justify-center"
+          className="flex justify-start md:justify-center"
           style={{
             maxWidth: "100%",
             overflow: "auto",
             display: "flex",
             alignItems: "start",
-            justifyContent: "start",
           }}
         >
           <div
+            ref={reportRef}
             className="table-container rounded-lg shadow-md border border-gray-200"
             style={{
               width: "600px",
@@ -109,13 +108,13 @@ function BillView() {
 
             {/* Business Name and Logo */}
             <div className="flex flex-col relative">
-              <h2 className="text-3xl text-center font-extrabold mt-4">
+              <h2 className="text-5xl text-center font-extrabold mt-4">
                 A.F. Infosys
               </h2>
               <img
                 src={logoUrl}
                 alt="Logo"
-                className="absolute bottom-0 left-8 w-32 rounded-lg"
+                className="absolute bottom-0 left-3 w-32 rounded-lg"
                 onError={(e) => {
                   e.target.onerror = null;
                   e.target.src = placeholderImageUrl;

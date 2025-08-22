@@ -34,24 +34,6 @@ export default function DashboardLayout() {
     // { label: "Order Valuation", base: "/orders" },
   ];
 
-  // // Effect for loading external CSS and JS (Tailwind)
-  // useEffect(() => {
-  //   const link = document.createElement("link");
-  //   link.href =
-  //     "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap";
-  //   link.rel = "stylesheet";
-  //   document.head.appendChild(link);
-
-  //   const tailwindScript = document.createElement("script");
-  //   tailwindScript.src = "https://cdn.tailwindcss.com";
-  //   document.head.appendChild(tailwindScript);
-
-  //   return () => {
-  //     document.head.removeChild(link);
-  //     document.head.removeChild(tailwindScript);
-  //   };
-  // }, []);
-
   return (
     <div className="dashboard-layout">
       {/* Hamburger for Mobile */}
@@ -165,7 +147,7 @@ export default function DashboardLayout() {
                           alt="Customer List"
                           style={{ width: "20px" }}
                         />
-                        Interested
+                        6. Interested
                       </NavLink>
                     )}
                   </div>
