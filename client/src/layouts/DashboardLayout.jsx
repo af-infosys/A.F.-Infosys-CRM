@@ -51,7 +51,9 @@ export default function DashboardLayout() {
         <div className="navigation">
           <h1 className="text-2xl font-bold mb-6">A.F. Infosys</h1>
           <nav className="flex flex-col gap-4" style={{ userSelect: "none" }}>
-            {(user.role === "owner" || user.role === "telecaller") && (
+            {(user.role === "owner" ||
+              user.role === "telecaller" ||
+              user.role === "monitor") && (
               <div>
                 <div
                   className="main-link"
@@ -69,57 +71,69 @@ export default function DashboardLayout() {
 
                 {openMenu === "/customers" && (
                   <div className="sub-links">
-                    <NavLink
-                      to={`/customers/form`}
-                      className={({ isActive }) => (isActive ? "active" : "")}
-                      onClick={() => setIsSidebarOpen(false)}
-                    >
-                      <img
-                        src={CustomerAddIcon}
-                        alt="Customer List"
-                        style={{ width: "20px" }}
-                      />
-                      1. Form
-                    </NavLink>
+                    {(user.role === "owner" || user.role === "telecaller") && (
+                      <NavLink
+                        to={`/customers/form`}
+                        className={({ isActive }) => (isActive ? "active" : "")}
+                        onClick={() => setIsSidebarOpen(false)}
+                      >
+                        <img
+                          src={CustomerAddIcon}
+                          alt="Customer List"
+                          style={{ width: "20px" }}
+                        />
+                        1. Form
+                      </NavLink>
+                    )}
 
-                    <NavLink
-                      to={"/customers/report"}
-                      className={({ isActive }) => (isActive ? "active" : "")}
-                      onClick={() => setIsSidebarOpen(false)}
-                    >
-                      <img
-                        src={CustomerReportIcon}
-                        alt="Customer List"
-                        style={{ width: "20px" }}
-                      />
-                      2. Report
-                    </NavLink>
+                    {(user.role === "owner" ||
+                      user.role === "telecaller" ||
+                      user.role === "monitor") && (
+                      <NavLink
+                        to={"/customers/report"}
+                        className={({ isActive }) => (isActive ? "active" : "")}
+                        onClick={() => setIsSidebarOpen(false)}
+                      >
+                        <img
+                          src={CustomerReportIcon}
+                          alt="Customer List"
+                          style={{ width: "20px" }}
+                        />
+                        2. Report
+                      </NavLink>
+                    )}
 
-                    <NavLink
-                      to={`/customers/overview`}
-                      className={({ isActive }) => (isActive ? "active" : "")}
-                      onClick={() => setIsSidebarOpen(false)}
-                    >
-                      <img
-                        src={CustomerOverviewIcon}
-                        alt="Customer List"
-                        style={{ width: "20px" }}
-                      />
-                      3. Overview
-                    </NavLink>
+                    {(user.role === "owner" ||
+                      user.role === "telecaller" ||
+                      user.role === "monitor") && (
+                      <NavLink
+                        to={`/customers/overview`}
+                        className={({ isActive }) => (isActive ? "active" : "")}
+                        onClick={() => setIsSidebarOpen(false)}
+                      >
+                        <img
+                          src={CustomerOverviewIcon}
+                          alt="Customer List"
+                          style={{ width: "20px" }}
+                        />
+                        3. Overview
+                      </NavLink>
+                    )}
 
-                    <NavLink
-                      to={"/customers/reminders"}
-                      className={({ isActive }) => (isActive ? "active" : "")}
-                      onClick={() => setIsSidebarOpen(false)}
-                    >
-                      <img
-                        src={CustomerReminderIcon}
-                        alt="Customer List"
-                        style={{ width: "20px" }}
-                      />
-                      4. Reminders
-                    </NavLink>
+                    {(user.role === "owner" || user.role === "telecaller") && (
+                      <NavLink
+                        to={"/customers/reminders"}
+                        className={({ isActive }) => (isActive ? "active" : "")}
+                        onClick={() => setIsSidebarOpen(false)}
+                      >
+                        <img
+                          src={CustomerReminderIcon}
+                          alt="Customer List"
+                          style={{ width: "20px" }}
+                        />
+                        4. Reminders
+                      </NavLink>
+                    )}
 
                     {user.role === "owner" && (
                       <NavLink
@@ -336,34 +350,44 @@ export default function DashboardLayout() {
               </div>
             )}
 
-            {menuItems.map(({ label, base }) => (
-              <div key={base}>
-                <div
-                  className="main-link"
-                  onClick={() => setOpenMenu(openMenu === base ? null : base)}
-                >
-                  {label}
-                </div>
-                {openMenu === base && (
-                  <div className="sub-links">
-                    <NavLink
-                      to={`${base}/form`}
-                      className={({ isActive }) => (isActive ? "active" : "")}
-                      onClick={() => setIsSidebarOpen(false)}
+            {(user.role === "owner" || user.role === "telecaller") && (
+              <>
+                {menuItems.map(({ label, base }) => (
+                  <div key={base}>
+                    <div
+                      className="main-link"
+                      onClick={() =>
+                        setOpenMenu(openMenu === base ? null : base)
+                      }
                     >
-                      Form
-                    </NavLink>
-                    <NavLink
-                      to={`${base}/report`}
-                      className={({ isActive }) => (isActive ? "active" : "")}
-                      onClick={() => setIsSidebarOpen(false)}
-                    >
-                      Report
-                    </NavLink>
+                      {label}
+                    </div>
+                    {openMenu === base && (
+                      <div className="sub-links">
+                        <NavLink
+                          to={`${base}/form`}
+                          className={({ isActive }) =>
+                            isActive ? "active" : ""
+                          }
+                          onClick={() => setIsSidebarOpen(false)}
+                        >
+                          Form
+                        </NavLink>
+                        <NavLink
+                          to={`${base}/report`}
+                          className={({ isActive }) =>
+                            isActive ? "active" : ""
+                          }
+                          onClick={() => setIsSidebarOpen(false)}
+                        >
+                          Report
+                        </NavLink>
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
-            ))}
+                ))}
+              </>
+            )}
 
             {user.role === "owner" && (
               <div>

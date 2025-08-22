@@ -36,6 +36,7 @@ export default function AppRoutes() {
               "operator",
               "surveyor",
               "telecaller",
+              "monitor",
             ]}
           >
             <DashboardLayout />
@@ -109,6 +110,7 @@ export default function AppRoutes() {
             </ProtectedRoute>
           }
         />
+
         <Route
           path="/staff/add"
           element={
@@ -117,6 +119,7 @@ export default function AppRoutes() {
             </ProtectedRoute>
           }
         />
+
         <Route
           path="/staff/work"
           element={

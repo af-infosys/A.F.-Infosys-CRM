@@ -569,15 +569,18 @@ const ContactListReport = () => {
                   >
                     Updated by
                   </th>
-                  <th
-                    className={`px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10 ${
-                      !isSelectionMode && "rounded-tr-lg"
-                    }`}
-                    style={{ color: "white", background: background }}
-                    rowSpan="2"
-                  >
-                    Action
-                  </th>
+
+                  {(user.role === "owner" || user.role === "telecaller") && (
+                    <th
+                      className={`px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10 ${
+                        !isSelectionMode && "rounded-tr-lg"
+                      }`}
+                      style={{ color: "white", background: background }}
+                      rowSpan="2"
+                    >
+                      Action
+                    </th>
+                  )}
                 </tr>
 
                 <tr>
@@ -666,7 +669,12 @@ const ContactListReport = () => {
                     </th>
                   )}
                   {/* 1 to 18 th for index */}
-                  {Array.from({ length: 23 }).map((_, index) => (
+                  {Array.from({
+                    length:
+                      user.role === "owner" || user.role === "telecaller"
+                        ? 23
+                        : 22,
+                  }).map((_, index) => (
                     <th
                       className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
                       style={{
@@ -1051,52 +1059,61 @@ const ContactListReport = () => {
                           )}
                         </div>
                       </td>
-                      <td
-                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
-                        style={{
-                          display: "flex",
-                          gap: ".3rem",
-                          alignItems: "center",
-                          height: "100%",
+                      {(user.role === "owner" ||
+                        user.role === "telecaller") && (
+                        <td
+                          className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                          style={{
+                            display: "flex",
+                            gap: ".3rem",
+                            alignItems: "center",
+                            height: "100%",
 
-                          background: `${
-                            isSelectionMode &&
-                            selectedRecords.includes(record[0])
-                              ? selectedColor
-                              : "#fff"
-                          }`,
-                        }}
-                      >
-                        <button
-                          onClick={() =>
-                            navigate(`/customers/add-call/${record[0]}`)
-                          }
-                          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
-                          style={{ whiteSpace: "nowrap", fontSize: "10px" }}
+                            background: `${
+                              isSelectionMode &&
+                              selectedRecords.includes(record[0])
+                                ? selectedColor
+                                : "#fff"
+                            }`,
+                          }}
                         >
-                          Add Call Detail
-                        </button>
+                          {(user.role === "owner" ||
+                            user.role === "telecaller") && (
+                            <button
+                              onClick={() =>
+                                navigate(`/customers/add-call/${record[0]}`)
+                              }
+                              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
+                              style={{ whiteSpace: "nowrap", fontSize: "10px" }}
+                            >
+                              Add Call Detail
+                            </button>
+                          )}
 
-                        <button
-                          onClick={() =>
-                            navigate(`/customers/form/${record[0]}`)
-                          }
-                          className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-1 px-2 rounded"
-                          style={{ whiteSpace: "nowrap", fontSize: "10px" }}
-                        >
-                          Edit
-                        </button>
+                          {(user.role === "owner" ||
+                            user.role === "telecaller") && (
+                            <button
+                              onClick={() =>
+                                navigate(`/customers/form/${record[0]}`)
+                              }
+                              className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-1 px-2 rounded"
+                              style={{ whiteSpace: "nowrap", fontSize: "10px" }}
+                            >
+                              Edit
+                            </button>
+                          )}
 
-                        {user.role === "owner" && (
-                          <button
-                            onClick={() => handleDelete(record[0])}
-                            className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
-                            style={{ whiteSpace: "nowrap", fontSize: "10px" }}
-                          >
-                            Delete
-                          </button>
-                        )}
-                      </td>
+                          {user.role === "owner" && (
+                            <button
+                              onClick={() => handleDelete(record[0])}
+                              className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
+                              style={{ whiteSpace: "nowrap", fontSize: "10px" }}
+                            >
+                              Delete
+                            </button>
+                          )}
+                        </td>
+                      )}
                     </tr>
                   );
                 })}

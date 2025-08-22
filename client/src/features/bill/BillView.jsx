@@ -44,7 +44,7 @@ function BillView() {
   };
 
   const totalAmount = (billData.houseCount * billData.pricePerHouse).toFixed(2);
-  const logoUrl = "https://afinfosys.netlify.app/logo512.png";
+  const logoUrl = "https://afinfosys.netlify.app/logo.png";
   const placeholderImageUrl =
     "https://placehold.co/512x512/d1d5db/374151?text=A.F.Infosys";
 

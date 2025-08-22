@@ -171,19 +171,25 @@ const ContactListReportOverview = () => {
                 >
                   Updated by
                 </th>
-                <th
-                  className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tr-lg"
-                  style={{ color: "white", background: background }}
-                >
-                  Action
-                </th>
+
+                {(user.role === "owner" || user.role === "telecaller") && (
+                  <th
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tr-lg"
+                    style={{ color: "white", background: background }}
+                  >
+                    Action
+                  </th>
+                )}
               </tr>
             </thead>
 
             {/* Index Start */}
             <tr>
               {/* 1 to 18 th for index */}
-              {Array.from({ length: 11 }).map((_, index) => (
+              {Array.from({
+                length:
+                  user.role === "owner" || user.role === "telecaller" ? 11 : 10,
+              }).map((_, index) => (
                 <th
                   className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
                   style={{
@@ -299,32 +305,36 @@ const ContactListReportOverview = () => {
                         )}
                       </div>
                     </td>
-                    <td
-                      className="px-1 py-2 whitespace-normal text-sm text-gray-500"
-                      style={{
-                        display: "flex",
-                        gap: ".3rem",
-                        alignItems: "center",
-                      }}
-                    >
-                      <button
-                        onClick={() =>
-                          navigate(`/customers/add-call/${record[0]}`)
-                        }
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
-                        style={{ whiteSpace: "nowrap", fontSize: "10px" }}
+                    {(user.role === "owner" || user.role === "telecaller") && (
+                      <td
+                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                        style={{
+                          display: "flex",
+                          gap: ".3rem",
+                          alignItems: "center",
+                        }}
                       >
-                        Add Call Detail
-                      </button>
+                        <button
+                          onClick={() =>
+                            navigate(`/customers/add-call/${record[0]}`)
+                          }
+                          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
+                          style={{ whiteSpace: "nowrap", fontSize: "10px" }}
+                        >
+                          Add Call Detail
+                        </button>
 
-                      <button
-                        onClick={() => navigate(`/customers/form/${record[0]}`)}
-                        className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-1 px-2 rounded"
-                        style={{ whiteSpace: "nowrap", fontSize: "10px" }}
-                      >
-                        Edit
-                      </button>
-                    </td>
+                        <button
+                          onClick={() =>
+                            navigate(`/customers/form/${record[0]}`)
+                          }
+                          className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-1 px-2 rounded"
+                          style={{ whiteSpace: "nowrap", fontSize: "10px" }}
+                        >
+                          Edit
+                        </button>
+                      </td>
+                    )}
                   </tr>
                 );
               })}

@@ -129,6 +129,8 @@ const SurvayReport = () => {
 
       <br />
 
+      {/* Kram || Vistar nu nam || Milkat Kramank || Milkat Varnan || Malik nu Nam || Old Milkat Number || Mobile || Price || Tax Amount || Milkat Name || Makan Type - Category || Suvidha - (Nall, | Suchalay) || Remarks */}
+
       <div className="table-container rounded-lg shadow-md border border-gray-200">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
@@ -139,6 +141,14 @@ const SurvayReport = () => {
               >
                 અનું કૂમાંક
               </th>
+
+              <th
+                className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-lg"
+                id="thead"
+              >
+                અનું કૂમાંક
+              </th>
+
               <th
                 className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
                 id="thead"
@@ -146,12 +156,14 @@ const SurvayReport = () => {
               >
                 માલિકનું નામ
               </th>
+
               <th
                 className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
                 id="thead"
               >
                 વિસ્તારનું નામ
               </th>
+
               <th
                 className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
                 id="thead"
