@@ -71,6 +71,21 @@ export default function DashboardLayout() {
 
                 {openMenu === "/customers" && (
                   <div className="sub-links">
+                    {user.role === "owner" && (
+                      <NavLink
+                        to={`/staff/telecallerReport`}
+                        className={({ isActive }) => (isActive ? "active" : "")}
+                        onClick={() => setIsSidebarOpen(false)}
+                      >
+                        <img
+                          src={TeleCallerIcon}
+                          alt="Customer List"
+                          style={{ width: "23px" }}
+                        />
+                        Telecaller Report
+                      </NavLink>
+                    )}
+
                     {(user.role === "owner" || user.role === "telecaller") && (
                       <NavLink
                         to={`/customers/form`}
@@ -429,19 +444,6 @@ export default function DashboardLayout() {
                       style={{ width: "23px" }}
                     />
                     Add
-                  </NavLink>
-
-                  <NavLink
-                    to={`/staff/telecallerReport`}
-                    className={({ isActive }) => (isActive ? "active" : "")}
-                    onClick={() => setIsSidebarOpen(false)}
-                  >
-                    <img
-                      src={TeleCallerIcon}
-                      alt="Customer List"
-                      style={{ width: "23px" }}
-                    />
-                    Telecaller Report
                   </NavLink>
 
                   <NavLink

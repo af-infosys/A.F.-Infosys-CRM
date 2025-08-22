@@ -78,10 +78,7 @@ const SurvayReport = () => {
             background-color: #f0f2f5;
           }
           .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 2rem;
-            background-color: #ffffff;
+            max-width: 1200px;  
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
           }
@@ -138,28 +135,15 @@ const SurvayReport = () => {
               <th
                 className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-lg"
                 id="thead"
+                rowSpan="2"
               >
-                અનું કૂમાંક
+                અનું ક્રમાંક
               </th>
 
               <th
                 className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-lg"
                 id="thead"
-              >
-                અનું કૂમાંક
-              </th>
-
-              <th
-                className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                id="thead"
-                style={{ minWidth: "150px" }}
-              >
-                માલિકનું નામ
-              </th>
-
-              <th
-                className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                id="thead"
+                rowSpan="2"
               >
                 વિસ્તારનું નામ
               </th>
@@ -167,19 +151,39 @@ const SurvayReport = () => {
               <th
                 className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
                 id="thead"
+                rowSpan="2"
               >
                 મિલ્કત ક્રમાંક
               </th>
+
               <th
                 className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
                 id="thead"
+                rowSpan="2"
                 style={{ minWidth: "300px" }}
               >
                 મિલકતનું વર્ણન
               </th>
+
               <th
                 className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
                 id="thead"
+                rowSpan="2"
+                style={{ minWidth: "150px" }}
+              >
+                માલિકનું નામ
+              </th>
+              <th
+                className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                id="thead"
+                rowSpan="2"
+              >
+                જુનો મિ.નં.
+              </th>
+              <th
+                className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                id="thead"
+                rowSpan="2"
               >
                 મોબાઈલ નંબર
               </th>
@@ -187,28 +191,75 @@ const SurvayReport = () => {
               <th
                 className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
                 id="thead"
+                rowSpan="2"
                 // style={{ rotate: "90deg", transform: "translateY(2px)" }}
               >
-                નળ
+                વાર્ષિક ભાડાની કિંમત અથવા બીજી કિંમત આકારણી
               </th>
+              <th
+                className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                id="thead"
+                rowSpan="2"
+                // style={{ rotate: "90deg", transform: "translateY(10px)" }}
+              >
+                આકારેલ વેરાની રકમ
+              </th>
+              <th
+                className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                id="thead"
+                rowSpan="2"
+              >
+                મિલ્ક્ત પર લખેલ નામ મકાન/દુકાન/ કારખાના/ કંપનીનું નામ
+              </th>
+
+              <th
+                className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                id="thead"
+                rowSpan="2"
+              >
+                મકાન ટાઈપ
+              </th>
+
+              <th
+                className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                id="thead"
+                colSpan="2"
+              >
+                સુવિધા
+              </th>
+
+              <th
+                className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                id="thead"
+                rowSpan="2"
+              >
+                રીમાર્કસ
+              </th>
+
+              <th
+                className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tr-lg"
+                id="thead"
+                rowSpan="2"
+              >
+                Action
+              </th>
+            </tr>
+
+            <tr>
               <th
                 className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
                 id="thead"
                 // style={{ rotate: "90deg", transform: "translateY(10px)" }}
               >
-                શૌચાલય
+                નળ
               </th>
+
               <th
                 className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
                 id="thead"
+                // style={{ rotate: "90deg", transform: "translateY(10px)" }}
               >
-                નોંધ/રીમાર્કસ
-              </th>
-              <th
-                className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tr-lg"
-                id="thead"
-              >
-                Action
+                નળ શોચાલ્ય
               </th>
             </tr>
           </thead>
@@ -216,7 +267,7 @@ const SurvayReport = () => {
           {/* Index Start */}
           <tr>
             {/* 1 to 18 th for index */}
-            {Array.from({ length: 10 }).map((_, index) => (
+            {Array.from({ length: 15 }).map((_, index) => (
               <th
                 className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
                 style={{
@@ -248,44 +299,76 @@ const SurvayReport = () => {
               return (
                 <tr key={index}>
                   {/* અહીં Google Sheet માંથી આવતા ડેટાને કૉલમમાં મેપ કરો */}
+                  {/* મિલ્કત ક્રમાંક (propertyNumber) */}
                   <td className="px-2 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                     {record[0]}
-                  </td>{" "}
-                  {/* અનું કૂમાંક (serialNumber) */}
+                  </td>
+
                   <td className="px-2 py-4 whitespace-normal text-sm text-gray-500">
-                    {record[3]}
-                  </td>{" "}
-                  {/* વિસ્તારનું નામ (areaName) */}
-                  <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-500">
                     {record[1]}
-                  </td>{" "}
-                  {/* મિલ્કત ક્રમાંક (propertyNumber) */}
+                  </td>
+
                   <td className="px-2 py-4 whitespace-normal text-sm text-gray-500">
                     {record[2]}
-                  </td>{" "}
+                  </td>
+
                   {/* મિલકતનું વર્ણન (description) */}
                   <td className="px-2 py-4 whitespace-normal text-sm text-gray-500">
                     {record[15]}
-                  </td>{" "}
+                  </td>
+
                   {/* માલિકનું નામ (ownerName) */}
                   <td className="px-2 py-4 whitespace-normal text-sm text-gray-500">
+                    {record[3]}
+                  </td>
+
+                  {/* જુનો મિલકત નંબર (OldNumber) */}
+                  <td className="px-2 py-4 whitespace-normal text-sm text-gray-500">
+                    {record[4]}
+                  </td>
+
+                  {/* મોબાઈલ નંબર (MobileNumber) */}
+                  <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-500">
                     {record[5]}
                   </td>
-                  {/* કબ્જેદારનું નામ (rowData માં નથી) */}
-                  {/* <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-500"></td> */}
-                  {/* આકારેલી વેરાની રકમ (rowData માં નથી) */}
+
+                  {/* Valuation/Price */}
+                  <td className="px-2 py-4 whitespace-normal text-sm text-gray-500">
+                    {/* {record[2]} */}
+                    {"00.00"}
+                  </td>
+
+                  {/* Tax Amount */}
+                  <td className="px-2 py-4 whitespace-normal text-sm text-gray-500">
+                    {/* {record[2]} */}
+                    {"00.00"}
+                  </td>
+
+                  {/* મિલ્ક્ત પર લખેલ નામ મકાન/દુકાન/ કારખાના/ કંપનીનું નામ */}
                   <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {record[11]}
-                  </td>{" "}
+                    {record[6]}
+                  </td>
+
+                  {/* મકાન category */}
+                  <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {record[7]}
+                  </td>
+
                   {/* પાણી નો નળ (tapCount) */}
                   <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {record[12]}
-                  </td>{" "}
+                    {record[11]}
+                  </td>
+
                   {/* શૌચાલય (toiletCount) */}
+                  <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {record[12]}
+                  </td>
+
+                  {/* રીમાર્કસ/નોંધ (remarks) */}
                   <td className="px-2 py-4 whitespace-normal text-sm text-gray-500">
                     {record[13]}
-                  </td>{" "}
-                  {/* રીમાર્કસ/નોંધ (remarks) */}
+                  </td>
+
                   {user.id === survayorData?.id ? (
                     <td
                       className="px-2 py-4 whitespace-normal text-sm text-gray-500"

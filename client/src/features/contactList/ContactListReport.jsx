@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../Report.scss";
 import apiPath from "../../isProduction";
@@ -267,11 +267,34 @@ const ContactListReport = () => {
     );
   });
 
+  useEffect(() => {
+    if (!isSelectionMode) return;
+
+    const scroller = document.querySelector("main"); // or ".dashboard-layout main"
+    if (scroller) {
+      scroller.scrollTo({ top: scroller.scrollHeight, behavior: "smooth" });
+    } else {
+      // fallback if layout changes
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  }, [isSelectionMode]);
+
   return (
     <>
       <div
         className="container mx-auto p-2 sm:p-6 lg:p-8"
-        style={{ paddingBottom: `${isSelectionMode ? "300px" : "100px"}` }}
+        style={{
+          paddingBottom: isSelectionMode
+            ? window.innerWidth < 640
+              ? "140px"
+              : "100px" // small vs larger devices
+            : window.innerWidth < 640
+            ? "8px"
+            : "32px",
+        }}
       >
         <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">
           2. Customer List Report [C.L.R.] <br /> ટેલીકોલર ફોર્મ દરરોજ ફોન કરેલ
@@ -445,9 +468,9 @@ const ContactListReport = () => {
           </div>
         ) : (
           <div
-            className={`table-container rounded-lg shadow-md border border-gray-200 overflow-y-auto max-h-[${
-              isSelectionMode ? "70vh" : "80vh"
-            }]`}
+            className={`table-container rounded-lg shadow-md border border-gray-200 overflow-y-auto ${
+              isSelectionMode ? "max-h-[75vh]" : "max-h-[82vh]"
+            }`}
           >
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50 sticky top-0 z-10">
