@@ -22,6 +22,7 @@ import BillView from "../features/bill/BillView";
 import IncomeReport from "../features/accounts/income/IncomeReport";
 import TelecallerReport from "../features/staff/workStatus/TelecallerReport";
 import InterestedList from "../features/contactList/InterestedList";
+import Settings from "../features/settings/Settings";
 
 export default function AppRoutes() {
   return (
@@ -134,6 +135,15 @@ export default function AppRoutes() {
           element={
             <ProtectedRoute allowedRoles={["owner"]}>
               <TelecallerReport />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute allowedRoles={["owner"]}>
+              <Settings />
             </ProtectedRoute>
           }
         />

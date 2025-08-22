@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.12dd2844.css",
-    "main.js": "/static/js/main.c61297e3.js",
+    "main.css": "/static/css/main.a8d43325.css",
+    "main.js": "/static/js/main.b7100edd.js",
     "static/js/977.87a37736.chunk.js": "/static/js/977.87a37736.chunk.js",
     "static/js/455.a993a3ae.chunk.js": "/static/js/455.a993a3ae.chunk.js",
     "static/js/453.57b2eab3.chunk.js": "/static/js/453.57b2eab3.chunk.js",
@@ -20,18 +20,19 @@
     "static/media/customer.png": "/static/media/customer.067fe15deea5f343ce56.png",
     "static/media/whatsappNo.png": "/static/media/whatsappNo.8891fb827b837b5c3e45.png",
     "static/media/summary.png": "/static/media/summary.c1eeff22a900858fa9f4.png",
+    "static/media/settings.png": "/static/media/settings.266092d3905d4f547f2e.png",
     "static/media/income.png": "/static/media/income.383090b6bba77dbe7dd6.png",
     "static/media/mobileNo.png": "/static/media/mobileNo.9ecec675bca004b7d120.png",
     "static/media/expense.png": "/static/media/expense.e0c59843096bb7a05c4c.png",
     "index.html": "/index.html",
-    "main.12dd2844.css.map": "/static/css/main.12dd2844.css.map",
-    "main.c61297e3.js.map": "/static/js/main.c61297e3.js.map",
+    "main.a8d43325.css.map": "/static/css/main.a8d43325.css.map",
+    "main.b7100edd.js.map": "/static/js/main.b7100edd.js.map",
     "977.87a37736.chunk.js.map": "/static/js/977.87a37736.chunk.js.map",
     "455.a993a3ae.chunk.js.map": "/static/js/455.a993a3ae.chunk.js.map",
     "453.57b2eab3.chunk.js.map": "/static/js/453.57b2eab3.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.12dd2844.css",
-    "static/js/main.c61297e3.js"
+    "static/css/main.a8d43325.css",
+    "static/js/main.b7100edd.js"
   ]
 }

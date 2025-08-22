@@ -21,6 +21,8 @@ import AddEmpIcon from "../assets/icon/menu/addemp.png";
 import TeleCallerIcon from "../assets/icon/menu/telecaller.png";
 import ProjectManagementIcon from "../assets/icon/menu/project-management.png";
 
+import SettingsIcon from "../assets/icon/menu/settings.png";
+
 export default function DashboardLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -457,6 +459,36 @@ export default function DashboardLayout() {
                       style={{ width: "23px" }}
                     />
                     Project
+                  </NavLink>
+                </div>
+              </div>
+            )}
+
+            {user.role === "owner" && (
+              <div>
+                <div
+                  className="main-link"
+                  style={{ display: "flex", padding: 0 }}
+                >
+                  <NavLink
+                    to={`/settings`}
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                    onClick={() => setIsSidebarOpen(false)}
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      alignItems: "center",
+                      color: "white",
+                      gap: ".5rem",
+                      padding: 8,
+                    }}
+                  >
+                    <img
+                      src={SettingsIcon}
+                      alt="Customer List"
+                      style={{ width: "20px" }}
+                    />
+                    Settings
                   </NavLink>
                 </div>
               </div>
