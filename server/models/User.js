@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema(
         "monitor",
       ],
       required: true,
-      default: "operator",
+      default: "monitor",
     },
 
     // 1. Chairman / Owner

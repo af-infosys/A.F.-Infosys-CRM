@@ -122,6 +122,15 @@ export default function AppRoutes() {
         />
 
         <Route
+          path="/staff/edit/:id"
+          element={
+            <ProtectedRoute allowedRoles={["owner"]}>
+              <AddStaff />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
           path="/staff/work"
           element={
             <ProtectedRoute allowedRoles={["owner"]}>

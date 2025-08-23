@@ -5,6 +5,7 @@ import {
   editUser,
   editUserWork,
   getAllUsers,
+  getUserInfo,
   getUserName,
 } from "../controllers/userController.js";
 import {
@@ -34,7 +35,8 @@ userRoutes.delete(
 );
 
 userRoutes.get("/:id", getUserName);
+userRoutes.get("/user/:id", authenticateToken, getUserInfo);
 userRoutes.get("/", authenticateToken, authorizeRoles("owner"), getAllUsers);
-userRoutes.put("/", authenticateToken, authorizeRoles("owner"), editUser);
+userRoutes.put("/:id", authenticateToken, authorizeRoles("owner"), editUser);
 
 export default userRoutes;

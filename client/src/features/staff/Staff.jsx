@@ -234,6 +234,12 @@ const Staff = () => {
                   >
                     Password
                   </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Action
+                  </th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
@@ -267,6 +273,30 @@ const Staff = () => {
                         }
                         className="border border-gray-300 rounded-md px-2 py-1 w-full max-w-[120px] focus:outline-none focus:ring-1 focus:ring-blue-400"
                       />
+                    </td>
+                    <td
+                      className="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                      style={{ display: "flex", gap: "5px" }}
+                    >
+                      <button
+                        className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded"
+                        style={{ whiteSpace: "nowrap", fontSize: "10px" }}
+                        onClick={() => {
+                          navigate(`/staff/view/${staff._id}`);
+                        }}
+                      >
+                        View
+                      </button>
+
+                      <button
+                        className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-1 px-2 rounded"
+                        style={{ whiteSpace: "nowrap", fontSize: "10px" }}
+                        onClick={() => {
+                          navigate(`/staff/edit/${staff._id}`);
+                        }}
+                      >
+                        Edit
+                      </button>
                     </td>
                   </tr>
                 ))}

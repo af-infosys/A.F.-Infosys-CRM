@@ -10,6 +10,19 @@ export const getAllUsers = async (req, res) => {
   }
 };
 
+// 🔹 Get user  by ID
+export const getUserInfo = async (req, res) => {
+  try {
+    console.log(req.params);
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    res.status(200).json({ user });
+  } catch (err) {
+    res.status(500).json({ message: "DB Error", error: err });
+  }
+};
+
 // 🔹 Get user name by ID
 export const getUserName = async (req, res) => {
   try {
@@ -26,7 +39,43 @@ export const getUserName = async (req, res) => {
 // 🔹 Edit user info
 export const editUser = async (req, res) => {
   try {
-    const user = await User.findByIdAndUpdate(req.params.id, req.body, {
+    const {
+      name,
+      mobile,
+      role,
+      password,
+      address,
+      village,
+      taluko,
+      district,
+      dob,
+      addhar,
+      age,
+      education,
+      experience,
+      behaviour,
+      account,
+    } = req.body;
+
+    const updatedUser = {
+      name,
+      mobile,
+      role,
+      password,
+      address,
+      village,
+      taluko,
+      district,
+      dob,
+      addhar,
+      age,
+      education,
+      experience,
+      behaviour,
+      account,
+    };
+
+    const user = await User.findByIdAndUpdate(req.params.id, updatedUser, {
       new: true,
     });
 
