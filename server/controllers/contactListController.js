@@ -131,7 +131,7 @@ export const addSheetRecord = async (req, res) => {
     // 5. Append the row to the Google Sheet
     const response = await googleSheets.spreadsheets.values.append({
       spreadsheetId: SPREADSHEET_ID,
-      range: `${DATA_SHEET}!A5`, // રેકોર્ડ્સને ચોથી પંક્તિથી ઉમેરવા માટે
+      range: `${DATA_SHEET}!A5`,
       valueInputOption: "RAW",
       resource: {
         values: [rowData],

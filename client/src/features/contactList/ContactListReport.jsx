@@ -4,6 +4,8 @@ import "../Report.scss";
 import apiPath from "../../isProduction";
 import { useAuth } from "../../config/AuthContext";
 
+import SelectMessagePopup from "../../components/SelectMessagePopup";
+
 import WhatsappIcon from "../../assets/icon/whatsapp.png";
 import CheckIcon from "../../assets/icon/check.png";
 import SelectIcon from "../../assets/icon/select.png";
@@ -106,7 +108,21 @@ const ContactListReport = () => {
 
   const selectedColor = "rgb(255 226 181)";
 
-  const sendMessageToWhatsApp = async () => {
+  const sendMessageToWhatsApp = async (msg) => {
+    console.log(msg);
+    // const msg = {
+    //   audioLink: "",
+    //   documentLink: "",
+    //   formattedDate: "23 Aug 2025",
+    //   formattedTime: "10:30 PM",
+    //   imageLink:
+    //     "https://afinfosys.netlify.app/server/assets/VisitingCard.jpeg",
+    //   text: "",
+    //   timestamp: "2025-08-23T17:00:17.002Z",
+    //   title: "Visiting Card",
+    //   uniqueId: "423450",
+    //   videoLink: "",
+    // };
     if (selectedRecords.length === 0) {
       setSendingStatus("Please select at least one record to send a message.");
       return;
@@ -138,8 +154,12 @@ const ContactListReport = () => {
           },
           body: JSON.stringify({
             number: formattedNumber,
-            imageUrl:
-              "https://afinfosys.netlify.app/server/assets/VisitingCard.jpeg",
+
+            imageUrl: msg.imageLink,
+            videoUrl: msg.videoLink,
+            text: msg.text,
+            audioUrl: msg.audioLink,
+            docUrl: msg.documentLink,
           }),
         });
 
@@ -282,8 +302,35 @@ const ContactListReport = () => {
     }
   }, [isSelectionMode]);
 
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [selectedMessage, setSelectedMessage] = useState(null);
+
+  const handleSelectMessage = (msg) => {
+    setSelectedMessage(msg);
+
+    // Confirm before sending
+    if (window.confirm(`Send this format to WhatsApp?\n\n${msg.title}`)) {
+      sendMessageToWhatsApp(msg);
+    }
+  };
+
   return (
     <>
+      {/* Selected Message Preview */}
+      {selectedMessage && (
+        <div className="mt-4 p-3 border rounded bg-gray-50">
+          <h3 className="font-bold">{selectedMessage.title}</h3>
+          <p>{selectedMessage.text}</p>
+        </div>
+      )}
+
+      {/* Popup */}
+      <SelectMessagePopup
+        isOpen={isPopupOpen}
+        onClose={() => setIsPopupOpen(false)}
+        onSelect={handleSelectMessage}
+      />
+
       <div
         className="container mx-auto p-2 sm:p-6 lg:p-8"
         style={{
@@ -362,7 +409,7 @@ const ContactListReport = () => {
             {isSelectionMode ? (
               <>
                 <button
-                  onClick={sendMessageToWhatsApp}
+                  onClick={() => setIsPopupOpen(true)}
                   disabled={
                     selectedRecords.length === 0 ||
                     Object.values(messageStatuses).includes("sending")

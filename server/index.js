@@ -37,6 +37,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/leads", inquiryRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/work", workRoutes);
+app.use("/api/messages", MessagesRoutes);
 
 // Reciept Automation Script Start
 async function fetchDataFromSheet(sheetId, recordId) {
@@ -429,6 +430,7 @@ import connectWhatsAPP, {
   checkWhatsAppNumbers,
   sendMessageToWhatsApp,
 } from "./config/whatsapp.js";
+import MessagesRoutes from "./routes/waFromatRoutes.js";
 // import { sendMessageToWhatsApp } from "./controllers/sendController.js";
 
 app.post("/send-message", sendMessageToWhatsApp);
