@@ -44,7 +44,7 @@ const RecordsReport = () => {
   );
 
   const uniqueJillaRecords = Array.from(
-    new Map(records.map((r) => [r[8], r])).values()
+    new Map(records.map((r) => [r[9], r])).values()
   );
 
   if (loading) return <p className="text-center p-4">Loading...</p>;
