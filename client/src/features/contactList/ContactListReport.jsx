@@ -801,7 +801,7 @@ const ContactListReport = () => {
                   return (
                     <tr key={index}>
                       {isSelectionMode && (
-                        <td className="px-1 py-2 whitespace-nowrap text-sm font-medium text-gray-900 text-center">
+                        <td className="record whitespace-nowrap text-sm font-medium text-gray-900 text-center">
                           <input
                             type="checkbox"
                             checked={selectedRecords.includes(record[0])}
@@ -813,7 +813,7 @@ const ContactListReport = () => {
                       {/* અહીં Google Sheet માંથી આવતા ડેટાને કૉલમમાં મેપ કરો */}
                       {/* અનું કૂમાંક (serialNumber) */}
                       <td
-                        className="px-1 py-2 whitespace-nowrap text-sm font-medium text-gray-900"
+                        className="record whitespace-nowrap text-sm font-medium text-gray-900"
                         style={
                           isSelectionMode && selectedRecords.includes(record[0])
                             ? { background: selectedColor }
@@ -824,7 +824,7 @@ const ContactListReport = () => {
                       </td>
                       {/* Customer Full Name */}
                       <td
-                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                        className="record whitespace-normal text-sm text-gray-500"
                         style={
                           isSelectionMode && selectedRecords.includes(record[0])
                             ? { background: selectedColor }
@@ -835,7 +835,7 @@ const ContactListReport = () => {
                       </td>{" "}
                       {/* Mobile No.  */}
                       <td
-                        className="px-1 py-2 whitespace-nowrap text-sm text-gray-500"
+                        className="record whitespace-nowrap text-sm text-gray-500"
                         style={
                           isSelectionMode && selectedRecords.includes(record[0])
                             ? { background: selectedColor }
@@ -865,7 +865,7 @@ const ContactListReport = () => {
                       </td>{" "}
                       {/* Whatsaap No. */}
                       <td
-                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                        className="record whitespace-normal text-sm text-gray-500"
                         style={
                           isSelectionMode && selectedRecords.includes(record[0])
                             ? { background: selectedColor }
@@ -882,7 +882,7 @@ const ContactListReport = () => {
                       </td>
                       {/* Category Customer  */}
                       <td
-                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                        className="record whitespace-normal text-sm text-gray-500"
                         style={
                           isSelectionMode && selectedRecords.includes(record[0])
                             ? { background: selectedColor }
@@ -893,7 +893,7 @@ const ContactListReport = () => {
                       </td>{" "}
                       {/* Village  */}
                       <td
-                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                        className="record whitespace-normal text-sm text-gray-500"
                         style={
                           isSelectionMode && selectedRecords.includes(record[0])
                             ? { background: selectedColor }
@@ -904,7 +904,7 @@ const ContactListReport = () => {
                       </td>
                       {/* Village of charge  */}
                       <td
-                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                        className="record whitespace-normal text-sm text-gray-500"
                         style={
                           isSelectionMode && selectedRecords.includes(record[0])
                             ? { background: selectedColor }
@@ -915,7 +915,7 @@ const ContactListReport = () => {
                       </td>
                       {/* Taluko  */}
                       <td
-                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                        className="record whitespace-normal text-sm text-gray-500"
                         onClick={() =>
                           isSelectionMode &&
                           record[8] &&
@@ -933,7 +933,7 @@ const ContactListReport = () => {
                       </td>
                       {/* Jilla  */}
                       <td
-                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                        className="record whitespace-normal text-sm text-gray-500"
                         style={
                           isSelectionMode && selectedRecords.includes(record[0])
                             ? { background: selectedColor }
@@ -945,7 +945,7 @@ const ContactListReport = () => {
                       {/* Call History */}
                       {/* Which type of Work */}
                       <td
-                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                        className="record whitespace-normal text-sm text-gray-500"
                         style={
                           isSelectionMode && selectedRecords.includes(record[0])
                             ? { background: selectedColor }
@@ -957,7 +957,7 @@ const ContactListReport = () => {
                       </td>
                       {/* Work Village */}
                       <td
-                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                        className="record whitespace-normal text-sm text-gray-500"
                         style={
                           isSelectionMode && selectedRecords.includes(record[0])
                             ? { background: selectedColor }
@@ -969,7 +969,7 @@ const ContactListReport = () => {
                       </td>
                       {/* Customer Answer */}
                       <td
-                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                        className="record whitespace-normal text-sm text-gray-500"
                         style={
                           isSelectionMode && selectedRecords.includes(record[0])
                             ? { background: selectedColor }
@@ -981,7 +981,7 @@ const ContactListReport = () => {
                       </td>
                       {/* Number of Houses */}
                       <td
-                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                        className="record whitespace-normal text-sm text-gray-500"
                         style={
                           isSelectionMode && selectedRecords.includes(record[0])
                             ? { background: selectedColor }
@@ -993,7 +993,7 @@ const ContactListReport = () => {
                       </td>
                       {/* Price */}
                       <td
-                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                        className="record whitespace-normal text-sm text-gray-500"
                         style={
                           isSelectionMode && selectedRecords.includes(record[0])
                             ? { background: selectedColor }
@@ -1004,7 +1004,7 @@ const ContactListReport = () => {
                       </td>
                       {/* Bill Amount */}
                       <td
-                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                        className="record whitespace-normal text-sm text-gray-500"
                         style={
                           isSelectionMode && selectedRecords.includes(record[0])
                             ? { background: selectedColor }
@@ -1016,7 +1016,7 @@ const ContactListReport = () => {
                       </td>
                       {/* Customer Budget */}
                       <td
-                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                        className="record whitespace-normal text-sm text-gray-500"
                         style={
                           isSelectionMode && selectedRecords.includes(record[0])
                             ? { background: selectedColor }
@@ -1027,7 +1027,7 @@ const ContactListReport = () => {
                       </td>
                       {/* Call Date */}
                       <td
-                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                        className="record whitespace-normal text-sm text-gray-500"
                         style={
                           isSelectionMode && selectedRecords.includes(record[0])
                             ? { background: selectedColor }
@@ -1043,7 +1043,7 @@ const ContactListReport = () => {
                       </td>
                       {/* Meeting Date */}
                       <td
-                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                        className="record whitespace-normal text-sm text-gray-500"
                         style={
                           isSelectionMode && selectedRecords.includes(record[0])
                             ? { background: selectedColor }
@@ -1059,7 +1059,7 @@ const ContactListReport = () => {
                       </td>
                       {/* Reminder Date */}
                       <td
-                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                        className="record whitespace-normal text-sm text-gray-500"
                         style={
                           isSelectionMode && selectedRecords.includes(record[0])
                             ? { background: selectedColor }
@@ -1075,7 +1075,7 @@ const ContactListReport = () => {
                       </td>
                       {/* Data Entry Resources Dates */}
                       <td
-                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                        className="record whitespace-normal text-sm text-gray-500"
                         style={
                           isSelectionMode && selectedRecords.includes(record[0])
                             ? { background: selectedColor }
@@ -1087,7 +1087,7 @@ const ContactListReport = () => {
                         </p>
                       </td>
                       <td
-                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                        className="record whitespace-normal text-sm text-gray-500"
                         style={
                           isSelectionMode && selectedRecords.includes(record[0])
                             ? { background: selectedColor }
@@ -1100,7 +1100,7 @@ const ContactListReport = () => {
                       </td>
                       {/* Action */}
                       <td
-                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                        className="record whitespace-normal text-sm text-gray-500"
                         style={
                           isSelectionMode && selectedRecords.includes(record[0])
                             ? { background: selectedColor }
@@ -1132,7 +1132,7 @@ const ContactListReport = () => {
                       {(user.role === "owner" ||
                         user.role === "telecaller") && (
                         <td
-                          className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                          className="record whitespace-normal text-sm text-gray-500"
                           style={{
                             display: "flex",
                             gap: ".3rem",

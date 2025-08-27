@@ -50,6 +50,8 @@ const RecordsReport = () => {
   if (loading) return <p className="text-center p-4">Loading...</p>;
   if (error) return <p className="text-red-500 text-center p-4">{error}</p>;
 
+  const background = "#007bff";
+
   return (
     <div className="p-6 space-y-6">
       {/* Header */}
@@ -58,19 +60,19 @@ const RecordsReport = () => {
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div className="bg-orange-100 p-4 rounded-2xl shadow text-center">
-          <h2 className="text-lg font-semibold">Total Customers</h2>
+          <h2 className="text-lg font-semibold">કુલ કસ્ટમર </h2>
           <p className="text-2xl font-bold">{totalCustomers}</p>
         </div>
         <div className="bg-blue-100 p-4 rounded-2xl shadow text-center">
-          <h2 className="text-lg font-semibold">Total Villages</h2>
+          <h2 className="text-lg font-semibold">કુલ ગામ </h2>
           <p className="text-2xl font-bold">{uniqueVillages}</p>
         </div>
         <div className="bg-green-100 p-4 rounded-2xl shadow text-center">
-          <h2 className="text-lg font-semibold">Total Taluko</h2>
+          <h2 className="text-lg font-semibold">કુલ તાલુકા </h2>
           <p className="text-2xl font-bold">{uniqueTalukos}</p>
         </div>
         <div className="bg-purple-100 p-4 rounded-2xl shadow text-center">
-          <h2 className="text-lg font-semibold">Total Jillo</h2>
+          <h2 className="text-lg font-semibold">કુલ જિલ્લા </h2>
           <p className="text-2xl font-bold">{uniqueJillos}</p>
         </div>
       </div>
@@ -80,60 +82,154 @@ const RecordsReport = () => {
         <table className="min-w-full border border-gray-300 rounded-xl">
           <thead className="bg-gray-200">
             <tr>
-              <th className="px-4 py-2 border">Village</th>
-              <th className="px-4 py-2 border">Taluko</th>
-              <th className="px-4 py-2 border">Jillo</th>
+              <th
+                colSpan="3"
+                className="px-2 py-1 border text-center text-white"
+                style={{
+                  background: background,
+                  fontSize: "1rem",
+                  padding: "2px 4px",
+                }}
+              >
+                ગામડાઓ
+              </th>
+            </tr>
+
+            <tr>
+              <th
+                className="px-2 py-1 border text-center text-white"
+                style={{
+                  background: background,
+                  fontSize: "1rem",
+                  padding: "2px 4px",
+                }}
+              >
+                ગામ{" "}
+              </th>
+              <th
+                className="px-2 py-1 border text-center text-white"
+                style={{
+                  background: background,
+                  fontSize: "1rem",
+                  padding: "2px 4px",
+                }}
+              >
+                તાલુકા{" "}
+              </th>
+              <th
+                className="px-2 py-1 border text-center text-white"
+                style={{
+                  background: background,
+                  fontSize: "1rem",
+                  padding: "2px 4px",
+                }}
+              >
+                જિલ્લા{" "}
+              </th>
             </tr>
           </thead>
           <tbody>
             {uniqueVillageRecords.map((record, index) => (
               <tr key={index} className="text-center hover:bg-gray-50">
-                <td className="px-4 py-2 border">{record[6]}</td>
-                <td className="px-4 py-2 border">{record[8]}</td>
-                <td className="px-4 py-2 border">{record[9]}</td>
+                <td className="px-2 py-1 border">{record[6]}</td>
+                <td className="px-2 py-1 border">{record[8]}</td>
+                <td className="px-2 py-1 border">{record[9]}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
 
+      <br />
+      <hr />
+      <br />
+
       {/* Records Table */}
       <div className="overflow-x-auto">
         <table className="min-w-full border border-gray-300 rounded-xl">
           <thead className="bg-gray-200">
             <tr>
-              <th className="px-4 py-2 border">Taluko</th>
-              <th className="px-4 py-2 border">Jillo</th>
+              <th
+                colSpan="2"
+                className="px-2 py-1 border text-center text-white"
+                style={{
+                  background: background,
+                  fontSize: "1rem",
+                  padding: "2px 4px",
+                }}
+              >
+                તાલુકાઓ
+              </th>
+            </tr>
+
+            <tr>
+              <th
+                className="px-2 py-1 border text-center text-white"
+                style={{
+                  background: background,
+                  fontSize: "1rem",
+                  padding: "2px 4px",
+                }}
+              >
+                તાલુકા{" "}
+              </th>
+              <th
+                className="px-2 py-1 border text-center text-white"
+                style={{
+                  background: background,
+                  fontSize: "1rem",
+                  padding: "2px 4px",
+                }}
+              >
+                જિલ્લા{" "}
+              </th>
             </tr>
           </thead>
           <tbody>
             {uniqueTalukaRecords.map((record, index) => (
               <tr key={index} className="text-center hover:bg-gray-50">
-                <td className="px-4 py-2 border">{record[8]}</td>
-                <td className="px-4 py-2 border">{record[9]}</td>
+                <td className="px-2 py-1 border">{record[8]}</td>
+                <td className="px-2 py-1 border">{record[9]}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
 
+      <br />
+      <hr />
+      <br />
+
       {/* Records Table */}
       <div className="overflow-x-auto">
         <table className="min-w-full border border-gray-300 rounded-xl">
           <thead className="bg-gray-200">
             <tr>
-              <th className="px-4 py-2 border">Jillo</th>
+              <th
+                className="px-2 py-1 border text-center text-white"
+                style={{
+                  background: background,
+                  fontSize: "1rem",
+                  padding: "2px 4px",
+                }}
+              >
+                જિલ્લા{" "}
+              </th>
             </tr>
           </thead>
           <tbody>
             {uniqueJillaRecords.map((record, index) => (
               <tr key={index} className="text-center hover:bg-gray-50">
-                <td className="px-4 py-2 border">{record[9]}</td>
+                <td className="px-2 py-1 border">{record[9]}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+
+      <br />
+      <hr />
+      <br />
     </div>
   );
 };

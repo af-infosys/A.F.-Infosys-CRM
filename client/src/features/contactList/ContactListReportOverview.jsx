@@ -222,15 +222,15 @@ const ContactListReportOverview = () => {
                   <tr key={index}>
                     {/* અહીં Google Sheet માંથી આવતા ડેટાને કૉલમમાં મેપ કરો */}
                     {/* અનું કૂમાંક (serialNumber) */}
-                    <td className="px-1 py-2 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <td className="record whitespace-nowrap text-sm font-medium text-gray-900">
                       {record[1]}
                     </td>
                     {/* Customer Full Name */}
-                    <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
+                    <td className="record whitespace-normal text-sm text-gray-500">
                       {record[2]}
                     </td>{" "}
                     {/* Mobile No. <br /> */}
-                    <td className="px-1 py-2 whitespace-nowrap text-sm text-gray-500">
+                    <td className="record whitespace-nowrap text-sm text-gray-500">
                       {record[3]?.includes(",") ? (
                         record[3]?.split(",")?.map((number, index) => (
                           <>
@@ -253,7 +253,7 @@ const ContactListReportOverview = () => {
                       )}
                     </td>{" "}
                     {/* Whatsaap No.  */}
-                    <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
+                    <td className="record whitespace-normal text-sm text-gray-500">
                       <a
                         href={`https://wa.me/91${record[4]?.trim()}`}
                         className="text-blue-600 hover:underline"
@@ -262,27 +262,27 @@ const ContactListReportOverview = () => {
                       </a>
                     </td>
                     {/* Category Customer  */}
-                    <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
+                    <td className="record whitespace-normal text-sm text-gray-500">
                       {record[5]}
                     </td>{" "}
                     {/* Village  */}
-                    <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
+                    <td className="record whitespace-normal text-sm text-gray-500">
                       {record[6]}
                     </td>
                     {/* Village of charge  */}
-                    <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
+                    <td className="record whitespace-normal text-sm text-gray-500">
                       {record[7]}
                     </td>
                     {/* Taluko  */}
-                    <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
+                    <td className="record whitespace-normal text-sm text-gray-500">
                       {record[8]}
                     </td>
                     {/* Jilla  */}
-                    <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
+                    <td className="record whitespace-normal text-sm text-gray-500">
                       {record[9]}
                     </td>
                     {/* Action */}
-                    <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
+                    <td className="record whitespace-normal text-sm text-gray-500">
                       <div
                         style={{
                           display: "flex",
@@ -307,11 +307,12 @@ const ContactListReportOverview = () => {
                     </td>
                     {(user.role === "owner" || user.role === "telecaller") && (
                       <td
-                        className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                        className="record whitespace-normal text-sm text-gray-500"
                         style={{
                           display: "flex",
                           gap: ".3rem",
                           alignItems: "center",
+                          height: "100%",
                         }}
                       >
                         <button

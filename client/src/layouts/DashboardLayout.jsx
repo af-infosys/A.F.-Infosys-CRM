@@ -10,6 +10,7 @@ import CustomerReportIcon from "../assets/icon/menu/report.png";
 import CustomerReminderIcon from "../assets/icon/menu/reminder.png";
 import CustomerSummaryIcon from "../assets/icon/menu/summary.png";
 import InterestedIcon from "../assets/icon/menu/interested.png";
+import TotalReportIcon from "../assets/icon/menu/total.png";
 
 import AccountIcon from "../assets/icon/menu/accounts.png";
 import IncomeIcon from "../assets/icon/menu/income.png";
@@ -189,7 +190,7 @@ export default function DashboardLayout() {
                         onClick={() => setIsSidebarOpen(false)}
                       >
                         <img
-                          src={""}
+                          src={TotalReportIcon}
                           alt="Customer List"
                           style={{ width: "20px" }}
                         />

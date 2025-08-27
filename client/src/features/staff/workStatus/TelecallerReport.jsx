@@ -321,7 +321,7 @@ const TelecallerReport = () => {
                               >
                                 <td className="py-3 px-4">
                                   {dayjs(callData?.createdAt?.time).format(
-                                    "HH:mm A"
+                                    "hh:mm A"
                                   )}
                                 </td>
                                 {/* <td className="py-3 px-4">
