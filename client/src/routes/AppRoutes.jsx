@@ -23,6 +23,8 @@ import IncomeReport from "../features/accounts/income/IncomeReport";
 import TelecallerReport from "../features/staff/workStatus/TelecallerReport";
 import InterestedList from "../features/contactList/InterestedList";
 import Settings from "../features/settings/Settings";
+import SurvayorReport from "../features/staff/workStatus/SurvayorReport";
+import RecordsReport from "../features/contactList/RecordsReport";
 
 export default function AppRoutes() {
   return (
@@ -66,6 +68,15 @@ export default function AppRoutes() {
           element={
             <ProtectedRoute allowedRoles={["owner"]}>
               <InterestedList />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/customers/total"
+          element={
+            <ProtectedRoute allowedRoles={["owner"]}>
+              <RecordsReport />
             </ProtectedRoute>
           }
         />
@@ -144,6 +155,15 @@ export default function AppRoutes() {
           element={
             <ProtectedRoute allowedRoles={["owner"]}>
               <TelecallerReport />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/staff/survayorReport"
+          element={
+            <ProtectedRoute allowedRoles={["owner"]}>
+              <SurvayorReport />
             </ProtectedRoute>
           }
         />

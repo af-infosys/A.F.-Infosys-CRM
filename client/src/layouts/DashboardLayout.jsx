@@ -73,7 +73,7 @@ export default function DashboardLayout() {
 
                 {openMenu === "/customers" && (
                   <div className="sub-links">
-                    {user.role === "owner" && (
+                    {(user.role === "owner" || user.role === "monitor") && (
                       <NavLink
                         to={`/staff/telecallerReport`}
                         className={({ isActive }) => (isActive ? "active" : "")}
@@ -181,6 +181,21 @@ export default function DashboardLayout() {
                         6. Interested
                       </NavLink>
                     )}
+
+                    {user.role === "owner" && (
+                      <NavLink
+                        to={"/customers/total"}
+                        className={({ isActive }) => (isActive ? "active" : "")}
+                        onClick={() => setIsSidebarOpen(false)}
+                      >
+                        <img
+                          src={""}
+                          alt="Customer List"
+                          style={{ width: "20px" }}
+                        />
+                        7. Total Records Report
+                      </NavLink>
+                    )}
                   </div>
                 )}
               </div>
@@ -199,6 +214,21 @@ export default function DashboardLayout() {
 
                 {openMenu === "/survay" && (
                   <div className="sub-links">
+                    {user.role === "owner" && (
+                      <NavLink
+                        to={`/staff/survayorReport`}
+                        className={({ isActive }) => (isActive ? "active" : "")}
+                        onClick={() => setIsSidebarOpen(false)}
+                      >
+                        <img
+                          src={TeleCallerIcon}
+                          alt="Customer List"
+                          style={{ width: "23px" }}
+                        />
+                        Sruvayor Report
+                      </NavLink>
+                    )}
+
                     <NavLink
                       to={`/survay`}
                       className={({ isActive }) => (isActive ? "active" : "")}
