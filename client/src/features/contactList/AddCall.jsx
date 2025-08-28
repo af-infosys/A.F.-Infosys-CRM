@@ -245,40 +245,47 @@ const AddCall = () => {
           <>
             <span>{data?.customerFullName}</span>
 
-            <b
+            <div
               style={{
-                fontSize: "1rem",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                gap: ".5rem",
+                gap: "1rem",
               }}
             >
-              {" "}
-              <img
-                src={MobileNoIcon}
-                alt="Phone Number"
-                style={{ width: "20px", height: "20px" }}
-              />{" "}
-              {data?.mobileNo}
-            </b>
-            <b
-              style={{
-                fontSize: "1rem",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                gap: ".5rem",
-              }}
-            >
-              {" "}
-              <img
-                src={WhatsappNoIcon}
-                alt="Whatsapp Number"
-                style={{ width: "20px", height: "20px" }}
-              />{" "}
-              {data?.whatsaapNo}
-            </b>
+              <b
+                style={{
+                  fontSize: "1rem",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: ".5rem",
+                }}
+              >
+                <img
+                  src={MobileNoIcon}
+                  alt="Phone Number"
+                  style={{ width: "20px", height: "20px" }}
+                />{" "}
+                {data?.mobileNo || "0000-000-0000"}
+              </b>
+              <b
+                style={{
+                  fontSize: "1rem",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: ".5rem",
+                }}
+              >
+                <img
+                  src={WhatsappNoIcon}
+                  alt="Whatsapp Number"
+                  style={{ width: "20px", height: "20px" }}
+                />{" "}
+                {data?.whatsaapNo || "0000-000-0000"}
+              </b>
+            </div>
           </>
         )}
       </p>

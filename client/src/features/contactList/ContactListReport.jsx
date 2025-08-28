@@ -830,6 +830,9 @@ const ContactListReport = () => {
                             ? { background: selectedColor }
                             : null
                         }
+                        onClick={() =>
+                          navigate(`/customers/history/${record[0]}`)
+                        }
                       >
                         {record[2]}
                       </td>{" "}

@@ -25,6 +25,7 @@ import InterestedList from "../features/contactList/InterestedList";
 import Settings from "../features/settings/Settings";
 import SurvayorReport from "../features/staff/workStatus/SurvayorReport";
 import RecordsReport from "../features/contactList/RecordsReport";
+import CustomerHistory from "../features/contactList/CustomerHistory";
 
 export default function AppRoutes() {
   return (
@@ -62,6 +63,8 @@ export default function AppRoutes() {
         <Route path="/customers/summary" element={<SummaryReport />} />
         <Route path="/customers/invalids" element={<InvalidNumbers />} />
         <Route path="/customers/reminders" element={<RemindersReport />} />
+
+        <Route path="/customers/history/:id" element={<CustomerHistory />} />
 
         <Route
           path="/customers/interested"
