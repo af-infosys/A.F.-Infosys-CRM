@@ -226,7 +226,13 @@ const ContactListReportOverview = () => {
                       {record[1]}
                     </td>
                     {/* Customer Full Name */}
-                    <td className="record whitespace-normal text-sm text-gray-500">
+                    <td
+                      className="record whitespace-normal text-sm text-gray-500"
+                      onClick={() => {
+                        if (user.role === "owner")
+                          navigate(`/customers/history/${record[0]}`);
+                      }}
+                    >
                       {record[2]}
                     </td>{" "}
                     {/* Mobile No. <br /> */}

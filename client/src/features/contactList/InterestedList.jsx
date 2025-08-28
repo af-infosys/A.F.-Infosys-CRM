@@ -216,7 +216,13 @@ const InterestedList = () => {
                       {record[1]}
                     </td>
                     {/* Customer Full Name */}
-                    <td className="px-1 py-2 whitespace-normal text-sm text-gray-500">
+                    <td
+                      className="px-1 py-2 whitespace-normal text-sm text-gray-500"
+                      onClick={() => {
+                        if (user.role === "owner")
+                          navigate(`/customers/history/${record[0]}`);
+                      }}
+                    >
                       {record[2]}
                     </td>{" "}
                     {/* Mobile No. <br /> */}

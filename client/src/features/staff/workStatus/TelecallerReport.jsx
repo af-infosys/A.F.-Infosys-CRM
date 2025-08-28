@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
 import apiPath from "../../../isProduction";
+import { useAuth } from "../../../config/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 // This is the main component for the Telecaller Work Status Report.
 const TelecallerReport = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
   const [telecallers, setTelecallers] = useState([]);
   const [allCalls, setAllCalls] = useState([]);
   const [selectedDate, setSelectedDate] = useState(
@@ -126,6 +131,7 @@ const TelecallerReport = () => {
 
       // Extract customer details from the record
       const customerInfo = {
+        customerId: record[0],
         customerName: record[2],
         customerNumber: record[3],
         customerVillage: record[6],
@@ -343,7 +349,15 @@ const TelecallerReport = () => {
                                   {formatDate(callData?.dateOfCall)}
                                 </td>
 
-                                <td className="py-3 px-4 capitalize">
+                                <td
+                                  className="py-3 px-4 capitalize"
+                                  onClick={() => {
+                                    if (user.role === "owner")
+                                      navigate(
+                                        `/customers/history/${callData?.customerId}`
+                                      );
+                                  }}
+                                >
                                   {callData?.customerName}
                                 </td>
                                 <td className="py-3 px-4">
