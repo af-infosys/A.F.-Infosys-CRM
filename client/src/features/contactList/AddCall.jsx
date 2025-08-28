@@ -181,6 +181,48 @@ const AddCall = () => {
     }
   };
 
+  const [services, setServices] = useState([]);
+  const [answers, setAnswers] = useState([]);
+
+  const fetchIndex = async () => {
+    try {
+      const response = await fetch(`${await apiPath()}/api/contactList`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const result = await response.json();
+
+      const data = result?.data;
+      if (!Array.isArray(data) || data?.length === 0) return;
+
+      const serviceSet = new Set();
+      const answerSet = new Set();
+
+      for (let item of data) {
+        if (!item[10]) continue;
+
+        for (let callHistory of JSON.parse(item[10] || "[]")) {
+          const service = callHistory?.whatBusiness;
+          const answer = callHistory?.clientAnswer;
+
+          if (service) serviceSet.add(service);
+          if (answer) answerSet.add(answer);
+        }
+      }
+
+      setServices([...serviceSet]);
+      setAnswers([...answerSet]);
+    } catch (err) {
+      console.error("Error fetching records:", err);
+    }
+  };
+
+  useEffect(() => {
+    fetchIndex();
+  }, []);
+
+  console.log(services, answers);
+
   return (
     <form onSubmit={handleSubmit}>
       <h2 style={{ textAlign: "center", fontSize: "1.2rem" }}>
@@ -332,6 +374,7 @@ const AddCall = () => {
           કયુ કામ વસ્તુ માટે ફોન કરેલ
         </label>
         <input
+          list="service-options"
           type="text"
           id="whatBusiness"
           name="whatBusiness"
@@ -339,6 +382,12 @@ const AddCall = () => {
           value={newCall.whatBusiness}
           onChange={handleChange}
         />
+
+        <datalist id="service-options">
+          {services?.map((service, index) => (
+            <option key={index} value={service} />
+          ))}
+        </datalist>
       </div>
 
       <div className="form-field">
@@ -364,6 +413,7 @@ const AddCall = () => {
           જવાબ શું આપ્યો કસ્ટમર / ગ્રાહક
         </label>
         <input
+          list="answer-option"
           type="text"
           id="clientAnswer"
           name="clientAnswer"
@@ -371,6 +421,12 @@ const AddCall = () => {
           value={newCall.clientAnswer}
           onChange={handleChange}
         />
+
+        <datalist id="answer-option">
+          {answers?.map((answer, index) => (
+            <option key={index} value={answer} />
+          ))}
+        </datalist>
       </div>
 
       <div

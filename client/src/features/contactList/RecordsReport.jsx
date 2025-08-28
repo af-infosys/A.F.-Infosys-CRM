@@ -104,7 +104,7 @@ const RecordsReport = () => {
                   padding: "2px 4px",
                 }}
               >
-                ગામ{" "}
+                ગામ
               </th>
               <th
                 className="px-2 py-1 border text-center text-white"
@@ -114,7 +114,7 @@ const RecordsReport = () => {
                   padding: "2px 4px",
                 }}
               >
-                તાલુકા{" "}
+                તાલુકા
               </th>
               <th
                 className="px-2 py-1 border text-center text-white"
@@ -124,7 +124,7 @@ const RecordsReport = () => {
                   padding: "2px 4px",
                 }}
               >
-                જિલ્લા{" "}
+                જિલ્લા
               </th>
             </tr>
           </thead>
@@ -171,7 +171,7 @@ const RecordsReport = () => {
                   padding: "2px 4px",
                 }}
               >
-                તાલુકા{" "}
+                તાલુકા
               </th>
               <th
                 className="px-2 py-1 border text-center text-white"
@@ -181,7 +181,7 @@ const RecordsReport = () => {
                   padding: "2px 4px",
                 }}
               >
-                જિલ્લા{" "}
+                જિલ્લા
               </th>
             </tr>
           </thead>
@@ -213,7 +213,7 @@ const RecordsReport = () => {
                   padding: "2px 4px",
                 }}
               >
-                જિલ્લા{" "}
+                જિલ્લા
               </th>
             </tr>
           </thead>

@@ -171,6 +171,16 @@ const TelecallerReport = () => {
     return caller ? caller.name : "Unknown";
   };
 
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+
+    const day = String(date.getDate()).padStart(2, "0"); // 28
+    const month = date.toLocaleString("en-US", { month: "short" }); // Aug
+    const year = date.getFullYear(); // 2025
+
+    return `${day} ${month}, ${year}`;
+  }
+
   return (
     <div className="min-h-screen font-sans antialiased" style={{ padding: 0 }}>
       <div className="container mx-auto max-w-7xl">
@@ -330,7 +340,7 @@ const TelecallerReport = () => {
                                   )}
                                 </td> */}
                                 <td className="py-3 px-4 capitalize">
-                                  {callData?.dateOfCall}
+                                  {formatDate(callData?.dateOfCall)}
                                 </td>
 
                                 <td className="py-3 px-4 capitalize">
