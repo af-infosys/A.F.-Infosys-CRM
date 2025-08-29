@@ -36,7 +36,12 @@ userRoutes.delete(
 
 userRoutes.get("/:id", getUserName);
 userRoutes.get("/user/:id", authenticateToken, getUserInfo);
-userRoutes.get("/", authenticateToken, authorizeRoles("owner"), getAllUsers);
+userRoutes.get(
+  "/",
+  authenticateToken,
+  authorizeRoles("owner", "monitor"),
+  getAllUsers
+);
 userRoutes.put("/:id", authenticateToken, authorizeRoles("owner"), editUser);
 
 export default userRoutes;
