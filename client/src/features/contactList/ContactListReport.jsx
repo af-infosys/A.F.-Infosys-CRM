@@ -387,118 +387,119 @@ const ContactListReport = () => {
           >
             Add New Customer Record
           </button>
-
-          <div
-            style={
-              isSelectionMode
-                ? {
-                    position: "fixed",
-                    bottom: "0",
-                    left: "0",
-                    width: "100vw",
-                    padding: "1rem",
-                    background: "white",
-                    zIndex: 100,
-                    display: "flex",
-                    gap: ".4rem",
-                    flexWrap: "wrap",
-                  }
-                : { display: "flex", gap: ".4rem", flexWrap: "wrap" }
-            }
-          >
-            {isSelectionMode ? (
-              <>
-                <button
-                  onClick={() => setIsPopupOpen(true)}
-                  disabled={
-                    selectedRecords.length === 0 ||
-                    Object.values(messageStatuses).includes("sending")
-                  }
-                  className="add-btn flex items-center gap-2"
-                  style={{
-                    fontSize: ".8rem",
-                    padding: ".8rem .9rem",
-                    background: "green",
-                    margin: "0",
-
-                    display: "flex",
-                    alignItems: "center",
-
-                    opacity:
-                      selectedRecords.length === 0 ||
-                      Object.values(messageStatuses).includes("sending")
-                        ? 0.5
-                        : 1,
-                  }}
-                >
-                  <img
-                    src={WhatsappIcon}
-                    alt="Share to Whatsapp Image"
-                    style={{ width: "20px", height: "20px" }}
-                  />
-                  Send Message
-                </button>
-
-                <button
-                  onClick={checkWhatsAppNumbers}
-                  disabled={
-                    selectedRecords.length === 0 ||
-                    !!sendingStatus.includes("Checking")
-                  }
-                  className="add-btn flex items-center gap-2"
-                  style={{
-                    fontSize: ".8rem",
-                    padding: ".8rem .9rem",
-                    background: "green",
-                    margin: "0",
-
-                    display: "flex",
-                    alignItems: "center",
-
-                    opacity:
-                      selectedRecords.length === 0 ||
-                      !!sendingStatus.includes("Checking")
-                        ? 0.5
-                        : 1,
-                  }}
-                >
-                  <img
-                    src={CheckIcon}
-                    alt="Share to Whatsapp Image"
-                    style={{ width: "20px", height: "20px" }}
-                  />
-                  Check Valid Numbers
-                </button>
-              </>
-            ) : null}
-
-            <button
-              onClick={() => setIsSelectionMode(!isSelectionMode)}
-              className="add-btn flex items-center gap-2"
-              style={{
-                fontSize: ".8rem",
-                padding: ".8rem .9rem",
-
-                margin: "0",
-              }}
+          {(user?.role === "owner" || user?.role === "telecaller") && (
+            <div
+              style={
+                isSelectionMode
+                  ? {
+                      position: "fixed",
+                      bottom: "0",
+                      left: "0",
+                      width: "100vw",
+                      padding: "1rem",
+                      background: "white",
+                      zIndex: 100,
+                      display: "flex",
+                      gap: ".4rem",
+                      flexWrap: "wrap",
+                    }
+                  : { display: "flex", gap: ".4rem", flexWrap: "wrap" }
+              }
             >
               {isSelectionMode ? (
-                <p>
-                  Exit Selection{" "}
-                  <b style={{ fontSize: "1rem" }}>{selectedRecords.length}</b>
-                </p>
-              ) : (
-                "Select Records"
-              )}
-              {!isSelectionMode && (
-                <img
-                  src={SelectIcon}
-                  alt="Share to Whatsapp Image"
-                  style={{ width: "20px", height: "20px" }}
-                />
-              )}
-            </button>
-          </div>
+                <>
+                  <button
+                    onClick={() => setIsPopupOpen(true)}
+                    disabled={
+                      selectedRecords.length === 0 ||
+                      Object.values(messageStatuses).includes("sending")
+                    }
+                    className="add-btn flex items-center gap-2"
+                    style={{
+                      fontSize: ".8rem",
+                      padding: ".8rem .9rem",
+                      background: "green",
+                      margin: "0",
+
+                      display: "flex",
+                      alignItems: "center",
+
+                      opacity:
+                        selectedRecords.length === 0 ||
+                        Object.values(messageStatuses).includes("sending")
+                          ? 0.5
+                          : 1,
+                    }}
+                  >
+                    <img
+                      src={WhatsappIcon}
+                      alt="Share to Whatsapp Image"
+                      style={{ width: "20px", height: "20px" }}
+                    />
+                    Send Message
+                  </button>
+
+                  <button
+                    onClick={checkWhatsAppNumbers}
+                    disabled={
+                      selectedRecords.length === 0 ||
+                      !!sendingStatus.includes("Checking")
+                    }
+                    className="add-btn flex items-center gap-2"
+                    style={{
+                      fontSize: ".8rem",
+                      padding: ".8rem .9rem",
+                      background: "green",
+                      margin: "0",
+
+                      display: "flex",
+                      alignItems: "center",
+
+                      opacity:
+                        selectedRecords.length === 0 ||
+                        !!sendingStatus.includes("Checking")
+                          ? 0.5
+                          : 1,
+                    }}
+                  >
+                    <img
+                      src={CheckIcon}
+                      alt="Share to Whatsapp Image"
+                      style={{ width: "20px", height: "20px" }}
+                    />
+                    Check Valid Numbers
+                  </button>
+                </>
+              ) : null}
+
+              <button
+                onClick={() => setIsSelectionMode(!isSelectionMode)}
+                className="add-btn flex items-center gap-2"
+                style={{
+                  fontSize: ".8rem",
+                  padding: ".8rem .9rem",
+
+                  margin: "0",
+                }}
+              >
+                {isSelectionMode ? (
+                  <p>
+                    Exit Selection{" "}
+                    <b style={{ fontSize: "1rem" }}>{selectedRecords.length}</b>
+                  </p>
+                ) : (
+                  "Select Records"
+                )}
+                {!isSelectionMode && (
+                  <img
+                    src={SelectIcon}
+                    alt="Share to Whatsapp Image"
+                    style={{ width: "20px", height: "20px" }}
+                  />
+                )}
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Search Section Start */}

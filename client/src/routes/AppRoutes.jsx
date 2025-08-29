@@ -64,7 +64,14 @@ export default function AppRoutes() {
         <Route path="/customers/invalids" element={<InvalidNumbers />} />
         <Route path="/customers/reminders" element={<RemindersReport />} />
 
-        <Route path="/customers/history/:id" element={<CustomerHistory />} />
+        <Route
+          path="/customers/history/:id"
+          element={
+            <ProtectedRoute allowedRoles={["owner"]}>
+              <CustomerHistory />
+            </ProtectedRoute>
+          }
+        />
 
         <Route
           path="/customers/interested"
@@ -156,7 +163,7 @@ export default function AppRoutes() {
         <Route
           path="/staff/telecallerReport"
           element={
-            <ProtectedRoute allowedRoles={["owner"]}>
+            <ProtectedRoute allowedRoles={["owner", "monitor"]}>
               <TelecallerReport />
             </ProtectedRoute>
           }
