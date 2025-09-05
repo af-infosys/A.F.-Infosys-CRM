@@ -28,6 +28,7 @@ import RecordsReport from "../features/contactList/RecordsReport";
 import CustomerHistory from "../features/contactList/CustomerHistory";
 import TaxManage from "../features/orderValuation/TaxManage";
 import OrderValuationForm from "../features/orderValuation/OrderValuationForm";
+import FinalProjects from "../features/projects/FinalProjects";
 
 export default function AppRoutes() {
   return (
@@ -104,7 +105,7 @@ export default function AppRoutes() {
 
         {/* Order Valuation Routes Start */}
         <Route path="/orderValuation">
-          <Route path="form" element={<OrderValuationForm />} />
+          <Route path="form/:projectId" element={<OrderValuationForm />} />
 
           <Route path="report" element={<OrderValuationReport />} />
 
@@ -126,6 +127,13 @@ export default function AppRoutes() {
           {/* <Route path="expense" element={<ExpenseReport />} /> */}
         </Route>
         {/* Accounts Routes End */}
+
+        {/* Projects Routes Start */}
+        <Route path="projects">
+          {/* <Route path="add" element={<AddProject />} /> */}
+          <Route path="final" element={<FinalProjects />} />
+        </Route>
+        {/* Projects Routes End */}
 
         {/* Staff Routes Start */}
         <Route

@@ -255,7 +255,7 @@ export default async function connectWhatsAPP() {
           { id: key.id, msg, timestamp: Date.now() },
         ]);
 
-        await socket.sendPresenceUpdate("composing", jid);
+        // await socket.sendPresenceUpdate("composing", jid);
 
         setTimeout(async () => {
           const pendings = pendingMessages.get(jid);
@@ -350,8 +350,8 @@ export async function sendMessageToWhatsApp(req, res) {
         .json({ error: "Number not registered on WhatsApp" });
     }
 
-    await socket.sendPresenceUpdate("composing", jid);
-    await new Promise((r) => setTimeout(r, 1000));
+    // await socket.sendPresenceUpdate("composing", jid);
+    // await new Promise((r) => setTimeout(r, 1000));
 
     let messageBody = {};
     if (imageUrl) {

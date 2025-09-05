@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
+import apiPath from "../../isProduction";
+
 // The main component for the order valuation form
 const OrderValuationForm = () => {
   const { projectId } = useParams();
@@ -56,33 +58,43 @@ const OrderValuationForm = () => {
   const fetchData = async () => {
     try {
       // In a real application, you would pass a token for authentication
-      // const token = localStorage.getItem('token');
-      // const response = await axios.get(`http://localhost:5000/api/valuation/${projectId}`, {
-      //   headers: { Authorization: `Bearer ${token}` }
-      // });
-      // const data = response.data;
-      // setDetails(data.details);
-      // setValuation(data.valuation || valuation); // Use fetched data or default
+      const response = await axios.get(
+        `${await apiPath()}/api/api/valuation/${projectId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
-      // For this demo, we'll use a placeholder to simulate fetched data
-      // and prevent compilation errors from unresolved API calls
+      const data = response.data;
+      setDetails(data.details);
+      setValuation(data.valuation || valuation);
+
       console.log(`Fetching data for project ID: ${projectId}`);
     } catch (error) {
       console.error("Error fetching data:", error);
-      // Implement a user-friendly message for errors
+
       console.log("ડેટા લાવવામાં નિષ્ફળ. કૃપા કરીને ફરી પ્રયાસ કરો.");
     }
   };
 
   const handleSave = async (e) => {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault();
+
     try {
-      // In a real application, you would pass a token for authentication
-      // const token = localStorage.getItem('token');
-      // await axios.post(`http://localhost:5000/api/valuation/${projectId}`, { body: { details, valuation } }, {
-      //   headers: { Authorization: `Bearer ${token}` }
-      // });
-      // You can add a success message here
+      await axios.post(
+        `http://localhost:5000/api/valuation/${projectId}`,
+        { body: { details, valuation } },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
       console.log("Data saved successfully!");
     } catch (error) {
       console.error("Error saving data:", error);
@@ -132,8 +144,8 @@ const OrderValuationForm = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4 sm:p-8 font-sans">
-      <div className="max-w-7xl mx-auto bg-white rounded-xl shadow-2xl p-6 sm:p-10">
+    <div className="min-h-screen font-sans">
+      <div className="rounded-xl">
         {/* Title */}
         <header className="mb-8 text-center">
           <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-2">
@@ -145,7 +157,7 @@ const OrderValuationForm = () => {
         </header>
 
         {/* Input Fields Section */}
-        <section className="bg-gray-50 p-6 rounded-lg shadow-inner mb-8 border border-gray-200">
+        <section className="bg-white p-6 rounded-lg shadow-inner mb-8 border border-gray-200">
           <h2 className="text-xl font-bold text-gray-800 mb-4">
             સામાન્ય વિગતો
           </h2>
@@ -494,22 +506,12 @@ const OrderValuationForm = () => {
                   clipRule="evenodd"
                 />
               </svg>
-              <span>પંક્તિ ઉમેરો</span>
+              <span>ઉમેરો</span>
             </button>
             <button
               type="submit"
               className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full shadow-md transition-all duration-200 flex items-center gap-2"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path d="M7.707 10.293a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L12 9.414V13a1 1 0 11-2 0V9.414l-1.293 1.293a1 1 0 01-1.414 0z" />
-                <path d="M9 2a1 1 0 00-1 1v2.586a1 1 0 00.293.707l.293.293a1 1 0 00.707.293H12a1 1 0 001-1V3a1 1 0 10-2 0v1H9V3a1 1 0 00-1-1z" />
-                <path d="M12 17a1 1 0 100-2H8a1 1 0 100 2h4z" />
-              </svg>
               <span>માહિતી સેવ કરો</span>
             </button>
           </div>

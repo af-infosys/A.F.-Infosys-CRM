@@ -440,6 +440,93 @@ export default function DashboardLayout() {
                 <div
                   className="main-link"
                   onClick={() =>
+                    setOpenMenu(openMenu === "/projects" ? null : "/projects")
+                  }
+                >
+                  Projects
+                </div>
+
+                {openMenu === "/projects" && (
+                  <>
+                    <div className="sub-links">
+                      {user.role === "owner" && (
+                        <NavLink
+                          to={`/projects/final`}
+                          className={({ isActive }) =>
+                            isActive ? "active" : ""
+                          }
+                          onClick={() => setIsSidebarOpen(false)}
+                        >
+                          <img
+                            src={TeleCallerIcon}
+                            alt="Customer List"
+                            style={{ width: "23px" }}
+                          />
+                          Final
+                        </NavLink>
+                      )}
+
+                      {user.role === "owner" && (
+                        <NavLink
+                          to={`/`}
+                          className={({ isActive }) =>
+                            isActive ? "active" : ""
+                          }
+                          onClick={() => setIsSidebarOpen(false)}
+                        >
+                          <img
+                            src={TeleCallerIcon}
+                            alt="Customer List"
+                            style={{ width: "23px" }}
+                          />
+                          Current
+                        </NavLink>
+                      )}
+
+                      {user.role === "owner" && (
+                        <NavLink
+                          to={`/`}
+                          className={({ isActive }) =>
+                            isActive ? "active" : ""
+                          }
+                          onClick={() => setIsSidebarOpen(false)}
+                        >
+                          <img
+                            src={TeleCallerIcon}
+                            alt="Customer List"
+                            style={{ width: "23px" }}
+                          />
+                          Completed
+                        </NavLink>
+                      )}
+
+                      {user.role === "owner" && (
+                        <NavLink
+                          to={`/`}
+                          className={({ isActive }) =>
+                            isActive ? "active" : ""
+                          }
+                          onClick={() => setIsSidebarOpen(false)}
+                        >
+                          <img
+                            src={TeleCallerIcon}
+                            alt="Customer List"
+                            style={{ width: "23px" }}
+                          />
+                          Abandoned
+                        </NavLink>
+                      )}
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
+
+            {user.role === "owner" && (
+              <div>
+                <div
+                  className="main-link"
+                  onClick={() =>
                     setOpenMenu(openMenu === "/staff" ? null : "/staff")
                   }
                 >

@@ -195,7 +195,7 @@ const ContactListForm = () => {
 
     const fullFormData = {
       ...formData,
-      callHistory,
+      callHistory: isEditMode ? callHistory : [],
     };
 
     try {
