@@ -275,15 +275,13 @@ export default function DashboardLayout() {
                       Report
                     </NavLink>
 
-                    {/* {user.role === "owner" && (
-                      <NavLink
-                        to={"/customers/summary"}
-                        className={({ isActive }) => (isActive ? "active" : "")}
-                        onClick={() => setIsSidebarOpen(false)}
-                      >
-                        Summary
-                      </NavLink>
-                    )} */}
+                    <NavLink
+                      to={"/orderValuation/tax"}
+                      className={({ isActive }) => (isActive ? "active" : "")}
+                      onClick={() => setIsSidebarOpen(false)}
+                    >
+                      Manage Tax
+                    </NavLink>
                   </div>
                 )}
               </div>

@@ -9,6 +9,10 @@ const workSchema = new mongoose.Schema(
     spot: {
       type: Object,
     },
+
+    details: {
+      type: Object,
+    },
   },
 
   { timestamps: true }

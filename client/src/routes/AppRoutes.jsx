@@ -26,6 +26,8 @@ import Settings from "../features/settings/Settings";
 import SurvayorReport from "../features/staff/workStatus/SurvayorReport";
 import RecordsReport from "../features/contactList/RecordsReport";
 import CustomerHistory from "../features/contactList/CustomerHistory";
+import TaxManage from "../features/orderValuation/TaxManage";
+import OrderValuationForm from "../features/orderValuation/OrderValuationForm";
 
 export default function AppRoutes() {
   return (
@@ -102,9 +104,11 @@ export default function AppRoutes() {
 
         {/* Order Valuation Routes Start */}
         <Route path="/orderValuation">
-          <Route path="form" />
+          <Route path="form" element={<OrderValuationForm />} />
 
           <Route path="report" element={<OrderValuationReport />} />
+
+          <Route path="tax" element={<TaxManage />} />
         </Route>
         {/* Order Valuation Routes End */}
 
