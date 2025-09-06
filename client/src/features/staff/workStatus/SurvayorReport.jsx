@@ -271,7 +271,8 @@ const SurvayorReport = () => {
               {selectedTelecaller && (
                 <div className="bg-white rounded-2xl shadow-xl p-6 border border-gray-200">
                   <h2 className="text-2xl font-bold text-gray-800 mb-4">
-                    Call Details for {getTelecallerName(selectedTelecaller)}
+                    Daily Work Report for{" "}
+                    {getTelecallerName(selectedTelecaller)}
                   </h2>
                   <div className="overflow-x-auto rounded-lg border border-gray-200">
                     <table className="min-w-full text-sm text-left text-gray-500">
@@ -282,32 +283,41 @@ const SurvayorReport = () => {
                             className="py-3 px-4 rounded-tl-lg"
                             style={{ width: "100px" }}
                           >
-                            Call Time
+                            ક્રમ
                           </th>
                           <th
                             scope="col"
                             className="py-3 px-4 rounded-tl-lg"
                             style={{ width: "120px" }}
                           >
-                            Call Date
+                            ગામ સર્વે કરેલ
                           </th>
                           <th scope="col" className="py-3 px-4">
-                            Customer Name
+                            તારીખ કામની
                           </th>
                           <th scope="col" className="py-3 px-4">
-                            Customer Number
+                            દિવસ
                           </th>
                           <th scope="col" className="py-3 px-4">
-                            Customer Village
+                            શરૂ કરેલ સર્વેઘર નં.
                           </th>
                           <th scope="col" className="py-3 px-4">
-                            Business
+                            પુર્ણ કરેલ સર્વેઘર નં.
                           </th>
                           <th scope="col" className="py-3 px-4 rounded-tr-lg">
-                            Client Answer
+                            કુલ ઘર
                           </th>
                           <th scope="col" className="py-3 px-4 rounded-tr-lg">
-                            Work Village
+                            નોંધ / રીમાર્કસ
+                          </th>
+                          <th scope="col" className="py-3 px-4 rounded-tr-lg">
+                            પરચુરણ ખર્ચ
+                          </th>
+                          <th scope="col" className="py-3 px-4 rounded-tr-lg">
+                            તાલુકો
+                          </th>
+                          <th scope="col" className="py-3 px-4 rounded-tr-lg">
+                            જીલ્લો
                           </th>
                         </tr>
                       </thead>
@@ -319,37 +329,32 @@ const SurvayorReport = () => {
                                 key={index}
                                 className="bg-white border-b hover:bg-gray-50 transition-colors duration-200"
                               >
-                                <td className="py-3 px-4">
-                                  {dayjs(callData?.createdAt?.time).format(
-                                    "HH:mm A"
-                                  )}
-                                </td>
+                                <td className="py-3 px-4">00</td>
                                 {/* <td className="py-3 px-4">
                                   {dayjs(callData?.createdAt?.time).format(
                                     "YYYY-MM-DD"
                                   )}
                                 </td> */}
-                                <td className="py-3 px-4 capitalize">
-                                  {callData?.dateOfCall}
-                                </td>
+                                <td className="py-3 px-4 capitalize">000</td>
 
-                                <td className="py-3 px-4 capitalize">
-                                  {callData?.customerName}
-                                </td>
-                                <td className="py-3 px-4">
-                                  {callData?.customerNumber}
-                                </td>
-                                <td className="py-3 px-4 capitalize">
-                                  {callData?.customerVillage}
-                                </td>
-                                <td className="py-3 px-4 capitalize">
-                                  {callData?.whatBusiness}
+                                <td className="py-3 px-4 capitalize">00</td>
+                                <td className="py-3 px-4">00</td>
+                                <td className="py-3 px-4 capitalize">00</td>
+                                <td className="py-3 px-4 capitalize">00</td>
+                                <td className="py-3 px-4 max-w-xs overflow-hidden text-ellipsis whitespace-nowrap">
+                                  00
                                 </td>
                                 <td className="py-3 px-4 max-w-xs overflow-hidden text-ellipsis whitespace-nowrap">
-                                  {callData?.clientAnswer}
+                                  00
                                 </td>
                                 <td className="py-3 px-4 max-w-xs overflow-hidden text-ellipsis whitespace-nowrap">
-                                  {callData?.workVillage}
+                                  00
+                                </td>
+                                <td className="py-3 px-4 max-w-xs overflow-hidden text-ellipsis whitespace-nowrap">
+                                  00
+                                </td>
+                                <td className="py-3 px-4 max-w-xs overflow-hidden text-ellipsis whitespace-nowrap">
+                                  00
                                 </td>
                               </tr>
                             );
@@ -357,7 +362,7 @@ const SurvayorReport = () => {
                         ) : (
                           <tr>
                             <td
-                              colSpan="7"
+                              colSpan="11"
                               className="py-4 text-center text-gray-500"
                             >
                               No calls found for this date.

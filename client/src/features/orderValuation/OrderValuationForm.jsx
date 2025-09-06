@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import apiPath from "../../isProduction";
 
 // The main component for the order valuation form
 const OrderValuationForm = () => {
+  const navigate = useNavigate();
+
   const { projectId } = useParams();
 
   const [details, setDetails] = useState({
@@ -84,6 +86,8 @@ const OrderValuationForm = () => {
     e.preventDefault();
 
     try {
+      navigate(`/orderValuation/tax/${projectId}`);
+
       await axios.post(
         `http://localhost:5000/api/valuation/${projectId}`,
         { body: { details, valuation } },
@@ -512,7 +516,7 @@ const OrderValuationForm = () => {
               type="submit"
               className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full shadow-md transition-all duration-200 flex items-center gap-2"
             >
-              <span>માહિતી સેવ કરો</span>
+              <span>Save & Next</span>
             </button>
           </div>
         </form>

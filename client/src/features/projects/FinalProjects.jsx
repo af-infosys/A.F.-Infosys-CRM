@@ -49,16 +49,13 @@ const FinalProjects = () => {
             <th>સર્વેયરનું નામ</th>
             <th>સ્થિતિ</th>
             <th>નોંધ / રિમાર્કસ</th>
+            <th>Action</th>
           </tr>
         </thead>
 
         <tbody>
           {projects?.map((project, index) => (
-            <tr
-              onClick={() => {
-                navigate(`/orderValuation/form/${project?._id}`);
-              }}
-            >
+            <tr>
               <td>{index + 1}</td>
               <td>{project?.spot?.gaam}</td>
               <td>{project?.totalHouses}</td>
@@ -68,6 +65,23 @@ const FinalProjects = () => {
               <td>{project?.name}</td>
               <td>{project?.updates}</td>
               <td>{project?.remarks}</td>
+              <td>
+                <button
+                  onClick={() => {
+                    navigate(`/orderValuation/form/${project?._id}`);
+                  }}
+                >
+                  Form
+                </button>
+
+                <button
+                  onClick={() => {
+                    navigate(`/orderValuation/form/${project?._id}`);
+                  }}
+                >
+                  Report
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>

@@ -109,7 +109,7 @@ export default function AppRoutes() {
 
           <Route path="report" element={<OrderValuationReport />} />
 
-          <Route path="tax" element={<TaxManage />} />
+          <Route path="tax/:projectId" element={<TaxManage />} />
         </Route>
         {/* Order Valuation Routes End */}
 
