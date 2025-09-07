@@ -215,38 +215,42 @@ export default function DashboardLayout() {
 
                 {openMenu === "/survay" && (
                   <div className="sub-links">
-                    {user.role === "owner" && (
-                      <NavLink
-                        to={`/staff/survayorReport`}
-                        className={({ isActive }) => (isActive ? "active" : "")}
-                        onClick={() => setIsSidebarOpen(false)}
-                      >
-                        <img
-                          src={TeleCallerIcon}
-                          alt="Customer List"
-                          style={{ width: "23px" }}
-                        />
-                        Sruvayor Report
-                      </NavLink>
-                    )}
-
                     <NavLink
                       to={`/survay`}
                       className={({ isActive }) => (isActive ? "active" : "")}
                       onClick={() => setIsSidebarOpen(false)}
                     >
-                      Report
+                      Akarni Report
                     </NavLink>
 
-                    {/* {user.role === "owner" && (
-                      <NavLink
-                        to={"/customers/summary"}
-                        className={({ isActive }) => (isActive ? "active" : "")}
-                        onClick={() => setIsSidebarOpen(false)}
-                      >
-                        Summary
-                      </NavLink>
-                    )} */}
+                    <NavLink
+                      to={`/survay/dailyReport`}
+                      className={({ isActive }) => (isActive ? "active" : "")}
+                      onClick={() => setIsSidebarOpen(false)}
+                    >
+                      Daily Work Report
+                    </NavLink>
+
+                    <NavLink
+                      to={`/survay/expenseReport`}
+                      className={({ isActive }) => (isActive ? "active" : "")}
+                      onClick={() => setIsSidebarOpen(false)}
+                    >
+                      Expense Report
+                    </NavLink>
+
+                    <NavLink
+                      to={`/staff/survayorReport`}
+                      className={({ isActive }) => (isActive ? "active" : "")}
+                      onClick={() => setIsSidebarOpen(false)}
+                    >
+                      <img
+                        src={TeleCallerIcon}
+                        alt="Customer List"
+                        style={{ width: "23px" }}
+                      />
+                      Sruvayor Report
+                    </NavLink>
                   </div>
                 )}
               </div>

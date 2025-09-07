@@ -29,6 +29,8 @@ import CustomerHistory from "../features/contactList/CustomerHistory";
 import TaxManage from "../features/orderValuation/TaxManage";
 import OrderValuationForm from "../features/orderValuation/OrderValuationForm";
 import FinalProjects from "../features/projects/FinalProjects";
+import DailyWordReport from "../features/staff/survayor/DailyWordReport";
+import SurvayorExpense from "../features/staff/survayor/SurvayorExpense";
 
 export default function AppRoutes() {
   return (
@@ -102,6 +104,11 @@ export default function AppRoutes() {
             </ProtectedRoute>
           }
         />
+
+        <Route path="/survay">
+          <Route path="dailyReport" element={<DailyWordReport />} />
+          <Route path="expenseReport" element={<SurvayorExpense />} />
+        </Route>
 
         {/* Order Valuation Routes Start */}
         <Route path="/orderValuation">
