@@ -259,7 +259,7 @@ const SurvayReport = () => {
                 id="thead"
                 // style={{ rotate: "90deg", transform: "translateY(10px)" }}
               >
-                નળ શોચાલ્ય
+                શોચાલ્ય
               </th>
             </tr>
           </thead>

@@ -25,43 +25,65 @@ const OrderValuationForm = () => {
     tcmNumber: "",
     assistantName: "",
     assistantNumber: "",
+    assistantHoddo: "",
+
+    valuationType: "",
+
+    meetingDate: "",
+    meetingNumber: "",
+    agendaNumber: "",
+    resolutionNumber: "",
+
+    surveyHouseRate: "",
+    approvedAmountWords: "",
+
+    startArea: "",
+    firstPropertyOwner: "",
+
+    generalWaterTaxApplicable: "",
+    specialAndGeneralWaterTax: "",
+
+    notes: [],
   });
 
+  const [newNote, setNewNote] = useState("");
+
   const [valuation, setValuation] = useState([
-    { name: "કાચા ગાર માટી રૂમ - ૧", price: 0, tax: 0 },
-    { name: "નળીયા, પતરા, પીઢીયા, પાકા રૂમ ૧", price: 0, tax: 0 },
-    { name: "પાકા સ્લેબવાળા રૂમ ૧", price: 0, tax: 0 },
+    { name: "કાચા ગાર માટી રૂમ - ૧", price: 0, per: 0, tax: 0 },
+    { name: "નળીયા, પતરા, પીઢીયા, પાકા રૂમ ૧", price: 0, per: 0, tax: 0 },
+    { name: "પાકા સ્લેબવાળા રૂમ ૧", price: 0, per: 0, tax: 0 },
     {
       name: "માલ ઢોર નું ઢાળીયુ પતરા નું ત્થા વાહન રાખવાની જગ્‍યા",
       price: 0,
+      per: 0,
       tax: 0,
     },
-    { name: "કાચા જર્જરીત બંધ પડતર રૂમ ૧", price: 0, tax: 0 },
-    { name: "પાકા જર્જરીત બંધ પડતર રૂમ ૧", price: 0, tax: 0 },
-    { name: "કેબીન, પાલા, કાચી દુકાન, ૧", price: 0, tax: 0 },
-    { name: "પાકી દુકાન ૧", price: 0, tax: 0 },
-    { name: "ગોડાઉન ૧", price: 0, tax: 0 },
-    { name: "હોલ ૧", price: 0, tax: 0 },
-    { name: "શેડ ૧", price: 0, tax: 0 },
-    { name: "ખુલ્લો પ્લોટ", price: 0, tax: 0 },
-    { name: "હિરાના કારખાના નાના", price: 0, tax: 0 },
-    { name: "હિરાના કારખાના મોટા", price: 0, tax: 0 },
-    { name: "મોબાઇલ ટાવર", price: 0, tax: 0 },
-    { name: "પેટ્રોલ પંપ, ગેસ પંપ", price: 0, tax: 0 },
-    { name: "હોટલ, રેસ્‍ટોરેન્‍ટ, લોજ હાઇવે પર", price: 0, tax: 0 },
-    { name: "કોટન કપાસ નું જીનીંગ", price: 0, tax: 0 },
-    { name: "તેલ ની ઘાણી ઓઇલ મીલ", price: 0, tax: 0 },
-    { name: "કારખાના, ફેકટરી, કંપ્‍ની, ઇન્‍ડસ્‍ટીજ", price: 0, tax: 0 },
-    { name: "કોલ્‍ડ સ્‍ટોરેજ", price: 0, tax: 0 },
-    { name: "લાતી / બેન્‍સો લાકડાનો", price: 0, tax: 0 },
-    { name: "વે બ્રિજ તોલ માપ કાટો વાહન માટેનો", price: 0, tax: 0 },
+    { name: "કાચા જર્જરીત બંધ પડતર રૂમ ૧", price: 0, per: 0, tax: 0 },
+    { name: "પાકા જર્જરીત બંધ પડતર રૂમ ૧", price: 0, per: 0, tax: 0 },
+    { name: "કેબીન, પાલા, કાચી દુકાન, ૧", price: 0, per: 0, tax: 0 },
+    { name: "પાકી દુકાન ૧", price: 0, per: 0, tax: 0 },
+    { name: "ગોડાઉન ૧", price: 0, per: 0, tax: 0 },
+    { name: "હોલ ૧", price: 0, per: 0, tax: 0 },
+    { name: "શેડ ૧", price: 0, per: 0, tax: 0 },
+    { name: "ખુલ્લો પ્લોટ", price: 0, per: 0, tax: 0 },
+    { name: "હિરાના કારખાના નાના", price: 0, per: 0, tax: 0 },
+    { name: "હિરાના કારખાના મોટા", price: 0, per: 0, tax: 0 },
+    { name: "મોબાઇલ ટાવર", price: 0, per: 0, tax: 0 },
+    { name: "પેટ્રોલ પંપ, ગેસ પંપ", price: 0, per: 0, tax: 0 },
+    { name: "હોટલ, રેસ્‍ટોરેન્‍ટ, લોજ હાઇવે પર", price: 0, per: 0, tax: 0 },
+    { name: "કોટન કપાસ નું જીનીંગ", price: 0, per: 0, tax: 0 },
+    { name: "તેલ ની ઘાણી ઓઇલ મીલ", price: 0, per: 0, tax: 0 },
+    { name: "કારખાના, ફેકટરી, કંપ્‍ની, ઇન્‍ડસ્‍ટીજ", price: 0, per: 0, tax: 0 },
+    { name: "કોલ્‍ડ સ્‍ટોરેજ", price: 0, per: 0, tax: 0 },
+    { name: "લાતી / બેન્‍સો લાકડાનો", price: 0, per: 0, tax: 0 },
+    { name: "વે બ્રિજ તોલ માપ કાટો વાહન માટેનો", price: 0, per: 0, tax: 0 },
   ]);
 
   const fetchData = async () => {
     try {
       // In a real application, you would pass a token for authentication
       const response = await axios.get(
-        `${await apiPath()}/api/api/valuation/${projectId}`,
+        `${await apiPath()}/api/valuation/${projectId}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -71,8 +93,14 @@ const OrderValuationForm = () => {
       );
 
       const data = response.data;
-      setDetails(data.details);
-      setValuation(data.valuation || valuation);
+      console.log(data);
+
+      setDetails(data.details || details);
+      setValuation(
+        Array.isArray(data?.valuation) && data?.valuation.length
+          ? data.valuation
+          : valuation
+      );
 
       console.log(`Fetching data for project ID: ${projectId}`);
     } catch (error) {
@@ -86,11 +114,9 @@ const OrderValuationForm = () => {
     e.preventDefault();
 
     try {
-      navigate(`/orderValuation/tax/${projectId}`);
-
       await axios.post(
-        `http://localhost:5000/api/valuation/${projectId}`,
-        { body: { details, valuation } },
+        `${await apiPath()}/api/valuation/${projectId}`,
+        { details, valuation },
         {
           headers: {
             "Content-Type": "application/json",
@@ -100,15 +126,11 @@ const OrderValuationForm = () => {
       );
 
       console.log("Data saved successfully!");
+      navigate(`/orderValuation/tax/${projectId}`);
     } catch (error) {
       console.error("Error saving data:", error);
       console.log("ડેટા સેવ કરવામાં નિષ્ફળ. કૃપા કરીને ફરી પ્રયાસ કરો.");
     }
-  };
-
-  const handleChangeDetails = (e) => {
-    const { name, value } = e.target;
-    setDetails((prevDetails) => ({ ...prevDetails, [name]: value }));
   };
 
   const handleChangeValuation = (index, field, value) => {
@@ -147,13 +169,40 @@ const OrderValuationForm = () => {
     return result;
   };
 
+  // Generic field change (for text, number, etc.)
+  const handleChangeDetails = (e) => {
+    const { name, value } = e.target;
+    setDetails((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // Add a new note (defensive)
+  const handleAddNote = () => {
+    const note = newNote.trim();
+    if (!note) return;
+    setDetails((prev) => {
+      const notes = Array.isArray(prev?.notes) ? prev.notes : [];
+      return { ...prev, notes: [...notes, note] };
+    });
+    setNewNote("");
+  };
+
+  // Remove a note safely by index
+  const handleRemoveNote = (idx) => {
+    setDetails((prev) => {
+      const notes = Array.isArray(prev?.notes) ? prev.notes : [];
+      return { ...prev, notes: notes.filter((_, i) => i !== idx) };
+    });
+  };
+
   return (
     <div className="min-h-screen font-sans">
       <div className="rounded-xl">
         {/* Title */}
         <header className="mb-8 text-center">
           <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-2">
-            આકારણી વેલ્યુએશન ફોર્મ
+            Order Valuation FORM <br />
+            પત્રક - 1 ઑર્ડર વેલ્યુએશન ફોર્મ <br />
+            (ભાગ - 1)
           </h1>
           <p className="text-sm sm:text-base text-gray-500">
             મિલ્કતની વિગતો અને વેરાની ગણતરી
@@ -171,7 +220,7 @@ const OrderValuationForm = () => {
                 htmlFor="totalHouses"
                 className="text-sm font-medium text-gray-700 mb-1"
               >
-                અંદાજીત ઘર ની સંખ્યા
+                1. અંદાજીત ઘર ની સંખ્યા
               </label>
               <input
                 type="number"
@@ -188,7 +237,7 @@ const OrderValuationForm = () => {
                 htmlFor="gaam"
                 className="text-sm font-medium text-gray-700 mb-1"
               >
-                ગ્રામ પંચાયત કચેરી
+                2. ગ્રામ પંચાયત કચેરી
               </label>
               <input
                 type="text"
@@ -204,7 +253,7 @@ const OrderValuationForm = () => {
                 htmlFor="taluka"
                 className="text-sm font-medium text-gray-700 mb-1"
               >
-                તાલુકો
+                3. તાલુકો
               </label>
               <input
                 type="text"
@@ -220,7 +269,7 @@ const OrderValuationForm = () => {
                 htmlFor="district"
                 className="text-sm font-medium text-gray-700 mb-1"
               >
-                જિલ્લો
+                4. જિલ્લો
               </label>
               <input
                 type="text"
@@ -236,7 +285,7 @@ const OrderValuationForm = () => {
                 htmlFor="date"
                 className="text-sm font-medium text-gray-700 mb-1"
               >
-                તારીખ
+                5. તારીખ
               </label>
               <input
                 type="date"
@@ -252,7 +301,7 @@ const OrderValuationForm = () => {
                 htmlFor="panchayat"
                 className="text-sm font-medium text-gray-700 mb-1"
               >
-                જુથ પંચાયત છે હા/ ના ગામના નામ લખવા
+                6. જુથ પંચાયત છે હા/ નહિ ગામના નામ લખવા
               </label>
               <input
                 type="text"
@@ -268,10 +317,10 @@ const OrderValuationForm = () => {
                 htmlFor="akaraniYear"
                 className="text-sm font-medium text-gray-700 mb-1"
               >
-                આકારણીનું વર્ષ
+                7. આકારણીનું વર્ષ
               </label>
               <input
-                type="number"
+                type="text"
                 id="akaraniYear"
                 name="akaraniYear"
                 value={details.akaraniYear}
@@ -284,10 +333,10 @@ const OrderValuationForm = () => {
                 htmlFor="taxYear"
                 className="text-sm font-medium text-gray-700 mb-1"
               >
-                વેરા રજીસ્ટરનું વર્ષ
+                8. વેરા રજીસ્ટરનું વર્ષ
               </label>
               <input
-                type="number"
+                type="text"
                 id="taxYear"
                 name="taxYear"
                 value={details.taxYear}
@@ -300,7 +349,7 @@ const OrderValuationForm = () => {
                 htmlFor="sarpanchName"
                 className="text-sm font-medium text-gray-700 mb-1"
               >
-                સરપંચશ્રીનું પુરૂ નામ
+                9. સરપંચશ્રીનું પુરૂ નામ
               </label>
               <input
                 type="text"
@@ -316,7 +365,7 @@ const OrderValuationForm = () => {
                 htmlFor="sarpanchNumber"
                 className="text-sm font-medium text-gray-700 mb-1"
               >
-                મો.નં. (સરપંચ)
+                10. મો.નં. (સરપંચ)
               </label>
               <input
                 type="number"
@@ -332,7 +381,7 @@ const OrderValuationForm = () => {
                 htmlFor="tcmName"
                 className="text-sm font-medium text-gray-700 mb-1"
               >
-                તલાટી કમ મંત્રીશ્રીનું પુરૂ નામ
+                11. તલાટી કમ મંત્રીશ્રીનું પુરૂ નામ
               </label>
               <input
                 type="text"
@@ -348,7 +397,7 @@ const OrderValuationForm = () => {
                 htmlFor="tcmNumber"
                 className="text-sm font-medium text-gray-700 mb-1"
               >
-                મો.નં. (તલાટી)
+                12. મો.નં. (તલાટી)
               </label>
               <input
                 type="number"
@@ -364,7 +413,7 @@ const OrderValuationForm = () => {
                 htmlFor="assistantName"
                 className="text-sm font-medium text-gray-700 mb-1"
               >
-                સાથે રહેનાર વ્યકિતનું પુરૂ નામ
+                13. સાથે રહેનાર વ્યકિતનું પુરૂ નામ
               </label>
               <input
                 type="text"
@@ -380,7 +429,7 @@ const OrderValuationForm = () => {
                 htmlFor="assistantNumber"
                 className="text-sm font-medium text-gray-700 mb-1"
               >
-                મો.નં. (સાથે રહેનાર)
+                14. મો.નં. (સાથે રહેનાર)
               </label>
               <input
                 type="number"
@@ -390,6 +439,54 @@ const OrderValuationForm = () => {
                 onChange={handleChangeDetails}
                 className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
               />
+            </div>
+
+            <div className="flex flex-col">
+              <label
+                htmlFor="assistantHoddo"
+                className="text-sm font-medium text-gray-700 mb-1"
+              >
+                15. સાથે રહેનાર વ્યક્તિનો હોદ્દો
+              </label>
+              <input
+                type="text"
+                id="assistantHoddo"
+                name="assistantHoddo"
+                value={details.assistantHoddo}
+                onChange={handleChangeDetails}
+                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+              />
+            </div>
+          </div>
+
+          <br />
+          <div className="flex flex-col col-span-3">
+            <label className="text-sm font-medium text-gray-700 mb-2">
+              16. Valuation Type
+            </label>
+            <div className="flex gap-6">
+              <label className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  name="valuationType"
+                  value="room"
+                  checked={details.valuationType === "room"}
+                  onChange={handleChangeDetails}
+                  className="text-blue-600 focus:ring-blue-500"
+                />
+                <span>રૂમ દિઠ કિમત મુકવી</span>
+              </label>
+              <label className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  name="valuationType"
+                  value="house"
+                  checked={details.valuationType === "house"}
+                  onChange={handleChangeDetails}
+                  className="text-blue-600 focus:ring-blue-500"
+                />
+                <span>મકાન દિઠ કિમત લેવી</span>
+              </label>
             </div>
           </div>
         </section>
@@ -411,6 +508,9 @@ const OrderValuationForm = () => {
                   </th>
                   <th className="px-4 py-3 text-center text-sm font-bold uppercase tracking-wider min-w-[120px]">
                     મિલ્કતની કિંમત
+                  </th>
+                  <th className="px-4 py-3 text-center text-sm font-bold uppercase tracking-wider min-w-[120px]">
+                    Percentage
                   </th>
                   <th className="px-4 py-3 text-center text-sm font-bold uppercase tracking-wider min-w-[120px]">
                     મિલ્કત વેરો
@@ -443,13 +543,39 @@ const OrderValuationForm = () => {
                       <input
                         type="number"
                         value={data.price}
-                        onChange={(e) =>
+                        onChange={(e) => {
                           handleChangeValuation(
                             index,
                             "price",
                             Number(e.target.value)
-                          )
-                        }
+                          );
+
+                          handleChangeValuation(
+                            index,
+                            "tax",
+                            Number((data.price * data.per) / 100)
+                          );
+                        }}
+                        className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 transition-all duration-200"
+                      />
+                    </td>
+                    <td className="px-4 py-3 whitespace-nowrap">
+                      <input
+                        type="number"
+                        value={data.per}
+                        onChange={(e) => {
+                          handleChangeValuation(
+                            index,
+                            "per",
+                            Number(e.target.value)
+                          );
+
+                          handleChangeValuation(
+                            index,
+                            "tax",
+                            Number((data.price * data.per) / 100)
+                          );
+                        }}
                         className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 transition-all duration-200"
                       />
                     </td>
@@ -492,6 +618,238 @@ const OrderValuationForm = () => {
               </tbody>
             </table>
           </div>
+
+          <section className="bg-white p-6 rounded-lg shadow-inner mb-8 border border-gray-200">
+            <h2 className="text-xl font-bold text-gray-800 mb-4">
+              Order Valuation FORM <br />
+              પત્રક - 2 ઑર્ડર વેલ્યુએશન ફોર્મ <br />
+              (ભાગ - 2)
+            </h2>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+              {/* Gram Panchayat Meeting */}
+              <div className="flex flex-col">
+                <label
+                  htmlFor="meetingDate"
+                  className="text-sm font-medium text-gray-700 mb-1"
+                >
+                  1. ગ્રામ પંચાયતની સામાન્ય બેઠકની તારીખ
+                </label>
+                <input
+                  type="date"
+                  id="meetingDate"
+                  name="meetingDate"
+                  value={details.meetingDate}
+                  onChange={handleChangeDetails}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
+              <div className="flex flex-col">
+                <label
+                  htmlFor="meetingNumber"
+                  className="text-sm font-medium text-gray-700 mb-1"
+                >
+                  2. ગ્રામ પંચાયતની સામાન્ય બેઠક નંબર
+                </label>
+                <input
+                  type="text"
+                  id="meetingNumber"
+                  name="meetingNumber"
+                  value={details.meetingNumber}
+                  onChange={handleChangeDetails}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
+              <div className="flex flex-col">
+                <label
+                  htmlFor="agendaNumber"
+                  className="text-sm font-medium text-gray-700 mb-1"
+                >
+                  3. ગ્રામ પંચાયતની સામાન્ય બેઠકના મુદ્દા નં.
+                </label>
+                <input
+                  type="text"
+                  id="agendaNumber"
+                  name="agendaNumber"
+                  value={details.agendaNumber}
+                  onChange={handleChangeDetails}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
+              <div className="flex flex-col">
+                <label
+                  htmlFor="resolutionNumber"
+                  className="text-sm font-medium text-gray-700 mb-1"
+                >
+                  4. ગ્રામ પંચાયતની સામાન્ય બેઠકના ઠરાવ નં.
+                </label>
+                <input
+                  type="text"
+                  id="resolutionNumber"
+                  name="resolutionNumber"
+                  value={details.resolutionNumber}
+                  onChange={handleChangeDetails}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
+              {/* Aakarani Survey Work */}
+              <div className="flex flex-col">
+                <label
+                  htmlFor="surveyHouseRate"
+                  className="text-sm font-medium text-gray-700 mb-1"
+                >
+                  5. આકારણી સર્વે કામના 1- ઘર દિઠ રૂપિયા
+                </label>
+                <input
+                  type="number"
+                  id="surveyHouseRate"
+                  name="surveyHouseRate"
+                  value={details.surveyHouseRate}
+                  onChange={handleChangeDetails}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
+              <div className="flex flex-col">
+                <label
+                  htmlFor="approvedAmountWords"
+                  className="text-sm font-medium text-gray-700 mb-1"
+                >
+                  6. શબ્દોમાં અંકે રૂપીયા ભાવ મંજુર કરેલ છે
+                </label>
+                <input
+                  type="text"
+                  id="approvedAmountWords"
+                  name="approvedAmountWords"
+                  value={details.approvedAmountWords}
+                  onChange={handleChangeDetails}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
+              {/* Area Details */}
+              <div className="flex flex-col">
+                <h3>વિસ્તારની વિગત ::-</h3>
+
+                <label
+                  htmlFor="areaDetails"
+                  className="text-sm font-medium text-gray-700 mb-1"
+                >
+                  7. પહેલા વિસ્તાર/શેરી મહોલ્લો કયા થી શરૂ કરવો :-
+                </label>
+                <input
+                  type="text"
+                  id="areaDetails"
+                  name="areaDetails"
+                  value={details.startArea}
+                  onChange={handleChangeDetails}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
+              <div className="flex flex-col">
+                <label
+                  htmlFor="startArea"
+                  className="text-sm font-medium text-gray-700 mb-1"
+                >
+                  8. આકારણી સર્વે કામ પહેલી મિલ્કત/ઘર કોની લખવી : -
+                </label>
+                <input
+                  type="text"
+                  id="firstPropertyOwner"
+                  name="firstPropertyOwner"
+                  value={details.firstPropertyOwner}
+                  onChange={handleChangeDetails}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
+              {/* Water Details */}
+
+              <div className="flex flex-col">
+                <h3>પાણી ની વિગત ::-</h3>
+
+                <label
+                  htmlFor="generalWaterTaxApplicable"
+                  className="text-sm font-medium text-gray-700 mb-1"
+                >
+                  9. જે મિલ્‍કત માં નળ હોય તેમા સામાન્‍ય પાણી વેરો લેવો કે નહી ?
+                </label>
+                <select
+                  id="generalWaterTaxApplicable"
+                  name="generalWaterTaxApplicable"
+                  value={details.generalWaterTaxApplicable}
+                  onChange={handleChangeDetails}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="">Select</option>
+                  <option value="yes">હા</option>
+                  <option value="no">ના</option>
+                </select>
+              </div>
+
+              <div className="flex flex-col">
+                <label
+                  htmlFor="specialAndGeneralWaterTax"
+                  className="text-sm font-medium text-gray-700 mb-1"
+                >
+                  10. ખાસ પાણી નળ વેરો ત્થા સા.પાણી વેરો બન્‍ને વેરા મુકવા કે
+                  ફકત એક જ વેરો લેવો.
+                </label>
+                <input
+                  type="text"
+                  id="specialAndGeneralWaterTax"
+                  name="specialAndGeneralWaterTax"
+                  value={details.specialAndGeneralWaterTax}
+                  onChange={handleChangeDetails}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+            </div>
+
+            {/* Notes Section */}
+            <div className="flex flex-col col-span-3">
+              <label className="text-sm font-medium text-gray-700 mb-1">
+                11. નોધ (Notes)
+              </label>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={newNote}
+                  onChange={(e) => setNewNote(e.target.value)}
+                  placeholder="Write a note..."
+                  className="flex-1 p-2 border border-gray-300 rounded-md"
+                />
+                <button
+                  type="button"
+                  onClick={handleAddNote}
+                  className="px-4 py-2 bg-blue-600 text-white rounded-md"
+                >
+                  Add
+                </button>
+              </div>
+
+              <ul className="list-disc pl-6 mt-3 text-gray-800 space-y-1">
+                {details?.notes?.map((note, idx) => (
+                  <li key={idx} className="flex justify-between items-center">
+                    <span>{note}</span>
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveNote(idx)}
+                      className="text-red-500 text-sm hover:underline"
+                    >
+                      Remove
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </section>
+
           <div className="flex justify-end gap-4 mt-6">
             <button
               type="button"

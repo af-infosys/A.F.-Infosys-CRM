@@ -256,7 +256,7 @@ export default function DashboardLayout() {
               </div>
             )}
 
-            {user.role === "owner" && (
+            {/* {user.role === "owner" && (
               <div>
                 <div
                   className="main-link"
@@ -281,7 +281,7 @@ export default function DashboardLayout() {
                   </div>
                 )}
               </div>
-            )}
+            )} */}
 
             {user.role === "owner" && (
               <div>

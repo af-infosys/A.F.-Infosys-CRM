@@ -114,7 +114,7 @@ export default function AppRoutes() {
         <Route path="/orderValuation">
           <Route path="form/:projectId" element={<OrderValuationForm />} />
 
-          <Route path="report" element={<OrderValuationReport />} />
+          <Route path="report/:projectId" element={<OrderValuationReport />} />
 
           <Route path="tax/:projectId" element={<TaxManage />} />
         </Route>

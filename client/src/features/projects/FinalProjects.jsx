@@ -67,6 +67,14 @@ const FinalProjects = () => {
               <td>{project?.remarks}</td>
               <td>
                 <button
+                  style={{
+                    background: "orange",
+                    color: "white",
+                    borderRadius: "20px",
+                    padding: ".3rem 1rem",
+                    marginTop: ".4rem",
+                  }}
+                  className="ml-2 cursor-pointer"
                   onClick={() => {
                     navigate(`/orderValuation/form/${project?._id}`);
                   }}
@@ -75,8 +83,16 @@ const FinalProjects = () => {
                 </button>
 
                 <button
+                  style={{
+                    background: "orange",
+                    color: "white",
+                    borderRadius: "20px",
+                    padding: ".3rem 1rem",
+                    marginTop: ".4rem",
+                  }}
+                  className="ml-2 cursor-pointer"
                   onClick={() => {
-                    navigate(`/orderValuation/form/${project?._id}`);
+                    navigate(`/orderValuation/report/${project?._id}`);
                   }}
                 >
                   Report

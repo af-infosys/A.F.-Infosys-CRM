@@ -1,176 +1,70 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+import apiPath from "../../isProduction";
 
 // Tax management component
 const TaxManage = () => {
   const { projectId } = useParams();
+  const navigate = useNavigate();
 
   const [taxes, setTaxes] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const base = [
-    { id: 20, name: "કીમત પ્રમાણે" },
-    { id: 21, name: "વિસ્તાર પ્રમાણે" },
-    { id: 54, name: "નળ ક્નેકશન" },
-    { id: 19, name: "ઉચ્ચક" },
-    { id: 20055, name: "ઘર વેરાના આધારે" },
-    { id: 24, name: "કુલ કરના આધારે" },
-    { id: 25, name: "બીજા કરના આધારે" },
-  ];
+  // const base = [
+  //   { id: 20, name: "કીમત પ્રમાણે" },
+  //   { id: 21, name: "વિસ્તાર પ્રમાણે" },
+  //   { id: 54, name: "નળ ક્નેકશન" },
+  //   { id: 19, name: "ઉચ્ચક" },
+  //   { id: 20055, name: "ઘર વેરાના આધારે" },
+  //   { id: 24, name: "કુલ કરના આધારે" },
+  //   { id: 25, name: "બીજા કરના આધારે" },
+  // ];
 
   // Default tax data to use if no data is fetched
   const defaultTaxes = [
-    { name: "ઘર વેરો", baseId: 0, format: "pr", values: {} },
-    { name: "સા.પાણી વેરો", baseId: 0, format: "rs", values: {} },
-    { name: "ખા.પાણી વેરો", baseId: 0, format: "rs", values: {} },
-    { name: "લાઈટ વેરો", baseId: 0, format: "rs", values: {} },
-    { name: "સફાઈ વેરો", baseId: 0, format: "rs", values: {} },
-    { name: "ગટર વેરો", baseId: 0, format: "rs", values: {} },
-    { name: "નોટીસ", baseId: 0, format: "rs", values: {} },
-    { name: "એડવાન્સ", baseId: 0, format: "rs", values: {} },
-    { name: "અન્ય", baseId: 0, format: "rs", values: {} },
-    { name: "તાલુકા પં. કર", baseId: 0, format: "pr", values: {} },
-    { name: "અન્ય૩", baseId: 0, format: "rs", values: {} },
-    { name: "અન્ય૪", baseId: 0, format: "rs", values: {} },
-    { name: "અન્ય૫", baseId: 0, format: "rs", values: {} },
-  ];
-
-  // Placeholder data to simulate a successful fetch with unique keys for the "નળ ક્નેકશન" base
-  const mockFetchedTaxes = [
-    {
-      name: "ઘર વેરો",
-      baseId: 20,
-      format: "pr",
-      values: { residence: 5, nonResidence: 8, plot: 2, commonPlot: 1 },
-    },
-    {
-      name: "સા.પાણી વેરો",
-      baseId: 54,
-      format: "rs",
-      values: {
-        line1_residence: 200,
-        line1_nonResidence: 250,
-        line1_plot: 220,
-        line1_commonPlot: 180,
-        halfLine_residence: 150,
-        halfLine_nonResidence: 180,
-        halfLine_plot: 160,
-        halfLine_commonPlot: 140,
-        threeQuarterLine_residence: 180,
-        threeQuarterLine_nonResidence: 220,
-        threeQuarterLine_plot: 200,
-        threeQuarterLine_commonPlot: 160,
-        none_residence: 0,
-        none_nonResidence: 0,
-        none_plot: 0,
-        none_commonPlot: 0,
-      },
-    },
-    {
-      name: "ખા.પાણી વેરો",
-      baseId: 54,
-      format: "rs",
-      values: {
-        line1_residence: 150,
-        line1_nonResidence: 180,
-        line1_plot: 160,
-        line1_commonPlot: 120,
-        halfLine_residence: 100,
-        halfLine_nonResidence: 120,
-        halfLine_plot: 110,
-        halfLine_commonPlot: 90,
-        threeQuarterLine_residence: 120,
-        threeQuarterLine_nonResidence: 150,
-        threeQuarterLine_plot: 130,
-        threeQuarterLine_commonPlot: 110,
-        none_residence: 0,
-        none_nonResidence: 0,
-        none_plot: 0,
-        none_commonPlot: 0,
-      },
-    },
-    {
-      name: "લાઈટ વેરો",
-      baseId: 19,
-      format: "rs",
-      values: { residence: 50, nonResidence: 100, plot: 0, commonPlot: 0 },
-    },
-    {
-      name: "સફાઈ વેરો",
-      baseId: 19,
-      format: "rs",
-      values: { residence: 30, nonResidence: 60, plot: 0, commonPlot: 0 },
-    },
-    {
-      name: "ગટર વેરો",
-      baseId: 19,
-      format: "rs",
-      values: { residence: 40, nonResidence: 80, plot: 0, commonPlot: 0 },
-    },
-    {
-      name: "નોટીસ",
-      baseId: 19,
-      format: "rs",
-      values: { residence: 20, nonResidence: 20, plot: 20, commonPlot: 20 },
-    },
-    {
-      name: "એડવાન્સ",
-      baseId: 19,
-      format: "rs",
-      values: { residence: 0, nonResidence: 0, plot: 0, commonPlot: 0 },
-    },
-    {
-      name: "અન્ય",
-      baseId: 19,
-      format: "rs",
-      values: { residence: 0, nonResidence: 0, plot: 0, commonPlot: 0 },
-    },
-    {
-      name: "તાલુકા પં. કર",
-      baseId: 24,
-      format: "pr",
-      values: { residence: 1, nonResidence: 1, plot: 1, commonPlot: 1 },
-    },
-    {
-      name: "અન્ય૩",
-      baseId: 19,
-      format: "rs",
-      values: { residence: 0, nonResidence: 0, plot: 0, commonPlot: 0 },
-    },
-    {
-      name: "અન્ય૪",
-      baseId: 19,
-      format: "rs",
-      values: { residence: 0, nonResidence: 0, plot: 0, commonPlot: 0 },
-    },
-    {
-      name: "અન્ય૫",
-      baseId: 19,
-      format: "rs",
-      values: { residence: 0, nonResidence: 0, plot: 0, commonPlot: 0 },
-    },
+    { name: "સા.પાણી વેરો", format: "rs", values: {} },
+    { name: "ખા.પાણી વેરો", format: "rs", values: {} },
+    { name: "લાઈટ વેરો", format: "rs", values: {} },
+    { name: "સફાઈ વેરો", format: "rs", values: {} },
+    { name: "ગટર વેરો", format: "rs", values: {} },
+    { name: "નોટીસ", format: "rs", values: {} },
+    { name: "એડવાન્સ", format: "rs", values: {} },
+    { name: "અન્ય", format: "rs", values: {} },
+    { name: "તાલુકા પં. કર", format: "pr", values: {} },
+    { name: "અન્ય૩", format: "rs", values: {} },
+    { name: "અન્ય૪", format: "rs", values: {} },
+    { name: "અન્ય૫", format: "rs", values: {} },
   ];
 
   // Function to fetch data based on projectId
   const fetchData = async () => {
     setLoading(true);
     try {
-      // For this demo, we use a random condition to simulate no data found
-      const fetchedData = Math.random() > 0.5 ? mockFetchedTaxes : [];
+      let fetchedData = await axios.get(
+        `${await apiPath()}/api/valuation/tax/${projectId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      fetchedData = fetchedData?.data?.taxes;
+      console.log(fetchedData);
 
       if (fetchedData && fetchedData.length > 0) {
         setTaxes(fetchedData);
-        toast.success("ડેટા સફળતાપૂર્વક લોડ થયો છે.");
+        toast.success("Tax Data Fetched Successfully.");
       } else {
         setTaxes(defaultTaxes);
-        toast.info(
-          "પ્રોજેક્ટ માટે કોઈ ડેટા મળ્યો નથી. ડિફોલ્ટ ડેટા લોડ થઈ રહ્યો છે."
-        );
+        toast.info("No Tax Data Found! try adding new Data");
       }
     } catch (err) {
       console.error(err);
-      toast.error("ડેટા લાવવામાં નિષ્ફળ. કૃપા કરીને ફરી પ્રયાસ કરો.");
+      toast.error("Error Fetching Taxes Data.");
       setTaxes(defaultTaxes); // Load default data on error as well
     } finally {
       setLoading(false);
@@ -181,19 +75,25 @@ const TaxManage = () => {
   const handleSave = async (e) => {
     e.preventDefault();
     try {
+      await axios.post(
+        `${await apiPath()}/api/valuation/tax/${projectId}`,
+        { taxes },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
       console.log("Saving taxes:", taxes);
       toast.success("ડેટા સફળતાપૂર્વક સાચવવામાં આવ્યો છે!");
+
+      navigate(`/orderValuation/report/${projectId}`);
     } catch (err) {
       console.error("Error saving data:", err);
       toast.error("ડેટા સેવ કરવામાં નિષ્ફળ. કૃપા કરીને ફરી પ્રયાસ કરો.");
     }
-  };
-
-  // Handlers for updating state
-  const handleBaseChange = (index, value) => {
-    const newTaxes = [...taxes];
-    newTaxes[index].baseId = Number(value);
-    setTaxes(newTaxes);
   };
 
   const handleFormatChange = (index, value) => {
@@ -229,7 +129,7 @@ const TaxManage = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 p-4 sm:p-8 font-sans relative">
-      <div className="max-w-7xl mx-auto bg-white rounded-xl shadow-2xl p-6 sm:p-10">
+      <div className="max-w-7xl mx-auto">
         <header className="mb-8 text-center">
           <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-2">
             કરની યાદી (Tax Manage)
@@ -248,7 +148,7 @@ const TaxManage = () => {
                 {taxIndex + 1}. કરનું નામ : {tax.name}
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-                <div className="flex flex-col">
+                {/* <div className="flex flex-col">
                   <label className="text-sm font-medium text-gray-700 mb-1">
                     ટેક્ષ ગણવાનો આધાર
                   </label>
@@ -264,7 +164,7 @@ const TaxManage = () => {
                       </option>
                     ))}
                   </select>
-                </div>
+                </div> */}
                 <div className="flex flex-col">
                   <label className="text-sm font-medium text-gray-700 mb-1">
                     રકમ રૂ. / ટકા (આધાર)
@@ -302,322 +202,67 @@ const TaxManage = () => {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {tax.baseId === 54 ? (
-                      <>
-                        <tr>
-                          <th className="px-4 py-3 text-left text-sm font-medium text-gray-900 whitespace-nowrap">
-                            ૧ લાઇન {tax.format === "rs" ? "(રૂ.)" : "(%)"}
-                          </th>
-                          <td>
-                            <input
-                              type="number"
-                              value={tax.values?.line1_residence || ""}
-                              onChange={(e) =>
-                                handleValueChange(
-                                  taxIndex,
-                                  "line1_residence",
-                                  e.target.value
-                                )
-                              }
-                              className="w-full p-2 border border-gray-300 rounded-md"
-                            />
-                          </td>
-                          <td>
-                            <input
-                              type="number"
-                              value={tax.values?.line1_nonResidence || ""}
-                              onChange={(e) =>
-                                handleValueChange(
-                                  taxIndex,
-                                  "line1_nonResidence",
-                                  e.target.value
-                                )
-                              }
-                              className="w-full p-2 border border-gray-300 rounded-md"
-                            />
-                          </td>
-                          <td>
-                            <input
-                              type="number"
-                              value={tax.values?.line1_plot || ""}
-                              onChange={(e) =>
-                                handleValueChange(
-                                  taxIndex,
-                                  "line1_plot",
-                                  e.target.value
-                                )
-                              }
-                              className="w-full p-2 border border-gray-300 rounded-md"
-                            />
-                          </td>
-                          <td>
-                            <input
-                              type="number"
-                              value={tax.values?.line1_commonPlot || ""}
-                              onChange={(e) =>
-                                handleValueChange(
-                                  taxIndex,
-                                  "line1_commonPlot",
-                                  e.target.value
-                                )
-                              }
-                              className="w-full p-2 border border-gray-300 rounded-md"
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <th className="px-4 py-3 text-left text-sm font-medium text-gray-900 whitespace-nowrap">
-                            ૧/૨ લાઇન {tax.format === "rs" ? "(રૂ.)" : "(%)"}
-                          </th>
-                          <td>
-                            <input
-                              type="number"
-                              value={tax.values?.halfLine_residence || ""}
-                              onChange={(e) =>
-                                handleValueChange(
-                                  taxIndex,
-                                  "halfLine_residence",
-                                  e.target.value
-                                )
-                              }
-                              className="w-full p-2 border border-gray-300 rounded-md"
-                            />
-                          </td>
-                          <td>
-                            <input
-                              type="number"
-                              value={tax.values?.halfLine_nonResidence || ""}
-                              onChange={(e) =>
-                                handleValueChange(
-                                  taxIndex,
-                                  "halfLine_nonResidence",
-                                  e.target.value
-                                )
-                              }
-                              className="w-full p-2 border border-gray-300 rounded-md"
-                            />
-                          </td>
-                          <td>
-                            <input
-                              type="number"
-                              value={tax.values?.halfLine_plot || ""}
-                              onChange={(e) =>
-                                handleValueChange(
-                                  taxIndex,
-                                  "halfLine_plot",
-                                  e.target.value
-                                )
-                              }
-                              className="w-full p-2 border border-gray-300 rounded-md"
-                            />
-                          </td>
-                          <td>
-                            <input
-                              type="number"
-                              value={tax.values?.halfLine_commonPlot || ""}
-                              onChange={(e) =>
-                                handleValueChange(
-                                  taxIndex,
-                                  "halfLine_commonPlot",
-                                  e.target.value
-                                )
-                              }
-                              className="w-full p-2 border border-gray-300 rounded-md"
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <th className="px-4 py-3 text-left text-sm font-medium text-gray-900 whitespace-nowrap">
-                            ૩/૪ લાઇન {tax.format === "rs" ? "(રૂ.)" : "(%)"}
-                          </th>
-                          <td>
-                            <input
-                              type="number"
-                              value={
-                                tax.values?.threeQuarterLine_residence || ""
-                              }
-                              onChange={(e) =>
-                                handleValueChange(
-                                  taxIndex,
-                                  "threeQuarterLine_residence",
-                                  e.target.value
-                                )
-                              }
-                              className="w-full p-2 border border-gray-300 rounded-md"
-                            />
-                          </td>
-                          <td>
-                            <input
-                              type="number"
-                              value={
-                                tax.values?.threeQuarterLine_nonResidence || ""
-                              }
-                              onChange={(e) =>
-                                handleValueChange(
-                                  taxIndex,
-                                  "threeQuarterLine_nonResidence",
-                                  e.target.value
-                                )
-                              }
-                              className="w-full p-2 border border-gray-300 rounded-md"
-                            />
-                          </td>
-                          <td>
-                            <input
-                              type="number"
-                              value={tax.values?.threeQuarterLine_plot || ""}
-                              onChange={(e) =>
-                                handleValueChange(
-                                  taxIndex,
-                                  "threeQuarterLine_plot",
-                                  e.target.value
-                                )
-                              }
-                              className="w-full p-2 border border-gray-300 rounded-md"
-                            />
-                          </td>
-                          <td>
-                            <input
-                              type="number"
-                              value={
-                                tax.values?.threeQuarterLine_commonPlot || ""
-                              }
-                              onChange={(e) =>
-                                handleValueChange(
-                                  taxIndex,
-                                  "threeQuarterLine_commonPlot",
-                                  e.target.value
-                                )
-                              }
-                              className="w-full p-2 border border-gray-300 rounded-md"
-                            />
-                          </td>
-                        </tr>
-                        <tr>
-                          <th className="px-4 py-3 text-left text-sm font-medium text-gray-900 whitespace-nowrap">
-                            નથી {tax.format === "rs" ? "(રૂ.)" : "(%)"}
-                          </th>
-                          <td>
-                            <input
-                              type="number"
-                              value={tax.values?.none_residence || ""}
-                              onChange={(e) =>
-                                handleValueChange(
-                                  taxIndex,
-                                  "none_residence",
-                                  e.target.value
-                                )
-                              }
-                              className="w-full p-2 border border-gray-300 rounded-md"
-                            />
-                          </td>
-                          <td>
-                            <input
-                              type="number"
-                              value={tax.values?.none_nonResidence || ""}
-                              onChange={(e) =>
-                                handleValueChange(
-                                  taxIndex,
-                                  "none_nonResidence",
-                                  e.target.value
-                                )
-                              }
-                              className="w-full p-2 border border-gray-300 rounded-md"
-                            />
-                          </td>
-                          <td>
-                            <input
-                              type="number"
-                              value={tax.values?.none_plot || ""}
-                              onChange={(e) =>
-                                handleValueChange(
-                                  taxIndex,
-                                  "none_plot",
-                                  e.target.value
-                                )
-                              }
-                              className="w-full p-2 border border-gray-300 rounded-md"
-                            />
-                          </td>
-                          <td>
-                            <input
-                              type="number"
-                              value={tax.values?.none_commonPlot || ""}
-                              onChange={(e) =>
-                                handleValueChange(
-                                  taxIndex,
-                                  "none_commonPlot",
-                                  e.target.value
-                                )
-                              }
-                              className="w-full p-2 border border-gray-300 rounded-md"
-                            />
-                          </td>
-                        </tr>
-                      </>
-                    ) : (
-                      <tr>
-                        <th className="px-4 py-3 text-left text-sm font-medium text-gray-900 whitespace-nowrap">
-                          {tax.format === "rs" ? "રકમ રૂ." : "ટકા %"}
-                        </th>
-                        <td>
-                          <input
-                            type="number"
-                            value={tax.values?.residence || ""}
-                            onChange={(e) =>
-                              handleValueChange(
-                                taxIndex,
-                                "residence",
-                                e.target.value
-                              )
-                            }
-                            className="w-full p-2 border border-gray-300 rounded-md"
-                          />
-                        </td>
-                        <td>
-                          <input
-                            type="number"
-                            value={tax.values?.nonResidence || ""}
-                            onChange={(e) =>
-                              handleValueChange(
-                                taxIndex,
-                                "nonResidence",
-                                e.target.value
-                              )
-                            }
-                            className="w-full p-2 border border-gray-300 rounded-md"
-                          />
-                        </td>
-                        <td>
-                          <input
-                            type="number"
-                            value={tax.values?.plot || ""}
-                            onChange={(e) =>
-                              handleValueChange(
-                                taxIndex,
-                                "plot",
-                                e.target.value
-                              )
-                            }
-                            className="w-full p-2 border border-gray-300 rounded-md"
-                          />
-                        </td>
-                        <td>
-                          <input
-                            type="number"
-                            value={tax.values?.commonPlot || ""}
-                            onChange={(e) =>
-                              handleValueChange(
-                                taxIndex,
-                                "commonPlot",
-                                e.target.value
-                              )
-                            }
-                            className="w-full p-2 border border-gray-300 rounded-md"
-                          />
-                        </td>
-                      </tr>
-                    )}
+                    <tr>
+                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-900 whitespace-nowrap">
+                        {tax.format === "pr" ? "ટકા %" : "રકમ રૂ."}
+                      </th>
+                      <td>
+                        <input
+                          type="number"
+                          value={tax.values?.residence || ""}
+                          onChange={(e) =>
+                            handleValueChange(
+                              taxIndex,
+                              "residence",
+                              e.target.value
+                            )
+                          }
+                          className="w-full p-2 border border-gray-300 rounded-md"
+                          style={{ minWidth: "100px" }}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="number"
+                          value={tax.values?.nonResidence || ""}
+                          onChange={(e) =>
+                            handleValueChange(
+                              taxIndex,
+                              "nonResidence",
+                              e.target.value
+                            )
+                          }
+                          className="w-full p-2 border border-gray-300 rounded-md"
+                          style={{ minWidth: "100px" }}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="number"
+                          value={tax.values?.plot || ""}
+                          onChange={(e) =>
+                            handleValueChange(taxIndex, "plot", e.target.value)
+                          }
+                          className="w-full p-2 border border-gray-300 rounded-md"
+                          style={{ minWidth: "100px" }}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="number"
+                          value={tax.values?.commonPlot || ""}
+                          onChange={(e) =>
+                            handleValueChange(
+                              taxIndex,
+                              "commonPlot",
+                              e.target.value
+                            )
+                          }
+                          className="w-full p-2 border border-gray-300 rounded-md"
+                          style={{ minWidth: "100px" }}
+                        />
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
