@@ -230,6 +230,19 @@ const OrderValuationReport = () => {
     return result;
   };
 
+  function formatDate(dateString) {
+    if (!dateString) return "";
+    const dateObj = new Date(dateString);
+
+    if (isNaN(dateObj)) return "";
+
+    const day = String(dateObj.getDate()).padStart(2, "0");
+    const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+    const year = dateObj.getFullYear();
+
+    return `${day}/${month}/${year}`;
+  }
+
   return (
     <>
       <div
@@ -237,7 +250,7 @@ const OrderValuationReport = () => {
         style={{
           display: "flex",
           flexDirection: "column",
-          justifyConten: "center",
+          justifyContent: "center",
         }}
       >
         <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">
@@ -316,29 +329,38 @@ const OrderValuationReport = () => {
                 alignItems: "end",
               }}
             >
-              <h2
+              <div
                 style={{
-                  fontSize: "1.1rem",
+                  display: "flex",
+                  alignItems: "start",
+                  flexDirection: "column",
+                  paddingRight: "1rem",
                 }}
               >
-                તાલુકો :– <b>{details?.taluka || ""}</b>
-              </h2>
+                <h2
+                  style={{
+                    fontSize: "1.1rem",
+                  }}
+                >
+                  તાલુકો :– <b>{details?.taluka || ""}</b>
+                </h2>
 
-              <h2
-                style={{
-                  fontSize: "1.1rem",
-                }}
-              >
-                જિલ્લો :- <b>{details?.district || ""}</b>
-              </h2>
+                <h2
+                  style={{
+                    fontSize: "1.1rem",
+                  }}
+                >
+                  જિલ્લો :- <b>{details?.district || ""}</b>
+                </h2>
 
-              <h2
-                style={{
-                  fontSize: "1.1rem",
-                }}
-              >
-                તારીખ :– <b>{details?.date || ""}</b>
-              </h2>
+                <h2
+                  style={{
+                    fontSize: "1.1rem",
+                  }}
+                >
+                  તારીખ :– <b>{formatDate(details?.date)}</b>
+                </h2>
+              </div>
 
               <span
                 style={{
@@ -347,11 +369,12 @@ const OrderValuationReport = () => {
                   width: "100%",
                   display: "flex",
                   flexDirection: "column",
-                  paddingRight: "13rem",
+                  paddingLeft: "17rem",
+                  alignItems: "start",
                 }}
               >
                 <span>
-                  જુથ પંચાયત છે (હા/ ના){" "}
+                  જુથ પંચાયત છે (હા/ના){" "}
                   <b>
                     {details?.panchayat?.includes("નહિ")
                       ? "નહિ"
@@ -360,27 +383,38 @@ const OrderValuationReport = () => {
                       : "હા"}
                   </b>{" "}
                 </span>
-                <span>ગામના નામ નીચે લખવા</span>
+
                 <span>
-                  {!details?.panchayat?.includes("નહિ") && details?.panchayat}
+                  ગામના નામ:{" "}
+                  <b>
+                    {!details?.panchayat?.includes("નહિ") && details?.panchayat}
+                  </b>
                 </span>
               </span>
 
-              <h2
+              <div
                 style={{
-                  fontSize: "1.1rem",
+                  display: "flex",
+                  alignItems: "start",
+                  flexDirection: "column",
                 }}
               >
-                આકારણીનું વર્ષ :– <b>{details?.akaraniYear || ""}</b>
-              </h2>
+                <h2
+                  style={{
+                    fontSize: "1.1rem",
+                  }}
+                >
+                  આકારણીનું વર્ષ :– <b>{details?.akaraniYear || ""}</b>
+                </h2>
 
-              <h2
-                style={{
-                  fontSize: "1.1rem",
-                }}
-              >
-                વેરા રજીસ્ટરનું વર્ષ :– <b>{details?.taxYear || ""}</b>
-              </h2>
+                <h2
+                  style={{
+                    fontSize: "1.1rem",
+                  }}
+                >
+                  વેરા રજીસ્ટરનું વર્ષ :– <b>{details?.taxYear || ""}</b>
+                </h2>
+              </div>
             </div>
             {/* Info End */}
 
@@ -432,7 +466,37 @@ const OrderValuationReport = () => {
             </div>
             {/* Names End */}
 
-            <br />
+            <div
+              style={{
+                display: "flex",
+                gap: "2rem",
+                marginTop: ".5rem",
+                marginBottom: "1rem",
+                justifyContent: "center",
+              }}
+            >
+              <span>
+                મકાન દિઠ કિમત લેવી{" "}
+                {details?.valuationType === "house" ? (
+                  <span>&#10004;</span>
+                ) : details?.valuationType === "room" ? (
+                  <span>&#10004;</span>
+                ) : (
+                  ""
+                )}
+              </span>
+
+              <span>
+                રૂમ દિઠ કિમત મુકવી{" "}
+                {details?.valuationType === "house" ? (
+                  ""
+                ) : details?.valuationType === "room" ? (
+                  ""
+                ) : (
+                  <span>&#10004;</span>
+                )}
+              </span>
+            </div>
 
             <table className="divide-y divide-gray-200">
               <thead className="bg-gray-50">
@@ -451,12 +515,6 @@ const OrderValuationReport = () => {
                     Order રીપોર્ટ – : : ઑર્ડર રીપોર્ટ આકાર (વેલ્યુએશન) રીપોર્ટ :
                     : –
                     <br />
-                    <br />
-                    {details?.valuationType === "house"
-                      ? "મકાન દિઠ કિમત લેવી"
-                      : details?.valuationType === "room"
-                      ? "રૂમ દિઠ કિમત મુકવી"
-                      : ""}
                   </th>
                 </tr>
                 <tr>
