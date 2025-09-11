@@ -3,6 +3,11 @@ import { useNavigate } from "react-router-dom";
 import "./SurvayReport.scss";
 import apiPath from "../../isProduction";
 import { useAuth } from "../../config/AuthContext";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
+import html2canvas from "html2canvas";
+
+import "../../assets/fonts/NotoSansGujarati-Regular-normal";
 
 const SurvayReport = () => {
   const [records, setRecords] = useState([]);
@@ -68,6 +73,142 @@ const SurvayReport = () => {
 
   const background = "rgb(59 130 246)";
 
+  // ⬇️ Generate PDF
+  const handleDownloadPDF = () => {
+    const pdf = new jsPDF("landscape", "pt", "legal");
+    pdf.setFont("NotoSansGujarati-Regular");
+
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+
+    // 🔹 Header text (repeat every page)
+    const header = () => {
+      pdf.setFont("NotoSansGujarati-Regular");
+      pdf.setFontSize(14);
+      pdf.text(
+        "પંચાયત હિસાબ નમુનો નંબર - ૮ (આકારણી રજીસ્ટર)",
+        pageWidth / 2,
+        40,
+        { align: "center" }
+      );
+
+      pdf.setFontSize(12);
+      pdf.text(
+        "સને ૨૦૨૫/૨૬ ના વર્ષ માટેના વેરાપાત્ર હોય તેવા મકાનો જમીનનો આકારણી ની યાદી",
+        pageWidth / 2,
+        60,
+        { align: "center" }
+      );
+
+      pdf.setFontSize(10);
+      pdf.text("ગામ: મેઘરાજ", 60, 80);
+      pdf.text("તાલુકો: મેઘરાજ", pageWidth / 2 - 20, 80);
+      pdf.text("જિલ્લો: અરવલ્લી", pageWidth - 150, 80);
+    };
+
+    // 🔹 Table headings (as first row of body itself)
+    const tableHeaders = [
+      "અનું ક્રમાંક",
+      "વિસ્તારનું નામ",
+      "મિલ્કત ક્રમાંક",
+      "મિલકતનું વર્ણન",
+      "માલિકનું નામ",
+      "જુનો મિ.નં.",
+      "મોબાઈલ નંબર",
+      "વાર્ષિક ભાડાની કિંમત / બીજી કિંમત",
+      "આકારેલ વેરાની રકમ",
+      "મિલ્ક્ત પર લખેલ નામ",
+      "મકાન ટાઈપ",
+      "નળ",
+      "શોચાલ્ય",
+      "રીમાર્કસ",
+    ];
+
+    // 🔹 Split records in chunks of 15
+    const chunkSize = 15;
+    const chunks = [];
+    for (let i = 0; i < records.length; i += chunkSize) {
+      chunks.push(records.slice(i, i + chunkSize));
+    }
+
+    chunks.forEach((chunk, chunkIndex) => {
+      // Body rows for this page
+      const body = [];
+
+      // Insert headings as first row
+      body.push(tableHeaders);
+
+      // Insert 15 records
+      chunk.forEach((record) => {
+        body.push([
+          record[0],
+          record[1],
+          record[2],
+          record[15],
+          record[3],
+          record[4],
+          record[5],
+          "00.00",
+          "00.00",
+          record[6],
+          record[7],
+          record[11],
+          record[12],
+          record[13],
+        ]);
+      });
+
+      autoTable(pdf, {
+        body,
+        startY: 100,
+        theme: "grid",
+        styles: {
+          font: "NotoSansGujarati-Regular",
+          fontSize: 8,
+          cellPadding: 3,
+          valign: "middle",
+        },
+        didDrawPage: () => {
+          header();
+
+          // Footer page numbers
+          let str = "Page " + pdf.internal.getNumberOfPages();
+          pdf.setFont("NotoSansGujarati-Regular");
+          pdf.setFontSize(10);
+          pdf.text(
+            str,
+            pdf.internal.pageSize.getWidth() - 80,
+            pdf.internal.pageSize.getHeight() - 20
+          );
+        },
+        showHead: "never", // ✅ no auto header
+      });
+
+      // Add new page except after last chunk
+      if (chunkIndex < chunks.length - 1) {
+        pdf.addPage();
+      }
+    });
+
+    pdf.save("SurveyReport.pdf");
+  };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen text-gray-700">
+        ડેટા લોડ થઈ રહ્યો છે...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex justify-center items-center h-screen text-red-600">
+        Error: {error}
+      </div>
+    );
+  }
+
   return (
     <div className="container mx-auto p-4 sm:p-6 lg:p-8">
       {/* ઇનલાઇન CSS */}
@@ -116,24 +257,44 @@ const SurvayReport = () => {
         `}
       </style>
 
-      <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">
-        પંચાયત હિસાબ નમુનો નંબર - ૮ (આકારણી રજીસ્ટર) સને ૨૦૨૫/૨૬
+      <button
+        onClick={handleDownloadPDF}
+        className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+      >
+        Download PDF
+      </button>
+
+      <h1 className="text-xl font-bold text-center mb-0 text-gray-800">
+        પંચાયત હિસાબ નમુનો નંબર - ૮ (આકારણી રજીસ્ટર)
       </h1>
-      <h2 className="text-xl text-center mb-8 text-gray-600">
+      <h2 className="text-l text-center mb-2 text-gray-600">
         સને ૨૦૨૫/૨૬ ના વર્ષ માટેના વેરાપાત્ર હોય તેવા મકાનો જમીનનો આકારણી ની
         યાદી
       </h2>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          paddingInline: "20px",
+          marginBottom: "5px",
+        }}
+      >
+        <h3>Gaam: {"Meghraj"}</h3>
 
-      <br />
+        <h3>Taluko: {"Meghraj"}</h3>
 
-      {/* Kram || Vistar nu nam || Milkat Kramank || Milkat Varnan || Malik nu Nam || Old Milkat Number || Mobile || Price || Tax Amount || Milkat Name || Makan Type - Category || Suvidha - (Nall, | Suchalay) || Remarks */}
+        <h3>Jillo: {"Aravalli"}</h3>
+      </div>
 
-      <div className="table-container rounded-lg shadow-md border border-gray-200">
+      <div
+        className="table-container rounded-lg shadow-md border border-gray-200"
+        id="reportTable"
+      >
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
               <th
-                className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-lg"
+                className="text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-lg"
                 id="thead"
                 rowSpan="2"
               >
@@ -141,15 +302,16 @@ const SurvayReport = () => {
               </th>
 
               <th
-                className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-lg"
+                className="text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-lg"
                 id="thead"
                 rowSpan="2"
+                style={{ minWidth: "100px" }}
               >
                 વિસ્તારનું નામ
               </th>
 
               <th
-                className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                className="text-xs font-medium text-gray-500 uppercase tracking-wider"
                 id="thead"
                 rowSpan="2"
               >
@@ -157,7 +319,7 @@ const SurvayReport = () => {
               </th>
 
               <th
-                className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                className="text-xs font-medium text-gray-500 uppercase tracking-wider"
                 id="thead"
                 rowSpan="2"
                 style={{ minWidth: "300px" }}
@@ -166,7 +328,7 @@ const SurvayReport = () => {
               </th>
 
               <th
-                className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                className="text-xs font-medium text-gray-500 uppercase tracking-wider"
                 id="thead"
                 rowSpan="2"
                 style={{ minWidth: "150px" }}
@@ -174,14 +336,14 @@ const SurvayReport = () => {
                 માલિકનું નામ
               </th>
               <th
-                className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                className="text-xs font-medium text-gray-500 uppercase tracking-wider"
                 id="thead"
                 rowSpan="2"
               >
                 જુનો મિ.નં.
               </th>
               <th
-                className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                className="text-xs font-medium text-gray-500 uppercase tracking-wider"
                 id="thead"
                 rowSpan="2"
               >
@@ -189,31 +351,32 @@ const SurvayReport = () => {
               </th>
 
               <th
-                className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                className="text-xs font-medium text-gray-500 uppercase tracking-wider"
                 id="thead"
                 rowSpan="2"
-                // style={{ rotate: "90deg", transform: "translateY(2px)" }}
+                style={{ minWidth: "150px" }}
               >
                 વાર્ષિક ભાડાની કિંમત અથવા બીજી કિંમત આકારણી
               </th>
               <th
-                className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                className="text-xs font-medium text-gray-500 uppercase tracking-wider"
                 id="thead"
                 rowSpan="2"
-                // style={{ rotate: "90deg", transform: "translateY(10px)" }}
+                style={{ minWidth: "92px" }}
               >
                 આકારેલ વેરાની રકમ
               </th>
               <th
-                className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                className="text-xs font-medium text-gray-500 uppercase tracking-wider"
                 id="thead"
                 rowSpan="2"
+                style={{ minWidth: "150px" }}
               >
                 મિલ્ક્ત પર લખેલ નામ મકાન/દુકાન/ કારખાના/ કંપનીનું નામ
               </th>
 
               <th
-                className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                className="text-xs font-medium text-gray-500 uppercase tracking-wider"
                 id="thead"
                 rowSpan="2"
               >
@@ -221,7 +384,7 @@ const SurvayReport = () => {
               </th>
 
               <th
-                className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                className="text-xs font-medium text-gray-500 uppercase tracking-wider"
                 id="thead"
                 colSpan="2"
               >
@@ -229,15 +392,16 @@ const SurvayReport = () => {
               </th>
 
               <th
-                className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                className="text-xs font-medium text-gray-500 uppercase tracking-wider"
                 id="thead"
                 rowSpan="2"
+                style={{ minWidth: "100px" }}
               >
                 રીમાર્કસ
               </th>
 
               <th
-                className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tr-lg"
+                className="text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tr-lg"
                 id="thead"
                 rowSpan="2"
               >
@@ -247,7 +411,7 @@ const SurvayReport = () => {
 
             <tr>
               <th
-                className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                className="text-xs font-medium text-gray-500 uppercase tracking-wider"
                 id="thead"
                 // style={{ rotate: "90deg", transform: "translateY(10px)" }}
               >
@@ -255,7 +419,7 @@ const SurvayReport = () => {
               </th>
 
               <th
-                className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                className="text-xs font-medium text-gray-500 uppercase tracking-wider"
                 id="thead"
                 // style={{ rotate: "90deg", transform: "translateY(10px)" }}
               >
@@ -269,11 +433,11 @@ const SurvayReport = () => {
             {/* 1 to 18 th for index */}
             {Array.from({ length: 15 }).map((_, index) => (
               <th
-                className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                className="text-xs font-medium text-gray-500 uppercase tracking-wider"
                 style={{
                   textAlign: "center",
-                  color: "white",
-                  background: background,
+                  color: "black",
+                  background: "#fff",
                 }}
                 key={index}
               >

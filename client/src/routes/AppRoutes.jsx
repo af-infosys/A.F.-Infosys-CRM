@@ -31,8 +31,12 @@ import OrderValuationForm from "../features/orderValuation/OrderValuationForm";
 import FinalProjects from "../features/projects/FinalProjects";
 import DailyWordReport from "../features/staff/survayor/DailyWordReport";
 import SurvayorExpense from "../features/staff/survayor/SurvayorExpense";
+import { useAuth } from "../config/AuthContext";
+import CurrentProjects from "../features/projects/CurrentProjects";
 
 export default function AppRoutes() {
+  const { user } = useAuth();
+
   return (
     <Routes>
       <Route
@@ -52,7 +56,20 @@ export default function AppRoutes() {
           </ProtectedRoute>
         }
       >
-        <Route index element={<ContactListForm />} />
+        <Route
+          index
+          element={
+            <>
+              {user.role === "owner" ? (
+                <CurrentProjects />
+              ) : user.role === "telecaller" ? (
+                <ContactListForm />
+              ) : (
+                <></>
+              )}
+            </>
+          }
+        />
         <Route path="/leads/report" element={<LeadDashboard />} />
         <Route path="/leads/form" element={<LeadForm />} />
         <Route path="/leads/edit/:id" element={<LeadEdit />} />
@@ -138,7 +155,24 @@ export default function AppRoutes() {
         {/* Projects Routes Start */}
         <Route path="projects">
           {/* <Route path="add" element={<AddProject />} /> */}
-          <Route path="final" element={<FinalProjects />} />
+          <Route
+            path="final"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <FinalProjects />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="current"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <CurrentProjects />
+              </ProtectedRoute>
+            }
+          />
+          {/* <Route path="completed" element={<ProtectedRoute allowedRoles={["owner"]}><CompletedProjects /></ProtectedRoute>} /> */}
+          {/* <Route path="cancled" element={<ProtectedRoute allowedRoles={["owner"]}><CancledProjects /></ProtectedRoute>} /> */}
         </Route>
         {/* Projects Routes End */}
 

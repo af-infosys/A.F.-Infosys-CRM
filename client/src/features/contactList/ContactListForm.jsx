@@ -74,10 +74,6 @@ const ContactListForm = () => {
   const [formLoading, setFormLoading] = useState(false);
   const [formError, setFormError] = useState(null);
 
-  if (user.role !== "owner" && user.role !== "telecaller") {
-    navigate("/customers/report");
-  }
-
   const convertGujaratiToEnglishDigits = (input) => {
     const gujaratiDigits = "૦૧૨૩૪૫૬૭૮૯";
     const englishDigits = "0123456789";

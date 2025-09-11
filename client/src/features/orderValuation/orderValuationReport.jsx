@@ -476,17 +476,13 @@ const OrderValuationReport = () => {
               }}
             >
               <span>
-                મકાન દિઠ કિમત લેવી{" "}
                 {details?.valuationType === "house" ? (
-                  <span>&#10004;</span>
-                ) : details?.valuationType === "room" ? (
-                  <span>&#10004;</span>
-                ) : (
                   ""
-                )}
-              </span>
-
-              <span>
+                ) : details?.valuationType === "room" ? (
+                  ""
+                ) : (
+                  <span>&#10004;</span>
+                )}{" "}
                 રૂમ દિઠ કિમત મુકવી{" "}
                 {details?.valuationType === "house" ? (
                   ""
@@ -494,6 +490,24 @@ const OrderValuationReport = () => {
                   ""
                 ) : (
                   <span>&#10004;</span>
+                )}
+              </span>
+
+              <span>
+                {details?.valuationType === "house" ? (
+                  <span>&#10004;</span>
+                ) : details?.valuationType === "room" ? (
+                  <span>&#10004;</span>
+                ) : (
+                  ""
+                )}{" "}
+                મકાન દિઠ કિમત લેવી{" "}
+                {details?.valuationType === "house" ? (
+                  <span>&#10004;</span>
+                ) : details?.valuationType === "room" ? (
+                  <span>&#10004;</span>
+                ) : (
+                  ""
                 )}
               </span>
             </div>
@@ -540,7 +554,7 @@ const OrderValuationReport = () => {
                       padding: "2px 3px",
                     }}
                   >
-                    નામ
+                    Milkatnu Varnan / Bandhkam nu Prakar
                   </th>
                   <th
                     className="px-1 py-1 text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -724,7 +738,7 @@ const OrderValuationReport = () => {
                 અન્ય વેરા
               </h2>
 
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
+              <div style={{ displa  y: "flex", flexWrap: "wrap", gap: "1rem" }}>
                 {taxes?.map((tax, index) => {
                   return (
                     <span>
@@ -787,13 +801,13 @@ const OrderValuationReport = () => {
               </p>
 
               <p style={{ marginTop: "1rem" }}>
-                સબબ કામગીરી એ.એફ.ઇન્ફોસીસ - સાવરકુંડલા ના ભાવ - એક મિલ્કત દિઠ
-                રૂ। <b>{details?.surveyHouseRate || "......."}</b> શબ્દો માં
-                અંકે રૂપીયા
-                <b>
-                  {" '"}
+                સબબ કામગીરી એ.એફ.ઇન્ફોસીસ - સાવરકુંડલા ના ભાવ - એક મિલ્કત દિઠ ₹
+                <b style={{ textDecoration: "underline" }}>
+                  {details?.surveyHouseRate || "......."}
+                </b>{" "}
+                શબ્દો માં અંકે રૂપીયા
+                <b style={{ textDecoration: "underline" }}>
                   {details?.approvedAmountWords || "........................."}
-                  {"' "}
                 </b>
                 ભાવ મંજુર કરેલ છે જે આજની પંચાયત ની સામાન્ય બેઠક માં બહાલી આપી.
               </p>
