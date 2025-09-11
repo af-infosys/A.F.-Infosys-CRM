@@ -475,7 +475,17 @@ const OrderValuationReport = () => {
                 justifyContent: "center",
               }}
             >
-              <span>
+              <span
+                style={{
+                  textDecoration: `${
+                    details?.valuationType === "house"
+                      ? ""
+                      : details?.valuationType === "room"
+                      ? ""
+                      : "underline"
+                  }`,
+                }}
+              >
                 {details?.valuationType === "house" ? (
                   ""
                 ) : details?.valuationType === "room" ? (
@@ -493,7 +503,17 @@ const OrderValuationReport = () => {
                 )}
               </span>
 
-              <span>
+              <span
+                style={{
+                  textDecoration: `${
+                    details?.valuationType === "house"
+                      ? "underline"
+                      : details?.valuationType === "room"
+                      ? "underline"
+                      : ""
+                  }`,
+                }}
+              >
                 {details?.valuationType === "house" ? (
                   <span>&#10004;</span>
                 ) : details?.valuationType === "room" ? (
@@ -540,6 +560,7 @@ const OrderValuationReport = () => {
                       textAlign: "center",
                       padding: "2px 3px",
                       paddingBottom: "10px",
+                      minWidth: "60px",
                     }}
                     colSpan="2"
                   >
@@ -563,6 +584,7 @@ const OrderValuationReport = () => {
                       background: background,
                       textAlign: "center",
                       padding: "2px 3px",
+                      minWidth: "70px",
                     }}
                   >
                     કિંમત
@@ -714,6 +736,219 @@ const OrderValuationReport = () => {
                 </h3>
               </div>
             </div>
+
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: ".1rem",
+                padding: ".5rem",
+                borderRadius: "10px",
+                background: "#f4f4f4ff",
+              }}
+            >
+              <h2
+                style={{
+                  fontSize: "1.1rem",
+                  width: "100%",
+                  textAlign: "center",
+                  border: "1px solid #707174",
+                  borderRadius: "5px",
+                  marginBottom: ".5rem",
+                }}
+              >
+                અન્ય વેરા
+              </h2>
+
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  gap: "1rem",
+                  width: "100%",
+                }}
+              >
+                <tabe className="min-w-full divide-y divide-gray-200">
+                  <thead>
+                    <tr>
+                      <th style={{ padding: "5px 10px" }}>ક્રમ</th>
+                      <th style={{ padding: "5px 10px" }}>વેરો</th>
+                      <th style={{ padding: "5px 10px" }}>રહેઠાણ</th>
+                      <th style={{ padding: "5px 10px" }}>બિન-રહેઠાણ</th>
+                      <th style={{ padding: "5px 10px" }}>પ્લોટ</th>
+                      <th style={{ padding: "5px 10px" }}>કોમન પ્લોટ</th>
+                    </tr>
+                  </thead>
+                  {taxes
+                    ?.filter((item) => {
+                      return (
+                        item.values.residence ||
+                        item.values.nonResidence ||
+                        item.values.plot ||
+                        item.values.commonPlot
+                      );
+                    })
+                    .map((tax, index) => {
+                      return (
+                        <tr>
+                          <td style={{ padding: "5px 10px" }}>{index + 1}</td>
+                          <td style={{ padding: "5px 10px" }}>{tax?.name}</td>
+                          <td style={{ padding: "5px 10px" }}>
+                            {tax?.values?.residence}{" "}
+                            {tax?.format === "rs" ? "રૂ." : "%"}
+                          </td>
+                          <td style={{ padding: "5px 10px" }}>
+                            {tax?.values?.nonResidence}{" "}
+                            {tax?.format === "rs" ? "રૂ." : "%"}
+                          </td>
+                          <td style={{ padding: "5px 10px" }}>
+                            {tax?.values?.plot}{" "}
+                            {tax?.format === "rs" ? "રૂ." : "%"}
+                          </td>
+                          <td style={{ padding: "5px 10px" }}>
+                            {tax?.values?.commonPlot}{" "}
+                            {tax?.format === "rs" ? "રૂ." : "%"}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                </tabe>
+              </div>
+            </div>
+
+            {/* Order Report */}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: ".1rem",
+                padding: ".5rem",
+                borderRadius: "10px",
+                background: "#ffffffff",
+              }}
+            >
+              <p style={{ marginTop: "1rem" }}>
+                આ આકારણી સર્વેનું કામ શરૂ કરતા પહેલા પંચાયત ના ત.ક.મ. તથા
+                સરપંચશ્રી અને આકારણી કમિટીના સભ્યો, પટટાવાળા, વાલમેન સાથે રહિને
+                સર્વે કરનાર એજન્સી ને કામ શરૂ કરવાનું રહેશે આકારણીસર્વે ગામ ની
+                તમામ મિલકતનૈ રૂબરૂ માં સ્થળ તપાસ કરી આકારણી રજીસ્ટર તથા કરવેરા
+                માંગણા રજિ. અને કરવેરા તારીજ પત્રક તેમજ પાનોતરી તથા આકારણી ને
+                લગત તમામ પ્રકાર નું રેકડ કોમ્પ્યુટરાઇઝડ સ્પાઈરલ બાઇનડીંગ સાથે
+                અધ્યતન તેયાર કરી આપવાનું રહેશે.
+              </p>
+            </div>
+
+            <br />
+
+            {/* Footer & Signature */}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                paddingBottom: "2rem",
+                paddingInline: "3rem",
+              }}
+            >
+              {/* TCM */}
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <span>
+                  સહિ. <b>........</b>
+                </span>
+
+                <span>
+                  ત.ક.મ.નું પુરૂ નામ
+                  <b
+                    style={{
+                      display: "block",
+                      marginTop: ".1rem",
+                    }}
+                  >
+                    {details?.tcmName || "......................."}
+                  </b>
+                </span>
+
+                <br />
+                <br />
+                <br />
+                <br />
+                <span>ત.ક.મ.નો સિક્કો</span>
+              </div>
+
+              {/* Sarpanch */}
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <span>
+                  સહિ. <b>........</b>
+                </span>
+
+                <span>
+                  સરપંચનું પુરૂ નામ
+                  <b
+                    style={{
+                      display: "block",
+                      marginTop: ".1rem",
+                    }}
+                  >
+                    {details?.sarpanchName || "......................."}
+                  </b>
+                </span>
+
+                <br />
+                <br />
+                <br />
+                <br />
+                <span>સરપંચ નો સિક્કો</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <br />
+
+        {/* Report - 3 */}
+        <div
+          style={{
+            maxWidth: "100%",
+            overflow: "auto",
+            display: "flex",
+            justifyContent: "start",
+          }}
+        >
+          <div
+            id="report-3"
+            className="table-container rounded-lg shadow-md border border-gray-200"
+            style={{
+              width: "650px",
+              minWidth: "650px",
+              padding: "1rem",
+              background: "#fff",
+            }}
+          >
+            <div
+              className="flex justify-between items-center mb-4"
+              style={{ width: "100%" }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  width: "100%",
+                  paddingInline: "1rem",
+                }}
+              >
+                <h3 style={{ fontSize: "1rem" }}>
+                  ગામ :- <b>{details?.gaam || ""}</b>
+                </h3>
+
+                <h3 style={{ fontSize: "1rem" }}>
+                  તાલુકો :- <b>{details?.taluka || ""}</b>
+                </h3>
+
+                <h3 style={{ fontSize: "1rem" }}>
+                  જિલ્લો :- <b>{details?.district || ""}</b>
+                </h3>
+              </div>
+            </div>
             {/* 
             <div
               style={{
@@ -790,7 +1025,7 @@ const OrderValuationReport = () => {
                 આવ્યું.
               </p>
 
-              <p style={{ marginTop: "1rem" }}>
+              {/* <p style={{ marginTop: "1rem" }}>
                 આ આકારણી સર્વેનું કામ શરૂ કરતા પહેલા પંચાયત ના ત.ક.મ. તથા
                 સરપંચશ્રી અને આકારણી કમિટીના સભ્યો, પટટાવાળા, વાલમેન સાથે રહિને
                 સર્વે કરનાર એજન્સી ને કામ શરૂ કરવાનું રહેશે આકારણીસર્વે ગામ ની
@@ -798,7 +1033,7 @@ const OrderValuationReport = () => {
                 માંગણા રજિ. અને કરવેરા તારીજ પત્રક તેમજ પાનોતરી તથા આકારણી ને
                 લગત તમામ પ્રકાર નું રેકડ કોમ્પ્યુટરાઇઝડ સ્પાઈરલ બાઇનડીંગ સાથે
                 અધ્યતન તેયાર કરી આપવાનું રહેશે.
-              </p>
+              </p> */}
 
               <p style={{ marginTop: "1rem" }}>
                 સબબ કામગીરી એ.એફ.ઇન્ફોસીસ - સાવરકુંડલા ના ભાવ - એક મિલ્કત દિઠ ₹
@@ -963,124 +1198,6 @@ const OrderValuationReport = () => {
         </div>
 
         <br />
-
-        {/* Report - 3 */}
-        <div
-          style={{
-            maxWidth: "100%",
-            overflow: "auto",
-            display: "flex",
-            justifyContent: "start",
-          }}
-        >
-          <div
-            id="report-3"
-            className="table-container rounded-lg shadow-md border border-gray-200"
-            style={{
-              width: "650px",
-              minWidth: "650px",
-              padding: "1rem",
-              background: "#fff",
-            }}
-          >
-            <div
-              className="flex justify-between items-center mb-4"
-              style={{ width: "100%" }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  width: "100%",
-                  paddingInline: "1rem",
-                }}
-              >
-                <h3 style={{ fontSize: "1rem" }}>
-                  ગામ :- <b>{details?.gaam || ""}</b>
-                </h3>
-
-                <h3 style={{ fontSize: "1rem" }}>
-                  તાલુકો :- <b>{details?.taluka || ""}</b>
-                </h3>
-
-                <h3 style={{ fontSize: "1rem" }}>
-                  જિલ્લો :- <b>{details?.district || ""}</b>
-                </h3>
-              </div>
-            </div>
-
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: ".1rem",
-                padding: ".5rem",
-                borderRadius: "10px",
-                background: "#f4f4f4ff",
-              }}
-            >
-              <h2
-                style={{
-                  fontSize: "1.1rem",
-                  width: "100%",
-                  textAlign: "center",
-                  border: "1px solid #707174",
-                  borderRadius: "5px",
-                  marginBottom: ".5rem",
-                }}
-              >
-                અન્ય વેરા
-              </h2>
-
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  gap: "1rem",
-                  width: "100%",
-                }}
-              >
-                <tabe className="min-w-full divide-y divide-gray-200">
-                  <thead>
-                    <tr>
-                      <th style={{ padding: "5px 10px" }}>ક્રમ</th>
-                      <th style={{ padding: "5px 10px" }}>વેરો</th>
-                      <th style={{ padding: "5px 10px" }}>રહેઠાણ</th>
-                      <th style={{ padding: "5px 10px" }}>બિન-રહેઠાણ</th>
-                      <th style={{ padding: "5px 10px" }}>પ્લોટ</th>
-                      <th style={{ padding: "5px 10px" }}>કોમન પ્લોટ</th>
-                    </tr>
-                  </thead>
-                  {taxes?.map((tax, index) => {
-                    return (
-                      <tr>
-                        <td style={{ padding: "5px 10px" }}>{index + 1}</td>
-                        <td style={{ padding: "5px 10px" }}>{tax?.name}</td>
-                        <td style={{ padding: "5px 10px" }}>
-                          {tax?.values?.residence}{" "}
-                          {tax?.format === "rs" ? "રૂ." : "%"}
-                        </td>
-                        <td style={{ padding: "5px 10px" }}>
-                          {tax?.values?.nonResidence}{" "}
-                          {tax?.format === "rs" ? "રૂ." : "%"}
-                        </td>
-                        <td style={{ padding: "5px 10px" }}>
-                          {tax?.values?.plot}{" "}
-                          {tax?.format === "rs" ? "રૂ." : "%"}
-                        </td>
-                        <td style={{ padding: "5px 10px" }}>
-                          {tax?.values?.commonPlot}{" "}
-                          {tax?.format === "rs" ? "રૂ." : "%"}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tabe>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </>
   );

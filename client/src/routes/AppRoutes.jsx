@@ -33,6 +33,7 @@ import DailyWordReport from "../features/staff/survayor/DailyWordReport";
 import SurvayorExpense from "../features/staff/survayor/SurvayorExpense";
 import { useAuth } from "../config/AuthContext";
 import CurrentProjects from "../features/projects/CurrentProjects";
+import IndexReport from "../features/survay/IndexReport";
 
 export default function AppRoutes() {
   const { user } = useAuth();
@@ -113,16 +114,23 @@ export default function AppRoutes() {
           }
         />
 
-        <Route
-          path="/survay"
-          element={
-            <ProtectedRoute allowedRoles={["owner"]}>
-              <SurvayReport />
-            </ProtectedRoute>
-          }
-        />
-
         <Route path="/survay">
+          <Route
+            path="akarniReport"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <SurvayReport />
+              </ProtectedRoute>
+            }
+          />{" "}
+          <Route
+            path="indexReport"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <IndexReport />
+              </ProtectedRoute>
+            }
+          />
           <Route path="dailyReport" element={<DailyWordReport />} />
           <Route path="expenseReport" element={<SurvayorExpense />} />
         </Route>
