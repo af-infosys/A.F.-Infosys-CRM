@@ -290,7 +290,7 @@ const OrderValuationReport = () => {
             }}
           >
             <div
-              className="flex justify-between items-center mb-4"
+              className="flex justify-between items-center"
               style={{ width: "100%" }}
             >
               <div
@@ -299,7 +299,7 @@ const OrderValuationReport = () => {
                   alignItems: "center",
                   justifyContent: "space-between",
                   width: "100%",
-                  paddingInline: "1rem",
+                  paddingInline: "25px",
                 }}
               >
                 <h3 style={{ fontSize: "1rem" }}>
@@ -334,7 +334,7 @@ const OrderValuationReport = () => {
                   display: "flex",
                   alignItems: "start",
                   flexDirection: "column",
-                  paddingRight: "1rem",
+                  paddingRight: "20px",
                 }}
               >
                 <h2
@@ -360,19 +360,7 @@ const OrderValuationReport = () => {
                 >
                   તારીખ :– <b>{formatDate(details?.date)}</b>
                 </h2>
-              </div>
 
-              <span
-                style={{
-                  fontSize: "1.1rem",
-                  textAlign: "right",
-                  width: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                  paddingLeft: "17rem",
-                  alignItems: "start",
-                }}
-              >
                 <span>
                   જુથ પંચાયત છે (હા/ના){" "}
                   <b>
@@ -383,7 +371,19 @@ const OrderValuationReport = () => {
                       : "હા"}
                   </b>{" "}
                 </span>
+              </div>
 
+              <span
+                style={{
+                  fontSize: "1.1rem",
+                  textAlign: "right",
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  paddingRight: "10px",
+                  alignItems: "end",
+                }}
+              >
                 <span>
                   ગામના નામ:{" "}
                   <b>
