@@ -334,7 +334,7 @@ const OrderValuationReport = () => {
                   display: "flex",
                   alignItems: "start",
                   flexDirection: "column",
-                  paddingRight: "20px",
+                  paddingRight: "30px",
                 }}
               >
                 <h2
@@ -1040,10 +1040,10 @@ const OrderValuationReport = () => {
                 <b style={{ textDecoration: "underline" }}>
                   {details?.surveyHouseRate || "......."}
                 </b>{" "}
-                શબ્દો માં અંકે રૂપીયા
+                શબ્દો માં અંકે રૂપીયા{" "}
                 <b style={{ textDecoration: "underline" }}>
                   {details?.approvedAmountWords || "........................."}
-                </b>
+                </b>{" "}
                 ભાવ મંજુર કરેલ છે જે આજની પંચાયત ની સામાન્ય બેઠક માં બહાલી આપી.
               </p>
             </div>
