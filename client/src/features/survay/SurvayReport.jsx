@@ -221,6 +221,58 @@ const SurvayReport = () => {
               <div className="table-cell remarks">રીમાર્કસ</div>
             </div>
 
+            <div className="table-row table-header-row">
+              <div className="table-cell s-no">
+                <span className="formatting">1</span>
+              </div>
+
+              <div className="table-cell area-name">
+                <span className="formatting">2</span>
+              </div>
+
+              <div className="table-cell prop-no">
+                <span className="formatting">3</span>
+              </div>
+
+              <div className="table-cell description">
+                <span className="formatting">4</span>
+              </div>
+
+              <div className="table-cell owner">
+                <span className="formatting">5</span>
+              </div>
+
+              <div className="table-cell old-prop-no">
+                <span className="formatting">6</span>
+              </div>
+
+              <div className="table-cell mobile">
+                <span className="formatting">7</span>
+              </div>
+
+              <div className="table-cell valuation">
+                <span className="formatting">8</span>
+              </div>
+
+              <div className="table-cell tax">
+                <span className="formatting">9</span>
+              </div>
+
+              <div className="table-cell prop-name">
+                <span className="formatting">10</span>
+              </div>
+
+              <div className="table-cell type">
+                <span className="formatting">11</span>
+              </div>
+
+              <div className="table-cell facility">
+                <span className="formatting">12</span>
+              </div>
+
+              <div className="table-cell remarks">13</div>
+            </div>
+
             {/* Table Rows using Divs */}
 
             {pageRecords.map((record, index) => (

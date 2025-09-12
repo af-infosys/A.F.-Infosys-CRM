@@ -190,14 +190,7 @@ const OrderValuationReport = () => {
         // If image is taller than page → just align top (no vertical centering)
         const y = finalHeight > pageHeight ? 0 : (pageHeight - finalHeight) / 2;
 
-        doc.addImage(
-          imgData,
-          "PNG",
-          0,
-          0,
-          finalWidth * 0.95,
-          finalHeight * 0.95
-        );
+        doc.addImage(imgData, "PNG", 0, 0, finalWidth * 1, finalHeight * 1);
       };
 
       // Page 1
@@ -283,8 +276,8 @@ const OrderValuationReport = () => {
             className="table-container rounded-lg shadow-md border border-gray-200"
             id="report-1"
             style={{
-              width: "670px",
-              minWidth: "670px",
+              width: "740px",
+              minWidth: "740px",
               padding: "1rem",
               background: "#fff",
             }}
@@ -310,12 +303,12 @@ const OrderValuationReport = () => {
                   TBR <b>{""}</b>
                 </h3>
 
-                <h3 style={{ fontSize: "1rem" }}>
+                <h2 style={{ fontSize: "1rem", color: "transparent" }}>
                   <b style={{ textDecoration: "underline" }}>
                     {details?.gaam || ""}
                   </b>{" "}
                   ગ્રામ પંચાયત કચેરી
-                </h3>
+                </h2>
               </div>
             </div>
 
@@ -335,11 +328,20 @@ const OrderValuationReport = () => {
                   alignItems: "start",
                   flexDirection: "column",
                   paddingRight: "30px",
+                  position: "relative",
+                  transform: "translateY(-25px)",
                 }}
               >
+                <h2 style={{ fontSize: "1rem" }}>
+                  <b style={{ textDecoration: "underline" }}>
+                    {details?.gaam || ""}
+                  </b>{" "}
+                  ગ્રામ પંચાયત કચેરી
+                </h2>
+
                 <h2
                   style={{
-                    fontSize: "1.1rem",
+                    fontSize: "1rem",
                   }}
                 >
                   તાલુકો :– <b>{details?.taluka || ""}</b>
@@ -347,7 +349,7 @@ const OrderValuationReport = () => {
 
                 <h2
                   style={{
-                    fontSize: "1.1rem",
+                    fontSize: "1rem",
                   }}
                 >
                   જિલ્લો :- <b>{details?.district || ""}</b>
@@ -355,7 +357,7 @@ const OrderValuationReport = () => {
 
                 <h2
                   style={{
-                    fontSize: "1.1rem",
+                    fontSize: "1rem",
                   }}
                 >
                   તારીખ :– <b>{formatDate(details?.date)}</b>
@@ -382,6 +384,8 @@ const OrderValuationReport = () => {
                   flexDirection: "column",
                   paddingRight: "10px",
                   alignItems: "end",
+
+                  marginTop: "-20px",
                 }}
               >
                 <span
@@ -393,7 +397,18 @@ const OrderValuationReport = () => {
                 >
                   ગામના નામ:
                   <b>
-                    {!details?.panchayat?.includes("નહિ") && details?.panchayat}
+                    {!details?.panchayat?.includes("નહિ") &&
+                      details?.panchayat
+                        .split(/\d+\./) // split at "1.", "2.", etc.
+                        .filter(Boolean) // remove empty strings
+                        .map((village, index) => (
+                          <div
+                            key={index}
+                            style={{ textAlign: "left", fontSize: "15px" }}
+                          >
+                            {index + 1}. {village.trim()}
+                          </div>
+                        ))}
                   </b>
                 </span>
               </span>
@@ -465,7 +480,8 @@ const OrderValuationReport = () => {
               </h2>
               <h2
                 style={{
-                  fontSize: "1.1rem",
+                  fontSize: "1rem",
+                  marginTop: "-10px",
                 }}
               >
                 {details?.assistantHoddo || ""}
@@ -473,91 +489,65 @@ const OrderValuationReport = () => {
             </div>
             {/* Names End */}
 
-            <table className="divide-y divide-gray-200">
+            <h3
+              className="px-2 py-3 text-xs font-medium text-black uppercase tracking-wider"
+              style={{
+                // background: background,
+                textAlign: "center",
+                padding: "3px 5px",
+                paddingBottom: "8px",
+                color: "#000",
+                width: "100%",
+                border: "1px solid black",
+                borderRadius: "10px",
+                paddingTop: "0",
+
+                marginTop: "12px",
+                fontSize: "15px",
+              }}
+              colSpan="6"
+            >
+              Order રીપોર્ટ – : : ઑર્ડર રીપોર્ટ આકાર (વેલ્યુએશન) રીપોર્ટ : : –
+            </h3>
+
+            <div
+              style={{
+                display: "flex",
+                gap: "140px",
+                justifyContent: "center",
+              }}
+            >
+              <span>
+                {details?.valuationType === "room" ? <span>&#10004;</span> : ""}{" "}
+                રૂમ દિઠ કિમત મુકવી{" "}
+                {details?.valuationType === "room" ? <span>&#10004;</span> : ""}
+              </span>
+
+              <span>
+                {details?.valuationType === "house" ? (
+                  <span>&#10004;</span>
+                ) : (
+                  ""
+                )}{" "}
+                મકાન દિઠ કિમત લેવી{" "}
+                {details?.valuationType === "house" ? (
+                  <span>&#10004;</span>
+                ) : (
+                  ""
+                )}
+              </span>
+            </div>
+
+            <table
+              className="divide-y divide-gray-200"
+              style={{
+                marginTop: "10px",
+              }}
+            >
               <thead className="bg-gray-50">
                 <tr>
                   <th
-                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    style={{
-                      // background: background,
-                      textAlign: "center",
-                      padding: "3px 5px",
-                      paddingBottom: "10px",
-                      color: "#000",
-                    }}
-                    colSpan="6"
-                  >
-                    Order રીપોર્ટ – : : ઑર્ડર રીપોર્ટ આકાર (વેલ્યુએશન) રીપોર્ટ :
-                    : –
-                    <br />
-                    <div
-                      style={{
-                        display: "flex",
-                        gap: "140px",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <span
-                        style={{
-                          textDecoration: `${
-                            details?.valuationType === "house"
-                              ? ""
-                              : details?.valuationType === "room"
-                              ? ""
-                              : "underline"
-                          }`,
-                        }}
-                      >
-                        {details?.valuationType === "house" ? (
-                          ""
-                        ) : details?.valuationType === "room" ? (
-                          ""
-                        ) : (
-                          <span>&#10004;</span>
-                        )}{" "}
-                        રૂમ દિઠ કિમત મુકવી{" "}
-                        {details?.valuationType === "house" ? (
-                          ""
-                        ) : details?.valuationType === "room" ? (
-                          ""
-                        ) : (
-                          <span>&#10004;</span>
-                        )}
-                      </span>
-
-                      <span
-                        style={{
-                          textDecoration: `${
-                            details?.valuationType === "house"
-                              ? "underline"
-                              : details?.valuationType === "room"
-                              ? "underline"
-                              : ""
-                          }`,
-                        }}
-                      >
-                        {details?.valuationType === "house" ? (
-                          <span>&#10004;</span>
-                        ) : details?.valuationType === "room" ? (
-                          <span>&#10004;</span>
-                        ) : (
-                          ""
-                        )}{" "}
-                        મકાન દિઠ કિમત લેવી{" "}
-                        {details?.valuationType === "house" ? (
-                          <span>&#10004;</span>
-                        ) : details?.valuationType === "room" ? (
-                          <span>&#10004;</span>
-                        ) : (
-                          ""
-                        )}
-                      </span>
-                    </div>
-                  </th>
-                </tr>
-                <tr>
-                  <th
-                    className="px-1 py-1 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-1 py-1 text-xs font-medium text-black uppercase tracking-wider"
                     style={{
                       color: "black",
                       // background: background,
@@ -568,10 +558,10 @@ const OrderValuationReport = () => {
                     }}
                     colSpan="2"
                   >
-                    ક્રમ
+                    <span id="format">ક્રમ</span>
                   </th>
                   <th
-                    className="px-1 py-1 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-1 py-1 text-xs font-medium text-black uppercase tracking-wider"
                     style={{
                       color: "black",
                       // background: background,
@@ -579,10 +569,10 @@ const OrderValuationReport = () => {
                       padding: "2px 3px",
                     }}
                   >
-                    મિલકતનું વર્ણન / બાંધકામનો પ્રકાર
+                    <span id="format">મિલકતનું વર્ણન / બાંધકામનો પ્રકાર</span>
                   </th>
                   <th
-                    className="px-1 py-1 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-1 py-1 text-xs font-medium text-black uppercase tracking-wider"
                     style={{
                       color: "black",
                       // background: background,
@@ -591,10 +581,10 @@ const OrderValuationReport = () => {
                       minWidth: "70px",
                     }}
                   >
-                    કિંમત
+                    <span id="format">કિંમત</span>
                   </th>
                   <th
-                    className="px-1 py-1 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-1 py-1 text-xs font-medium text-black uppercase tracking-wider"
                     style={{
                       color: "black",
                       // background: background,
@@ -603,17 +593,17 @@ const OrderValuationReport = () => {
                       minWidth: "50px",
                     }}
                   >
-                    વેરો
+                    <span id="format">વેરો</span>
                   </th>
                 </tr>
               </thead>
 
               {/* <tr>
-              <th className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-2 py-3 text-xs font-medium text-black uppercase tracking-wider">
                 રૂમ દિઠ કિમત મુકવી
               </th>
 
-              <th className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-2 py-3 text-xs font-medium text-black uppercase tracking-wider">
                 મકાન દિઠ કિમત લેવી
               </th>
 
@@ -632,48 +622,47 @@ const OrderValuationReport = () => {
                           textAlign: "center",
                         }}
                       >
-                        {index + 1}
+                        <span id="format">{index + 1}</span>
                       </td>
                       <td
-                        className="whitespace-normal text-sm text-gray-500"
+                        className="whitespace-normal text-sm text-black"
                         style={{
                           maxWidth: "10px",
                           padding: "3px 10px",
                           textAlign: "center",
                         }}
                       >
-                        {" "}
-                        {getAlphabeticalIndex(index)}
+                        <span id="format">{getAlphabeticalIndex(index)}</span>
                       </td>{" "}
                       <td
-                        className="whitespace-normal text-sm text-gray-500"
+                        className="whitespace-normal text-sm text-black"
                         style={{
                           maxWidth: "200px",
                           padding: "3px 10px",
                           textAlign: "left",
                         }}
                       >
-                        {record?.name}
+                        <span id="format">{record?.name}</span>
                       </td>
                       <td
-                        className="whitespace-normal text-sm text-gray-500"
+                        className="whitespace-normal text-sm text-black"
                         style={{
                           maxWidth: "30px",
                           padding: "3px 10px",
                           textAlign: "center",
                         }}
                       >
-                        {record?.price}
+                        <span id="format">{record?.price}</span>
                       </td>
                       <td
-                        className="whitespace-normal text-sm text-gray-500"
+                        className="whitespace-normal text-sm text-black"
                         style={{
                           maxWidth: "30px",
                           padding: "3px 10px",
                           textAlign: "center",
                         }}
                       >
-                        {record?.tax}
+                        <span id="format">{record?.tax}</span>
                       </td>
                     </tr>
                   );
@@ -683,7 +672,7 @@ const OrderValuationReport = () => {
                   <tr>
                     <td
                       colSpan="25"
-                      className="px-6 py-4 text-center text-gray-500"
+                      className="px-6 py-4 text-center text-black"
                     >
                       No Data Found!
                     </td>
@@ -709,8 +698,8 @@ const OrderValuationReport = () => {
             id="report-2"
             className="table-container rounded-lg shadow-md border border-gray-200"
             style={{
-              width: "670px",
-              minWidth: "670px",
+              width: "740px",
+              minWidth: "740px",
               padding: "1rem",
               background: "#fff",
             }}
@@ -922,8 +911,8 @@ const OrderValuationReport = () => {
             id="report-3"
             className="table-container rounded-lg shadow-md border border-gray-200"
             style={{
-              width: "670px",
-              minWidth: "670px",
+              width: "740px",
+              minWidth: "740px",
               padding: "1rem",
               background: "#fff",
             }}
