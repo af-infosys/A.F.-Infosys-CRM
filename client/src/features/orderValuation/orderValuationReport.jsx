@@ -283,8 +283,8 @@ const OrderValuationReport = () => {
             className="table-container rounded-lg shadow-md border border-gray-200"
             id="report-1"
             style={{
-              width: "650px",
-              minWidth: "650px",
+              width: "670px",
+              minWidth: "670px",
               padding: "1rem",
               background: "#fff",
             }}
@@ -384,8 +384,14 @@ const OrderValuationReport = () => {
                   alignItems: "end",
                 }}
               >
-                <span>
-                  ગામના નામ:{" "}
+                <span
+                  style={{
+                    display: "flex",
+                    justifyContent: "end",
+                    gap: "10px",
+                  }}
+                >
+                  ગામના નામ:
                   <b>
                     {!details?.panchayat?.includes("નહિ") && details?.panchayat}
                   </b>
@@ -424,12 +430,13 @@ const OrderValuationReport = () => {
             >
               <h2
                 style={{
-                  fontSize: "1.1rem",
+                  fontSize: "1rem",
                 }}
               >
                 સરપંચશ્રીનું પુરૂ નામ તથા મો.નં.{" "}
                 <b>
-                  {details?.sarpanchName || ""}, {details?.sarpanchNumber || ""}{" "}
+                  {details?.sarpanchName || ""} :-{" "}
+                  {details?.sarpanchNumber || ""}{" "}
                 </b>
               </h2>
 
@@ -440,7 +447,7 @@ const OrderValuationReport = () => {
               >
                 તલાટી કમ મંત્રીશ્રીનું પુરૂ નામ તથા મો.નં.{" "}
                 <b>
-                  {details?.tcmName || ""}, {details?.tcmNumber || ""}
+                  {details?.tcmName || ""} :- {details?.tcmNumber || ""}
                 </b>
               </h2>
 
@@ -452,7 +459,7 @@ const OrderValuationReport = () => {
                 સાથે રહેનાર વ્યકિતનું પુરૂ નામ તથા મો.નં.{" "}
                 <b>
                   {details?.assistantName || ""}
-                  {", "}
+                  {" :- "}
                   {details?.assistantNumber || ""}
                 </b>
               </h2>
@@ -466,97 +473,94 @@ const OrderValuationReport = () => {
             </div>
             {/* Names End */}
 
-            <div
-              style={{
-                display: "flex",
-                gap: "2rem",
-                marginTop: ".5rem",
-                marginBottom: "1rem",
-                justifyContent: "center",
-              }}
-            >
-              <span
-                style={{
-                  textDecoration: `${
-                    details?.valuationType === "house"
-                      ? ""
-                      : details?.valuationType === "room"
-                      ? ""
-                      : "underline"
-                  }`,
-                }}
-              >
-                {details?.valuationType === "house" ? (
-                  ""
-                ) : details?.valuationType === "room" ? (
-                  ""
-                ) : (
-                  <span>&#10004;</span>
-                )}{" "}
-                રૂમ દિઠ કિમત મુકવી{" "}
-                {details?.valuationType === "house" ? (
-                  ""
-                ) : details?.valuationType === "room" ? (
-                  ""
-                ) : (
-                  <span>&#10004;</span>
-                )}
-              </span>
-
-              <span
-                style={{
-                  textDecoration: `${
-                    details?.valuationType === "house"
-                      ? "underline"
-                      : details?.valuationType === "room"
-                      ? "underline"
-                      : ""
-                  }`,
-                }}
-              >
-                {details?.valuationType === "house" ? (
-                  <span>&#10004;</span>
-                ) : details?.valuationType === "room" ? (
-                  <span>&#10004;</span>
-                ) : (
-                  ""
-                )}{" "}
-                મકાન દિઠ કિમત લેવી{" "}
-                {details?.valuationType === "house" ? (
-                  <span>&#10004;</span>
-                ) : details?.valuationType === "room" ? (
-                  <span>&#10004;</span>
-                ) : (
-                  ""
-                )}
-              </span>
-            </div>
-
             <table className="divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
                     style={{
-                      color: "white",
-                      background: background,
+                      // background: background,
                       textAlign: "center",
                       padding: "3px 5px",
                       paddingBottom: "10px",
+                      color: "#000",
                     }}
                     colSpan="6"
                   >
                     Order રીપોર્ટ – : : ઑર્ડર રીપોર્ટ આકાર (વેલ્યુએશન) રીપોર્ટ :
                     : –
                     <br />
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: "140px",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <span
+                        style={{
+                          textDecoration: `${
+                            details?.valuationType === "house"
+                              ? ""
+                              : details?.valuationType === "room"
+                              ? ""
+                              : "underline"
+                          }`,
+                        }}
+                      >
+                        {details?.valuationType === "house" ? (
+                          ""
+                        ) : details?.valuationType === "room" ? (
+                          ""
+                        ) : (
+                          <span>&#10004;</span>
+                        )}{" "}
+                        રૂમ દિઠ કિમત મુકવી{" "}
+                        {details?.valuationType === "house" ? (
+                          ""
+                        ) : details?.valuationType === "room" ? (
+                          ""
+                        ) : (
+                          <span>&#10004;</span>
+                        )}
+                      </span>
+
+                      <span
+                        style={{
+                          textDecoration: `${
+                            details?.valuationType === "house"
+                              ? "underline"
+                              : details?.valuationType === "room"
+                              ? "underline"
+                              : ""
+                          }`,
+                        }}
+                      >
+                        {details?.valuationType === "house" ? (
+                          <span>&#10004;</span>
+                        ) : details?.valuationType === "room" ? (
+                          <span>&#10004;</span>
+                        ) : (
+                          ""
+                        )}{" "}
+                        મકાન દિઠ કિમત લેવી{" "}
+                        {details?.valuationType === "house" ? (
+                          <span>&#10004;</span>
+                        ) : details?.valuationType === "room" ? (
+                          <span>&#10004;</span>
+                        ) : (
+                          ""
+                        )}
+                      </span>
+                    </div>
                   </th>
                 </tr>
                 <tr>
                   <th
                     className="px-1 py-1 text-xs font-medium text-gray-500 uppercase tracking-wider"
                     style={{
-                      color: "white",
-                      background: background,
+                      color: "black",
+                      // background: background,
                       textAlign: "center",
                       padding: "2px 3px",
                       paddingBottom: "10px",
@@ -569,19 +573,19 @@ const OrderValuationReport = () => {
                   <th
                     className="px-1 py-1 text-xs font-medium text-gray-500 uppercase tracking-wider"
                     style={{
-                      color: "white",
-                      background: background,
+                      color: "black",
+                      // background: background,
                       textAlign: "center",
                       padding: "2px 3px",
                     }}
                   >
-                    Milkatnu Varnan / Bandhkam nu Prakar
+                    મિલકતનું વર્ણન / બાંધકામનો પ્રકાર
                   </th>
                   <th
                     className="px-1 py-1 text-xs font-medium text-gray-500 uppercase tracking-wider"
                     style={{
-                      color: "white",
-                      background: background,
+                      color: "black",
+                      // background: background,
                       textAlign: "center",
                       padding: "2px 3px",
                       minWidth: "70px",
@@ -592,13 +596,14 @@ const OrderValuationReport = () => {
                   <th
                     className="px-1 py-1 text-xs font-medium text-gray-500 uppercase tracking-wider"
                     style={{
-                      color: "white",
-                      background: background,
+                      color: "black",
+                      // background: background,
                       textAlign: "center",
                       padding: "2px 3px",
+                      minWidth: "50px",
                     }}
                   >
-                    વેરો રૂ।.
+                    વેરો
                   </th>
                 </tr>
               </thead>
@@ -704,8 +709,8 @@ const OrderValuationReport = () => {
             id="report-2"
             className="table-container rounded-lg shadow-md border border-gray-200"
             style={{
-              width: "650px",
-              minWidth: "650px",
+              width: "670px",
+              minWidth: "670px",
               padding: "1rem",
               background: "#fff",
             }}
@@ -917,8 +922,8 @@ const OrderValuationReport = () => {
             id="report-3"
             className="table-container rounded-lg shadow-md border border-gray-200"
             style={{
-              width: "650px",
-              minWidth: "650px",
+              width: "670px",
+              minWidth: "670px",
               padding: "1rem",
               background: "#fff",
             }}
