@@ -1062,8 +1062,7 @@ const OrderValuationReport = () => {
                     transform: "translateY(-8px)",
                   }}
                 >
-                  ઑર્ડર રીપોર્ટ આકાર (વેલ્યુએશન) રીપોર્ટ મિલ્કત આકારણી સર્વેની
-                  અન્ય વિગત
+                  મિલ્કત આકારણી સર્વેની અન્ય વિગત
                 </span>
               </h2>
               <p
@@ -1272,8 +1271,7 @@ const OrderValuationReport = () => {
                     transform: "translateY(-8px)",
                   }}
                 >
-                  ઑર્ડર રીપોર્ટ આકાર (વેલ્યુએશન) રીપોર્ટ મિલ્કત આકારણી સર્વેની
-                  અન્ય વિગત
+                  ઠરાવ અંગેની માહિતી
                 </span>
               </h2>
 
@@ -1307,8 +1305,9 @@ const OrderValuationReport = () => {
                 સબબ કામગીરી એ.એફ.ઇન્ફોસીસ - સાવરકુંડલા ના ભાવ - એક મિલ્કત દિઠ ₹
                 <b style={{ textDecoration: "underline" }}>
                   {details?.surveyHouseRate || "......."}
-                </b>{" "}
-                શબ્દો માં અંકે રૂપીયા{" "}
+                </b>
+                {"/- "}
+                શબ્દોમાં અંકે રૂપીયા{" "}
                 <b
                   style={{ textDecoration: "underline", whiteSpace: "nowrap" }}
                 >
