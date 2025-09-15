@@ -1062,7 +1062,7 @@ const OrderValuationReport = () => {
                     transform: "translateY(-8px)",
                   }}
                 >
-                  મિલ્કત આકારણી સર્વેની અન્ય વિગત
+                  ઠરાવ અંગેની માહિતી
                 </span>
               </h2>
               <p
@@ -1271,7 +1271,7 @@ const OrderValuationReport = () => {
                     transform: "translateY(-8px)",
                   }}
                 >
-                  ઠરાવ અંગેની માહિતી
+                  મિલ્કત આકારણી સર્વેની અન્ય વિગત
                 </span>
               </h2>
 
@@ -1377,8 +1377,8 @@ const OrderValuationReport = () => {
                   fontSize: "1.15rem",
                 }}
               >
-                ખાસ પાણી નળ વેરો ત્થા સા.પાણી વેરો બન્‍ને વેરા મુકવા કે ફકત એક જ
-                વેરો લેવો. <b>{details?.specialAndGeneralWaterTax || ""}</b>
+                ખાસ પાણી નળ વેરો ત્થા સા.પાણી વેરો બન્‍ને વેરા મુકવા વેરો લેવો.{" "}
+                <b>{details?.specialAndGeneralWaterTax || ""}</b>
               </h2>
             </div>
             {/* Vigat End */}
@@ -1391,9 +1391,9 @@ const OrderValuationReport = () => {
                   marginBottom: ".5rem",
                 }}
               >
-                નોધ ::-{" "}
+                <b>નોધ ::- </b>
               </h2>
-              <ul style={{ listStyle: "disc" }}>
+              <ol style={{ listStyle: "disc" }}>
                 {details?.notes?.map((item, index) => {
                   return (
                     <li
@@ -1406,7 +1406,7 @@ const OrderValuationReport = () => {
                     </li>
                   );
                 })}
-              </ul>
+              </ol>
             </div>
 
             <br />
