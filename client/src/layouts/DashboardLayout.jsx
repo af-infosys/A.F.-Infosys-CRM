@@ -211,17 +211,17 @@ export default function DashboardLayout() {
                     setOpenMenu(openMenu === "/survay" ? null : "/survay")
                   }
                 >
-                  Survay
+                  Akarni
                 </div>
 
                 {openMenu === "/survay" && (
                   <div className="sub-links">
                     <NavLink
-                      to={`/survay/indexReport`}
+                      to={`/survay/akarniReport`}
                       className={({ isActive }) => (isActive ? "active" : "")}
                       onClick={() => setIsSidebarOpen(false)}
                     >
-                      Index Report
+                      1. Order Valuation (Form)
                     </NavLink>
 
                     <NavLink
@@ -229,7 +229,15 @@ export default function DashboardLayout() {
                       className={({ isActive }) => (isActive ? "active" : "")}
                       onClick={() => setIsSidebarOpen(false)}
                     >
-                      8. Akarni Report
+                      2. Akarni Report (8)
+                    </NavLink>
+
+                    <NavLink
+                      to={`/survay/indexReport`}
+                      className={({ isActive }) => (isActive ? "active" : "")}
+                      onClick={() => setIsSidebarOpen(false)}
+                    >
+                      3. Index Report
                     </NavLink>
 
                     <NavLink
@@ -237,9 +245,42 @@ export default function DashboardLayout() {
                       className={({ isActive }) => (isActive ? "active" : "")}
                       onClick={() => setIsSidebarOpen(false)}
                     >
-                      9D. Tax Register
+                      4. Tax Register (9D)
                     </NavLink>
 
+                    <NavLink
+                      to={`/survay/tarij`}
+                      className={({ isActive }) => (isActive ? "active" : "")}
+                      onClick={() => setIsSidebarOpen(false)}
+                    >
+                      5. Tarij
+                    </NavLink>
+
+                    <NavLink
+                      to={`/survay/analysisReport`}
+                      className={({ isActive }) => (isActive ? "active" : "")}
+                      onClick={() => setIsSidebarOpen(false)}
+                    >
+                      6. Analysis Report
+                    </NavLink>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {user.role === "owner" && (
+              <div>
+                <div
+                  className="main-link"
+                  onClick={() =>
+                    setOpenMenu(openMenu === "/survay" ? null : "/survay")
+                  }
+                >
+                  Surveyor
+                </div>
+
+                {openMenu === "/survay" && (
+                  <div className="sub-links">
                     <NavLink
                       to={`/survay/dailyReport`}
                       className={({ isActive }) => (isActive ? "active" : "")}
