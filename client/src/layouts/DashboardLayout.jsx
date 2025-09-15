@@ -217,19 +217,27 @@ export default function DashboardLayout() {
                 {openMenu === "/survay" && (
                   <div className="sub-links">
                     <NavLink
-                      to={`/survay/akarniReport`}
-                      className={({ isActive }) => (isActive ? "active" : "")}
-                      onClick={() => setIsSidebarOpen(false)}
-                    >
-                      Akarni Report
-                    </NavLink>
-
-                    <NavLink
                       to={`/survay/indexReport`}
                       className={({ isActive }) => (isActive ? "active" : "")}
                       onClick={() => setIsSidebarOpen(false)}
                     >
                       Index Report
+                    </NavLink>
+
+                    <NavLink
+                      to={`/survay/akarniReport`}
+                      className={({ isActive }) => (isActive ? "active" : "")}
+                      onClick={() => setIsSidebarOpen(false)}
+                    >
+                      8. Akarni Report
+                    </NavLink>
+
+                    <NavLink
+                      to={`/survay/taxRegister`}
+                      className={({ isActive }) => (isActive ? "active" : "")}
+                      onClick={() => setIsSidebarOpen(false)}
+                    >
+                      9D. Tax Register
                     </NavLink>
 
                     <NavLink
