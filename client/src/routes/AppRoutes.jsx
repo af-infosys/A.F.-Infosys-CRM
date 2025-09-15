@@ -61,9 +61,9 @@ export default function AppRoutes() {
           index
           element={
             <>
-              {user.role === "owner" ? (
+              {user?.role === "owner" ? (
                 <CurrentProjects />
-              ) : user.role === "telecaller" ? (
+              ) : user?.role === "telecaller" ? (
                 <ContactListForm />
               ) : (
                 <></>
