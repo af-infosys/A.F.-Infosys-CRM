@@ -94,6 +94,25 @@ export const addWork = async (req, res) => {
   }
 };
 
+export const getProjectDetail = async (req, res) => {
+  try {
+    const projectId = req.params.id;
+    const project = await Work.findById(projectId);
+
+    res.status(200).json({
+      message: "Work entries fetched successfully!",
+      data: project,
+    });
+  } catch (error) {
+    console.error("Error fetching work entries:", error);
+
+    res.status(500).json({
+      message: "Failed to fetch work entries.",
+      error: error.message,
+    });
+  }
+};
+
 // --- Edit (Update) Work Entry ---
 export const editWork = async (req, res) => {
   try {

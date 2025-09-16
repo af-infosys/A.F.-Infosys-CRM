@@ -206,6 +206,23 @@ const TelecallerReport = () => {
               >
                 Select Date:
               </label>
+
+              {/* Decrement Button */}
+              <button
+                type="button"
+                onClick={() => {
+                  const newDate = new Date(selectedDate);
+                  newDate.setDate(newDate.getDate() - 1);
+                  setSelectedDate(newDate.toISOString().split("T")[0]);
+                }}
+                className="px-3 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition"
+                style={{
+                  minWidth: "35px",
+                }}
+              >
+                -
+              </button>
+
               <input
                 type="date"
                 id="report-date"
@@ -213,6 +230,22 @@ const TelecallerReport = () => {
                 onChange={(e) => setSelectedDate(e.target.value)}
                 className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 transition duration-200"
               />
+
+              {/* Increment Button */}
+              <button
+                type="button"
+                onClick={() => {
+                  const newDate = new Date(selectedDate);
+                  newDate.setDate(newDate.getDate() + 1);
+                  setSelectedDate(newDate.toISOString().split("T")[0]);
+                }}
+                className="px-3 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition"
+                style={{
+                  minWidth: "35px",
+                }}
+              >
+                +
+              </button>
             </div>
           </div>
 

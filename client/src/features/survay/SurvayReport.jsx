@@ -7,6 +7,9 @@ import apiPath from "../../isProduction";
 import jsPDF from "jspdf";
 
 import html2canvas from "html2canvas";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const SurvayReport = () => {
   const [records, setRecords] = useState([]);
@@ -34,6 +37,36 @@ const SurvayReport = () => {
       setLoading(false);
     }
   };
+
+  const [project, setProject] = useState([]);
+  const { projectId } = useParams();
+
+  const fetchProject = async () => {
+    try {
+      setLoading(true);
+      const data = await axios.get(
+        `${await apiPath()}/api/work/project/${projectId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      console.log(data);
+      setProject(data?.data?.data || []);
+    } catch (error) {
+      console.error("Error fetching projects:", error);
+      toast.error(`Error Fetching Projects: ${error}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProject();
+  }, []);
 
   useEffect(() => {
     fetchRecords();
@@ -85,6 +118,15 @@ const SurvayReport = () => {
     pdf.save("SurveyReport.pdf");
   };
 
+  const calculateValue = () => {
+    try {
+      toast.info("Calucating Values...");
+      console.log("Calculating...");
+    } catch (error) {
+      toast.error(error);
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen text-gray-700">
@@ -118,6 +160,19 @@ const SurvayReport = () => {
         Download PDF
       </button>
 
+      <br />
+      <br />
+
+      <button
+        onClick={calculateValue}
+        className="bg-orange-600 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded"
+      >
+        Start Calculate
+      </button>
+
+      <br />
+      <br />
+
       <div
         className="pdf-report-container"
         style={{ position: "absolute", left: "-9999px" }}
@@ -145,11 +200,11 @@ const SurvayReport = () => {
               </h2>
 
               <div className="location-info">
-                <span>ગામ: {"મેઘરાજ"}</span>
+                <span>ગામ: {project?.spot?.gaam}</span>
 
-                <span>તાલુકો: {"મેઘરાજ"}</span>
+                <span>તાલુકો: {project?.spot?.taluka}</span>
 
-                <span>જિલ્લો: {"અરવલ્લી"}</span>
+                <span>જિલ્લો: {project?.spot?.district}</span>
               </div>
             </div>
 
@@ -347,11 +402,11 @@ const SurvayReport = () => {
         </h2>
 
         <div className="location-info-visible">
-          <h3>ગામ: {"મેઘરાજ"}</h3>
+          <h3>ગામ: {project?.spot?.gaam}</h3>
 
-          <h3>તાલુકો: {"મેઘરાજ"}</h3>
+          <h3>તાલુકો: {project?.spot?.taluka}</h3>
 
-          <h3>જિલ્લો: {"અરવલ્લી"}</h3>
+          <h3>જિલ્લો: {project?.spot?.district}</h3>
         </div>
 
         <div className="table-responsive">

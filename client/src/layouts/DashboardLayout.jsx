@@ -208,30 +208,30 @@ export default function DashboardLayout() {
                 <div
                   className="main-link"
                   onClick={() =>
-                    setOpenMenu(openMenu === "/survay" ? null : "/survay")
+                    setOpenMenu(openMenu === "/akarni" ? null : "/akarni")
                   }
                 >
                   Akarni
                 </div>
 
-                {openMenu === "/survay" && (
+                {openMenu === "/akarni" && (
                   <div className="sub-links">
                     <NavLink
-                      to={`/survay/akarniReport`}
+                      to={`/orderValuation/form`}
                       className={({ isActive }) => (isActive ? "active" : "")}
                       onClick={() => setIsSidebarOpen(false)}
                     >
-                      1. Order Valuation (Form)
+                      Order Valuation (Form)
                     </NavLink>
 
                     <NavLink
-                      to={`/survay/akarniReport`}
+                      to={`/survay`}
                       className={({ isActive }) => (isActive ? "active" : "")}
                       onClick={() => setIsSidebarOpen(false)}
                     >
-                      2. Akarni Report (8)
+                      Akarni
                     </NavLink>
-
+                    {/* 
                     <NavLink
                       to={`/survay/indexReport`}
                       className={({ isActive }) => (isActive ? "active" : "")}
@@ -262,7 +262,7 @@ export default function DashboardLayout() {
                       onClick={() => setIsSidebarOpen(false)}
                     >
                       6. Analysis Report
-                    </NavLink>
+                    </NavLink> */}
                   </div>
                 )}
               </div>

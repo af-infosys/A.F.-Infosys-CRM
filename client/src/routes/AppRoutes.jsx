@@ -28,12 +28,16 @@ import RecordsReport from "../features/contactList/RecordsReport";
 import CustomerHistory from "../features/contactList/CustomerHistory";
 import TaxManage from "../features/orderValuation/TaxManage";
 import OrderValuationForm from "../features/orderValuation/OrderValuationForm";
+
+import AkarniProjects from "../features/projects/AkarniProject";
+import Akarni from "../features/projects/Akarni";
+
+import IndexReport from "../features/survay/IndexReport";
 import FinalProjects from "../features/projects/FinalProjects";
 import DailyWordReport from "../features/staff/survayor/DailyWordReport";
 import SurvayorExpense from "../features/staff/survayor/SurvayorExpense";
-import { useAuth } from "../config/AuthContext";
 import CurrentProjects from "../features/projects/CurrentProjects";
-import IndexReport from "../features/survay/IndexReport";
+import { useAuth } from "../config/AuthContext";
 
 export default function AppRoutes() {
   const { user } = useAuth();
@@ -62,7 +66,7 @@ export default function AppRoutes() {
           element={
             <>
               {user?.role === "owner" ? (
-                <CurrentProjects />
+                <AkarniProjects />
               ) : user?.role === "telecaller" ? (
                 <ContactListForm />
               ) : (
@@ -115,22 +119,54 @@ export default function AppRoutes() {
         />
 
         <Route path="/survay">
+          <Route index element={<AkarniProjects />} />
+          <Route path="akarni/:projectId" element={<Akarni />} />
+
           <Route
-            path="akarniReport"
+            path="akarniReport/:projectId"
             element={
               <ProtectedRoute allowedRoles={["owner"]}>
                 <SurvayReport />
               </ProtectedRoute>
             }
-          />{" "}
+          />
+
           <Route
-            path="indexReport"
+            path="indexReport/:projectId"
             element={
               <ProtectedRoute allowedRoles={["owner"]}>
                 <IndexReport />
               </ProtectedRoute>
             }
           />
+
+          <Route
+            path="taxRegister/:projectId"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <IndexReport />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="tarij/:projectId"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <IndexReport />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="analysis/:projectId"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <IndexReport />
+              </ProtectedRoute>
+            }
+          />
+
           <Route path="dailyReport" element={<DailyWordReport />} />
           <Route path="expenseReport" element={<SurvayorExpense />} />
         </Route>

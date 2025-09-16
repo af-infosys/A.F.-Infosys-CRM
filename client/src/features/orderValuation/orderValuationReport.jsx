@@ -175,34 +175,40 @@ const OrderValuationReport = () => {
       const pageHeight = doc.internal.pageSize.getHeight();
 
       const addImageFitWidth = async (element) => {
-        const canvas = await html2canvas(element, { scale: 3 }); // good sharpness
+        const canvas = await html2canvas(element, { scale: 3 }); // sharpness
         const imgData = canvas.toDataURL("image/png");
 
         const imgWidth = canvas.width;
         const imgHeight = canvas.height;
 
-        // Always fit width
         const ratio = pageWidth / imgWidth;
-
         const finalWidth = pageWidth;
         const finalHeight = imgHeight * ratio;
 
-        // If image is taller than page → just align top (no vertical centering)
         const y = finalHeight > pageHeight ? 0 : (pageHeight - finalHeight) / 2;
 
-        doc.addImage(imgData, "PNG", 0, 0, finalWidth * 1, finalHeight * 1);
+        doc.addImage(imgData, "PNG", 0, 0, finalWidth, finalHeight);
       };
 
-      // Page 1
+      // Add pages
       await addImageFitWidth(input1);
-
-      // Page 2
       doc.addPage();
       await addImageFitWidth(input2);
-
-      // Page 3
       doc.addPage();
       await addImageFitWidth(input3);
+
+      // ✅ Add dynamic page numbers
+      const pageCount = doc.internal.getNumberOfPages();
+      for (let i = 1; i <= pageCount; i++) {
+        doc.setPage(i);
+        doc.setFontSize(10);
+        doc.setTextColor(100);
+
+        const pageNumber = `Page: ${i} / ${pageCount}`;
+        doc.text(pageNumber, pageWidth - 40, pageHeight - 20, {
+          align: "right",
+        });
+      }
 
       doc.save(`order-valuation-report-${details?.akaraniYear}.pdf`);
     } catch (error) {
@@ -280,7 +286,7 @@ const OrderValuationReport = () => {
               minWidth: "680px",
               minHeight: "1120px",
               position: "relative",
-              padding: "1rem",
+              padding: "16px",
               background: "#fff",
             }}
           >
@@ -297,15 +303,15 @@ const OrderValuationReport = () => {
                   paddingInline: "25px",
                 }}
               >
-                <h3 style={{ fontSize: "1rem" }}>
+                <h3 style={{ fontSize: "16px" }}>
                   અંદાજીત ઘર ની સંખ્યા :– <b>{details?.totalHouses || 0}</b>
                 </h3>
 
-                <h3 style={{ fontSize: "1rem" }}>
+                <h3 style={{ fontSize: "16px" }}>
                   TBR <b>{""}</b>
                 </h3>
 
-                <h2 style={{ fontSize: "1rem", color: "transparent" }}>
+                <h2 style={{ fontSize: "16px", color: "transparent" }}>
                   <b style={{ textDecoration: "underline" }}>
                     {details?.gaam || ""}
                   </b>{" "}
@@ -320,7 +326,7 @@ const OrderValuationReport = () => {
                 width: "100%",
                 display: "flex",
                 flexDirection: "column",
-                gap: ".1rem",
+                gap: "3px",
                 alignItems: "end",
               }}
             >
@@ -334,7 +340,7 @@ const OrderValuationReport = () => {
                   transform: "translateY(-25px)",
                 }}
               >
-                <h2 style={{ fontSize: "1rem" }}>
+                <h2 style={{ fontSize: "16px" }}>
                   <b style={{ textDecoration: "underline" }}>
                     {details?.gaam || ""}
                   </b>{" "}
@@ -343,7 +349,7 @@ const OrderValuationReport = () => {
 
                 <h2
                   style={{
-                    fontSize: "1rem",
+                    fontSize: "16px",
                   }}
                 >
                   તાલુકો :– <b>{details?.taluka || ""}</b>
@@ -351,7 +357,7 @@ const OrderValuationReport = () => {
 
                 <h2
                   style={{
-                    fontSize: "1rem",
+                    fontSize: "16px",
                   }}
                 >
                   જિલ્લો :- <b>{details?.district || ""}</b>
@@ -359,7 +365,7 @@ const OrderValuationReport = () => {
 
                 <h2
                   style={{
-                    fontSize: "1rem",
+                    fontSize: "16px",
                   }}
                 >
                   તારીખ :– <b>{formatDate(details?.date)}</b>
@@ -379,7 +385,7 @@ const OrderValuationReport = () => {
 
               <span
                 style={{
-                  fontSize: "1.1rem",
+                  fontSize: "18px",
                   textAlign: "right",
                   width: "100%",
                   display: "flex",
@@ -424,7 +430,7 @@ const OrderValuationReport = () => {
               >
                 <h2
                   style={{
-                    fontSize: "1.1rem",
+                    fontSize: "18px",
                   }}
                 >
                   આકારણીનું વર્ષ :– <b>{details?.akaraniYear || ""}</b>
@@ -432,7 +438,7 @@ const OrderValuationReport = () => {
 
                 <h2
                   style={{
-                    fontSize: "1.1rem",
+                    fontSize: "18px",
                   }}
                 >
                   વેરા રજીસ્ટરનું વર્ષ :– <b>{details?.taxYear || ""}</b>
@@ -443,11 +449,11 @@ const OrderValuationReport = () => {
 
             {/* Names Start */}
             <div
-              style={{ display: "flex", flexDirection: "column", gap: ".1rem" }}
+              style={{ display: "flex", flexDirection: "column", gap: "3px" }}
             >
               <h2
                 style={{
-                  fontSize: "1rem",
+                  fontSize: "16px",
                 }}
               >
                 સરપંચશ્રીનું પુરૂ નામ તથા મો.નં.{" "}
@@ -459,7 +465,7 @@ const OrderValuationReport = () => {
 
               <h2
                 style={{
-                  fontSize: "1.1rem",
+                  fontSize: "16px",
                 }}
               >
                 તલાટી કમ મંત્રીશ્રીનું પુરૂ નામ તથા મો.નં.{" "}
@@ -470,7 +476,7 @@ const OrderValuationReport = () => {
 
               <h2
                 style={{
-                  fontSize: "1.1rem",
+                  fontSize: "16px",
                 }}
               >
                 સાથે રહેનાર વ્યકિતનું પુરૂ નામ તથા મો.નં.{" "}
@@ -482,7 +488,7 @@ const OrderValuationReport = () => {
               </h2>
               <h2
                 style={{
-                  fontSize: "1rem",
+                  fontSize: "16px",
                   marginTop: "-10px",
                 }}
               >
@@ -493,12 +499,12 @@ const OrderValuationReport = () => {
 
             <h2
               style={{
-                fontSize: "1.1rem",
+                fontSize: "18px",
                 width: "100%",
                 textAlign: "center",
                 border: "1px solid #707174",
                 borderRadius: "5px",
-                marginBottom: ".5rem",
+                marginBottom: "8px",
                 paddingBottom: "3px",
               }}
             >
@@ -600,18 +606,6 @@ const OrderValuationReport = () => {
                 </tr>
               </thead>
 
-              {/* <tr>
-              <th className="px-2 py-3 text-xs font-medium text-black uppercase tracking-wider">
-                રૂમ દિઠ કિમત મુકવી
-              </th>
-
-              <th className="px-2 py-3 text-xs font-medium text-black uppercase tracking-wider">
-                મકાન દિઠ કિમત લેવી
-              </th>
-
-             
-            </tr> */}
-
               <tbody className="bg-white divide-y divide-gray-200">
                 {valuation.slice(0, 20).map((record, index) => {
                   return (
@@ -704,7 +698,7 @@ const OrderValuationReport = () => {
               minWidth: "680px",
               minHeight: "1120px",
               position: "relative",
-              padding: "1rem",
+              padding: "16px",
               background: "#fff",
             }}
           >
@@ -718,18 +712,18 @@ const OrderValuationReport = () => {
                   alignItems: "center",
                   justifyContent: "space-between",
                   width: "100%",
-                  paddingInline: "1rem",
+                  paddingInline: "16px",
                 }}
               >
-                <h3 style={{ fontSize: "1rem" }}>
+                <h3 style={{ fontSize: "16px" }}>
                   ગામ :- <b>{details?.gaam || ""}</b>
                 </h3>
 
-                <h3 style={{ fontSize: "1rem" }}>
+                <h3 style={{ fontSize: "16px" }}>
                   તાલુકો :- <b>{details?.taluka || ""}</b>
                 </h3>
 
-                <h3 style={{ fontSize: "1rem" }}>
+                <h3 style={{ fontSize: "16px" }}>
                   જિલ્લો :- <b>{details?.district || ""}</b>
                 </h3>
               </div>
@@ -737,12 +731,12 @@ const OrderValuationReport = () => {
 
             <h2
               style={{
-                fontSize: "1.1rem",
+                fontSize: "18px",
                 width: "100%",
                 textAlign: "center",
                 border: "1px solid #707174",
                 borderRadius: "5px",
-                marginBottom: ".5rem",
+                marginBottom: "8px",
                 paddingBottom: "3px",
               }}
             >
@@ -923,20 +917,20 @@ const OrderValuationReport = () => {
               style={{
                 display: "flex",
                 flexDirection: "column",
-                gap: ".1rem",
-                padding: ".5rem",
+                gap: "3px",
+                padding: "8px",
                 borderRadius: "10px",
                 background: "#f4f4f4ff",
               }}
             >
               <h2
                 style={{
-                  fontSize: "1.2rem",
+                  fontSize: "22px",
                   width: "100%",
                   textAlign: "center",
                   border: "1px solid #707174",
                   borderRadius: "5px",
-                  marginBottom: ".5rem",
+                  marginBottom: "8px",
                   paddingBottom: "3px",
                 }}
               >
@@ -954,7 +948,7 @@ const OrderValuationReport = () => {
                 style={{
                   display: "flex",
                   justifyContent: "center",
-                  gap: "1rem",
+                  gap: "16px",
                   width: "100%",
                 }}
               >
@@ -1036,8 +1030,8 @@ const OrderValuationReport = () => {
               style={{
                 display: "flex",
                 flexDirection: "column",
-                gap: ".1rem",
-                padding: ".5rem",
+                gap: "3px",
+                padding: "8px",
 
                 marginTop: "20px",
 
@@ -1047,12 +1041,12 @@ const OrderValuationReport = () => {
             >
               <h2
                 style={{
-                  fontSize: "1.2rem",
+                  fontSize: "22px",
                   width: "100%",
                   textAlign: "center",
                   border: "1px solid #707174",
                   borderRadius: "5px",
-                  marginBottom: ".5rem",
+                  marginBottom: "8px",
                   paddingBottom: "3px",
                 }}
               >
@@ -1067,7 +1061,8 @@ const OrderValuationReport = () => {
               </h2>
               <p
                 style={{
-                  fontSize: "1.15rem",
+                  fontSize: "20px",
+                  lineHeight: "1.2",
                 }}
               >
                 ગુજરાત પંચાયત ધારા ની કલમ ૨૦૦ મુજબ ગ્રામ પંચાયતને દર ચાર વર્ષે
@@ -1093,13 +1088,13 @@ const OrderValuationReport = () => {
               style={{
                 display: "flex",
                 justifyContent: "space-between",
-                paddingBottom: "2rem",
-                paddingInline: "3rem",
+                paddingBottom: "32px",
+                paddingInline: "42px",
                 position: "absolute",
                 bottom: "0px",
                 left: "0px",
                 width: "100%",
-                fontSize: "1.2rem",
+                fontSize: "18px",
               }}
             >
               {/* TCM */}
@@ -1113,14 +1108,13 @@ const OrderValuationReport = () => {
                   <b
                     style={{
                       display: "block",
-                      marginTop: ".1rem",
+                      marginTop: "3px",
                     }}
                   >
                     {details?.tcmName || "......................."}
                   </b>
                 </span>
 
-                <br />
                 <br />
                 <br />
                 <br />
@@ -1140,14 +1134,13 @@ const OrderValuationReport = () => {
                   <b
                     style={{
                       display: "block",
-                      marginTop: ".1rem",
+                      marginTop: "3px",
                     }}
                   >
                     {details?.sarpanchName || "......................."}
                   </b>
                 </span>
 
-                <br />
                 <br />
                 <br />
                 <br />
@@ -1177,7 +1170,7 @@ const OrderValuationReport = () => {
               minWidth: "680px",
               minHeight: "1120px",
               position: "relative",
-              padding: "1rem",
+              padding: "16px",
               background: "#fff",
             }}
           >
@@ -1191,18 +1184,18 @@ const OrderValuationReport = () => {
                   alignItems: "center",
                   justifyContent: "space-between",
                   width: "100%",
-                  paddingInline: "1rem",
+                  paddingInline: "16px",
                 }}
               >
-                <h3 style={{ fontSize: "1rem" }}>
+                <h3 style={{ fontSize: "16px" }}>
                   ગામ :- <b>{details?.gaam || ""}</b>
                 </h3>
 
-                <h3 style={{ fontSize: "1rem" }}>
+                <h3 style={{ fontSize: "16px" }}>
                   તાલુકો :- <b>{details?.taluka || ""}</b>
                 </h3>
 
-                <h3 style={{ fontSize: "1rem" }}>
+                <h3 style={{ fontSize: "16px" }}>
                   જિલ્લો :- <b>{details?.district || ""}</b>
                 </h3>
               </div>
@@ -1212,26 +1205,26 @@ const OrderValuationReport = () => {
               style={{
                 display: "flex",
                 flexDirection: "column",
-                gap: ".1rem",
-                padding: ".5rem",
+                gap: "3px",
+                padding: "8px",
                 borderRadius: "10px",
                 background: "#f4f4f4ff",
               }}
             >
               <h2
                 style={{
-                  fontSize: "1.1rem",
+                  fontSize: "18px",
                   width: "100%",
                   textAlign: "center",
                   border: "1px solid #707174",
                   borderRadius: "5px",
-                  marginBottom: ".5rem",
+                  marginBottom: "8px",
                 }}
               >
                 અન્ય વેરા
               </h2>
 
-              <div style={{ displa  y: "flex", flexWrap: "wrap", gap: "1rem" }}>
+              <div style={{ displa  y: "flex", flexWrap: "wrap", gap: "16px" }}>
                 {taxes?.map((tax, index) => {
                   return (
                     <span>
@@ -1247,8 +1240,8 @@ const OrderValuationReport = () => {
               style={{
                 display: "flex",
                 flexDirection: "column",
-                gap: ".1rem",
-                padding: ".5rem",
+                gap: "3px",
+                padding: "8px",
 
                 borderRadius: "10px",
                 background: "#ffffffff",
@@ -1256,12 +1249,12 @@ const OrderValuationReport = () => {
             >
               <h2
                 style={{
-                  fontSize: "1.2rem",
+                  fontSize: "22px",
                   width: "100%",
                   textAlign: "center",
                   border: "1px solid #707174",
                   borderRadius: "5px",
-                  marginBottom: ".5rem",
+                  marginBottom: "8px",
                   paddingBottom: "3px",
                 }}
               >
@@ -1291,7 +1284,13 @@ const OrderValuationReport = () => {
                 આવ્યું.
               </p> */}
 
-              <p style={{ marginTop: "10px", fontSize: "1.15rem" }}>
+              <p
+                style={{
+                  lineHeight: "1.2",
+                  marginTop: "10px",
+                  fontSize: "20px",
+                }}
+              >
                 આ આકારણી સર્વેનું કામ શરૂ કરતા પહેલા પંચાયત ના ત.ક.મ. તથા
                 સરપંચશ્રી અને આકારણી કમિટીના સભ્યો, પટટાવાળા, વાલમેન સાથે રહિને
                 સર્વે કરનાર એજન્સી ને કામ શરૂ કરવાનું રહેશે આકારણીસર્વે ગામ ની
@@ -1301,7 +1300,13 @@ const OrderValuationReport = () => {
                 અધ્યતન તેયાર કરી આપવાનું રહેશે.
               </p>
 
-              <p style={{ marginTop: "1rem", fontSize: "1.15rem" }}>
+              <p
+                style={{
+                  lineHeight: "1.2",
+                  marginTop: "16px",
+                  fontSize: "20px",
+                }}
+              >
                 સબબ કામગીરી એ.એફ.ઇન્ફોસીસ - સાવરકુંડલા ના ભાવ - એક મિલ્કત દિઠ ₹
                 <b style={{ textDecoration: "underline" }}>
                   {details?.surveyHouseRate || "......."}
@@ -1321,17 +1326,17 @@ const OrderValuationReport = () => {
 
             {/* Vigat Start */}
             <div
-              style={{ display: "flex", flexDirection: "column", gap: ".1rem" }}
+              style={{ display: "flex", flexDirection: "column", gap: "3px" }}
             >
               {/* Section 1 */}
 
-              <h2 style={{ fontSize: "1.2rem", textDecoration: "underline" }}>
+              <h2 style={{ fontSize: "22px", textDecoration: "underline" }}>
                 વિસ્તારની વિગત : : -
               </h2>
 
               <h2
                 style={{
-                  fontSize: "1.15rem",
+                  fontSize: "20px",
                 }}
               >
                 પહેલા વિસ્તાર/શેરી મહોલ્લો કયા થી શરૂ કરવો :-{" "}
@@ -1340,7 +1345,8 @@ const OrderValuationReport = () => {
 
               <h2
                 style={{
-                  fontSize: "1.15rem",
+                  fontSize: "20px",
+                  marginTop: "-10px",
                 }}
               >
                 આકારણી સર્વે કામ પહેલી મિલ્કત/ઘર કોની લખવી : -{" "}
@@ -1350,7 +1356,7 @@ const OrderValuationReport = () => {
               {/* Section 2 */}
               <h2
                 style={{
-                  fontSize: "1.2rem",
+                  fontSize: "22px",
                   textDecoration: "underline",
                   marginTop: ".8rem",
                 }}
@@ -1359,7 +1365,7 @@ const OrderValuationReport = () => {
               </h2>
               <h2
                 style={{
-                  fontSize: "1.15rem",
+                  fontSize: "20px",
                 }}
               >
                 જે મિલ્‍કત માં નળ હોય તેમા સામાન્‍ય પાણી વેરો લેવો કે નહી ?{" "}
@@ -1374,7 +1380,8 @@ const OrderValuationReport = () => {
 
               <h2
                 style={{
-                  fontSize: "1.15rem",
+                  fontSize: "20px",
+                  marginTop: "-10px",
                 }}
               >
                 ખાસ પાણી નળ વેરો ત્થા સા.પાણી વેરો બન્‍ને વેરા મુકવા વેરો લેવો.{" "}
@@ -1383,23 +1390,24 @@ const OrderValuationReport = () => {
             </div>
             {/* Vigat End */}
 
-            <div style={{ padding: "1rem" }}>
+            <div style={{ padding: "16px" }}>
               <h2
                 style={{
-                  fontSize: "1.2rem",
+                  fontSize: "22px",
                   textDecoration: "underline",
-                  marginBottom: ".5rem",
+                  marginBottom: "8px",
                 }}
               >
                 <b>નોધ ::- </b>
               </h2>
-              <ol style={{ listStyle: "disc" }}>
+              <ol style={{ listStyle: "disc", marginTop: "-10px" }}>
                 {details?.notes?.map((item, index) => {
                   return (
                     <li
                       key={index}
                       style={{
-                        fontSize: "1.15rem",
+                        fontSize: "20px",
+                        lineHeight: "1.2",
                       }}
                     >
                       {item}
@@ -1416,13 +1424,13 @@ const OrderValuationReport = () => {
               style={{
                 display: "flex",
                 justifyContent: "space-between",
-                paddingBottom: "2rem",
-                paddingInline: "3rem",
+                paddingBottom: "32px",
+                paddingInline: "42px",
                 position: "absolute",
                 bottom: "0px",
                 left: "0px",
                 width: "100%",
-                fontSize: "1.2rem",
+                fontSize: "18px",
               }}
             >
               {/* TCM */}
@@ -1436,14 +1444,13 @@ const OrderValuationReport = () => {
                   <b
                     style={{
                       display: "block",
-                      marginTop: ".1rem",
+                      marginTop: "3px",
                     }}
                   >
                     {details?.tcmName || "......................."}
                   </b>
                 </span>
 
-                <br />
                 <br />
                 <br />
                 <br />
@@ -1463,14 +1470,13 @@ const OrderValuationReport = () => {
                   <b
                     style={{
                       display: "block",
-                      marginTop: ".1rem",
+                      marginTop: "3px",
                     }}
                   >
                     {details?.sarpanchName || "......................."}
                   </b>
                 </span>
 
-                <br />
                 <br />
                 <br />
                 <br />
