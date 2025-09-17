@@ -2,6 +2,8 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import { google } from "googleapis";
+import { sheets } from "../utils/googleSheets.js";
+import Work from "../models/Work.js";
 
 // buildPropertyDescription ફંક્શનને અહીં જ વ્યાખ્યાયિત કરેલ છે
 function buildPropertyDescription(formData) {
@@ -401,6 +403,74 @@ export const editSheetRecord = async (req, res) => {
       message: "Failed to update record",
       error: error.message,
     });
+  }
+};
+
+export const calculateValuation = async (req, res) => {
+  try {
+    const projectId = req.params.id;
+    console.log("Project Id", projectId);
+    const project = await Work.findById(projectId);
+    const sheetId = project?.sheetId || "";
+
+    if (!sheetId) {
+      return res.status(400).json({ error: "No sheetId found" });
+    }
+
+    // 1. Get full data
+    const response = await sheets.spreadsheets.values.get({
+      spreadsheetId: sheetId,
+      range: "PropertyData!A4:ZZ",
+    });
+
+    let records = response.data.values || [];
+
+    // 2. Loop through rows and calculate
+    let updates = [];
+    records.forEach((row, rowIndex) => {
+      const propertyCategory = row[7] || ""; // index 7
+      const jsonData = row[14] ? JSON.parse(row[14]) : []; // index 14
+
+      // ---- Sample Calculation Logic ----
+      let propertyPrice = 0;
+      let tax = 0;
+
+      // Example: calculate property price based on category
+      if (propertyCategory.trim() === "રહેણાંક") {
+        propertyPrice = 500000 + jsonData.length * 10000;
+      } else if (propertyCategory.trim() === "વાણિજ્ય") {
+        propertyPrice = 1000000 + jsonData.length * 20000;
+      }
+
+      // Tax = 10% of property price
+      tax = propertyPrice * 0.1;
+
+      // ---- Collect updates ----
+      const targetRow = rowIndex + 4; // since data starts at row 4
+      updates.push({
+        range: `PropertyData!S${targetRow}:T${targetRow}`, // col 18= S, col 19= T
+        values: [[propertyPrice, tax]],
+      });
+    });
+
+    // 3. Batch Update
+    if (updates.length > 0) {
+      await sheets.spreadsheets.values.batchUpdate({
+        spreadsheetId: sheetId,
+        requestBody: {
+          valueInputOption: "USER_ENTERED",
+          data: updates,
+        },
+      });
+    }
+
+    res.json({
+      message: "Valuation calculated & updated",
+      data: updates.length,
+    });
+  } catch (err) {
+    console.error("Error in calculateValuation:", err);
+    res.status(500).json({ error: err.message });
   }
 };
 

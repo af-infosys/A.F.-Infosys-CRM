@@ -38,6 +38,7 @@ import DailyWordReport from "../features/staff/survayor/DailyWordReport";
 import SurvayorExpense from "../features/staff/survayor/SurvayorExpense";
 import CurrentProjects from "../features/projects/CurrentProjects";
 import { useAuth } from "../config/AuthContext";
+import AnalyticsReport from "../features/survay/AnalysisReport";
 
 export default function AppRoutes() {
   const { user } = useAuth();
@@ -162,7 +163,7 @@ export default function AppRoutes() {
             path="analysis/:projectId"
             element={
               <ProtectedRoute allowedRoles={["owner"]}>
-                <IndexReport />
+                <AnalyticsReport />
               </ProtectedRoute>
             }
           />

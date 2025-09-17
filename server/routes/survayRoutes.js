@@ -9,6 +9,7 @@ import {
   getAllRecords,
   getRecord,
   DeleteArea,
+  calculateValuation,
 } from "../controllers/survayController.js";
 
 const survayRoutes = express.Router();
@@ -22,6 +23,7 @@ survayRoutes.delete("/areas/:id", DeleteArea);
 // General routes for / (records)
 survayRoutes.post("/add", addSheetRecord);
 survayRoutes.get("/", getAllRecords);
+survayRoutes.put("/ordervaluation/:id", calculateValuation);
 survayRoutes.get("/:id", getRecord);
 survayRoutes.put("/:id", editSheetRecord);
 survayRoutes.delete("/:id", deleteSheetRecord);

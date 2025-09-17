@@ -64,6 +64,33 @@ const SurvayReport = () => {
     }
   };
 
+  const calculateValue = async () => {
+    try {
+      setLoading(true);
+      toast.info("Calucating Values...");
+
+      const data = await axios.put(
+        `${await apiPath()}/api/sheet/ordervaluation/${projectId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      console.log(data?.data?.data || []);
+      setProject(data?.data?.data || []);
+
+      toast.success("Calculation Completed.");
+    } catch (error) {
+      console.error("Error fetching projects:", error);
+      toast.error(`Error Fetching Projects: ${error}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchProject();
   }, []);
@@ -116,15 +143,6 @@ const SurvayReport = () => {
     }
 
     pdf.save("SurveyReport.pdf");
-  };
-
-  const calculateValue = () => {
-    try {
-      toast.info("Calucating Values...");
-      console.log("Calculating...");
-    } catch (error) {
-      toast.error(error);
-    }
   };
 
   if (loading) {
@@ -325,7 +343,13 @@ const SurvayReport = () => {
                 <span className="formatting">12</span>
               </div>
 
-              <div className="table-cell remarks">13</div>
+              <div className="table-cell remarks">
+                <span className="formatting">13</span>
+              </div>
+
+              {/* <div className="table-cell action">
+                <span className="formatting">14</span>
+              </div> */}
             </div>
 
             {/* Table Rows using Divs */}
@@ -360,9 +384,9 @@ const SurvayReport = () => {
                   <span className="formatting">{record[5]}</span>
                 </div>
 
-                <div className="table-cell valuation">{"00.00"}</div>
+                <div className="table-cell valuation">{record[18]}</div>
 
-                <div className="table-cell tax">{"00.00"}</div>
+                <div className="table-cell tax">{record[19]}</div>
 
                 <div className="table-cell prop-name">
                   <span className="formatting">{record[6]}</span>
@@ -490,9 +514,9 @@ const SurvayReport = () => {
 
                   <td className="td">{record[5]}</td>
 
-                  <td className="td">{"00.00"}</td>
+                  <td className="td">{record[18]}</td>
 
-                  <td className="td">{"00.00"}</td>
+                  <td className="td">{record[19]}</td>
 
                   <td className="td">{record[6]}</td>
 
