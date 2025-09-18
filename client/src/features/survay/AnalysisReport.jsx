@@ -14,6 +14,8 @@ import FactoryIcon from "../../assets/icon/analytics/Factory.png";
 // import Agriculture3Icon from "../../assets/icon/analytics/Agriculture3.png";
 // import Agriculture4Icon from "../../assets/icon/analytics/Agriculture4.png";
 import PhoneUserIcon from "../../assets/icon/analytics/PhoneUser.png";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 // The main component for the analytics report
 const AnalyticsReport = () => {
@@ -280,58 +282,57 @@ const AnalyticsReport = () => {
   // Function to generate and download the PDF
   const generatePDF = () => {
     const input = document.getElementById("report-content");
+
+    input.style.minWidth = "1024px";
+
     const today = new Date();
     const formattedDate = `${today.getDate().toString().padStart(2, "0")}-${(
       today.getMonth() + 1
     )
       .toString()
       .padStart(2, "0")}-${today.getFullYear()}`;
-    const filename = `Aakarni_Report_${reportData.village}_${formattedDate}.pdf`;
+    const filename = `Aakarni_Analysis_Report_${reportData.village}_${formattedDate}.pdf`;
 
     if (input) {
       // Use html2canvas to render the HTML as a canvas image
-      window
-        .html2canvas(input, {
-          scale: 2, // Higher scale for better quality
-          logging: true,
-          useCORS: true,
-        })
-        .then((canvas) => {
-          // Create a new jsPDF document
-          // Legal size: 8.5 x 14 inches
-          // Landscape orientation: 'l'
-          const pdf = new window.jsPDF("l", "pt", "legal");
-          const imgData = canvas.toDataURL("image/jpeg", 1.0);
-          const imgWidth = pdf.internal.pageSize.getWidth();
-          const pageHeight = pdf.internal.pageSize.getHeight();
-          const imgHeight = (canvas.height * imgWidth) / canvas.width;
-          let heightLeft = imgHeight;
-          let position = 0;
+      html2canvas(input, {
+        scale: 2, // Higher scale for better quality
+        logging: true,
+        useCORS: true,
+      }).then((canvas) => {
+        // Create a new jsPDF document
+        // Legal size: 8.5 x 14 inches
+        // Landscape orientation: 'l'
+        const pdf = new jsPDF("p", "pt", "legal");
+        const imgData = canvas.toDataURL("image/jpeg", 1.0);
+        const imgWidth = pdf.internal.pageSize.getWidth();
+        const pageHeight = pdf.internal.pageSize.getHeight();
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        let heightLeft = imgHeight;
+        let position = 0;
 
-          // Add the image to the PDF
+        // Add the image to the PDF
+        pdf.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+
+        // Handle multi-page reports if needed
+        while (heightLeft >= 0) {
+          position = heightLeft - imgHeight;
+          pdf.addPage();
           pdf.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight);
           heightLeft -= pageHeight;
+        }
 
-          // Handle multi-page reports if needed
-          while (heightLeft >= 0) {
-            position = heightLeft - imgHeight;
-            pdf.addPage();
-            pdf.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight);
-            heightLeft -= pageHeight;
-          }
-
-          // Save the PDF
-          pdf.save(filename);
-        });
+        // Save the PDF
+        pdf.save(filename);
+      });
     }
+
+    input.style.minWidth = "auto";
   };
 
   return (
     <div className="flex flex-col items-center p-4 sm:p-8 bg-gray-100 min-h-screen font-sans">
-      {/* Load html2canvas and jspdf from CDN for PDF generation */}
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
       {/* Report container for PDF generation */}
       <div
         id="report-content"

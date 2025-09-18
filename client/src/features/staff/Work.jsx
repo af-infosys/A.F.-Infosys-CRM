@@ -250,13 +250,11 @@ const Work = () => {
           <path d="M12 5v14" />
           <path d="M5 12h14" />
         </svg>
-        નવું કાર્ય ઉમેરો
+        Add new Work
       </button>
       {/* List of Work Entries */}
       <div className="bg-white p-6 rounded-lg shadow-md">
-        <h3 className="text-xl font-semibold text-gray-700 mb-4">
-          Current Work
-        </h3>
+        <h3 className="text-xl font-semibold text-gray-700 mb-4">All Work</h3>
         {loading && (
           <p className="text-blue-600">કાર્યની વિગતો લોડ થઈ રહી છે...</p>
         )}
@@ -297,7 +295,7 @@ const Work = () => {
                     scope="col"
                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
-                    ક્રિયાઓ
+                    Action
                   </th>
                 </tr>
               </thead>
@@ -337,7 +335,7 @@ const Work = () => {
                             <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
                             <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                           </svg>
-                          <span className="ml-1">સંપાદિત કરો</span>
+                          <span className="ml-1">Edit</span>
                         </button>
                         <button
                           onClick={() => handleDeleteWork(work.sheetId)}
@@ -361,7 +359,7 @@ const Work = () => {
                             <line x1="10" x2="10" y1="11" y2="17" />
                             <line x1="14" x2="14" y1="11" y2="17" />
                           </svg>
-                          <span className="ml-1">દૂર કરો</span>
+                          <span className="ml-1">Delete</span>
                         </button>
                       </div>
                     </td>

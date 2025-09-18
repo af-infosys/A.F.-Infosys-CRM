@@ -365,7 +365,7 @@ const OrderValuationForm = () => {
                 htmlFor="sarpanchNumber"
                 className="text-sm font-medium text-gray-700 mb-1"
               >
-                10. મો.નં. (સરપંચ)
+                10. સરપંચ મો.નં.
               </label>
               <input
                 type="number"
@@ -397,7 +397,7 @@ const OrderValuationForm = () => {
                 htmlFor="tcmNumber"
                 className="text-sm font-medium text-gray-700 mb-1"
               >
-                12. મો.નં. (તલાટી)
+                12. તલાટી મો.નં.
               </label>
               <input
                 type="number"
@@ -429,7 +429,7 @@ const OrderValuationForm = () => {
                 htmlFor="assistantNumber"
                 className="text-sm font-medium text-gray-700 mb-1"
               >
-                14. મો.નં. (સાથે રહેનાર)
+                14. સાથે રહેનાર મો.નં.
               </label>
               <input
                 type="number"
@@ -633,7 +633,7 @@ const OrderValuationForm = () => {
                   htmlFor="meetingDate"
                   className="text-sm font-medium text-gray-700 mb-1"
                 >
-                  1. ગ્રામ પંચાયતની સામાન્ય બેઠકની તારીખ
+                  1. સામાન્ય બેઠકની તારીખ ગ્રામ પંચાયતની
                 </label>
                 <input
                   type="date"
@@ -650,7 +650,7 @@ const OrderValuationForm = () => {
                   htmlFor="meetingNumber"
                   className="text-sm font-medium text-gray-700 mb-1"
                 >
-                  2. ગ્રામ પંચાયતની સામાન્ય બેઠક નંબર
+                  2. સામાન્ય બેઠક નંબર ગ્રામ પંચાયતની
                 </label>
                 <input
                   type="text"
@@ -667,7 +667,7 @@ const OrderValuationForm = () => {
                   htmlFor="agendaNumber"
                   className="text-sm font-medium text-gray-700 mb-1"
                 >
-                  3. ગ્રામ પંચાયતની સામાન્ય બેઠકના મુદ્દા નં.
+                  3. મુદ્દા નં. સામાન્ય બેઠકના ગ્રામ પંચાયતનો
                 </label>
                 <input
                   type="text"
@@ -684,7 +684,7 @@ const OrderValuationForm = () => {
                   htmlFor="resolutionNumber"
                   className="text-sm font-medium text-gray-700 mb-1"
                 >
-                  4. ગ્રામ પંચાયતની સામાન્ય બેઠકના ઠરાવ નં.
+                  4. ઠરાવ નં. સામાન્ય બેઠકના ગ્રામ પંચાયતનો
                 </label>
                 <input
                   type="text"
@@ -702,7 +702,7 @@ const OrderValuationForm = () => {
                   htmlFor="surveyHouseRate"
                   className="text-sm font-medium text-gray-700 mb-1"
                 >
-                  5. આકારણી સર્વે કામના 1- ઘર દિઠ રૂપિયા
+                  5. 1- ઘર દિઠ રૂપિયા આકારણી સર્વે કામના
                 </label>
                 <input
                   type="number"

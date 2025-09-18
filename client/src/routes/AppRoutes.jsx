@@ -40,6 +40,7 @@ import CurrentProjects from "../features/projects/CurrentProjects";
 import { useAuth } from "../config/AuthContext";
 import AnalyticsReport from "../features/survay/AnalysisReport";
 import TaxRegister from "../features/survay/TaxRegister";
+import TarijReport from "../features/survay/TarijReport";
 
 export default function AppRoutes() {
   const { user } = useAuth();
@@ -155,7 +156,7 @@ export default function AppRoutes() {
             path="tarij/:projectId"
             element={
               <ProtectedRoute allowedRoles={["owner"]}>
-                <IndexReport />
+                <TarijReport />
               </ProtectedRoute>
             }
           />

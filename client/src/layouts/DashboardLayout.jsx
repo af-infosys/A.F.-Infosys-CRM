@@ -211,7 +211,7 @@ export default function DashboardLayout() {
                     setOpenMenu(openMenu === "/akarni" ? null : "/akarni")
                   }
                 >
-                  Akarni
+                  Akarani
                 </div>
 
                 {openMenu === "/akarni" && (
@@ -229,40 +229,8 @@ export default function DashboardLayout() {
                       className={({ isActive }) => (isActive ? "active" : "")}
                       onClick={() => setIsSidebarOpen(false)}
                     >
-                      Akarni
+                      Akarani
                     </NavLink>
-                    {/* 
-                    <NavLink
-                      to={`/survay/indexReport`}
-                      className={({ isActive }) => (isActive ? "active" : "")}
-                      onClick={() => setIsSidebarOpen(false)}
-                    >
-                      3. Index Report
-                    </NavLink>
-
-                    <NavLink
-                      to={`/survay/taxRegister`}
-                      className={({ isActive }) => (isActive ? "active" : "")}
-                      onClick={() => setIsSidebarOpen(false)}
-                    >
-                      4. Tax Register (9D)
-                    </NavLink>
-
-                    <NavLink
-                      to={`/survay/tarij`}
-                      className={({ isActive }) => (isActive ? "active" : "")}
-                      onClick={() => setIsSidebarOpen(false)}
-                    >
-                      5. Tarij
-                    </NavLink>
-
-                    <NavLink
-                      to={`/survay/analysisReport`}
-                      className={({ isActive }) => (isActive ? "active" : "")}
-                      onClick={() => setIsSidebarOpen(false)}
-                    >
-                      6. Analysis Report
-                    </NavLink> */}
                   </div>
                 )}
               </div>
