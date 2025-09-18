@@ -39,6 +39,7 @@ import SurvayorExpense from "../features/staff/survayor/SurvayorExpense";
 import CurrentProjects from "../features/projects/CurrentProjects";
 import { useAuth } from "../config/AuthContext";
 import AnalyticsReport from "../features/survay/AnalysisReport";
+import TaxRegister from "../features/survay/TaxRegister";
 
 export default function AppRoutes() {
   const { user } = useAuth();
@@ -145,7 +146,7 @@ export default function AppRoutes() {
             path="taxRegister/:projectId"
             element={
               <ProtectedRoute allowedRoles={["owner"]}>
-                <IndexReport />
+                <TaxRegister />
               </ProtectedRoute>
             }
           />
