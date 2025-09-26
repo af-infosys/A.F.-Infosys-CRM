@@ -1,0 +1,15 @@
+# Client + Server dependencies
+client/node_modules/
+server/node_modules/
+
+# Build / cache
+client/.cache/
+server/.cache/
+dist/
+build/
+
+# General
+node_modules/
+.cache/
+.env
+.env.local

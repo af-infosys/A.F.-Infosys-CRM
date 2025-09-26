@@ -1,0 +1,292 @@
+/* Hide the PDF content from the screen */
+.pdf-report-container {
+  position: absolute;
+  left: -9999px; // Moves the container off-screen
+}
+
+.report-page {
+  padding: 10px;
+  padding-top: 0;
+  box-sizing: border-box;
+}
+
+/* Legal Landscape Dimensions */
+.legal-landscape-dimensions {
+  width: 355.6mm; // Legal width in landscape
+  height: 216mm; // Legal height in landscape
+}
+
+/* Page Header and Info */
+.page-header-container {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.page-number {
+  position: relative;
+  top: 20px;
+  left: 150mm;
+
+  font-size: 10px;
+  font-family: sans-serif;
+  color: #333;
+}
+
+.heading {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.subheading {
+  font-size: 15px;
+  color: #000;
+  margin-bottom: 5px;
+}
+
+.location-info {
+  display: flex;
+  justify-content: space-between;
+  padding-inline: 20px;
+  font-size: 15px;
+  font-weight: bold;
+  margin-bottom: 25px;
+}
+
+/* Div-based Table Styles */
+.table-row {
+  display: flex;
+  border: 1px solid #000;
+  font-size: 10px;
+  min-height: 25px;
+  page-break-inside: avoid; // Avoids breaking rows across pages
+}
+
+.table-header-row {
+  font-weight: bold;
+  background-color: #fff;
+  font-size: 12px;
+  border: 1px solid #000;
+}
+
+.table-cell {
+  padding: 2px;
+  border-right: 1px solid #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: left;
+
+  min-height: 20px;
+
+  &:last-child {
+    border-right: none;
+  }
+}
+
+/* Column Widths */
+.s-no {
+  width: 4%;
+  min-width: 4%;
+  max-width: 4%;
+}
+.area-name {
+  width: 8%;
+  min-width: 8%;
+  max-width: 8%;
+}
+.prop-no {
+  width: 4%;
+  min-width: 4%;
+  max-width: 4%;
+}
+.description {
+  width: 18%;
+  min-width: 18%;
+  max-width: 18%;
+}
+.owner {
+  width: 10%;
+  min-width: 10%;
+  max-width: 10%;
+}
+.old-prop-no {
+  width: 4%;
+  min-width: 4%;
+  max-width: 4%;
+}
+.mobile {
+  width: 8%;
+  min-width: 8%;
+  max-width: 8%;
+}
+.valuation {
+  width: 6%;
+  min-width: 6%;
+  max-width: 6%;
+}
+.tax {
+  width: 5%;
+  min-width: 5%;
+  max-width: 5%;
+}
+.prop-name {
+  width: 9%;
+  min-width: 9%;
+  max-width: 9%;
+}
+.type {
+  width: 7%;
+  min-width: 7%;
+  max-width: 7%;
+}
+.facility {
+  width: 6%;
+  min-width: 6%;
+  max-width: 6%;
+  display: flex;
+  flex-direction: column;
+  .facility-inner {
+    width: 100%;
+    .facility-title {
+      border-bottom: 1px solid #ccc;
+      padding: 5px;
+    }
+    .facility-sub-row {
+      display: flex;
+      .table-cell {
+        flex: 1;
+        border-right: 1px solid #ccc;
+        &:last-child {
+          border-right: none;
+        }
+      }
+    }
+  }
+}
+.tap {
+  width: 3%;
+  min-width: 3%;
+  max-width: 3%;
+}
+.toilet {
+  width: 3%;
+  min-width: 3%;
+  max-width: 3%;
+}
+.remarks {
+  width: 10%;
+}
+
+/* Visible Table (for on-screen preview) */
+.visible-report-container {
+  // Styles for the visible table (can use the same classes)
+  .visible-table-header {
+    // Add specific styles if needed
+  }
+  .visible-table-row {
+    // Add specific styles if needed
+  }
+}
+
+.formatting {
+  position: relative;
+  transform: translateY(-7px) translateX(2px);
+  width: 100%;
+}
+
+.table-header-row .formatting {
+  text-align: center;
+}
+
+/* ========================================================= */
+/* ================ Visible Report Styles ================== */
+/* ========================================================= */
+
+.visible-report-container {
+  padding: 20px;
+  background-color: #f9fafb;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.location-info-visible {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 0 20px;
+}
+
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.thead {
+  background-color: #e5e7eb;
+}
+
+.th,
+.td {
+  border: 1px solid #d1d5db;
+  padding: 10px !important;
+  text-align: left;
+}
+
+.th {
+  font-weight: bold;
+  color: #000;
+  background-color: #fff;
+
+  text-align: center !important;
+}
+
+.tbody tr:nth-child(even) {
+  background-color: #f9fafb;
+}
+
+.tbody tr:hover {
+  background-color: #e5e7eb;
+}
+
+.td {
+  vertical-align: top;
+  white-space: normal;
+  word-break: break-word;
+}
+
+/* Responsive Table Styles */
+.table-responsive {
+  overflow-x: auto;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+  .visible-report-container {
+    padding: 10px;
+  }
+
+  .report-table {
+    font-size: 12px;
+  }
+
+  .th,
+  .td {
+    padding: 8px;
+  }
+}
+
+.pdf-report-container {
+  td,
+  td {
+    background: #fff;
+    color: #000;
+  }
+}
+
+#pdff {
+  border: 1px solid #000;
+}
