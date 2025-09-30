@@ -1358,6 +1358,7 @@ const OrderValuationReport = () => {
                 style={{
                   marginTop: "10px",
                   fontSize: "18px",
+                  paddingLeft: "15px",
                 }}
               >
                 આ આકારણી સર્વેનું કામ શરૂ કરતા પહેલા ગ્રામપંચાયતના ત.ક.મ. તથા
@@ -1373,6 +1374,7 @@ const OrderValuationReport = () => {
                 style={{
                   marginTop: "16px",
                   lineHeight: "23px",
+                  paddingLeft: "15px",
                 }}
               >
                 સબબ કામગીરી એ.એફ. ઇન્ફોસીસ - સાવરકુંડલા ના ભાવ - એક મિલ્કત દિઠ ₹
@@ -1395,7 +1397,12 @@ const OrderValuationReport = () => {
 
             {/* Vigat Start */}
             <div
-              style={{ display: "flex", flexDirection: "column", gap: "3px" }}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "3px",
+                paddingLeft: "20px",
+              }}
             >
               {/* Section 1 */}
 

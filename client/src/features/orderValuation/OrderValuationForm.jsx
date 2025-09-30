@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 
 import apiPath from "../../isProduction";
+import numberToGujaratiWords from "../../components/ToGujarati";
 
 // The main component for the order valuation form
 const OrderValuationForm = () => {
@@ -303,9 +304,7 @@ const OrderValuationForm = () => {
     const { name, value } = e.target;
     setDetails((prev) => ({ ...prev, [name]: value }));
 
-    const indicesToUpdate = [
-      1, 2, 3, 5, 6, 13, 14, 16, 17, 18, 19, 20, 21, 22, 23,
-    ];
+    const indicesToUpdate = [1, 2, 3, 8, 9, 10, 11, 12, 16, 17];
 
     const updatedValuation = valuation.map((item, index) => {
       // Check if the current index is in the list of indices to update
@@ -900,7 +899,16 @@ const OrderValuationForm = () => {
                   id="surveyHouseRate"
                   name="surveyHouseRate"
                   value={details.surveyHouseRate}
-                  onChange={handleChangeDetails}
+                  onInput={(e) => {
+                    setDetails((prev) => ({
+                      ...prev,
+                      approvedAmountWords: numberToGujaratiWords(
+                        e.target.value
+                      ),
+                    }));
+
+                    handleChangeDetails(e);
+                  }}
                   className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
                 />
               </div>
