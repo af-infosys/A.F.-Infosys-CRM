@@ -300,19 +300,22 @@ const SurvayReport = () => {
                     <span className="formatting">સુવિધા</span>
                   </div>
 
-                  <div className="facility-sub-row">
+                  <div
+                    className="facility-sub-row"
+                    style={{ borderTop: "1px solid black" }}
+                  >
                     <div className="table-cell">
                       <span className="formatting">નળ</span>
                     </div>
 
                     <div className="table-cell">
-                      <span className="formatting">શોચાલ્ય</span>
+                      <span className="formatting">શોચાલય</span>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="table-cell remarks">નોંધ/રીમાર્કસ</div>
+              <div className="table-cell remarks">નોંધ / રીમાર્કસ</div>
             </div>
 
             <div className="table-row table-header-row">
@@ -360,12 +363,16 @@ const SurvayReport = () => {
                 <span className="formatting">11</span>
               </div>
 
-              <div className="table-cell facility">
+              <div className="table-cell" style={{ width: "3%" }}>
                 <span className="formatting">12</span>
               </div>
 
-              <div className="table-cell remarks">
+              <div className="table-cell" style={{ width: "3%" }}>
                 <span className="formatting">13</span>
+              </div>
+
+              <div className="table-cell remarks">
+                <span className="formatting">14</span>
               </div>
 
               {/* <div className="table-cell action">
@@ -454,11 +461,11 @@ const SurvayReport = () => {
         </h2>
 
         <div className="location-info-visible">
-          <h3>ગામ: {project?.spot?.gaam}</h3>
+          <h3>ગામ:- {project?.spot?.gaam}</h3>
 
-          <h3>તાલુકો: {project?.spot?.taluka}</h3>
+          <h3>તાલુકો:- {project?.spot?.taluka}</h3>
 
-          <h3>જિલ્લો: {project?.spot?.district}</h3>
+          <h3>જિલ્લો:- {project?.spot?.district}</h3>
         </div>
 
         <div className="table-responsive">
