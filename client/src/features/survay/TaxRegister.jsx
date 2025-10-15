@@ -198,6 +198,8 @@ const TaxRegister = () => {
             className="report-page legal-landscape-dimensions"
             style={{
               width: "1700px",
+              paddingLeft: "65px",
+              paddingRight: "20px",
             }}
           >
             {/* Headers and Page Count */}
@@ -205,9 +207,12 @@ const TaxRegister = () => {
             <div className="page-header-container">
               <span
                 className="page-number"
-                style={{ fontSize: "16px", transform: "translateY(65px)" }}
+                style={{
+                  fontSize: "16px",
+                  transform: "translate(80px, 65px)",
+                }}
               >
-                પાના નં: {pageIndex + 1} / {pages.length}
+                પાના નં. {pageIndex + 1}
               </span>
 
               <h1 className="heading" style={{ marginTop: "35px" }}>
@@ -222,11 +227,11 @@ const TaxRegister = () => {
                 className="location-info"
                 style={{ fontSize: "19px", paddingInline: "50px" }}
               >
-                <span>ગામ: {project?.spot?.gaam}</span>
+                <span>ગામ:- {project?.spot?.gaam}</span>
 
-                <span>તાલુકો: {project?.spot?.taluka}</span>
+                <span>તાલુકો:- {project?.spot?.taluka}</span>
 
-                <span>જિલ્લો: {project?.spot?.district}</span>
+                <span>જિલ્લો:- {project?.spot?.district}</span>
               </div>
             </div>
 
@@ -329,25 +334,23 @@ const TaxRegister = () => {
               {pageRecords.map((record, index) => (
                 <tbody>
                   <tr key={index}>
-                    <td className="td" rowSpan="3">
+                    <td className="td" style={{ textAlign: "center" }}>
                       {record[0]}
                     </td>
 
-                    <td className="td" rowSpan="3">
-                      {record[2]}
-                    </td>
+                    <td className="td">{record[2]}</td>
 
-                    <td className="td" rowSpan="3">
-                      {record[1]}
-                    </td>
+                    <td className="td">{record[1]}</td>
 
-                    <td className="td" rowSpan="3">
+                    <td
+                      className="td"
+                      // rowSpan="2"
+                      // style={{ maxWidth: "150px" }}
+                    >
                       {record[3]}
                     </td>
 
-                    <td className="td" rowSpan="3">
-                      {"XX"}
-                    </td>
+                    <td className="td">{""}</td>
 
                     <td className="td">માંગણું</td>
 
@@ -439,6 +442,12 @@ const TaxRegister = () => {
                   </tr>
 
                   <tr>
+                    <td className="td">{""}</td>
+                    <td className="td">{""}</td>
+                    <td className="td">{""}</td>
+                    <td className="td">{""}</td>
+                    <td className="td">{""}</td>
+
                     <td className="td">વસુલાત</td>
 
                     {/* ઘર વેરો */}
@@ -527,6 +536,12 @@ const TaxRegister = () => {
                   </tr>
 
                   <tr>
+                    <td className="td">{""}</td>
+                    <td className="td">{""}</td>
+                    <td className="td">{""}</td>
+                    <td className="td">{""}</td>
+                    <td className="td">{""}</td>
+
                     <td className="td">બાકી</td>
 
                     {/* ઘર વેરો */}
@@ -631,11 +646,11 @@ const TaxRegister = () => {
         </h2>
 
         <div className="location-info-visible">
-          <h3>ગામ: {project?.spot?.gaam}</h3>
+          <h3>ગામ:- {project?.spot?.gaam}</h3>
 
-          <h3>તાલુકો: {project?.spot?.taluka}</h3>
+          <h3>તાલુકો:- {project?.spot?.taluka}</h3>
 
-          <h3>જિલ્લો: {project?.spot?.district}</h3>
+          <h3>જિલ્લો:- {project?.spot?.district}</h3>
         </div>
 
         <div className="table-responsive">

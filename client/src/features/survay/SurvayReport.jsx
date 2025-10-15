@@ -200,6 +200,7 @@ const SurvayReport = () => {
             key={pageIndex}
             id={`report-page-${pageIndex}`}
             className="report-page legal-landscape-dimensions"
+            style={{ paddingLeft: "65px", paddingRight: "20px" }}
           >
             {/* Headers and Page Count */}
 
@@ -213,7 +214,7 @@ const SurvayReport = () => {
                   transform: "translate(-3px, 65px)",
                 }}
               >
-                પાના નં: {pageIndex + 1} / {pages.length}
+                પાના નં. {pageIndex + 1}
               </span>
 
               <h1 className="heading" style={{ marginTop: "35px" }}>

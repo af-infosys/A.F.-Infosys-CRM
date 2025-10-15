@@ -301,9 +301,7 @@ const IndexReport = () => {
                 નંબર ૯/ડી - કરવેરા રજીસ્ટરની પાનોત્રીની યાદી{" "}
               </h1>
               <h2 className="subheading">સને {"2025/2026"}</h2>
-              <span className="page-numberN">
-                પાના નં: {pageIndex + 1} / {pages.length}
-              </span>
+              <span className="page-numberN">પાના નં. {pageIndex + 1}</span>
               <div
                 className="location-info"
                 style={{

@@ -44,7 +44,7 @@ const OrderValuationReport = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
-  const background = "#333";
+  const background = "#fff";
 
   const [details, setDetails] = useState({
     totalHouses: 0,
@@ -267,429 +267,453 @@ const OrderValuationReport = () => {
           }}
         >
           <div
-            className="table-container rounded-lg shadow-md border border-black"
+            className="table-container shadow-md"
             id="report-1"
             style={{
               width: "680px",
               minWidth: "680px",
-              minHeight: "1120px",
+              minHeight: "1050px",
               position: "relative",
-              padding: "16px",
+              padding: "5px",
               background: "#fff",
             }}
           >
             <div
-              className="flex justify-between items-center"
-              style={{ width: "100%" }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  width: "100%",
-                  paddingInline: "0px",
-                }}
-              >
-                <h3 style={{ fontSize: "16px" }}>
-                  અંદાજીત ઘર ની સંખ્યા :– <b>{details?.totalHouses || 0}</b>
-                </h3>
-
-                <h3
-                  style={{
-                    fontSize: "16px",
-                    position: "relative",
-                    transform: "translateX(-35px)",
-                  }}
-                >
-                  TB<b>{details?.tbr}</b>R
-                </h3>
-
-                <h2 style={{ fontSize: "16px", color: "transparent" }}>
-                  <b style={{ textDecoration: "underline" }}>
-                    {details?.gaam || ""}
-                  </b>{" "}
-                  ગ્રામ પંચાયત કચેરી
-                </h2>
-              </div>
-            </div>
-
-            {/* Info Start */}
-            <div
+              className="rounded-lg border border-black"
               style={{
                 width: "100%",
-                display: "flex",
-                flexDirection: "column",
-                gap: "3px",
-                alignItems: "end",
+                height: "100%",
+                padding: "13px",
               }}
             >
               <div
-                style={{
-                  display: "flex",
-                  alignItems: "start",
-                  flexDirection: "column",
-                  paddingRight: "30px",
-                  position: "relative",
-                  transform: "translateY(-25px)",
-                }}
+                className="flex justify-between items-center"
+                style={{ width: "100%" }}
               >
-                <h2 style={{ fontSize: "16px" }}>
-                  <b style={{ textDecoration: "underline" }}>
-                    {details?.gaam || ""}
-                  </b>{" "}
-                  ગ્રામ પંચાયત કચેરી
-                </h2>
-
-                <h2
+                <div
                   style={{
-                    fontSize: "16px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    width: "100%",
+                    paddingInline: "0px",
                   }}
                 >
-                  તાલુકો :– <b>{details?.taluka || ""}</b>
-                </h2>
+                  <h3 style={{ fontSize: "16px" }}>
+                    નં./જા/{details?.javak || ""}
+                  </h3>
 
-                <h2
-                  style={{
-                    fontSize: "16px",
-                  }}
-                >
-                  જિલ્લો :- <b>{details?.district || ""}</b>
-                </h2>
+                  <h3 style={{ fontSize: "16px" }}>
+                    અંદાજીત ઘર ની સંખ્યા :– <b>{details?.totalHouses || 0}</b>
+                  </h3>
 
-                <h2
-                  style={{
-                    fontSize: "16px",
-                  }}
-                >
-                  તારીખ :– <b>{formatDate(details?.date)}</b>
-                </h2>
+                  <h3
+                    style={{
+                      fontSize: "16px",
+                      position: "relative",
+                      transform: "translateX(-35px)",
+                    }}
+                  >
+                    TB<b>{details?.tbr}</b>R
+                  </h3>
 
-                <span>
-                  જુથ પંચાયત છે (હા/ના){" "}
-                  <b>
-                    {details?.panchayat?.includes("નહિ")
-                      ? "નહિ"
-                      : details?.panchayat === ""
-                      ? ""
-                      : "હા"}
-                  </b>{" "}
-                </span>
+                  <h2 style={{ fontSize: "16px", color: "transparent" }}>
+                    <b style={{ textDecoration: "underline" }}>
+                      {details?.gaam || ""}
+                    </b>{" "}
+                    ગ્રામ પંચાયત કચેરી
+                  </h2>
+                </div>
               </div>
 
-              <span
+              {/* Info Start */}
+              <div
                 style={{
-                  fontSize: "18px",
-                  textAlign: "right",
                   width: "100%",
                   display: "flex",
                   flexDirection: "column",
-                  paddingRight: "10px",
+                  gap: "3px",
                   alignItems: "end",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "start",
+                    flexDirection: "column",
+                    paddingRight: "30px",
+                    position: "relative",
+                    transform: "translateY(-25px)",
+                  }}
+                >
+                  <h2 style={{ fontSize: "16px" }}>
+                    <b style={{ textDecoration: "underline" }}>
+                      {details?.gaam || ""}
+                    </b>{" "}
+                    ગ્રામ પંચાયત કચેરી
+                  </h2>
 
-                  marginTop: "-20px",
+                  <h2
+                    style={{
+                      fontSize: "16px",
+                    }}
+                  >
+                    તાલુકો :– <b>{details?.taluka || ""}</b>
+                  </h2>
+
+                  <h2
+                    style={{
+                      fontSize: "16px",
+                    }}
+                  >
+                    જિલ્લો :- <b>{details?.district || ""}</b>
+                  </h2>
+
+                  <h2
+                    style={{
+                      fontSize: "16px",
+                    }}
+                  >
+                    તારીખ :– <b>{formatDate(details?.date)}</b>
+                  </h2>
+
+                  <span>
+                    જુથ પંચાયત છે (હા/ના){" "}
+                    <b>
+                      {details?.panchayat?.includes("નહિ")
+                        ? "નહિ"
+                        : details?.panchayat === ""
+                        ? ""
+                        : "હા"}
+                    </b>{" "}
+                  </span>
+                </div>
+
+                <span
+                  style={{
+                    fontSize: "18px",
+                    textAlign: "right",
+                    width: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    paddingRight: "10px",
+                    alignItems: "end",
+
+                    marginTop: "-20px",
+                  }}
+                >
+                  <span
+                    style={{
+                      display: "flex",
+                      justifyContent: "end",
+                      gap: "10px",
+                    }}
+                  >
+                    ગામના નામ:
+                    <b>
+                      {!details?.panchayat?.includes("નહિ") &&
+                        details?.panchayat
+                          .split(/\d+\./) // split at "1.", "2.", etc.
+                          .filter(Boolean) // remove empty strings
+                          .map((village, index) => (
+                            <div
+                              key={index}
+                              style={{ textAlign: "left", fontSize: "15px" }}
+                            >
+                              {index + 1}. {village.trim()}
+                            </div>
+                          ))}
+                    </b>
+                  </span>
+                </span>
+
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "start",
+                    flexDirection: "column",
+                  }}
+                >
+                  <h2
+                    style={{
+                      fontSize: "18px",
+                    }}
+                  >
+                    આકારણીનું વર્ષ :– <b>{details?.akaraniYear || ""}</b>
+                  </h2>
+
+                  <h2
+                    style={{
+                      fontSize: "18px",
+                    }}
+                  >
+                    વેરા રજીસ્ટરનું વર્ષ :– <b>{details?.taxYear || ""}</b>
+                  </h2>
+                </div>
+              </div>
+              {/* Info End */}
+
+              {/* Names Start */}
+              <div
+                style={{ display: "flex", flexDirection: "column", gap: "3px" }}
+              >
+                <h2
+                  style={{
+                    fontSize: "16px",
+                  }}
+                >
+                  સરપંચશ્રીનું પુરૂ નામ તથા મો.નં.{" "}
+                  <b>
+                    {details?.sarpanchName || ""} :-{" "}
+                    {details?.sarpanchNumber || ""}{" "}
+                  </b>
+                </h2>
+
+                <h2
+                  style={{
+                    fontSize: "16px",
+                  }}
+                >
+                  તલાટી કમ મંત્રીશ્રીનું પુરૂ નામ તથા મો.નં.{" "}
+                  <b>
+                    {details?.tcmName || ""} :- {details?.tcmNumber || ""}
+                  </b>
+                </h2>
+
+                <h2
+                  style={{
+                    fontSize: "16px",
+                  }}
+                >
+                  સાથે રહેનાર વ્યકિતનું પુરૂ નામ તથા મો.નં.{" "}
+                  <b>
+                    {details?.assistantName || ""}
+                    {" :- "}
+                    {details?.assistantNumber || ""}
+                  </b>
+                </h2>
+                <h2
+                  style={{
+                    fontSize: "16px",
+                    marginTop: "-10px",
+                  }}
+                >
+                  {details?.assistantHoddo || ""}
+                </h2>
+              </div>
+              {/* Names End */}
+
+              <h2
+                style={{
+                  fontSize: "18px",
+                  width: "100%",
+                  maxWidth: "fit-content",
+                  textAlign: "center",
+                  border: "1px solid #000",
+                  borderRadius: "5px",
+                  marginBottom: "8px",
+                  marginTop: "10px",
+                  paddingBottom: "3px",
+
+                  paddingInline: "15px",
+                  position: "relative",
+                  left: "50%",
+                  transform: "translateX(-50%)",
                 }}
               >
                 <span
                   style={{
-                    display: "flex",
-                    justifyContent: "end",
-                    gap: "10px",
+                    position: "relative",
+                    transform: "translateY(-8px)",
                   }}
+                  className="formatting"
                 >
-                  ગામના નામ:
-                  <b>
-                    {!details?.panchayat?.includes("નહિ") &&
-                      details?.panchayat
-                        .split(/\d+\./) // split at "1.", "2.", etc.
-                        .filter(Boolean) // remove empty strings
-                        .map((village, index) => (
-                          <div
-                            key={index}
-                            style={{ textAlign: "left", fontSize: "15px" }}
-                          >
-                            {index + 1}. {village.trim()}
-                          </div>
-                        ))}
-                  </b>
+                  Order Report – : : ઑર્ડર રીપોર્ટ આકાર (વેલ્યુએશન) રીપોર્ટ : :
+                  –
                 </span>
-              </span>
+              </h2>
 
               <div
                 style={{
                   display: "flex",
-                  alignItems: "start",
-                  flexDirection: "column",
-                }}
-              >
-                <h2
-                  style={{
-                    fontSize: "18px",
-                  }}
-                >
-                  આકારણીનું વર્ષ :– <b>{details?.akaraniYear || ""}</b>
-                </h2>
-
-                <h2
-                  style={{
-                    fontSize: "18px",
-                  }}
-                >
-                  વેરા રજીસ્ટરનું વર્ષ :– <b>{details?.taxYear || ""}</b>
-                </h2>
-              </div>
-            </div>
-            {/* Info End */}
-
-            {/* Names Start */}
-            <div
-              style={{ display: "flex", flexDirection: "column", gap: "3px" }}
-            >
-              <h2
-                style={{
-                  fontSize: "16px",
-                }}
-              >
-                સરપંચશ્રીનું પુરૂ નામ તથા મો.નં.{" "}
-                <b>
-                  {details?.sarpanchName || ""} :-{" "}
-                  {details?.sarpanchNumber || ""}{" "}
-                </b>
-              </h2>
-
-              <h2
-                style={{
-                  fontSize: "16px",
-                }}
-              >
-                તલાટી કમ મંત્રીશ્રીનું પુરૂ નામ તથા મો.નં.{" "}
-                <b>
-                  {details?.tcmName || ""} :- {details?.tcmNumber || ""}
-                </b>
-              </h2>
-
-              <h2
-                style={{
-                  fontSize: "16px",
-                }}
-              >
-                સાથે રહેનાર વ્યકિતનું પુરૂ નામ તથા મો.નં.{" "}
-                <b>
-                  {details?.assistantName || ""}
-                  {" :- "}
-                  {details?.assistantNumber || ""}
-                </b>
-              </h2>
-              <h2
-                style={{
-                  fontSize: "16px",
-                  marginTop: "-10px",
-                }}
-              >
-                {details?.assistantHoddo || ""}
-              </h2>
-            </div>
-            {/* Names End */}
-
-            <h2
-              style={{
-                fontSize: "18px",
-                width: "100%",
-                maxWidth: "fit-content",
-                textAlign: "center",
-                border: "1px solid #707174",
-                borderRadius: "5px",
-                marginBottom: "8px",
-                marginTop: "10px",
-                paddingBottom: "3px",
-
-                paddingInline: "15px",
-                position: "relative",
-                left: "50%",
-                transform: "translateX(-50%)",
-              }}
-            >
-              <span
-                style={{
-                  position: "relative",
-                  transform: "translateY(-8px)",
+                  gap: "140px",
+                  justifyContent: "center",
                 }}
                 className="formatting"
               >
-                Order Report – : : ઑર્ડર રીપોર્ટ આકાર (વેલ્યુએશન) રીપોર્ટ : : –
-              </span>
-            </h2>
+                <span>
+                  {details?.valuationType === "room" ? (
+                    <span>&#10004;</span>
+                  ) : (
+                    ""
+                  )}{" "}
+                  રૂમ દિઠ કિમત મુકવી{" "}
+                  {details?.valuationType === "room" ? (
+                    <span>&#10004;</span>
+                  ) : (
+                    ""
+                  )}
+                </span>
 
-            <div
-              style={{
-                display: "flex",
-                gap: "140px",
-                justifyContent: "center",
-              }}
-              className="formatting"
-            >
-              <span>
-                {details?.valuationType === "room" ? <span>&#10004;</span> : ""}{" "}
-                રૂમ દિઠ કિમત મુકવી{" "}
-                {details?.valuationType === "room" ? <span>&#10004;</span> : ""}
-              </span>
+                <span>
+                  {details?.valuationType === "house" ? (
+                    <span>&#10004;</span>
+                  ) : (
+                    ""
+                  )}{" "}
+                  મકાન દિઠ કિમત લેવી{" "}
+                  {details?.valuationType === "house" ? (
+                    <span>&#10004;</span>
+                  ) : (
+                    ""
+                  )}
+                </span>
+              </div>
 
-              <span>
-                {details?.valuationType === "house" ? (
-                  <span>&#10004;</span>
-                ) : (
-                  ""
-                )}{" "}
-                મકાન દિઠ કિમત લેવી{" "}
-                {details?.valuationType === "house" ? (
-                  <span>&#10004;</span>
-                ) : (
-                  ""
-                )}
-              </span>
-            </div>
+              <table
+                className="divide-y divide-gray-200"
+                style={{
+                  marginTop: "10px",
+                }}
+              >
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th
+                      className="px-1 py-1 text-xs font-medium text-black uppercase tracking-wider"
+                      style={{
+                        color: "black",
+                        // background: background,
+                        textAlign: "center",
+                        padding: "2px 3px",
+                        paddingBottom: "10px",
+                        minWidth: "60px",
+                      }}
+                      colSpan="2"
+                    >
+                      <span id="format">ક્રમ</span>
+                    </th>
+                    <th
+                      className="px-1 py-1 text-xs font-medium text-black uppercase tracking-wider"
+                      style={{
+                        color: "black",
+                        // background: background,
+                        textAlign: "center",
+                        padding: "2px 3px",
+                      }}
+                    >
+                      <span id="format">
+                        મિલ્કતનું વર્ણન / બાંધકામનો પ્રકાર
+                      </span>
+                    </th>
+                    <th
+                      className="px-1 py-1 text-xs font-medium text-black uppercase tracking-wider"
+                      style={{
+                        color: "black",
+                        // background: background,
+                        textAlign: "center",
+                        padding: "2px 3px",
+                        minWidth: "70px",
+                      }}
+                    >
+                      <span id="format">મિલ્કતની કિંમત</span>
+                    </th>
+                    <th
+                      className="px-1 py-1 text-xs font-medium text-black uppercase tracking-wider"
+                      style={{
+                        color: "black",
+                        // background: background,
+                        textAlign: "center",
+                        padding: "2px 3px",
+                        minWidth: "50px",
+                      }}
+                    >
+                      <span id="format">મિ. વેરો</span>
+                    </th>
+                  </tr>
+                </thead>
 
-            <table
-              className="divide-y divide-gray-200"
-              style={{
-                marginTop: "10px",
-              }}
-            >
-              <thead className="bg-gray-50">
-                <tr>
-                  <th
-                    className="px-1 py-1 text-xs font-medium text-black uppercase tracking-wider"
-                    style={{
-                      color: "black",
-                      // background: background,
-                      textAlign: "center",
-                      padding: "2px 3px",
-                      paddingBottom: "10px",
-                      minWidth: "60px",
-                    }}
-                    colSpan="2"
-                  >
-                    <span id="format">ક્રમ</span>
-                  </th>
-                  <th
-                    className="px-1 py-1 text-xs font-medium text-black uppercase tracking-wider"
-                    style={{
-                      color: "black",
-                      // background: background,
-                      textAlign: "center",
-                      padding: "2px 3px",
-                    }}
-                  >
-                    <span id="format">મિલ્કતનું વર્ણન / બાંધકામનો પ્રકાર</span>
-                  </th>
-                  <th
-                    className="px-1 py-1 text-xs font-medium text-black uppercase tracking-wider"
-                    style={{
-                      color: "black",
-                      // background: background,
-                      textAlign: "center",
-                      padding: "2px 3px",
-                      minWidth: "70px",
-                    }}
-                  >
-                    <span id="format">મિલ્કતની કિંમત</span>
-                  </th>
-                  <th
-                    className="px-1 py-1 text-xs font-medium text-black uppercase tracking-wider"
-                    style={{
-                      color: "black",
-                      // background: background,
-                      textAlign: "center",
-                      padding: "2px 3px",
-                      minWidth: "50px",
-                    }}
-                  >
-                    <span id="format">મિ. વેરો</span>
-                  </th>
-                </tr>
-              </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {valuation.slice(0, 20).map((record, index) => {
+                    return (
+                      <tr key={index}>
+                        <td
+                          className="whitespace-nowrap text-sm font-medium text-gray-900"
+                          style={{
+                            maxWidth: "10px",
+                            padding: "3px 10px",
+                            textAlign: "center",
+                          }}
+                        >
+                          <span id="format">{index + 1}</span>
+                        </td>
+                        <td
+                          className="whitespace-normal text-sm text-black"
+                          style={{
+                            maxWidth: "10px",
+                            padding: "3px 10px",
+                            textAlign: "center",
+                          }}
+                        >
+                          <span id="format">{getAlphabeticalIndex(index)}</span>
+                        </td>{" "}
+                        <td
+                          className="whitespace-normal text-sm text-black"
+                          style={{
+                            maxWidth: "200px",
+                            padding: "3px 10px",
+                            textAlign: "left",
+                          }}
+                        >
+                          <span id="format">{record?.name}</span>
+                        </td>
+                        <td
+                          className="whitespace-normal text-sm text-black"
+                          style={{
+                            maxWidth: "30px",
+                            padding: "3px 10px",
+                            textAlign: "center",
+                          }}
+                        >
+                          <span id="format">{record?.price}</span>
+                        </td>
+                        <td
+                          className="whitespace-normal text-sm text-black"
+                          style={{
+                            maxWidth: "30px",
+                            padding: "3px 10px",
+                            textAlign: "center",
+                          }}
+                        >
+                          <span id="format">{record?.tax}</span>
+                        </td>
+                      </tr>
+                    );
+                  })}
 
-              <tbody className="bg-white divide-y divide-gray-200">
-                {valuation.slice(0, 20).map((record, index) => {
-                  return (
-                    <tr key={index}>
+                  {valuation.length === 0 && !loading && !error && (
+                    <tr>
                       <td
-                        className="whitespace-nowrap text-sm font-medium text-gray-900"
-                        style={{
-                          maxWidth: "10px",
-                          padding: "3px 10px",
-                          textAlign: "center",
-                        }}
+                        colSpan="25"
+                        className="px-6 py-4 text-center text-black"
                       >
-                        <span id="format">{index + 1}</span>
-                      </td>
-                      <td
-                        className="whitespace-normal text-sm text-black"
-                        style={{
-                          maxWidth: "10px",
-                          padding: "3px 10px",
-                          textAlign: "center",
-                        }}
-                      >
-                        <span id="format">{getAlphabeticalIndex(index)}</span>
-                      </td>{" "}
-                      <td
-                        className="whitespace-normal text-sm text-black"
-                        style={{
-                          maxWidth: "200px",
-                          padding: "3px 10px",
-                          textAlign: "left",
-                        }}
-                      >
-                        <span id="format">{record?.name}</span>
-                      </td>
-                      <td
-                        className="whitespace-normal text-sm text-black"
-                        style={{
-                          maxWidth: "30px",
-                          padding: "3px 10px",
-                          textAlign: "center",
-                        }}
-                      >
-                        <span id="format">{record?.price}</span>
-                      </td>
-                      <td
-                        className="whitespace-normal text-sm text-black"
-                        style={{
-                          maxWidth: "30px",
-                          padding: "3px 10px",
-                          textAlign: "center",
-                        }}
-                      >
-                        <span id="format">{record?.tax}</span>
+                        No Data Found!
                       </td>
                     </tr>
-                  );
-                })}
+                  )}
+                </tbody>
+              </table>
 
-                {valuation.length === 0 && !loading && !error && (
-                  <tr>
-                    <td
-                      colSpan="25"
-                      className="px-6 py-4 text-center text-black"
-                    >
-                      No Data Found!
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-
-            <div
-              style={{
-                position: "absolute",
-                bottom: "16px",
-                right: "23px",
-                fontSize: "14px",
-                color: "#333",
-              }}
-            >
-              પાના નં: {toGujaratiNumber(1)} / {toGujaratiNumber(3)}
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: "16px",
+                  right: "23px",
+                  fontSize: "14px",
+                  color: "#333",
+                }}
+              >
+                પાના નં. {toGujaratiNumber(1)}
+              </div>
             </div>
           </div>
         </div>
@@ -707,509 +731,529 @@ const OrderValuationReport = () => {
         >
           <div
             id="report-2"
-            className="table-container rounded-lg shadow-md border border-black"
+            className="table-container shadow-md"
             style={{
               width: "680px",
               minWidth: "680px",
-              minHeight: "1120px",
+              minHeight: "1050px",
               position: "relative",
-              padding: "16px",
+              padding: "5px",
               background: "#fff",
             }}
           >
             <div
-              className="flex justify-between items-center mb-4"
-              style={{ width: "100%" }}
+              className="rounded-lg border border-black"
+              style={{
+                width: "100%",
+                height: "100%",
+                padding: "13px",
+              }}
             >
+              <div
+                className="flex justify-between items-center mb-4"
+                style={{ width: "100%" }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    width: "100%",
+                    paddingInline: "16px",
+                  }}
+                >
+                  <h3 style={{ fontSize: "16px" }}>
+                    ગામ :- <b>{details?.gaam || ""}</b>
+                  </h3>
+
+                  <h3 style={{ fontSize: "16px" }}>
+                    તાલુકો :- <b>{details?.taluka || ""}</b>
+                  </h3>
+
+                  <h3 style={{ fontSize: "16px" }}>
+                    જિલ્લો :- <b>{details?.district || ""}</b>
+                  </h3>
+                </div>
+              </div>
+
+              <h2
+                style={{
+                  fontSize: "18px",
+                  width: "100%",
+                  maxWidth: "fit-content",
+                  textAlign: "center",
+                  border: "1px solid #000",
+                  borderRadius: "5px",
+                  marginBottom: "8px",
+                  paddingBottom: "3px",
+                  paddingInline: "15px",
+
+                  position: "relative",
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                }}
+              >
+                <span
+                  style={{
+                    position: "relative",
+                    transform: "translateY(-8px)",
+                  }}
+                  className="formatting"
+                >
+                  Order Report – : : ઑર્ડર રીપોર્ટ આકાર (વેલ્યુએશન) રીપોર્ટ : :
+                  –
+                </span>
+              </h2>
+
               <div
                 style={{
                   display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  width: "100%",
-                  paddingInline: "16px",
-                }}
-              >
-                <h3 style={{ fontSize: "16px" }}>
-                  ગામ :- <b>{details?.gaam || ""}</b>
-                </h3>
-
-                <h3 style={{ fontSize: "16px" }}>
-                  તાલુકો :- <b>{details?.taluka || ""}</b>
-                </h3>
-
-                <h3 style={{ fontSize: "16px" }}>
-                  જિલ્લો :- <b>{details?.district || ""}</b>
-                </h3>
-              </div>
-            </div>
-
-            <h2
-              style={{
-                fontSize: "18px",
-                width: "100%",
-                maxWidth: "fit-content",
-                textAlign: "center",
-                border: "1px solid #707174",
-                borderRadius: "5px",
-                marginBottom: "8px",
-                paddingBottom: "3px",
-                paddingInline: "15px",
-
-                position: "relative",
-                left: "50%",
-                transform: "translateX(-50%)",
-              }}
-            >
-              <span
-                style={{
-                  position: "relative",
-                  transform: "translateY(-8px)",
+                  gap: "140px",
+                  justifyContent: "center",
                 }}
                 className="formatting"
               >
-                Order Report – : : ઑર્ડર રીપોર્ટ આકાર (વેલ્યુએશન) રીપોર્ટ : : –
-              </span>
-            </h2>
+                <span>
+                  {details?.valuationType === "room" ? (
+                    <span>&#10004;</span>
+                  ) : (
+                    ""
+                  )}{" "}
+                  રૂમ દિઠ કિમત મુકવી{" "}
+                  {details?.valuationType === "room" ? (
+                    <span>&#10004;</span>
+                  ) : (
+                    ""
+                  )}
+                </span>
 
-            <div
-              style={{
-                display: "flex",
-                gap: "140px",
-                justifyContent: "center",
-              }}
-              className="formatting"
-            >
-              <span>
-                {details?.valuationType === "room" ? <span>&#10004;</span> : ""}{" "}
-                રૂમ દિઠ કિમત મુકવી{" "}
-                {details?.valuationType === "room" ? <span>&#10004;</span> : ""}
-              </span>
+                <span>
+                  {details?.valuationType === "house" ? (
+                    <span>&#10004;</span>
+                  ) : (
+                    ""
+                  )}{" "}
+                  મકાન દિઠ કિમત લેવી{" "}
+                  {details?.valuationType === "house" ? (
+                    <span>&#10004;</span>
+                  ) : (
+                    ""
+                  )}
+                </span>
+              </div>
 
-              <span>
-                {details?.valuationType === "house" ? (
-                  <span>&#10004;</span>
-                ) : (
-                  ""
-                )}{" "}
-                મકાન દિઠ કિમત લેવી{" "}
-                {details?.valuationType === "house" ? (
-                  <span>&#10004;</span>
-                ) : (
-                  ""
-                )}
-              </span>
-            </div>
-
-            <table
-              className="divide-y divide-gray-200"
-              style={{
-                marginTop: "10px",
-              }}
-            >
-              <thead className="bg-gray-50">
-                <tr>
-                  <th
-                    className="px-1 py-1 text-xs font-medium text-black uppercase tracking-wider"
-                    style={{
-                      color: "black",
-                      // background: background,
-                      textAlign: "center",
-                      padding: "2px 3px",
-                      paddingBottom: "10px",
-                      minWidth: "60px",
-                    }}
-                    colSpan="2"
-                  >
-                    <span id="format">ક્રમ</span>
-                  </th>
-                  <th
-                    className="px-1 py-1 text-xs font-medium text-black uppercase tracking-wider"
-                    style={{
-                      color: "black",
-                      // background: background,
-                      textAlign: "center",
-                      padding: "2px 3px",
-                    }}
-                  >
-                    <span id="format">મિલ્કતનું વર્ણન / બાંધકામનો પ્રકાર</span>
-                  </th>
-                  <th
-                    className="px-1 py-1 text-xs font-medium text-black uppercase tracking-wider"
-                    style={{
-                      color: "black",
-                      // background: background,
-                      textAlign: "center",
-                      padding: "2px 3px",
-                      minWidth: "70px",
-                    }}
-                  >
-                    <span id="format">મિલ્કતની કિંમત</span>
-                  </th>
-                  <th
-                    className="px-1 py-1 text-xs font-medium text-black uppercase tracking-wider"
-                    style={{
-                      color: "black",
-                      // background: background,
-                      textAlign: "center",
-                      padding: "2px 3px",
-                      minWidth: "50px",
-                    }}
-                  >
-                    <span id="format">મિ. વેરો</span>
-                  </th>
-                </tr>
-              </thead>
-
-              <tbody className="bg-white divide-y divide-gray-200">
-                {valuation.slice(20).map((record, index) => {
-                  return (
-                    <tr key={index + 20}>
-                      <td
-                        className="whitespace-nowrap text-sm font-medium text-gray-900"
-                        style={{
-                          maxWidth: "10px",
-                          padding: "3px 10px",
-                          textAlign: "center",
-                        }}
-                      >
-                        <span id="format">{index + 21}</span>
-                      </td>
-                      <td
-                        className="whitespace-normal text-sm text-black"
-                        style={{
-                          maxWidth: "10px",
-                          padding: "3px 10px",
-                          textAlign: "center",
-                        }}
-                      >
-                        <span id="format">
-                          {getAlphabeticalIndex(index + 20)}
-                        </span>
-                      </td>{" "}
-                      <td
-                        className="whitespace-normal text-sm text-black"
-                        style={{
-                          maxWidth: "200px",
-                          padding: "3px 10px",
-                          textAlign: "left",
-                        }}
-                      >
-                        <span id="format">{record?.name}</span>
-                      </td>
-                      <td
-                        className="whitespace-normal text-sm text-black"
-                        style={{
-                          maxWidth: "30px",
-                          padding: "3px 10px",
-                          textAlign: "center",
-                        }}
-                      >
-                        <span id="format">{record?.price}</span>
-                      </td>
-                      <td
-                        className="whitespace-normal text-sm text-black"
-                        style={{
-                          maxWidth: "30px",
-                          padding: "3px 10px",
-                          textAlign: "center",
-                        }}
-                      >
-                        <span id="format">{record?.tax}</span>
-                      </td>
-                    </tr>
-                  );
-                })}
-
-                {valuation.length === 0 && !loading && !error && (
-                  <tr>
-                    <td
-                      colSpan="25"
-                      className="px-6 py-4 text-center text-black"
-                    >
-                      No Data Found!
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-
-            <br />
-
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "3px",
-                padding: "8px",
-                borderRadius: "10px",
-                background: "#f4f4f4ff",
-              }}
-            >
-              <h2
+              <table
+                className="divide-y divide-gray-200"
                 style={{
-                  fontSize: "18px",
-                  width: "100%",
-                  maxWidth: "fit-content",
-
-                  textAlign: "center",
-                  border: "1px solid #707174",
-                  borderRadius: "5px",
-                  marginBottom: "8px",
-                  paddingBottom: "3px",
-
-                  paddingInline: "15px",
-                  position: "relative",
-                  left: "50%",
-                  transform: "translateX(-50%)",
+                  marginTop: "10px",
                 }}
               >
-                <span
-                  style={{
-                    position: "relative",
-                    transform: "translateY(-8px)",
-                  }}
-                >
-                  અન્ય વેરા
-                </span>
-              </h2>
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th
+                      className="px-1 py-1 text-xs font-medium text-black uppercase tracking-wider"
+                      style={{
+                        color: "black",
+                        // background: background,
+                        textAlign: "center",
+                        padding: "2px 3px",
+                        paddingBottom: "10px",
+                        minWidth: "60px",
+                      }}
+                      colSpan="2"
+                    >
+                      <span id="format">ક્રમ</span>
+                    </th>
+                    <th
+                      className="px-1 py-1 text-xs font-medium text-black uppercase tracking-wider"
+                      style={{
+                        color: "black",
+                        // background: background,
+                        textAlign: "center",
+                        padding: "2px 3px",
+                      }}
+                    >
+                      <span id="format">
+                        મિલ્કતનું વર્ણન / બાંધકામનો પ્રકાર
+                      </span>
+                    </th>
+                    <th
+                      className="px-1 py-1 text-xs font-medium text-black uppercase tracking-wider"
+                      style={{
+                        color: "black",
+                        // background: background,
+                        textAlign: "center",
+                        padding: "2px 3px",
+                        minWidth: "70px",
+                      }}
+                    >
+                      <span id="format">મિલ્કતની કિંમત</span>
+                    </th>
+                    <th
+                      className="px-1 py-1 text-xs font-medium text-black uppercase tracking-wider"
+                      style={{
+                        color: "black",
+                        // background: background,
+                        textAlign: "center",
+                        padding: "2px 3px",
+                        minWidth: "50px",
+                      }}
+                    >
+                      <span id="format">મિ. વેરો</span>
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {valuation.slice(20).map((record, index) => {
+                    return (
+                      <tr key={index + 20}>
+                        <td
+                          className="whitespace-nowrap text-sm font-medium text-gray-900"
+                          style={{
+                            maxWidth: "10px",
+                            padding: "3px 10px",
+                            textAlign: "center",
+                          }}
+                        >
+                          <span id="format">{index + 21}</span>
+                        </td>
+                        <td
+                          className="whitespace-normal text-sm text-black"
+                          style={{
+                            maxWidth: "10px",
+                            padding: "3px 10px",
+                            textAlign: "center",
+                          }}
+                        >
+                          <span id="format">
+                            {getAlphabeticalIndex(index + 20)}
+                          </span>
+                        </td>{" "}
+                        <td
+                          className="whitespace-normal text-sm text-black"
+                          style={{
+                            maxWidth: "200px",
+                            padding: "3px 10px",
+                            textAlign: "left",
+                          }}
+                        >
+                          <span id="format">{record?.name}</span>
+                        </td>
+                        <td
+                          className="whitespace-normal text-sm text-black"
+                          style={{
+                            maxWidth: "30px",
+                            padding: "3px 10px",
+                            textAlign: "center",
+                          }}
+                        >
+                          <span id="format">{record?.price}</span>
+                        </td>
+                        <td
+                          className="whitespace-normal text-sm text-black"
+                          style={{
+                            maxWidth: "30px",
+                            padding: "3px 10px",
+                            textAlign: "center",
+                          }}
+                        >
+                          <span id="format">{record?.tax}</span>
+                        </td>
+                      </tr>
+                    );
+                  })}
+
+                  {valuation.length === 0 && !loading && !error && (
+                    <tr>
+                      <td
+                        colSpan="25"
+                        className="px-6 py-4 text-center text-black"
+                      >
+                        No Data Found!
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+
+              <br />
 
               <div
                 style={{
                   display: "flex",
-                  justifyContent: "center",
-                  gap: "16px",
-                  width: "100%",
+                  flexDirection: "column",
+                  gap: "3px",
+                  padding: "8px",
+                  borderRadius: "10px",
+                  background: "#fff",
                 }}
               >
-                <tabe className="divide-y divide-gray-200">
-                  <thead>
-                    <tr>
-                      <th style={{ padding: "5px 10px" }}>
-                        <span id="format">ક્રમ</span>
-                      </th>
-                      <th style={{ padding: "5px 10px" }}>
-                        <span id="format">વેરો</span>
-                      </th>
-                      <th style={{ padding: "5px 10px" }}>
-                        <span id="format">રહેઠાણ</span>
-                      </th>
-                      <th style={{ padding: "5px 10px" }}>
-                        <span id="format">બિન-રહેઠાણ</span>
-                      </th>
-                      <th style={{ padding: "5px 10px" }}>
-                        <span id="format">પ્લોટ</span>
-                      </th>
-                      <th style={{ padding: "5px 10px" }}>
-                        <span id="format">કોમન પ્લોટ</span>
-                      </th>
-                    </tr>
-                  </thead>
-                  {taxes
-                    ?.filter((item) => {
-                      return (
-                        item.values.residence ||
-                        item.values.nonResidence ||
-                        item.values.plot ||
-                        item.values.commonPlot
-                      );
-                    })
-                    .map((tax, index) => {
-                      return (
-                        <tr>
-                          <td style={{ padding: "3px 5px" }}>
-                            <span id="format">{index + 1}</span>
-                          </td>
-                          <td style={{ padding: "3px 5px" }}>
-                            <span id="format">{tax?.name}</span>
-                          </td>
-                          <td style={{ padding: "3px 5px" }}>
-                            <span id="format">
-                              {tax?.format === "rs" ? "રૂ|." : ""}{" "}
-                              {tax?.values?.residence}
-                              {tax?.format === "rs" ? "/-" : "%"}
-                            </span>{" "}
-                          </td>
-                          <td style={{ padding: "3px 5px" }}>
-                            <span id="format">
-                              {tax?.format === "rs" ? "રૂ|." : ""}{" "}
-                              {tax?.values?.nonResidence}
-                              {tax?.format === "rs" ? "/-" : "%"}
-                            </span>{" "}
-                          </td>
-                          <td style={{ padding: "3px 5px" }}>
-                            <span id="format">
-                              {tax?.format === "rs" ? "રૂ|." : ""}{" "}
-                              {tax?.values?.plot}
-                              {tax?.format === "rs" ? "/-" : "%"}
-                            </span>{" "}
-                          </td>
-                          <td style={{ padding: "3px 5px" }}>
-                            <span id="format">
-                              {tax?.format === "rs" ? "રૂ|." : ""}{" "}
-                              {tax?.values?.commonPlot}
-                              {tax?.format === "rs" ? "/-" : "%"}
-                            </span>{" "}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                </tabe>
-              </div>
-            </div>
-
-            {/* Order Report */}
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "3px",
-                padding: "8px",
-
-                marginTop: "20px",
-
-                borderRadius: "10px",
-                background: "#ffffffff",
-              }}
-            >
-              <h2
-                style={{
-                  fontSize: "18px",
-                  width: "100%",
-                  maxWidth: "fit-content",
-
-                  textAlign: "center",
-                  border: "1px solid #707174",
-                  borderRadius: "5px",
-                  marginBottom: "8px",
-                  paddingBottom: "3px",
-
-                  paddingInline: "15px",
-                  position: "relative",
-                  left: "50%",
-                  transform: "translateX(-50%)",
-                }}
-              >
-                <span
+                <h2
                   style={{
-                    position: "relative",
-                    transform: "translateY(-8px)",
                     fontSize: "18px",
+                    width: "100%",
+                    maxWidth: "fit-content",
+
+                    textAlign: "center",
+                    border: "1px solid #000",
+                    borderRadius: "5px",
+                    marginBottom: "8px",
+                    paddingBottom: "3px",
+
+                    paddingInline: "15px",
+                    position: "relative",
+                    left: "50%",
+                    transform: "translateX(-50%)",
                   }}
                 >
-                  ઠરાવ અંગેની માહિતી
-                </span>
-              </h2>
-              <p
+                  <span
+                    style={{
+                      position: "relative",
+                      transform: "translateY(-8px)",
+                    }}
+                  >
+                    અન્ય વેરા
+                  </span>
+                </h2>
+
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    gap: "16px",
+                    width: "100%",
+                  }}
+                >
+                  <tabe className="divide-y divide-gray-200">
+                    <thead>
+                      <tr>
+                        <th style={{ padding: "5px 10px" }}>
+                          <span id="format">ક્રમ</span>
+                        </th>
+                        <th style={{ padding: "5px 10px" }}>
+                          <span id="format">વેરો</span>
+                        </th>
+                        <th style={{ padding: "5px 10px" }}>
+                          <span id="format">રહેઠાણ</span>
+                        </th>
+                        <th style={{ padding: "5px 10px" }}>
+                          <span id="format">બિન-રહેઠાણ</span>
+                        </th>
+                        <th style={{ padding: "5px 10px" }}>
+                          <span id="format">પ્લોટ</span>
+                        </th>
+                        <th style={{ padding: "5px 10px" }}>
+                          <span id="format">કોમન પ્લોટ</span>
+                        </th>
+                      </tr>
+                    </thead>
+                    {taxes
+                      ?.filter((item) => {
+                        return (
+                          item.values.residence ||
+                          item.values.nonResidence ||
+                          item.values.plot ||
+                          item.values.commonPlot
+                        );
+                      })
+                      .map((tax, index) => {
+                        return (
+                          <tr>
+                            <td style={{ padding: "3px 5px" }}>
+                              <span id="format">{index + 1}</span>
+                            </td>
+                            <td style={{ padding: "3px 5px" }}>
+                              <span id="format">{tax?.name}</span>
+                            </td>
+                            <td style={{ padding: "3px 5px" }}>
+                              <span id="format">
+                                {tax?.format === "rs" ? "રૂ|." : ""}{" "}
+                                {tax?.values?.residence}
+                                {tax?.format === "rs" ? "/-" : "%"}
+                              </span>{" "}
+                            </td>
+                            <td style={{ padding: "3px 5px" }}>
+                              <span id="format">
+                                {tax?.format === "rs" ? "રૂ|." : ""}{" "}
+                                {tax?.values?.nonResidence}
+                                {tax?.format === "rs" ? "/-" : "%"}
+                              </span>{" "}
+                            </td>
+                            <td style={{ padding: "3px 5px" }}>
+                              <span id="format">
+                                {tax?.format === "rs" ? "રૂ|." : ""}{" "}
+                                {tax?.values?.plot}
+                                {tax?.format === "rs" ? "/-" : "%"}
+                              </span>{" "}
+                            </td>
+                            <td style={{ padding: "3px 5px" }}>
+                              <span id="format">
+                                {tax?.format === "rs" ? "રૂ|." : ""}{" "}
+                                {tax?.values?.commonPlot}
+                                {tax?.format === "rs" ? "/-" : "%"}
+                              </span>{" "}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                  </tabe>
+                </div>
+              </div>
+
+              {/* Order Report */}
+              <div
                 style={{
-                  fontSize: "18px",
-                  lineHeight: "23px",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "3px",
+                  padding: "8px",
+
+                  marginTop: "20px",
+
+                  borderRadius: "10px",
+                  background: "#ffffffff",
                 }}
               >
-                ગુજરાત પંચાયત ધારા ની કલમ ૨૦૦ મુજબ ગ્રામ પંચાયતને દર ચાર વર્ષે
-                આકારણી સર્વે કરવું ફરજીયાત છે. આપણા ગામપંચાયતની આકારણી મુદત
-                પૂર્ણ થઇ ગઈ હોય તો આજની ગ્રામ પંચાયત ની સામાન્ય બેઠક ની{" "}
-                <span>
-                  તારીખ{" "}
-                  <b>
-                    {details?.meetingDate
-                      ? new Date(details.meetingDate).toLocaleDateString(
-                          "en-GB"
-                        )
-                      : " "}
+                <h2
+                  style={{
+                    fontSize: "18px",
+                    width: "100%",
+                    maxWidth: "fit-content",
+
+                    textAlign: "center",
+                    border: "1px solid #000",
+                    borderRadius: "5px",
+                    marginBottom: "8px",
+                    paddingBottom: "3px",
+
+                    paddingInline: "15px",
+                    position: "relative",
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                  }}
+                >
+                  <span
+                    style={{
+                      position: "relative",
+                      transform: "translateY(-8px)",
+                      fontSize: "18px",
+                    }}
+                  >
+                    ઠરાવ અંગેની માહિતી
+                  </span>
+                </h2>
+                <p
+                  style={{
+                    fontSize: "18px",
+                    lineHeight: "23px",
+                  }}
+                >
+                  ગુજરાત પંચાયત ધારા ની કલમ ૨૦૦ મુજબ ગ્રામ પંચાયતને દર ચાર વર્ષે
+                  આકારણી સર્વે કરવું ફરજીયાત છે. આપણા ગામપંચાયતની આકારણી મુદત
+                  પૂર્ણ થઇ ગઈ હોય તો આજની ગ્રામ પંચાયત ની સામાન્ય બેઠક ની{" "}
+                  <span>
+                    તારીખ{" "}
+                    <b>
+                      {details?.meetingDate
+                        ? new Date(details.meetingDate).toLocaleDateString(
+                            "en-GB"
+                          )
+                        : " "}
+                    </b>{" "}
+                  </span>
+                  ના રોજ બેઠક નંબર{" "}
+                  <b>{details?.meetingNumber || ".................."}</b>
+                  {", "}
+                  મુદ્દા નં. <b>{details?.agendaNumber || ".............."}</b>
+                  {", "}
+                  ઠરાવ નં. <b>
+                    {details?.resolutionNumber || "............."}
                   </b>{" "}
-                </span>
-                ના રોજ બેઠક નંબર{" "}
-                <b>{details?.meetingNumber || ".................."}</b>
-                {", "}
-                મુદ્દા નં. <b>{details?.agendaNumber || ".............."}</b>
-                {", "}
-                ઠરાવ નં. <b>
-                  {details?.resolutionNumber || "............."}
-                </b>{" "}
-                થી મિલ્કત આકારણી સર્વેની કામગીરી કરી આપવા 'એ.એફ. ઇન્ફોસીસ -
-                સાવરકુંડલા' પાટીને નક્કી માં આવ્યું.
-              </p>
-            </div>
-
-            <br />
-
-            {/* Footer & Signature */}
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                paddingBottom: "32px",
-                paddingInline: "42px",
-                position: "absolute",
-                bottom: "0px",
-                left: "0px",
-                width: "100%",
-                fontSize: "16px",
-              }}
-            >
-              {/* TCM */}
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <span>
-                  સહિ. <b>........</b>
-                </span>
-
-                <span>
-                  ત.ક.મ.નું પુરૂ નામ
-                  <b
-                    style={{
-                      display: "block",
-                      marginTop: "3px",
-                    }}
-                  >
-                    {details?.tcmName || "......................."}
-                  </b>
-                </span>
-
-                <br />
-                <br />
-                <br />
-                <br />
-
-                <span>ત.ક.મ.નો સિક્કો</span>
+                  થી મિલ્કત આકારણી સર્વેની કામગીરી કરી આપવા 'એ.એફ. ઇન્ફોસીસ -
+                  સાવરકુંડલા' પાટીને નક્કી માં આવ્યું.
+                </p>
               </div>
 
-              {/* Sarpanch */}
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <span>
-                  સહિ. <b>........</b>
-                </span>
+              <br />
 
-                <span>
-                  સરપંચનું પુરૂ નામ
-                  <b
-                    style={{
-                      display: "block",
-                      marginTop: "3px",
-                    }}
-                  >
-                    {details?.sarpanchName || "......................."}
-                  </b>
-                </span>
+              {/* Footer & Signature */}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  paddingBottom: "32px",
+                  paddingInline: "42px",
+                  position: "absolute",
+                  bottom: "0px",
+                  left: "0px",
+                  width: "100%",
+                  fontSize: "16px",
+                }}
+              >
+                {/* TCM */}
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  <span>
+                    સહિ. <b>........</b>
+                  </span>
 
-                <br />
-                <br />
-                <br />
-                <br />
-                <span>સરપંચ નો સિક્કો</span>
+                  <span>
+                    ત.ક.મ.નું પુરૂ નામ
+                    <b
+                      style={{
+                        display: "block",
+                        marginTop: "3px",
+                      }}
+                    >
+                      {details?.tcmName || "......................."}
+                    </b>
+                  </span>
+
+                  <br />
+                  <br />
+                  <br />
+                  <br />
+
+                  <span>ત.ક.મ.નો સિક્કો</span>
+                </div>
+
+                {/* Sarpanch */}
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  <span>
+                    સહિ. <b>........</b>
+                  </span>
+
+                  <span>
+                    સરપંચનું પુરૂ નામ
+                    <b
+                      style={{
+                        display: "block",
+                        marginTop: "3px",
+                      }}
+                    >
+                      {details?.sarpanchName || "......................."}
+                    </b>
+                  </span>
+
+                  <br />
+                  <br />
+                  <br />
+                  <br />
+                  <span>સરપંચ નો સિક્કો</span>
+                </div>
               </div>
-            </div>
 
-            <div
-              style={{
-                position: "absolute",
-                bottom: "16px",
-                right: "23px",
-                fontSize: "14px",
-                color: "#333",
-              }}
-            >
-              પાના નં: {toGujaratiNumber(2)} / {toGujaratiNumber(3)}
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: "16px",
+                  right: "23px",
+                  fontSize: "14px",
+                  color: "#333",
+                }}
+              >
+                પાના નં. {toGujaratiNumber(2)}
+              </div>
             </div>
           </div>
         </div>
@@ -1227,43 +1271,51 @@ const OrderValuationReport = () => {
         >
           <div
             id="report-3"
-            className="table-container rounded-lg shadow-md border border-black"
+            className="table-container shadow-m"
             style={{
               width: "680px",
               minWidth: "680px",
-              minHeight: "1120px",
+              minHeight: "1050px",
               position: "relative",
-              padding: "16px",
+              padding: "5px",
               background: "#fff",
             }}
           >
             <div
-              className="flex justify-between items-center mb-4"
-              style={{ width: "100%" }}
+              className="rounded-lg border border-black"
+              style={{
+                width: "100%",
+                height: "100%",
+                padding: "13px",
+              }}
             >
               <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  width: "100%",
-                  paddingInline: "16px",
-                }}
+                className="flex justify-between items-center mb-4"
+                style={{ width: "100%" }}
               >
-                <h3 style={{ fontSize: "16px" }}>
-                  ગામ :- <b>{details?.gaam || ""}</b>
-                </h3>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    width: "100%",
+                    paddingInline: "16px",
+                  }}
+                >
+                  <h3 style={{ fontSize: "16px" }}>
+                    ગામ :- <b>{details?.gaam || ""}</b>
+                  </h3>
 
-                <h3 style={{ fontSize: "16px" }}>
-                  તાલુકો :- <b>{details?.taluka || ""}</b>
-                </h3>
+                  <h3 style={{ fontSize: "16px" }}>
+                    તાલુકો :- <b>{details?.taluka || ""}</b>
+                  </h3>
 
-                <h3 style={{ fontSize: "16px" }}>
-                  જિલ્લો :- <b>{details?.district || ""}</b>
-                </h3>
+                  <h3 style={{ fontSize: "16px" }}>
+                    જિલ્લો :- <b>{details?.district || ""}</b>
+                  </h3>
+                </div>
               </div>
-            </div>
-            {/* 
+              {/* 
             <div
               style={{
                 display: "flex",
@@ -1279,7 +1331,7 @@ const OrderValuationReport = () => {
                   fontSize: "18px",
                   width: "100%",
                   textAlign: "center",
-                  border: "1px solid #707174",
+                  border: "1px solid #000",
                   borderRadius: "5px",
                   marginBottom: "8px",
                 }}
@@ -1298,47 +1350,47 @@ const OrderValuationReport = () => {
               </div>
             </div> */}
 
-            {/* Order Report */}
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "3px",
-                padding: "8px",
-
-                borderRadius: "10px",
-                background: "#ffffffff",
-              }}
-            >
-              <h2
+              {/* Order Report */}
+              <div
                 style={{
-                  fontSize: "22px",
-                  width: "100%",
-                  maxWidth: "fit-content",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "3px",
+                  padding: "8px",
 
-                  textAlign: "center",
-                  border: "1px solid #707174",
-                  borderRadius: "5px",
-                  marginBottom: "8px",
-                  paddingBottom: "3px",
-
-                  paddingInline: "15px",
-                  position: "relative",
-                  left: "50%",
-                  transform: "translateX(-50%)",
+                  borderRadius: "10px",
+                  background: "#ffffffff",
                 }}
               >
-                <span
+                <h2
                   style={{
+                    fontSize: "22px",
+                    width: "100%",
+                    maxWidth: "fit-content",
+
+                    textAlign: "center",
+                    border: "1px solid #000",
+                    borderRadius: "5px",
+                    marginBottom: "8px",
+                    paddingBottom: "3px",
+
+                    paddingInline: "15px",
                     position: "relative",
-                    transform: "translateY(-8px)",
+                    left: "50%",
+                    transform: "translateX(-50%)",
                   }}
                 >
-                  મિલ્કત આકારણી સર્વેની અન્ય વિગત
-                </span>
-              </h2>
+                  <span
+                    style={{
+                      position: "relative",
+                      transform: "translateY(-8px)",
+                    }}
+                  >
+                    મિલ્કત આકારણી સર્વેની અન્ય વિગત
+                  </span>
+                </h2>
 
-              {/* <p>
+                {/* <p>
                 ગુજરાત પંચાયત ધારા ની કલમ ૨૦૦ મુજબ ગ્રામ પંચાયતને દર ચાર વર્ષે
                 આકારણી સર્વે કરવું ફરજીયાત છે. આપણા ગામની પંચાયતની આકારણી મુદત
                 પૂર્ણ થઇ ગઈ હોય તો આજની ગ્રામ પંચાયત ની સામાન્ય બેઠક ની તા.{" "}
@@ -1354,226 +1406,232 @@ const OrderValuationReport = () => {
                 આવ્યું.
               </p> */}
 
-              <p
-                style={{
-                  marginTop: "10px",
-                  fontSize: "18px",
-                  paddingLeft: "15px",
-                }}
-              >
-                આ આકારણી સર્વેનું કામ શરૂ કરતા પહેલા ગ્રામપંચાયતના ત.ક.મ. તથા
-                સરપંચશ્રી અને આકારણી કમિટીના સભ્યો, પટટાવાળા, વાલમેન સાથે રહિને
-                સર્વે કરનાર એજન્સી ને કામ શરૂ કરવાનું રહેશે આકારણી સર્વે ગામની
-                તમામ મિલ્કતને રૂબરૂ માં સ્થળ તપાસ કરી આકારણી રજીસ્ટર તથા કરવેરા
-                માંગણા રજિ. અને કરવેરા તારીજ પત્રક તેમજ પાનોતરી તથા આકારણી ને
-                લગત તમામ પ્રકાર નું રેકડ કોમ્પ્યુટરાઇઝડ બાઇનડીંગ સાથે અધ્યતન
-                તેયાર કરી આપવાનું રહેશે.
-              </p>
-
-              <p
-                style={{
-                  marginTop: "16px",
-                  lineHeight: "23px",
-                  paddingLeft: "15px",
-                }}
-              >
-                સબબ કામગીરી એ.એફ. ઇન્ફોસીસ - સાવરકુંડલા ના ભાવ - એક મિલ્કત દિઠ ₹
-                <b style={{ textDecoration: "underline" }}>
-                  {details?.surveyHouseRate || "......."}
-                </b>
-                {"/- "}
-                શબ્દોમાં અંકે રૂપીયા{" "}
-                <b
-                  style={{ textDecoration: "underline", whiteSpace: "nowrap" }}
+                <p
+                  style={{
+                    marginTop: "10px",
+                    fontSize: "18px",
+                    paddingLeft: "15px",
+                  }}
                 >
-                  {details?.approvedAmountWords || "........................."}
-                </b>{" "}
-                ભાવ મંજુર કરેલ છે જે આજની ગ્રામપંચાયત ની સામાન્ય બેઠક માં બહાલી
-                આપી.
-              </p>
-            </div>
+                  આ આકારણી સર્વેનું કામ શરૂ કરતા પહેલા ગ્રામપંચાયતના ત.ક.મ. તથા
+                  સરપંચશ્રી અને આકારણી કમિટીના સભ્યો, પટટાવાળા, વાલમેન સાથે
+                  રહિને સર્વે કરનાર એજન્સી ને કામ શરૂ કરવાનું રહેશે આકારણી સર્વે
+                  ગામની તમામ મિલ્કતને રૂબરૂ માં સ્થળ તપાસ કરી આકારણી રજીસ્ટર તથા
+                  કરવેરા માંગણા રજિ. અને કરવેરા તારીજ પત્રક તેમજ પાનોતરી તથા
+                  આકારણી ને લગત તમામ પ્રકાર નું રેકડ કોમ્પ્યુટરાઇઝડ બાઇનડીંગ
+                  સાથે અધ્યતન તેયાર કરી આપવાનું રહેશે.
+                </p>
 
-            <br />
+                <p
+                  style={{
+                    marginTop: "16px",
+                    lineHeight: "23px",
+                    paddingLeft: "15px",
+                  }}
+                >
+                  સબબ કામગીરી એ.એફ. ઇન્ફોસીસ - સાવરકુંડલા ના ભાવ - એક મિલ્કત દિઠ
+                  ₹
+                  <b style={{ textDecoration: "underline" }}>
+                    {details?.surveyHouseRate || "......."}
+                  </b>
+                  {"/- "}
+                  શબ્દોમાં અંકે રૂપીયા{" "}
+                  <b
+                    style={{
+                      textDecoration: "underline",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {details?.approvedAmountWords ||
+                      "........................."}
+                  </b>{" "}
+                  ભાવ મંજુર કરેલ છે જે આજની ગ્રામપંચાયત ની સામાન્ય બેઠક માં
+                  બહાલી આપી.
+                </p>
+              </div>
 
-            {/* Vigat Start */}
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "3px",
-                paddingLeft: "20px",
-              }}
-            >
-              {/* Section 1 */}
+              <br />
 
-              <h2 style={{ fontSize: "16px", textDecoration: "underline" }}>
-                વિસ્તારની વિગત : : -
-              </h2>
-
-              <h2
+              {/* Vigat Start */}
+              <div
                 style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "3px",
+                  paddingLeft: "20px",
+                }}
+              >
+                {/* Section 1 */}
+
+                <h2 style={{ fontSize: "16px", textDecoration: "underline" }}>
+                  વિસ્તારની વિગત : : -
+                </h2>
+
+                <h2
+                  style={{
+                    fontSize: "16px",
+                  }}
+                >
+                  પહેલા વિસ્તાર/શેરી મહોલ્લો કયા થી શરૂ કરવો :-{" "}
+                  <b>{details?.startArea || ""}</b>
+                </h2>
+
+                <h2
+                  style={{
+                    fontSize: "16px",
+                    marginTop: "-10px",
+                  }}
+                >
+                  આકારણી સર્વે કામ પહેલી મિલ્કત/ઘર કોની લખવી : -{" "}
+                  <b style={{ whiteSpace: "nowrap" }}>
+                    {details?.firstPropertyOwner || ""}
+                  </b>
+                </h2>
+
+                {/* Section 2 */}
+                <h2
+                  style={{
+                    fontSize: "16px",
+                    textDecoration: "underline",
+                    marginTop: "12px",
+                  }}
+                >
+                  પાણી ની વિગત : : -
+                </h2>
+                <h2
+                  style={{
+                    fontSize: "16px",
+                  }}
+                >
+                  જે મિલ્‍કત માં નળ હોય તેમા સામાન્‍ય પાણી વેરો લેવો કે નહી ?{" "}
+                  <b>
+                    {details?.generalWaterTaxApplicable === "yes"
+                      ? "હા"
+                      : details?.generalWaterTaxApplicable === "no"
+                      ? "ના"
+                      : ""}
+                  </b>
+                </h2>
+
+                <h2
+                  style={{
+                    fontSize: "16px",
+                    marginTop: "-10px",
+                  }}
+                >
+                  ખાસ પાણી નળ વેરો ત્થા સા.પાણી વેરો બન્‍ને વેરા મુકવા વેરો
+                  લેવો. <b>{details?.specialAndGeneralWaterTax || ""}</b>
+                </h2>
+              </div>
+              {/* Vigat End */}
+
+              <div style={{ padding: "16px" }}>
+                <h2
+                  style={{
+                    fontSize: "20px",
+                    textDecoration: "underline",
+                    marginBottom: "8px",
+                  }}
+                >
+                  <b>નોધ ::- </b>
+                </h2>
+                <ol style={{ marginTop: "-10px", listStyleType: "none" }}>
+                  {details?.notes?.map((item, index) => {
+                    return (
+                      <li
+                        key={index}
+                        style={{
+                          fontSize: "18px",
+                          lineHeight: "1.2",
+                          marginLeft: "0",
+                        }}
+                      >
+                        <span>{index + 1}.</span> {item}
+                      </li>
+                    );
+                  })}
+                </ol>
+              </div>
+
+              <br />
+
+              {/* Footer & Signature */}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  paddingBottom: "32px",
+                  paddingInline: "42px",
+                  position: "absolute",
+                  bottom: "0px",
+                  left: "0px",
+                  width: "100%",
                   fontSize: "16px",
                 }}
               >
-                પહેલા વિસ્તાર/શેરી મહોલ્લો કયા થી શરૂ કરવો :-{" "}
-                <b>{details?.startArea || ""}</b>
-              </h2>
+                {/* TCM */}
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  <span>
+                    સહિ. <b>........</b>
+                  </span>
 
-              <h2
-                style={{
-                  fontSize: "16px",
-                  marginTop: "-10px",
-                }}
-              >
-                આકારણી સર્વે કામ પહેલી મિલ્કત/ઘર કોની લખવી : -{" "}
-                <b style={{ whiteSpace: "nowrap" }}>
-                  {details?.firstPropertyOwner || ""}
-                </b>
-              </h2>
-
-              {/* Section 2 */}
-              <h2
-                style={{
-                  fontSize: "16px",
-                  textDecoration: "underline",
-                  marginTop: "12px",
-                }}
-              >
-                પાણી ની વિગત : : -
-              </h2>
-              <h2
-                style={{
-                  fontSize: "16px",
-                }}
-              >
-                જે મિલ્‍કત માં નળ હોય તેમા સામાન્‍ય પાણી વેરો લેવો કે નહી ?{" "}
-                <b>
-                  {details?.generalWaterTaxApplicable === "yes"
-                    ? "હા"
-                    : details?.generalWaterTaxApplicable === "no"
-                    ? "ના"
-                    : ""}
-                </b>
-              </h2>
-
-              <h2
-                style={{
-                  fontSize: "16px",
-                  marginTop: "-10px",
-                }}
-              >
-                ખાસ પાણી નળ વેરો ત્થા સા.પાણી વેરો બન્‍ને વેરા મુકવા વેરો લેવો.{" "}
-                <b>{details?.specialAndGeneralWaterTax || ""}</b>
-              </h2>
-            </div>
-            {/* Vigat End */}
-
-            <div style={{ padding: "16px" }}>
-              <h2
-                style={{
-                  fontSize: "20px",
-                  textDecoration: "underline",
-                  marginBottom: "8px",
-                }}
-              >
-                <b>નોધ ::- </b>
-              </h2>
-              <ol style={{ marginTop: "-10px", listStyleType: "none" }}>
-                {details?.notes?.map((item, index) => {
-                  return (
-                    <li
-                      key={index}
+                  <span>
+                    ત.ક.મ.નું પુરૂ નામ
+                    <b
                       style={{
-                        fontSize: "18px",
-                        lineHeight: "1.2",
-                        marginLeft: "0",
+                        display: "block",
+                        marginTop: "3px",
                       }}
                     >
-                      <span>{index + 1}.</span> {item}
-                    </li>
-                  );
-                })}
-              </ol>
-            </div>
+                      {details?.tcmName || "......................."}
+                    </b>
+                  </span>
 
-            <br />
+                  <br />
+                  <br />
+                  <br />
+                  <br />
 
-            {/* Footer & Signature */}
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                paddingBottom: "32px",
-                paddingInline: "42px",
-                position: "absolute",
-                bottom: "0px",
-                left: "0px",
-                width: "100%",
-                fontSize: "16px",
-              }}
-            >
-              {/* TCM */}
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <span>
-                  સહિ. <b>........</b>
-                </span>
+                  <span>ત.ક.મ.નો સિક્કો</span>
+                </div>
 
-                <span>
-                  ત.ક.મ.નું પુરૂ નામ
-                  <b
-                    style={{
-                      display: "block",
-                      marginTop: "3px",
-                    }}
-                  >
-                    {details?.tcmName || "......................."}
-                  </b>
-                </span>
+                {/* Sarpanch */}
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  <span>
+                    સહિ. <b>........</b>
+                  </span>
 
-                <br />
-                <br />
-                <br />
-                <br />
+                  <span>
+                    સરપંચનું પુરૂ નામ
+                    <b
+                      style={{
+                        display: "block",
+                        marginTop: "3px",
+                      }}
+                    >
+                      {details?.sarpanchName || "......................."}
+                    </b>
+                  </span>
 
-                <span>ત.ક.મ.નો સિક્કો</span>
+                  <br />
+                  <br />
+                  <br />
+                  <br />
+                  <span>સરપંચ નો સિક્કો</span>
+                </div>
               </div>
 
-              {/* Sarpanch */}
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <span>
-                  સહિ. <b>........</b>
-                </span>
-
-                <span>
-                  સરપંચનું પુરૂ નામ
-                  <b
-                    style={{
-                      display: "block",
-                      marginTop: "3px",
-                    }}
-                  >
-                    {details?.sarpanchName || "......................."}
-                  </b>
-                </span>
-
-                <br />
-                <br />
-                <br />
-                <br />
-                <span>સરપંચ નો સિક્કો</span>
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: "16px",
+                  right: "23px",
+                  fontSize: "14px",
+                  color: "#333",
+                }}
+              >
+                પાના નં. {toGujaratiNumber(3)}
               </div>
-            </div>
-
-            <div
-              style={{
-                position: "absolute",
-                bottom: "16px",
-                right: "23px",
-                fontSize: "14px",
-                color: "#333",
-              }}
-            >
-              પાના નં: {toGujaratiNumber(3)} / {toGujaratiNumber(3)}
             </div>
           </div>
         </div>

@@ -12,6 +12,10 @@ const OrderValuationForm = () => {
   const { projectId } = useParams();
 
   const [details, setDetails] = useState({
+    javak: `0/આકરણી/${new Date().getMonth() + 1}/${new Date()
+      .getFullYear()
+      .toString()
+      .slice(-3)}`,
     tbr: 0,
     totalHouses: 0,
     gaam: "",
@@ -366,6 +370,23 @@ const OrderValuationForm = () => {
             સામાન્ય વિગતો
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <div className="flex flex-col">
+              <label
+                htmlFor="javak"
+                className="text-sm font-medium text-gray-700 mb-1"
+              >
+                નં./જા/
+              </label>
+              <input
+                type="text"
+                id="javak"
+                name="javak"
+                value={details.javak}
+                onChange={handleChangeDetails}
+                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+              />
+            </div>
+
             <div className="flex flex-col">
               <label
                 htmlFor="totalHouses"
