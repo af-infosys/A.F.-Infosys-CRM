@@ -138,47 +138,41 @@ const TaxManage = () => {
             પ્રોજેક્ટ ID: {projectId}
           </p>
         </header>
+
         <form onSubmit={handleSave} className="space-y-8">
           {taxes.map((tax, taxIndex) => (
             <div
               key={taxIndex}
               className="bg-gray-50 p-6 rounded-lg shadow-inner border border-gray-200"
             >
-              <h2 className="text-xl font-bold text-gray-800 mb-4">
-                {taxIndex + 1}. કરનું નામ : {tax.name}
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-                {/* <div className="flex flex-col">
-                  <label className="text-sm font-medium text-gray-700 mb-1">
-                    ટેક્ષ ગણવાનો આધાર
-                  </label>
-                  <select
-                    value={tax.baseId}
-                    onChange={(e) => handleBaseChange(taxIndex, e.target.value)}
-                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 transition-all duration-200"
-                  >
-                    <option value="0">પસંદ કરો</option>
-                    {base.map((baseItem) => (
-                      <option key={baseItem.id} value={baseItem.id}>
-                        {baseItem.name}
-                      </option>
-                    ))}
-                  </select>
-                </div> */}
-                <div className="flex flex-col">
-                  <label className="text-sm font-medium text-gray-700 mb-1">
-                    રકમ રૂ. / ટકા (આધાર)
-                  </label>
-                  <select
-                    value={tax.format}
-                    onChange={(e) =>
-                      handleFormatChange(taxIndex, e.target.value)
-                    }
-                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 transition-all duration-200"
-                  >
-                    <option value="pr">ટકા</option>
-                    <option value="rs">રકમ</option>
-                  </select>
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  width: "100%",
+                  justifyContent: "space-between",
+                }}
+              >
+                <h2 className="text-xl font-bold text-gray-800 mb-4">
+                  {taxIndex + 1}. કરનું નામ : {tax.name}
+                </h2>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+                  <div className="flex flex-col">
+                    <label className="text-sm font-medium text-gray-700 mb-1">
+                      રકમ રૂ. / ટકા (આધાર)
+                    </label>
+                    <select
+                      value={tax.format}
+                      onChange={(e) =>
+                        handleFormatChange(taxIndex, e.target.value)
+                      }
+                      className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 transition-all duration-200"
+                    >
+                      <option value="pr">ટકા</option>
+                      <option value="rs">રકમ</option>
+                    </select>
+                  </div>
                 </div>
               </div>
 

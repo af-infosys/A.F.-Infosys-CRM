@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import apiPath from "../../isProduction";
 import numberToGujaratiWords from "../../components/ToGujarati";
+import toGujaratiNumber from "../../components/toGujaratiNumber";
 
 // The main component for the order valuation form
 const OrderValuationForm = () => {
@@ -406,6 +407,23 @@ const OrderValuationForm = () => {
 
             <div className="flex flex-col">
               <label
+                htmlFor="oldregi"
+                className="text-sm font-medium text-gray-700 mb-1"
+              >
+                જૂનો રેજિ. નં.
+              </label>
+              <input
+                type="text"
+                id="oldregi"
+                name="oldregi"
+                value={details.oldregi}
+                onChange={handleChangeDetails}
+                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+              />
+            </div>
+
+            <div className="flex flex-col">
+              <label
                 htmlFor="tbr"
                 className="text-sm font-medium text-gray-700 mb-1"
               >
@@ -697,13 +715,22 @@ const OrderValuationForm = () => {
                   <th className="px-4 py-3 text-left text-sm font-bold uppercase tracking-wider min-w-[300px]">
                     મિલ્કતનું વર્ણન
                   </th>
-                  <th className="px-4 py-3 text-center text-sm font-bold uppercase tracking-wider min-w-[120px]">
+                  <th
+                    className="px-4 py-3 text-center text-sm font-bold uppercase tracking-wider"
+                    style={{ maxWidth: "190px" }}
+                  >
                     મિલ્કતની કિંમત
                   </th>
-                  <th className="px-4 py-3 text-center text-sm font-bold uppercase tracking-wider min-w-[100px] max-w-[100px]">
+                  <th
+                    className="px-4 py-3 text-center text-sm font-bold uppercase tracking-wider"
+                    style={{ maxWidth: "100px" }}
+                  >
                     ટકા (%)
                   </th>
-                  <th className="px-4 py-3 text-center text-sm font-bold uppercase tracking-wider min-w-[120px]">
+                  <th
+                    className="px-4 py-3 text-center text-sm font-bold uppercase tracking-wider"
+                    style={{ maxWidth: "130px" }}
+                  >
                     મિલ્કત વેરો
                   </th>
                   <th className="px-4 py-3 text-center text-sm font-bold uppercase tracking-wider">
@@ -730,7 +757,10 @@ const OrderValuationForm = () => {
                         className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 transition-all duration-200"
                       />
                     </td>
-                    <td className="px-4 py-3 whitespace-nowrap">
+                    <td
+                      className="px-4 py-3 whitespace-nowrap"
+                      style={{ maxWidth: "190px" }}
+                    >
                       <input
                         type="number"
                         value={data.price}
@@ -744,7 +774,10 @@ const OrderValuationForm = () => {
                         className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 transition-all duration-200"
                       />
                     </td>
-                    <td className="px-4 py-3 whitespace-nowrap">
+                    <td
+                      className="px-4 py-3 whitespace-nowrap"
+                      style={{ maxWidth: "100px" }}
+                    >
                       <input
                         type="number"
                         value={data.per}
@@ -757,14 +790,17 @@ const OrderValuationForm = () => {
 
                           handleChangeValuation(
                             index,
-                            "tax",
-                            Number((data.price * data.per) / 100)
+                            "price",
+                            Number((data.tax * 100) / data.per)
                           );
                         }}
                         className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 transition-all duration-200"
                       />
                     </td>
-                    <td className="px-4 py-3 whitespace-nowrap">
+                    <td
+                      className="px-4 py-3 whitespace-nowrap"
+                      style={{ maxWidth: "130px" }}
+                    >
                       <input
                         type="number"
                         value={data.tax}
@@ -778,7 +814,7 @@ const OrderValuationForm = () => {
                           handleChangeValuation(
                             index,
                             "price",
-                            Number((data.price * data.per) / 100)
+                            Number((data.tax * 100) / data.per)
                           );
                         }}
                         className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 transition-all duration-200"
@@ -1062,8 +1098,22 @@ const OrderValuationForm = () => {
                 {details?.notes?.map((note, idx) => (
                   <li key={idx} className="flex justify-between items-center">
                     <span>
-                      {idx + 1}. {note}
+                      {toGujaratiNumber(idx + 1)}.
+                      <input
+                        type="text"
+                        value={note}
+                        onChange={(e) => {
+                          const newValue = e.target.value;
+                          setDetails((prev) => {
+                            const updatedNotes = [...prev.notes];
+                            updatedNotes[idx] = newValue;
+                            return { ...prev, notes: updatedNotes };
+                          });
+                        }}
+                        className="border-b border-gray-300 focus:outline-none focus:border-blue-500 px-1 text-sm bg-transparent"
+                      />
                     </span>
+
                     <button
                       type="button"
                       onClick={() => handleRemoveNote(idx)}

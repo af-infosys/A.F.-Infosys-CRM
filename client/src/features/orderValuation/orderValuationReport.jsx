@@ -293,7 +293,7 @@ const OrderValuationReport = () => {
                 <div
                   style={{
                     display: "flex",
-                    alignItems: "center",
+                    alignItems: "start",
                     justifyContent: "space-between",
                     width: "100%",
                     paddingInline: "0px",
@@ -303,26 +303,43 @@ const OrderValuationReport = () => {
                     નં./જા/{details?.javak || ""}
                   </h3>
 
-                  <h3 style={{ fontSize: "16px" }}>
-                    અંદાજીત ઘર ની સંખ્યા :– <b>{details?.totalHouses || 0}</b>
-                  </h3>
-
                   <h3
                     style={{
                       fontSize: "16px",
-                      position: "relative",
-                      transform: "translateX(-35px)",
+                      display: "flex",
+                      flexDirection: "column",
                     }}
                   >
-                    TB<b>{details?.tbr}</b>R
+                    <span>
+                      અંદાજીત ઘર ની સંખ્યા :–{" "}
+                      <b
+                        style={{
+                          border: "1px solid black",
+                          borderRadius: "5px",
+                          padding: "2px 5px",
+                        }}
+                      >
+                        {details?.totalHouses || 0}
+                      </b>
+                    </span>
+
+                    <span style={{ display: "flex", gap: "20px" }}>
+                      <span>
+                        TB<b>{details?.tbr}</b>R
+                      </span>
+
+                      <span>
+                        જૂનો રેજિ.નં.- <b>{details?.oldregi || ""}</b>
+                      </span>
+                    </span>
                   </h3>
 
-                  <h2 style={{ fontSize: "16px", color: "transparent" }}>
+                  <h3 style={{ fontSize: "16px", color: "transparent" }}>
                     <b style={{ textDecoration: "underline" }}>
                       {details?.gaam || ""}
                     </b>{" "}
                     ગ્રામ પંચાયત કચેરી
-                  </h2>
+                  </h3>
                 </div>
               </div>
 
@@ -343,7 +360,7 @@ const OrderValuationReport = () => {
                     flexDirection: "column",
                     paddingRight: "30px",
                     position: "relative",
-                    transform: "translateY(-25px)",
+                    transform: "translateY(-45px)",
                   }}
                 >
                   <h2 style={{ fontSize: "16px" }}>
@@ -399,7 +416,7 @@ const OrderValuationReport = () => {
                     paddingRight: "10px",
                     alignItems: "end",
 
-                    marginTop: "-20px",
+                    marginTop: "-50px",
                   }}
                 >
                   <span
@@ -583,7 +600,6 @@ const OrderValuationReport = () => {
                       className="px-1 py-1 text-xs font-medium text-black uppercase tracking-wider"
                       style={{
                         color: "black",
-                        // background: background,
                         textAlign: "center",
                         padding: "2px 3px",
                         paddingBottom: "10px",
@@ -597,7 +613,6 @@ const OrderValuationReport = () => {
                       className="px-1 py-1 text-xs font-medium text-black uppercase tracking-wider"
                       style={{
                         color: "black",
-                        // background: background,
                         textAlign: "center",
                         padding: "2px 3px",
                       }}
@@ -610,10 +625,9 @@ const OrderValuationReport = () => {
                       className="px-1 py-1 text-xs font-medium text-black uppercase tracking-wider"
                       style={{
                         color: "black",
-                        // background: background,
                         textAlign: "center",
                         padding: "2px 3px",
-                        minWidth: "70px",
+                        maxWidth: "70px",
                       }}
                     >
                       <span id="format">મિલ્કતની કિંમત</span>
@@ -622,7 +636,6 @@ const OrderValuationReport = () => {
                       className="px-1 py-1 text-xs font-medium text-black uppercase tracking-wider"
                       style={{
                         color: "black",
-                        // background: background,
                         textAlign: "center",
                         padding: "2px 3px",
                         minWidth: "50px",
@@ -670,7 +683,7 @@ const OrderValuationReport = () => {
                         <td
                           className="whitespace-normal text-sm text-black"
                           style={{
-                            maxWidth: "30px",
+                            maxWidth: "70px",
                             padding: "3px 10px",
                             textAlign: "center",
                           }}
@@ -1026,7 +1039,7 @@ const OrderValuationReport = () => {
                     width: "100%",
                   }}
                 >
-                  <tabe className="divide-y divide-gray-200">
+                  <table className="divide-y divide-gray-200">
                     <thead>
                       <tr>
                         <th style={{ padding: "5px 10px" }}>
@@ -1049,18 +1062,23 @@ const OrderValuationReport = () => {
                         </th>
                       </tr>
                     </thead>
-                    {taxes
-                      ?.filter((item) => {
-                        return (
-                          item.values.residence ||
-                          item.values.nonResidence ||
-                          item.values.plot ||
-                          item.values.commonPlot
-                        );
-                      })
-                      .map((tax, index) => {
-                        return (
-                          <tr>
+
+                    <tbody>
+                      {taxes
+                        ?.filter((item, index) => {
+                          // Always include first 4
+                          if (index < 4) return true;
+
+                          // Apply filter for 5th and beyond
+                          return (
+                            item.values.residence ||
+                            item.values.nonResidence ||
+                            item.values.plot ||
+                            item.values.commonPlot
+                          );
+                        })
+                        .map((tax, index) => (
+                          <tr key={index}>
                             <td style={{ padding: "3px 5px" }}>
                               <span id="format">{index + 1}</span>
                             </td>
@@ -1072,33 +1090,33 @@ const OrderValuationReport = () => {
                                 {tax?.format === "rs" ? "રૂ|." : ""}{" "}
                                 {tax?.values?.residence}
                                 {tax?.format === "rs" ? "/-" : "%"}
-                              </span>{" "}
+                              </span>
                             </td>
                             <td style={{ padding: "3px 5px" }}>
                               <span id="format">
                                 {tax?.format === "rs" ? "રૂ|." : ""}{" "}
                                 {tax?.values?.nonResidence}
                                 {tax?.format === "rs" ? "/-" : "%"}
-                              </span>{" "}
+                              </span>
                             </td>
                             <td style={{ padding: "3px 5px" }}>
                               <span id="format">
                                 {tax?.format === "rs" ? "રૂ|." : ""}{" "}
                                 {tax?.values?.plot}
                                 {tax?.format === "rs" ? "/-" : "%"}
-                              </span>{" "}
+                              </span>
                             </td>
                             <td style={{ padding: "3px 5px" }}>
                               <span id="format">
                                 {tax?.format === "rs" ? "રૂ|." : ""}{" "}
                                 {tax?.values?.commonPlot}
                                 {tax?.format === "rs" ? "/-" : "%"}
-                              </span>{" "}
+                              </span>
                             </td>
                           </tr>
-                        );
-                      })}
-                  </tabe>
+                        ))}
+                    </tbody>
+                  </table>
                 </div>
               </div>
 
@@ -1415,7 +1433,7 @@ const OrderValuationReport = () => {
                   }}
                 >
                   આ આકારણી સર્વેનું કામ શરૂ કરતા પહેલા ગ્રામપંચાયતના ત.ક.મ. તથા
-                  સરપંચશ્રી અને આકારણી કમિટીના સભ્યો, પટટાવાળા, વાલમેન સાથે
+                  સરપંચશ્રી અને આકારણી કમિટીના સભ્યો, પટ્ટાવાળા, વાલમેન સાથે
                   રહિને સર્વે કરનાર એજન્સી ને કામ શરૂ કરવાનું રહેશે આકારણી સર્વે
                   ગામની તમામ મિલ્કતને રૂબરૂ માં સ્થળ તપાસ કરી આકારણી રજીસ્ટર તથા
                   કરવેરા માંગણા રજિ. અને કરવેરા તારીજ પત્રક તેમજ પાનોતરી તથા
