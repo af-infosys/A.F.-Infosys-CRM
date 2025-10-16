@@ -1546,7 +1546,7 @@ const OrderValuationReport = () => {
                           marginLeft: "0",
                         }}
                       >
-                        <span>{index + 1}.</span> {item}
+                        <span>{toGujaratiNumber(index + 1)}.</span> {item}
                       </li>
                     );
                   })}

@@ -62,7 +62,7 @@ export default function numberToGujaratiWords(num) {
     "સત્તાવન",
     "અઠાવન",
     "ઓગણસાઠ",
-    "સાઠ",
+    "સાઈઠ",
     "એકસઠ",
     "બાસઠ",
     "ત્રેસઠ",

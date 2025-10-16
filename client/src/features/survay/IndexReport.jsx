@@ -6,6 +6,7 @@ import "./IndexReport.scss";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import toGujaratiNumber from "../../components/toGujaratiNumber";
 
 // The main component for the analytics report
 const IndexReport = () => {
@@ -301,7 +302,9 @@ const IndexReport = () => {
                 નંબર ૯/ડી - કરવેરા રજીસ્ટરની પાનોત્રીની યાદી{" "}
               </h1>
               <h2 className="subheading">સને {"2025/2026"}</h2>
-              <span className="page-numberN">પાના નં. {pageIndex + 1}</span>
+              <span className="page-numberN">
+                પાના નં. {toGujaratiNumber(pageIndex + 1)}
+              </span>
               <div
                 className="location-info"
                 style={{

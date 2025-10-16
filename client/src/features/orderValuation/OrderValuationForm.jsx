@@ -701,7 +701,7 @@ const OrderValuationForm = () => {
                     મિલ્કતની કિંમત
                   </th>
                   <th className="px-4 py-3 text-center text-sm font-bold uppercase tracking-wider min-w-[100px] max-w-[100px]">
-                    %
+                    ટકા (%)
                   </th>
                   <th className="px-4 py-3 text-center text-sm font-bold uppercase tracking-wider min-w-[120px]">
                     મિલ્કત વેરો
@@ -740,12 +740,6 @@ const OrderValuationForm = () => {
                             "price",
                             Number(e.target.value)
                           );
-
-                          handleChangeValuation(
-                            index,
-                            "tax",
-                            Number((data.price * data.per) / 100)
-                          );
                         }}
                         className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 transition-all duration-200"
                       />
@@ -774,13 +768,19 @@ const OrderValuationForm = () => {
                       <input
                         type="number"
                         value={data.tax}
-                        onChange={(e) =>
+                        onChange={(e) => {
                           handleChangeValuation(
                             index,
                             "tax",
                             Number(e.target.value)
-                          )
-                        }
+                          );
+
+                          handleChangeValuation(
+                            index,
+                            "price",
+                            Number((data.price * data.per) / 100)
+                          );
+                        }}
                         className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 transition-all duration-200"
                       />
                     </td>

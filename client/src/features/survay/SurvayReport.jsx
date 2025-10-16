@@ -10,6 +10,7 @@ import html2canvas from "html2canvas";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import toGujaratiNumber from "../../components/toGujaratiNumber";
 
 const SurvayReport = () => {
   const [records, setRecords] = useState([]);
@@ -214,7 +215,7 @@ const SurvayReport = () => {
                   transform: "translate(-3px, 65px)",
                 }}
               >
-                પાના નં. {pageIndex + 1}
+                પાના નં. {toGujaratiNumber(pageIndex + 1)}
               </span>
 
               <h1 className="heading" style={{ marginTop: "35px" }}>

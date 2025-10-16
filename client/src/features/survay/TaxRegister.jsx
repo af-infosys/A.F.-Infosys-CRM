@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import "./SurvayReport.scss";
+import toGujaratiNumber from "../../components/toGujaratiNumber";
 
 import apiPath from "../../isProduction";
 
@@ -212,7 +213,7 @@ const TaxRegister = () => {
                   transform: "translate(80px, 65px)",
                 }}
               >
-                પાના નં. {pageIndex + 1}
+                પાના નં. {toGujaratiNumber(pageIndex + 1)}
               </span>
 
               <h1 className="heading" style={{ marginTop: "35px" }}>
