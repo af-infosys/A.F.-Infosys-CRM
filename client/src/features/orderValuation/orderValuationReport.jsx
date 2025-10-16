@@ -464,7 +464,8 @@ const OrderValuationReport = () => {
                 >
                   સરપંચશ્રીનું પુરૂ નામ તથા મો.નં.{" "}
                   <b>
-                    {details?.sarpanchName || ""} :-{" "}
+                    {details?.sarpanchName || ""}
+                    {", "}
                     {details?.sarpanchNumber || ""}{" "}
                   </b>
                 </h2>
@@ -476,7 +477,7 @@ const OrderValuationReport = () => {
                 >
                   તલાટી કમ મંત્રીશ્રીનું પુરૂ નામ તથા મો.નં.{" "}
                   <b>
-                    {details?.tcmName || ""} :- {details?.tcmNumber || ""}
+                    {details?.tcmName || ""}, {details?.tcmNumber || ""}
                   </b>
                 </h2>
 
@@ -488,7 +489,7 @@ const OrderValuationReport = () => {
                   સાથે રહેનાર વ્યકિતનું પુરૂ નામ તથા મો.નં.{" "}
                   <b>
                     {details?.assistantName || ""}
-                    {" :- "}
+                    {", "}
                     {details?.assistantNumber || ""}
                   </b>
                 </h2>

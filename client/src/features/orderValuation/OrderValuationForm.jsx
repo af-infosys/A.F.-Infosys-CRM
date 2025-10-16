@@ -558,7 +558,7 @@ const OrderValuationForm = () => {
                 11. સરપંચ મો.નં.
               </label>
               <input
-                type="number"
+                type="text"
                 id="sarpanchNumber"
                 name="sarpanchNumber"
                 value={details.sarpanchNumber}
@@ -590,7 +590,7 @@ const OrderValuationForm = () => {
                 13. તલાટી મો.નં.
               </label>
               <input
-                type="number"
+                type="text"
                 id="tcmNumber"
                 name="tcmNumber"
                 value={details.tcmNumber}
@@ -622,7 +622,7 @@ const OrderValuationForm = () => {
                 15. સાથે રહેનાર મો.નં.
               </label>
               <input
-                type="number"
+                type="text"
                 id="assistantNumber"
                 name="assistantNumber"
                 value={details.assistantNumber}
