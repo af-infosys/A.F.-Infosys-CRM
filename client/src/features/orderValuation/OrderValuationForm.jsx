@@ -584,6 +584,7 @@ const OrderValuationForm = () => {
                 className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
               />
             </div>
+
             <div className="flex flex-col">
               <label
                 htmlFor="tcmName"
@@ -600,6 +601,7 @@ const OrderValuationForm = () => {
                 className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
               />
             </div>
+
             <div className="flex flex-col">
               <label
                 htmlFor="tcmNumber"
@@ -616,6 +618,41 @@ const OrderValuationForm = () => {
                 className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
               />
             </div>
+
+            <div className="flex flex-col">
+              <label
+                htmlFor="s2Name"
+                className="text-sm font-medium text-gray-700 mb-1"
+              >
+                12. વહિવટ કર્તા વ્યક્તિનું પુરૂ નામ
+              </label>
+              <input
+                type="text"
+                id="s2Name"
+                name="s2Name"
+                value={details.s2Name}
+                onChange={handleChangeDetails}
+                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+              />
+            </div>
+
+            <div className="flex flex-col">
+              <label
+                htmlFor="s2Number"
+                className="text-sm font-medium text-gray-700 mb-1"
+              >
+                13. વહિવટ કર્તા વ્યક્તિ મો.નં.
+              </label>
+              <input
+                type="text"
+                id="s2Number"
+                name="s2Number"
+                value={details.s2Number}
+                onChange={handleChangeDetails}
+                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+              />
+            </div>
+
             <div className="flex flex-col">
               <label
                 htmlFor="assistantName"

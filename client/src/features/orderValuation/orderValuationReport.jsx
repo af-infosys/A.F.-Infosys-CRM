@@ -281,6 +281,7 @@ const OrderValuationReport = () => {
             <div
               className="rounded-lg border border-black"
               style={{
+                border: "2px solid black",
                 width: "100%",
                 height: "100%",
                 padding: "13px",
@@ -310,26 +311,37 @@ const OrderValuationReport = () => {
                       flexDirection: "column",
                     }}
                   >
-                    <span>
-                      અંદાજીત ઘર ની સંખ્યા :–{" "}
-                      <b
+                    <span
+                      style={{
+                        border: "1px solid black",
+                        borderRadius: "5px",
+                        padding: "0px 5px 5px 5px",
+                      }}
+                    >
+                      <span
                         style={{
-                          border: "1px solid black",
-                          borderRadius: "5px",
-                          padding: "2px 5px",
+                          position: "relative",
+                          transform: "translateY(-20px)",
                         }}
                       >
-                        {details?.totalHouses || 0}
-                      </b>
+                        અંદાજીત ઘર ની સંખ્યા :–{" "}
+                        <b>{details?.totalHouses || 0}</b>
+                      </span>
                     </span>
 
-                    <span style={{ display: "flex", gap: "20px" }}>
+                    <span
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                      }}
+                    >
                       <span>
                         TB<b>{details?.tbr}</b>R
                       </span>
 
-                      <span>
-                        જૂનો રેજિ.નં.- <b>{details?.oldregi || ""}</b>
+                      <span style={{ marginTop: "-8px" }}>
+                        જુના રજીસ્ટરની ઘરની સંખ્યા{" "}
+                        <b>{details?.oldregi || ""}</b>
                       </span>
                     </span>
                   </h3>
@@ -360,7 +372,7 @@ const OrderValuationReport = () => {
                     flexDirection: "column",
                     paddingRight: "30px",
                     position: "relative",
-                    transform: "translateY(-45px)",
+                    transform: "translateY(-70px)",
                   }}
                 >
                   <h2 style={{ fontSize: "16px" }}>
@@ -416,7 +428,7 @@ const OrderValuationReport = () => {
                     paddingRight: "10px",
                     alignItems: "end",
 
-                    marginTop: "-50px",
+                    marginTop: "-70px",
                   }}
                 >
                   <span
@@ -495,6 +507,17 @@ const OrderValuationReport = () => {
                   તલાટી કમ મંત્રીશ્રીનું પુરૂ નામ તથા મો.નં.{" "}
                   <b>
                     {details?.tcmName || ""}, {details?.tcmNumber || ""}
+                  </b>
+                </h2>
+
+                <h2
+                  style={{
+                    fontSize: "16px",
+                  }}
+                >
+                  વહિવટ કર્તા વ્યક્તિનું પુરૂ નામ તથા મો.નં.{" "}
+                  <b>
+                    {details?.s2Name || ""}, {details?.s2Number || ""}
                   </b>
                 </h2>
 
@@ -758,6 +781,7 @@ const OrderValuationReport = () => {
             <div
               className="rounded-lg border border-black"
               style={{
+                border: "2px solid black",
                 width: "100%",
                 height: "100%",
                 padding: "13px",
@@ -1303,6 +1327,7 @@ const OrderValuationReport = () => {
             <div
               className="rounded-lg border border-black"
               style={{
+                border: "2px solid black",
                 width: "100%",
                 height: "100%",
                 padding: "13px",
