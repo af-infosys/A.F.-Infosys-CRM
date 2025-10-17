@@ -315,13 +315,13 @@ const OrderValuationReport = () => {
                       style={{
                         border: "1px solid black",
                         borderRadius: "5px",
-                        padding: "0px 5px 5px 5px",
+                        padding: "5px",
                       }}
                     >
                       <span
                         style={{
                           position: "relative",
-                          transform: "translateY(-20px)",
+                          transform: "translateY(-8px)",
                         }}
                       >
                         અંદાજીત ઘર ની સંખ્યા :–{" "}
@@ -340,8 +340,7 @@ const OrderValuationReport = () => {
                       </span>
 
                       <span style={{ marginTop: "-8px" }}>
-                        જુના રજીસ્ટરની ઘરની સંખ્યા{" "}
-                        <b>{details?.oldregi || ""}</b>
+                        જુના રજી.ની ઘરની સંખ્યા <b>{details?.oldregi || ""}</b>
                       </span>
                     </span>
                   </h3>
