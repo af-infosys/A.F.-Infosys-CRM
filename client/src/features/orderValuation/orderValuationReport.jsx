@@ -1746,7 +1746,7 @@ const OrderValuationReport = () => {
                   <span> {details?.gaam || ""} ગ્રામ પંચાયત કચેરી </span>
 
                   <span>
-                    તાલુકો :– {details?.taluka || ""}, જિલ્લો :-{" "}
+                    તા. :– {details?.taluka || ""}, જિ. :-{" "}
                     {details?.district || ""}
                   </span>
                 </div>
@@ -1772,7 +1772,7 @@ const OrderValuationReport = () => {
                   </span>
                   <span> {details?.gaam || ""} ગ્રામ પંચાયત કચેરી </span>
                   <span>
-                    તાલુકો :– {details?.taluka || ""}, જિલ્લો :-{" "}
+                    તા. :– {details?.taluka || ""}, જિ. :-{" "}
                     {details?.district || ""}
                   </span>
                 </div>
