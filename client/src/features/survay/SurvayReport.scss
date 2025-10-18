@@ -1,13 +1,26 @@
-/* Hide the PDF content from the screen */
 .pdf-report-container {
   position: absolute;
-  left: -9999px; // Moves the container off-screen
-}
+  left: -9999px;
 
-.report-page {
-  padding: 10px;
-  padding-top: 0;
-  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+
+  gap: 10px;
+
+  .report-page {
+    padding: 10px;
+    padding-top: 0;
+    box-sizing: border-box;
+
+    max-height: auto;
+    height: 1030px;
+    background: #fff;
+
+    table {
+      background: orange;
+      padding: 10px;
+    }
+  }
 }
 
 /* Legal Landscape Dimensions */
@@ -229,13 +242,12 @@
 }
 
 .thead {
-  background-color: #e5e7eb;
+  background-color: #fff;
 }
 
 .th,
 .td {
-  border: 1px solid #d1d5db;
-  padding: 10px !important;
+  padding: 5px !important;
   text-align: left;
   background: #fff !important;
 }
@@ -253,7 +265,7 @@
 }
 
 .tbody tr:hover {
-  background-color: #e5e7eb;
+  background-color: #fff;
 }
 
 .td {
@@ -292,5 +304,14 @@
 }
 
 #pdff {
-  border: 1px solid #000;
+  border: 1px solid #000 !important;
+  border-collapse: collapse;
+
+  td {
+    border: 0.3px solid #000 !important;
+  }
+
+  th {
+    border: 0.3px solid #000 !important;
+  }
 }

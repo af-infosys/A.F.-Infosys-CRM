@@ -378,7 +378,7 @@ const OrderValuationForm = () => {
                 htmlFor="javak"
                 className="text-sm font-medium text-gray-700 mb-1"
               >
-                નં./જા/
+                ગ્રા.પં./વશી/જા.નં./
               </label>
               <input
                 type="text"

@@ -676,7 +676,7 @@ const TarijReport = () => {
         <h1 className="text-xl font-bold text-center mb-0 text-gray-800">
           {/* મોજે: {(project?.spot?.gaam).trim()}, તા:{" "}
           {(project?.spot?.taluka).trim()}  */}
-          કુલ મંગણાં તથા વસુલાતનો રિપોર્ટ
+          કુલ મંગણાં તથા વસુલાતનો રિપોર્ટ (તારીજ)
         </h1>
 
         <h2 className="text-l text-center mb-2 text-gray-600">
@@ -692,7 +692,7 @@ const TarijReport = () => {
         </div>
 
         <div className="table-responsive">
-          <table className="report-table">
+          <table className="report-table" style={{ border: "1px solid black" }}>
             <thead className="thead">
               <tr>
                 <th
@@ -702,7 +702,7 @@ const TarijReport = () => {
                   style={{
                     minWidth: "70px",
                     background: "rgb(59 130 246)",
-                    color: "#fff",
+                    color: "#000",
                   }}
                 >
                   વેરાઓનું નામ
@@ -714,7 +714,7 @@ const TarijReport = () => {
                   style={{
                     minWidth: "70px",
                     background: "rgb(59 130 246)",
-                    color: "#fff",
+                    color: "#000",
                   }}
                 >
                   કુલ માંગણું
@@ -726,7 +726,7 @@ const TarijReport = () => {
                   style={{
                     minWidth: "130px",
                     background: "rgb(59 130 246)",
-                    color: "#fff",
+                    color: "#000",
                   }}
                 >
                   માંગણા પ્રમાણે વસુલાત
@@ -738,7 +738,7 @@ const TarijReport = () => {
                   style={{
                     minWidth: "170px",
                     background: "rgb(59 130 246)",
-                    color: "#fff",
+                    color: "#000",
                   }}
                 >
                   પહોંચ પ્રમાણે વસુલાત
@@ -750,7 +750,7 @@ const TarijReport = () => {
                   style={{
                     minWidth: "100px",
                     background: "rgb(59 130 246)",
-                    color: "#fff",
+                    color: "#000",
                   }}
                 >
                   કુલ બાકી{" "}
@@ -762,7 +762,7 @@ const TarijReport = () => {
                   style={{
                     minWidth: "100px",
                     background: "rgb(59 130 246)",
-                    color: "#fff",
+                    color: "#000",
                   }}
                 >
                   કુલ જાદે
@@ -774,21 +774,21 @@ const TarijReport = () => {
                   <>
                     <th
                       className="th"
-                      style={{ background: "rgb(59 130 246)", color: "#fff" }}
+                      style={{ background: "rgb(59 130 246)", color: "#000" }}
                     >
                       પા. બા
                     </th>
 
                     <th
                       className="th"
-                      style={{ background: "rgb(59 130 246)", color: "#fff" }}
+                      style={{ background: "rgb(59 130 246)", color: "#000" }}
                     >
                       ચાલુ
                     </th>
 
                     <th
                       className="th"
-                      style={{ background: "rgb(59 130 246)", color: "#fff" }}
+                      style={{ background: "rgb(59 130 246)", color: "#000" }}
                     >
                       કુલ
                     </th>

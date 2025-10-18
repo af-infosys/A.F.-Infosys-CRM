@@ -301,7 +301,8 @@ const OrderValuationReport = () => {
                   }}
                 >
                   <h3 style={{ fontSize: "16px" }}>
-                    નં./જા/{details?.javak || ""}
+                    ગ્રા.પં./વશી/જા.નં./
+                    {details?.javak || ""}
                   </h3>
 
                   <h3
@@ -1391,7 +1392,7 @@ const OrderValuationReport = () => {
                     borderRadius: "5px",
                     marginBottom: "5px",
                     paddingBottom: "3px",
-                    marginTop: "-20px",
+                    marginTop: "-15px",
 
                     paddingInline: "15px",
                     position: "relative",
@@ -1411,10 +1412,10 @@ const OrderValuationReport = () => {
 
                 <p
                   style={{
-                    marginTop: "2px",
+                    marginTop: "-8px",
                     fontSize: "14px",
                     paddingLeft: "15px",
-                    lineHeight: "15px",
+                    lineHeight: "20px",
                   }}
                 >
                   આ આકારણી સર્વેનું કામ શરૂ કરતા પહેલા ગ્રામપંચાયતના ત.ક.મ. તથા
@@ -1429,12 +1430,15 @@ const OrderValuationReport = () => {
                 <p
                   style={{
                     marginTop: "2px",
-                    lineHeight: "15px",
+                    lineHeight: "20px",
                     paddingLeft: "15px",
                   }}
                 >
-                  સબબ કામગીરી એ.એફ. ઇન્ફોસીસ - સાવરકુંડલા ના ભાવ - એક મિલ્કત દિઠ
-                  ₹
+                  સબબ કામગીરી{" "}
+                  <b>
+                    <u>એ. એફ. ઇન્ફોસીસ - સાવરકુંડલા</u>
+                  </b>{" "}
+                  ના ભાવ - એક મિલ્કત દિઠ ₹
                   <b style={{ textDecoration: "underline" }}>
                     {details?.surveyHouseRate || "......."}
                   </b>
@@ -1483,7 +1487,7 @@ const OrderValuationReport = () => {
                 <h2
                   style={{
                     fontSize: "16px",
-                    marginTop: "-10px",
+                    marginTop: "-6px",
                   }}
                 >
                   આકારણી સર્વે કામ પહેલી મિલ્કત/ઘર કોની લખવી : -{" "}
@@ -1521,7 +1525,7 @@ const OrderValuationReport = () => {
                 <h2
                   style={{
                     fontSize: "16px",
-                    marginTop: "-10px",
+                    marginTop: "-6px",
                   }}
                 >
                   ખાસ પાણી નળ વેરો ત્થા સા.પાણી વેરો બન્‍ને વેરા મુકવા વેરો
@@ -1547,7 +1551,7 @@ const OrderValuationReport = () => {
                         key={index}
                         style={{
                           fontSize: "16px",
-                          lineHeight: "1",
+                          lineHeight: "1.3",
                           marginLeft: "0",
                         }}
                       >
@@ -1558,80 +1562,139 @@ const OrderValuationReport = () => {
                 </ol>
               </div>
 
-              <table>
-                <tr>
-                  <th
-                    colSpan="2"
-                    style={{ padding: "0px", textAlign: "center" }}
-                  >
-                    એડવાન્સ આયોજનની તારીખ (અંદાજીત)
-                  </th>
+              <div style={{ padding: "0px 20px", fontSize: "15px" }}>
+                <table>
+                  <thead>
+                    <tr>
+                      <th style={{ padding: "2px", textAlign: "center" }}>
+                        <span id="format"> ક્રમ </span>
+                      </th>
 
-                  <th style={{ padding: "0px", textAlign: "center" }}>
-                    સર્વે કામ પુર્ણ કર્યા તારીખ
-                  </th>
-                </tr>
+                      <th style={{ padding: "0px", textAlign: "center" }}>
+                        <span id="format"> એડવાન્સ આયોજન </span>
+                      </th>
 
-                <tr>
-                  <td style={{ padding: "0px 2px" }}>
-                    આકારણી સર્વે કામ શરૂ કર્યા તારીખ
-                  </td>
-                  <td style={{ padding: "0px", textAlign: "center" }}>
-                    <b>{formatDate(details?.date)}</b>
-                  </td>
-                  <td style={{ padding: "0px", textAlign: "center" }}>
-                    <b>{formatDate(details?.date)}</b>
-                  </td>
-                </tr>
+                      <th style={{ padding: "0px", textAlign: "center" }}>
+                        <span id="format"> અંદાજીત તારીખ </span>
+                      </th>
 
-                <tr>
-                  <td style={{ padding: "0px 2px" }}>
-                    સર્વે કામ પુર્ણ કર્યા તારીખ
-                  </td>
-                  <td style={{ padding: "0px", textAlign: "center" }}>
-                    <b>{formatDate(details?.date)}</b>
-                  </td>
-                  <td style={{ padding: "0px", textAlign: "center" }}>
-                    <b>{formatDate(details?.date)}</b>
-                  </td>
-                </tr>
+                      <th style={{ padding: "0px", textAlign: "center" }}>
+                        <span id="format">
+                          {" "}
+                          આકારણી સર્વે કામ
+                          <br />
+                          પુર્ણ કર્યા તારીખ
+                        </span>
+                      </th>
+                    </tr>
+                  </thead>
 
-                <tr>
-                  <td style={{ padding: "0px 2px" }}>
-                    રફ સર્વે રજી. PDF આકારણી મોકલ્યા તારીખ
-                  </td>
-                  <td style={{ padding: "0px", textAlign: "center" }}>
-                    <b>{formatDate(details?.date)}</b>
-                  </td>
-                  <td style={{ padding: "0px", textAlign: "center" }}>
-                    <b>{formatDate(details?.date)}</b>
-                  </td>
-                </tr>
+                  <tbody>
+                    <tr>
+                      <td style={{ padding: "2px 5px", textAlign: "right" }}>
+                        <span id="format">1</span>
+                      </td>
+                      <td style={{ padding: "2px 5px" }}>
+                        <span id="format">
+                          આકારણી સર્વે કામ શરૂ કર્યા તારીખ
+                        </span>
+                      </td>
+                      <td style={{ padding: "0px", textAlign: "center" }}>
+                        <span id="format">
+                          <b>{formatDate(details?.date)}</b>
+                        </span>
+                      </td>
+                      <td style={{ padding: "0px", textAlign: "center" }}>
+                        <span id="format">
+                          <b>{formatDate(details?.date)}</b>
+                        </span>
+                      </td>
+                    </tr>
 
-                <tr>
-                  <td style={{ padding: "0px 2px" }}>
-                    ફાઇનલ સુધારો કરેલ સમય અને ૧૫ દિવસ તારીખ
-                  </td>
-                  <td style={{ padding: "0px", textAlign: "center" }}>
-                    <b>{formatDate(details?.date)}</b>
-                  </td>
-                  <td style={{ padding: "0px", textAlign: "center" }}>
-                    <b>{formatDate(details?.date)}</b>
-                  </td>
-                </tr>
+                    <tr>
+                      <td style={{ padding: "2px 5px", textAlign: "right" }}>
+                        <span id="format">2</span>
+                      </td>
+                      <td style={{ padding: "2px 5px" }}>
+                        <span id="format">સર્વે કામ પુર્ણ કર્યા તારીખ</span>
+                      </td>
+                      <td style={{ padding: "0px", textAlign: "center" }}>
+                        <span id="format">
+                          <b>{formatDate(details?.date)}</b>
+                        </span>
+                      </td>
+                      <td style={{ padding: "0px", textAlign: "center" }}>
+                        <span id="format">
+                          <b>{formatDate(details?.date)}</b>
+                        </span>
+                      </td>
+                    </tr>
 
-                <tr>
-                  <td style={{ padding: "0px 2px" }}>
-                    પોર્ટલમાં ડેટા એન્ટ્રી કયારે કરવાની 4 મહિના બાદ તારીખ
-                  </td>
-                  <td style={{ padding: "0px", textAlign: "center" }}>
-                    <b>{formatDate(details?.date)}</b>
-                  </td>
-                  <td style={{ padding: "0px", textAlign: "center" }}>
-                    <b>{formatDate(details?.date)}</b>
-                  </td>
-                </tr>
-              </table>
+                    <tr>
+                      <td style={{ padding: "2px 5px", textAlign: "right" }}>
+                        <span id="format">3</span>
+                      </td>
+                      <td style={{ padding: "2px 5px" }}>
+                        <span id="format">
+                          રફ સર્વે રજી. PDF આકારણી મોકલ્યા તારીખ
+                        </span>
+                      </td>
+                      <td style={{ padding: "0px", textAlign: "center" }}>
+                        <span id="format">
+                          <b>{formatDate(details?.date)}</b>
+                        </span>
+                      </td>
+                      <td style={{ padding: "0px", textAlign: "center" }}>
+                        <span id="format">
+                          <b>{formatDate(details?.date)}</b>
+                        </span>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td style={{ padding: "2px 5px", textAlign: "right" }}>
+                        <span id="format">4</span>
+                      </td>
+                      <td style={{ padding: "2px 5px" }}>
+                        <span id="format">
+                          ફાઇનલ સુધારો કરેલ સમય અને ૧૫ દિવસ તારીખ
+                        </span>
+                      </td>
+                      <td style={{ padding: "0px", textAlign: "center" }}>
+                        <span id="format">
+                          <b>{formatDate(details?.date)}</b>
+                        </span>
+                      </td>
+                      <td style={{ padding: "0px", textAlign: "center" }}>
+                        <span id="format">
+                          <b>{formatDate(details?.date)}</b>
+                        </span>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td style={{ padding: "2px 5px", textAlign: "right" }}>
+                        <span id="format">5</span>
+                      </td>
+                      <td style={{ padding: "2px 5px" }}>
+                        <span id="format">
+                          પોર્ટલમાં ડેટા એન્ટ્રી કયારે કરવાની 4 મહિના બાદ તારીખ
+                        </span>
+                      </td>
+                      <td style={{ padding: "0px", textAlign: "center" }}>
+                        <span id="format">
+                          <b>{formatDate(details?.date)}</b>
+                        </span>
+                      </td>
+                      <td style={{ padding: "0px", textAlign: "center" }}>
+                        <span id="format">
+                          <b>{formatDate(details?.date)}</b>
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
 
               {/* Footer & Signature */}
               <div

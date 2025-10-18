@@ -165,11 +165,47 @@ const TaxRegister = () => {
   // Paginate records into chunks of 15
 
   const pages = [];
-  const pageLimit = 5;
+  const pageLimit = 6;
 
   for (let i = 0; i < records.length; i += pageLimit) {
     pages.push(records.slice(i, i + pageLimit));
   }
+
+  const calculatePageTotals = (pageRecords) => {
+    const totals = {
+      demand: { prev: 0, curr: 0, total: 0 },
+      collection: { prev: 0, curr: 0, total: 0 },
+      outstanding: { prev: 0, curr: 0, total: 0 },
+      // This array maps tax categories to their index in the record array (20 to 25)
+      taxCategories: [20, 21, 22, 23, 24, 25],
+    };
+
+    pageRecords.forEach((record) => {
+      totals.taxCategories.forEach((colIndex) => {
+        const taxData = JSON.parse(record[colIndex] || "{}");
+
+        // Demand (માંગણું) - Index 0
+        totals.demand.prev += taxData?.[0]?.prev || 0;
+        totals.demand.curr += taxData?.[0]?.curr || 0;
+
+        // Collection (વસુલાત) - Index 1
+        totals.collection.prev += taxData?.[1]?.prev || 0;
+        totals.collection.curr += taxData?.[1]?.curr || 0;
+
+        // Outstanding (બાકી) - Index 2
+        totals.outstanding.prev += taxData?.[2]?.prev || 0;
+        totals.outstanding.curr += taxData?.[2]?.curr || 0;
+      });
+    });
+
+    // Calculate the 'total' columns (prev + curr) for all three rows
+    totals.demand.total = totals.demand.prev + totals.demand.curr;
+    totals.collection.total = totals.collection.prev + totals.collection.curr;
+    totals.outstanding.total =
+      totals.outstanding.prev + totals.outstanding.curr;
+
+    return totals;
+  };
 
   return (
     <div className="container mx-auto p-4 sm:p-6 lg:p-8">
@@ -190,450 +226,652 @@ const TaxRegister = () => {
       <br />
       <div
         className="pdf-report-container"
-        style={{ position: "absolute", left: "-9999px" }}
+        // style={{ position: "absolute", left: "-9999px" }}
       >
-        {pages.map((pageRecords, pageIndex) => (
-          <div
-            key={pageIndex}
-            id={`report-page-${pageIndex}`}
-            className="report-page legal-landscape-dimensions"
-            style={{
-              width: "1700px",
-              paddingLeft: "65px",
-              paddingRight: "20px",
-            }}
-          >
-            {/* Headers and Page Count */}
+        {pages.map((pageRecords, pageIndex) => {
+          const pageTotals = calculatePageTotals(pageRecords);
 
-            <div className="page-header-container">
-              <span
-                className="page-number"
-                style={{
-                  fontSize: "16px",
-                  transform: "translate(80px, 65px)",
-                }}
-              >
-                પાના નં. {toGujaratiNumber(pageIndex + 1)}
-              </span>
+          return (
+            <div
+              key={pageIndex}
+              id={`report-page-${pageIndex}`}
+              className="report-page legal-landscape-dimensions"
+              style={{
+                width: "1700px",
+                paddingLeft: "65px",
+                paddingRight: "20px",
+              }}
+            >
+              {/* Headers and Page Count */}
 
-              <h1 className="heading" style={{ marginTop: "35px" }}>
-                ગામનો નમુના નંબર ૯ ડી - કરવેરા રજીસ્ટર
-              </h1>
+              <div className="page-header-container">
+                <span
+                  className="page-number"
+                  style={{
+                    fontSize: "16px",
+                    transform: "translate(80px, 65px)",
+                  }}
+                >
+                  પાના નં. {toGujaratiNumber(pageIndex + 1)}
+                </span>
 
-              <h2 className="subheading" style={{ fontSize: "16px" }}>
-                સન ૨૦૨૫/૨૬
-              </h2>
+                <h1 className="heading" style={{ marginTop: "35px" }}>
+                  ગામનો નમુના નંબર ૯ ડી - કરવેરા રજીસ્ટર
+                </h1>
 
-              <div
-                className="location-info"
-                style={{ fontSize: "19px", paddingInline: "50px" }}
-              >
-                <span>ગામ:- {project?.spot?.gaam}</span>
+                <h2 className="subheading" style={{ fontSize: "16px" }}>
+                  સન ૨૦૨૫/૨૬
+                </h2>
 
-                <span>તાલુકો:- {project?.spot?.taluka}</span>
+                <div
+                  className="location-info"
+                  style={{ fontSize: "19px", paddingInline: "50px" }}
+                >
+                  <span>ગામ:- {project?.spot?.gaam}</span>
 
-                <span>જિલ્લો:- {project?.spot?.district}</span>
+                  <span>તાલુકો:- {project?.spot?.taluka}</span>
+
+                  <span>જિલ્લો:- {project?.spot?.district}</span>
+                </div>
               </div>
-            </div>
 
-            {/* Table Header using Divs */}
-            <table className="report-table" id="pdff">
-              <thead className="thead">
-                <tr>
-                  <th className="th" rowSpan="2" style={{ maxWidth: "45px" }}>
-                    <span className="formatting">અનું ક્રમાંક</span>
-                  </th>
-
-                  <th className="th" rowSpan="2" style={{ maxWidth: "45px" }}>
-                    <span className="formatting">મિલ્કત ક્રમાંક</span>
-                  </th>
-
-                  <th className="th" rowSpan="2" style={{ maxWidth: "90px" }}>
-                    <span className="formatting">વિસ્તારનું નામ</span>
-                  </th>
-
-                  <th className="th" rowSpan="2" style={{ maxWidth: "90px" }}>
-                    <span className="formatting">માલિકનું નામ</span>
-                  </th>
-
-                  <th
-                    className="th"
-                    rowSpan="2"
-                    style={{ minWidth: "70px", maxWidth: "70px" }}
-                  >
-                    <span className="formatting">પહોચ નંબર તારીખ રકમ</span>
-                  </th>
-
-                  <th className="th" rowSpan="2" style={{ maxWidth: "90px" }}>
-                    <span className="formatting">વિગત</span>
-                  </th>
-
-                  <th className="th" colSpan="3" style={{ minWidth: "130px" }}>
-                    <span className="formatting">ઘર વેરો</span>
-                  </th>
-
-                  <th className="th" colSpan="3" style={{ minWidth: "130px" }}>
-                    <span className="formatting">સામાન્ય પાણી વેરો</span>
-                  </th>
-
-                  <th className="th" colSpan="3" style={{ minWidth: "130px" }}>
-                    <span className="formatting">ખાસ પાણી નળ વેરો</span>
-                  </th>
-
-                  <th className="th" colSpan="3" style={{ minWidth: "130px" }}>
-                    <span className="formatting">દિવાબતી લાઈટ વેરો</span>
-                  </th>
-
-                  <th className="th" colSpan="3" style={{ minWidth: "130px" }}>
-                    <span className="formatting">સફાઈ વેરો</span>
-                  </th>
-
-                  <th className="th" colSpan="3" style={{ minWidth: "130px" }}>
-                    <span className="formatting">કુલ એકંદર</span>
-                  </th>
-                </tr>
-
-                <tr>
-                  {Array.from({ length: 6 }).map((_, index) => (
-                    <>
-                      <th className="th">
-                        <span className="formatting">પા.બા</span>
-                      </th>
-
-                      <th className="th">
-                        <span className="formatting">ચાલુ</span>
-                      </th>
-                      <th className="th">
-                        <span className="formatting">કુલ</span>
-                      </th>
-                    </>
-                  ))}
-                </tr>
-
-                {/* Index Start */}
-                <tr>
-                  {/* 1 to 18 th for index */}
-                  {Array.from({ length: 24 }).map((_, index) => (
-                    <th
-                      className="text-xs font-medium text-gray-500 uppercase tracking-wider"
-                      style={{
-                        textAlign: "center",
-                        color: "black",
-                        background: "#fff",
-                      }}
-                      key={index}
-                    >
-                      <span className="formatting">{index + 1}</span>
+              {/* Table Header using Divs */}
+              <table className="report-table" id="pdff">
+                <thead className="thead">
+                  <tr>
+                    <th className="th" rowSpan="2" style={{ maxWidth: "45px" }}>
+                      <span className="formatting">અનું ક્રમાંક</span>
                     </th>
-                  ))}
-                </tr>
-                {/* Index End */}
-              </thead>
 
-              {/* Table Rows using Divs */}
+                    <th className="th" rowSpan="2" style={{ maxWidth: "45px" }}>
+                      <span className="formatting">મિલ્કત ક્રમાંક</span>
+                    </th>
 
-              {pageRecords.map((record, index) => (
-                <tbody>
-                  <tr key={index}>
-                    <td className="td" style={{ textAlign: "center" }}>
-                      {record[0]}
-                    </td>
+                    <th className="th" rowSpan="2" style={{ maxWidth: "90px" }}>
+                      <span className="formatting">વિસ્તારનું નામ</span>
+                    </th>
 
-                    <td className="td">{record[2]}</td>
+                    <th className="th" rowSpan="2" style={{ maxWidth: "90px" }}>
+                      <span className="formatting">khatedar nu નામ</span>
+                    </th>
 
-                    <td className="td">{record[1]}</td>
-
-                    <td
-                      className="td"
-                      // rowSpan="2"
-                      // style={{ maxWidth: "150px" }}
+                    <th
+                      className="th"
+                      rowSpan="2"
+                      style={{ minWidth: "70px", maxWidth: "70px" }}
                     >
-                      {record[3]}
-                    </td>
+                      <span className="formatting">પહોચ નંબર તારીખ રકમ</span>
+                    </th>
 
-                    <td className="td">{""}</td>
+                    <th className="th" rowSpan="2" style={{ maxWidth: "90px" }}>
+                      <span className="formatting">વિગત</span>
+                    </th>
 
-                    <td className="td">માંગણું</td>
+                    <th
+                      className="th"
+                      colSpan="3"
+                      style={{ minWidth: "130px" }}
+                    >
+                      <span className="formatting">ઘર વેરો</span>
+                    </th>
 
-                    {/* ઘર વેરો */}
-                    <td className="td">
-                      {JSON.parse(record[20] || "{}")?.[0]?.prev || 0}
-                    </td>
+                    <th
+                      className="th"
+                      colSpan="3"
+                      style={{ minWidth: "130px" }}
+                    >
+                      <span className="formatting">સામાન્ય પાણી વેરો</span>
+                    </th>
 
-                    {/* [{ "curr": 20, "prev": 0 }, { "curr": 0, "prev": 0 }, { "curr": 0, "prev": 0 }] */}
+                    <th
+                      className="th"
+                      colSpan="3"
+                      style={{ minWidth: "130px" }}
+                    >
+                      <span className="formatting">ખાસ પાણી નળ વેરો</span>
+                    </th>
 
-                    <td className="td">
-                      {JSON.parse(record[20] || "{}")?.[0]?.curr || 0}
-                    </td>
+                    <th
+                      className="th"
+                      colSpan="3"
+                      style={{ minWidth: "130px" }}
+                    >
+                      <span className="formatting">દિવાબતી લાઈટ વેરો</span>
+                    </th>
 
-                    <td className="td">
-                      {(JSON.parse(record[20] || "{}")?.[0]?.curr || 0) +
-                        (JSON.parse(record[20] || "{}")?.[0]?.prev || 0)}
-                    </td>
+                    <th
+                      className="th"
+                      colSpan="3"
+                      style={{ minWidth: "130px" }}
+                    >
+                      <span className="formatting">સફાઈ વેરો</span>
+                    </th>
 
-                    {/* સામાન્ય પાણી વેરો */}
-                    <td className="td">
-                      {JSON.parse(record[21] || "{}")?.[0]?.prev || 0}
-                    </td>
-
-                    <td className="td">
-                      {JSON.parse(record[21] || "{}")?.[0]?.curr || 0}
-                    </td>
-
-                    <td className="td">
-                      {(JSON.parse(record[21] || "{}")?.[0]?.curr || 0) +
-                        (JSON.parse(record[21] || "{}")?.[0]?.prev || 0)}
-                    </td>
-
-                    {/* ખાસ પાણી નળ વેરો */}
-                    <td className="td">
-                      {JSON.parse(record[22] || "{}")?.[0]?.prev || 0}
-                    </td>
-
-                    <td className="td">
-                      {JSON.parse(record[22] || "{}")?.[0]?.curr || 0}
-                    </td>
-
-                    <td className="td">
-                      {(JSON.parse(record[22] || "{}")?.[0]?.curr || 0) +
-                        (JSON.parse(record[22] || "{}")?.[0]?.prev || 0)}
-                    </td>
-
-                    {/* દિવાબતી લાઈટ વેરો */}
-                    <td className="td">
-                      {JSON.parse(record[23] || "{}")?.[0]?.prev || 0}
-                    </td>
-
-                    <td className="td">
-                      {JSON.parse(record[23] || "{}")?.[0]?.curr || 0}
-                    </td>
-
-                    <td className="td">
-                      {(JSON.parse(record[23] || "{}")?.[0]?.curr || 0) +
-                        (JSON.parse(record[23] || "{}")?.[0]?.prev || 0)}
-                    </td>
-
-                    {/* સફાઈ વેરો */}
-                    <td className="td">
-                      {JSON.parse(record[24] || "{}")?.[0]?.prev || 0}
-                    </td>
-
-                    <td className="td">
-                      {JSON.parse(record[24] || "{}")?.[0]?.curr || 0}
-                    </td>
-
-                    <td className="td">
-                      {(JSON.parse(record[24] || "{}")?.[0]?.curr || 0) +
-                        (JSON.parse(record[24] || "{}")?.[0]?.prev || 0)}
-                    </td>
-
-                    {/* કુલ એકંદર */}
-                    <td className="td">
-                      {JSON.parse(record[25] || "{}")?.[0]?.prev || 0}
-                    </td>
-
-                    <td className="td">
-                      {JSON.parse(record[25] || "{}")?.[0]?.curr || 0}
-                    </td>
-
-                    <td className="td">
-                      {(JSON.parse(record[25] || "{}")?.[0]?.curr || 0) +
-                        (JSON.parse(record[25] || "{}")?.[0]?.prev || 0)}
-                    </td>
+                    <th
+                      className="th"
+                      colSpan="3"
+                      style={{ minWidth: "130px" }}
+                    >
+                      <span className="formatting">કુલ એકંદર</span>
+                    </th>
                   </tr>
 
                   <tr>
-                    <td className="td">{""}</td>
-                    <td className="td">{""}</td>
-                    <td className="td">{""}</td>
-                    <td className="td">{""}</td>
-                    <td className="td">{""}</td>
+                    {Array.from({ length: 6 }).map((_, index) => (
+                      <>
+                        <th className="th">
+                          <span className="formatting">પા.બા</span>
+                        </th>
 
-                    <td className="td">વસુલાત</td>
-
-                    {/* ઘર વેરો */}
-                    <td className="td">
-                      {JSON.parse(record[20] || "{}")?.[1]?.prev || 0}
-                    </td>
-
-                    <td className="td">
-                      {JSON.parse(record[20] || "{}")?.[1]?.curr || 0}
-                    </td>
-
-                    <td className="td">
-                      {(JSON.parse(record[20] || "{}")?.[1]?.curr || 0) +
-                        (JSON.parse(record[20] || "{}")?.[1]?.prev || 0)}
-                    </td>
-
-                    {/* સામાન્ય પાણી વેરો */}
-                    <td className="td">
-                      {JSON.parse(record[21] || "{}")?.[1]?.prev || 0}
-                    </td>
-
-                    <td className="td">
-                      {JSON.parse(record[21] || "{}")?.[1]?.curr || 0}
-                    </td>
-
-                    <td className="td">
-                      {(JSON.parse(record[21] || "{}")?.[1]?.curr || 0) +
-                        (JSON.parse(record[21] || "{}")?.[1]?.prev || 0)}
-                    </td>
-
-                    {/* ખાસ પાણી નળ વેરો */}
-                    <td className="td">
-                      {JSON.parse(record[22] || "{}")?.[1]?.prev || 0}
-                    </td>
-
-                    <td className="td">
-                      {JSON.parse(record[22] || "{}")?.[1]?.curr || 0}
-                    </td>
-
-                    <td className="td">
-                      {(JSON.parse(record[22] || "{}")?.[1]?.curr || 0) +
-                        (JSON.parse(record[22] || "{}")?.[1]?.prev || 0)}
-                    </td>
-
-                    {/* દિવાબતી લાઈટ વેરો */}
-                    <td className="td">
-                      {JSON.parse(record[23] || "{}")?.[1]?.prev || 0}
-                    </td>
-
-                    <td className="td">
-                      {JSON.parse(record[23] || "{}")?.[1]?.curr || 0}
-                    </td>
-
-                    <td className="td">
-                      {(JSON.parse(record[23] || "{}")?.[1]?.curr || 0) +
-                        (JSON.parse(record[23] || "{}")?.[1]?.prev || 0)}
-                    </td>
-
-                    {/* સફાઈ વેરો */}
-                    <td className="td">
-                      {JSON.parse(record[24] || "{}")?.[1]?.prev || 0}
-                    </td>
-
-                    <td className="td">
-                      {JSON.parse(record[24] || "{}")?.[1]?.curr || 0}
-                    </td>
-
-                    <td className="td">
-                      {(JSON.parse(record[24] || "{}")?.[1]?.curr || 0) +
-                        (JSON.parse(record[24] || "{}")?.[1]?.prev || 0)}
-                    </td>
-
-                    {/* કુલ એકંદર */}
-                    <td className="td">
-                      {JSON.parse(record[25] || "{}")?.[1]?.prev || 0}
-                    </td>
-
-                    <td className="td">
-                      {JSON.parse(record[25] || "{}")?.[1]?.curr || 0}
-                    </td>
-
-                    <td className="td">
-                      {(JSON.parse(record[25] || "{}")?.[1]?.curr || 0) +
-                        (JSON.parse(record[25] || "{}")?.[1]?.prev || 0)}
-                    </td>
+                        <th className="th">
+                          <span className="formatting">ચાલુ</span>
+                        </th>
+                        <th className="th">
+                          <span className="formatting">કુલ</span>
+                        </th>
+                      </>
+                    ))}
                   </tr>
 
+                  {/* Index Start */}
                   <tr>
-                    <td className="td">{""}</td>
-                    <td className="td">{""}</td>
-                    <td className="td">{""}</td>
-                    <td className="td">{""}</td>
-                    <td className="td">{""}</td>
-
-                    <td className="td">બાકી</td>
-
-                    {/* ઘર વેરો */}
-                    <td className="td">
-                      {JSON.parse(record[20] || "{}")?.[2]?.prev || 0}
-                    </td>
-
-                    <td className="td">
-                      {JSON.parse(record[20] || "{}")?.[2]?.curr || 0}
-                    </td>
-
-                    <td className="td">
-                      {(JSON.parse(record[20] || "{}")?.[2]?.curr || 0) +
-                        (JSON.parse(record[20] || "{}")?.[2]?.prev || 0)}
-                    </td>
-
-                    {/* સામાન્ય પાણી વેરો */}
-                    <td className="td">
-                      {JSON.parse(record[21] || "{}")?.[2]?.prev || 0}
-                    </td>
-
-                    <td className="td">
-                      {JSON.parse(record[21] || "{}")?.[2]?.curr || 0}
-                    </td>
-
-                    <td className="td">
-                      {(JSON.parse(record[21] || "{}")?.[2]?.curr || 0) +
-                        (JSON.parse(record[21] || "{}")?.[2]?.prev || 0)}
-                    </td>
-
-                    {/* ખાસ પાણી નળ વેરો */}
-                    <td className="td">
-                      {JSON.parse(record[22] || "{}")?.[2]?.prev || 0}
-                    </td>
-
-                    <td className="td">
-                      {JSON.parse(record[22] || "{}")?.[2]?.curr || 0}
-                    </td>
-
-                    <td className="td">
-                      {(JSON.parse(record[22] || "{}")?.[2]?.curr || 0) +
-                        (JSON.parse(record[22] || "{}")?.[2]?.prev || 0)}
-                    </td>
-
-                    {/* દિવાબતી લાઈટ વેરો */}
-                    <td className="td">
-                      {JSON.parse(record[23] || "{}")?.[2]?.prev || 0}
-                    </td>
-
-                    <td className="td">
-                      {JSON.parse(record[23] || "{}")?.[2]?.curr || 0}
-                    </td>
-
-                    <td className="td">
-                      {(JSON.parse(record[23] || "{}")?.[2]?.curr || 0) +
-                        (JSON.parse(record[23] || "{}")?.[2]?.prev || 0)}
-                    </td>
-
-                    {/* સફાઈ વેરો */}
-                    <td className="td">
-                      {JSON.parse(record[24] || "{}")?.[2]?.prev || 0}
-                    </td>
-
-                    <td className="td">
-                      {JSON.parse(record[24] || "{}")?.[2]?.curr || 0}
-                    </td>
-
-                    <td className="td">
-                      {(JSON.parse(record[24] || "{}")?.[2]?.curr || 0) +
-                        (JSON.parse(record[24] || "{}")?.[2]?.prev || 0)}
-                    </td>
-
-                    {/* કુલ એકંદર */}
-                    <td className="td">
-                      {JSON.parse(record[25] || "{}")?.[2]?.prev || 0}
-                    </td>
-
-                    <td className="td">
-                      {JSON.parse(record[25] || "{}")?.[2]?.curr || 0}
-                    </td>
-
-                    <td className="td">
-                      {(JSON.parse(record[25] || "{}")?.[2]?.curr || 0) +
-                        (JSON.parse(record[25] || "{}")?.[2]?.prev || 0)}
-                    </td>
+                    {/* 1 to 18 th for index */}
+                    {Array.from({ length: 24 }).map((_, index) => (
+                      <th
+                        className="text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        style={{
+                          textAlign: "center",
+                          color: "black",
+                          background: "#fff",
+                        }}
+                        key={index}
+                      >
+                        <span className="formatting">{index + 1}</span>
+                      </th>
+                    ))}
                   </tr>
-                </tbody>
-              ))}
-            </table>
-          </div>
-        ))}
+                  {/* Index End */}
+                </thead>
+
+                {/* Table Rows using Divs */}
+
+                {pageRecords.map((record, index) => (
+                  <tbody>
+                    <tr key={index}>
+                      <th rowSpan="3" style={{ textAlign: "center" }}>
+                        <span className="formatting">{record[0]}</span>
+                      </th>
+
+                      <th rowSpan="3">
+                        <span className="formatting">{record[2]}</span>
+                      </th>
+
+                      <th rowSpan="3">
+                        <span className="formatting">{record[1]}</span>
+                      </th>
+
+                      <th
+                        rowSpan="3"
+                        // style={{ maxWidth: "150px" }}
+                      >
+                        <span className="formatting">{record[3]}</span>
+                      </th>
+
+                      <th rowSpan="3">{"XX"}</th>
+
+                      <td className="td">માંગણું</td>
+
+                      {/* ઘર વેરો */}
+                      <td className="td">
+                        {JSON.parse(record[20] || "{}")?.[0]?.prev || 0}
+                      </td>
+
+                      {/* [{ "curr": 20, "prev": 0 }, { "curr": 0, "prev": 0 }, { "curr": 0, "prev": 0 }] */}
+
+                      <td className="td">
+                        {JSON.parse(record[20] || "{}")?.[0]?.curr || 0}
+                      </td>
+
+                      <td className="td">
+                        {(JSON.parse(record[20] || "{}")?.[0]?.curr || 0) +
+                          (JSON.parse(record[20] || "{}")?.[0]?.prev || 0)}
+                      </td>
+
+                      {/* સામાન્ય પાણી વેરો */}
+                      <td className="td">
+                        {JSON.parse(record[21] || "{}")?.[0]?.prev || 0}
+                      </td>
+
+                      <td className="td">
+                        {JSON.parse(record[21] || "{}")?.[0]?.curr || 0}
+                      </td>
+
+                      <td className="td">
+                        {(JSON.parse(record[21] || "{}")?.[0]?.curr || 0) +
+                          (JSON.parse(record[21] || "{}")?.[0]?.prev || 0)}
+                      </td>
+
+                      {/* ખાસ પાણી નળ વેરો */}
+                      <td className="td">
+                        {JSON.parse(record[22] || "{}")?.[0]?.prev || 0}
+                      </td>
+
+                      <td className="td">
+                        {JSON.parse(record[22] || "{}")?.[0]?.curr || 0}
+                      </td>
+
+                      <td className="td">
+                        {(JSON.parse(record[22] || "{}")?.[0]?.curr || 0) +
+                          (JSON.parse(record[22] || "{}")?.[0]?.prev || 0)}
+                      </td>
+
+                      {/* દિવાબતી લાઈટ વેરો */}
+                      <td className="td">
+                        {JSON.parse(record[23] || "{}")?.[0]?.prev || 0}
+                      </td>
+
+                      <td className="td">
+                        {JSON.parse(record[23] || "{}")?.[0]?.curr || 0}
+                      </td>
+
+                      <td className="td">
+                        {(JSON.parse(record[23] || "{}")?.[0]?.curr || 0) +
+                          (JSON.parse(record[23] || "{}")?.[0]?.prev || 0)}
+                      </td>
+
+                      {/* સફાઈ વેરો */}
+                      <td className="td">
+                        {JSON.parse(record[24] || "{}")?.[0]?.prev || 0}
+                      </td>
+
+                      <td className="td">
+                        {JSON.parse(record[24] || "{}")?.[0]?.curr || 0}
+                      </td>
+
+                      <td className="td">
+                        {(JSON.parse(record[24] || "{}")?.[0]?.curr || 0) +
+                          (JSON.parse(record[24] || "{}")?.[0]?.prev || 0)}
+                      </td>
+
+                      {/* કુલ એકંદર */}
+                      <td className="td">
+                        {(JSON.parse(record[20] || "{}")?.[0]?.prev || 0) +
+                          (JSON.parse(record[21] || "{}")?.[0]?.prev || 0) +
+                          (JSON.parse(record[22] || "{}")?.[0]?.prev || 0) +
+                          (JSON.parse(record[23] || "{}")?.[0]?.prev || 0) +
+                          (JSON.parse(record[24] || "{}")?.[0]?.prev || 0)}
+                      </td>
+
+                      <td className="td">
+                        {(JSON.parse(record[20] || "{}")?.[0]?.curr || 0) +
+                          (JSON.parse(record[21] || "{}")?.[0]?.curr || 0) +
+                          (JSON.parse(record[22] || "{}")?.[0]?.curr || 0) +
+                          (JSON.parse(record[23] || "{}")?.[0]?.curr || 0) +
+                          (JSON.parse(record[24] || "{}")?.[0]?.curr || 0)}
+                      </td>
+
+                      <td className="td">
+                        {(JSON.parse(record[20] || "{}")?.[0]?.curr || 0) +
+                          (JSON.parse(record[20] || "{}")?.[0]?.prev || 0) +
+                          ((JSON.parse(record[21] || "{}")?.[0]?.curr || 0) +
+                            (JSON.parse(record[21] || "{}")?.[0]?.prev || 0)) +
+                          ((JSON.parse(record[22] || "{}")?.[0]?.curr || 0) +
+                            (JSON.parse(record[22] || "{}")?.[0]?.prev || 0)) +
+                          ((JSON.parse(record[23] || "{}")?.[0]?.curr || 0) +
+                            (JSON.parse(record[23] || "{}")?.[0]?.prev || 0)) +
+                          ((JSON.parse(record[24] || "{}")?.[0]?.curr || 0) +
+                            (JSON.parse(record[24] || "{}")?.[0]?.prev || 0))}
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td className="td">વસુલાત</td>
+
+                      {/* ઘર વેરો */}
+                      <td className="td">
+                        {JSON.parse(record[20] || "{}")?.[1]?.prev || 0}
+                      </td>
+
+                      <td className="td">
+                        {JSON.parse(record[20] || "{}")?.[1]?.curr || 0}
+                      </td>
+
+                      <td className="td">
+                        {(JSON.parse(record[20] || "{}")?.[1]?.curr || 0) +
+                          (JSON.parse(record[20] || "{}")?.[1]?.prev || 0)}
+                      </td>
+
+                      {/* સામાન્ય પાણી વેરો */}
+                      <td className="td">
+                        {JSON.parse(record[21] || "{}")?.[1]?.prev || 0}
+                      </td>
+
+                      <td className="td">
+                        {JSON.parse(record[21] || "{}")?.[1]?.curr || 0}
+                      </td>
+
+                      <td className="td">
+                        {(JSON.parse(record[21] || "{}")?.[1]?.curr || 0) +
+                          (JSON.parse(record[21] || "{}")?.[1]?.prev || 0)}
+                      </td>
+
+                      {/* ખાસ પાણી નળ વેરો */}
+                      <td className="td">
+                        {JSON.parse(record[22] || "{}")?.[1]?.prev || 0}
+                      </td>
+
+                      <td className="td">
+                        {JSON.parse(record[22] || "{}")?.[1]?.curr || 0}
+                      </td>
+
+                      <td className="td">
+                        {(JSON.parse(record[22] || "{}")?.[1]?.curr || 0) +
+                          (JSON.parse(record[22] || "{}")?.[1]?.prev || 0)}
+                      </td>
+
+                      {/* દિવાબતી લાઈટ વેરો */}
+                      <td className="td">
+                        {JSON.parse(record[23] || "{}")?.[1]?.prev || 0}
+                      </td>
+
+                      <td className="td">
+                        {JSON.parse(record[23] || "{}")?.[1]?.curr || 0}
+                      </td>
+
+                      <td className="td">
+                        {(JSON.parse(record[23] || "{}")?.[1]?.curr || 0) +
+                          (JSON.parse(record[23] || "{}")?.[1]?.prev || 0)}
+                      </td>
+
+                      {/* સફાઈ વેરો */}
+                      <td className="td">
+                        {JSON.parse(record[24] || "{}")?.[1]?.prev || 0}
+                      </td>
+
+                      <td className="td">
+                        {JSON.parse(record[24] || "{}")?.[1]?.curr || 0}
+                      </td>
+
+                      <td className="td">
+                        {(JSON.parse(record[24] || "{}")?.[1]?.curr || 0) +
+                          (JSON.parse(record[24] || "{}")?.[1]?.prev || 0)}
+                      </td>
+
+                      {/* કુલ એકંદર */}
+                      <td className="td">
+                        {JSON.parse(record[25] || "{}")?.[1]?.prev || 0}
+                      </td>
+
+                      <td className="td">
+                        {JSON.parse(record[25] || "{}")?.[1]?.curr || 0}
+                      </td>
+
+                      <td className="td">
+                        {(JSON.parse(record[25] || "{}")?.[1]?.curr || 0) +
+                          (JSON.parse(record[25] || "{}")?.[1]?.prev || 0)}
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td className="td">બાકી</td>
+
+                      {/* ઘર વેરો */}
+                      <td className="td">
+                        {JSON.parse(record[20] || "{}")?.[2]?.prev || 0}
+                      </td>
+
+                      <td className="td">
+                        {JSON.parse(record[20] || "{}")?.[2]?.curr || 0}
+                      </td>
+
+                      <td className="td">
+                        {(JSON.parse(record[20] || "{}")?.[2]?.curr || 0) +
+                          (JSON.parse(record[20] || "{}")?.[2]?.prev || 0)}
+                      </td>
+
+                      {/* સામાન્ય પાણી વેરો */}
+                      <td className="td">
+                        {JSON.parse(record[21] || "{}")?.[2]?.prev || 0}
+                      </td>
+
+                      <td className="td">
+                        {JSON.parse(record[21] || "{}")?.[2]?.curr || 0}
+                      </td>
+
+                      <td className="td">
+                        {(JSON.parse(record[21] || "{}")?.[2]?.curr || 0) +
+                          (JSON.parse(record[21] || "{}")?.[2]?.prev || 0)}
+                      </td>
+
+                      {/* ખાસ પાણી નળ વેરો */}
+                      <td className="td">
+                        {JSON.parse(record[22] || "{}")?.[2]?.prev || 0}
+                      </td>
+
+                      <td className="td">
+                        {JSON.parse(record[22] || "{}")?.[2]?.curr || 0}
+                      </td>
+
+                      <td className="td">
+                        {(JSON.parse(record[22] || "{}")?.[2]?.curr || 0) +
+                          (JSON.parse(record[22] || "{}")?.[2]?.prev || 0)}
+                      </td>
+
+                      {/* દિવાબતી લાઈટ વેરો */}
+                      <td className="td">
+                        {JSON.parse(record[23] || "{}")?.[2]?.prev || 0}
+                      </td>
+
+                      <td className="td">
+                        {JSON.parse(record[23] || "{}")?.[2]?.curr || 0}
+                      </td>
+
+                      <td className="td">
+                        {(JSON.parse(record[23] || "{}")?.[2]?.curr || 0) +
+                          (JSON.parse(record[23] || "{}")?.[2]?.prev || 0)}
+                      </td>
+
+                      {/* સફાઈ વેરો */}
+                      <td className="td">
+                        {JSON.parse(record[24] || "{}")?.[2]?.prev || 0}
+                      </td>
+
+                      <td className="td">
+                        {JSON.parse(record[24] || "{}")?.[2]?.curr || 0}
+                      </td>
+
+                      <td className="td">
+                        {(JSON.parse(record[24] || "{}")?.[2]?.curr || 0) +
+                          (JSON.parse(record[24] || "{}")?.[2]?.prev || 0)}
+                      </td>
+
+                      {/* કુલ એકંદર */}
+                      <td className="td">
+                        {(JSON.parse(record[20] || "{}")?.[2]?.prev || 0) +
+                          (JSON.parse(record[21] || "{}")?.[2]?.prev || 0) +
+                          (JSON.parse(record[22] || "{}")?.[2]?.prev || 0) +
+                          (JSON.parse(record[23] || "{}")?.[2]?.prev || 0) +
+                          (JSON.parse(record[24] || "{}")?.[2]?.prev || 0)}
+                      </td>
+
+                      <td className="td">
+                        {JSON.parse(record[25] || "{}")?.[2]?.curr || 0}
+                      </td>
+
+                      <td className="td">
+                        {(JSON.parse(record[25] || "{}")?.[2]?.curr || 0) +
+                          (JSON.parse(record[25] || "{}")?.[2]?.prev || 0)}
+                      </td>
+                    </tr>
+                  </tbody>
+                ))}
+
+                <tr>
+                  <td colSpan="24">{"--"}</td>
+                </tr>
+
+                <tr>
+                  <th colSpan="5" rowSpan="3" style={{ textAlign: "center" }}>
+                    પાના નું કુલ
+                  </th>
+                  <td className="td">માંગણું</td>
+                  {/* Iterate 6 times for the 6 tax categories and the final total column (Total = 6 categories * 3 columns = 18 data columns) */}
+                  {Array.from({ length: 6 }).map((_, categoryIndex) => {
+                    // Calculate the total for the current category's demand
+                    // Demand is always at index [0]
+                    const recordColumnIndex = 20 + categoryIndex; // 20 to 25
+                    const totalForCategory = pageRecords.reduce(
+                      (sum, record) => {
+                        const taxData = JSON.parse(
+                          record[recordColumnIndex] || "{}"
+                        );
+                        return (
+                          sum +
+                          (taxData?.[0]?.prev || 0) +
+                          (taxData?.[0]?.curr || 0)
+                        );
+                      },
+                      0
+                    );
+
+                    // Need to calculate the Prev and Curr separately for each category as well, for consistency
+                    const prevForCategory = pageRecords.reduce(
+                      (sum, record) => {
+                        const taxData = JSON.parse(
+                          record[recordColumnIndex] || "{}"
+                        );
+                        return sum + (taxData?.[0]?.prev || 0);
+                      },
+                      0
+                    );
+                    const currForCategory = pageRecords.reduce(
+                      (sum, record) => {
+                        const taxData = JSON.parse(
+                          record[recordColumnIndex] || "{}"
+                        );
+                        return sum + (taxData?.[0]?.curr || 0);
+                      },
+                      0
+                    );
+
+                    return (
+                      <React.Fragment key={categoryIndex}>
+                        <td className="td">{prevForCategory}</td> {/* પા.બા */}
+                        <td className="td">{currForCategory}</td> {/* ચાલુ */}
+                        <td className="td">{totalForCategory}</td> {/* કુલ */}
+                      </React.Fragment>
+                    );
+                  })}
+                  {/* The last 'કુલ એકંદર' Demand totals (already calculated in pageTotals.demand) */}
+                  {/* <td className="td">{pageTotals.demand.prev}</td> 
+                  <td className="td">{pageTotals.demand.curr}</td>  
+                  <td className="td">{pageTotals.demand.total}</td>  */}
+                </tr>
+
+                <tr>
+                  <td className="td">વસુલાત</td>
+                  {Array.from({ length: 6 }).map((_, categoryIndex) => {
+                    const recordColumnIndex = 20 + categoryIndex;
+                    const totalForCategory = pageRecords.reduce(
+                      (sum, record) => {
+                        const taxData = JSON.parse(
+                          record[recordColumnIndex] || "{}"
+                        );
+                        return (
+                          sum +
+                          (taxData?.[1]?.prev || 0) +
+                          (taxData?.[1]?.curr || 0)
+                        );
+                      },
+                      0
+                    );
+                    const prevForCategory = pageRecords.reduce(
+                      (sum, record) => {
+                        const taxData = JSON.parse(
+                          record[recordColumnIndex] || "{}"
+                        );
+                        return sum + (taxData?.[1]?.prev || 0);
+                      },
+                      0
+                    );
+                    const currForCategory = pageRecords.reduce(
+                      (sum, record) => {
+                        const taxData = JSON.parse(
+                          record[recordColumnIndex] || "{}"
+                        );
+                        return sum + (taxData?.[1]?.curr || 0);
+                      },
+                      0
+                    );
+
+                    return (
+                      <React.Fragment key={categoryIndex}>
+                        <td className="td">{prevForCategory}</td> {/* પા.બા */}
+                        <td className="td">{currForCategory}</td> {/* ચાલુ */}
+                        <td className="td">{totalForCategory}</td> {/* કુલ */}
+                      </React.Fragment>
+                    );
+                  })}
+                  {/* 'કુલ એકંદર' Collection totals */}
+                  {/* <td className="td">{pageTotals.collection.prev}</td>
+                  <td className="td">{pageTotals.collection.curr}</td>
+                  <td className="td">{pageTotals.collection.total}</td> */}
+                </tr>
+
+                {/* Outstanding Row: બાકી */}
+                <tr>
+                  <td className="td">બાકી</td>
+                  {Array.from({ length: 6 }).map((_, categoryIndex) => {
+                    const recordColumnIndex = 20 + categoryIndex;
+                    const totalForCategory = pageRecords.reduce(
+                      (sum, record) => {
+                        const taxData = JSON.parse(
+                          record[recordColumnIndex] || "{}"
+                        );
+                        return (
+                          sum +
+                          (taxData?.[2]?.prev || 0) +
+                          (taxData?.[2]?.curr || 0)
+                        );
+                      },
+                      0
+                    );
+                    const prevForCategory = pageRecords.reduce(
+                      (sum, record) => {
+                        const taxData = JSON.parse(
+                          record[recordColumnIndex] || "{}"
+                        );
+                        return sum + (taxData?.[2]?.prev || 0);
+                      },
+                      0
+                    );
+                    const currForCategory = pageRecords.reduce(
+                      (sum, record) => {
+                        const taxData = JSON.parse(
+                          record[recordColumnIndex] || "{}"
+                        );
+                        return sum + (taxData?.[2]?.curr || 0);
+                      },
+                      0
+                    );
+
+                    return (
+                      <React.Fragment key={categoryIndex}>
+                        <td className="td">{prevForCategory}</td> {/* પા.બા */}
+                        <td className="td">{currForCategory}</td> {/* ચાલુ */}
+                        <td className="td">{totalForCategory}</td> {/* કુલ */}
+                      </React.Fragment>
+                    );
+                  })}
+                  {/* 'કુલ એકંદર' Outstanding totals */}
+                  {/* <td className="td">{pageTotals.outstanding.prev}</td> 
+                  <td className="td">{pageTotals.outstanding.curr}</td> 
+                  <td className="td">{pageTotals.outstanding.total}</td> */}
+                </tr>
+              </table>
+            </div>
+          );
+        })}
       </div>
       {/* This is the visible, on-screen part */}
       <div className="visible-report-container">
