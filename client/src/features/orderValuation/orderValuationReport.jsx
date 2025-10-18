@@ -578,8 +578,8 @@ const OrderValuationReport = () => {
                   }}
                   className="formatting"
                 >
-                  : : Order Report – ઑર્ડર રીપોર્ટ આકાર (વેલ્યુએશન) રીપોર્ટ : :
-                  –
+                  - : : Order Report – ઑર્ડર રીપોર્ટ આકાર (વેલ્યુએશન) રીપોર્ટ :
+                  : –
                 </span>
               </h2>
 
@@ -848,8 +848,8 @@ const OrderValuationReport = () => {
                   }}
                   className="formatting"
                 >
-                  : : Order Report – ઑર્ડર રીપોર્ટ આકાર (વેલ્યુએશન) રીપોર્ટ : :
-                  –
+                  - : : Order Report – ઑર્ડર રીપોર્ટ આકાર (વેલ્યુએશન) રીપોર્ટ :
+                  : –
                 </span>
               </h2>
 
@@ -1194,13 +1194,14 @@ const OrderValuationReport = () => {
                       fontSize: "18px",
                     }}
                   >
-                    ઠરાવ અંગેની માહિતી
+                    - ઠરાવ અંગેની માહિતી -
                   </span>
                 </h2>
                 <p
                   style={{
                     fontSize: "18px",
                     lineHeight: "23px",
+                    marginTop: "-8px",
                   }}
                 >
                   ગુજરાત પંચાયત ધારા ની કલમ ૨૦૦ મુજબ ગ્રામ પંચાયતને દર ચાર વર્ષે
@@ -1224,8 +1225,11 @@ const OrderValuationReport = () => {
                   ઠરાવ નં. <b>
                     {details?.resolutionNumber || "............."}
                   </b>{" "}
-                  થી મિલ્કત આકારણી સર્વેની કામગીરી કરી આપવા 'એ.એફ. ઇન્ફોસીસ -
-                  સાવરકુંડલા' પાટીને નક્કી માં આવ્યું.
+                  થી મિલ્કત આકારણી સર્વેની કામગીરી કરી આપવા{" "}
+                  <b>
+                    <u>" એ.એફ. ઇન્ફોસીસ - સાવરકુંડલા "</u>
+                  </b>{" "}
+                  પાટીને નક્કી માં આવ્યું.
                 </p>
               </div>
 
@@ -1246,13 +1250,15 @@ const OrderValuationReport = () => {
                 }}
               >
                 {/* TCM */}
-                <div style={{ display: "flex", flexDirection: "column" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    textAlign: "center",
+                  }}
+                >
                   <span>
-                    સહિ. <b>........</b>
-                  </span>
-
-                  <span>
-                    ત.ક.મ.નું પુરૂ નામ
+                    તલાટી કમ મંત્રી
                     <b
                       style={{
                         display: "block",
@@ -1263,22 +1269,24 @@ const OrderValuationReport = () => {
                     </b>
                   </span>
 
-                  <br />
-                  <br />
-                  <br />
-                  <br />
+                  <span> {details?.gaam || ""} ગ્રામ પંચાયત કચેરી </span>
 
-                  <span>ત.ક.મ.નો સિક્કો</span>
+                  <span>
+                    તાલુકો :– {details?.taluka || ""} જિલ્,લો :-{" "}
+                    {details?.district || ""}
+                  </span>
                 </div>
 
                 {/* Sarpanch */}
-                <div style={{ display: "flex", flexDirection: "column" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    textAlign: "center",
+                  }}
+                >
                   <span>
-                    સહિ. <b>........</b>
-                  </span>
-
-                  <span>
-                    સરપંચનું પુરૂ નામ
+                    સરપંચ
                     <b
                       style={{
                         display: "block",
@@ -1289,11 +1297,12 @@ const OrderValuationReport = () => {
                     </b>
                   </span>
 
-                  <br />
-                  <br />
-                  <br />
-                  <br />
-                  <span>સરપંચ નો સિક્કો</span>
+                  <span> {details?.gaam || ""} ગ્રામ પંચાયત કચેરી </span>
+
+                  <span>
+                    તાલુકો :– {details?.taluka || ""} જિલ્,લો :-{" "}
+                    {details?.district || ""}
+                  </span>
                 </div>
               </div>
 
@@ -1544,7 +1553,9 @@ const OrderValuationReport = () => {
                     marginBottom: "8px",
                   }}
                 >
-                  <b>નોધ ::- </b>
+                  <b>
+                    <u>નોધ ::-</u>
+                  </b>
                 </h2>
                 <ol style={{ marginTop: "-10px", listStyleType: "none" }}>
                   {details?.notes?.map((item, index) => {
@@ -1713,13 +1724,15 @@ const OrderValuationReport = () => {
                 }}
               >
                 {/* TCM */}
-                <div style={{ display: "flex", flexDirection: "column" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    textAlign: "center",
+                  }}
+                >
                   <span>
-                    સહિ. <b>........</b>
-                  </span>
-
-                  <span>
-                    ત.ક.મ.નું પુરૂ નામ
+                    તલાટી કમ મંત્રી
                     <b
                       style={{
                         display: "block",
@@ -1730,22 +1743,24 @@ const OrderValuationReport = () => {
                     </b>
                   </span>
 
-                  <br />
-                  <br />
-                  <br />
-                  <br />
+                  <span> {details?.gaam || ""} ગ્રામ પંચાયત કચેરી </span>
 
-                  <span>ત.ક.મ.નો સિક્કો</span>
+                  <span>
+                    તાલુકો :– {details?.taluka || ""}, જિલ્લો :-{" "}
+                    {details?.district || ""}
+                  </span>
                 </div>
 
                 {/* Sarpanch */}
-                <div style={{ display: "flex", flexDirection: "column" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    textAlign: "center",
+                  }}
+                >
                   <span>
-                    સહિ. <b>........</b>
-                  </span>
-
-                  <span>
-                    સરપંચનું પુરૂ નામ
+                    સરપંચ
                     <b
                       style={{
                         display: "block",
@@ -1755,12 +1770,11 @@ const OrderValuationReport = () => {
                       {details?.sarpanchName || "......................."}
                     </b>
                   </span>
-
-                  <br />
-                  <br />
-                  <br />
-                  <br />
-                  <span>સરપંચ નો સિક્કો</span>
+                  <span> {details?.gaam || ""} ગ્રામ પંચાયત કચેરી </span>
+                  <span>
+                    તાલુકો :– {details?.taluka || ""}, જિલ્લો :-{" "}
+                    {details?.district || ""}
+                  </span>
                 </div>
               </div>
               <div
