@@ -274,7 +274,7 @@ const OrderValuationReport = () => {
               minWidth: "680px",
               minHeight: "1050px",
               position: "relative",
-              padding: "5px",
+              padding: "15px",
               background: "#fff",
             }}
           >
@@ -284,7 +284,7 @@ const OrderValuationReport = () => {
                 border: "2px solid black",
                 width: "100%",
                 height: "100%",
-                padding: "13px",
+                padding: "8px",
               }}
             >
               <div
@@ -325,7 +325,7 @@ const OrderValuationReport = () => {
                           transform: "translateY(-8px)",
                         }}
                       >
-                        અંદાજીત ઘર ની સંખ્યા :–{" "}
+                        અંદાજીત ઘરની સંખ્યા :–{" "}
                         <b>{details?.totalHouses || 0}</b>
                       </span>
                     </span>
@@ -336,9 +336,7 @@ const OrderValuationReport = () => {
                         flexDirection: "column",
                       }}
                     >
-                      <span>
-                        TB<b>{details?.tbr}</b>R
-                      </span>
+                      <span>TB{details?.tbr}R</span>
 
                       <span style={{ marginTop: "-2px" }}>
                         જુના રજી.ની ઘરની સંખ્યા <b>{details?.oldregi || ""}</b>
@@ -626,6 +624,7 @@ const OrderValuationReport = () => {
                 className="divide-y divide-gray-200"
                 style={{
                   marginTop: "4px",
+                  border: "2px solid black",
                 }}
               >
                 <thead className="bg-gray-50">
@@ -785,7 +784,7 @@ const OrderValuationReport = () => {
               minWidth: "680px",
               minHeight: "1050px",
               position: "relative",
-              padding: "5px",
+              padding: "15px",
               background: "#fff",
             }}
           >
@@ -795,7 +794,7 @@ const OrderValuationReport = () => {
                 border: "2px solid black",
                 width: "100%",
                 height: "100%",
-                padding: "13px",
+                padding: "5px",
               }}
             >
               <div
@@ -1339,7 +1338,7 @@ const OrderValuationReport = () => {
               minWidth: "680px",
               minHeight: "1050px",
               position: "relative",
-              padding: "5px",
+              padding: "15px",
               background: "#fff",
             }}
           >
@@ -1349,7 +1348,7 @@ const OrderValuationReport = () => {
                 border: "2px solid black",
                 width: "100%",
                 height: "100%",
-                padding: "13px",
+                padding: "5px",
               }}
             >
               <div

@@ -186,12 +186,9 @@ const TarijReport = () => {
           <h1 className="text-xl font-bold text-center mb-0 text-gray-800">
             {/* મોજે: {(project?.spot?.gaam).trim()}, તા:{" "}
           {(project?.spot?.taluka).trim()}  */}
-            કુલ મંગણાં તથા વસુલાતનો રિપોર્ટ (તારીજ)
+            કુલ મંગણાં તથા વસુલાતનો રિપોર્ટ (તારીજ) - સન{" "}
+            {project?.details?.akaraniYear || ""}
           </h1>
-
-          <h2 className="text-l text-center mb-2 text-gray-700">
-            સન {project?.details?.akaraniYear || ""}
-          </h2>
 
           <div
             className="location-info-visible"
