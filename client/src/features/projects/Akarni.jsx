@@ -9,7 +9,7 @@ import "./akarni.scss";
 const quicklinks = [
   { id: 1, label: "Order Valuation Report", path: "/orderValuation/report" },
   { id: 2, label: "Akarni Register (No.8)", path: "/survay/akarniReport" },
-  { id: 3, label: "Tax Register (9D)", path: "/survay/taxRegister" },
+  { id: 3, label: "Vera Register (9D)", path: "/survay/taxRegister" },
   { id: 4, label: "Index Report પાનોત્રી બુક", path: "/survay/indexReport" },
   { id: 5, label: "Tarij Report", path: "/survay/tarij" },
   { id: 6, label: "Analysis Report", path: "/survay/analysis" },

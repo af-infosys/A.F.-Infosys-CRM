@@ -240,6 +240,7 @@ const TaxRegister = () => {
                 width: "1700px",
                 paddingLeft: "65px",
                 paddingRight: "20px",
+                paddingTop: "10px",
               }}
             >
               {/* Headers and Page Count */}
@@ -249,7 +250,7 @@ const TaxRegister = () => {
                   className="page-number"
                   style={{
                     fontSize: "16px",
-                    transform: "translate(80px, 75px)",
+                    transform: "translate(80px, 45px)",
                     color: "#000",
                   }}
                 >
@@ -383,7 +384,7 @@ const TaxRegister = () => {
                         }}
                         key={index}
                       >
-                        <span className="formatting">{index + 1}</span>
+                        {index + 1}
                       </th>
                     ))}
                   </tr>
