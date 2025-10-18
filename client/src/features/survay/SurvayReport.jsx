@@ -218,7 +218,7 @@ const SurvayReport = () => {
                 પાના નં. {toGujaratiNumber(pageIndex + 1)}
               </span>
 
-              <h1 className="heading" style={{ marginTop: "35px" }}>
+              <h1 className="heading" style={{ marginTop: "38px" }}>
                 પંચાયત હિસાબ નમુનો નંબર - ૮ (આકારણી રજીસ્ટર)
               </h1>
 
@@ -245,35 +245,89 @@ const SurvayReport = () => {
 
             <div className="table-row table-header-row">
               <div className="table-cell s-no">
-                <span className="formatting">અનું ક્રમાંક</span>
+                <span
+                  className="formatting"
+                  style={{
+                    fontSize: "10px",
+                  }}
+                >
+                  અનું ક્રમાંક
+                </span>
               </div>
 
               <div className="table-cell area-name">
-                <span className="formatting">વિસ્તારનું નામ</span>
+                <span
+                  className="formatting"
+                  style={{
+                    fontSize: "10px",
+                  }}
+                >
+                  વિસ્તારનું નામ
+                </span>
               </div>
 
               <div className="table-cell prop-no">
-                <span className="formatting">મિલ્કત ક્રમાંક</span>
+                <span
+                  className="formatting"
+                  style={{
+                    fontSize: "10px",
+                  }}
+                >
+                  મિલ્કત ક્રમાંક
+                </span>
               </div>
 
               <div className="table-cell description">
-                <span className="formatting">મિલ્કતનું વર્ણન</span>
+                <span
+                  className="formatting"
+                  style={{
+                    fontSize: "10px",
+                  }}
+                >
+                  મિલ્કતનું વર્ણન
+                </span>
               </div>
 
               <div className="table-cell owner">
-                <span className="formatting">માલિકનું નામ</span>
+                <span
+                  className="formatting"
+                  style={{
+                    fontSize: "10px",
+                  }}
+                >
+                  માલિકનું નામ
+                </span>
               </div>
 
               <div className="table-cell old-prop-no">
-                <span className="formatting">જુનો મિ.નં.</span>
+                <span
+                  className="formatting"
+                  style={{
+                    fontSize: "10px",
+                  }}
+                >
+                  જુનો મિ.નં.
+                </span>
               </div>
 
               <div className="table-cell mobile">
-                <span className="formatting">મોબાઈલ નંબર</span>
+                <span
+                  className="formatting"
+                  style={{
+                    fontSize: "10px",
+                  }}
+                >
+                  મોબાઈલ નંબર
+                </span>
               </div>
 
               <div className="table-cell valuation">
-                <span className="formatting">
+                <span
+                  className="formatting"
+                  style={{
+                    fontSize: "10px",
+                  }}
+                >
                   મિલ્કતની
                   <br />
                   કિંમત
@@ -281,11 +335,23 @@ const SurvayReport = () => {
               </div>
 
               <div className="table-cell tax">
-                <span className="formatting">આકારેલ વેરાની રકમ</span>
+                <span
+                  className="formatting"
+                  style={{
+                    fontSize: "10px",
+                  }}
+                >
+                  આકારેલ વેરાની રકમ
+                </span>
               </div>
 
               <div className="table-cell prop-name">
-                <span className="formatting">
+                <span
+                  className="formatting"
+                  style={{
+                    fontSize: "10px",
+                  }}
+                >
                   મિલ્કત પર લખેલ
                   <br />
                   નામ
@@ -299,7 +365,7 @@ const SurvayReport = () => {
               <div className="table-cell facility">
                 <div className="facility-inner">
                   <div className="facility-title">
-                    <span className="formatting"> અન્ય સુવિધાઓ </span>
+                    <span className="formatting"> અન્ય સુવિધા </span>
                   </div>
 
                   <div
@@ -317,7 +383,14 @@ const SurvayReport = () => {
                 </div>
               </div>
 
-              <div className="table-cell remarks">નોંધ / રીમાર્કસ</div>
+              <div
+                className="table-cell remarks"
+                style={{
+                  fontSize: "10px",
+                }}
+              >
+                નોંધ / રીમાર્કસ
+              </div>
             </div>
 
             <div className="table-row table-header-row">
@@ -519,7 +592,7 @@ const SurvayReport = () => {
                 </th> */}
 
                 <th className="th" colSpan="2">
-                  અન્ય સુવિધાઓ
+                  અન્ય સુવિધા
                 </th>
 
                 <th className="th" rowSpan="2" style={{ minWidth: "130px" }}>
