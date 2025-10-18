@@ -245,6 +245,8 @@ const OrderValuationForm = () => {
     }
   };
 
+  const [editNote, setEditNote] = useState(false);
+
   const handleSave = async (e) => {
     e.preventDefault();
 
@@ -410,7 +412,7 @@ const OrderValuationForm = () => {
                 htmlFor="oldregi"
                 className="text-sm font-medium text-gray-700 mb-1"
               >
-                જૂનો રેજિ. નં.
+                જુના રજી.ની ઘરની સંખ્યા
               </label>
               <input
                 type="text"
@@ -624,7 +626,7 @@ const OrderValuationForm = () => {
                 htmlFor="s2Name"
                 className="text-sm font-medium text-gray-700 mb-1"
               >
-                12. વહિવટ કર્તા વ્યક્તિનું પુરૂ નામ
+                14. વહિવટ કર્તા વ્યક્તિનું પુરૂ નામ
               </label>
               <input
                 type="text"
@@ -641,7 +643,7 @@ const OrderValuationForm = () => {
                 htmlFor="s2Number"
                 className="text-sm font-medium text-gray-700 mb-1"
               >
-                13. વહિવટ કર્તા વ્યક્તિ મો.નં.
+                15. વહિવટ કર્તા વ્યક્તિ મો.નં.
               </label>
               <input
                 type="text"
@@ -658,7 +660,7 @@ const OrderValuationForm = () => {
                 htmlFor="assistantName"
                 className="text-sm font-medium text-gray-700 mb-1"
               >
-                14. સાથે રહેનાર વ્યકિતનું પુરૂ નામ
+                16. સાથે રહેનાર વ્યકિતનું પુરૂ નામ
               </label>
               <input
                 type="text"
@@ -674,7 +676,7 @@ const OrderValuationForm = () => {
                 htmlFor="assistantNumber"
                 className="text-sm font-medium text-gray-700 mb-1"
               >
-                15. સાથે રહેનાર મો.નં.
+                17. સાથે રહેનાર મો.નં.
               </label>
               <input
                 type="text"
@@ -691,7 +693,7 @@ const OrderValuationForm = () => {
                 htmlFor="assistantHoddo"
                 className="text-sm font-medium text-gray-700 mb-1"
               >
-                16. સાથે રહેનાર વ્યક્તિનો હોદ્દો
+                18. સાથે રહેનાર વ્યક્તિનો હોદ્દો
               </label>
               <input
                 type="text"
@@ -707,7 +709,7 @@ const OrderValuationForm = () => {
           <br />
           <div className="flex flex-col col-span-3">
             <label className="text-sm font-medium text-gray-700 mb-2">
-              17. Valuation Type
+              19. Valuation Type
             </label>
             <div className="flex gap-6">
               <label className="flex items-center gap-2">
@@ -1109,6 +1111,8 @@ const OrderValuationForm = () => {
               </div>
             </div>
 
+            <br />
+
             {/* Notes Section */}
             <div className="flex flex-col col-span-3">
               <label className="text-sm font-medium text-gray-700 mb-1">
@@ -1131,24 +1135,43 @@ const OrderValuationForm = () => {
                 </button>
               </div>
 
-              <ul className="list-disc pl-6 mt-3 text-gray-800 space-y-1">
+              <br />
+
+              <button
+                onClick={() => setEditNote(!editNote)}
+                className="px-4 py-2 bg-orange-600 text-white rounded-md"
+                type="button"
+                style={{ maxWidth: "fit-content" }}
+              >
+                {!editNote ? "Edit" : "View"}
+              </button>
+
+              <ul
+                className="list-disc pl-6 mt-3 text-gray-800 space-y-1"
+                style={{ maxWidth: "100%", overflow: "auto" }}
+              >
                 {details?.notes?.map((note, idx) => (
                   <li key={idx} className="flex justify-between items-center">
-                    <span>
+                    <span style={{ display: "flex" }}>
                       {toGujaratiNumber(idx + 1)}.
-                      <input
-                        type="text"
-                        value={note}
-                        onChange={(e) => {
-                          const newValue = e.target.value;
-                          setDetails((prev) => {
-                            const updatedNotes = [...prev.notes];
-                            updatedNotes[idx] = newValue;
-                            return { ...prev, notes: updatedNotes };
-                          });
-                        }}
-                        className="border-b border-gray-300 focus:outline-none focus:border-blue-500 px-1 text-sm bg-transparent"
-                      />
+                      {editNote ? (
+                        <input
+                          type="text"
+                          value={note}
+                          onChange={(e) => {
+                            const newValue = e.target.value;
+                            setDetails((prev) => {
+                              const updatedNotes = [...prev.notes];
+                              updatedNotes[idx] = newValue;
+                              return { ...prev, notes: updatedNotes };
+                            });
+                          }}
+                          className="border-b border-gray-300 focus:outline-none focus:border-blue-500 px-1 text-sm bg-transparent"
+                          style={{ width: "90%", minWidth: "800px" }}
+                        />
+                      ) : (
+                        note
+                      )}
                     </span>
 
                     <button

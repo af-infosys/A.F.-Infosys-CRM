@@ -289,7 +289,7 @@ const OrderValuationReport = () => {
             >
               <div
                 className="flex justify-between items-center"
-                style={{ width: "100%" }}
+                style={{ width: "100%", paddingRight: "40px" }}
               >
                 <div
                   style={{
@@ -339,7 +339,7 @@ const OrderValuationReport = () => {
                         TB<b>{details?.tbr}</b>R
                       </span>
 
-                      <span style={{ marginTop: "-8px" }}>
+                      <span style={{ marginTop: "-2px" }}>
                         જુના રજી.ની ઘરની સંખ્યા <b>{details?.oldregi || ""}</b>
                       </span>
                     </span>
@@ -362,6 +362,10 @@ const OrderValuationReport = () => {
                   flexDirection: "column",
                   gap: "3px",
                   alignItems: "end",
+
+                  // position: "absolute",
+                  // top: "20px",
+                  // right: "20px",
                 }}
               >
                 <div
@@ -371,7 +375,8 @@ const OrderValuationReport = () => {
                     flexDirection: "column",
                     paddingRight: "30px",
                     position: "relative",
-                    transform: "translateY(-70px)",
+                    transform: "translateY(-80px)",
+                    paddingLeft: "3px",
                   }}
                 >
                   <h2 style={{ fontSize: "16px" }}>
@@ -427,7 +432,7 @@ const OrderValuationReport = () => {
                     paddingRight: "10px",
                     alignItems: "end",
 
-                    marginTop: "-70px",
+                    marginTop: "-80px",
                   }}
                 >
                   <span
@@ -487,7 +492,7 @@ const OrderValuationReport = () => {
               >
                 <h2
                   style={{
-                    fontSize: "16px",
+                    fontSize: "15px",
                   }}
                 >
                   સરપંચશ્રીનું પુરૂ નામ તથા મો.નં.{" "}
@@ -500,7 +505,7 @@ const OrderValuationReport = () => {
 
                 <h2
                   style={{
-                    fontSize: "16px",
+                    fontSize: "15px",
                   }}
                 >
                   તલાટી કમ મંત્રીશ્રીનું પુરૂ નામ તથા મો.નં.{" "}
@@ -509,20 +514,24 @@ const OrderValuationReport = () => {
                   </b>
                 </h2>
 
-                <h2
-                  style={{
-                    fontSize: "16px",
-                  }}
-                >
-                  વહિવટ કર્તા વ્યક્તિનું પુરૂ નામ તથા મો.નં.{" "}
-                  <b>
-                    {details?.s2Name || ""}, {details?.s2Number || ""}
-                  </b>
-                </h2>
+                {details?.s2Name !== "" && details?.s2Number !== "" ? (
+                  <h2
+                    style={{
+                      fontSize: "15px",
+                    }}
+                  >
+                    વહિવટ કર્તા વ્યક્તિનું પુરૂ નામ તથા મો.નં.{" "}
+                    <b>
+                      {details?.s2Name || ""}, {details?.s2Number || ""}
+                    </b>
+                  </h2>
+                ) : (
+                  ""
+                )}
 
                 <h2
                   style={{
-                    fontSize: "16px",
+                    fontSize: "15px",
                   }}
                 >
                   સાથે રહેનાર વ્યકિતનું પુરૂ નામ તથા મો.નં.{" "}
@@ -534,7 +543,7 @@ const OrderValuationReport = () => {
                 </h2>
                 <h2
                   style={{
-                    fontSize: "16px",
+                    fontSize: "15px",
                     marginTop: "-10px",
                   }}
                 >
@@ -1358,40 +1367,6 @@ const OrderValuationReport = () => {
                   </h3>
                 </div>
               </div>
-              {/* 
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "3px",
-                padding: "8px",
-                borderRadius: "10px",
-                background: "#f4f4f4ff",
-              }}
-            >
-              <h2
-                style={{
-                  fontSize: "18px",
-                  width: "100%",
-                  textAlign: "center",
-                  border: "1px solid #000",
-                  borderRadius: "5px",
-                  marginBottom: "8px",
-                }}
-              >
-                અન્ય વેરા
-              </h2>
-
-              <div style={{ displa  y: "flex", flexWrap: "wrap", gap: "16px" }}>
-                {taxes?.map((tax, index) => {
-                  return (
-                    <span>
-                      ({index + 1}) {tax?.description} રૂ।. <b>{tax?.amount}</b>
-                    </span>
-                  );
-                })}
-              </div>
-            </div> */}
 
               {/* Order Report */}
               <div
@@ -1407,15 +1382,16 @@ const OrderValuationReport = () => {
               >
                 <h2
                   style={{
-                    fontSize: "22px",
+                    fontSize: "17px",
                     width: "100%",
                     maxWidth: "fit-content",
 
                     textAlign: "center",
                     border: "1px solid #000",
                     borderRadius: "5px",
-                    marginBottom: "8px",
+                    marginBottom: "5px",
                     paddingBottom: "3px",
+                    marginTop: "-20px",
 
                     paddingInline: "15px",
                     position: "relative",
@@ -1433,27 +1409,12 @@ const OrderValuationReport = () => {
                   </span>
                 </h2>
 
-                {/* <p>
-                ગુજરાત પંચાયત ધારા ની કલમ ૨૦૦ મુજબ ગ્રામ પંચાયતને દર ચાર વર્ષે
-                આકારણી સર્વે કરવું ફરજીયાત છે. આપણા ગામની પંચાયતની આકારણી મુદત
-                પૂર્ણ થઇ ગઈ હોય તો આજની ગ્રામ પંચાયત ની સામાન્ય બેઠક ની તા.{" "}
-                <b>{details?.meetingDate || " "} </b> ના રોજ બેઠક નંબર{" "}
-                <b>{details?.meetingNumber || ".................."}</b>
-                {", "}
-                મુદ્દા નં. <b>{details?.agendaNumber || ".............."}</b>
-                {", "}
-                ઠરાવ નં. <b>
-                  {details?.resolutionNumber || "............."}
-                </b>{" "}
-                થી મિલ્કત આકારણી સર્વેની કામગીરી કરી આપવા પાટીને નક્કી માં
-                આવ્યું.
-              </p> */}
-
                 <p
                   style={{
-                    marginTop: "10px",
-                    fontSize: "18px",
+                    marginTop: "2px",
+                    fontSize: "14px",
                     paddingLeft: "15px",
+                    lineHeight: "15px",
                   }}
                 >
                   આ આકારણી સર્વેનું કામ શરૂ કરતા પહેલા ગ્રામપંચાયતના ત.ક.મ. તથા
@@ -1467,8 +1428,8 @@ const OrderValuationReport = () => {
 
                 <p
                   style={{
-                    marginTop: "16px",
-                    lineHeight: "23px",
+                    marginTop: "2px",
+                    lineHeight: "15px",
                     paddingLeft: "15px",
                   }}
                 >
@@ -1492,16 +1453,15 @@ const OrderValuationReport = () => {
                   બહાલી આપી.
                 </p>
               </div>
-
-              <br />
-
               {/* Vigat Start */}
+
               <div
                 style={{
                   display: "flex",
                   flexDirection: "column",
                   gap: "3px",
                   paddingLeft: "20px",
+                  paddingTop: "3px",
                 }}
               >
                 {/* Section 1 */}
@@ -1513,6 +1473,7 @@ const OrderValuationReport = () => {
                 <h2
                   style={{
                     fontSize: "16px",
+                    marginTop: "-5px",
                   }}
                 >
                   પહેલા વિસ્તાર/શેરી મહોલ્લો કયા થી શરૂ કરવો :-{" "}
@@ -1536,7 +1497,7 @@ const OrderValuationReport = () => {
                   style={{
                     fontSize: "16px",
                     textDecoration: "underline",
-                    marginTop: "12px",
+                    marginTop: "3px",
                   }}
                 >
                   પાણી ની વિગત : : -
@@ -1544,6 +1505,7 @@ const OrderValuationReport = () => {
                 <h2
                   style={{
                     fontSize: "16px",
+                    marginTop: "-5px",
                   }}
                 >
                   જે મિલ્‍કત માં નળ હોય તેમા સામાન્‍ય પાણી વેરો લેવો કે નહી ?{" "}
@@ -1568,7 +1530,7 @@ const OrderValuationReport = () => {
               </div>
               {/* Vigat End */}
 
-              <div style={{ padding: "16px" }}>
+              <div style={{ padding: "16px", paddingTop: "5px" }}>
                 <h2
                   style={{
                     fontSize: "20px",
@@ -1584,8 +1546,8 @@ const OrderValuationReport = () => {
                       <li
                         key={index}
                         style={{
-                          fontSize: "18px",
-                          lineHeight: "1.2",
+                          fontSize: "16px",
+                          lineHeight: "1",
                           marginLeft: "0",
                         }}
                       >
@@ -1596,7 +1558,80 @@ const OrderValuationReport = () => {
                 </ol>
               </div>
 
-              <br />
+              <table>
+                <tr>
+                  <th
+                    colSpan="2"
+                    style={{ padding: "0px", textAlign: "center" }}
+                  >
+                    એડવાન્સ આયોજનની તારીખ (અંદાજીત)
+                  </th>
+
+                  <th style={{ padding: "0px", textAlign: "center" }}>
+                    સર્વે કામ પુર્ણ કર્યા તારીખ
+                  </th>
+                </tr>
+
+                <tr>
+                  <td style={{ padding: "0px 2px" }}>
+                    આકારણી સર્વે કામ શરૂ કર્યા તારીખ
+                  </td>
+                  <td style={{ padding: "0px", textAlign: "center" }}>
+                    <b>{formatDate(details?.date)}</b>
+                  </td>
+                  <td style={{ padding: "0px", textAlign: "center" }}>
+                    <b>{formatDate(details?.date)}</b>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style={{ padding: "0px 2px" }}>
+                    સર્વે કામ પુર્ણ કર્યા તારીખ
+                  </td>
+                  <td style={{ padding: "0px", textAlign: "center" }}>
+                    <b>{formatDate(details?.date)}</b>
+                  </td>
+                  <td style={{ padding: "0px", textAlign: "center" }}>
+                    <b>{formatDate(details?.date)}</b>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style={{ padding: "0px 2px" }}>
+                    રફ સર્વે રજી. PDF આકારણી મોકલ્યા તારીખ
+                  </td>
+                  <td style={{ padding: "0px", textAlign: "center" }}>
+                    <b>{formatDate(details?.date)}</b>
+                  </td>
+                  <td style={{ padding: "0px", textAlign: "center" }}>
+                    <b>{formatDate(details?.date)}</b>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style={{ padding: "0px 2px" }}>
+                    ફાઇનલ સુધારો કરેલ સમય અને ૧૫ દિવસ તારીખ
+                  </td>
+                  <td style={{ padding: "0px", textAlign: "center" }}>
+                    <b>{formatDate(details?.date)}</b>
+                  </td>
+                  <td style={{ padding: "0px", textAlign: "center" }}>
+                    <b>{formatDate(details?.date)}</b>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style={{ padding: "0px 2px" }}>
+                    પોર્ટલમાં ડેટા એન્ટ્રી કયારે કરવાની 4 મહિના બાદ તારીખ
+                  </td>
+                  <td style={{ padding: "0px", textAlign: "center" }}>
+                    <b>{formatDate(details?.date)}</b>
+                  </td>
+                  <td style={{ padding: "0px", textAlign: "center" }}>
+                    <b>{formatDate(details?.date)}</b>
+                  </td>
+                </tr>
+              </table>
 
               {/* Footer & Signature */}
               <div
@@ -1663,7 +1698,6 @@ const OrderValuationReport = () => {
                   <span>સરપંચ નો સિક્કો</span>
                 </div>
               </div>
-
               <div
                 style={{
                   position: "absolute",
