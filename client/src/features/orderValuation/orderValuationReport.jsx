@@ -1272,7 +1272,7 @@ const OrderValuationReport = () => {
                   <span> {details?.gaam || ""} ગ્રામ પંચાયત કચેરી </span>
 
                   <span>
-                    તાલુકો :– {details?.taluka || ""} જિલ્,લો :-{" "}
+                    તાલુકો :– {details?.taluka || ""} જિલ્લો :-{" "}
                     {details?.district || ""}
                   </span>
                 </div>
@@ -1300,7 +1300,7 @@ const OrderValuationReport = () => {
                   <span> {details?.gaam || ""} ગ્રામ પંચાયત કચેરી </span>
 
                   <span>
-                    તાલુકો :– {details?.taluka || ""} જિલ્,લો :-{" "}
+                    તાલુકો :– {details?.taluka || ""} જિલ્લો :-{" "}
                     {details?.district || ""}
                   </span>
                 </div>
@@ -1417,7 +1417,7 @@ const OrderValuationReport = () => {
                       transform: "translateY(-8px)",
                     }}
                   >
-                    મિલ્કત આકારણી સર્વેની અન્ય વિગત
+                    * મિલ્કત આકારણી સર્વેની અન્ય વિગત *
                   </span>
                 </h2>
 
