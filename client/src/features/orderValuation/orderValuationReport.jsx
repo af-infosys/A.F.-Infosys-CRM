@@ -289,7 +289,7 @@ const OrderValuationReport = () => {
             >
               <div
                 className="flex justify-between items-center"
-                style={{ width: "100%", paddingRight: "40px" }}
+                style={{ width: "100%", paddingRight: "60px" }}
               >
                 <div
                   style={{
@@ -367,6 +367,7 @@ const OrderValuationReport = () => {
                   // position: "absolute",
                   // top: "20px",
                   // right: "20px",
+                  paddingRight: "45px",
                 }}
               >
                 <div
@@ -374,7 +375,7 @@ const OrderValuationReport = () => {
                     display: "flex",
                     alignItems: "start",
                     flexDirection: "column",
-                    paddingRight: "30px",
+                    paddingRight: "17px",
                     position: "relative",
                     transform: "translateY(-80px)",
                     paddingLeft: "3px",
@@ -425,7 +426,7 @@ const OrderValuationReport = () => {
 
                 <span
                   style={{
-                    fontSize: "18px",
+                    fontSize: "16px",
                     textAlign: "right",
                     width: "100%",
                     display: "flex",
@@ -433,7 +434,7 @@ const OrderValuationReport = () => {
                     paddingRight: "10px",
                     alignItems: "end",
 
-                    marginTop: "-80px",
+                    marginTop: "-90px",
                   }}
                 >
                   <span
@@ -470,7 +471,7 @@ const OrderValuationReport = () => {
                 >
                   <h2
                     style={{
-                      fontSize: "18px",
+                      fontSize: "16px",
                     }}
                   >
                     આકારણીનું વર્ષ :– <b>{details?.akaraniYear || ""}</b>
@@ -478,7 +479,7 @@ const OrderValuationReport = () => {
 
                   <h2
                     style={{
-                      fontSize: "18px",
+                      fontSize: "16px",
                     }}
                   >
                     વેરા રજીસ્ટરનું વર્ષ :– <b>{details?.taxYear || ""}</b>
@@ -1272,8 +1273,7 @@ const OrderValuationReport = () => {
                   <span> {details?.gaam || ""} ગ્રામ પંચાયત કચેરી </span>
 
                   <span>
-                    તાલુકો :– {details?.taluka || ""} જિલ્લો :-{" "}
-                    {details?.district || ""}
+                    તા. {details?.taluka || ""}, જિ. {details?.district || ""}
                   </span>
                 </div>
 
@@ -1300,8 +1300,7 @@ const OrderValuationReport = () => {
                   <span> {details?.gaam || ""} ગ્રામ પંચાયત કચેરી </span>
 
                   <span>
-                    તાલુકો :– {details?.taluka || ""} જિલ્લો :-{" "}
-                    {details?.district || ""}
+                    તા. {details?.taluka || ""}, જિ. {details?.district || ""}
                   </span>
                 </div>
               </div>
@@ -1746,8 +1745,7 @@ const OrderValuationReport = () => {
                   <span> {details?.gaam || ""} ગ્રામ પંચાયત કચેરી </span>
 
                   <span>
-                    તા. :– {details?.taluka || ""}, જિ. :-{" "}
-                    {details?.district || ""}
+                    તા. {details?.taluka || ""}, જિ. {details?.district || ""}
                   </span>
                 </div>
 
@@ -1772,8 +1770,7 @@ const OrderValuationReport = () => {
                   </span>
                   <span> {details?.gaam || ""} ગ્રામ પંચાયત કચેરી </span>
                   <span>
-                    તા. :– {details?.taluka || ""}, જિ. :-{" "}
-                    {details?.district || ""}
+                    તા. {details?.taluka || ""}, જિ. {details?.district || ""}
                   </span>
                 </div>
               </div>
