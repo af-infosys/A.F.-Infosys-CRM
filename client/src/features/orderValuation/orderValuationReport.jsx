@@ -578,7 +578,7 @@ const OrderValuationReport = () => {
                   }}
                   className="formatting"
                 >
-                  Order Report – : : ઑર્ડર રીપોર્ટ આકાર (વેલ્યુએશન) રીપોર્ટ : :
+                  : : Order Report – ઑર્ડર રીપોર્ટ આકાર (વેલ્યુએશન) રીપોર્ટ : :
                   –
                 </span>
               </h2>
@@ -588,6 +588,7 @@ const OrderValuationReport = () => {
                   display: "flex",
                   gap: "140px",
                   justifyContent: "center",
+                  marginTop: "-3px",
                 }}
                 className="formatting"
               >
@@ -623,7 +624,7 @@ const OrderValuationReport = () => {
               <table
                 className="divide-y divide-gray-200"
                 style={{
-                  marginTop: "10px",
+                  marginTop: "4px",
                 }}
               >
                 <thead className="bg-gray-50">
@@ -847,7 +848,7 @@ const OrderValuationReport = () => {
                   }}
                   className="formatting"
                 >
-                  Order Report – : : ઑર્ડર રીપોર્ટ આકાર (વેલ્યુએશન) રીપોર્ટ : :
+                  : : Order Report – ઑર્ડર રીપોર્ટ આકાર (વેલ્યુએશન) રીપોર્ટ : :
                   –
                 </span>
               </h2>
@@ -857,6 +858,7 @@ const OrderValuationReport = () => {
                   display: "flex",
                   gap: "140px",
                   justifyContent: "center",
+                  marginTop: "-3px",
                 }}
                 className="formatting"
               >
@@ -892,7 +894,7 @@ const OrderValuationReport = () => {
               <table
                 className="divide-y divide-gray-200"
                 style={{
-                  marginTop: "10px",
+                  marginTop: "5px",
                 }}
               >
                 <thead className="bg-gray-50">
