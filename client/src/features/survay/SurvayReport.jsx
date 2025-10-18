@@ -257,7 +257,7 @@ const SurvayReport = () => {
               </div>
 
               <div className="table-cell description">
-                <span className="formatting">મિલકતનું વર્ણન</span>
+                <span className="formatting">મિલ્કતનું વર્ણન</span>
               </div>
 
               <div className="table-cell owner">
@@ -274,7 +274,7 @@ const SurvayReport = () => {
 
               <div className="table-cell valuation">
                 <span className="formatting">
-                  મિલકતની
+                  મિલ્કતની
                   <br />
                   કિંમત
                 </span>
@@ -286,20 +286,20 @@ const SurvayReport = () => {
 
               <div className="table-cell prop-name">
                 <span className="formatting">
-                  મિલ્ક્ત પર લખેલ
+                  મિલ્કત પર લખેલ
                   <br />
                   નામ
                 </span>
               </div>
 
-              <div className="table-cell type">
-                <span className="formatting">મકાન ટાઈપ</span>
-              </div>
+              {/* <div className="table-cell type">
+                <span className="formatting"> મકાન ટાઈપ </span>
+              </div> */}
 
               <div className="table-cell facility">
                 <div className="facility-inner">
                   <div className="facility-title">
-                    <span className="formatting">સુવિધા</span>
+                    <span className="formatting"> અન્ય સુવિધાઓ </span>
                   </div>
 
                   <div
@@ -361,9 +361,9 @@ const SurvayReport = () => {
                 <span className="formatting">10</span>
               </div>
 
-              <div className="table-cell type">
+              {/* <div className="table-cell type">
                 <span className="formatting">11</span>
-              </div>
+              </div> */}
 
               <div className="table-cell" style={{ width: "3%" }}>
                 <span className="formatting">12</span>
@@ -429,9 +429,9 @@ const SurvayReport = () => {
                   <span className="formatting">{record[6]}</span>
                 </div>
 
-                <div className="table-cell type">
+                {/* <div className="table-cell type">
                   <span className="formatting">{record[7]}</span>
-                </div>
+                </div> */}
 
                 <div className="table-cell tap">
                   <span className="formatting">{record[11]}</span>
@@ -487,7 +487,7 @@ const SurvayReport = () => {
                 </th>
 
                 <th className="th" rowSpan="2" style={{ minWidth: "250px" }}>
-                  મિલકતનું વર્ણન
+                  મિલ્કતનું વર્ણન
                 </th>
 
                 <th className="th" rowSpan="2" style={{ minWidth: "170px" }}>
@@ -503,7 +503,7 @@ const SurvayReport = () => {
                 </th>
 
                 <th className="th" rowSpan="2" style={{ minWidth: "100px" }}>
-                  મિલકતની કિંમત
+                  મિલ્કતની કિંમત
                 </th>
 
                 <th className="th" rowSpan="2" style={{ minWidth: "70px" }}>
@@ -514,12 +514,12 @@ const SurvayReport = () => {
                   મિલ્કત પર લખેલ નામ
                 </th>
 
-                <th className="th" rowSpan="2" style={{ minWidth: "120px" }}>
+                {/* <th className="th" rowSpan="2" style={{ minWidth: "120px" }}>
                   મકાન ટાઈપ
-                </th>
+                </th> */}
 
                 <th className="th" colSpan="2">
-                  સુવિધા
+                  અન્ય સુવિધાઓ
                 </th>
 
                 <th className="th" rowSpan="2" style={{ minWidth: "130px" }}>
@@ -576,7 +576,7 @@ const SurvayReport = () => {
 
                   <td className="td">{record[6]}</td>
 
-                  <td className="td">{record[7]}</td>
+                  {/* <td className="td">{record[7]}</td> */}
 
                   <td className="td">{record[11]}</td>
 
