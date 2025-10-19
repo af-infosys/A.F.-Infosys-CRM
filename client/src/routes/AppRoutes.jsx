@@ -41,6 +41,7 @@ import { useAuth } from "../config/AuthContext";
 import AnalyticsReport from "../features/survay/AnalysisReport";
 import TaxRegister from "../features/survay/TaxRegister";
 import TarijReport from "../features/survay/TarijReport";
+import SurvayFormImage from "../features/survay/SurvayFormImage";
 
 export default function AppRoutes() {
   const { user } = useAuth();
@@ -120,6 +121,8 @@ export default function AppRoutes() {
             </ProtectedRoute>
           }
         />
+
+        <Route path="/image" element={<SurvayFormImage />} />
 
         <Route path="/survay">
           <Route index element={<AkarniProjects />} />

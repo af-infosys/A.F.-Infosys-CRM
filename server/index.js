@@ -8,6 +8,7 @@ import authRoutes from "./routes/authRoutes.js";
 import inquiryRoutes from "./routes/inquiryRoutes.js";
 import workRoutes from "./routes/workRoutes.js";
 import valuationRoutes from ".//routes/orderValuationRoutes.js";
+import driveRoutes from "./routes/driveRoutes.js";
 
 let socket;
 let isConnected = false;
@@ -40,6 +41,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/work", workRoutes);
 app.use("/api/messages", MessagesRoutes);
 app.use("/api/valuation", valuationRoutes);
+app.use("/api/images", driveRoutes);
 
 // Reciept Automation Script Start
 async function fetchDataFromSheet(sheetId, recordId) {
@@ -433,6 +435,7 @@ import connectWhatsAPP, {
   sendMessageToWhatsApp,
 } from "./config/whatsapp.js";
 import MessagesRoutes from "./routes/waFromatRoutes.js";
+
 // import { sendMessageToWhatsApp } from "./controllers/sendController.js";
 
 app.post("/send-message", sendMessageToWhatsApp);

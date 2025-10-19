@@ -887,7 +887,7 @@ const TaxRegister = () => {
       {/* This is the visible, on-screen part */}
       <div className="visible-report-container">
         <h1 className="text-xl font-bold text-center mb-0 text-gray-800">
-          પંચાયત હિસાબ નમુનો નંબર - ૮ (આકારણી રજીસ્ટર)
+          ગામનો નમુના નંબર ૯ ડી - કરવેરા રજીસ્ટર - સન ૨૦૨૫/૨૬
         </h1>
 
         <h2 className="text-l text-center mb-2 text-gray-600">
