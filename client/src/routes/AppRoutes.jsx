@@ -42,6 +42,7 @@ import AnalyticsReport from "../features/survay/AnalysisReport";
 import TaxRegister from "../features/survay/TaxRegister";
 import TarijReport from "../features/survay/TarijReport";
 import SurvayFormImage from "../features/survay/SurvayFormImage";
+import SurvayReportImage from "../features/survay/SurvayReportImage";
 
 export default function AppRoutes() {
   const { user } = useAuth();
@@ -122,8 +123,6 @@ export default function AppRoutes() {
           }
         />
 
-        <Route path="/image" element={<SurvayFormImage />} />
-
         <Route path="/survay">
           <Route index element={<AkarniProjects />} />
           <Route path="manage" element={<Akarni />} />
@@ -133,6 +132,15 @@ export default function AppRoutes() {
             element={
               <ProtectedRoute allowedRoles={["owner"]}>
                 <SurvayReport />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="akarniImgReport/:projectId"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <SurvayReportImage />
               </ProtectedRoute>
             }
           />

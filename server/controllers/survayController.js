@@ -165,6 +165,10 @@ export const addSheetRecord = async (req, res) => {
       remarks,
       floors,
       survayor,
+
+      img1,
+      img2,
+      img3,
     } = req.body;
 
     // Basic validation: Check if essential fields are present
@@ -198,6 +202,20 @@ export const addSheetRecord = async (req, res) => {
       JSON.stringify(floors),
       description, // વર્ણનને rowData માં ઉમેરો
       JSON.stringify(survayor),
+
+      // Column Padding (18-24 / Indices 17-23)
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+
+      img1, // Column 25
+      img2, // Column 26
+      img3, // Column 27
     ];
 
     // 5. Append the row to the Google Sheet
@@ -324,16 +342,17 @@ export const editSheetRecord = async (req, res) => {
     const client = await auth.getClient();
     const googleSheets = google.sheets({ version: "v4", auth: client });
 
-    // Fetch current records
+    // Fetch current records to find the row number.
     const response = await googleSheets.spreadsheets.values.get({
       spreadsheetId: SPREADSHEET_ID,
-      range: `${DATA_SHEET}!A4:ZZ`,
+      // Fetch up to Column AA (27th column) to get all current data
+      range: `${DATA_SHEET}!A4:AA`,
     });
 
     const records = response.data.values || [];
     const { id } = req.params;
 
-    // Find the matching row index
+    // Find the matching row index based on the serial number (ID) in column A (index 0)
     const rowIndex = records.findIndex(
       (record) => Number(record[0]) === Number(id)
     );
@@ -343,7 +362,10 @@ export const editSheetRecord = async (req, res) => {
 
     const rowNumber = rowIndex + 4; // Adjust for A4 start
 
-    // Convert req.body to a flat array
+    // --- 1. Get Existing Row Data and New Request Data ---
+    const existingRow = records[rowIndex];
+
+    // Convert req.body to a flat array, including the new fields.
     const {
       serialNumber,
       areaName,
@@ -360,34 +382,74 @@ export const editSheetRecord = async (req, res) => {
       toiletCount,
       remarks,
       floors,
+      survayor, // Surveyor data is now included for potential use/preservation
+      img1, // Image 1 link (25th Column / Index 24)
+      img2, // Image 2 link (26th Column / Index 25)
+      img3, // Image 3 link (27th Column / Index 26)
     } = req.body;
 
     const description = buildPropertyDescription(req.body);
 
-    const updatedRow = [
-      serialNumber,
-      areaName,
-      propertyNumber,
-      ownerName,
-      oldPropertyNumber,
-      mobileNumber,
-      propertyNameOnRecord,
-      houseCategory,
-      kitchenCount,
-      bathroomCount,
-      verandaCount,
-      tapCount,
-      toiletCount,
-      remarks,
-      JSON.stringify(floors), // Floors stored as JSON string
-      description,
+    // --- 2. Create the Updated Row by Cloning and Injecting ---
+    // Create a copy of the existing row to maintain its original structure and content,
+    // ensuring data in padding columns (18-24) is preserved.
+    const updatedRow = [...existingRow];
+
+    // Define the new values to be injected at specific indices
+    const newValues = [
+      serialNumber, // Index 0 (Col 1)
+      areaName, // Index 1
+      propertyNumber, // Index 2
+      ownerName, // Index 3
+      oldPropertyNumber, // Index 4
+      mobileNumber, // Index 5
+      propertyNameOnRecord, // Index 6
+      houseCategory, // Index 7
+      kitchenCount, // Index 8
+      bathroomCount, // Index 9
+      verandaCount, // Index 10
+      tapCount, // Index 11
+      toiletCount, // Index 12
+      remarks, // Index 13
+      JSON.stringify(floors), // Index 14
+      description, // Index 15
     ];
+
+    // Inject standard survey fields (Indices 0 through 15)
+    newValues.forEach((val, index) => {
+      updatedRow[index] = val;
+    });
+
+    // Handle Surveyor Data (Column 17 / Index 16):
+    // Since you don't want to edit it, we explicitly use the existing value
+    // UNLESS the new request explicitly sends a 'survayor' object.
+    const newSurveyorString = survayor
+      ? JSON.stringify(survayor)
+      : existingRow[16];
+    updatedRow[16] = newSurveyorString;
+
+    // Handle Image Links (Columns 25-27 / Indices 24-26)
+    // img1 (25th Column) -> Index 24
+    updatedRow[25] = img1 || "";
+    // img2 (26th Column) -> Index 25
+    updatedRow[26] = img2 || "";
+    // img3 (27th Column) -> Index 26
+    updatedRow[27] = img3 || "";
+
+    // --- API ERROR FIX ---
+    // CRITICAL: Ensure the array length does not exceed 27 elements (indices 0-26).
+    // This prevents the "tried writing to column [AB]" error.
+    if (updatedRow.length > 27) {
+      updatedRow.length = 27;
+    }
+    // --- END API ERROR FIX ---
 
     // Update the sheet row
     await googleSheets.spreadsheets.values.update({
       spreadsheetId: SPREADSHEET_ID,
-      range: `${DATA_SHEET}!A${rowNumber}:ZZ${rowNumber}`,
-      valueInputOption: "USER_ENTERED",
+      // Target range is now up to Column AA to cover all 27 fields
+      range: `${DATA_SHEET}!A${rowNumber}:AA${rowNumber}`,
+      valueInputOption: "RAW", // Use RAW to ensure data types are written correctly
       requestBody: {
         values: [updatedRow],
       },

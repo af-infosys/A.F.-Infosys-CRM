@@ -12,7 +12,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import toGujaratiNumber from "../../components/toGujaratiNumber";
 
-const SurvayReport = () => {
+const SurvayReportImage = () => {
   const [records, setRecords] = useState([]);
 
   const [loading, setLoading] = useState(true);
@@ -103,7 +103,7 @@ const SurvayReport = () => {
   const handleDownloadPDF = async () => {
     const pdf = new jsPDF("landscape", "mm", "legal");
 
-    const totalPages = Math.ceil(records.length / 15);
+    const totalPages = records.length;
 
     for (let i = 0; i < totalPages; i++) {
       const pageElement = document.getElementById(`report-page-${i}`);
@@ -162,14 +162,6 @@ const SurvayReport = () => {
     );
   }
 
-  // Paginate records into chunks of 15
-
-  const pages = [];
-
-  for (let i = 0; i < records.length; i += 15) {
-    pages.push(records.slice(i, i + 15));
-  }
-
   return (
     <div className="container mx-auto p-4 sm:p-6 lg:p-8">
       <button
@@ -194,9 +186,10 @@ const SurvayReport = () => {
 
       <div
         className="pdf-report-container"
-        style={{ position: "absolute", left: "-9999px" }}
+        // style={{ position: "absolute", left: "-9999px" }}
+        style={{ position: "relative", left: "0px" }}
       >
-        {pages.map((pageRecords, pageIndex) => (
+        {records.map((record, pageIndex) => (
           <div
             key={pageIndex}
             id={`report-page-${pageIndex}`}
@@ -439,15 +432,15 @@ const SurvayReport = () => {
               </div> */}
 
               <div className="table-cell" style={{ width: "3%" }}>
-                <span className="formatting">12</span>
+                <span className="formatting">11</span>
               </div>
 
               <div className="table-cell" style={{ width: "3%" }}>
-                <span className="formatting">13</span>
+                <span className="formatting">12</span>
               </div>
 
               <div className="table-cell remarks">
-                <span className="formatting">14</span>
+                <span className="formatting">13</span>
               </div>
 
               {/* <div className="table-cell action">
@@ -457,68 +450,105 @@ const SurvayReport = () => {
 
             {/* Table Rows using Divs */}
 
-            {pageRecords.map((record, index) => (
-              <div key={index} className="table-row">
-                <div
-                  className="table-cell s-no"
-                  style={{ textAlign: "center" }}
-                >
-                  <span className="formatting">{record[0]}</span>
-                </div>
+            <div className="table-row">
+              <div className="table-cell s-no" style={{ textAlign: "center" }}>
+                <span className="formatting">{record[0]}</span>
+              </div>
 
-                <div className="table-cell area-name">
-                  <span className="formatting">{record[1]}</span>
-                </div>
+              <div className="table-cell area-name">
+                <span className="formatting">{record[1]}</span>
+              </div>
 
-                <div className="table-cell prop-no">
-                  <span className="formatting">{record[2]}</span>
-                </div>
+              <div className="table-cell prop-no">
+                <span className="formatting">{record[2]}</span>
+              </div>
 
-                <div className="table-cell description">
-                  <span className="formatting">{record[15]}</span>
-                </div>
+              <div className="table-cell description">
+                <span className="formatting">{record[15]}</span>
+              </div>
 
-                <div className="table-cell owner">
-                  <span className="formatting">{record[3]}</span>
-                </div>
+              <div className="table-cell owner">
+                <span className="formatting">{record[3]}</span>
+              </div>
 
-                <div className="table-cell old-prop-no">
-                  <span className="formatting">{record[4]}</span>
-                </div>
+              <div className="table-cell old-prop-no">
+                <span className="formatting">{record[4]}</span>
+              </div>
 
-                <div className="table-cell mobile">
-                  <span className="formatting">{record[5]}</span>
-                </div>
+              <div className="table-cell mobile">
+                <span className="formatting">{record[5]}</span>
+              </div>
 
-                <div className="table-cell valuation">
-                  <span className="formatting">{record[18]}</span>
-                </div>
+              <div className="table-cell valuation">
+                <span className="formatting">{record[18]}</span>
+              </div>
 
-                <div className="table-cell tax">
-                  <span className="formatting">{record[19]}</span>
-                </div>
+              <div className="table-cell tax">
+                <span className="formatting">{record[19]}</span>
+              </div>
 
-                <div className="table-cell prop-name">
-                  <span className="formatting">{record[6]}</span>
-                </div>
+              <div className="table-cell prop-name">
+                <span className="formatting">{record[6]}</span>
+              </div>
 
-                {/* <div className="table-cell type">
+              {/* <div className="table-cell type">
                   <span className="formatting">{record[7]}</span>
                 </div> */}
 
-                <div className="table-cell tap">
-                  <span className="formatting">{record[11]}</span>
-                </div>
-
-                <div className="table-cell toilet">
-                  <span className="formatting">{record[12]}</span>
-                </div>
-
-                <div className="table-cell remarks">
-                  <span className="formatting">{record[13]}</span>
-                </div>
+              <div className="table-cell tap">
+                <span className="formatting">{record[11]}</span>
               </div>
-            ))}
+
+              <div className="table-cell toilet">
+                <span className="formatting">{record[12]}</span>
+              </div>
+
+              <div className="table-cell remarks">
+                <span className="formatting">{record[13]}</span>
+              </div>
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-evenly",
+                padding: "10px",
+                marginTop: "20px",
+              }}
+            >
+              {record[25] ? (
+                <iframe
+                  src={`https://drive.google.com/file/d/${record[25]}/preview`}
+                  width="600"
+                  height="400"
+                  allow="autoplay"
+                ></iframe>
+              ) : (
+                <h2>No Image</h2>
+              )}
+
+              {record[26] ? (
+                <iframe
+                  src={`https://drive.google.com/file/d/${record[26]}/preview`}
+                  width="600"
+                  height="400"
+                  allow="autoplay"
+                ></iframe>
+              ) : (
+                <h2>No Image</h2>
+              )}
+
+              {record[27] ? (
+                <iframe
+                  src={`https://drive.google.com/file/d/${record[27]}/preview`}
+                  width="600"
+                  height="400"
+                  allow="autoplay"
+                ></iframe>
+              ) : (
+                <h2>No Image</h2>
+              )}
+            </div>
           </div>
         ))}
       </div>
@@ -609,7 +639,7 @@ const SurvayReport = () => {
               {/* Index Start */}
               <tr>
                 {/* 1 to 14 th for index */}
-                {Array.from({ length: 14 }).map((_, index) => (
+                {Array.from({ length: 13 }).map((_, index) => (
                   <th
                     className="text-xs font-medium text-gray-500 uppercase tracking-wider"
                     style={{
@@ -674,4 +704,4 @@ const SurvayReport = () => {
   );
 };
 
-export default SurvayReport;
+export default SurvayReportImage;

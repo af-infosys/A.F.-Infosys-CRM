@@ -8,11 +8,13 @@ import "./akarni.scss";
 
 const quicklinks = [
   { id: 1, label: "Order Valuation Report", path: "/orderValuation/report" },
+
   { id: 2, label: "Akarni Register (No.8)", path: "/survay/akarniReport" },
+
   {
     id: 3,
     label: "Akarni Register (No.8) - With Image",
-    path: "/survay/akarniReportImage",
+    path: "/survay/akarniImgReport",
   },
   { id: 4, label: "Vera Register (9D)", path: "/survay/taxRegister" },
   { id: 5, label: "Index Report પાનોત્રી બુક", path: "/survay/indexReport" },

@@ -439,15 +439,15 @@ const SurvayReport = () => {
               </div> */}
 
               <div className="table-cell" style={{ width: "3%" }}>
-                <span className="formatting">12</span>
+                <span className="formatting">11</span>
               </div>
 
               <div className="table-cell" style={{ width: "3%" }}>
-                <span className="formatting">13</span>
+                <span className="formatting">12</span>
               </div>
 
               <div className="table-cell remarks">
-                <span className="formatting">14</span>
+                <span className="formatting">13</span>
               </div>
 
               {/* <div className="table-cell action">
@@ -609,7 +609,7 @@ const SurvayReport = () => {
               {/* Index Start */}
               <tr>
                 {/* 1 to 14 th for index */}
-                {Array.from({ length: 14 }).map((_, index) => (
+                {Array.from({ length: 13 }).map((_, index) => (
                   <th
                     className="text-xs font-medium text-gray-500 uppercase tracking-wider"
                     style={{
