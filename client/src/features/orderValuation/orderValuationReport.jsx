@@ -272,7 +272,7 @@ const OrderValuationReport = () => {
             style={{
               width: "680px",
               minWidth: "680px",
-              minHeight: "1050px",
+              minHeight: "1080px",
               position: "relative",
               padding: "15px",
               paddtingTop: "23px",
@@ -336,6 +336,7 @@ const OrderValuationReport = () => {
                       style={{
                         display: "flex",
                         flexDirection: "column",
+                        paddingLeft: "5px",
                       }}
                     >
                       <span>TB{details?.tbr}R</span>
@@ -764,7 +765,7 @@ const OrderValuationReport = () => {
               <div
                 style={{
                   position: "absolute",
-                  bottom: "16px",
+                  bottom: "18px",
                   right: "30px",
                   fontSize: "14px",
                   color: "#000",
@@ -793,7 +794,7 @@ const OrderValuationReport = () => {
             style={{
               width: "680px",
               minWidth: "680px",
-              minHeight: "1050px",
+              minHeight: "1080px",
               position: "relative",
               padding: "15px",
               paddtingTop: "23px",
@@ -1253,7 +1254,7 @@ const OrderValuationReport = () => {
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
-                  paddingBottom: "32px",
+                  paddingBottom: "40px",
                   paddingInline: "42px",
                   position: "absolute",
                   bottom: "0px",
@@ -1320,7 +1321,7 @@ const OrderValuationReport = () => {
               <div
                 style={{
                   position: "absolute",
-                  bottom: "16px",
+                  bottom: "18px",
                   right: "30px",
                   fontSize: "14px",
                   color: "#000",
@@ -1349,7 +1350,7 @@ const OrderValuationReport = () => {
             style={{
               width: "680px",
               minWidth: "680px",
-              minHeight: "1050px",
+              minHeight: "1080px",
               position: "relative",
               padding: "15px",
               paddtingTop: "23px",
@@ -1727,7 +1728,7 @@ const OrderValuationReport = () => {
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
-                  paddingBottom: "32px",
+                  paddingBottom: "40px",
                   paddingInline: "42px",
                   position: "absolute",
                   bottom: "0px",
@@ -1791,7 +1792,7 @@ const OrderValuationReport = () => {
               <div
                 style={{
                   position: "absolute",
-                  bottom: "16px",
+                  bottom: "18px",
                   right: "30px",
                   fontSize: "14px",
                   color: "#000",
