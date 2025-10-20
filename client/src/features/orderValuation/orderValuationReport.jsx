@@ -275,6 +275,8 @@ const OrderValuationReport = () => {
               minHeight: "1050px",
               position: "relative",
               padding: "15px",
+              paddtingTop: "23px",
+              paddingRight: "23px",
               background: "#fff",
             }}
           >
@@ -341,6 +343,13 @@ const OrderValuationReport = () => {
                       <span style={{ marginTop: "-2px" }}>
                         જુના રજી.ની ઘરની સંખ્યા <b>{details?.oldregi || ""}</b>
                       </span>
+
+                      {details?.imageAkarni ? (
+                        <span style={{ marginTop: "-2px" }}>
+                          ફોટા વાળી આકારણી{": "}
+                          <b>{details?.imageAkarni ? "હા" : "ના"}</b>
+                        </span>
+                      ) : null}
                     </span>
                   </h3>
 
@@ -375,7 +384,9 @@ const OrderValuationReport = () => {
                     flexDirection: "column",
                     paddingRight: "17px",
                     position: "relative",
-                    transform: "translateY(-80px)",
+                    transform: `translateY(-${
+                      details?.imageAkarni ? 100 : 80
+                    }px)`,
                     paddingLeft: "3px",
                   }}
                 >
@@ -432,7 +443,7 @@ const OrderValuationReport = () => {
                     paddingRight: "10px",
                     alignItems: "end",
 
-                    marginTop: "-90px",
+                    marginTop: `-${details?.imageAkarni ? 110 : 90}px`,
                   }}
                 >
                   <span
@@ -754,12 +765,12 @@ const OrderValuationReport = () => {
                 style={{
                   position: "absolute",
                   bottom: "16px",
-                  right: "23px",
+                  right: "30px",
                   fontSize: "14px",
-                  color: "#333",
+                  color: "#000",
                 }}
               >
-                પાના નં. {toGujaratiNumber(1)}
+                <b> પાના નં. {toGujaratiNumber(1)} </b>
               </div>
             </div>
           </div>
@@ -785,6 +796,8 @@ const OrderValuationReport = () => {
               minHeight: "1050px",
               position: "relative",
               padding: "15px",
+              paddtingTop: "23px",
+              paddingRight: "23px",
               background: "#fff",
             }}
           >
@@ -1308,12 +1321,12 @@ const OrderValuationReport = () => {
                 style={{
                   position: "absolute",
                   bottom: "16px",
-                  right: "23px",
+                  right: "30px",
                   fontSize: "14px",
-                  color: "#333",
+                  color: "#000",
                 }}
               >
-                પાના નં. {toGujaratiNumber(2)}
+                <b> પાના નં. {toGujaratiNumber(2)} </b>
               </div>
             </div>
           </div>
@@ -1339,6 +1352,8 @@ const OrderValuationReport = () => {
               minHeight: "1050px",
               position: "relative",
               padding: "15px",
+              paddtingTop: "23px",
+              paddingRight: "23px",
               background: "#fff",
             }}
           >
@@ -1777,12 +1792,12 @@ const OrderValuationReport = () => {
                 style={{
                   position: "absolute",
                   bottom: "16px",
-                  right: "23px",
+                  right: "30px",
                   fontSize: "14px",
-                  color: "#333",
+                  color: "#000",
                 }}
               >
-                પાના નં. {toGujaratiNumber(3)}
+                <b> પાના નં. {toGujaratiNumber(3)} </b>
               </div>
             </div>
           </div>
