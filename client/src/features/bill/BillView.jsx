@@ -2,22 +2,41 @@ import React, { useRef, useEffect, useState } from "react";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import "./bill.scss";
+import apiPath from "../../isProduction";
 
 function BillView() {
   const reportRef = useRef(null);
 
   const [billData, setBillData] = useState({
-    invoiceNo: "167",
+    gaam: "",
+    year: "2024/25",
+
+    invoiceNo: 0,
     date: "2024/25",
     description:
-      "નાના ઝીંઝુડા ગામની મકાન આકારણી સર્વે, વર્ષ:- 2025/26 નું ગામ નમુના નં. ૮ આકારણી રજીસ્ટર ઘેર ઘેર જઇને બનાવી અને ગા.ન.ન.- ૯/ડી કરવેરા રજીસ્ટર બનાવિ કોમ્પ્યુટરાઈઝડ પ્રિન્ટ સાથે સ્પાઇરલ બાઈન્ડિંગ સાથે ઓનલાઈન ગ્રામ સુવિધા પોર્ટલમાં ડેટાએન્ટ્રી સાથે જોબવર્ક/મજુરીથી કમ્પલેટ અદ્યતન બનાવેલ",
-    houseCount: 397,
-    pricePerHouse: 55.0,
-    totalInWords: "એકવીસહઝાર આઠસો વિસ પુરા",
+      "x ગામની મકાન આકારણી સર્વે, વર્ષ:- 2025/26 નું ગામ નમુના નં. ૮ આકારણી રજીસ્ટર ઘેર ઘેર જઇને બનાવી અને ગા.ન.ન.- ૯/ડી કરવેરા રજીસ્ટર બનાવિ કોમ્પ્યુટરાઈઝડ પ્રિન્ટ સાથે સ્પાઇરલ બાઈન્ડિંગ સાથે ઓનલાઈન ગ્રામ સુવિધા પોર્ટલમાં ડેટાએન્ટ્રી સાથે જોબવર્ક/મજુરીથી કમ્પલેટ અદ્યતન બનાવેલ",
+    houseCount: 0,
+    price: 0,
   });
 
   useEffect(() => {
-    // You can fetch API data here if needed in future
+    const fetchBillDetails = async () => {
+      const id = "";
+
+      fetch(`${await apiPath()}/valuation/bill/${id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setBillData(data?.bill || {});
+        });
+    };
+
+    fetchBillDetails();
   }, []);
 
   const handleDownloadPdf = () => {
@@ -44,7 +63,7 @@ function BillView() {
     });
   };
 
-  const totalAmount = (billData.houseCount * billData.pricePerHouse).toFixed(2);
+  const totalAmount = (billData.houseCount * billData.price).toFixed(2);
   const logoUrl = "https://afinfosys.netlify.app/logo.png";
   const placeholderImageUrl =
     "https://placehold.co/512x512/d1d5db/374151?text=A.F.Infosys";
@@ -85,7 +104,7 @@ function BillView() {
         >
           <div
             ref={reportRef}
-            className="table-container rounded-lg shadow-md border border-gray-200"
+            className="table-container letterpad rounded-lg shadow-md border border-gray-200"
             style={{
               width: "735px",
               padding: "1rem",
@@ -113,6 +132,9 @@ function BillView() {
                     E-Mail :-{" "}
                     <span className="underline">af.infosys146@gmail.com</span>
                   </h3>
+                  <h3 className="text-base font-grey-700">
+                    Website :- <span className="underline">afinfosys.com</span>
+                  </h3>
                 </div>
               </div>
             </div>
@@ -121,7 +143,7 @@ function BillView() {
             <div id="title">
               <div>
                 <h2 className="text-5xl text-center font-extrabold mt-4">
-                  A.F. Infosys
+                  {/* A.F. Infosys */}
                 </h2>
 
                 <p>
@@ -314,7 +336,7 @@ function BillView() {
                       textAlign: "center",
                     }}
                   >
-                    {billData.pricePerHouse}
+                    {billData.price}
                   </td>
                   <td className="text-sm text-gray-800 text-center max-w-[65px]">
                     {totalAmount}

@@ -7,9 +7,11 @@ import {
 import {
   addDetails,
   addTaxes,
+  getBillDetails,
   getDetails,
   getImageMode,
   getTaxes,
+  updateBillDetails,
 } from "../controllers/orderValautionController.js";
 
 const valuationRoutes = express.Router();
@@ -33,12 +35,27 @@ valuationRoutes.get(
   getImageMode
 );
 
+// Bill Routes
+valuationRoutes.get(
+  "/bill/:id",
+  authenticateToken,
+  authorizeRoles("owner"),
+  getBillDetails
+);
+valuationRoutes.put(
+  "/bill/:id",
+  authenticateToken,
+  authorizeRoles("owner"),
+  updateBillDetails
+);
+
 valuationRoutes.get(
   "/:id",
   authenticateToken,
   authorizeRoles("owner"),
   getDetails
 );
+
 valuationRoutes.post(
   "/:id",
   authenticateToken,

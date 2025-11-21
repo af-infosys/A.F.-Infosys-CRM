@@ -40,6 +40,76 @@ export const getDetails = async (req, res) => {
   }
 };
 
+export const getBillDetails = async (req, res) => {
+  try {
+    const works = await Work.findOne({ _id: req.params.id });
+
+    if (!works) return res.status(404).json({ error: "Work not found" });
+
+    const bill = {
+      gaam: works.spot?.gaam,
+      year: works.details?.akaraniYear,
+
+      invoiceNo: works.details?.invoiceNo,
+      description: works.details?.description,
+      price: works.details?.price,
+      date: works.details?.date,
+    };
+
+    res.json({
+      bill,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+};
+
+export const updateBillDetails = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const { invoiceNo, description, price, date } = req.body;
+
+    const updateFields = {
+      "details.invoiceNo": invoiceNo,
+      "details.description": description,
+      "details.price": price,
+      "details.date": date,
+    };
+
+    const updatedWork = await Work.findByIdAndUpdate(
+      id,
+      { $set: updateFields },
+      { new: true, runValidators: true } // Run validators for schema checks
+    );
+
+    if (!updatedWork) {
+      return res.status(404).json({ error: "Work not found for update" });
+    }
+
+    // Prepare the response bill object similar to the get function
+    const bill = {
+      gaam: updatedWork.spot?.gaam, // Unchanged
+      year: updatedWork.details?.akaraniYear, // Unchanged
+
+      invoiceNo: updatedWork.details?.invoiceNo,
+      description: updatedWork.details?.description,
+      price: updatedWork.details?.price,
+      date: updatedWork.details?.date,
+    };
+
+    res.json({
+      message: "Bill details updated successfully",
+      bill,
+    });
+  } catch (err) {
+    console.error(err);
+    // You might want to check for specific validation errors here
+    res.status(500).json({ error: "Server error during update" });
+  }
+};
+
 export const getImageMode = async (req, res) => {
   try {
     const userId = req.params.id;

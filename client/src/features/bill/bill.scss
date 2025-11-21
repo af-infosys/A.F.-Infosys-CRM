@@ -10,7 +10,7 @@ h3.text-base {
   padding-left: 5px;
   align-items: end;
 
-  margin-top: -30px;
+  margin-top: -40px;
   border-bottom: 1px solid #ccc;
   padding-bottom: 5px;
 
@@ -20,36 +20,45 @@ h3.text-base {
     align-items: start;
 
     h2 {
-      color: transparent;
-      background: linear-gradient(to bottom, darkred, rgb(255, 94, 0));
-      background-clip: text;
-      -webkit-background-clip: text;
+      // color: transparent;
+      // background: linear-gradient(to bottom, #8b0000, #ff5e00);
+      // background-clip: text;
+      // -webkit-background-clip: text;
+
+      width: 400px;
+      height: 40px;
+      background: url("../../assets/component/Heading.svg");
+      background-size: contain;
+      background-repeat: no-repeat;
     }
 
     p {
       font-size: 15px;
       &.address {
-        font-size: 14px;
-
+        font-size: 14.5px;
+        margin-top: 2px;
+        padding-top: 3px;
+        border-top: 1px solid #dfcccc;
         color: rgb(199, 15, 107);
+        font-weight: 600;
       }
     }
   }
 
-  img {
+  & > img {
     max-width: 120px;
     height: 120px;
   }
 }
 
 /* New CSS for background elements */
-.table-container {
+.table-container.letterpad {
   position: relative;
   overflow: hidden; /* Ensures pseudo-elements don't overflow */
   z-index: 1;
 }
 
-.table-container::before {
+.table-container.letterpad::before {
   content: "";
   position: absolute;
   top: 0px;
@@ -63,7 +72,7 @@ h3.text-base {
   background-repeat: no-repeat;
 }
 
-.table-container::after {
+.table-container.letterpad::after {
   content: "";
   position: absolute;
   bottom: 0;
