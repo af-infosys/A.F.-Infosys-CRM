@@ -1,10 +1,12 @@
 {
   "files": {
-    "main.css": "/static/css/main.15f530da.css",
-    "main.js": "/static/js/main.29035438.js",
+    "main.css": "/static/css/main.79ac7fbc.css",
+    "main.js": "/static/js/main.36bac643.js",
     "static/js/977.87a37736.chunk.js": "/static/js/977.87a37736.chunk.js",
     "static/js/455.1db97b84.chunk.js": "/static/js/455.1db97b84.chunk.js",
     "static/js/453.57b2eab3.chunk.js": "/static/js/453.57b2eab3.chunk.js",
+    "static/media/survey.png": "/static/media/survey.6033c7c78769b5198d6f.png",
+    "static/media/logo.png": "/static/media/logo.65093e0a1514f8a465c0.png",
     "static/media/KachaMakan.png": "/static/media/KachaMakan.48d30bd246c3006b6119.png",
     "static/media/bottom.svg": "/static/media/bottom.9508f54178bd780dfbe2.svg",
     "static/media/search.png": "/static/media/search.17b40541e1ceaa04a220.png",
@@ -35,14 +37,14 @@
     "static/media/expense.png": "/static/media/expense.e0c59843096bb7a05c4c.png",
     "static/media/House.png": "/static/media/House.640d0b1e39b36fd2550c.png",
     "index.html": "/index.html",
-    "main.15f530da.css.map": "/static/css/main.15f530da.css.map",
-    "main.29035438.js.map": "/static/js/main.29035438.js.map",
+    "main.79ac7fbc.css.map": "/static/css/main.79ac7fbc.css.map",
+    "main.36bac643.js.map": "/static/js/main.36bac643.js.map",
     "977.87a37736.chunk.js.map": "/static/js/977.87a37736.chunk.js.map",
     "455.1db97b84.chunk.js.map": "/static/js/455.1db97b84.chunk.js.map",
     "453.57b2eab3.chunk.js.map": "/static/js/453.57b2eab3.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.15f530da.css",
-    "static/js/main.29035438.js"
+    "static/css/main.79ac7fbc.css",
+    "static/js/main.36bac643.js"
   ]
 }

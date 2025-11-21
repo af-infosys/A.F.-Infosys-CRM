@@ -183,11 +183,11 @@ function BillView() {
             </div>
 
             {/* Table Section */}
-            <table className="min-w-full divide-y divide-gray-200 mt-2">
-              <thead className="bg-gray-50">
+            <table className="min-w-full mt-2">
+              <thead>
                 <tr>
                   <th
-                    className="px-2 py-3 text-xs font-medium text-gray-800 uppercase tracking-wider bg-gray-100"
+                    className="px-2 py-3 text-xs font-medium text-gray-800 uppercase tracking-wider"
                     colSpan="6"
                     style={{ textAlign: "center" }}
                   >
@@ -261,7 +261,7 @@ function BillView() {
                   {/* Index row */}
                   {Array.from({ length: 6 }).map((_, index) => (
                     <th
-                      className="text-xs font-light text-gray-600 text-center bg-gray-100"
+                      className="text-xs font-light text-gray-600 text-center"
                       key={index}
                       style={{ padding: "3px", textAlign: "center" }}
                     >
@@ -270,7 +270,7 @@ function BillView() {
                   ))}
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody>
                 {/* Bill record row */}
                 <tr>
                   <td
