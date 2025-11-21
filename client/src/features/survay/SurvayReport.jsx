@@ -11,6 +11,8 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import toGujaratiNumber from "../../components/toGujaratiNumber";
+import AkarniExcel from "../../components/excel/AkarniExcel";
+import AkarniImport from "../../components/excel/AkarniImport";
 
 const SurvayReport = () => {
   const [records, setRecords] = useState([]);
@@ -188,6 +190,24 @@ const SurvayReport = () => {
       >
         Start Calculate
       </button>
+
+      <br />
+      <br />
+
+      <AkarniExcel
+        records={records}
+        headerData={{
+          year: "૨૦૨૫/૨૬",
+          gaam: project?.spot?.gaam,
+          taluko: project?.spot?.taluka,
+          jillo: project?.spot?.district,
+        }}
+      />
+
+      <br />
+      <br />
+
+      <AkarniImport />
 
       <br />
       <br />

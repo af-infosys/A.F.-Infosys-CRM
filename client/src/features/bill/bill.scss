@@ -1,0 +1,92 @@
+h3.text-base {
+  font-size: 15px;
+  line-height: 18px;
+}
+
+#title {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 15px;
+  padding-left: 5px;
+  align-items: end;
+
+  margin-top: -30px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 5px;
+
+  div {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+
+    h2 {
+      color: transparent;
+      background: linear-gradient(to bottom, darkred, rgb(255, 94, 0));
+      background-clip: text;
+      -webkit-background-clip: text;
+    }
+
+    p {
+      font-size: 15px;
+      &.address {
+        font-size: 14px;
+
+        color: rgb(199, 15, 107);
+      }
+    }
+  }
+
+  img {
+    max-width: 120px;
+    height: 120px;
+  }
+}
+
+/* New CSS for background elements */
+.table-container {
+  position: relative;
+  overflow: hidden; /* Ensures pseudo-elements don't overflow */
+  z-index: 1;
+}
+
+.table-container::before {
+  content: "";
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 500px;
+  height: 350px;
+  opacity: 0.3;
+  z-index: -1;
+  background: url("../../assets/component/corner.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.table-container::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 735px;
+  height: 360px;
+  opacity: 0.7;
+  z-index: -1;
+  background: url("../../assets/component/bottom.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+// .watermark-logo {
+//   content: "";
+//   position: absolute;
+//   top: 20px;
+//   left: 20px;
+//   width: 100px;
+//   height: 100px;
+//   opacity: 0.7;
+//   z-index: -1;
+//   background: url("../../../public/logo.png");
+//   background-size: contain;
+//   background-repeat: no-repeat;
+// }

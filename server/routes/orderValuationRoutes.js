@@ -8,6 +8,7 @@ import {
   addDetails,
   addTaxes,
   getDetails,
+  getImageMode,
   getTaxes,
 } from "../controllers/orderValautionController.js";
 
@@ -24,6 +25,12 @@ valuationRoutes.post(
   authenticateToken,
   authorizeRoles("owner"),
   addTaxes
+);
+valuationRoutes.get(
+  "/getImageMode/:id",
+  authenticateToken,
+  authorizeRoles("owner", "surveyor"),
+  getImageMode
 );
 
 valuationRoutes.get(

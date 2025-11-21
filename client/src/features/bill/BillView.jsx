@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import "./bill.scss";
 
 function BillView() {
   const reportRef = useRef(null);
@@ -79,42 +80,65 @@ function BillView() {
             overflow: "auto",
             display: "flex",
             alignItems: "start",
+            justifyContent: "start",
           }}
         >
           <div
             ref={reportRef}
             className="table-container rounded-lg shadow-md border border-gray-200"
             style={{
-              width: "600px",
+              width: "735px",
               padding: "1rem",
               background: "#fff",
-
-              minWidth: "620px",
+              minWidth: "735px",
+              height: "1010px",
             }}
           >
             <div className="flex justify-between items-center mb-4 w-full">
-              <div className="flex flex-col items-end w-full px-4">
-                <div className="flex flex-col items-start">
-                  <h3 className="text-base">
-                    SHAHID KALVA | <span>93764 43146</span>
+              <div className="flex flex-col items-end w-full">
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "start",
+                  }}
+                >
+                  <h3 className="text-base font-grey-700">
+                    Shahid Kalva - <span>93764 43146</span>
                   </h3>
-                  <h3 className="text-base">
-                    E-MAIL :-{" "}
-                    <b className="underline">af.infosys146@gmail.com</b>
+                  <h3 className="text-base font-grey-700">
+                    Sarfaraz Kalva - <span>99247 82732</span>
+                  </h3>
+                  <h3 className="text-base font-grey-700">
+                    E-Mail :-{" "}
+                    <span className="underline">af.infosys146@gmail.com</span>
                   </h3>
                 </div>
               </div>
             </div>
 
             {/* Business Name and Logo */}
-            <div className="flex flex-col relative">
-              <h2 className="text-5xl text-center font-extrabold mt-4">
-                A.F. Infosys
-              </h2>
+            <div id="title">
+              <div>
+                <h2 className="text-5xl text-center font-extrabold mt-4">
+                  A.F. Infosys
+                </h2>
+
+                <p>
+                  ગ્રામપંચાયત રેવન્યુ (જમા બંધી) વાર્ષીક હિસાબ, આકારહણી સર્વે,
+                  પંચાયત કરવેરા (૯/ડી) રજીસ્ટર, રોજમેળ, તથા તમામ પ્રકારના
+                  કોમ્પ્યુટરાઈઝડ તથા પ્રિન્ટીગ કામ માટે માળો
+                </p>
+
+                <p className="address">
+                  જુના બસ સ્ટેન્ડ, સેન્ટર પોઈન્ટ કોમ્પ્લેક્ષ, સાવરકુંડલા.
+                  પિનકોડ-૩૬૪૫૧૫ જિ. અમરેલી, (પશ્ચિમ ગુજરાત)
+                </p>
+              </div>
+
               <img
                 src={logoUrl}
                 alt="Logo"
-                className="absolute bottom-0 left-3 w-32 rounded-lg"
                 onError={(e) => {
                   e.target.onerror = null;
                   e.target.src = placeholderImageUrl;
@@ -122,32 +146,20 @@ function BillView() {
               />
             </div>
 
-            {/* Description Section */}
-            <div className="flex flex-col gap-1 p-4">
-              <h3 className="text-xl text-center font-extrabold">
-                ગ્રામપંચાયત રેવન્યુ (જમા બંધી) વાર્ષીક હિસાબ, આકારહણી સર્વે
-              </h3>
-              <h3 className="text-sm text-center px-20">
-                પંચાયત કરવેરા ( ૯ / ડી ) રજીસ્ટર, રોજ મેળ, તથા તમામ પ્રકારના
-                કોમ્પ્યુટરાઈઝડ તથા પ્રિન્ટીગ કામ માટે માળો
-              </h3>
-              <h3 className="text-sm text-center mt-2">
-                જુના બસ સ્ટેન્ડ, સેન્ટર પોઈન્ટ કોમ્પ્લેક્ષ, સાવરકુંડલા.
-              </h3>
-              <h3 className="text-sm text-center">
-                પિન કોડ નં. ૩૬૪૫૧૫ જિ. અમરેલી, (પશ્ચિમ ગુજરાત)
-              </h3>
-            </div>
-
             {/* Check info */}
             <div className="w-full flex justify-end pr-4">
-              <span className="text-xs text-right">
+              <span
+                className="text-xs text-right"
+                style={{ marginTop: "7px", fontSize: "14px" }}
+              >
                 આ કામ અંગેનો ચેક એ. એફ. ઇન્ફોસીસ નામનો લખવા વિનંતી.
               </span>
             </div>
 
+            <br />
+
             {/* Invoice Details */}
-            <div className="flex flex-col w-full p-2 border-t border-gray-200">
+            <div className="flex flex-col w-full p-2">
               <div className="flex justify-between">
                 <span>
                   Invois No.{" "}
@@ -175,8 +187,9 @@ function BillView() {
               <thead className="bg-gray-50">
                 <tr>
                   <th
-                    className="px-2 py-3 text-xs font-medium text-gray-800 uppercase tracking-wider text-center bg-gray-100"
+                    className="px-2 py-3 text-xs font-medium text-gray-800 uppercase tracking-wider bg-gray-100"
                     colSpan="6"
+                    style={{ textAlign: "center" }}
                   >
                     આકારણી રજીસ્ટર કોમ્પ્યુટરાઇઝડ પિન્ટ જોબ વર્કનું બિલ
                     સને.2024/25
@@ -184,24 +197,63 @@ function BillView() {
                 </tr>
                 <tr>
                   <th
-                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center"
-                    style={{ maxWidth: "10px" }}
+                    className="text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    style={{
+                      maxWidth: "5px",
+                      textAlign: "center",
+                      padding: "2px",
+                    }}
                   >
                     ક્રમ
                   </th>
-                  <th className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">
+                  <th
+                    className="text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    style={{
+                      maxWidth: "35px",
+                      padding: "5px",
+                      textAlign: "center",
+                    }}
+                  >
                     તારીખ
                   </th>
-                  <th className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">
+                  <th
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    style={{
+                      maxWidth: "35px",
+                      padding: "5px",
+                      textAlign: "center",
+                    }}
+                  >
                     વિગત
                   </th>
-                  <th className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center max-w-[30px]">
+                  <th
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    style={{
+                      maxWidth: "20px",
+                      padding: "5px",
+                      textAlign: "center",
+                    }}
+                  >
                     ઘર
                   </th>
-                  <th className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center max-w-[20px]">
+                  <th
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    style={{
+                      maxWidth: "20px",
+                      padding: "5px",
+                      textAlign: "center",
+                    }}
+                  >
                     ભાવ
                   </th>
-                  <th className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center max-w-[50px]">
+                  <th
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    style={{
+                      maxWidth: "35px",
+                      padding: "5px",
+                      textAlign: "center",
+                    }}
+                  >
                     રૂપિયા
                   </th>
                 </tr>
@@ -211,7 +263,7 @@ function BillView() {
                     <th
                       className="text-xs font-light text-gray-600 text-center bg-gray-100"
                       key={index}
-                      style={{ padding: "2px", textAlign: "center" }}
+                      style={{ padding: "3px", textAlign: "center" }}
                     >
                       {index + 1}
                     </th>
@@ -222,24 +274,49 @@ function BillView() {
                 {/* Bill record row */}
                 <tr>
                   <td
-                    className="px-1 py-1 text-sm font-medium text-gray-900 text-center"
-                    style={{ maxWidth: "10px" }}
+                    className="text-sm font-medium text-gray-900 text-center"
+                    style={{
+                      maxWidth: "10px",
+                      padding: "5px",
+                      textAlign: "center",
+                    }}
                   >
                     1
                   </td>
-                  <td className="px-1 py-1 text-sm text-gray-500 text-center">
+                  <td
+                    className="text-sm text-gray-800 text-center"
+                    style={{
+                      maxWidth: "35px",
+                      padding: "5px",
+                      textAlign: "center",
+                    }}
+                  >
                     3/3/2025
                   </td>
-                  <td className="px-1 py-1 text-sm text-gray-500 text-center max-w-[150px]">
+                  <td className="text-sm text-gray-800 text-center max-w-[150px]">
                     {billData.description}
                   </td>
-                  <td className="px-1 py-1 text-sm text-gray-500 text-center max-w-[20px]">
+                  <td
+                    className="text-sm text-gray-800 text-center"
+                    style={{
+                      maxWidth: "28px",
+                      padding: "5px",
+                      textAlign: "center",
+                    }}
+                  >
                     {billData.houseCount}
                   </td>
-                  <td className="px-1 py-1 text-sm text-gray-500 text-center max-w-[10px]">
+                  <td
+                    className="text-sm text-gray-800 text-center"
+                    style={{
+                      maxWidth: "20px",
+                      padding: "5px",
+                      textAlign: "center",
+                    }}
+                  >
                     {billData.pricePerHouse}
                   </td>
-                  <td className="px-1 py-1 text-sm text-gray-500 text-center max-w-[30px]">
+                  <td className="text-sm text-gray-800 text-center max-w-[65px]">
                     {totalAmount}
                   </td>
                 </tr>
@@ -249,7 +326,11 @@ function BillView() {
                     className="py-2 text-sm text-gray-600 text-right pr-4 font-bold"
                     colSpan="5"
                   >
-                    શબ્દોમાં અંકે રૂપિયા <b>{billData.totalInWords} પુરા /-</b>
+                    શબ્દોમાં અંકે રૂપિયા{" "}
+                    <span className="text-gray-700">
+                      {billData.totalInWords}
+                    </span>
+                    પુરા /-
                   </td>
                   <td className="py-2 text-sm text-gray-600 text-center font-bold max-w-[50px]">
                     {totalAmount}
@@ -265,6 +346,8 @@ function BillView() {
                 A.F. Infosys
               </h2>
             </div>
+
+            <div className="watermark-logo"></div>
           </div>
         </div>
       </div>

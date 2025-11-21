@@ -1,3 +1,4 @@
+import User from "../models/User.js";
 import Work from "../models/Work.js";
 import { sheets } from "../utils/googleSheets.js";
 
@@ -36,6 +37,45 @@ export const getDetails = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error" });
+  }
+};
+
+export const getImageMode = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    console.log(userId);
+
+    if (!userId) {
+      res.status(400).json({
+        message: "User Id not Provided!",
+      });
+      return;
+    }
+
+    const user = await User.findById(userId);
+    console.log(user);
+
+    if (user) {
+      const workID = user?.work;
+      console.log(workID);
+
+      if (workID) {
+        const isImage = await Work.findById(workID);
+
+        res.status(200).json({
+          message: "Image Akarni!",
+          isImage: isImage.details.imageAkarni,
+        });
+      }
+    } else {
+      res.status(404).json({
+        message: "User Not Found!",
+        isImage: false,
+      });
+    }
+  } catch (err) {
+    console.log("Error While Fetching User Work Spot,", err);
+    res.status(500).json({ message: "DB Error", error: err });
   }
 };
 

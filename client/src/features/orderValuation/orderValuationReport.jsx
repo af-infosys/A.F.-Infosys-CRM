@@ -1792,7 +1792,7 @@ const OrderValuationReport = () => {
               <div
                 style={{
                   position: "absolute",
-                  bottom: "18px",
+                  bottom: "20px",
                   right: "30px",
                   fontSize: "14px",
                   color: "#000",

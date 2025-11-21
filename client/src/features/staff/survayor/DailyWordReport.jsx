@@ -3,7 +3,7 @@ import React from "react";
 const DailyWordReport = () => {
   return (
     <div>
-      <h2>DailyWordReport</h2>
+      <h2>Surveyor Daily Work Report</h2>
 
       <table className="min-w-full text-sm text-left text-gray-500">
         <thead className="text-xs text-gray-700 uppercase bg-gray-200">
