@@ -1,6 +1,7 @@
 import User from "../models/User.js";
 import Work from "../models/Work.js";
 import { sheets } from "../utils/googleSheets.js";
+import { getHouseCount } from "./survayController.js";
 
 const SHEET_NAME = "OrderValuation";
 const TAX_SHEET_NAME = "Taxes";
@@ -9,6 +10,7 @@ const TAX_SHEET_NAME = "Taxes";
 export const getDetails = async (req, res) => {
   try {
     const works = await Work.findOne({ _id: req.params.id });
+    console.log("Work ID: ", req.params.id);
 
     if (!works) return res.status(404).json({ error: "Work not found" });
 
@@ -46,6 +48,8 @@ export const getBillDetails = async (req, res) => {
 
     if (!works) return res.status(404).json({ error: "Work not found" });
 
+    const houseCount = await getHouseCount();
+
     const bill = {
       gaam: works.spot?.gaam,
       year: works.details?.akaraniYear,
@@ -54,6 +58,7 @@ export const getBillDetails = async (req, res) => {
       description: works.details?.description,
       price: works.details?.price,
       date: works.details?.date,
+      houseCount,
     };
 
     res.json({
@@ -78,6 +83,8 @@ export const updateBillDetails = async (req, res) => {
       "details.date": date,
     };
 
+    const houseCount = await getHouseCount();
+
     const updatedWork = await Work.findByIdAndUpdate(
       id,
       { $set: updateFields },
@@ -97,8 +104,10 @@ export const updateBillDetails = async (req, res) => {
       description: updatedWork.details?.description,
       price: updatedWork.details?.price,
       date: updatedWork.details?.date,
+      houseCount,
     };
 
+    console.log("Updated Bill Details: ", bill);
     res.json({
       message: "Bill details updated successfully",
       bill,

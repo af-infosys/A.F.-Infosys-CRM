@@ -292,6 +292,25 @@ export const getAllRecords = async (req, res) => {
     });
   }
 };
+export const getHouseCount = async (id = 0) => {
+  try {
+    const client = await auth.getClient();
+    const googleSheets = google.sheets({ version: "v4", auth: client });
+
+    // Google Sheet
+    const response = await googleSheets.spreadsheets.values.get({
+      spreadsheetId: SPREADSHEET_ID,
+      range: `${DATA_SHEET}!A4:ZZ`,
+    });
+
+    const records = response.data.values || [];
+
+    return records.length || 0;
+  } catch (error) {
+    console.error("Error fetching records from Google Sheet:", error.message);
+    return 0;
+  }
+};
 
 const _getAllAreasWithRowIndex = async () => {
   const client = await auth.getClient();

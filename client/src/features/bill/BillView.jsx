@@ -3,27 +3,117 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import "./bill.scss";
 import apiPath from "../../isProduction";
+import { Search, Edit, Save, FileText, Download } from "lucide-react";
+import numberToGujaratiWords from "../../components/ToGujarati";
 
 function BillView() {
   const reportRef = useRef(null);
 
   const [billData, setBillData] = useState({
-    gaam: "",
-    year: "2024/25",
+    gaam: "loading...",
+    year: "",
 
     invoiceNo: 0,
-    date: "2024/25",
+    date: "",
     description:
       "x ગામની મકાન આકારણી સર્વે, વર્ષ:- 2025/26 નું ગામ નમુના નં. ૮ આકારણી રજીસ્ટર ઘેર ઘેર જઇને બનાવી અને ગા.ન.ન.- ૯/ડી કરવેરા રજીસ્ટર બનાવિ કોમ્પ્યુટરાઈઝડ પ્રિન્ટ સાથે સ્પાઇરલ બાઈન્ડિંગ સાથે ઓનલાઈન ગ્રામ સુવિધા પોર્ટલમાં ડેટાએન્ટ્રી સાથે જોબવર્ક/મજુરીથી કમ્પલેટ અદ્યતન બનાવેલ",
     houseCount: 0,
     price: 0,
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleFormChange = (e) => {
+    const { name, value } = e.target;
+    setBillData((prev) => ({
+      ...prev,
+      [name]: name === "price" ? Number(value) : value,
+    }));
+  };
+
+  const fetchWithBackoff = async (url, options, maxRetries = 5) => {
+    for (let attempt = 0; attempt < maxRetries; attempt++) {
+      try {
+        const response = await fetch(url, options);
+        if (!response.ok) {
+          // Read error message from body if available
+          const errorBody = await response
+            .json()
+            .catch(() => ({ error: `HTTP error! Status: ${response.status}` }));
+          throw new Error(
+            errorBody.error || `HTTP error! Status: ${response.status}`
+          );
+        }
+        return response; // Return the raw response for parsing outside
+      } catch (error) {
+        if (attempt === maxRetries - 1) throw error;
+        const delay = Math.pow(2, attempt) * 1000;
+        await new Promise((resolve) => setTimeout(resolve, delay));
+      }
+    }
+    throw new Error("Maximum retry attempts reached.");
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    const id = "6882180eab7cc70564b9fb4b";
+    const endpoint = `${await apiPath()}/api/valuation/bill/${id}`;
+
+    // Payload structure must match the backend controller's expectation
+    const payload = {
+      invoiceNo: billData.invoiceNo,
+      description: billData.description,
+      price: billData.price,
+      date: billData.date,
+    };
+
+    try {
+      // 1. Send the request
+      const response = await fetchWithBackoff(endpoint, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      // 2. CRITICAL FIX: Parse the JSON body from the response object
+      const result = await response.json();
+
+      console.log("Update result:", result);
+
+      if (result.bill) {
+        // Update the main bill data state using the data returned from the backend
+        // The backend returns price (total), houseCount, invoiceNo, etc.
+
+        setBillData(result.bill || {});
+        alert(result.message || "Bill details updated successfully!");
+      } else {
+        // Handle unexpected response structure
+        throw new Error(
+          "Update successful, but missing 'bill' data in response."
+        );
+      }
+    } catch (error) {
+      console.error("Failed to update bill details:", error);
+      alert(
+        `Failed to update bill: ${
+          error.message || "Server communication failed."
+        }`
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     const fetchBillDetails = async () => {
-      const id = "";
+      const id = "6882180eab7cc70564b9fb4b";
 
-      fetch(`${await apiPath()}/valuation/bill/${id}`, {
+      fetch(`${await apiPath()}/api/valuation/bill/${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -63,7 +153,7 @@ function BillView() {
     });
   };
 
-  const totalAmount = (billData.houseCount * billData.price).toFixed(2);
+  const totalAmount = (billData?.houseCount * billData?.price).toFixed(2) || 0;
   const logoUrl = "https://afinfosys.netlify.app/logo.png";
   const placeholderImageUrl =
     "https://placehold.co/512x512/d1d5db/374151?text=A.F.Infosys";
@@ -72,6 +162,136 @@ function BillView() {
     // The main container for the bill view. We use Tailwind CSS for styling.
     <div className="bg-gray-100 min-h-screen flex justify-center items-center py-12 px-4">
       <div className="container mx-auto p-2 sm:p-6 lg:p-8 rounded-2xl max-w-4xl w-full">
+        <div className="lg:w-1/3">
+          <div className="bg-white p-6 rounded-xl shadow-xl border border-gray-200 sticky lg:top-24">
+            <h2 className="text-xl font-semibold mb-4 text-purple-600 flex items-center">
+              <Edit className="w-5 h-5 mr-2" />
+              બિલ વિગતો એડિટ કરો (Edit Bill Details)
+            </h2>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              {/* Read-only fields */}
+              <div className="p-2 border border-blue-100 bg-blue-50 rounded-lg text-sm text-gray-700">
+                <p>
+                  <strong>ગામ (Gaam):</strong> {billData.gaam}
+                </p>
+                <p>
+                  <strong>વર્ષ (Year):</strong> {billData.year}
+                </p>
+              </div>
+
+              {/* Editable Fields */}
+              <div>
+                <label
+                  htmlFor="invoiceNo"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  ઇન્વોઇસ નંબર (Invoice No.)
+                </label>
+                <input
+                  type="text"
+                  id="invoiceNo"
+                  name="invoiceNo"
+                  value={billData.invoiceNo}
+                  onChange={handleFormChange}
+                  className="mt-1 w-full input-field"
+                  required
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="date"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  તારીખ (Date)
+                </label>
+                <input
+                  type="text"
+                  id="date"
+                  name="date"
+                  value={billData.date}
+                  onChange={handleFormChange}
+                  className="mt-1 w-full input-field"
+                  required
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="houseCount"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  ઘરની સંખ્યા (House Count)
+                </label>
+                <input
+                  type="number"
+                  id="houseCount"
+                  name="houseCount"
+                  value={billData.houseCount}
+                  className="mt-1 w-full input-field"
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="price"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  પ્રતિ ઘર ભાવ (Price Per House - ₹)
+                </label>
+                <input
+                  type="number"
+                  id="price"
+                  name="price"
+                  value={billData.price}
+                  onChange={handleFormChange}
+                  className="mt-1 w-full input-field"
+                  step="0.01"
+                  min="0"
+                  required
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="description"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  વિગત (Description)
+                </label>
+                <textarea
+                  id="description"
+                  name="description"
+                  value={billData.description}
+                  onChange={handleFormChange}
+                  rows="4"
+                  className="mt-1 w-full input-field"
+                  required
+                />
+              </div>
+
+              <div className="text-lg font-bold pt-2 text-center text-purple-700">
+                નવું કુલ: ₹{(billData.houseCount * billData.price).toFixed(2)}
+              </div>
+
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="w-full py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition duration-300 flex items-center justify-center disabled:bg-gray-400"
+              >
+                {isLoading ? (
+                  "સેવ થઈ રહ્યું છે..."
+                ) : (
+                  <>
+                    <Save className="w-4 h-4 mr-2" /> ફેરફારો સેવ કરો (Save
+                    Changes)
+                  </>
+                )}
+              </button>
+            </form>
+          </div>
+        </div>
+
         {/* Download PDF button */}
         <div className="flex justify-end p-4">
           <button
@@ -193,12 +413,12 @@ function BillView() {
                   <b className="text-red-700">{billData.invoiceNo}</b>
                 </span>
                 <span>
-                  Date <b className="text-gray-500">{billData.date}</b>
+                  Date <b className="text-gray-500">{billData.year}</b>
                 </span>
               </div>
               <div className="flex justify-between mt-2">
                 <div className="flex flex-col">
-                  <span>પ્રતિ, નાના ઝીંઝુડા ગ્રામ પંચાયત,</span>
+                  <span>પ્રતિ, {billData?.gaam} ગ્રામ પંચાયત,</span>
                   <span>સરપંચશ્રી/તલાટી કમ મંત્રીશ્રી</span>
                   <span>તા.સાવરકુંડલા જિ.અમરેલી.</span>
                 </div>
@@ -318,10 +538,10 @@ function BillView() {
                       textAlign: "center",
                     }}
                   >
-                    3/3/2025
+                    {billData?.date}
                   </td>
                   <td className="text-sm text-gray-800 text-center max-w-[150px]">
-                    {billData.description}
+                    {billData?.description}
                   </td>
                   <td
                     className="text-sm text-gray-800 text-center"
@@ -331,7 +551,7 @@ function BillView() {
                       textAlign: "center",
                     }}
                   >
-                    {billData.houseCount}
+                    {billData?.houseCount}
                   </td>
                   <td
                     className="text-sm text-gray-800 text-center"
@@ -341,7 +561,7 @@ function BillView() {
                       textAlign: "center",
                     }}
                   >
-                    {billData.price}
+                    {billData?.price}
                   </td>
                   <td className="text-sm text-gray-800 text-center max-w-[65px]">
                     {totalAmount}
@@ -355,9 +575,11 @@ function BillView() {
                   >
                     શબ્દોમાં અંકે રૂપિયા{" "}
                     <span className="text-gray-700">
-                      {billData.totalInWords}
-                    </span>
-                    પુરા /-
+                      {numberToGujaratiWords(
+                        billData?.houseCount * billData?.price
+                      )}
+                    </span>{" "}
+                    /-
                   </td>
                   <td className="py-2 text-sm text-gray-600 text-center font-bold max-w-[50px]">
                     {totalAmount}
