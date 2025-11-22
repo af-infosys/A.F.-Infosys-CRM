@@ -458,7 +458,7 @@ function BillView() {
                   <th
                     className="text-xs font-medium text-gray-500 uppercase tracking-wider"
                     style={{
-                      maxWidth: "35px",
+                      maxWidth: "38px",
                       padding: "5px",
                       textAlign: "center",
                     }}
@@ -535,7 +535,7 @@ function BillView() {
                   <td
                     className="text-sm text-gray-800 text-center"
                     style={{
-                      maxWidth: "35px",
+                      maxWidth: "38px",
                       padding: "5px",
                       textAlign: "center",
                     }}
