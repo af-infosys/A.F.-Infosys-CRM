@@ -35,10 +35,11 @@ h3.text-base {
 
     p {
       font-size: 15px;
+
       &.address {
         font-size: 14.5px;
-        margin-top: 2px;
-        padding-top: 3px;
+        margin-top: 3px;
+        padding-top: -1px;
         border-top: 1px solid #dfcccc;
         color: rgb(199, 15, 107);
         font-weight: 600;
@@ -125,4 +126,8 @@ table th,
 table td,
 table tr {
   background: transparent !important;
+}
+
+.trans {
+  transform: translateY(-10px);
 }

@@ -366,14 +366,14 @@ function BillView() {
                   {/* A.F. Infosys */}
                 </h2>
 
-                <p>
+                <p className="trans">
                   ગ્રામપંચાયત રેવન્યુ(જમાબંધી) વાર્ષીક હિસાબ, આકાણીસર્વે, કરવેરા
                   રજીસ્ટર, રોજમેળ, ગ્રામસુવિધા પોર્ટલ તથા ઓનલાઈન / ઓફલાઈન તમામ
                   પ્રકારની ડેટાએન્ટ્રી અને પ્રિન્ટીંગ, વેબસાઈટ, સોફ્ટવેર,
                   કોમ્પ્યુટર કામ માટે મળો
                 </p>
 
-                <p className="address">
+                <p className="address trans">
                   બીજામાળે, સેન્ટ્રલપોઈન્ટ કોમ્પ્લેક્ષ, જુનાબસસ્ટેન્ડ સામે -
                   સાવરકુંડલા જિ.અમરેલી. સૌરાષ્ટ્ર (પશ્વિમગુજરાત)
                 </p>
@@ -399,7 +399,7 @@ function BillView() {
                   textAlign: "center",
                 }}
               >
-                આ કામ અંગેનો ચેક <b>(એ. એફ. ઇન્ફોસીસ)</b> નામનો લખવા વિનંતી.
+                આ કામ અંગેનો ચેક <b>( એ. એફ. ઇન્ફોસીસ )</b> નામનો લખવા વિનંતી.
               </span>
             </div>
 
@@ -438,8 +438,10 @@ function BillView() {
                     colSpan="6"
                     style={{ textAlign: "center" }}
                   >
-                    આકારણી રજીસ્ટર કોમ્પ્યુટરાઇઝડ પિન્ટ જોબ વર્કનું બિલ
-                    સને.2024/25
+                    <span className="trans">
+                      આકારણી રજીસ્ટર કોમ્પ્યુટરાઇઝડ પિન્ટ જોબ વર્કનું બિલ
+                      સને.2024/25
+                    </span>
                   </th>
                 </tr>
                 <tr>
@@ -451,7 +453,7 @@ function BillView() {
                       padding: "2px",
                     }}
                   >
-                    ક્રમ
+                    <span className="trans">ક્રમ</span>
                   </th>
                   <th
                     className="text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -461,7 +463,7 @@ function BillView() {
                       textAlign: "center",
                     }}
                   >
-                    તારીખ
+                    <span className="trans">તારીખ</span>
                   </th>
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -471,7 +473,7 @@ function BillView() {
                       textAlign: "center",
                     }}
                   >
-                    વિગત
+                    <span className="trans">વિગત</span>
                   </th>
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -481,7 +483,7 @@ function BillView() {
                       textAlign: "center",
                     }}
                   >
-                    ઘર
+                    <span className="trans">ઘર</span>
                   </th>
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -491,7 +493,7 @@ function BillView() {
                       textAlign: "center",
                     }}
                   >
-                    ભાવ
+                    <span className="trans">ભાવ</span>
                   </th>
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -501,7 +503,7 @@ function BillView() {
                       textAlign: "center",
                     }}
                   >
-                    રૂપિયા
+                    <span className="trans">રૂપિયા</span>
                   </th>
                 </tr>
                 <tr>
@@ -512,7 +514,7 @@ function BillView() {
                       key={index}
                       style={{ padding: "3px", textAlign: "center" }}
                     >
-                      {index + 1}
+                      <span className="trans">{index + 1}</span>
                     </th>
                   ))}
                 </tr>
@@ -528,7 +530,7 @@ function BillView() {
                       textAlign: "center",
                     }}
                   >
-                    1
+                    <span className="trans">1</span>
                   </td>
                   <td
                     className="text-sm text-gray-800 text-center"
@@ -538,10 +540,10 @@ function BillView() {
                       textAlign: "center",
                     }}
                   >
-                    {billData?.date}
+                    <span className="trans">{billData?.date}</span>
                   </td>
                   <td className="text-sm text-gray-800 text-center max-w-[150px]">
-                    {billData?.description}
+                    <span className="trans">{billData?.description}</span>
                   </td>
                   <td
                     className="text-sm text-gray-800 text-center"
@@ -551,7 +553,7 @@ function BillView() {
                       textAlign: "center",
                     }}
                   >
-                    {billData?.houseCount}
+                    <span className="trans">{billData?.houseCount}</span>
                   </td>
                   <td
                     className="text-sm text-gray-800 text-center"
@@ -561,28 +563,31 @@ function BillView() {
                       textAlign: "center",
                     }}
                   >
-                    {billData?.price}
+                    <span className="trans">{billData?.price}</span>
                   </td>
                   <td className="text-sm text-gray-800 text-center max-w-[65px]">
-                    {totalAmount}
+                    <span className="trans">{totalAmount}</span>
                   </td>
                 </tr>
                 {/* Total row */}
                 <tr>
                   <td
-                    className="py-2 text-sm text-gray-600 text-right pr-4 font-bold"
+                    className="py-2 text-sm text-gray-600 pr-4 font-bold"
                     colSpan="5"
+                    style={{ textAlign: "right" }}
                   >
-                    શબ્દોમાં અંકે રૂપિયા{" "}
-                    <span className="text-gray-700">
-                      {numberToGujaratiWords(
-                        billData?.houseCount * billData?.price
-                      )}
-                    </span>{" "}
-                    /-
+                    <span className="trans">
+                      શબ્દોમાં અંકે રૂપિયા{" "}
+                      <span className="text-gray-700">
+                        {numberToGujaratiWords(
+                          billData?.houseCount * billData?.price
+                        )}
+                      </span>{" "}
+                      /-
+                    </span>
                   </td>
                   <td className="py-2 text-sm text-gray-600 text-center font-bold max-w-[50px]">
-                    {totalAmount}
+                    <span className="trans">{totalAmount}</span>
                   </td>
                 </tr>
               </tbody>
