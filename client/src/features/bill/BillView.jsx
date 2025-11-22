@@ -6,6 +6,8 @@ import apiPath from "../../isProduction";
 import { Search, Edit, Save, FileText, Download } from "lucide-react";
 import numberToGujaratiWords from "../../components/ToGujarati";
 
+import LOGOpng from "../../assets/logo.png";
+
 function BillView() {
   const reportRef = useRef(null);
 
@@ -141,7 +143,7 @@ function BillView() {
       const pdf = new jsPDF({
         orientation: "portrait",
         unit: "mm",
-        format: [215.9, 355.6], // Legal size: 8.5 x 14 inches
+        format: "a4",
       });
 
       const imgData = canvas.toDataURL("image/png");
@@ -154,9 +156,6 @@ function BillView() {
   };
 
   const totalAmount = (billData?.houseCount * billData?.price).toFixed(2) || 0;
-  const logoUrl = "https://afinfosys.netlify.app/logo.png";
-  const placeholderImageUrl =
-    "https://placehold.co/512x512/d1d5db/374151?text=A.F.Infosys";
 
   return (
     // The main container for the bill view. We use Tailwind CSS for styling.
@@ -330,7 +329,7 @@ function BillView() {
               padding: "1rem",
               background: "#fff",
               minWidth: "735px",
-              height: "1010px",
+              height: "1040px",
             }}
           >
             <div className="flex justify-between items-center mb-4 w-full">
@@ -379,14 +378,7 @@ function BillView() {
                 </p>
               </div>
 
-              <img
-                src={logoUrl}
-                alt="Logo"
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src = placeholderImageUrl;
-                }}
-              />
+              <img src={LOGOpng} alt="Logo" />
             </div>
 
             {/* Check info */}
@@ -542,7 +534,12 @@ function BillView() {
                   >
                     <span className="trans">{billData?.date}</span>
                   </td>
-                  <td className="text-sm text-gray-800 text-center max-w-[150px]">
+                  <td
+                    className="text-sm text-gray-800 text-center max-w-[150px]"
+                    style={{
+                      fontSize: "0.9rem",
+                    }}
+                  >
                     <span className="trans">{billData?.description}</span>
                   </td>
                   <td
