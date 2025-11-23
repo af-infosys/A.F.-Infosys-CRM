@@ -52,6 +52,8 @@ export const getBillDetails = async (req, res) => {
 
     const bill = {
       gaam: works.spot?.gaam,
+      taluka: works.spot?.taluka,
+      district: works.spot?.district,
       year: works.details?.akaraniYear,
 
       invoiceNo: works.details?.invoiceNo,

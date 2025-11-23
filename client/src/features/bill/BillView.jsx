@@ -94,6 +94,7 @@ function BillView() {
         // The backend returns price (total), houseCount, invoiceNo, etc.
 
         setBillData(result.bill || {});
+        console.log("Bill data updated from server response:", result.bill);
         alert(result.message || "Bill details updated successfully!");
       } else {
         // Handle unexpected response structure
@@ -126,6 +127,7 @@ function BillView() {
       })
         .then((res) => res.json())
         .then((data) => {
+          console.log("Fetched Bill Details: ", data?.bill);
           setBillData(data?.bill || {});
         });
     };
