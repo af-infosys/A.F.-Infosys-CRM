@@ -88,7 +88,7 @@ export const updateBillDetails = async (req, res) => {
     const updatedWork = await Work.findByIdAndUpdate(
       id,
       { $set: updateFields },
-      { new: true, runValidators: true } // Run validators for schema checks
+      { new: true, runValidators: true }
     );
 
     if (!updatedWork) {
@@ -98,6 +98,8 @@ export const updateBillDetails = async (req, res) => {
     // Prepare the response bill object similar to the get function
     const bill = {
       gaam: updatedWork.spot?.gaam, // Unchanged
+      taluka: updatedWork.spot?.taluka, // Unchanged
+      district: updatedWork.spot?.district, // Unchanged
       year: updatedWork.details?.akaraniYear, // Unchanged
 
       invoiceNo: updatedWork.details?.invoiceNo,

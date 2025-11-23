@@ -25,12 +25,13 @@ h3.text-base {
       // background-clip: text;
       // -webkit-background-clip: text;
 
+      margin-top: -10px;
       width: 430px;
       height: 42px;
       background: url("../../assets/component/Heading.svg");
       background-size: contain;
       background-repeat: no-repeat;
-      margin-bottom: 7px;
+      margin-bottom: 5px;
     }
 
     p {
@@ -38,8 +39,8 @@ h3.text-base {
 
       &.address {
         font-size: 14.5px;
-        margin-top: 3px;
-        padding-top: -1px;
+        margin-top: 10px;
+        padding-top: 0px;
         border-top: 1px solid #766868;
         color: rgb(199, 15, 107);
         font-weight: 600;

@@ -13,6 +13,8 @@ function BillView() {
 
   const [billData, setBillData] = useState({
     gaam: "loading...",
+    taluka: "",
+    district: "",
     year: "",
 
     invoiceNo: 0,
@@ -412,7 +414,9 @@ function BillView() {
                 <div className="flex flex-col">
                   <span>પ્રતિ, {billData?.gaam} ગ્રામ પંચાયત,</span>
                   <span>સરપંચશ્રી/તલાટી કમ મંત્રીશ્રી</span>
-                  <span>તા.સાવરકુંડલા જિ.અમરેલી.</span>
+                  <span>
+                    તા. {billData?.taluka}, જિ. {billData?.district}
+                  </span>
                 </div>
                 <div className="flex flex-col pt-2">
                   <span className="font-semibold">Invoice / Bill</span>
@@ -426,9 +430,9 @@ function BillView() {
               <thead>
                 <tr>
                   <th
-                    className="px-2 py-3 text-xs font-medium text-gray-800 uppercase tracking-wider"
+                    className="text-xs font-medium text-gray-800 uppercase tracking-wider"
                     colSpan="6"
-                    style={{ textAlign: "center" }}
+                    style={{ textAlign: "center", padding: "7px" }}
                   >
                     <span className="trans">
                       આકારણી રજીસ્ટર કોમ્પ્યુટરાઇઝડ પિન્ટ જોબ વર્કનું બિલ
