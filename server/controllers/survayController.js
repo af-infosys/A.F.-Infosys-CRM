@@ -187,13 +187,7 @@ export const addSheetRecord = async (req, res) => {
     } = req.body;
 
     // Basic validation: Check if essential fields are present
-    if (
-      !serialNumber ||
-      !areaName ||
-      !propertyNumber ||
-      !ownerName ||
-      !mobileNumber
-    ) {
+    if (!serialNumber || !areaName || !propertyNumber || !ownerName) {
       return res.status(400).json({ message: "Missing required form fields." });
     }
 
