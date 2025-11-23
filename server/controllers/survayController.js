@@ -103,7 +103,7 @@ function buildPropertyDescription(formData) {
 
   //
   if (isFaliyu) {
-    amenitiesParts.push(`ફળિયું (ખાલી પ્લોટ)`);
+    amenitiesParts.push(`ફળિયું (ખુલ્લી જગ્યા)`);
   }
 
   // રસોડાની ગણતરી

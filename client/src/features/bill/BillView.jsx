@@ -605,9 +605,25 @@ function BillView() {
 
             {/* Footer Section */}
             <div className="w-full mt-2">
-              <span>આભાર</span>
-              <h2 className="text-right pr-12 mt-4 mb-8 text-xl font-semibold text-gray-700">
-                A.F. Infosys
+              <span
+                style={{ position: "relative", transform: "translateX(50px)" }}
+              >
+                આભાર
+              </span>
+              <h2
+                className="text-right pr-12 mt-4 mb-8 text-xl font-semibold text-gray-700"
+                style={{ display: "flex", flexDirection: "column" }}
+              >
+                A. F. Infosys
+                <p
+                  style={{
+                    fontSize: "14px",
+                    letterSpacing: "2px",
+                    marginTop: "-3px",
+                  }}
+                >
+                  Savar Kundla
+                </p>
               </h2>
             </div>
 
