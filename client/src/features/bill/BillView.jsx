@@ -367,7 +367,6 @@ function BillView() {
                 </div>
               </div>
             </div>
-
             {/* Business Name and Logo */}
             <div id="title">
               <div>
@@ -390,7 +389,6 @@ function BillView() {
 
               <img src={LOGOpng} alt="Logo" />
             </div>
-
             {/* Check info */}
             <div className="w-full flex justify-center">
               <span
@@ -404,9 +402,7 @@ function BillView() {
                 આ કામ અંગેનો ચેક <b>( એ. એફ. ઇન્ફોસીસ )</b> નામનો લખવા વિનંતી.
               </span>
             </div>
-
             <br />
-
             {/* Invoice Details */}
             <div className="flex flex-col w-full p-2">
               <div className="flex justify-between">
@@ -433,7 +429,6 @@ function BillView() {
                 </div>
               </div>
             </div>
-
             {/* Table Section */}
             <table className="min-w-full mt-2">
               <thead>
@@ -604,29 +599,36 @@ function BillView() {
             </table>
 
             {/* Footer Section */}
-            <div className="w-full mt-2">
+            <div
+              className="w-full mt-2"
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                marginTop: "30px",
+              }}
+            >
               <span
                 style={{ position: "relative", transform: "translateX(50px)" }}
               >
                 આભાર
               </span>
               <h2
-                className="text-right pr-12 mt-4 mb-8 text-xl font-semibold text-gray-700"
+                className="text-right pr-12 mt-4 mb-8 text-xl font-semibold"
                 style={{ display: "flex", flexDirection: "column" }}
+                id="sikko"
               >
                 A. F. Infosys
                 <p
                   style={{
                     fontSize: "14px",
-                    letterSpacing: "2px",
-                    marginTop: "-3px",
+                    letterSpacing: "2.3px",
+                    marginTop: "-7px",
                   }}
                 >
                   Savar Kundla
                 </p>
               </h2>
             </div>
-
             <div className="watermark-logo"></div>
           </div>
         </div>
