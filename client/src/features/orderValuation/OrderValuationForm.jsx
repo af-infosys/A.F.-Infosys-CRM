@@ -1093,6 +1093,7 @@ const OrderValuationForm = () => {
                 >
                   9. જે મિલ્‍કત માં નળ હોય તેમા સામાન્‍ય પાણી વેરો લેવો કે નહી ?
                 </label>
+
                 <select
                   id="generalWaterTaxApplicable"
                   name="generalWaterTaxApplicable"

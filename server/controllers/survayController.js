@@ -20,20 +20,23 @@ function buildPropertyDescription(formData) {
         gujaratiNumerals[i]
       );
     }
+
     return gujaratiNumber;
   };
+
+  let isFaliyu = false;
 
   // માળની વિગતોનું વર્ણન
   if (formData.floors && formData.floors.length > 0) {
     formData.floors.forEach((floor) => {
-      // હવે index ની જરૂર નથી, floor.floorType નો ઉપયોગ કરો
+      if (floor.floorType === "ફળિયું") {
+        isFaliyu = true;
+        return;
+      }
 
-      // 1. માળના પ્રકારનું વર્ણન ઉમેરો (જો તે 'ગ્રાઉન્ડ ફ્લોર' ન હોય તો)
       let floorPrefix = "";
+
       if (floor.floorType && floor.floorType !== "ગ્રાઉન્ડ ફ્લોર") {
-        // 'પ્રથમ માળ' -> 'ઉપરના પહેલા માળે'
-        // 'બીજો માળ' -> 'ઉપરના બીજા માળે'
-        // વગેરે
         floorPrefix = `ઉપરના ${floor.floorType.replace(" માળ", " માળે")} - `;
       }
 
@@ -59,6 +62,7 @@ function buildPropertyDescription(formData) {
               }-${convertToArabicToGujaratiNumerals(slabRoomsNum)}`
             );
           }
+
           if (tinRoomsNum > 0) {
             roomParts.push(
               `${roomType} પતરાવાળી ${
@@ -96,6 +100,11 @@ function buildPropertyDescription(formData) {
 
   // રસોડા, બાથરૂમ અને વરંડાની ગણતરી (વર્ણનના અંતે ઉમેરાશે)
   const amenitiesParts = [];
+
+  //
+  if (isFaliyu) {
+    amenitiesParts.push(`ફળિયું (ખાલી પ્લોટ)`);
+  }
 
   // રસોડાની ગણતરી
   if (formData.kitchenCount > 0) {

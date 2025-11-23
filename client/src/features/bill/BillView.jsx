@@ -175,10 +175,16 @@ function BillView() {
               {/* Read-only fields */}
               <div className="p-2 border border-blue-100 bg-blue-50 rounded-lg text-sm text-gray-700">
                 <p>
-                  <strong>ગામ (Gaam):</strong> {billData.gaam}
+                  <strong>ગામ :</strong> {billData.gaam}
                 </p>
                 <p>
-                  <strong>વર્ષ (Year):</strong> {billData.year}
+                  <strong>તાલુકો :</strong> {billData.taluka}
+                </p>
+                <p>
+                  <strong>જિલ્લો :</strong> {billData.district}
+                </p>
+                <p>
+                  <strong>વર્ષ :</strong> {billData.year}
                 </p>
               </div>
 
@@ -420,6 +426,7 @@ function BillView() {
                     તા. {billData?.taluka}, જિ. {billData?.district}
                   </span>
                 </div>
+
                 <div className="flex flex-col pt-2">
                   <span className="font-semibold">Invoice / Bill</span>
                   <span className="font-semibold">DEBIT MEMO</span>
@@ -456,7 +463,6 @@ function BillView() {
                   <th
                     className="text-xs font-medium text-gray-500 uppercase tracking-wider"
                     style={{
-                      maxWidth: "38px",
                       padding: "5px",
                       textAlign: "center",
                     }}
@@ -466,7 +472,6 @@ function BillView() {
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
                     style={{
-                      maxWidth: "35px",
                       padding: "5px",
                       textAlign: "center",
                     }}
@@ -476,7 +481,6 @@ function BillView() {
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
                     style={{
-                      maxWidth: "20px",
                       padding: "5px",
                       textAlign: "center",
                     }}
@@ -486,7 +490,6 @@ function BillView() {
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
                     style={{
-                      maxWidth: "20px",
                       padding: "5px",
                       textAlign: "center",
                     }}
@@ -496,8 +499,7 @@ function BillView() {
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
                     style={{
-                      maxWidth: "35px",
-                      padding: "5px",
+                      padding: "1px",
                       textAlign: "center",
                     }}
                   >
@@ -523,7 +525,7 @@ function BillView() {
                   <td
                     className="text-sm font-medium text-gray-900 text-center"
                     style={{
-                      maxWidth: "10px",
+                      minWidth: "30px",
                       padding: "5px",
                       textAlign: "center",
                     }}
@@ -533,15 +535,16 @@ function BillView() {
                   <td
                     className="text-sm text-gray-800 text-center"
                     style={{
-                      maxWidth: "38px",
                       padding: "5px",
                       textAlign: "center",
                     }}
                   >
-                    <span className="trans">{billData?.date}</span>
+                    <span className="trans" style={{ textWrap: "nowrap" }}>
+                      {billData?.date}
+                    </span>
                   </td>
                   <td
-                    className="text-sm text-gray-800 text-center max-w-[150px]"
+                    className="text-sm text-gray-800 text-center"
                     style={{
                       fontSize: "0.9rem",
                     }}
@@ -551,7 +554,6 @@ function BillView() {
                   <td
                     className="text-sm text-gray-800 text-center"
                     style={{
-                      maxWidth: "28px",
                       padding: "5px",
                       textAlign: "center",
                     }}
@@ -561,14 +563,16 @@ function BillView() {
                   <td
                     className="text-sm text-gray-800 text-center"
                     style={{
-                      maxWidth: "20px",
                       padding: "5px",
                       textAlign: "center",
                     }}
                   >
                     <span className="trans">{billData?.price}</span>
                   </td>
-                  <td className="text-sm text-gray-800 text-center max-w-[65px]">
+                  <td
+                    className="text-sm text-gray-800 text-center"
+                    style={{ padding: "5px" }}
+                  >
                     <span className="trans">{totalAmount}</span>
                   </td>
                 </tr>
@@ -589,7 +593,10 @@ function BillView() {
                       /-
                     </span>
                   </td>
-                  <td className="py-2 text-sm text-gray-600 text-center font-bold max-w-[50px]">
+                  <td
+                    className="text-sm text-gray-600 text-center font-bold"
+                    style={{ padding: "5px" }}
+                  >
                     <span className="trans">{totalAmount}</span>
                   </td>
                 </tr>
