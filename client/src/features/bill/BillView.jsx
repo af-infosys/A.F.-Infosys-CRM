@@ -10,6 +10,7 @@ import LOGOpng from "../../assets/logo.png";
 
 function BillView() {
   const reportRef = useRef(null);
+  const reportRef2 = useRef(null);
 
   const [billData, setBillData] = useState({
     gaam: "loading...",
@@ -159,6 +160,30 @@ function BillView() {
     });
   };
 
+  const handleDownloadPdf2 = () => {
+    const input = reportRef2.current;
+    if (!input) return;
+
+    html2canvas(input, {
+      scale: 2,
+      useCORS: true,
+      allowTaint: true,
+    }).then((canvas) => {
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: "a4",
+      });
+
+      const imgData = canvas.toDataURL("image/png");
+      const imgWidth = pdf.internal.pageSize.getWidth();
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+      pdf.save("A.F.Infosys-Quotation.pdf");
+    });
+  };
+
   const totalAmount = (billData?.houseCount * billData?.price).toFixed(2) || 0;
 
   return (
@@ -261,7 +286,7 @@ function BillView() {
                 />
               </div>
 
-              <div>
+              {/* <div>
                 <label
                   htmlFor="description"
                   className="block text-sm font-medium text-gray-700"
@@ -277,7 +302,7 @@ function BillView() {
                   className="mt-1 w-full input-field"
                   required
                 />
-              </div>
+              </div> */}
 
               <div className="text-lg font-bold pt-2 text-center text-purple-700">
                 નવું કુલ: ₹{(billData.houseCount * billData.price).toFixed(2)}
@@ -313,7 +338,7 @@ function BillView() {
 
         {/* Header Section */}
         <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">
-          Bill/Reciept
+          Bill/Invoice
         </h1>
         <h2 className="text-xl text-center text-gray-600">Owner & Sales</h2>
         <h2 className="text-xl text-center mb-8 text-gray-600">
@@ -335,6 +360,7 @@ function BillView() {
             ref={reportRef}
             className="table-container letterpad rounded-lg shadow-md border border-gray-200"
             style={{
+              position: "relative",
               width: "735px",
               padding: "1rem",
               background: "#fff",
@@ -342,7 +368,10 @@ function BillView() {
               height: "1040px",
             }}
           >
-            <div className="flex justify-between items-center mb-4 w-full">
+            <div
+              className="flex justify-between items-center mb-4 w-full"
+              id="webicon"
+            >
               <div className="flex flex-col items-end w-full">
                 <div
                   style={{
@@ -439,8 +468,8 @@ function BillView() {
                     style={{ textAlign: "center", padding: "7px" }}
                   >
                     <span className="trans">
-                      આકારણી રજીસ્ટર કોમ્પ્યુટરાઇઝડ પિન્ટ જોબ વર્કનું બિલ
-                      સને.2024/25
+                      આકારણી રજીસ્ટર કોમ્પ્યુટરાઇઝડ પ્રિન્ટ જોબ વર્કનું બિલ સને.{" "}
+                      {billData?.year}
                     </span>
                   </th>
                 </tr>
@@ -541,10 +570,18 @@ function BillView() {
                   <td
                     className="text-sm text-gray-800 text-center"
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: ".95rem",
+                      padding: "7px",
                     }}
                   >
-                    <span className="trans">{billData?.description}</span>
+                    <span className="trans">
+                      {billData?.gaam} ગામની મકાન આકારણી સર્વે, વર્ષ:-{" "}
+                      {billData.year} નું ગામ નમુના નં. ૮ આકારણી રજીસ્ટર ઘેર ઘેર
+                      જઇને બનાવી અને ગા.ન.ન.- ૯/ડી કરવેરા રજીસ્ટર બનાવિ
+                      કોમ્પ્યુટરાઈઝડ પ્રિન્ટ સાથે સ્પાઇરલ બાઈન્ડિંગ સાથે ઓનલાઈન
+                      ગ્રામ સુવિધા પોર્ટલમાં ડેટાએન્ટ્રી સાથે જોબવર્ક/મજુરીથી
+                      કમ્પલેટ અદ્યતન બનાવેલ
+                    </span>
                   </td>
                   <td
                     className="text-sm text-gray-800 text-center"
@@ -562,7 +599,7 @@ function BillView() {
                       textAlign: "center",
                     }}
                   >
-                    <span className="trans">{billData?.price}</span>
+                    <span className="trans">{billData?.price}₹</span>
                   </td>
                   <td
                     className="text-sm text-gray-800 text-center"
@@ -574,9 +611,9 @@ function BillView() {
                 {/* Total row */}
                 <tr>
                   <td
-                    className="py-2 text-sm text-gray-600 pr-4 font-bold"
+                    className="text-sm text-gray-600 pr-4 font-bold"
                     colSpan="5"
-                    style={{ textAlign: "right" }}
+                    style={{ textAlign: "right", padding: "3px" }}
                   >
                     <span className="trans">
                       શબ્દોમાં અંકે રૂપિયા{" "}
@@ -604,17 +641,310 @@ function BillView() {
               style={{
                 display: "flex",
                 justifyContent: "space-between",
-                marginTop: "30px",
+                marginTop: "40px",
               }}
             >
               <span
-                style={{ position: "relative", transform: "translateX(50px)" }}
+                style={{
+                  position: "relative",
+                  transform: "translate(50px, -40px)",
+                }}
+                id="circle"
               >
                 આભાર
               </span>
               <h2
                 className="text-right pr-12 mt-4 mb-8 text-xl font-semibold"
-                style={{ display: "flex", flexDirection: "column" }}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  marginTop: "-10px",
+                }}
+                id="sikko"
+              >
+                A. F. Infosys
+                <p
+                  style={{
+                    fontSize: "14px",
+                    letterSpacing: "2.3px",
+                    marginTop: "-7px",
+                  }}
+                >
+                  Savar Kundla
+                </p>
+              </h2>
+            </div>
+            <div className="watermark-logo"></div>
+          </div>
+        </div>
+
+        {/* Download PDF button */}
+        <div className="flex justify-end p-4">
+          <button
+            onClick={handleDownloadPdf2}
+            className="px-6 py-2 bg-purple-600 text-white font-semibold rounded-full shadow-lg hover:bg-purple-700 transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+          >
+            Download PDF
+          </button>
+        </div>
+
+        {/* Header Section */}
+        <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">
+          Quotation
+        </h1>
+        <h2 className="text-xl text-center text-gray-600">Owner & Sales</h2>
+        <h2 className="text-xl text-center mb-8 text-gray-600">
+          by - A.F. Infosys
+        </h2>
+
+        {/* Report - 2 */}
+
+        <div
+          className="flex justify-start md:justify-center"
+          style={{
+            maxWidth: "100%",
+            overflow: "auto",
+            display: "flex",
+            alignItems: "start",
+            justifyContent: "start",
+          }}
+        >
+          <div
+            ref={reportRef2}
+            className="table-container letterpad rounded-lg shadow-md border border-gray-200"
+            style={{
+              position: "relative",
+              width: "735px",
+              padding: "1rem",
+              background: "#fff",
+              minWidth: "735px",
+              height: "1040px",
+            }}
+          >
+            <div
+              className="flex justify-between items-center mb-4 w-full"
+              id="webicon"
+            >
+              <div className="flex flex-col items-end w-full">
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "start",
+                  }}
+                >
+                  <h3 className="text-base font-grey-700">
+                    Shahid Kalva - <span>93764 43146</span>
+                  </h3>
+                  <h3 className="text-base font-grey-700">
+                    Sarfaraz Kalva - <span>99247 82732</span>
+                  </h3>
+                  <h3 className="text-base font-grey-700">
+                    E-Mail :-{" "}
+                    <span className="underline">af.infosys146@gmail.com</span>
+                  </h3>
+                  <h3 className="text-base font-grey-700">
+                    Website :- <span className="underline">afinfosys.com</span>
+                  </h3>
+                </div>
+              </div>
+            </div>
+
+            {/* Business Name and Logo */}
+            <div id="title">
+              <div>
+                <h2 className="text-5xl text-center font-extrabold mt-4">
+                  {/* A.F. Infosys */}
+                </h2>
+
+                <p className="trans">
+                  ગ્રામપંચાયત રેવન્યુ(જમાબંધી) વાર્ષીક હિસાબ, આકાણીસર્વે, કરવેરા
+                  રજીસ્ટર, રોજમેળ, ગ્રામસુવિધા પોર્ટલ તથા ઓનલાઈન / ઓફલાઈન તમામ
+                  પ્રકારની ડેટાએન્ટ્રી અને પ્રિન્ટીંગ, વેબસાઈટ, સોફ્ટવેર,
+                  કોમ્પ્યુટર કામ માટે મળો
+                </p>
+
+                <p className="address trans">
+                  બીજામાળે, સેન્ટ્રલપોઈન્ટ કોમ્પ્લેક્ષ, જુનાબસસ્ટેન્ડ સામે -
+                  સાવરકુંડલા જિ.અમરેલી. સૌરાષ્ટ્ર (પશ્વિમગુજરાત)
+                </p>
+              </div>
+
+              <img src={LOGOpng} alt="Logo" />
+            </div>
+            {/* Check info */}
+            <div className="w-full flex justify-center">
+              <span
+                className="text-xs text-center"
+                style={{
+                  marginTop: "10px",
+                  fontSize: "16px",
+                  textAlign: "center",
+                }}
+              >
+                <b>( ક્વોટેશન )</b>
+              </span>
+            </div>
+            <br />
+            {/* Invoice Details */}
+            <div className="flex flex-col w-full p-2">
+              <div className="flex justify-between">
+                <span>
+                  Quotation No.{" "}
+                  <b className="text-red-700">{billData.invoiceNo}</b>
+                </span>
+                {/* <span>
+                  Date <b className="text-gray-500">{billData.year}</b>
+                </span> */}
+              </div>
+              <div className="flex justify-between mt-2">
+                <div className="flex flex-col">
+                  <span>પ્રતિ, {billData?.gaam} ગ્રામ પંચાયત,</span>
+                  <span>સરપંચશ્રી/તલાટી કમ મંત્રીશ્રી</span>
+                  <span>
+                    તા. {billData?.taluka}, જિ. {billData?.district}
+                  </span>
+                </div>
+
+                <div className="flex flex-col pt-2">
+                  <span className="font-semibold">
+                    Date: {billData?.date || "///"}
+                  </span>
+                  {/* <span className="font-semibold"></span> */}
+                </div>
+              </div>
+            </div>
+            {/* Table Section */}
+            <table className="min-w-full mt-2">
+              <thead>
+                <tr>
+                  <th
+                    className="text-xs font-medium text-gray-800 uppercase tracking-wider"
+                    colSpan="3"
+                    style={{ textAlign: "center", padding: "7px" }}
+                  >
+                    <span className="trans">
+                      આકારણી રજીસ્ટર કોમ્પ્યુટરાઇઝડ પ્રિન્ટ જોબ વર્કનું બિલ સને.{" "}
+                      {billData?.year}
+                    </span>
+                  </th>
+                </tr>
+                <tr>
+                  <th
+                    className="text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    style={{
+                      maxWidth: "5px",
+                      textAlign: "center",
+                      padding: "2px",
+                    }}
+                  >
+                    <span className="trans">ક્રમ</span>
+                  </th>
+
+                  <th
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    style={{
+                      padding: "5px",
+                      textAlign: "center",
+                    }}
+                  >
+                    <span className="trans">વિગત</span>
+                  </th>
+
+                  <th
+                    className="text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    style={{
+                      padding: "3px",
+                      textAlign: "center",
+                    }}
+                  >
+                    <span className="trans" style={{ textWrap: "wrap" }}>
+                      ભાવ <span style={{ textWrap: "nowrap" }}>(ઘર દીઠ)</span>
+                    </span>
+                  </th>
+                </tr>
+                <tr>
+                  {/* Index row */}
+                  {Array.from({ length: 3 }).map((_, index) => (
+                    <th
+                      className="text-xs font-light text-gray-600 text-center"
+                      key={index}
+                      style={{ padding: "3px", textAlign: "center" }}
+                    >
+                      <span className="trans">{index + 1}</span>
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {/* Bill record row */}
+                <tr>
+                  <td
+                    className="text-sm font-medium text-gray-900 text-center"
+                    style={{
+                      minWidth: "30px",
+                      padding: "5px",
+                      textAlign: "center",
+                    }}
+                  >
+                    <span className="trans">1</span>
+                  </td>
+
+                  <td
+                    className="text-sm text-gray-800 text-center"
+                    style={{
+                      fontSize: ".95rem",
+                      padding: "7px",
+                    }}
+                  >
+                    <span className="trans">
+                      {billData?.gaam} ગામની મકાન આકારણી સર્વે, વર્ષ:-{" "}
+                      {billData.year} નું ગામ નમુના નં. ૮ આકારણી રજીસ્ટર ઘેર ઘેર
+                      જઇને બનાવી અને ગા.ન.ન.- ૯/ડી કરવેરા રજીસ્ટર બનાવિ
+                      કોમ્પ્યુટરાઈઝડ પ્રિન્ટ સાથે સ્પાઇરલ બાઈન્ડિંગ સાથે ઓનલાઈન
+                      ગ્રામ સુવિધા પોર્ટલમાં ડેટાએન્ટ્રી સાથે જોબવર્ક/મજુરીથી
+                      કમ્પલેટ અદ્યતન બનાવેલ
+                    </span>
+                  </td>
+
+                  <td
+                    className="text-sm text-gray-800 text-center"
+                    style={{
+                      padding: "5px",
+                      textAlign: "center",
+                    }}
+                  >
+                    <span className="trans">{billData?.price}₹</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            {/* Footer Section */}
+            <div
+              className="w-full mt-2"
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                marginTop: "40px",
+              }}
+            >
+              <span
+                style={{
+                  position: "relative",
+                  transform: "translate(50px, -40px)",
+                }}
+                id="circle"
+              >
+                આભાર
+              </span>
+              <h2
+                className="text-right pr-12 mt-4 mb-8 text-xl font-semibold"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  marginTop: "-10px",
+                }}
                 id="sikko"
               >
                 A. F. Infosys

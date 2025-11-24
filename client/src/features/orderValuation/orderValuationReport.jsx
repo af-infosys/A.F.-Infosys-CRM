@@ -291,7 +291,7 @@ const OrderValuationReport = () => {
             >
               <div
                 className="flex justify-between items-center"
-                style={{ width: "100%", paddingRight: "60px" }}
+                style={{ width: "100%", paddingRight: "0px" }}
               >
                 <div
                   style={{
@@ -299,10 +299,10 @@ const OrderValuationReport = () => {
                     alignItems: "start",
                     justifyContent: "space-between",
                     width: "100%",
-                    paddingInline: "0px",
+                    paddingInline: "5px",
                   }}
                 >
-                  <h3 style={{ fontSize: "16px" }}>
+                  <h3 style={{ fontSize: "16px", textWrap: "nowrap" }}>
                     ગ્રા.પં./વશી/જા.નં./
                     {details?.javak || ""}
                   </h3>
@@ -325,10 +325,10 @@ const OrderValuationReport = () => {
                         style={{
                           position: "relative",
                           transform: "translateY(-8px)",
+                          textWrap: "nowrap",
                         }}
                       >
-                        અંદાજીત ઘરની સંખ્યા :–{" "}
-                        <b>{details?.totalHouses || 0}</b>
+                        અંદાજીત ઘર :– <b>{details?.totalHouses || 0}</b>
                       </span>
                     </span>
 
@@ -342,7 +342,7 @@ const OrderValuationReport = () => {
                       <span>TB{details?.tbr}R</span>
 
                       <span style={{ marginTop: "-2px" }}>
-                        જુના રજી.ની ઘરની સંખ્યા <b>{details?.oldregi || ""}</b>
+                        જુના રજી.ના ઘર <b>{details?.oldregi || ""}</b>
                       </span>
 
                       {details?.imageAkarni ? (
@@ -375,7 +375,7 @@ const OrderValuationReport = () => {
                   // position: "absolute",
                   // top: "20px",
                   // right: "20px",
-                  paddingRight: "45px",
+                  paddingRight: "0px",
                 }}
               >
                 <div
@@ -383,7 +383,7 @@ const OrderValuationReport = () => {
                     display: "flex",
                     alignItems: "start",
                     flexDirection: "column",
-                    paddingRight: "17px",
+                    paddingRight: "5px",
                     position: "relative",
                     transform: `translateY(-${
                       details?.imageAkarni ? 100 : 80
@@ -397,7 +397,6 @@ const OrderValuationReport = () => {
                     </b>{" "}
                     ગ્રામ પંચાયત કચેરી
                   </h2>
-
                   <h2
                     style={{
                       fontSize: "16px",
@@ -405,7 +404,6 @@ const OrderValuationReport = () => {
                   >
                     તાલુકો :– <b>{details?.taluka || ""}</b>
                   </h2>
-
                   <h2
                     style={{
                       fontSize: "16px",
@@ -413,7 +411,6 @@ const OrderValuationReport = () => {
                   >
                     જિલ્લો :- <b>{details?.district || ""}</b>
                   </h2>
-
                   <h2
                     style={{
                       fontSize: "16px",
@@ -421,7 +418,6 @@ const OrderValuationReport = () => {
                   >
                     તારીખ :– <b>{formatDate(details?.date)}</b>
                   </h2>
-
                   <span>
                     જુથ પંચાયત છે (હા/ના){" "}
                     <b>
@@ -432,75 +428,76 @@ const OrderValuationReport = () => {
                         : "હા"}
                     </b>{" "}
                   </span>
-                </div>
-
-                <span
-                  style={{
-                    fontSize: "16px",
-                    textAlign: "right",
-                    width: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    paddingRight: "10px",
-                    alignItems: "end",
-
-                    marginTop: `-${details?.imageAkarni ? 110 : 90}px`,
-                  }}
-                >
                   <span
                     style={{
+                      fontSize: "16px",
+                      textAlign: "left",
+                      width: "100%",
                       display: "flex",
-                      justifyContent: "end",
-                      gap: "10px",
+                      flexDirection: "column",
+                      paddingRight: "10px",
+                      alignItems: "start",
                     }}
                   >
-                    ગામના નામ:
-                    <b>
-                      {!details?.panchayat?.includes("નહિ") &&
-                        details?.panchayat
-                          .split(/\d+\./) // split at "1.", "2.", etc.
-                          .filter(Boolean) // remove empty strings
-                          .map((village, index) => (
-                            <div
-                              key={index}
-                              style={{ textAlign: "left", fontSize: "15px" }}
-                            >
-                              {index + 1}. {village.trim()}
-                            </div>
-                          ))}
-                    </b>
+                    <span
+                      style={{
+                        display: "flex",
+                        justifyContent: "start",
+                        gap: "10px",
+                      }}
+                    >
+                      ગામના નામ:
+                      <b>
+                        {!details?.panchayat?.includes("નહિ") &&
+                          details?.panchayat
+                            .split(/\d+\./) // split at "1.", "2.", etc.
+                            .filter(Boolean) // remove empty strings
+                            .map((village, index) => (
+                              <div
+                                key={index}
+                                style={{ textAlign: "left", fontSize: "15px" }}
+                              >
+                                {index + 1}. {village.trim()}
+                              </div>
+                            ))}
+                      </b>
+                    </span>
                   </span>
-                </span>
-
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "start",
-                    flexDirection: "column",
-                  }}
-                >
-                  <h2
+                  <div
                     style={{
-                      fontSize: "16px",
+                      display: "flex",
+                      alignItems: "start",
+                      flexDirection: "column",
                     }}
                   >
-                    આકારણીનું વર્ષ :– <b>{details?.akaraniYear || ""}</b>
-                  </h2>
+                    <h2
+                      style={{
+                        fontSize: "16px",
+                      }}
+                    >
+                      આકારણીનું વર્ષ :– <b>{details?.akaraniYear || ""}</b>
+                    </h2>
 
-                  <h2
-                    style={{
-                      fontSize: "16px",
-                    }}
-                  >
-                    વેરા રજીસ્ટરનું વર્ષ :– <b>{details?.taxYear || ""}</b>
-                  </h2>
+                    <h2
+                      style={{
+                        fontSize: "16px",
+                      }}
+                    >
+                      વેરા રજીસ્ટરનું વર્ષ :– <b>{details?.taxYear || ""}</b>
+                    </h2>
+                  </div>
                 </div>
               </div>
               {/* Info End */}
 
               {/* Names Start */}
               <div
-                style={{ display: "flex", flexDirection: "column", gap: "3px" }}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "3px",
+                  marginTop: "-65px",
+                }}
               >
                 <h2
                   style={{
@@ -1477,7 +1474,8 @@ const OrderValuationReport = () => {
                   >
                     {details?.approvedAmountWords ||
                       "........................."}
-                  </b>{" "}
+                  </b>
+                  {"/- "}
                   ભાવ મંજુર કરેલ છે જે આજની ગ્રામપંચાયત ની સામાન્ય બેઠક માં
                   બહાલી આપી.
                 </p>

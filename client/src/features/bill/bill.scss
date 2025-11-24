@@ -105,16 +105,16 @@ h3.text-base {
   background-size: contain;
   background-repeat: no-repeat;
 }
+
 .watermark-logo::after {
   content: "";
   position: absolute;
 
-  left: -150px;
-  top: 430px;
+  left: -80px;
+  bottom: -280px;
 
-  width: 180px;
-  height: 180px;
-  opacity: 0.9;
+  width: 200px;
+  height: 150px;
   z-index: -1;
 
   background: url("../../assets/component/data-entry.jpg");
@@ -126,12 +126,11 @@ h3.text-base {
   content: "";
   position: absolute;
 
-  left: 90px;
-  top: 460px;
+  left: 180px;
+  top: 420px;
 
   width: 230px;
   height: 230px;
-  opacity: 0.9;
   z-index: -1;
 
   background: url("../../assets/component/Survey.png");
@@ -151,9 +150,8 @@ table tr {
 }
 
 #sikko {
-  margin-top: 20px;
   font-weight: 900;
-  color: rgb(189, 29, 237);
+  color: rgb(163, 41, 200);
 
   position: relative;
   max-width: fit-content;
@@ -164,7 +162,7 @@ table tr {
     position: absolute;
 
     left: 2px;
-    top: -60%;
+    top: -40%;
 
     width: 70%;
     height: 28px;
@@ -172,4 +170,41 @@ table tr {
     background-size: contain;
     background-repeat: no-repeat;
   }
+}
+
+#circle {
+  position: relative;
+  max-width: fit-content;
+  text-align: right;
+
+  &::after {
+    content: "";
+    position: absolute;
+
+    left: -40px;
+    top: 30%;
+
+    width: 180px;
+    height: 180px;
+    // filter: hue-rotate(20deg);
+    // transform: rotate(-97deg);
+
+    background: url("../../assets/component/circle.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+}
+
+#webicon::after {
+  content: "";
+  position: absolute;
+
+  right: 20px;
+  bottom: 20px;
+
+  width: 50px;
+  height: 50px;
+  background: url("../../assets/component/mobile.png");
+  background-size: contain;
+  background-repeat: no-repeat;
 }

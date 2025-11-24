@@ -111,7 +111,7 @@ export default function numberToGujaratiWords(num) {
       const rest = n % 100;
       return (
         gujWords1to99[hundredPart] +
-        " સો" +
+        "સો" +
         (rest !== 0 ? " " + gujWords1to99[rest] : "")
       );
     }
@@ -138,5 +138,5 @@ export default function numberToGujaratiWords(num) {
     );
   }
 
-  return toWords(Math.floor(num)) + " રૂપિયા પૂરાં";
+  return toWords(Math.floor(num)) + " રૂપિયા પુરા";
 }

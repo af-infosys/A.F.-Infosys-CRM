@@ -104,10 +104,10 @@ export const updateBillDetails = async (req, res) => {
       district: updatedWork.spot?.district, // Unchanged
       year: updatedWork.details?.akaraniYear, // Unchanged
 
-      invoiceNo: updatedWork.details?.invoiceNo,
-      description: updatedWork.details?.description,
-      price: updatedWork.details?.price,
-      date: updatedWork.details?.date,
+      invoiceNo: updatedWork.details?.invoiceNo || 0,
+      description: updatedWork.details?.description || 0,
+      price: updatedWork.details?.price || 0,
+      date: updatedWork.details?.date || 0,
       houseCount,
     };
 
