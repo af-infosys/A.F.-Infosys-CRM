@@ -3,7 +3,7 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import "./bill.scss";
 import apiPath from "../../isProduction";
-import {  Edit, Save,   } from "lucide-react";
+import { Edit, Save } from "lucide-react";
 import numberToGujaratiWords from "../../components/ToGujarati";
 
 import LOGOpng from "../../assets/logo.png";
@@ -14,6 +14,9 @@ function BillView() {
 
   const [billData, setBillData] = useState({
     gaam: "loading...",
+    taluka: "",
+    district: "",
+    year: "",
     taluka: "",
     district: "",
     year: "",
@@ -599,7 +602,7 @@ function BillView() {
                       textAlign: "center",
                     }}
                   >
-                    <span className="trans">{billData?.price}₹</span>
+                    <span className="trans">₹{billData?.price}/-</span>
                   </td>
                   <td
                     className="text-sm text-gray-800 text-center"
@@ -914,7 +917,7 @@ function BillView() {
                       textAlign: "center",
                     }}
                   >
-                    <span className="trans">{billData?.price}₹</span>
+                    <span className="trans">₹{billData?.price}/-</span>
                   </td>
                 </tr>
               </tbody>
