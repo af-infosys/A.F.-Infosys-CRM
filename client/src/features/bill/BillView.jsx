@@ -3,7 +3,7 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import "./bill.scss";
 import apiPath from "../../isProduction";
-import { Search, Edit, Save, FileText, Download } from "lucide-react";
+import {  Edit, Save,   } from "lucide-react";
 import numberToGujaratiWords from "../../components/ToGujarati";
 
 import LOGOpng from "../../assets/logo.png";
