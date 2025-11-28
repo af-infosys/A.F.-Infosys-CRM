@@ -169,8 +169,8 @@ const SurvayReport = () => {
   };
 
   const handleDownloadPDF = async () => {
-    // const totalPages = Math.ceil(records.length / 15);
-    const totalPages = 2;
+    const totalPages = Math.ceil(records.length / 15);
+    // const totalPages = 2;
     let totalDuration = 0; // Cumulative time taken (ms)
 
     const startTime = window.performance.now();
