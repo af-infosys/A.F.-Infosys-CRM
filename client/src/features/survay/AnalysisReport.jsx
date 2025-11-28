@@ -135,6 +135,12 @@ const AnalyticsReport = () => {
         count: 0,
         icon: PhoneUserIcon,
       },
+      {
+        id: 19,
+        description: "બિન-પરવાનગી",
+        count: 0,
+        icon: PhoneUserIcon,
+      },
     ],
   });
 
@@ -252,6 +258,10 @@ const AnalyticsReport = () => {
     // count not null on 5th index
     const usePhoneCount = records.filter((record) => record[5] !== "").length;
 
+    const bpCount = records.filter((record) =>
+      record[13]?.includes("બી.પ.")
+    )?.length;
+
     setReportData((prev) => {
       return {
         ...prev,
@@ -274,6 +284,7 @@ const AnalyticsReport = () => {
           { ...prev.metrics[15], count: DuplicateCount },
           { ...prev.metrics[16], count: UniqueCount },
           { ...prev.metrics[17], count: usePhoneCount },
+          { ...prev.metrics[18], count: bpCount },
         ],
       };
     });
@@ -412,7 +423,7 @@ const AnalyticsReport = () => {
               clipRule="evenodd"
             />
           </svg>
-          <span>અહેવાલ PDF ડાઉનલોડ કરો</span>
+          <span>Download PDF</span>
         </button>
       </div>
     </div>

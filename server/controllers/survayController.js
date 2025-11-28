@@ -512,6 +512,8 @@ export const calculateValuation = async (req, res) => {
     const project = await Work.findById(projectId);
     const sheetId = project?.sheetId || "";
 
+    const OVSheetName = "OrderValuation";
+
     if (!sheetId) {
       return res.status(400).json({ error: "No sheetId found" });
     }
@@ -522,7 +524,21 @@ export const calculateValuation = async (req, res) => {
       range: "PropertyData!A4:ZZ",
     });
 
+    const orderValuation = await sheets.spreadsheets.values.get({
+      spreadsheetId: sheetId,
+      range: `${OVSheetName}!A2:D`, // assuming columns: A=Name, B=Amount, C=Percentage,  D=TaxAmount
+    });
+
     let records = response.data.values || [];
+    let valuationData = orderValuation.data.values || [];
+
+    console.log(valuationData);
+
+    if (!records.length)
+      return res.status(400).json({ error: "No data found" });
+
+    if (!valuationData.length)
+      return res.status(400).json({ error: "Fill Ordervaluation First" });
 
     // 2. Loop through rows and calculate
     let updates = [];
@@ -536,13 +552,153 @@ export const calculateValuation = async (req, res) => {
 
       // Example: calculate property price based on category
       if (propertyCategory.trim() === "રહેણાંક") {
-        propertyPrice = 500000 + jsonData.length * 10000;
-      } else if (propertyCategory.trim() === "વાણિજ્ય") {
-        propertyPrice = 1000000 + jsonData.length * 20000;
+        jsonData.forEach((item) => {
+          item.roomDetails.forEach((room) => {
+            if (room.type === "કાચા" || room.roomHallShopGodown === "રૂમ") {
+              let total = 0;
+
+              total += Number(room.tinRooms);
+              total += Number(room.woodenRooms);
+              total += Number(room.tileRooms);
+
+              propertyPrice += Number(valuationData[0][1]) * total;
+              tax +=
+                (Number(valuationData[0][1]) *
+                  total *
+                  Number(valuationData[0][2])) /
+                100;
+            }
+
+            if (room.type === "પાકા" || room.roomHallShopGodown === "રૂમ") {
+              let total = 0;
+
+              total += Number(room.tinRooms);
+              total += Number(room.woodenRooms);
+              total += Number(room.tileRooms);
+
+              propertyPrice += Number(valuationData[1][1]) * total;
+              tax +=
+                (Number(valuationData[1][1]) *
+                  total *
+                  Number(valuationData[1][2])) /
+                100;
+            }
+
+            if (room.type === "પાકા" || room.roomHallShopGodown === "રૂમ") {
+              let total = 0;
+
+              total += Number(room.slabRooms);
+
+              propertyPrice += Number(valuationData[1][1]) * total;
+              tax +=
+                (Number(valuationData[2][1]) *
+                  total *
+                  Number(valuationData[2][2])) /
+                100;
+            }
+          });
+        });
+
+        // console.log(valuationData[0][1]);
+      } else if (propertyCategory.trim() === "દુકાન") {
+        jsonData.forEach((item) => {
+          item.roomDetails.forEach((room) => {
+            if (room.roomHallShopGodown === "દુકાન નાની") {
+              let total = 0;
+
+              total += Number(room.slabRooms);
+              total += Number(room.tinRooms);
+              total += Number(room.woodenRooms);
+              total += Number(room.tileRooms);
+
+              propertyPrice += Number(valuationData[7][1]) * total;
+              tax +=
+                (Number(valuationData[7][1]) *
+                  total *
+                  Number(valuationData[7][2])) /
+                100;
+            }
+
+            if (room.roomHallShopGodown === "દુકાન નાની") {
+              let total = 0;
+
+              total += Number(room.slabRooms);
+              total += Number(room.tinRooms);
+              total += Number(room.woodenRooms);
+              total += Number(room.tileRooms);
+
+              propertyPrice += Number(valuationData[8][1]) * total;
+              tax +=
+                (Number(valuationData[8][1]) *
+                  total *
+                  Number(valuationData[8][2])) /
+                100;
+            }
+          });
+        });
+      } else if (propertyCategory.trim() === "મંડળી - સેવા સહકારી મંડળી") {
+        jsonData.forEach((item) => {
+          item.roomDetails.forEach((room) => {
+            if (
+              room.type === "પાકા" ||
+              room.roomHallShopGodown === "ગોડાઉન નાનું"
+            ) {
+              let total = 0;
+
+              total += Number(room.slabRooms);
+              total += Number(room.tinRooms);
+              total += Number(room.woodenRooms);
+              total += Number(room.tileRooms);
+
+              propertyPrice += Number(valuationData[9][1]) * total;
+              tax +=
+                (Number(valuationData[9][1]) *
+                  total *
+                  Number(valuationData[9][2])) /
+                100;
+            }
+          });
+        });
+      } else if (propertyCategory.trim() === "રહેણાંક") {
+        jsonData.forEach((item) => {
+          item.roomDetails.forEach((room) => {
+            if (
+              room.type === "પાકા" ||
+              room.roomHallShopGodown === "હોલ મોટો"
+            ) {
+              let total = 0;
+
+              total += Number(room.slabRooms);
+              total += Number(room.tinRooms);
+              total += Number(room.woodenRooms);
+              total += Number(room.tileRooms);
+
+              propertyPrice += Number(valuationData[12][1]) * total;
+              tax +=
+                (Number(valuationData[12][1]) *
+                  total *
+                  Number(valuationData[12][2])) /
+                100;
+            }
+          });
+        });
+      } else if (propertyCategory.trim() === "મોબાઈલ ટાવર") {
+        let total = 1;
+
+        // total += Number(room.slabRooms);
+        // total += Number(room.tinRooms);
+        // total += Number(room.woodenRooms);
+        // total += Number(room.tileRooms);
+
+        propertyPrice += Number(valuationData[9][1]) * total;
+        tax +=
+          (Number(valuationData[17][1]) *
+            total *
+            Number(valuationData[17][2])) /
+          100;
       }
 
       // Tax = 10% of property price
-      tax = propertyPrice * 0.1;
 
       // ---- Collect updates ----
       const targetRow = rowIndex + 4; // since data starts at row 4

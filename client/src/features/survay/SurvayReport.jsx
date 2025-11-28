@@ -7,14 +7,14 @@ import apiPath from "../../isProduction";
 import jsPDF from "jspdf";
 
 import html2canvas from "html2canvas";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import toGujaratiNumber from "../../components/toGujaratiNumber";
-import AkarniExcel from "../../components/excel/AkarniExcel";
-import AkarniImport from "../../components/excel/AkarniImport";
 
 const SurvayReport = () => {
+  const navigation = useNavigate();
+
   const [records, setRecords] = useState([]);
 
   const [loading, setLoading] = useState(true);
@@ -82,8 +82,8 @@ const SurvayReport = () => {
         }
       );
 
-      console.log(data?.data?.data || []);
-      setProject(data?.data?.data || []);
+      setProject([]);
+      fetchRecords();
 
       toast.success("Calculation Completed.");
     } catch (error) {
@@ -102,7 +102,7 @@ const SurvayReport = () => {
     fetchRecords();
   }, []);
 
-  const handleDownloadPDF = async () => {
+  const handleDownloadPDF0 = async () => {
     const pdf = new jsPDF("landscape", "mm", "legal");
 
     const totalPages = Math.ceil(records.length / 15);
@@ -112,11 +112,8 @@ const SurvayReport = () => {
 
       if (!pageElement) {
         console.error(`Page element with ID 'report-page-${i}' not found.`);
-
         continue;
       }
-
-      // Add a page before adding content, except for the first page
 
       if (i > 0) {
         pdf.addPage();
@@ -148,6 +145,148 @@ const SurvayReport = () => {
     pdf.save("2. Akarni_Report.pdf");
   };
 
+  const [pdfProgress, setPdfProgress] = useState({
+    isGenerating: false,
+    isCancelled: false,
+    completedPages: 0,
+    totalPages: 0,
+    percentage: 0,
+  });
+  const formatTime = (seconds) => {
+    if (seconds >= 60) {
+      const min = Math.floor(seconds / 60);
+      const sec = seconds % 60;
+      return `${min}m ${sec}s`;
+    }
+    return `${seconds} seconds`;
+  };
+
+  const handleCancel = () => {
+    setPdfProgress((prev) => ({
+      ...prev,
+      isCancelled: true,
+    }));
+  };
+
+  const handleDownloadPDF = async () => {
+    // const totalPages = Math.ceil(records.length / 15);
+    const totalPages = 2;
+    let totalDuration = 0; // Cumulative time taken (ms)
+
+    const startTime = window.performance.now();
+
+    setPdfProgress({
+      isGenerating: true,
+      isCancelled: false,
+      completedPages: 0,
+      totalPages: totalPages,
+      percentage: 0,
+      timeRemaining: null,
+    });
+
+    // jsPDF is now treated as a global variable
+    const pdf = new jsPDF("landscape", "mm", "legal");
+
+    for (let i = 0; i < totalPages; i++) {
+      // Helper to reliably get the latest state (for checking the isCancelled flag)
+      const currentState = await new Promise((resolve) => {
+        setPdfProgress((prev) => {
+          resolve(prev);
+          return prev;
+        });
+      });
+
+      if (currentState.isCancelled) {
+        console.log("PDF generation cancelled by user.");
+        break; // Exit the loop immediately
+      }
+
+      const pageStart = window.performance.now(); // Start timer for the current page
+
+      const pageElement = document.getElementById(`report-page-${i}`);
+
+      if (!pageElement) {
+        console.error(`Page element with ID 'report-page-${i}' not found.`);
+        continue;
+      }
+
+      if (i > 0) {
+        pdf.addPage();
+      }
+
+      try {
+        // html2canvas is now treated as a global variable
+        const canvas = await html2canvas(pageElement, {
+          scale: 2,
+          logging: false, // Set to false to reduce console clutter
+          useCORS: true,
+          allowTaint: true,
+        });
+
+        const imgData = canvas.toDataURL("image/jpeg", 1.0);
+        const imgWidth = 355.6;
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+        pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight);
+
+        const pageEnd = window.performance.now();
+        const pageDuration = pageEnd - pageStart; // Time taken for this page (ms)
+        totalDuration += pageDuration;
+
+        const completedPages = i + 1;
+        const percentage = Math.round((completedPages / totalPages) * 100);
+
+        let timeRemaining = null;
+
+        // Calculate ETA after a few pages for a stable average (starting from page 2)
+        if (completedPages >= 2) {
+          const averageTimePerPage = totalDuration / completedPages; // ms
+          const pagesRemaining = totalPages - completedPages;
+          // Calculate remaining time in seconds, ensuring it's not negative
+          timeRemaining = Math.max(
+            0,
+            Math.round((averageTimePerPage * pagesRemaining) / 1000)
+          );
+        }
+
+        // 2. Update Progress State with ETA
+        setPdfProgress((prev) => ({
+          ...prev,
+          completedPages: completedPages,
+          percentage: percentage,
+          timeRemaining: timeRemaining,
+        }));
+      } catch (error) {
+        console.error("Error generating PDF page:", error);
+        break; // Stop generation on error
+      }
+    }
+
+    // ⭐ CANCELLATION CHECK 2: Final state update based on whether it was cancelled or completed
+    const finalState = await new Promise((resolve) => {
+      setPdfProgress((prev) => {
+        resolve(prev);
+        // Determine final state message
+        return {
+          ...prev,
+          isGenerating: false, // Stop loading spinner
+          isCancelled: prev.isCancelled,
+          // If cancelled, keep the current percentage; otherwise, set to 100%
+          percentage: prev.isCancelled ? prev.percentage : 100,
+          timeRemaining: null, // Clear ETA display
+        };
+      });
+    });
+
+    if (!finalState.isCancelled) {
+      // 3. Finalize and Save PDF ONLY if not cancelled
+      pdf.save("2. Akarni_Report.pdf");
+      window.alert("PDF successfully saved.");
+    } else {
+      window.alert("PDF save operation skipped due to cancellation.");
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen text-gray-700">
@@ -176,10 +315,72 @@ const SurvayReport = () => {
     <div className="container mx-auto p-4 sm:p-6 lg:p-8">
       <button
         onClick={handleDownloadPDF}
-        className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+        className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transition duration-200 disabled:opacity-50"
+        disabled={pdfProgress.isGenerating} // Disable button while generating
       >
-        Download PDF
+        {pdfProgress.isGenerating ? "Generating..." : "Download PDF"}
       </button>
+
+      {pdfProgress.isGenerating && (
+        // Progress Modal/Overlay
+        <div className="fixed inset-0 bg-gray-800 bg-opacity-80 flex items-center justify-center z-50 p-4">
+          <div className="bg-white p-8 rounded-xl shadow-2xl w-full max-w-sm">
+            <h3 className="text-xl font-bold mb-2 text-center text-gray-800">
+              {pdfProgress.isCancelled
+                ? "❌ Canceled"
+                : "📄 Generating Report PDF"}
+            </h3>
+            <p
+              className={`text-sm mb-4 text-center ${
+                pdfProgress.isCancelled ? "text-red-500" : "text-gray-500"
+              }`}
+            >
+              Please wait, this is a CPU-intensive task.
+            </p>
+
+            {/* Progress Bar */}
+            <div className="w-full bg-gray-200 rounded-full h-3 mb-3">
+              <div
+                className={`h-3 rounded-full transition-all duration-500 ${
+                  pdfProgress.isCancelled ? "bg-yellow-500" : "bg-green-600"
+                }`}
+                style={{ width: `${pdfProgress.percentage}%` }}
+              ></div>
+            </div>
+
+            {/* Progress Details */}
+            <p className="text-sm font-semibold text-gray-700 text-center mb-1">
+              {pdfProgress.percentage}% Completed
+            </p>
+            <p className="text-xs text-gray-500 text-center mb-2">
+              Page <b>{pdfProgress.completedPages}</b> of{" "}
+              <b>{pdfProgress.totalPages}</b> done
+            </p>
+
+            {/* ETA Display */}
+            {pdfProgress.timeRemaining !== null && !pdfProgress.isCancelled ? (
+              <p className="text-sm font-bold text-blue-600 text-center mb-4">
+                {formatTime(pdfProgress.timeRemaining)} remaining
+              </p>
+            ) : (
+              <p className="text-sm font-medium text-gray-400 text-center mb-4">
+                {pdfProgress.isCancelled
+                  ? "Cancelling process..."
+                  : "Calculating ETA..."}
+              </p>
+            )}
+
+            {/* 🔴 CANCEL BUTTON */}
+            <button
+              onClick={handleCancel}
+              className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition duration-150 disabled:bg-red-400"
+              disabled={pdfProgress.isCancelled} // Disable if already signaled to cancel
+            >
+              {pdfProgress.isCancelled ? "Cancelling..." : "Cancel Generation"}
+            </button>
+          </div>
+        </div>
+      )}
 
       <br />
       <br />
@@ -188,27 +389,20 @@ const SurvayReport = () => {
         onClick={calculateValue}
         className="bg-orange-600 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded"
       >
-        Start Calculate
+        Calculate Property Value & Tax
       </button>
 
       <br />
       <br />
 
-      <AkarniExcel
-        records={records}
-        headerData={{
-          year: "૨૦૨૫/૨૬",
-          gaam: project?.spot?.gaam,
-          taluko: project?.spot?.taluka,
-          jillo: project?.spot?.district,
-        }}
-      />
+      <button
+        onClick={() => navigation(`/excel/akarni/${projectId}`)}
+        className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transition duration-200 disabled:opacity-50"
+      >
+        Edit with Excel Style
+      </button>
 
       <br />
-      <br />
-
-      <AkarniImport />
-
       <br />
       <br />
 
@@ -305,6 +499,17 @@ const SurvayReport = () => {
                   }}
                 >
                   મિલ્કતનું વર્ણન
+                </span>
+              </div>
+
+              <div className="table-cell s-no">
+                <span
+                  className="formatting"
+                  style={{
+                    fontSize: "10px",
+                  }}
+                >
+                  બી.પ.
                 </span>
               </div>
 
@@ -430,35 +635,31 @@ const SurvayReport = () => {
                 <span className="formatting">4</span>
               </div>
 
-              <div className="table-cell owner">
+              <div className="table-cell s-no">
                 <span className="formatting">5</span>
               </div>
 
-              <div className="table-cell old-prop-no">
+              <div className="table-cell owner">
                 <span className="formatting">6</span>
               </div>
 
-              <div className="table-cell mobile">
+              <div className="table-cell old-prop-no">
                 <span className="formatting">7</span>
               </div>
 
-              <div className="table-cell valuation">
+              <div className="table-cell mobile">
                 <span className="formatting">8</span>
               </div>
 
-              <div className="table-cell tax">
+              <div className="table-cell valuation">
                 <span className="formatting">9</span>
               </div>
 
-              <div className="table-cell prop-name">
+              <div className="table-cell tax">
                 <span className="formatting">10</span>
               </div>
 
-              {/* <div className="table-cell type">
-                <span className="formatting">11</span>
-              </div> */}
-
-              <div className="table-cell" style={{ width: "3%" }}>
+              <div className="table-cell prop-name">
                 <span className="formatting">11</span>
               </div>
 
@@ -466,13 +667,13 @@ const SurvayReport = () => {
                 <span className="formatting">12</span>
               </div>
 
-              <div className="table-cell remarks">
+              <div className="table-cell" style={{ width: "3%" }}>
                 <span className="formatting">13</span>
               </div>
 
-              {/* <div className="table-cell action">
+              <div className="table-cell remarks">
                 <span className="formatting">14</span>
-              </div> */}
+              </div>
             </div>
 
             {/* Table Rows using Divs */}
@@ -496,6 +697,12 @@ const SurvayReport = () => {
 
                 <div className="table-cell description">
                   <span className="formatting">{record[15]}</span>
+                </div>
+
+                <div className="table-cell s-no">
+                  <span className="formatting">
+                    {record[13]?.includes("બી.પ.") ? "બી.પ." : ""}
+                  </span>
                 </div>
 
                 <div className="table-cell owner">
@@ -583,6 +790,10 @@ const SurvayReport = () => {
                   મિલ્કતનું વર્ણન
                 </th>
 
+                <th className="th" rowSpan="2" style={{ minWidth: "70px" }}>
+                  બી.પ.
+                </th>
+
                 <th className="th" rowSpan="2" style={{ minWidth: "170px" }}>
                   માલિકનું નામ
                 </th>
@@ -596,11 +807,11 @@ const SurvayReport = () => {
                 </th>
 
                 <th className="th" rowSpan="2" style={{ minWidth: "100px" }}>
-                  મિલ્કતની કિંમત
+                  મિલ્કતની કિંમત (₹)
                 </th>
 
                 <th className="th" rowSpan="2" style={{ minWidth: "70px" }}>
-                  આકારેલ વેરાની રકમ
+                  આકારેલ વેરાની રકમ (₹)
                 </th>
 
                 <th className="th" rowSpan="2" style={{ minWidth: "130px" }}>
@@ -629,7 +840,7 @@ const SurvayReport = () => {
               {/* Index Start */}
               <tr>
                 {/* 1 to 14 th for index */}
-                {Array.from({ length: 13 }).map((_, index) => (
+                {Array.from({ length: 14 }).map((_, index) => (
                   <th
                     className="text-xs font-medium text-gray-500 uppercase tracking-wider"
                     style={{
@@ -656,6 +867,10 @@ const SurvayReport = () => {
                   <td className="td">{record[2]}</td>
 
                   <td className="td">{record[15]}</td>
+
+                  <td className="td">
+                    {record[13]?.includes("બી.પ.") ? "બી.પ." : ""}
+                  </td>
 
                   <td className="td">{record[3]}</td>
 

@@ -43,6 +43,7 @@ import TaxRegister from "../features/survay/TaxRegister";
 import TarijReport from "../features/survay/TarijReport";
 import SurvayFormImage from "../features/survay/SurvayFormImage";
 import SurvayReportImage from "../features/survay/SurvayReportImage";
+import AkarniExcelEdit from "../components/excel/AkarniExcelEdit";
 
 export default function AppRoutes() {
   const { user } = useAuth();
@@ -297,6 +298,10 @@ export default function AppRoutes() {
             </ProtectedRoute>
           }
         />
+
+        <Route path="/excel">
+          <Route path="akarni/:projectId" element={<AkarniExcelEdit />} />
+        </Route>
       </Route>
       {/* Staff Routes End */}
 
