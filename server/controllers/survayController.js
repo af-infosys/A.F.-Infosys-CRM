@@ -484,9 +484,8 @@ export const editSheetRecord = async (req, res) => {
     // Update the sheet row
     await googleSheets.spreadsheets.values.update({
       spreadsheetId: SPREADSHEET_ID,
-      // Target range is now up to Column AA to cover all 27 fields
       range: `${DATA_SHEET}!A${rowNumber}:AA${rowNumber}`,
-      valueInputOption: "RAW", // Use RAW to ensure data types are written correctly
+      valueInputOption: "RAW",
       requestBody: {
         values: [updatedRow],
       },
@@ -508,7 +507,6 @@ export const editSheetRecord = async (req, res) => {
 export const calculateValuation = async (req, res) => {
   try {
     const projectId = req.params.id;
-    console.log("Project Id", projectId);
     const project = await Work.findById(projectId);
     const sheetId = project?.sheetId || "";
 
@@ -986,3 +984,129 @@ export const DeleteArea = async (req, res) => {
     });
   }
 };
+
+export const seperateCommercialProperties = async (req, res) => {
+  // "દુકાન", "પ્રાઈવેટ - સંસ્થાઓ", "કારખાના - ઇન્ડસ્ટ્રીજ" , "ટ્રસ્ટ મિલ્કત / NGO", "મંડળી - સેવા સહકારી મંડળી", "બેંક - સરકારી", "બેંક - અર્ધ સરકારી બેંક", "બેંક - પ્રાઇટ બેંક", "કોમ્પપ્લેક્ષ","હિરાના કારખાના નાના", "હિરાના કારખાના મોટા", "મોબાઈલ ટાવર", "પેટ્રોલ પંપ, ગેસ પંપ",
+
+  try {
+    const projectId = req.params.id;
+    const project = await Work.findByIdAndUpdate(projectId, {
+      details: {
+        seperatecommercial: true,
+      },
+    });
+    const sheetId = project?.sheetId || "";
+
+    if (!sheetId) {
+      return res.status(400).json({ error: "No sheetId found" });
+    }
+
+    const client = await auth.getClient();
+    const googleSheets = google.sheets({ version: "v4", auth: client });
+
+    // Google Sheet
+    const response = await googleSheets.spreadsheets.values.get({
+      spreadsheetId: sheetId,
+      range: `${DATA_SHEET}!A4:ZZ`,
+    });
+
+    const records = response.data.values || [];
+    const modifiedData = sortAndSequenceProperties(records);
+
+    const startRow = 4;
+
+    const endRow = startRow + modifiedData.length - 1;
+
+    const range = `${DATA_SHEET}!A${startRow}:AA${endRow}`;
+
+    // 2. Prepare the request body
+    const requestBody = {
+      values: modifiedData, // This is your entire array of sorted rows
+    };
+
+    // 3. Execute the batch update using spreadsheets.values.update
+    // We use update here, not batchUpdate, because we are overwriting a single, large range.
+    const response2 = await googleSheets.spreadsheets.values.update({
+      spreadsheetId: sheetId,
+      range: range,
+      valueInputOption: "RAW", // Use 'RAW' to treat all input as raw text/values
+      requestBody: requestBody,
+    });
+
+    console.log(
+      `Successfully updated ${response2.data.updatedCells} cells in range: ${response2.data.updatedRange}`
+    );
+
+    res
+      .status(200)
+      .json({ message: "Commercial Properties Seperated Successfully!" });
+  } catch (error) {
+    console.error("Error Seperating Commercial Properties:", error.message);
+    res.status(500).json({
+      message: "Failed to Seperate Commercial Properties.",
+      error: error.message,
+    });
+  }
+};
+
+function sortAndSequenceProperties(data) {
+  if (!data || data.length === 0) {
+    return [];
+  }
+
+  // 1. Define the commercial categories in Gujarati
+  const commercialCategories = new Set([
+    "દુકાન",
+    "પ્રાઈવેટ - સંસ્થાઓ",
+    "કારખાના - ઇન્ડસ્ટ્રીજ",
+    "ટ્રસ્ટ મિલ્કત / NGO",
+    "મંડળી - સેવા સહકારી મંડળી",
+    "બેંક - સરકારી",
+    "બેંક - અર્ધ સરકારી બેંક",
+    "બેંક - પ્રાઇટ બેંક",
+    "કોમ્પપ્લેક્ષ",
+    "હિરાના કારખાના નાના",
+    "હિરાના કારખાના મોટા",
+    "મોબાઈલ ટાવર",
+    "પેટ્રોલ પંપ, ગેસ પંપ",
+  ]);
+
+  // The index where the property category is located (index 7)
+  const categoryIndex = 7;
+
+  // 2. Separate commercial properties from normal properties
+  const normalProperties = [];
+  const commercialProperties = [];
+
+  data.forEach((row) => {
+    const category = row[categoryIndex] ? row[categoryIndex].trim() : "";
+
+    // Check if the category is commercial
+    if (commercialCategories.has(category)) {
+      commercialProperties.push(row);
+    } else {
+      normalProperties.push(row);
+    }
+  });
+
+  // 3. Combine the arrays: Normal properties first, then commercial properties
+  const sortedData = [...normalProperties, ...commercialProperties];
+
+  // 4. Re-sequence the index 0 and index 2 columns
+  // The original data started from sequence number 61 (as seen in the first row '61')
+  const startSequenceNumber = parseInt(data[0][0], 10); // Get the starting number
+
+  for (let i = 0; i < sortedData.length; i++) {
+    const sequenceNumber = startSequenceNumber + i;
+    const row = sortedData[i];
+
+    // Update index 0 (main index/serial number)
+    row[0] = String(sequenceNumber);
+
+    // Update index 2 (property number)
+    row[2] = String(sequenceNumber);
+  }
+
+  // Return the final sorted and re-sequenced data
+  return sortedData;
+}
