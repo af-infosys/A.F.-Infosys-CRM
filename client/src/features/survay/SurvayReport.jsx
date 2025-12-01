@@ -130,9 +130,9 @@ const SurvayReport = () => {
   };
 
   const handleDownloadPDF = async () => {
-    const totalPages = finalRenderPages.length;
+    // const totalPages = finalRenderPages.length;
     // const totalPages = Math.ceil(records.length / PROPERTIES_PER_PAGE) + 3;
-    // const totalPages = 5;
+    const totalPages = 5;
 
     let totalDuration = 0; // Cumulative time taken (ms)
 
@@ -514,7 +514,12 @@ const SurvayReport = () => {
                 className="report-page legal-landscape-dimensions"
                 style={{ paddingLeft: "65px", paddingRight: "20px" }}
               >
-                <AkarniIndex part={item.bundle} nop={PROPERTIES_PER_PAGE} />
+                <AkarniIndex
+                  part={item.bundle}
+                  nop={PROPERTIES_PER_PAGE}
+                  project={project}
+                  totalHoouse={records?.length}
+                />
               </div>
             );
           }

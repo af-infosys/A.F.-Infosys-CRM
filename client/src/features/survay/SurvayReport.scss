@@ -25,9 +25,10 @@
 
 .watermark {
   background-repeat: repeat;
-  background-size: 300px 300px;
+  background-size: 220px 180px;
+  background-image: url("../../assets/component/Watermark.png");
 
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><g fill='rgba(0,0,0,0.4)' font-size='16' transform='rotate(-45 0,0)'><text x='0' y='20'>A. F. INFOSYS</text><text x='0' y='40'>93764 43146</text><text x='0' y='60'>99247 82732</text></g></svg>");
+  // background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><g fill='rgba(0,0,0,0.4)' font-size='16' transform='rotate(-45 0,0)'><text x='0' y='20'>A. F. INFOSYS</text><text x='0' y='40'>93764 43146</text><text x='0' y='60'>99247 82732</text></g></svg>");
 }
 
 /* Legal Landscape Dimensions */

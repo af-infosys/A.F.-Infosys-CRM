@@ -990,11 +990,20 @@ export const seperateCommercialProperties = async (req, res) => {
 
   try {
     const projectId = req.params.id;
-    const project = await Work.findByIdAndUpdate(projectId, {
-      details: {
-        seperatecommercial: true,
+
+    const prev = await Work.findById(projectId);
+
+    const project = await Work.findByIdAndUpdate(
+      projectId,
+      {
+        details: {
+          ...prev.details,
+          seperatecommercial: true,
+        },
       },
-    });
+      { new: true }
+    );
+
     const sheetId = project?.sheetId || "";
 
     if (!sheetId) {

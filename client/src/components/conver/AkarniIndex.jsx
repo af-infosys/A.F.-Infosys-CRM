@@ -1,4 +1,5 @@
 import React from "react";
+import LogoImage from "../../assets/logo.png";
 
 // Utility component for the main text blocks
 const TextBlock = ({ children }) => (
@@ -7,7 +8,8 @@ const TextBlock = ({ children }) => (
   </p>
 );
 
-const AkarniIndex = ({ part, nop, project, year = "૨૦૨૫/૨૬" }) => {
+const AkarniIndex = ({ part, nop, project, totalHoouse }) => {
+  console.log(project);
   return (
     <div>
       {/* -------------------- 1. Top Header (Village, Taluka, District) -------------------- */}
@@ -16,13 +18,16 @@ const AkarniIndex = ({ part, nop, project, year = "૨૦૨૫/૨૬" }) => {
         style={{ marginTop: "80px" }}
       >
         <div className="text-left text-blue-700">
-          <span className="font-extrabold">મોજે:</span>- મેઘરજ
+          <span className="font-extrabold">મોજે:</span>-{" "}
+          {project?.spot?.gaam || "..."}
         </div>
         <div className="text-center text-blue-700">
-          <span className="font-extrabold">તાલુકો:</span>- મેઘરજ
+          <span className="font-extrabold">તાલુકો:</span>-{" "}
+          {project?.spot?.taluka || "..."}
         </div>
         <div className="text-right text-blue-700">
-          <span className="font-extrabold">જીલ્લો:</span>- અરવલ્લી
+          <span className="font-extrabold">જીલ્લો:</span>-{" "}
+          {project?.spot?.district || "..."}
         </div>
       </header>
 
@@ -32,7 +37,7 @@ const AkarniIndex = ({ part, nop, project, year = "૨૦૨૫/૨૬" }) => {
           ગામના નમુના નંબર (૮) આકારણી રજીસ્ટર
         </h1>
         <h2 className="text-2xl font-semibold mt-2 text-gray-700">
-          વર્ષ :- {year}
+          વર્ષ :- {project?.details?.akarniYear || "2025/26"}
         </h2>
       </div>
 
@@ -55,7 +60,7 @@ const AkarniIndex = ({ part, nop, project, year = "૨૦૨૫/૨૬" }) => {
       {/* -------------------- 4. Central Information Block (Logo & Details) -------------------- */}
       <div className="grid grid-cols-3 mt-5 p-3 border-4 border-dashed border-gray-400 rounded-lg">
         {/* Left Column (Address Details) */}
-        <div className="col-span-2 space-y-4 pt-2 pr-6">
+        <div className="col-span-2 space-y-4 pt-0 pr-6">
           <div className="text-center text-3xl font-bold text-gray-600 mb-8">
             --: કોમ્પ્યુટરાઈઝ કરનાર :--
           </div>
@@ -98,9 +103,7 @@ const AkarniIndex = ({ part, nop, project, year = "૨૦૨૫/૨૬" }) => {
         {/* Right Column (Logo) */}
         <div className="col-span-1 flex justify-center items-center">
           <img
-            src={
-              "https://afinfosys.netlify.app/static/media/logo.65093e0a1514f8a465c0.png"
-            }
+            src={LogoImage}
             alt="A.F. Infosys Logo Placeholder"
             className="w-48 h-48 object-contain rounded-lg shadow-lg"
             onError={(e) => {
@@ -178,6 +181,7 @@ const AkarniIndex = ({ part, nop, project, year = "૨૦૨૫/૨૬" }) => {
                   id="villageCount"
                   type="text"
                   defaultValue="800"
+                  value={totalHoouse}
                   readOnly
                   className="w-48 p-1 border-b border-black text-center font-bold"
                 />
