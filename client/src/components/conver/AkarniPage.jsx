@@ -1,9 +1,19 @@
 import React from "react";
 import toGujaratiNumber from "../toGujaratiNumber";
 
-const AkarniPage = ({ pageIndex, project, pageRecords }) => {
+const AkarniPage = ({
+  pageIndex,
+  project,
+  pageRecords,
+  totalHoouse,
+  totalPages,
+  current,
+}) => {
   return (
-    <div className="watermark" style={{ minHeight: "100%" }}>
+    <div
+      className="watermark"
+      style={{ minHeight: "100%", position: "relative" }}
+    >
       <div className="page-header-container">
         <span
           className="page-number"
@@ -17,7 +27,7 @@ const AkarniPage = ({ pageIndex, project, pageRecords }) => {
           પાના નં. {toGujaratiNumber(pageIndex + 1)}
         </span>
 
-        <h1 className="heading" style={{ marginTop: "38px" }}>
+        <h1 className="heading" style={{ marginTop: "50px" }}>
           પંચાયત હિસાબ નમુનો નંબર - ૮ (આકારણી રજીસ્ટર)
         </h1>
 
@@ -322,6 +332,27 @@ const AkarniPage = ({ pageIndex, project, pageRecords }) => {
           </div>
         </div>
       ))}
+
+      {totalPages === current ? (
+        <p style={{ marginTop: "20px", textAlign: "center" }}>
+          1. કુલ ઘર : <u style={{ marginRight: "20px" }}>{totalHoouse}</u> 2.
+          કુલ મોબાઈલ નં. : <u style={{ marginRight: "20px" }}>0</u> 3. કુલ નળ :{" "}
+          <u style={{ marginRight: "20px" }}>0</u> 4. કુલ શૌચાલય :{" "}
+          <u style={{ marginRight: "20px" }}>00</u>
+        </p>
+      ) : null}
+
+      <p
+        style={{
+          position: "absolute",
+          bottom: "0",
+          left: "50%",
+          transform: "translateX(-50%)",
+          color: "#333",
+        }}
+      >
+        A.F. INFOSYS | 93764 43146 | 99247 82732{" "}
+      </p>
     </div>
   );
 };

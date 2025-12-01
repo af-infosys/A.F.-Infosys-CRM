@@ -305,7 +305,7 @@ const SurvayReport = () => {
   }
 
   // Paginate records into chunks of 15
-  const PROPERTIES_PER_PAGE = 18;
+  const PROPERTIES_PER_PAGE = 15;
 
   const pages = [];
   for (let i = 0; i < records.length; i += PROPERTIES_PER_PAGE) {
@@ -512,7 +512,11 @@ const SurvayReport = () => {
                 key={id}
                 id={id}
                 className="report-page legal-landscape-dimensions"
-                style={{ paddingLeft: "65px", paddingRight: "20px" }}
+                style={{
+                  paddingLeft: "65px",
+                  paddingRight: "50px",
+                  maxHeight: "800px",
+                }}
               >
                 <AkarniIndex
                   part={item.bundle}
@@ -530,10 +534,16 @@ const SurvayReport = () => {
                 key={id}
                 id={id}
                 className="report-page legal-landscape-dimensions"
-                style={{ paddingLeft: "65px", paddingRight: "20px" }}
+                style={{
+                  paddingLeft: "65px",
+                  paddingRight: "50px",
+                  maxHeight: "800px",
+                }}
               >
-                {item.name === "panchayat" && <PanchayatBenefit />}
-                {item.name === "public" && <PublicBenefit />}
+                {item.name === "panchayat" && (
+                  <PanchayatBenefit part={item.bundle} />
+                )}
+                {item.name === "public" && <PublicBenefit part={item.bundle} />}
               </div>
             );
           }
@@ -543,12 +553,20 @@ const SurvayReport = () => {
               key={id}
               id={id}
               className="report-page legal-landscape-dimensions"
-              style={{ paddingLeft: "65px", paddingRight: "20px" }}
+              style={{
+                paddingLeft: "65px",
+                paddingRight: "20px",
+
+                maxHeight: "800px",
+              }}
             >
               <AkarniPage
                 project={project}
                 pageIndex={item.pageIndex}
                 pageRecords={item.pageRecords}
+                totalHoouse={records?.length}
+                current={idx + 1}
+                totalPages={finalRenderPages?.length}
               />
             </div>
           );
@@ -622,10 +640,6 @@ const SurvayReport = () => {
                 <th className="th" rowSpan="2" style={{ minWidth: "130px" }}>
                   મિલ્કત પર લખેલ નામ
                 </th>
-
-                {/* <th className="th" rowSpan="2" style={{ minWidth: "120px" }}>
-                  મકાન ટાઈપ
-                </th> */}
 
                 <th className="th" colSpan="2">
                   અન્ય સુવિધા
