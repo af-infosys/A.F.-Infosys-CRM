@@ -573,7 +573,20 @@ export default function DashboardLayout() {
                       alt="Customer List"
                       style={{ width: "23px" }}
                     />
-                    Project
+                    Akarni Project
+                  </NavLink>
+
+                  <NavLink
+                    to={"/staff/billwork"}
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                    onClick={() => setIsSidebarOpen(false)}
+                  >
+                    <img
+                      src={ProjectManagementIcon}
+                      alt="Customer List"
+                      style={{ width: "23px" }}
+                    />
+                    Bill Project
                   </NavLink>
                 </div>
               </div>

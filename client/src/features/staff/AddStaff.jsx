@@ -230,6 +230,7 @@ const AddStaff = () => {
               <option value="md">Managing Director</option>
               <option value="telecaller">Telecaller</option>
               <option value="surveyor">Surveyor</option>
+              <option value="biller">Biller</option>
               <option value="monitor">Monitor</option>
               <option value="operator">Operator</option>
               <option value="accountant">Accountant</option>

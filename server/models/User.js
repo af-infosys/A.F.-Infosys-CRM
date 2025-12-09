@@ -17,6 +17,7 @@ const userSchema = new mongoose.Schema(
         "md",
         "telecaller",
         "surveyor",
+        "biller",
         "operator",
         "accountant",
         "monitor",

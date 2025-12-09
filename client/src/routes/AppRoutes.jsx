@@ -44,6 +44,7 @@ import TarijReport from "../features/survay/TarijReport";
 import SurvayFormImage from "../features/survay/SurvayFormImage";
 import SurvayReportImage from "../features/survay/SurvayReportImage";
 import AkarniExcelEdit from "../components/excel/AkarniExcelEdit";
+import BillWork from "../features/staff/BillWork";
 
 export default function AppRoutes() {
   const { user } = useAuth();
@@ -268,6 +269,15 @@ export default function AppRoutes() {
           element={
             <ProtectedRoute allowedRoles={["owner"]}>
               <Work />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/staff/billwork"
+          element={
+            <ProtectedRoute allowedRoles={["owner"]}>
+              <BillWork />
             </ProtectedRoute>
           }
         />

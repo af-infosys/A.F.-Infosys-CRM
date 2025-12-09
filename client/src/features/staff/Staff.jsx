@@ -153,6 +153,7 @@ const Staff = () => {
   };
 
   const [workEntries, setWorkEntries] = useState([]);
+  const [billWorks, setBillWorks] = useState([]);
 
   // --- Fetch Work Entries ---
   const fetchWorkEntries = async () => {
@@ -177,8 +178,34 @@ const Staff = () => {
     }
   };
 
+  const fetchBillWorks = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(`${await apiPath()}/api/work/bill`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const result = await response.json();
+      console.log("here is the data", result.data);
+      setBillWorks(result.data);
+    } catch (err) {
+      console.error("Error fetching work entries:", err);
+      setError("Bill na કાર્યની વિગતો લાવવામાં નિષ્ફળ.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchWorkEntries();
+    fetchBillWorks();
   }, []);
 
   return (
@@ -306,6 +333,33 @@ const Staff = () => {
         )}
       </div>
 
+      {/* Add Staff Button */}
+      <button
+        onClick={() => {
+          navigate("/staff/add");
+        }}
+        className="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-all duration-200 ease-in-out transform hover:scale-105 flex items-center justify-center gap-2"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="lucide lucide-user-plus"
+        >
+          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+          <circle cx="9" cy="7" r="4" />
+          <line x1="19" x2="19" y1="8" y2="14" />
+          <line x1="22" x2="16" y1="11" y2="11" />
+        </svg>
+        <span>Add Staff</span>
+      </button>
+
       <hr className="my-8 border-t-2 border-gray-200" />
 
       {/* Surveyors Table */}
@@ -430,6 +484,7 @@ const Staff = () => {
                                   stroke="currentColor"
                                   strokeWidth="2"
                                   strokeLinecap="round"
+                                  setCurrentStaffForWork
                                   strokeLinejoin="round"
                                   className="lucide lucide-trash-2"
                                 >
@@ -452,37 +507,153 @@ const Staff = () => {
           )}
       </div>
 
-      {/* Add Staff Button */}
-      <button
-        onClick={() => {
-          navigate("/staff/add");
-        }}
-        className="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-all duration-200 ease-in-out transform hover:scale-105 flex items-center justify-center gap-2"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="lucide lucide-user-plus"
-        >
-          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-          <circle cx="9" cy="7" r="4" />
-          <line x1="19" x2="19" y1="8" y2="14" />
-          <line x1="22" x2="16" y1="11" y2="11" />
-        </svg>
-        <span>Add Staff</span>
-      </button>
+      <hr className="my-8 border-t-2 border-gray-200" />
+
+      {/* Biller table */}
+      <div className="bg-white p-6 rounded-lg shadow-md mb-8">
+        <h3 className="text-xl font-semibold text-gray-700 mb-4">Billers</h3>
+        {loading && <p className="text-blue-600">Loading...</p>}
+        {error && <p className="text-red-600">{error}</p>}
+        {!loading &&
+          users.filter((user) => user.role === "biller").length === 0 &&
+          !error && <p className="text-gray-500">No Billers Found!</p>}
+        {!loading &&
+          users.filter((user) => user.role === "biller").length > 0 && (
+            <div className="overflow-x-auto rounded-lg border border-gray-200">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Name
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Email
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Work
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {users
+                    .filter((user) => user.role === "biller")
+                    .map((staff) => (
+                      <tr key={staff.id}>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                          {staff.name}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          {staff.email}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          {(() => {
+                            const assignedEntry = billWorks.find(
+                              (entry) => entry.id === staff.work
+                            );
+                            if (!assignedEntry)
+                              return (
+                                <p className="text-gray-400">Not Assigned</p>
+                              );
+
+                            return (
+                              <>
+                                <p>ગામ: {assignedEntry?.gaam || "N/A"}</p>
+                                <p>તાલુકો: {assignedEntry?.taluko || "N/A"}</p>
+                                <p>
+                                  જિલ્લો: {assignedEntry?.district || "N/A"}
+                                </p>
+                              </>
+                            );
+                          })()}
+                        </td>
+
+                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                          <div className="flex space-x-2">
+                            <button
+                              onClick={() => openWorkModal(staff)}
+                              className={`inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white transition-colors duration-200 ${
+                                billWorks.find((e) => e.id === staff.work)
+                                  ? "bg-yellow-500 hover:bg-yellow-600"
+                                  : "bg-green-600 hover:bg-green-700"
+                              }`}
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                className="lucide lucide-edit"
+                              >
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                              </svg>
+                              <span className="ml-1">
+                                {billWorks.find((e) => e.id === staff.work)
+                                  ? "Edit"
+                                  : "Assign"}
+                              </span>
+                            </button>
+
+                            {billWorks.find((e) => e.id === staff.work) && (
+                              <button
+                                onClick={() => handleDeleteWork(staff._id)}
+                                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 transition-colors duration-200"
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeWidth="2"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  className="lucide lucide-trash-2"
+                                >
+                                  <path d="M3 6h18" />
+                                  <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                                  <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                                  <line x1="10" x2="10" y1="11" y2="17" />
+                                  <line x1="14" x2="14" y1="11" y2="17" />
+                                </svg>
+                                <span className="ml-1">Remove</span>
+                              </button>
+                            )}
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+      </div>
 
       {/* Work Assignment/Edit Modal */}
       {isWorkModalOpen && currentStaffForWork && (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-md mx-4">
+          <div className="bg-white p-8 rounded-lg sha6dow-xl w-full max-w-md mx-4">
             <h3 className="text-2xl font-bold mb-6 text-gray-800">
               {currentStaffForWork.work &&
               (currentStaffForWork.work.gaam ||
@@ -491,7 +662,8 @@ const Staff = () => {
                 ? "Edit Work"
                 : "Assign Work"}{" "}
               <span className="text-blue-600">
-                ({currentStaffForWork.name})
+                - {currentStaffForWork.name}
+                <br /> ({currentStaffForWork?.role})
               </span>
             </h3>
             <div className="space-y-4">
@@ -505,12 +677,19 @@ const Staff = () => {
                 <option disabled value="">
                   Select Sheet Id
                 </option>
-                {workEntries.map((workEntry) => (
-                  <option key={workEntry._id} value={workEntry._id}>
-                    {workEntry.sheetId} - {workEntry.spot?.gaam},{" "}
-                    {workEntry.spot?.taluka}
-                  </option>
-                ))}
+
+                {currentStaffForWork?.role === "biller"
+                  ? billWorks.map((workEntry) => (
+                      <option key={workEntry.id} value={workEntry.id}>
+                        {workEntry.id} - {workEntry?.gaam}, {workEntry?.taluko}
+                      </option>
+                    ))
+                  : workEntries.map((workEntry) => (
+                      <option key={workEntry._id} value={workEntry._id}>
+                        {workEntry.sheetId} - {workEntry.spot?.gaam},{" "}
+                        {workEntry.spot?.taluka}
+                      </option>
+                    ))}
               </select>
             </div>
             <div className="flex justify-end gap-4 mt-6">
