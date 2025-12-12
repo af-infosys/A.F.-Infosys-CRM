@@ -156,6 +156,49 @@ export const getAllBillWork = async (req, res) => {
   }
 };
 
+export const getBillWorkDetail = async (req, res) => {
+  try {
+    const workID = req.params.id;
+    const dataId = process.env.WORK_SHEET_ID;
+
+    if (workID) {
+      const data = await sheet.read(dataId, "GramSuvidha");
+      const details = data
+        .filter((item) => item.length > 0)
+        .map((arr) => {
+          return {
+            id: arr[0],
+            gaam: arr[2],
+            taluko: arr[3],
+            district: arr[4],
+          };
+        });
+      console.log("Here is the bill works", details);
+
+      const work = details.find((item) => item.id === workID);
+
+      if (work) {
+        res.status(200).json({
+          message: "Work Spot Fetched Successfully!",
+          work,
+        });
+      } else {
+        res.status(404).json({
+          message: "Work Spot not Found!",
+          work: {},
+        });
+      }
+    }
+  } catch (error) {
+    console.error("Error fetching work entries:", error);
+    res.status(500).json({
+      message: "Failed to fetch work entries.",
+      error: error.message,
+    });
+  }
+};
+// bill-details
+
 // --- Add New Work Entry ---
 export const addWork = async (req, res) => {
   try {

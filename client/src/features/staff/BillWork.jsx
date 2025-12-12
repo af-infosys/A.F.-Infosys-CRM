@@ -205,8 +205,8 @@ const BillWork = () => {
       const result = await response.json();
       console.log(result);
     } catch (err) {
-      window.alert("Error fetching work entries:", err);
-      setError("કાર્યની વિગતો લાવવામાં નિષ્ફળ.");
+      window.alert("Server is not Rechable:", err);
+      setError("Please Start your Local Server", err);
     }
 
     setLoading(false);

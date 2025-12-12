@@ -13,6 +13,7 @@ import {
   getProjectDetail,
   getBillWork,
   getAllBillWork,
+  getBillWorkDetail,
 } from "../controllers/workController.js";
 
 const userRoutes = express.Router();
@@ -37,6 +38,7 @@ userRoutes.get("/project/:id", getProjectDetail); // ✅ pehle specific
 
 userRoutes.get("/:id", authenticateToken, getWorkSpot); // ✅ baad me generic
 userRoutes.get("/bill/:id", authenticateToken, getBillWork); // ✅ baad me generic
+userRoutes.get("/bill-details/:id", getBillWorkDetail);
 
 userRoutes.post("/", authenticateToken, authorizeRoles("owner"), addWork);
 
