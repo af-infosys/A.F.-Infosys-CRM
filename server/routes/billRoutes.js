@@ -12,3 +12,5 @@ BillRoutes.get("/:sheetId", getAllProperties);
 BillRoutes.get("/:sheetId/:id", getPropertyById);
 
 BillRoutes.put("/:sheetId/:id", updateStatus);
+
+export default BillRoutes;
