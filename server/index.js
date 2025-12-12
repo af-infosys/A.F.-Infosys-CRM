@@ -9,6 +9,7 @@ import inquiryRoutes from "./routes/inquiryRoutes.js";
 import workRoutes from "./routes/workRoutes.js";
 import valuationRoutes from ".//routes/orderValuationRoutes.js";
 import driveRoutes from "./routes/driveRoutes.js";
+import BillRoutes from "./routes/billRoutes.js";
 
 let socket;
 let isConnected = false;
@@ -42,6 +43,7 @@ app.use("/api/work", workRoutes);
 app.use("/api/messages", MessagesRoutes);
 app.use("/api/valuation", valuationRoutes);
 app.use("/api/images", driveRoutes);
+app.use("/api/bill-data", BillRoutes);
 
 // Reciept Automation Script Start
 async function fetchDataFromSheet(sheetId, recordId) {
