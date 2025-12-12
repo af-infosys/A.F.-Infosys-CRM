@@ -3,7 +3,7 @@ import {
   getAllProperties,
   getPropertyById,
   updateStatus,
-} from "../controllers/billController";
+} from "../controllers/billController.js";
 
 const BillRoutes = express.Router();
 
