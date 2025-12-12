@@ -15,16 +15,17 @@ export const getAllProperties = async (req, res) => {
         return {
           m_id: arr[0],
           owner_name: arr[1],
-          house_id: arr[2],
-          year: arr[3],
+          other_name: arr[2],
+          house_id: arr[3],
           society: arr[4],
-          phone: "",
-          category: arr[5],
-          description: arr[6],
-          price: Number(arr[7]),
-          taxes: JSON.parse(arr[8]),
-          tab_connection: arr[9],
-          marked: arr[10],
+          phone: arr[5],
+          category: arr[6],
+          description: arr[7],
+          price: Number(arr[8]),
+          bill_no: arr[9],
+          taxes: JSON.parse(arr[10]),
+          tab_connection: arr[11],
+          marked: arr[12],
         };
       });
 
@@ -49,16 +50,17 @@ export const getPropertyById = async (req, res) => {
     const propertyDetail = {
       m_id: record[0],
       owner_name: record[1],
-      house_id: record[2],
-      year: record[3],
+      other_name: record[2],
+      house_id: record[3],
       society: record[4],
-      phone: "",
-      category: record[5],
-      description: record[6],
-      price: Number(record[7]),
-      taxes: JSON.parse(record[8]),
-      tab_connection: record[9],
-      marked: record[10],
+      phone: record[5],
+      category: record[6],
+      description: record[7],
+      price: Number(record[8]),
+      bill_no: record[9],
+      taxes: JSON.parse(record[10]),
+      tab_connection: record[11],
+      marked: record[12],
     };
 
     return res.status(200).json({ success: true, record: propertyDetail });
@@ -94,7 +96,7 @@ export const updateStatus = async (req, res) => {
       return res.status(404).json({ message: "Record not found" });
     }
 
-    record[10] = true;
+    record[12] = true;
 
     // ✅ real sheet row number
     const sheetRowIndex = updatedIndex;

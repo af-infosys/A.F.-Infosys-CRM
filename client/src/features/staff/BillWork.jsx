@@ -189,6 +189,29 @@ const BillWork = () => {
     }
   };
 
+  async function fetchData(work) {
+    setLoading(true);
+
+    const login_id = work.id;
+    const password = work.password;
+
+    try {
+      const response = await fetch(`${BASE_URL}/fetch-data`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ login_id, password }),
+      });
+
+      const result = await response.json();
+      console.log(result);
+    } catch (err) {
+      window.alert("Error fetching work entries:", err);
+      setError("કાર્યની વિગતો લાવવામાં નિષ્ફળ.");
+    }
+
+    setLoading(false);
+  }
+
   return (
     <div className="p-8">
       {" "}
@@ -301,6 +324,14 @@ const BillWork = () => {
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <div className="flex space-x-2">
                         <button
+                          onClick={() => {
+                            fetchData(work);
+                          }}
+                          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-500 hover:bg-blue-600 transition-colors duration-200"
+                        >
+                          <span className="ml-1">Fetch Data</span>
+                        </button>
+                        {/* <button
                           onClick={() => openModal(work)}
                           className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-yellow-500 hover:bg-yellow-600 transition-colors duration-200"
                         >
@@ -344,7 +375,7 @@ const BillWork = () => {
                             <line x1="14" x2="14" y1="11" y2="17" />
                           </svg>
                           <span className="ml-1">Delete</span>
-                        </button>
+                        </button> */}
                       </div>
                     </td>
                   </tr>
