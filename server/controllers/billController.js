@@ -1,4 +1,4 @@
-const GoogleSheetService = require("./config/CRUD.js");
+import { GoogleSheetService } from "./../config/crud.js";
 const sheet = new GoogleSheetService();
 
 export const getAllProperties = async (req, res) => {
