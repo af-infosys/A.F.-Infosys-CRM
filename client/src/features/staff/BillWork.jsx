@@ -194,11 +194,15 @@ const BillWork = () => {
 
   async function fetchData(work) {
     setLoading(true);
+    // add emoji
+    setActionMessage(`🚀 Running Automation Server...`);
 
     const login_id = work.id;
     const password = work.password;
 
     try {
+      setError("");
+
       const response = await fetch(`${BASE_URL}/fetch-data`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -206,13 +210,17 @@ const BillWork = () => {
       });
 
       const result = await response.json();
+      setError("");
       console.log(result);
     } catch (err) {
       window.alert("Server is not Rechable:", err);
       setError("Please Start your Local Server", err);
     }
 
+    setActionMessage("");
     setLoading(false);
+
+    fetchWorkEntries();
   }
 
   return (

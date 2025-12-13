@@ -4,16 +4,17 @@ import {
   getPropertyById,
   getPublicProperty,
   getSocietyList,
+  updateLocation,
   updateStatus,
 } from "../controllers/billController.js";
 
 const BillRoutes = express.Router();
 
-// static first
 BillRoutes.post("/public/:sheetId", getPublicProperty);
 BillRoutes.get("/society/:sheetId", getSocietyList);
 
-// then dynamic
+BillRoutes.put("/update/:sheetId", updateLocation);
+
 BillRoutes.get("/:sheetId/:id", getPropertyById);
 BillRoutes.put("/:sheetId/:id", updateStatus);
 BillRoutes.get("/:sheetId", getAllProperties);

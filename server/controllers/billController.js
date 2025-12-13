@@ -211,6 +211,52 @@ export const getPropertyById = async (req, res) => {
   }
 };
 
+export const updateLocation = async (req, res) => {
+  try {
+    const { sheetId } = req.params;
+    const { village, taluka, district } = req.body;
+
+    const dataId = process.env.WORK_SHEET_ID;
+
+    let updatedIndex = -1;
+
+    const data = await sheet.read(dataId, "GramSuvidha");
+
+    const record = data.find((record, index) => {
+      if (Number(record[0]) === Number(sheetId)) {
+        updatedIndex = index + 1;
+        return true;
+      }
+      return false;
+    });
+
+    if (!record || updatedIndex === -1) {
+      return res.status(404).json({ message: "Record not found" });
+    }
+
+    record[2] = village;
+    record[3] = taluka;
+    record[4] = district;
+
+    console.log(record);
+
+    // ✅ real sheet row number
+    const sheetRowIndex = updatedIndex;
+
+    await sheet.update(dataId, "GramSuvidha", sheetRowIndex, record);
+
+    console.log("Updated Successfully");
+
+    return res.status(200).json(record);
+  } catch (err) {
+    console.log("Error Updating Record:", err);
+    return res.status(500).json({
+      success: false,
+      message: "Error Updating Record",
+    });
+  }
+};
+
 export const updateStatus = async (req, res) => {
   try {
     const { sheetId, id: mId } = req.params;
