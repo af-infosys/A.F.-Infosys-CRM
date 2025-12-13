@@ -173,7 +173,6 @@ export const getBillWorkDetail = async (req, res) => {
             district: arr[4],
           };
         });
-      console.log("Here is the bill works", details);
 
       const work = details.find((item) => item.id === workID);
 

@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import apiPath from "../../isProduction";
 import BASE_URL from "../../config";
+import { useNavigate } from "react-router-dom";
 
 const BillWork = () => {
+  const navigation = useNavigate();
+
   const [workEntries, setWorkEntries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -325,12 +328,46 @@ const BillWork = () => {
                       <div className="flex space-x-2">
                         <button
                           onClick={() => {
+                            window.open(
+                              `https://af-biller.netlify.app/general/${work.id}`,
+                              "_blank"
+                            );
+                          }}
+                          className="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-500 hover:bg-green-600 transition-colors duration-200"
+                        >
+                          <span
+                            className="ml-1"
+                            style={{ display: "flex", gap: ".4rem" }}
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              className="lucide lucide-globe"
+                            >
+                              <circle cx="12" cy="12" r="10" />
+                              <line x1="2" y1="12" x2="22" y2="12" />
+                              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                            </svg>
+                            Public List
+                          </span>
+                        </button>
+
+                        <button
+                          onClick={() => {
                             fetchData(work);
                           }}
                           className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-500 hover:bg-blue-600 transition-colors duration-200"
                         >
                           <span className="ml-1">Fetch Data</span>
                         </button>
+
                         {/* <button
                           onClick={() => openModal(work)}
                           className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-yellow-500 hover:bg-yellow-600 transition-colors duration-200"

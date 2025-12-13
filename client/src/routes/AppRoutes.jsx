@@ -45,6 +45,7 @@ import SurvayFormImage from "../features/survay/SurvayFormImage";
 import SurvayReportImage from "../features/survay/SurvayReportImage";
 import AkarniExcelEdit from "../components/excel/AkarniExcelEdit";
 import BillWork from "../features/staff/BillWork";
+import NotFound from "../components/NotFound";
 
 export default function AppRoutes() {
   const { user } = useAuth();
@@ -316,6 +317,8 @@ export default function AppRoutes() {
       {/* Staff Routes End */}
 
       <Route path="/login" element={<Login />} />
+
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }
