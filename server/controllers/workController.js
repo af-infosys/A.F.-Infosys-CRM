@@ -50,8 +50,6 @@ export const getBillWork = async (req, res) => {
   try {
     const userId = req.params.id;
 
-    console.log("Called");
-
     if (!userId) {
       res.status(400).json({
         message: "User Id not Provided!",
@@ -79,7 +77,6 @@ export const getBillWork = async (req, res) => {
               district: arr[4],
             };
           });
-        console.log("Here is the bill works", details);
 
         const work = details.find((item) => item.id === workID);
 

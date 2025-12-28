@@ -7,6 +7,7 @@ import {
   updateLocation,
   updateStatus,
 } from "../controllers/billController.js";
+import { authenticateToken } from "../middleware/auth.middleware.js";
 
 const BillRoutes = express.Router();
 
@@ -16,7 +17,7 @@ BillRoutes.get("/society/:sheetId", getSocietyList);
 BillRoutes.put("/update/:sheetId", updateLocation);
 
 BillRoutes.get("/:sheetId/:id", getPropertyById);
-BillRoutes.put("/:sheetId/:id", updateStatus);
+BillRoutes.put("/:sheetId/:id", authenticateToken, updateStatus);
 BillRoutes.get("/:sheetId", getAllProperties);
 
 export default BillRoutes;

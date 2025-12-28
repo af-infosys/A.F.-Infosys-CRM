@@ -238,8 +238,6 @@ export const updateLocation = async (req, res) => {
     record[3] = taluka;
     record[4] = district;
 
-    console.log(record);
-
     // ✅ real sheet row number
     const sheetRowIndex = updatedIndex;
 
@@ -259,9 +257,18 @@ export const updateLocation = async (req, res) => {
 
 export const updateStatus = async (req, res) => {
   try {
+    console.log("Updating Status...");
+
     const { sheetId, id: mId } = req.params;
 
-    console.log("hello");
+    const { id: biller_id, role, name } = req.user;
+
+    console.log(req.user);
+
+    if (role !== "biller") {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
     const dataId = process.env.WORK_SHEET_ID;
 
     let updatedIndex = -1;
@@ -280,7 +287,11 @@ export const updateStatus = async (req, res) => {
       return res.status(404).json({ message: "Record not found" });
     }
 
-    record[12] = true;
+    record[12] = JSON.stringify({
+      id: biller_id,
+      name,
+      date: new Date(),
+    });
 
     // ✅ real sheet row number
     const sheetRowIndex = updatedIndex;

@@ -238,29 +238,37 @@ const BillWork = () => {
           {actionMessage}
         </div>
       )}
-      {/* Add New Work Button */}
-      <button
-        onClick={() => openModal()}
-        className="mb-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-all duration-200 ease-in-out transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-        disabled={loading}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="lucide lucide-plus"
+      <div style={{ display: "flex", gap: "1rem" }}>
+        {/* Add New Work Button */}
+        <button
+          onClick={() => openModal()}
+          className="mb-6 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-all duration-200 ease-in-out transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          disabled={loading}
         >
-          <path d="M12 5v14" />
-          <path d="M5 12h14" />
-        </svg>
-        Add new Work
-      </button>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="lucide lucide-plus"
+          >
+            <path d="M12 5v14" />
+            <path d="M5 12h14" />
+          </svg>
+          Add new Work
+        </button>
+        <button
+          onClick={() => navigation("/staff/billerReport")}
+          className="mb-6 bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-all duration-200 ease-in-out transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        >
+          Track Work
+        </button>
+      </div>
       {/* List of Work Entries */}
       <div className="bg-white p-6 rounded-lg shadow-md">
         <h3 className="text-xl font-semibold text-gray-700 mb-4">All Work</h3>
