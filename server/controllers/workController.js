@@ -40,6 +40,11 @@ export const getWorkSpot = async (req, res) => {
             nalla: true,
           });
         }
+      } else {
+        res.status(404).json({
+          message: "Work not Assigned!",
+          nalla: true,
+        });
       }
     } else {
       res.status(404).json({
