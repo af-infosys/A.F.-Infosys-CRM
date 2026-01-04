@@ -269,6 +269,143 @@ export const addSheetRecord = async (req, res) => {
   }
 };
 
+export const syncSheetRecord = async (req, res) => {
+  try {
+    // 1. Auth
+    const client = await auth.getClient();
+    const googleSheets = google.sheets({ version: "v4", auth: client });
+
+    const records = req.body;
+    console.log(records);
+
+    // 2. Validation
+    if (!Array.isArray(records) || records.length === 0) {
+      return res.status(400).json({
+        message: "Records array is required.",
+      });
+    }
+
+    // 3. Prepare rows
+    const rows = [];
+
+    for (const record of records) {
+      const {
+        serialNumber,
+        areaName,
+        propertyNumber,
+        ownerName,
+        oldPropertyNumber,
+        mobileNumber,
+        propertyNameOnRecord,
+        houseCategory,
+        kitchenCount,
+        bathroomCount,
+        verandaCount,
+        tapCount,
+        toiletCount,
+        remarks,
+        floors,
+        survayor,
+        img1,
+        img2,
+        img3,
+      } = record;
+
+      // Required field check
+      if (!serialNumber || !areaName || !propertyNumber || !ownerName) {
+        continue; // skip invalid row
+      }
+
+      const description = buildPropertyDescription(record);
+
+      rows.push([
+        serialNumber,
+        areaName,
+        propertyNumber,
+        ownerName,
+        oldPropertyNumber,
+        mobileNumber,
+        propertyNameOnRecord,
+        houseCategory,
+        kitchenCount,
+        bathroomCount,
+        verandaCount,
+        tapCount,
+        toiletCount,
+        remarks,
+        JSON.stringify(floors),
+        description,
+        JSON.stringify(survayor),
+
+        // Padding columns (18–24)
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+
+        img1 || "",
+        img2 || "",
+        img3 || "",
+      ]);
+    }
+
+    if (rows.length === 0) {
+      return res.status(400).json({
+        message: "No valid records to insert.",
+      });
+    }
+
+    const getResponse = await googleSheets.spreadsheets.values.get({
+      spreadsheetId: SPREADSHEET_ID,
+      range: `${DATA_SHEET}!A:A`,
+    });
+
+    const rowsCount = getResponse.data.values
+      ? getResponse.data.values.length
+      : 0;
+
+    // Minimum row = 5
+    const startRow = Math.max(rowsCount + 1, 5);
+
+    // 4. Append all rows at once
+    const response = await googleSheets.spreadsheets.values.append({
+      spreadsheetId: SPREADSHEET_ID,
+      range: `${DATA_SHEET}!A${startRow}`,
+      valueInputOption: "RAW",
+      insertDataOption: "INSERT_ROWS",
+      resource: {
+        values: rows,
+      },
+    });
+
+    console.log(response);
+
+    // 5. Success
+    res.status(200).json({
+      message: `${rows.length} records successfully added.`,
+      success: true,
+      updatedRange: response.data.updates.updatedRange,
+    });
+  } catch (error) {
+    console.error("Bulk insert error:", error.message);
+
+    if (error.code === 401 || error.code === 403) {
+      res.status(401).json({
+        message: "Google Sheets authentication/permission issue.",
+      });
+    } else {
+      res.status(500).json({
+        message: "Failed to add records to Google Sheet.",
+        error: error.message,
+      });
+    }
+  }
+};
+
 // Controller function to fetch all records from the Google Sheet.
 export const getAllRecords = async (req, res) => {
   try {
@@ -295,6 +432,7 @@ export const getAllRecords = async (req, res) => {
     });
   }
 };
+
 export const getHouseCount = async (id = 0) => {
   try {
     const client = await auth.getClient();
@@ -843,6 +981,7 @@ export const addArea = async (req, res) => {
     const googleSheets = google.sheets({ version: "v4", auth: client });
 
     const { areaName } = req.body;
+    console.log(areaName, req.body);
 
     if (!areaName || typeof areaName !== "string" || areaName.trim() === "") {
       return res.status(400).json({

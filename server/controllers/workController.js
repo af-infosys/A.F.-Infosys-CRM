@@ -10,6 +10,8 @@ export const getWorkSpot = async (req, res) => {
   try {
     const userId = req.params.id;
 
+    console.log("fetching work for: ", userId);
+
     if (!userId) {
       res.status(400).json({
         message: "User Id not Provided!",
@@ -18,6 +20,7 @@ export const getWorkSpot = async (req, res) => {
     }
 
     const user = await User.findById(userId);
+    console.log(user);
 
     if (user) {
       const workID = user?.work;
@@ -29,15 +32,19 @@ export const getWorkSpot = async (req, res) => {
             message: "Work Spot Fetched Successfully!",
             work,
           });
+
+          console.log("DONE! =", work);
         } else {
           res.status(404).json({
             message: "Work Spot not Found!",
+            nalla: true,
           });
         }
       }
     } else {
       res.status(404).json({
         message: "User Not Found!",
+        nalla: true,
       });
     }
   } catch (err) {
