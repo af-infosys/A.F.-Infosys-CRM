@@ -79,9 +79,7 @@ const Akarni = () => {
               <button
                 key={item.id}
                 className="quicklinks"
-                onClick={() =>
-                  navigate(`${item.path}/6882180eab7cc70564b9fb4b`)
-                }
+                onClick={() => navigate(`${item.path}/${projectId}`)}
               >
                 {item.id}. {item.label}
               </button>

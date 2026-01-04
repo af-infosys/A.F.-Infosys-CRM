@@ -333,16 +333,16 @@ export default function DashboardLayout() {
                         className={({ isActive }) => (isActive ? "active" : "")}
                         onClick={() => setIsSidebarOpen(false)}
                       >
-                        New ordere
+                        Manage Orders
                       </NavLink>
 
-                      <NavLink
+                      {/* <NavLink
                         to={`/survay/manage`}
                         className={({ isActive }) => (isActive ? "active" : "")}
                         onClick={() => setIsSidebarOpen(false)}
                       >
                         Manage Orders
-                      </NavLink>
+                      </NavLink> */}
 
                       {/* <NavLink
                         to={`/projects/final`}

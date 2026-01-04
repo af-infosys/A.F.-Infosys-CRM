@@ -129,7 +129,7 @@ export default function AppRoutes() {
 
         <Route path="/survay">
           <Route index element={<AkarniProjects />} />
-          <Route path="manage" element={<Akarni />} />
+          <Route path="manage/:projectId" element={<Akarni />} />
 
           <Route
             path="akarniReport/:projectId"

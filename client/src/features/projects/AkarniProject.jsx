@@ -60,28 +60,28 @@ const AkarniProjects = () => {
             <tr style={{ cursor: "pointer" }}>
               <td
                 onClick={() => {
-                  navigate(`/survay/akarni/${project?._id}`);
+                  navigate(`/survay/manage/${project?._id}`);
                 }}
               >
                 {index + 1}
               </td>
               <td
                 onClick={() => {
-                  navigate(`/survay/akarni/${project?._id}`);
+                  navigate(`/survay/manage/${project?._id}`);
                 }}
               >
                 {project?.spot?.gaam}
               </td>
               <td
                 onClick={() => {
-                  navigate(`/survay/akarni/${project?._id}`);
+                  navigate(`/survay/manage/${project?._id}`);
                 }}
               >
                 {project?.spot?.taluka}
               </td>
               <td
                 onClick={() => {
-                  navigate(`/survay/akarni/${project?._id}`);
+                  navigate(`/survay/manage/${project?._id}`);
                 }}
               >
                 {project?.spot?.district}
@@ -99,7 +99,7 @@ const AkarniProjects = () => {
                     }}
                     className="ml-2 cursor-pointer"
                     onClick={() => {
-                      navigate(`/survay/akarni/${project?._id}`);
+                      navigate(`/survay/manage/${project?._id}`);
                     }}
                   >
                     Details
