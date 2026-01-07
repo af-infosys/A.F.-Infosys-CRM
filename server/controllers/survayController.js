@@ -134,7 +134,8 @@ function buildPropertyDescription(formData) {
 }
 
 // --- Google Sheets Configuration ---
-const SPREADSHEET_ID = "1q-Tef_yBkwtE1jfRYaFkjEiWvcctVx3a8YlpDP6W5cI";
+const SPREADSHEET_ID = "1R0Grd4iEiZtqkMZ6AnsvU2smqAGC-2k1CoyNZpLVRTk";
+// "1q-Tef_yBkwtE1jfRYaFkjEiWvcctVx3a8YlpDP6W5cI";
 // શીટનું નામ તમારી Google Sheet માંના વાસ્તવિક નામ સાથે સુનિશ્ચિત કરો.
 // જો તમારી શીટનું નામ "PropertyData" હોય તો તેને આ રીતે રાખો, અન્યથા તેને બદલો.
 const DATA_SHEET = "PropertyData";
