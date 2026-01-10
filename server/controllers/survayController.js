@@ -376,7 +376,7 @@ export const syncSheetRecord = async (req, res) => {
     // 4. Append all rows at once
     const response = await googleSheets.spreadsheets.values.append({
       spreadsheetId: SPREADSHEET_ID,
-      range: `${DATA_SHEET}!A${startRow}`,
+      range: `${DATA_SHEET}!A${startRow - 1}`,
       valueInputOption: "RAW",
       insertDataOption: "INSERT_ROWS",
       resource: {
