@@ -310,6 +310,7 @@ export const syncSheetRecord = async (req, res) => {
         img1,
         img2,
         img3,
+        description,
       } = record;
 
       // Required field check
@@ -317,7 +318,7 @@ export const syncSheetRecord = async (req, res) => {
         continue; // skip invalid row
       }
 
-      const description = buildPropertyDescription(record);
+      // const description = buildPropertyDescription(record);
 
       rows.push([
         serialNumber,
