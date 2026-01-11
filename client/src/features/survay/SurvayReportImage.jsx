@@ -19,6 +19,12 @@ const SurvayReportImage = () => {
 
   const [error, setError] = useState(null);
 
+  const getDriveImageUrl = (fileId) => {
+    if (!fileId) return null;
+
+    return `https://lh3.googleusercontent.com/u/0/d/${fileId}`;
+  };
+
   const fetchRecords = async () => {
     try {
       const response = await fetch(`${await apiPath()}/api/sheet`);
@@ -126,9 +132,9 @@ const SurvayReportImage = () => {
 
           logging: true,
 
-          useCORS: true,
+          allowTaint: false, // Ise false rakhein agar useCORS true hai
 
-          allowTaint: true,
+          useCORS: true,
         });
 
         const imgData = canvas.toDataURL("image/jpeg", 1.0);
@@ -514,40 +520,34 @@ const SurvayReportImage = () => {
                 justifyContent: "space-evenly",
                 padding: "10px",
                 marginTop: "20px",
+                gap: "10px",
               }}
             >
-              {record[25] ? (
-                <iframe
-                  src={`https://drive.google.com/file/d/${record[25]}/preview`}
-                  width="600"
-                  height="400"
-                  allow="autoplay"
-                ></iframe>
-              ) : (
-                <h2>No Image</h2>
-              )}
-
-              {record[26] ? (
-                <iframe
-                  src={`https://drive.google.com/file/d/${record[26]}/preview`}
-                  width="600"
-                  height="400"
-                  allow="autoplay"
-                ></iframe>
-              ) : (
-                <h2>No Image</h2>
-              )}
-
-              {record[27] ? (
-                <iframe
-                  src={`https://drive.google.com/file/d/${record[27]}/preview`}
-                  width="600"
-                  height="400"
-                  allow="autoplay"
-                ></iframe>
-              ) : (
-                <h2>No Image</h2>
-              )}
+              {[record[25], record[26], record[27]].map((fileId, idx) => (
+                <div key={idx} style={{ width: "30%", textAlign: "center" }}>
+                  {fileId ? (
+                    <img
+                      src={getDriveImageUrl(fileId)}
+                      alt={`Drive Image ${idx}`}
+                      style={{
+                        width: "100%",
+                        height: "auto",
+                        borderRadius: "8px",
+                        border: "1px solid #ddd",
+                      }}
+                      crossOrigin="anonymous" // PDF generation ke liye zaroori hai
+                      onError={(e) => {
+                        e.target.style.display = "none"; // Agar image load na ho toh hide kar de
+                        console.error("Image failed to load for ID:", fileId);
+                      }}
+                    />
+                  ) : (
+                    <h2 style={{ fontSize: "14px", color: "#666" }}>
+                      No Image
+                    </h2>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
         ))}
