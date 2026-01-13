@@ -36,3 +36,20 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.watermark {
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url("./assets/component/Watermark.png");
+
+  // background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><g fill='rgba(0,0,0,0.4)' font-size='16' transform='rotate(-45 0,0)'><text x='0' y='20'>A. F. INFOSYS</text><text x='0' y='40'>93764 43146</text><text x='0' y='60'>99247 82732</text></g></svg>");
+}
+
+.report-table,
+.report-table thead,
+.report-table tbody,
+.report-table tr,
+.report-table th,
+.report-table td {
+  background: transparent !important;
+}

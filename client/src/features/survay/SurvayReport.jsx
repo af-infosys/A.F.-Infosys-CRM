@@ -130,9 +130,9 @@ const SurvayReport = () => {
   };
 
   const handleDownloadPDF = async () => {
-    // const totalPages = finalRenderPages.length;
+    const totalPages = finalRenderPages.length;
     // const totalPages = Math.ceil(records.length / PROPERTIES_PER_PAGE) + 3;
-    const totalPages = 5;
+    // const totalPages = 5;
 
     let totalDuration = 0; // Cumulative time taken (ms)
 
@@ -151,7 +151,6 @@ const SurvayReport = () => {
     const pdf = new jsPDF("landscape", "mm", "legal");
 
     for (let i = 0; i < totalPages; i++) {
-      // Helper to reliably get the latest state (for checking the isCancelled flag)
       const currentState = await new Promise((resolve) => {
         setPdfProgress((prev) => {
           resolve(prev);
@@ -540,10 +539,8 @@ const SurvayReport = () => {
                   maxHeight: "800px",
                 }}
               >
-                {item.name === "panchayat" && (
-                  <PanchayatBenefit part={item.bundle} />
-                )}
-                {item.name === "public" && <PublicBenefit part={item.bundle} />}
+                {item.name === "panchayat" && <PanchayatBenefit />}
+                {item.name === "public" && <PublicBenefit />}
               </div>
             );
           }

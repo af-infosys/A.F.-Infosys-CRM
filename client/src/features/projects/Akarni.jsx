@@ -7,19 +7,23 @@ import { toast } from "react-toastify";
 import "./akarni.scss";
 
 const quicklinks = [
-  { id: 1, label: "Order Valuation Report", path: "/orderValuation/report" },
+  { id: 1, label: "1. Order Valuation Report", path: "/orderValuation/report" },
 
-  { id: 2, label: "Akarni Register (No.8)", path: "/survay/akarniReport" },
+  { id: 2, label: "2. Akarni Register (No.8)", path: "/survay/akarniReport" },
 
   {
     id: 3,
-    label: "Akarni Register (No.8) - With Image",
+    label: "2. Akarni Register (No.8) - With Image",
     path: "/survay/akarniImgReport",
   },
-  { id: 4, label: "Vera Register (9D)", path: "/survay/taxRegister" },
-  { id: 5, label: "Index Report પાનોત્રી બુક", path: "/survay/indexReport" },
-  { id: 6, label: "Tarij Report", path: "/survay/tarij" },
-  { id: 7, label: "Analysis Report", path: "/survay/analysis" },
+  { id: 4, label: "3. Vera Register (9D)", path: "/survay/taxRegister" },
+  {
+    id: 5,
+    label: "4. Index Report (પાનોત્રી બુક)",
+    path: "/survay/indexReport",
+  },
+  { id: 6, label: "5. Tarij Report", path: "/survay/tarij" },
+  { id: 7, label: "6. Analysis Report", path: "/survay/analysis" },
 ];
 
 const Akarni = () => {
@@ -81,7 +85,7 @@ const Akarni = () => {
                 className="quicklinks"
                 onClick={() => navigate(`${item.path}/${projectId}`)}
               >
-                {item.id}. {item.label}
+                {item.label}
               </button>
             ))}
           </div>

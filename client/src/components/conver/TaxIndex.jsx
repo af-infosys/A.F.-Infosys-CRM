@@ -11,7 +11,8 @@ const TextBlock = ({ children }) => (
   </p>
 );
 
-const AkarniIndex = ({ part, nop, project, totalHoouse }) => {
+const TaxIndex = ({ part, nop, project, totalHoouse }) => {
+  // Houses
   const housesPerBundle = nop * 100;
 
   const startHouseIndex = (part - 1) * housesPerBundle;
@@ -58,7 +59,7 @@ const AkarniIndex = ({ part, nop, project, totalHoouse }) => {
       {/* -------------------- 2. Main Title and Subtitle -------------------- */}
       <div className="text-center mt-2 mb-2">
         <h1 className="text-4xl font-extrabold text-blue-900 mb-2 p-2 inline-block">
-          ગામના નમુના નંબર (૮) આકારણી રજીસ્ટર
+          ગામનું 9ડી વેરા રજીસ્ટર
         </h1>
         <h2 className="text-2xl font-semibold mt-2 text-gray-700">
           વર્ષ :- {project?.details?.akarniYear || "2025/26"}
@@ -173,7 +174,6 @@ const AkarniIndex = ({ part, nop, project, totalHoouse }) => {
               <input
                 id="partNumber"
                 type="text"
-                defaultValue="1"
                 value={part}
                 readOnly
                 className="w-28 p-1 border-b border-black text-center font-bold"
@@ -191,7 +191,7 @@ const AkarniIndex = ({ part, nop, project, totalHoouse }) => {
               <input
                 id="registerCount"
                 type="text"
-                value={registerHouseCount}
+                value={`${registerHouseCount}`}
                 readOnly
                 className="w-28 p-1 border-b border-black text-center font-bold"
               />
@@ -220,7 +220,6 @@ const AkarniIndex = ({ part, nop, project, totalHoouse }) => {
               <input
                 id="villageCount"
                 type="text"
-                defaultValue="800"
                 value={totalHoouse}
                 readOnly
                 className="w-28 p-1 border-b border-black text-center font-bold"
@@ -244,4 +243,4 @@ const AkarniIndex = ({ part, nop, project, totalHoouse }) => {
   );
 };
 
-export default AkarniIndex;
+export default TaxIndex;

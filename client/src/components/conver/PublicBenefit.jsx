@@ -10,9 +10,7 @@ const OwnerBenefitItem = ({ number, children }) => (
   </div>
 );
 
-const PublicBenefit = ({ part }) => {
-  console.log(part);
-
+const PublicBenefit = () => {
   return (
     <div style={{ position: "relative" }}>
       {/* -------------------- 1. Main Title -------------------- */}
@@ -120,7 +118,7 @@ const PublicBenefit = ({ part }) => {
           fontSize: "12px",
         }}
       >
-        Owner Benefits - {Number(part) + 2}
+        Property Owner Benefits
       </p>
     </div>
   );

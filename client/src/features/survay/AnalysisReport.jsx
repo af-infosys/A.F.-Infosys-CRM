@@ -17,6 +17,20 @@ import PhoneUserIcon from "../../assets/icon/analytics/PhoneUser.png";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 
+import {
+  PieChart,
+  Pie,
+  Cell,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts"; // ગ્રાફ માટે
+
 // The main component for the analytics report
 const AnalyticsReport = () => {
   // Use state to manage all the report data
@@ -145,6 +159,8 @@ const AnalyticsReport = () => {
   });
 
   const [records, setRecords] = useState([]);
+  const [areaData, setAreaData] = useState([]); // પેજ 2 માટે
+
   const fetchRecords = async () => {
     try {
       const response = await fetch(`${await apiPath()}/api/sheet`);
@@ -184,6 +200,16 @@ const AnalyticsReport = () => {
   }, [records]);
 
   function calculateMetrics() {
+    const areaCounts = records.reduce((acc, r) => {
+      const area = r[1] || "અન્ય";
+      acc[area] = (acc[area] || 0) + 1;
+      return acc;
+    }, {});
+
+    setAreaData(
+      Object.entries(areaCounts).map(([name, count]) => ({ name, count }))
+    );
+
     const TotalCount = records.length;
 
     const RahenankCount = records.filter(
@@ -291,142 +317,231 @@ const AnalyticsReport = () => {
   }
 
   // Function to generate and download the PDF
+  // const generatePDF = () => {
+  //   const input = document.getElementById("report-content");
+
+  //   input.style.minWidth = "1024px";
+
+  //   const today = new Date();
+  //   const formattedDate = `${today.getDate().toString().padStart(2, "0")}-${(
+  //     today.getMonth() + 1
+  //   )
+  //     .toString()
+  //     .padStart(2, "0")}-${today.getFullYear()}`;
+  //   const filename = `Aakarni_Analysis_Report_${reportData.village}_${formattedDate}.pdf`;
+
+  //   if (input) {
+  //     // Use html2canvas to render the HTML as a canvas image
+  //     html2canvas(input, {
+  //       scale: 2, // Higher scale for better quality
+  //       logging: true,
+  //       useCORS: true,
+  //     }).then((canvas) => {
+  //       // Create a new jsPDF document
+  //       // Legal size: 8.5 x 14 inches
+  //       // Landscape orientation: 'l'
+  //       const pdf = new jsPDF("p", "pt", "legal");
+  //       const imgData = canvas.toDataURL("image/jpeg", 1.0);
+  //       const imgWidth = pdf.internal.pageSize.getWidth();
+  //       const pageHeight = pdf.internal.pageSize.getHeight();
+  //       const imgHeight = (canvas.height * imgWidth) / canvas.width;
+  //       let heightLeft = imgHeight;
+  //       let position = 0;
+
+  //       // Add the image to the PDF
+  //       pdf.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight);
+  //       heightLeft -= pageHeight;
+
+  //       // Handle multi-page reports if needed
+  //       while (heightLeft >= 0) {
+  //         position = heightLeft - imgHeight;
+  //         pdf.addPage();
+  //         pdf.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight);
+  //         heightLeft -= pageHeight;
+  //       }
+
+  //       // Save the PDF
+  //       pdf.save(filename);
+  //     });
+  //   }
+
+  //   input.style.minWidth = "auto";
+  // };
+
+  // PDF જનરેશન લોજિક
   const generatePDF = () => {
     const input = document.getElementById("report-content");
+    html2canvas(input, { scale: 2, useCORS: true }).then((canvas) => {
+      const pdf = new jsPDF("p", "pt", "legal");
+      const imgData = canvas.toDataURL("image/jpeg", 1.0);
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
 
-    input.style.minWidth = "1024px";
-
-    const today = new Date();
-    const formattedDate = `${today.getDate().toString().padStart(2, "0")}-${(
-      today.getMonth() + 1
-    )
-      .toString()
-      .padStart(2, "0")}-${today.getFullYear()}`;
-    const filename = `Aakarni_Analysis_Report_${reportData.village}_${formattedDate}.pdf`;
-
-    if (input) {
-      // Use html2canvas to render the HTML as a canvas image
-      html2canvas(input, {
-        scale: 2, // Higher scale for better quality
-        logging: true,
-        useCORS: true,
-      }).then((canvas) => {
-        // Create a new jsPDF document
-        // Legal size: 8.5 x 14 inches
-        // Landscape orientation: 'l'
-        const pdf = new jsPDF("p", "pt", "legal");
-        const imgData = canvas.toDataURL("image/jpeg", 1.0);
-        const imgWidth = pdf.internal.pageSize.getWidth();
-        const pageHeight = pdf.internal.pageSize.getHeight();
-        const imgHeight = (canvas.height * imgWidth) / canvas.width;
-        let heightLeft = imgHeight;
-        let position = 0;
-
-        // Add the image to the PDF
-        pdf.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight);
-        heightLeft -= pageHeight;
-
-        // Handle multi-page reports if needed
-        while (heightLeft >= 0) {
-          position = heightLeft - imgHeight;
-          pdf.addPage();
-          pdf.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight);
-          heightLeft -= pageHeight;
-        }
-
-        // Save the PDF
-        pdf.save(filename);
-      });
-    }
-
-    input.style.minWidth = "auto";
+      // ત્રણેય પેજ માટે લૂપ અથવા મેન્યુઅલ કટિંગ કરી શકાય, અહીં સરળતા માટે આખું કેનવાસ એડ થશે
+      pdf.addImage(
+        imgData,
+        "JPEG",
+        0,
+        0,
+        pageWidth,
+        (canvas.height * pageWidth) / canvas.width
+      );
+      pdf.save(`Aakarni_Report_${reportData.village}.pdf`);
+    });
   };
 
-  return (
-    <div className="flex flex-col items-center p-4 sm:p-8 bg-gray-100 min-h-screen font-sans">
-      {/* Report container for PDF generation */}
-      <div
-        id="report-content"
-        className="w-full max-w-5xl bg-white rounded-xl shadow-lg p-6 sm:p-10 mb-8"
-      >
-        <header className="text-center mb-6">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-2 leading-tight">
-            Aakarni Analysis Report - વિશ્લેષણ ગામનો સર્વે અહેવાલ
-          </h1>
-          <h2 className="text-lg sm:text-xl text-gray-600 mb-4">
-            સને {reportData.year}
-          </h2>
-          <hr className="border-t-2 border-dashed border-gray-300 mx-auto w-full" />
-        </header>
+  // ગ્રાફ માટે ડેટા
+  const pieData = [
+    {
+      name: "રહેણાંક",
+      value: records.filter((r) => r[7]?.trim() === "રહેણાંક").length,
+    },
+    {
+      name: "પ્લોટ",
+      value: records.filter(
+        (r) => r[7]?.trim() === "પ્લોટ ખાનગી - ખુલ્લી જગ્યા"
+      ).length,
+    },
+    {
+      name: "સરકારી",
+      value: records.filter((r) => r[7]?.includes("સરકારી")).length,
+    },
+  ];
+  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
-        {/* Village details section */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center text-gray-700 mb-8">
-          <span className="p-3 bg-blue-50 rounded-lg shadow-sm">
-            ગામ :{" "}
-            <b className="font-semibold text-blue-800">{reportData.village}</b>
-          </span>
-          <span className="p-3 bg-blue-50 rounded-lg shadow-sm">
-            તાલુકો :{" "}
-            <b className="font-semibold text-blue-800">{reportData.taluka}</b>
-          </span>
-          <span className="p-3 bg-blue-50 rounded-lg shadow-sm">
-            જીલ્લો :{" "}
-            <b className="font-semibold text-blue-800">{reportData.district}</b>
-          </span>
+  return (
+    <>
+      <div className="flex flex-col items-center p-4 bg-gray-200 min-h-screen">
+        <div id="report-content" className="w-[1024px] bg-white shadow-2xl">
+          {/* --- PAGE 1: મુખ્ય વિશ્લેષણ --- */}
+          <div className="p-10 min-h-[1350px] border-b-2 border-gray-300">
+            <header className="text-center mb-8">
+              <h1 className="text-3xl font-bold text-blue-900">
+                Aakarni Analysis Report - ૨૦૨૫/૨૬
+              </h1>{" "}
+              <div className="flex justify-around mt-6 text-lg font-semibold bg-blue-50 p-4 rounded-lg">
+                <span>ગામ: {reportData.village}</span>
+                <span>તાલુકો: {reportData.taluka}</span>
+                <span>જીલ્લો: {reportData.district}</span>
+              </div>
+            </header>
+            <div className="grid grid-cols-2 gap-6">
+              {reportData.metrics.map((m) => (
+                <div
+                  key={m.id}
+                  className="flex items-center p-6 border rounded-xl bg-white shadow-sm"
+                >
+                  <img src={m.icon} className="w-12 h-12 mr-4" alt="icon" />
+                  <div>
+                    <p className="text-gray-600">{m.description}</p>
+                    <p className="text-2xl font-bold text-blue-600">
+                      સંખ્યા: {m.count}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* --- PAGE 2: એરીયા વાઇઝ વિગત --- */}
+          <div className="p-10 min-h-[1350px] border-b-2 border-gray-300 bg-gray-50">
+            <h2 className="text-2xl font-bold text-center mb-8 underline">
+              એરીયા/વિસ્તાર વાઇઝ મિલ્કતની સંખ્યા
+            </h2>
+            <table className="w-full text-left border-collapse bg-white">
+              <thead>
+                <tr className="bg-blue-600 text-white">
+                  <th className="p-4 border">ક્રમ</th>
+                  <th className="p-4 border">એરીયા / વિસ્તારનું નામ</th>
+                  <th className="p-4 border">કુલ મિલ્કતો</th>
+                </tr>
+              </thead>
+              <tbody>
+                {areaData.map((area, idx) => (
+                  <tr key={idx} className="hover:bg-blue-50">
+                    <td className="p-4 border">{idx + 1}</td>
+                    <td className="p-4 border">{area.name}</td>
+                    <td className="p-4 border font-bold">{area.count}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* --- PAGE 3: ગ્રાફ્સ અને ચાર્ટ્સ --- */}
+          <div className="p-10 min-h-[1350px]">
+            <h2 className="text-2xl font-bold text-center mb-10 underline">
+              ગ્રાફિકલ વિશ્લેષણ (Charts & Graphs)
+            </h2>
+
+            <div className="grid grid-cols-1 gap-12">
+              {/* Pie Chart */}
+              <div className="flex flex-col items-center">
+                <h3 className="text-xl font-semibold mb-4">
+                  મિલ્કત પ્રકારનું વિતરણ
+                </h3>
+                <PieChart width={500} height={350}>
+                  <Pie
+                    data={pieData}
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={120}
+                    fill="#8884d8"
+                    dataKey="value"
+                    label
+                  >
+                    {pieData.map((entry, index) => (
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={COLORS[index % COLORS.length]}
+                      />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                  <Legend />
+                </PieChart>
+              </div>
+
+              {/* Bar Chart */}
+              <div className="flex flex-col items-center">
+                <h3 className="text-xl font-semibold mb-4">
+                  સુવિધાઓનું વિશ્લેષણ (નળ અને શૌચાલય)
+                </h3>
+                <BarChart
+                  width={600}
+                  height={350}
+                  data={[
+                    {
+                      name: "નળ કનેક્શન",
+                      count:
+                        reportData.metrics.find((m) => m.id === 11)?.count || 0,
+                    },
+                    {
+                      name: "શૌચાલય",
+                      count:
+                        reportData.metrics.find((m) => m.id === 12)?.count || 0,
+                    },
+                  ]}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip />
+                  <Bar dataKey="count" fill="#82ca9d" barSize={60} />
+                </BarChart>
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* Main analytics grid */}
-        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {reportData.metrics.map((metric) => (
-            <div
-              key={metric.id}
-              className="flex flex-col items-start p-6 bg-white border border-gray-200 rounded-xl shadow-md transform transition-transform duration-300 hover:scale-105 hover:shadow-xl"
-            >
-              <div className="flex items-center space-x-3 mb-2">
-                <span className="p-2 bg-gray-100 rounded-full">
-                  <img
-                    src={metric.icon}
-                    alt="Metric Icon"
-                    style={{ width: "40px", height: "40px" }}
-                  />
-                </span>
-                <span className="text-sm text-gray-500">
-                  ક્રમ: <b>{metric.id}</b>
-                </span>
-              </div>
-              <h3 className="text-base sm:text-lg text-gray-800 mb-1">
-                વર્ણન: <b>{metric.description}</b>
-              </h3>
-              <p className="text-lg sm:text-xl text-blue-600">
-                સંખ્યા: <b>{metric.count}</b>
-              </p>
-            </div>
-          ))}
-        </section>
-      </div>
-
-      {/* PDF Download Button */}
-      <div className="mt-4">
         <button
           onClick={generatePDF}
-          className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transition-colors duration-300 flex items-center space-x-2"
+          className="mt-8 bg-green-600 text-white px-8 py-3 rounded-full font-bold shadow-lg hover:bg-green-700"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fillRule="evenodd"
-              d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-              clipRule="evenodd"
-            />
-          </svg>
-          <span>Download PDF</span>
+          Download 3-Page Report (PDF)
         </button>
       </div>
-    </div>
+    </>
   );
 };
 

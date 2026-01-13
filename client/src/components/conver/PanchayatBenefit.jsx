@@ -8,7 +8,7 @@ const BenefitPoint = ({ number, children }) => (
   </div>
 );
 
-const PanchayatBenefit = ({ part }) => {
+const PanchayatBenefit = () => {
   // Styling classes adjusted for a LANDSCAPE appearance (max-w-7xl)
 
   return (
@@ -107,7 +107,7 @@ const PanchayatBenefit = ({ part }) => {
           fontSize: "12px",
         }}
       >
-        GP Benefits - {Number(part) + 1}
+        GP Benefits
       </p>
     </div>
   );
