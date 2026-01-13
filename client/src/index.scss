@@ -53,3 +53,19 @@ code {
 .report-table td {
   background: transparent !important;
 }
+
+.benefit1 {
+  background-image: url("./assets/benefit1.png");
+  background-size: contain;
+  // center
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.benefit2 {
+  background-image: url("./assets/benefit2.png");
+  background-size: contain;
+  // center
+  background-position: center;
+  background-repeat: no-repeat;
+}

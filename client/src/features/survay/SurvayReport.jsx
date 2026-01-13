@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from "react";
-
 import "./SurvayReport.scss";
-
 import apiPath from "../../isProduction";
-
 import jsPDF from "jspdf";
-
 import html2canvas from "html2canvas";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -16,29 +12,38 @@ import PanchayatBenefit from "../../components/conver/PanchayatBenefit";
 import PublicBenefit from "../../components/conver/PublicBenefit";
 import AkarniPage from "../../components/conver/AkarniPage";
 
+const commercialCategories = [
+  "દુકાન",
+  "પ્રાઈવેટ - સંસ્થાઓ",
+  "કારખાના - ઇન્ડસ્ટ્રીજ",
+  "ટ્રસ્ટ મિલ્કત / NGO",
+  "મંડળી - સેવા સહકારી મંડળી",
+  "બેંક - સરકારી",
+  "બેંક - અર્ધ સરકારી બેંક",
+  "બેંક - પ્રાઇટ બેંક",
+  "કોમ્પપ્લેક્ષ",
+  "હિરાના કારખાના નાના",
+  "હિરાના કારખાના મોટા",
+  "મોબાઈલ ટાવર",
+  "પેટ્રોલ પંપ, ગેસ પંપ",
+];
+
 const SurvayReport = () => {
   const navigation = useNavigate();
-
   const [records, setRecords] = useState([]);
-
   const [loading, setLoading] = useState(true);
-
   const [error, setError] = useState(null);
 
   const fetchRecords = async () => {
     try {
       const response = await fetch(`${await apiPath()}/api/sheet`);
-
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-
       const result = await response.json();
-
       setRecords(result.data);
     } catch (err) {
       console.error("Error fetching records:", err);
-
       setError("ડેટા લાવવામાં નિષ્ફળ. કૃપા કરીને ફરી પ્રયાસ કરો.");
     } finally {
       setLoading(false);
@@ -60,7 +65,6 @@ const SurvayReport = () => {
           },
         }
       );
-
       console.log(data);
       setProject(data?.data?.data || []);
     } catch (error) {
@@ -75,7 +79,6 @@ const SurvayReport = () => {
     try {
       setLoading(true);
       toast.info("Calucating Values...");
-
       const data = await axios.put(
         `${await apiPath()}/api/sheet/ordervaluation/${projectId}`,
         {
@@ -85,10 +88,8 @@ const SurvayReport = () => {
           },
         }
       );
-
       setProject([]);
       fetchRecords();
-
       toast.success("Calculation Completed.");
     } catch (error) {
       console.error("Error fetching projects:", error);
@@ -113,6 +114,7 @@ const SurvayReport = () => {
     totalPages: 0,
     percentage: 0,
   });
+
   const formatTime = (seconds) => {
     if (seconds >= 60) {
       const min = Math.floor(seconds / 60);
@@ -131,11 +133,7 @@ const SurvayReport = () => {
 
   const handleDownloadPDF = async () => {
     const totalPages = finalRenderPages.length;
-    // const totalPages = Math.ceil(records.length / PROPERTIES_PER_PAGE) + 3;
-    // const totalPages = 5;
-
-    let totalDuration = 0; // Cumulative time taken (ms)
-
+    let totalDuration = 0;
     const startTime = window.performance.now();
 
     setPdfProgress({
@@ -147,7 +145,6 @@ const SurvayReport = () => {
       timeRemaining: null,
     });
 
-    // jsPDF is now treated as a global variable
     const pdf = new jsPDF("landscape", "mm", "legal");
 
     for (let i = 0; i < totalPages; i++) {
@@ -160,11 +157,10 @@ const SurvayReport = () => {
 
       if (currentState.isCancelled) {
         console.log("PDF generation cancelled by user.");
-        break; // Exit the loop immediately
+        break;
       }
 
-      const pageStart = window.performance.now(); // Start timer for the current page
-
+      const pageStart = window.performance.now();
       const pageElement = document.getElementById(`report-page-${i}`);
 
       if (!pageElement) {
@@ -177,10 +173,9 @@ const SurvayReport = () => {
       }
 
       try {
-        // html2canvas is now treated as a global variable
         const canvas = await html2canvas(pageElement, {
           scale: 2,
-          logging: false, // Set to false to reduce console clutter
+          logging: false,
           useCORS: true,
           allowTaint: true,
         });
@@ -192,7 +187,7 @@ const SurvayReport = () => {
         pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight);
 
         const pageEnd = window.performance.now();
-        const pageDuration = pageEnd - pageStart; // Time taken for this page (ms)
+        const pageDuration = pageEnd - pageStart;
         totalDuration += pageDuration;
 
         const completedPages = i + 1;
@@ -203,14 +198,12 @@ const SurvayReport = () => {
         if (completedPages >= 2) {
           const averageTimePerPage = totalDuration / completedPages;
           const pagesRemaining = totalPages - completedPages;
-
           timeRemaining = Math.max(
             0,
             Math.round((averageTimePerPage * pagesRemaining) / 1000)
           );
         }
 
-        // 2. Update Progress State with ETA
         setPdfProgress((prev) => ({
           ...prev,
           completedPages: completedPages,
@@ -223,24 +216,20 @@ const SurvayReport = () => {
       }
     }
 
-    // ⭐ CANCELLATION CHECK 2: Final state update based on whether it was cancelled or completed
     const finalState = await new Promise((resolve) => {
       setPdfProgress((prev) => {
         resolve(prev);
-        // Determine final state message
         return {
           ...prev,
-          isGenerating: false, // Stop loading spinner
+          isGenerating: false,
           isCancelled: prev.isCancelled,
-          // If cancelled, keep the current percentage; otherwise, set to 100%
           percentage: prev.isCancelled ? prev.percentage : 100,
-          timeRemaining: null, // Clear ETA display
+          timeRemaining: null,
         };
       });
     });
 
     if (!finalState.isCancelled) {
-      // 3. Finalize and Save PDF ONLY if not cancelled
       pdf.save("2. Akarni_Report.pdf");
       window.alert("PDF successfully saved.");
     } else {
@@ -249,7 +238,6 @@ const SurvayReport = () => {
   };
 
   const SeparateCommercialProperties = async () => {
-    // Confirm
     if (
       !window.confirm(
         "Are you sure you want to separate Commercial Properties?"
@@ -272,13 +260,11 @@ const SurvayReport = () => {
       );
 
       console.log(data);
-
       setProject([]);
       setRecords([]);
       fetchRecords();
       fetchProject();
-
-      toast.success("Cmommercial Properties Separated.");
+      toast.success("Commercial Properties Separated.");
     } catch (error) {
       console.error("Error fetching projects:", error);
       toast.error(`Error Fetching Projects: ${error}`);
@@ -286,6 +272,165 @@ const SurvayReport = () => {
       setLoading(false);
     }
   };
+
+  // --- LOGIC STARTS HERE ---
+  const PROPERTIES_PER_PAGE = 15;
+  const BUNDLE_SIZE = 100; // Pages per bundle (excluding cover/benefit typically, or including. Logic below includes them in the flow)
+
+  const finalRenderPages = buildFinalPages(
+    records,
+    BUNDLE_SIZE,
+    PROPERTIES_PER_PAGE
+  );
+
+  function buildFinalPages(allRecords, pagesPerBundle, recordsPerPage) {
+    if (!allRecords || allRecords.length === 0) return [];
+
+    const final = [];
+    const isSeparate = project?.details?.seperatecommercial === true;
+
+    // Helper to chunk array
+    const chunkArray = (arr, size) => {
+      const results = [];
+      for (let i = 0; i < arr.length; i += size) {
+        results.push(arr.slice(i, i + size));
+      }
+      return results;
+    };
+
+    if (isSeparate) {
+      // --- LOGIC FOR SEPARATED COMMERCIAL ---
+
+      // 1. Separate Records based on Index 7
+      const normalRecords = allRecords.filter(
+        (r) => !commercialCategories.includes(r[7])
+      );
+      const commercialRecords = allRecords.filter((r) =>
+        commercialCategories.includes(r[7])
+      );
+
+      // 2. Create Pages for Normal
+      const normalPages = chunkArray(normalRecords, recordsPerPage);
+      // 3. Create Pages for Commercial
+      const commercialPages = chunkArray(commercialRecords, recordsPerPage);
+
+      // Global Bundle Counter
+      let currentBundle = 1;
+
+      // --- BUILD NORMAL BUNDLES ---
+      // Determine how many bundles needed for normal pages
+      const totalNormalBundles =
+        Math.ceil(normalPages.length / pagesPerBundle) || 1;
+
+      for (let b = 1; b <= totalNormalBundles; b++) {
+        // Add Cover
+        final.push({
+          type: "cover",
+          bundle: currentBundle,
+          name: "રહેણાંક મિલકત (Residential)", // Title for Normal
+        });
+
+        // Add Benefits ONLY in the very first bundle
+        if (currentBundle === 1) {
+          final.push({ type: "benefit", name: "panchayat" });
+          final.push({ type: "benefit", name: "public" });
+        }
+
+        // Add Data Pages for this bundle
+        const start = (b - 1) * pagesPerBundle;
+        const end = start + pagesPerBundle;
+        const pagesForThisBundle = normalPages.slice(start, end);
+
+        pagesForThisBundle.forEach((pageRecs, idx) => {
+          final.push({
+            type: "page",
+            bundle: currentBundle,
+            pageIndex: start + idx, // Continuous index for "Page X of Y" logic
+            pageRecords: pageRecs,
+            totalContext: normalPages.length + commercialPages.length, // Optional: Total pages count context
+          });
+        });
+
+        currentBundle++;
+      }
+
+      // --- BUILD COMMERCIAL BUNDLES ---
+      // Only if there are commercial records
+      if (commercialPages.length > 0) {
+        const totalCommBundles = Math.ceil(
+          commercialPages.length / pagesPerBundle
+        );
+
+        for (let b = 1; b <= totalCommBundles; b++) {
+          // Add Cover
+          final.push({
+            type: "cover",
+            bundle: currentBundle,
+            name: "કોમર્શિયલ મિલકત (Commercial)", // Title for Commercial
+          });
+
+          // Note: Usually benefits are not repeated for the commercial section part of the same report
+
+          // Add Data Pages
+          const start = (b - 1) * pagesPerBundle;
+          const end = start + pagesPerBundle;
+          const pagesForThisBundle = commercialPages.slice(start, end);
+
+          pagesForThisBundle.forEach((pageRecs, idx) => {
+            // Calculate a continuous page index if needed, or restart.
+            // Here we continue the visual page numbering? Or allow component to handle it.
+            // Let's pass a cumulative index offset for visual correctness if AkarniPage uses it.
+            const globalPageIndex = normalPages.length + (start + idx);
+
+            final.push({
+              type: "page",
+              bundle: currentBundle,
+              pageIndex: globalPageIndex,
+              pageRecords: pageRecs,
+              isCommercial: true,
+            });
+          });
+
+          currentBundle++;
+        }
+      }
+    } else {
+      // --- ORIGINAL LOGIC (Mixed) ---
+      const pages = chunkArray(allRecords, recordsPerPage);
+      const totalBundles = Math.ceil(pages.length / pagesPerBundle);
+
+      for (let bundle = 1; bundle <= totalBundles; bundle++) {
+        // 1. Cover page
+        final.push({
+          type: "cover",
+          bundle,
+          name: "આકારણી રજીસ્ટર (General)",
+        });
+
+        // 2. Only bundle 1 gets benefits
+        if (bundle === 1) {
+          final.push({ type: "benefit", name: "panchayat" });
+          final.push({ type: "benefit", name: "public" });
+        }
+
+        // 3. Main pages of this bundle
+        const start = (bundle - 1) * pagesPerBundle;
+        const end = start + pagesPerBundle;
+
+        pages.slice(start, end).forEach((records, idx) => {
+          final.push({
+            type: "page",
+            bundle,
+            pageIndex: start + idx,
+            pageRecords: records,
+          });
+        });
+      }
+    }
+
+    return final;
+  }
+  // --- LOGIC ENDS HERE ---
 
   if (loading) {
     return (
@@ -303,60 +448,17 @@ const SurvayReport = () => {
     );
   }
 
-  // Paginate records into chunks of 15
-  const PROPERTIES_PER_PAGE = 15;
-
-  const pages = [];
-  for (let i = 0; i < records.length; i += PROPERTIES_PER_PAGE) {
-    pages.push(records.slice(i, i + PROPERTIES_PER_PAGE));
-  }
-
-  const BUNDLE_SIZE = 100;
-  const finalRenderPages = buildFinalPages(pages, BUNDLE_SIZE);
-
-  function buildFinalPages(pages, pagesPerBundle) {
-    const final = [];
-    const totalBundles = Math.ceil(pages.length / pagesPerBundle);
-
-    for (let bundle = 1; bundle <= totalBundles; bundle++) {
-      // 1. Cover page
-      final.push({ type: "cover", bundle });
-
-      // 2. Only bundle 1 gets benefits
-      if (bundle === 1) {
-        final.push({ type: "benefit", name: "panchayat" });
-        final.push({ type: "benefit", name: "public" });
-      }
-
-      // 3. Main pages of this bundle
-      const start = (bundle - 1) * pagesPerBundle;
-      const end = start + pagesPerBundle;
-
-      pages.slice(start, end).forEach((records, idx) => {
-        final.push({
-          type: "page",
-          bundle,
-          pageIndex: start + idx,
-          pageRecords: records,
-        });
-      });
-    }
-
-    return final;
-  }
-
   return (
     <div className="container mx-auto p-4 sm:p-6 lg:p-8">
       <button
         onClick={handleDownloadPDF}
         className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transition duration-200 disabled:opacity-50"
-        disabled={pdfProgress.isGenerating} // Disable button while generating
+        disabled={pdfProgress.isGenerating}
       >
         {pdfProgress.isGenerating ? "Generating..." : "Download PDF"}
       </button>
 
       {pdfProgress.isGenerating && (
-        // Progress Modal/Overlay
         <div className="fixed inset-0 bg-gray-800 bg-opacity-80 flex items-center justify-center z-50 p-4">
           <div className="bg-white p-8 rounded-xl shadow-2xl w-full max-w-sm">
             <h3 className="text-xl font-bold mb-2 text-center text-gray-800">
@@ -372,7 +474,6 @@ const SurvayReport = () => {
               Please wait, this is a CPU-intensive task.
             </p>
 
-            {/* Progress Bar */}
             <div className="w-full bg-gray-200 rounded-full h-3 mb-3">
               <div
                 className={`h-3 rounded-full transition-all duration-500 ${
@@ -382,7 +483,6 @@ const SurvayReport = () => {
               ></div>
             </div>
 
-            {/* Progress Details */}
             <p className="text-sm font-semibold text-gray-700 text-center mb-1">
               {pdfProgress.percentage}% Completed
             </p>
@@ -391,7 +491,6 @@ const SurvayReport = () => {
               <b>{pdfProgress.totalPages}</b> done
             </p>
 
-            {/* ETA Display */}
             {pdfProgress.timeRemaining !== null && !pdfProgress.isCancelled ? (
               <p className="text-sm font-bold text-blue-600 text-center mb-4">
                 {formatTime(pdfProgress.timeRemaining)} remaining
@@ -404,11 +503,10 @@ const SurvayReport = () => {
               </p>
             )}
 
-            {/* 🔴 CANCEL BUTTON */}
             <button
               onClick={handleCancel}
               className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition duration-150 disabled:bg-red-400"
-              disabled={pdfProgress.isCancelled} // Disable if already signaled to cancel
+              disabled={pdfProgress.isCancelled}
             >
               {pdfProgress.isCancelled ? "Cancelling..." : "Cancel Generation"}
             </button>
@@ -453,53 +551,13 @@ const SurvayReport = () => {
       <br />
       <br />
 
-      {/* {project?.details?.seperatecommercial ? (
-        <></>
+      {project?.details?.seperatecommercial ? (
+        <span className="text-green-600 font-bold">
+          COMMERCIAL SEPARATION ACTIVE
+        </span>
       ) : (
-        <div className="pdf-report-container">
-          <div
-            key="0"
-            id={`report-page-0`}
-            className="report-page legal-landscape-dimensions"
-            style={{ paddingLeft: "65px", paddingRight: "20px" }}
-          >
-            <AkarniIndex part="1" nop={PROPERTIES_PER_PAGE} />
-          </div>
-
-          <div
-            key="1"
-            id={`report-page-1`}
-            className="report-page legal-landscape-dimensions"
-            style={{ paddingLeft: "65px", paddingRight: "20px" }}
-          >
-            <PanchayatBenefit />
-          </div>
-
-          <div
-            key="2"
-            id={`report-page-2`}
-            className="report-page legal-landscape-dimensions"
-            style={{ paddingLeft: "65px", paddingRight: "20px" }}
-          >
-            <PublicBenefit />
-          </div>
-
-          {pages.map((pageRecords, pageIndex) => (
-            <div
-              key={pageIndex + 3}
-              id={`report-page-${pageIndex + 3}`}
-              className="report-page legal-landscape-dimensions"
-              style={{ paddingLeft: "65px", paddingRight: "20px" }}
-            >
-              <AkarniPage
-                pageIndex={pageIndex}
-                project={project}
-                pageRecords={pageRecords}
-              />
-            </div>
-          ))}
-        </div>
-      )} */}
+        <span className="text-gray-500">Standard Sort</span>
+      )}
 
       <div className="pdf-report-container">
         {finalRenderPages.map((item, idx) => {
@@ -518,6 +576,7 @@ const SurvayReport = () => {
                 }}
               >
                 <AkarniIndex
+                  title={item?.name} // Pass the dynamic title (Residential/Commercial)
                   part={item.bundle}
                   nop={PROPERTIES_PER_PAGE}
                   project={project}
@@ -553,7 +612,6 @@ const SurvayReport = () => {
               style={{
                 paddingLeft: "65px",
                 paddingRight: "20px",
-
                 maxHeight: "800px",
               }}
             >
@@ -570,13 +628,10 @@ const SurvayReport = () => {
         })}
       </div>
 
-      {/* This is the visible, on-screen part */}
-
       <div className="visible-report-container">
         <h1 className="text-xl font-bold text-center mb-0 text-gray-800">
           પંચાયત હિસાબ નમુનો નંબર - ૮ (આકારણી રજીસ્ટર)
         </h1>
-
         <h2 className="text-l text-center mb-2 text-gray-600">
           સને ૨૦૨૫/૨૬ ના વર્ષ માટેના વેરાપાત્ર હોય તેવા મકાનો જમીનનો આકારણી ની
           યાદી
@@ -584,9 +639,7 @@ const SurvayReport = () => {
 
         <div className="location-info-visible">
           <h3>ગામ:- {project?.spot?.gaam}</h3>
-
           <h3>તાલુકો:- {project?.spot?.taluka}</h3>
-
           <h3>જિલ્લો:- {project?.spot?.district}</h3>
         </div>
 
@@ -597,65 +650,48 @@ const SurvayReport = () => {
                 <th className="th" rowSpan="2" style={{ minWidth: "70px" }}>
                   અનું ક્રમાંક
                 </th>
-
                 <th className="th" rowSpan="2" style={{ minWidth: "130px" }}>
                   વિસ્તારનું નામ
                 </th>
-
                 <th className="th" rowSpan="2" style={{ minWidth: "70px" }}>
                   મિલ્કત ક્રમાંક
                 </th>
-
                 <th className="th" rowSpan="2" style={{ minWidth: "250px" }}>
                   મિલ્કતનું વર્ણન
                 </th>
-
                 <th className="th" rowSpan="2" style={{ minWidth: "70px" }}>
                   બી.પ.
                 </th>
-
                 <th className="th" rowSpan="2" style={{ minWidth: "170px" }}>
                   માલિકનું નામ
                 </th>
-
                 <th className="th" rowSpan="2" style={{ minWidth: "70px" }}>
                   જુનો મિ.નં.
                 </th>
-
                 <th className="th" rowSpan="2" style={{ minWidth: "100px" }}>
                   મોબાઈલ નંબર
                 </th>
-
                 <th className="th" rowSpan="2" style={{ minWidth: "100px" }}>
                   મિલ્કતની કિંમત (₹)
                 </th>
-
                 <th className="th" rowSpan="2" style={{ minWidth: "70px" }}>
                   આકારેલ વેરાની રકમ (₹)
                 </th>
-
                 <th className="th" rowSpan="2" style={{ minWidth: "130px" }}>
                   મિલ્કત પર લખેલ નામ
                 </th>
-
                 <th className="th" colSpan="2">
                   અન્ય સુવિધા
                 </th>
-
                 <th className="th" rowSpan="2" style={{ minWidth: "130px" }}>
                   નોંધ / રીમાર્કસ
                 </th>
               </tr>
-
               <tr>
                 <th className="th">નળ</th>
-
                 <th className="th">શોચાલય</th>
               </tr>
-
-              {/* Index Start */}
               <tr>
-                {/* 1 to 14 th for index */}
                 {Array.from({ length: 14 }).map((_, index) => (
                   <th
                     className="text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -670,42 +706,25 @@ const SurvayReport = () => {
                   </th>
                 ))}
               </tr>
-              {/* Index End */}
             </thead>
-
             <tbody className="tbody">
               {records.map((record, index) => (
                 <tr key={index}>
                   <td className="td">{record[0]}</td>
-
                   <td className="td">{record[1]}</td>
-
                   <td className="td">{record[2]}</td>
-
                   <td className="td">{record[15]}</td>
-
                   <td className="td">
                     {record[13]?.includes("બી.પ.") ? "બી.પ." : ""}
                   </td>
-
                   <td className="td">{record[3]}</td>
-
                   <td className="td">{record[4]}</td>
-
                   <td className="td">{record[5]}</td>
-
                   <td className="td">{record[18]}</td>
-
                   <td className="td">{record[19]}</td>
-
                   <td className="td">{record[6]}</td>
-
-                  {/* <td className="td">{record[7]}</td> */}
-
                   <td className="td">{record[11]}</td>
-
                   <td className="td">{record[12]}</td>
-
                   <td className="td">{record[13]}</td>
                 </tr>
               ))}

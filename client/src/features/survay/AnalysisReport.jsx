@@ -125,12 +125,12 @@ const AnalyticsReport = () => {
         count: 0,
         icon: TotalHouseIcon,
       },
-      {
-        id: 15,
-        description: "એરીયા/વિસ્તાર વાઇઝ મિલ્કતની સંખ્યા",
-        count: 0,
-        icon: TotalHouseIcon,
-      },
+      // {
+      //   id: 15,
+      //   description: "એરીયા/વિસ્તાર વાઇઝ મિલ્કતની સંખ્યા",
+      //   count: 0,
+      //   icon: TotalHouseIcon,
+      // },
       {
         id: 16,
         description: "૧-મિલ્કતથી વધારે મિલ્કતો ધરાવતા હોય તેવા માલીકની સંખ્યા",
@@ -306,7 +306,6 @@ const AnalyticsReport = () => {
           { ...prev.metrics[11], count: ToiletCount },
           { ...prev.metrics[12], count: MobileTowerCount },
           { ...prev.metrics[13], count: TotalAreaCount },
-          { ...prev.metrics[14], count: AreaWiseCount },
           { ...prev.metrics[15], count: DuplicateCount },
           { ...prev.metrics[16], count: UniqueCount },
           { ...prev.metrics[17], count: usePhoneCount },
@@ -369,25 +368,45 @@ const AnalyticsReport = () => {
   // };
 
   // PDF જનરેશન લોજિક
-  const generatePDF = () => {
-    const input = document.getElementById("report-content");
-    html2canvas(input, { scale: 2, useCORS: true }).then((canvas) => {
-      const pdf = new jsPDF("p", "pt", "legal");
-      const imgData = canvas.toDataURL("image/jpeg", 1.0);
-      const pageWidth = pdf.internal.pageSize.getWidth();
-      const pageHeight = pdf.internal.pageSize.getHeight();
+  const generatePDF = async () => {
+    const toast = alert("PDF જનરેટ થઈ રહી છે, કૃપા કરીને થોડી રાહ જુઓ...");
 
-      // ત્રણેય પેજ માટે લૂપ અથવા મેન્યુઅલ કટિંગ કરી શકાય, અહીં સરળતા માટે આખું કેનવાસ એડ થશે
-      pdf.addImage(
-        imgData,
-        "JPEG",
-        0,
-        0,
-        pageWidth,
-        (canvas.height * pageWidth) / canvas.width
-      );
-      pdf.save(`Aakarni_Report_${reportData.village}.pdf`);
-    });
+    // PDF સેટિંગ્સ: Portrait, unit: mm, format: a4
+    // (તમે 'legal' પણ રાખી શકો છો, પણ A4 સ્ટાન્ડર્ડ છે)
+    const pdf = new jsPDF("p", "mm", "a4");
+    const pageIds = ["page-1", "page-2", "page-3"];
+
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+
+    for (let i = 0; i < pageIds.length; i++) {
+      const input = document.getElementById(pageIds[i]);
+
+      if (input) {
+        // html2canvas દ્વારા દરેક વિભાગનો અલગ ફોટો પાડો
+        const canvas = await html2canvas(input, {
+          scale: 2, // સારી ક્વોલિટી માટે
+          useCORS: true,
+          logging: false,
+        });
+
+        const imgData = canvas.toDataURL("image/jpeg", 1.0);
+
+        // ઈમેજની ઊંચાઈ ગણતરી (પેજની પહોળાઈ મુજબ એડજસ્ટ)
+        const imgHeight = (canvas.height * pageWidth) / canvas.width;
+
+        // જો આ પહેલું પેજ નથી, તો નવું પેજ ઉમેરો
+        if (i > 0) {
+          pdf.addPage();
+        }
+
+        // ઈમેજને PDF માં ઉમેરો (x, y, width, height)
+        pdf.addImage(imgData, "JPEG", 0, 0, pageWidth, imgHeight);
+      }
+    }
+
+    const today = new Date().toLocaleDateString("gu-IN").replace(/\//g, "-");
+    pdf.save(`Aakarni_Analysis_Report_${reportData.village}_${today}.pdf`);
   };
 
   // ગ્રાફ માટે ડેટા
@@ -414,121 +433,151 @@ const AnalyticsReport = () => {
       <div className="flex flex-col items-center p-4 bg-gray-200 min-h-screen">
         <div id="report-content" className="w-[1024px] bg-white shadow-2xl">
           {/* --- PAGE 1: મુખ્ય વિશ્લેષણ --- */}
-          <div className="p-10 min-h-[1350px] border-b-2 border-gray-300">
-            <header className="text-center mb-8">
-              <h1 className="text-3xl font-bold text-blue-900">
-                Aakarni Analysis Report - ૨૦૨૫/૨૬
-              </h1>{" "}
-              <div className="flex justify-around mt-6 text-lg font-semibold bg-blue-50 p-4 rounded-lg">
-                <span>ગામ: {reportData.village}</span>
-                <span>તાલુકો: {reportData.taluka}</span>
-                <span>જીલ્લો: {reportData.district}</span>
-              </div>
-            </header>
-            <div className="grid grid-cols-2 gap-6">
-              {reportData.metrics.map((m) => (
-                <div
-                  key={m.id}
-                  className="flex items-center p-6 border rounded-xl bg-white shadow-sm"
-                >
-                  <img src={m.icon} className="w-12 h-12 mr-4" alt="icon" />
-                  <div>
-                    <p className="text-gray-600">{m.description}</p>
-                    <p className="text-2xl font-bold text-blue-600">
-                      સંખ્યા: {m.count}
-                    </p>
-                  </div>
+          <div
+            className="watermark"
+            style={{
+              minHeight: "100%",
+              position: "relative",
+              // background: "red",
+            }}
+          >
+            <div id="page-1" className="p-10 min-h-[1350px] border-b-2">
+              {" "}
+              <header className="text-center mb-8">
+                <h1 className="text-3xl font-bold text-blue-900">
+                  Aakarni Analysis Report - ૨૦૨૫/૨૬
+                </h1>{" "}
+                <div className="flex justify-around mt-6 text-lg font-semibold p-4 rounded-lg">
+                  <span>ગામ: {reportData.village}</span>
+                  <span>તાલુકો: {reportData.taluka}</span>
+                  <span>જીલ્લો: {reportData.district}</span>
                 </div>
-              ))}
+              </header>
+              <div className="grid grid-cols-2 gap-6">
+                {reportData.metrics.map((m) => (
+                  <div
+                    key={m.id}
+                    className="flex items-center p-6 border rounded-xl shadow-sm"
+                  >
+                    <img src={m.icon} className="w-12 h-12 mr-4" alt="icon" />
+                    <div>
+                      <p className="text-gray-600">{m.description}</p>
+                      <p className="text-2xl font-bold text-blue-600">
+                        સંખ્યા: {m.count}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
-          {/* --- PAGE 2: એરીયા વાઇઝ વિગત --- */}
-          <div className="p-10 min-h-[1350px] border-b-2 border-gray-300 bg-gray-50">
-            <h2 className="text-2xl font-bold text-center mb-8 underline">
-              એરીયા/વિસ્તાર વાઇઝ મિલ્કતની સંખ્યા
-            </h2>
-            <table className="w-full text-left border-collapse bg-white">
-              <thead>
-                <tr className="bg-blue-600 text-white">
-                  <th className="p-4 border">ક્રમ</th>
-                  <th className="p-4 border">એરીયા / વિસ્તારનું નામ</th>
-                  <th className="p-4 border">કુલ મિલ્કતો</th>
-                </tr>
-              </thead>
-              <tbody>
-                {areaData.map((area, idx) => (
-                  <tr key={idx} className="hover:bg-blue-50">
-                    <td className="p-4 border">{idx + 1}</td>
-                    <td className="p-4 border">{area.name}</td>
-                    <td className="p-4 border font-bold">{area.count}</td>
+          <div
+            className="watermark"
+            style={{
+              minHeight: "100%",
+              position: "relative",
+              // background: "red",
+            }}
+          >
+            {/* --- PAGE 2: એરીયા વાઇઝ વિગત --- */}
+            <div id="page-2" className="p-10 min-h-[1350px] border-b-2">
+              {" "}
+              <h2 className="text-2xl font-bold text-center mb-8 underline">
+                એરીયા/વિસ્તાર વાઇઝ મિલ્કતની સંખ્યા
+              </h2>
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="bg-blue-600 text-white">
+                    <th className="p-4 border">ક્રમ</th>
+                    <th className="p-4 border">એરીયા / વિસ્તારનું નામ</th>
+                    <th className="p-4 border">કુલ મિલ્કતો</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {areaData.map((area, idx) => (
+                    <tr key={idx} className="hover:bg-blue-50">
+                      <td className="p-4 border">{idx + 1}</td>
+                      <td className="p-4 border">{area.name}</td>
+                      <td className="p-4 border font-bold">{area.count}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
 
-          {/* --- PAGE 3: ગ્રાફ્સ અને ચાર્ટ્સ --- */}
-          <div className="p-10 min-h-[1350px]">
-            <h2 className="text-2xl font-bold text-center mb-10 underline">
-              ગ્રાફિકલ વિશ્લેષણ (Charts & Graphs)
-            </h2>
+          <div
+            className="watermark"
+            style={{
+              minHeight: "100%",
+              position: "relative",
+              // background: "red",
+            }}
+          >
+            {/* --- PAGE 3: ગ્રાફ્સ અને ચાર્ટ્સ --- */}
+            <div id="page-3" className="p-10 min-h-[1350px]">
+              <h2 className="text-2xl font-bold text-center mb-10 underline">
+                ગ્રાફિકલ વિશ્લેષણ (Charts & Graphs)
+              </h2>
+              <div className="grid grid-cols-1 gap-12">
+                {/* Pie Chart */}
+                <div className="flex flex-col items-center">
+                  <h3 className="text-xl font-semibold mb-4">
+                    મિલ્કત પ્રકારનું વિતરણ
+                  </h3>
+                  <PieChart width={500} height={350}>
+                    <Pie
+                      data={pieData}
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={120}
+                      fill="#8884d8"
+                      dataKey="value"
+                      label
+                    >
+                      {pieData.map((entry, index) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={COLORS[index % COLORS.length]}
+                        />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                    <Legend />
+                  </PieChart>
+                </div>
 
-            <div className="grid grid-cols-1 gap-12">
-              {/* Pie Chart */}
-              <div className="flex flex-col items-center">
-                <h3 className="text-xl font-semibold mb-4">
-                  મિલ્કત પ્રકારનું વિતરણ
-                </h3>
-                <PieChart width={500} height={350}>
-                  <Pie
-                    data={pieData}
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={120}
-                    fill="#8884d8"
-                    dataKey="value"
-                    label
+                {/* Bar Chart */}
+                <div className="flex flex-col items-center">
+                  <h3 className="text-xl font-semibold mb-4">
+                    સુવિધાઓનું વિશ્લેષણ (નળ અને શૌચાલય)
+                  </h3>
+                  <BarChart
+                    width={600}
+                    height={350}
+                    data={[
+                      {
+                        name: "નળ કનેક્શન",
+                        count:
+                          reportData.metrics.find((m) => m.id === 11)?.count ||
+                          0,
+                      },
+                      {
+                        name: "શૌચાલય",
+                        count:
+                          reportData.metrics.find((m) => m.id === 12)?.count ||
+                          0,
+                      },
+                    ]}
                   >
-                    {pieData.map((entry, index) => (
-                      <Cell
-                        key={`cell-${index}`}
-                        fill={COLORS[index % COLORS.length]}
-                      />
-                    ))}
-                  </Pie>
-                  <Tooltip />
-                  <Legend />
-                </PieChart>
-              </div>
-
-              {/* Bar Chart */}
-              <div className="flex flex-col items-center">
-                <h3 className="text-xl font-semibold mb-4">
-                  સુવિધાઓનું વિશ્લેષણ (નળ અને શૌચાલય)
-                </h3>
-                <BarChart
-                  width={600}
-                  height={350}
-                  data={[
-                    {
-                      name: "નળ કનેક્શન",
-                      count:
-                        reportData.metrics.find((m) => m.id === 11)?.count || 0,
-                    },
-                    {
-                      name: "શૌચાલય",
-                      count:
-                        reportData.metrics.find((m) => m.id === 12)?.count || 0,
-                    },
-                  ]}
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" />
-                  <YAxis />
-                  <Tooltip />
-                  <Bar dataKey="count" fill="#82ca9d" barSize={60} />
-                </BarChart>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip />
+                    <Bar dataKey="count" fill="#82ca9d" barSize={60} />
+                  </BarChart>
+                </div>
               </div>
             </div>
           </div>

@@ -165,7 +165,7 @@ const TarijReport = () => {
   }
 
   return (
-    <div className="container mx-auto p-4 sm:p-6 lg:p-8">
+    <div className="container mx-auto p-4 sm:p-6 lg:p-8 bg-white">
       <button
         onClick={generatePDF}
         className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
@@ -177,492 +177,501 @@ const TarijReport = () => {
       <br />
 
       <div
-        className="pdf-report-container"
-        id="pdf-report-container"
-        style={{ position: "absolute", left: "-9999px" }}
+        className="watermark"
+        style={{
+          minHeight: "100%",
+          position: "relative",
+          // background: "red",
+        }}
       >
-        {" "}
-        <div id="pdf-content-wrapper">
-          <h1 className="text-xl font-bold text-center mb-0 text-gray-800">
-            {/* મોજે: {(project?.spot?.gaam).trim()}, તા:{" "}
-          {(project?.spot?.taluka).trim()}  */}
-            કુલ મંગણાં તથા વસુલાતનો રિપોર્ટ (તારીજ) - સન{" "}
-            {project?.details?.akaraniYear || ""}
-          </h1>
+        <div
+          className="pdf-report-container"
+          id="pdf-report-container"
+          style={{ maxWidth: "1200px", minHeight: "500px" }}
+          // style={{ position: "absolute", left: "-9999px" }}
+        >
+          {" "}
+          <div id="pdf-content-wrapper">
+            <h1 className="text-xl font-bold text-center mb-0 text-gray-800">
+              કુલ મંગણાં તથા વસુલાતનો રિપોર્ટ (તારીજ) - સન 2024/25
+              <br />
+              {project?.details?.akaraniYear || ""}
+            </h1>
 
-          <div
-            className="location-info-visible"
-            style={{ paddingInline: "50px" }}
-          >
-            <h3>ગામ: {project?.spot?.gaam}</h3>
+            <div
+              className="location-info-visible"
+              style={{ paddingInline: "50px" }}
+            >
+              <h3>ગામ: {project?.spot?.gaam}</h3>
 
-            <h3>તાલુકો: {project?.spot?.taluka}</h3>
+              <h3>તાલુકો: {project?.spot?.taluka}</h3>
 
-            <h3>જિલ્લો: {project?.spot?.district}</h3>
-          </div>
+              <h3>જિલ્લો: {project?.spot?.district}</h3>
+            </div>
 
-          <div className="table-responsive">
-            <table className="report-table">
-              <thead className="thead">
-                <tr style={{ background: "#fff" }}>
-                  <th
-                    className="th"
-                    colSpan="2"
-                    rowSpan="2"
-                    style={{
-                      minWidth: "70px",
-                      background: "#fff",
-                      color: "#000",
-                    }}
-                  >
-                    <span className="formatting">વેરાઓનું નામ</span>
-                  </th>
-
-                  <th
-                    className="th"
-                    colSpan="3"
-                    style={{
-                      minWidth: "70px",
-                      background: "#fff",
-                      color: "#000",
-                    }}
-                  >
-                    <span className="formatting">કુલ માંગણું</span>
-                  </th>
-
-                  <th
-                    className="th"
-                    colSpan="3"
-                    style={{
-                      minWidth: "130px",
-                      background: "#fff",
-                      color: "#000",
-                    }}
-                  >
-                    <span className="formatting">માંગણા પ્રમાણે વસુલાત</span>
-                  </th>
-
-                  <th
-                    className="th"
-                    colSpan="3"
-                    style={{
-                      minWidth: "170px",
-                      background: "#fff",
-                      color: "#000",
-                    }}
-                  >
-                    <span className="formatting">પહોંચ પ્રમાણે વસુલાત</span>
-                  </th>
-
-                  <th
-                    className="th"
-                    colSpan="3"
-                    style={{
-                      minWidth: "100px",
-                      background: "#fff",
-                      color: "#000",
-                    }}
-                  >
-                    <span className="formatting">કુલ બાકી</span>
-                  </th>
-
-                  <th
-                    className="th"
-                    rowSpan="2"
-                    style={{
-                      minWidth: "100px",
-                      background: "#fff",
-                      color: "#000",
-                    }}
-                  >
-                    <span className="formatting">કુલ જાદે</span>
-                  </th>
-                </tr>
-
-                <tr>
-                  {Array.from({ length: 4 }).map((_, index) => (
-                    <>
-                      <th
-                        className="th"
-                        style={{ background: "#fff", color: "#000" }}
-                      >
-                        <span className="formatting">પા. બા</span>
-                      </th>
-
-                      <th
-                        className="th"
-                        style={{ background: "#fff", color: "#000" }}
-                      >
-                        <span className="formatting">ચાલુ</span>
-                      </th>
-
-                      <th
-                        className="th"
-                        style={{ background: "#fff", color: "#000" }}
-                      >
-                        <span className="formatting">કુલ</span>
-                      </th>
-                    </>
-                  ))}
-                </tr>
-
-                {/* Index Start */}
-                <tr>
-                  {/* 1 to 14 th for index */}
-                  {Array.from({ length: 14 }).map((_, index) => (
+            <div className="table-responsive">
+              <table className="report-table">
+                <thead className="thead">
+                  <tr style={{ background: "transparent" }}>
                     <th
-                      className="text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      className="th"
+                      colSpan="2"
+                      rowSpan="2"
                       style={{
-                        textAlign: "center",
-                        color: "black",
-                        background: "#fff",
+                        minWidth: "70px",
+                        background: "transparent",
+                        color: "#000",
                       }}
-                      key={index}
-                      colSpan={index === 0 ? 2 : 1}
                     >
-                      <span className="formatting">{index + 1}</span>
+                      <span className="formatting">વેરાઓનું નામ</span>
                     </th>
-                  ))}
-                </tr>
-                {/* Index End */}
-              </thead>
 
-              <tbody className="tbody">
-                {/* {records.map((record, index) => ( */}
-                {/* <> */}
+                    <th
+                      className="th"
+                      colSpan="3"
+                      style={{
+                        minWidth: "70px",
+                        background: "transparent",
+                        color: "#000",
+                      }}
+                    >
+                      <span className="formatting">કુલ માંગણું</span>
+                    </th>
 
-                {total?.houseTax && total.houseTax.length > 0 ? (
-                  <>
-                    <tr>
-                      <td className="td">
-                        <span className="formatting">{"1"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"ઘર વેરો"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">
-                          {total?.houseTax[0]?.prev || 0}
-                        </span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">
-                          {total?.houseTax[0]?.curr || 0}
-                        </span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">
-                          {(total?.houseTax[0]?.prev || 0) +
-                            (total?.houseTax[0]?.curr || 0)}
-                        </span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                    </tr>
+                    <th
+                      className="th"
+                      colSpan="3"
+                      style={{
+                        minWidth: "130px",
+                        background: "transparent",
+                        color: "#000",
+                      }}
+                    >
+                      <span className="formatting">માંગણા પ્રમાણે વસુલાત</span>
+                    </th>
 
-                    <tr>
-                      <td className="td">
-                        <span className="formatting">{"2"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">
-                          {"સામાન્ય પાણી વેરો"}
-                        </span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                    </tr>
+                    <th
+                      className="th"
+                      colSpan="3"
+                      style={{
+                        minWidth: "170px",
+                        background: "transparent",
+                        color: "#000",
+                      }}
+                    >
+                      <span className="formatting">પહોંચ પ્રમાણે વસુલાત</span>
+                    </th>
 
-                    <tr>
-                      <td className="td">
-                        <span className="formatting">{"3"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"ખાસ પાણી વેરો"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                    </tr>
+                    <th
+                      className="th"
+                      colSpan="3"
+                      style={{
+                        minWidth: "100px",
+                        background: "transparent",
+                        color: "#000",
+                      }}
+                    >
+                      <span className="formatting">કુલ બાકી</span>
+                    </th>
 
-                    <tr>
-                      <td className="td">
-                        <span className="formatting">{"4"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"લાઈટ વેરો"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                    </tr>
+                    <th
+                      className="th"
+                      rowSpan="2"
+                      style={{
+                        minWidth: "100px",
+                        background: "transparent",
+                        color: "#000",
+                      }}
+                    >
+                      <span className="formatting">કુલ જાદે</span>
+                    </th>
+                  </tr>
 
-                    <tr>
-                      <td className="td">
-                        <span className="formatting">{"5"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"સફાઈ વેરો"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                    </tr>
+                  <tr>
+                    {Array.from({ length: 4 }).map((_, index) => (
+                      <>
+                        <th
+                          className="th"
+                          style={{ background: "transparent", color: "#000" }}
+                        >
+                          <span className="formatting">પા. બા</span>
+                        </th>
 
-                    <tr>
-                      <td
-                        className="td"
-                        colSpan="14"
-                        style={{ border: "none" }}
+                        <th
+                          className="th"
+                          style={{ background: "transparent", color: "#000" }}
+                        >
+                          <span className="formatting">ચાલુ</span>
+                        </th>
+
+                        <th
+                          className="th"
+                          style={{ background: "transparent", color: "#000" }}
+                        >
+                          <span className="formatting">કુલ</span>
+                        </th>
+                      </>
+                    ))}
+                  </tr>
+
+                  {/* Index Start */}
+                  <tr>
+                    {/* 1 to 14 th for index */}
+                    {Array.from({ length: 14 }).map((_, index) => (
+                      <th
+                        className="text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        style={{
+                          textAlign: "center",
+                          color: "black",
+                          background: "transparent",
+                        }}
+                        key={index}
+                        colSpan={index === 0 ? 2 : 1}
                       >
-                        <span className="formatting">{""}</span>
-                      </td>
-                    </tr>
+                        <span className="formatting">{index + 1}</span>
+                      </th>
+                    ))}
+                  </tr>
+                  {/* Index End */}
+                </thead>
 
-                    <tr>
-                      <td className="td" colSpan="2">
-                        <span className="formatting">{"એકંદર કુલ"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                      <td className="td">
-                        <span className="formatting">{"00"}</span>
-                      </td>
-                    </tr>
-                  </>
-                ) : (
-                  <p>Loading house tax data...</p> // Or some other placeholder
-                )}
-                {/* </>
+                <tbody className="tbody">
+                  {/* {records.map((record, index) => ( */}
+                  {/* <> */}
+
+                  {total?.houseTax && total.houseTax.length > 0 ? (
+                    <>
+                      <tr>
+                        <td className="td">
+                          <span className="formatting">{"1"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"ઘર વેરો"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">
+                            {total?.houseTax[0]?.prev || 0}
+                          </span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">
+                            {total?.houseTax[0]?.curr || 0}
+                          </span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">
+                            {(total?.houseTax[0]?.prev || 0) +
+                              (total?.houseTax[0]?.curr || 0)}
+                          </span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td className="td">
+                          <span className="formatting">{"2"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">
+                            {"સામાન્ય પાણી વેરો"}
+                          </span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td className="td">
+                          <span className="formatting">{"3"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"ખાસ પાણી વેરો"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td className="td">
+                          <span className="formatting">{"4"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"લાઈટ વેરો"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td className="td">
+                          <span className="formatting">{"5"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"સફાઈ વેરો"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td
+                          className="td"
+                          colSpan="14"
+                          style={{ border: "none" }}
+                        >
+                          <span className="formatting">{""}</span>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td className="td" colSpan="2">
+                          <span className="formatting">{"એકંદર કુલ"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                        <td className="td">
+                          <span className="formatting">{"00"}</span>
+                        </td>
+                      </tr>
+                    </>
+                  ) : (
+                    <p>Loading house tax data...</p> // Or some other placeholder
+                  )}
+                  {/* </>
               ))} */}
 
-                {records.length === 0 && !loading && !error && (
-                  <tr>
-                    <td colSpan="14" className="td text-center">
-                      કોઈ રેકોર્ડ ઉપલબ્ધ નથી.
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
+                  {records.length === 0 && !loading && !error && (
+                    <tr>
+                      <td colSpan="14" className="td text-center">
+                        કોઈ રેકોર્ડ ઉપલબ્ધ નથી.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
 
-          <div
-            className="location-info-visible"
-            style={{ paddingInline: "50px", paddingTop: "10px" }}
-          >
-            <h3>કુલ મિલ્કતની સંખ્યા: {"0"}</h3>
+            <div
+              className="location-info-visible"
+              style={{ paddingInline: "50px", paddingTop: "10px" }}
+            >
+              <h3>કુલ મિલ્કતની સંખ્યા: {"0"}</h3>
 
-            <h3>વેરો લેવા પાત્ર મિલ્કતની સંખ્યા: {"0"}</h3>
+              <h3>વેરો લેવા પાત્ર મિલ્કતની સંખ્યા: {"0"}</h3>
 
-            <h3>અન્ય મિલ્કત વેરો ન લેવાની મિલકતની સંખ્યા: {"0"}</h3>
+              <h3>અન્ય મિલ્કત વેરો ન લેવાની મિલકતની સંખ્યા: {"0"}</h3>
+            </div>
           </div>
         </div>
       </div>
@@ -799,7 +808,7 @@ const TarijReport = () => {
                     style={{
                       textAlign: "center",
                       color: "black",
-                      background: "#fff",
+                      background: "transparent",
                     }}
                     key={index}
                     colSpan={index === 0 ? 2 : 1}

@@ -22,7 +22,7 @@ const PanchayatBenefit = () => {
 
       {/* -------------------- 2. Benefits Section -------------------- */}
       <main
-        className="flex-grow px-12 text-gray-700"
+        className="flex-grow px-12 text-gray-700 benefit1"
         style={{ maxWidth: "100%", marginTop: "-20px", paddingBottom: "0px" }}
       >
         <BenefitPoint number="1">

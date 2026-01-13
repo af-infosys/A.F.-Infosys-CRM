@@ -50,6 +50,8 @@ const OrderValuationForm = () => {
     generalWaterTaxApplicable: "",
     specialAndGeneralWaterTax: "",
 
+    seperatecommercial: false,
+
     notes: [],
   });
 
@@ -1132,6 +1134,28 @@ const OrderValuationForm = () => {
             </div>
 
             <br />
+
+            {/* <div className="flex gap-3 mb-4 mt-2">
+              <label
+                htmlFor="seperatecommercial"
+                className="text-sm font-medium text-gray-700 mb-1"
+              >
+                11. Seperate commercial Properties
+              </label>
+
+              <input
+                type="checkbox"
+                id="seperatecommercial"
+                value={details.seperatecommercial}
+                onChange={(e) => {
+                  setDetails((prev) => ({
+                    ...prev,
+                    seperatecommercial: e.target.checked,
+                  }));
+                }}
+                checked={details.seperatecommercial || false}
+              />
+            </div> */}
 
             {/* Notes Section */}
             <div className="flex flex-col col-span-3">
