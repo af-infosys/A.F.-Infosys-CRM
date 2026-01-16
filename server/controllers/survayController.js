@@ -441,7 +441,6 @@ export const getAllRecords = async (req, res) => {
     }
 
     const work = await Work.findById(workId);
-    console.log(work);
 
     const client = await auth.getClient();
     const googleSheets = google.sheets({ version: "v4", auth: client });

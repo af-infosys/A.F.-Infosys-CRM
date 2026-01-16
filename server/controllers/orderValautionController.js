@@ -16,7 +16,7 @@ export const getDetails = async (req, res) => {
 
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId: works.sheetId,
-      range: `${SHEET_NAME}!A2:D`, // assuming columns: A=Name, B=Price, C=Per, D=Tax
+      range: `${works.sheetId}_M!A2:D`, // assuming columns: A=Name, B=Price, C=Per, D=Tax
     });
 
     const rawValuation = response.data.values || [];
@@ -217,7 +217,7 @@ export const getTaxes = async (req, res) => {
 
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId: works.sheetId,
-      range: `${TAX_SHEET_NAME}!A2:F`, // assuming columns: A=Name, B=Base, C=Price1,  D=Price2, E=Price3, F=Price4
+      range: `${works.sheetId}_Taxes!A2:F`, // assuming columns: A=Name, B=Base, C=Price1,  D=Price2, E=Price3, F=Price4
     });
 
     const rawTaxes = response.data.values || [];
@@ -262,7 +262,7 @@ export const addTaxes = async (req, res) => {
 
       await sheets.spreadsheets.values.update({
         spreadsheetId: works.sheetId,
-        range: `${TAX_SHEET_NAME}!A2`,
+        range: `${works.sheetId}_Taxes!A2`,
         valueInputOption: "RAW",
         requestBody: {
           values: taxesArray,
