@@ -282,6 +282,8 @@ export const addSheetRecord = async (req, res) => {
 export const syncSheetRecord = async (req, res) => {
   const workId = req.body.workId;
 
+  console.log("Syncing Records", req.body.workId);
+
   try {
     if (!workId) {
       res.status(400).json({
@@ -296,8 +298,7 @@ export const syncSheetRecord = async (req, res) => {
     const client = await auth.getClient();
     const googleSheets = google.sheets({ version: "v4", auth: client });
 
-    const records = req.body;
-    console.log(records);
+    const records = req.body.payload || [];
 
     // 2. Validation
     if (!Array.isArray(records) || records.length === 0) {
@@ -386,21 +387,27 @@ export const syncSheetRecord = async (req, res) => {
       range: `${work?.sheetId}_Main!A:A`,
     });
 
-    const rowsCount = getResponse.data.values
+    const lastRow = getResponse.data.values
       ? getResponse.data.values.length
       : 0;
 
-    // Minimum row = 5
-    const startRow = Math.max(rowsCount + 1, 5);
+    //  const response = await googleSheets.spreadsheets.values.append({
+    //   spreadsheetId: SPREADSHEET_ID,
+    //   range: `${work?.sheetId}_Main!A4`, // રેકોર્ડ્સને ચોથી પંક્તિથી ઉમેરવા માટે
+    //   valueInputOption: "RAW",
+    //   resource: {
+    //     values: [rowData],
+    //   },
+    // });
 
     // 4. Append all rows at once
     const response = await googleSheets.spreadsheets.values.append({
       spreadsheetId: SPREADSHEET_ID,
-      range: `${work?.sheetId}_Main!A${startRow - 1}`,
+      range: `${work?.sheetId}_Main!A${lastRow + 1}`,
       valueInputOption: "RAW",
       insertDataOption: "INSERT_ROWS",
       resource: {
-        values: rows,
+        values: rows, // 2-3 records ek saath
       },
     });
 
@@ -978,6 +985,8 @@ export const deleteSheetRecord = async (req, res) => {
 export const getAllAreas = async (req, res) => {
   try {
     const { workId } = req.query;
+
+    const work = await Work.findById(workId);
 
     const client = await auth.getClient();
     const googleSheets = google.sheets({ version: "v4", auth: client });
