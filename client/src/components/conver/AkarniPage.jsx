@@ -8,6 +8,7 @@ const AkarniPage = ({
   totalHoouse,
   totalPages,
   current,
+  count,
 }) => {
   return (
     <div
@@ -335,10 +336,15 @@ const AkarniPage = ({
 
       {totalPages === current ? (
         <p style={{ marginTop: "20px", textAlign: "center" }}>
-          1. કુલ ઘર : <u style={{ marginRight: "20px" }}>{totalHoouse}</u> 2.
-          કુલ મોબાઈલ નં. : <u style={{ marginRight: "20px" }}>0</u> 3. કુલ નળ :{" "}
-          <u style={{ marginRight: "20px" }}>0</u> 4. કુલ શૌચાલય :{" "}
-          <u style={{ marginRight: "20px" }}>00</u>
+          1. કુલ ઘર : <b style={{ marginRight: "20px" }}>{totalHoouse}</b> 2.
+          કુલ મોબાઈલ નં. :{" "}
+          <b style={{ marginRight: "20px" }}>{count?.totalPhoneNumber || 0}</b>{" "}
+          3. કુલ નળ :{" "}
+          <b style={{ marginRight: "20px" }}>
+            {count?.totalTapConnection || 0}
+          </b>{" "}
+          4. કુલ શૌચાલય :{" "}
+          <b style={{ marginRight: "20px" }}>{count?.totalToilet || 0}</b>
         </p>
       ) : null}
 

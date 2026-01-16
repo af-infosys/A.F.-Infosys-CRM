@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "./SurvayReport.scss";
 import apiPath from "../../isProduction";
 import { useAuth } from "../../config/AuthContext";
@@ -16,11 +16,19 @@ const SurvayReport = () => {
 
   const navigate = useNavigate();
 
+  const { projectId } = useParams();
+
   const { user } = useAuth();
 
   const fetchRecords = async () => {
     try {
-      const response = await fetch(`${await apiPath()}/api/sheet`);
+      const response = await fetch(`${await apiPath()}/api/sheet`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ workId: projectId }),
+      });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -62,6 +70,7 @@ const SurvayReport = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
+        body: JSON.stringify({ workId: projectId }),
       });
       setRecords(records.filter((record) => record.id !== id));
 

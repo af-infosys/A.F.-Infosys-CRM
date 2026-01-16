@@ -172,7 +172,15 @@ const IndexReport = () => {
   const fetchRecords = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(`${await apiPath()}/api/sheet`);
+      const response = await fetch(
+        `${await apiPath()}/api/sheet?workId=${projectId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }

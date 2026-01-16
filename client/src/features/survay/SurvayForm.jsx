@@ -157,7 +157,7 @@ const SurvayForm = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-        body: JSON.stringify(fullFormData),
+        body: JSON.stringify({ fullFormData, workId: id }),
       });
 
       const result = await response.json();
@@ -225,7 +225,14 @@ const SurvayForm = () => {
       setFormLoading(true);
       setFormError(null);
       try {
-        const response = await fetch(`${await apiPath()}/api/sheet/${id}`);
+        const response = await fetch(`${await apiPath()}/api/sheet/${id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify({ workId: id }),
+        });
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -312,7 +319,13 @@ const SurvayForm = () => {
       setAreasLoading(true);
       setAreasError(null);
       try {
-        const response = await fetch(`${await apiPath()}/api/sheet/areas`);
+        const response = await fetch(`${await apiPath()}/api/sheet/areas`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ workId: id }),
+        });
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }

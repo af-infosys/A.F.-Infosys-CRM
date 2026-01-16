@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import apiPath from "../../isProduction";
 
 const AkarniExcelEdit = () => {
@@ -11,9 +11,19 @@ const AkarniExcelEdit = () => {
 
   const [lastSaved, setLastSaved] = useState(null);
 
+  const { projectId } = useParams();
+
   const fetchRecords = async () => {
     try {
-      const response = await fetch(`${await apiPath()}/api/sheet`);
+      // passing projectId in body as workId
+
+      const response = await fetch(`${await apiPath()}/api/sheet`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ workId: projectId }),
+      });
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);

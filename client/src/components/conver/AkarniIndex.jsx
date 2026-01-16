@@ -11,7 +11,15 @@ const TextBlock = ({ children }) => (
   </p>
 );
 
-const AkarniIndex = ({ part, nop, project, totalHoouse }) => {
+const AkarniIndex = ({
+  title,
+  part,
+  nop,
+  project,
+  totalHoouse,
+  total,
+  commercial,
+}) => {
   const housesPerBundle = nop * 100;
 
   const startHouseIndex = (part - 1) * housesPerBundle;
@@ -58,7 +66,7 @@ const AkarniIndex = ({ part, nop, project, totalHoouse }) => {
       {/* -------------------- 2. Main Title and Subtitle -------------------- */}
       <div className="text-center mt-2 mb-2">
         <h1 className="text-4xl font-extrabold text-blue-900 mb-2 p-2 inline-block">
-          ગામના નમુના નંબર (૮) આકારણી રજીસ્ટર
+          ગામના નમુના નંબર (૮) આકારણી રજીસ્ટર {title ? `(${title})` : ""}
         </h1>
         <h2 className="text-2xl font-semibold mt-2 text-gray-700">
           વર્ષ :- {project?.details?.akarniYear || "2025/26"}
@@ -191,7 +199,7 @@ const AkarniIndex = ({ part, nop, project, totalHoouse }) => {
               <input
                 id="registerCount"
                 type="text"
-                value={registerHouseCount}
+                value={total ? `${total}` : registerHouseCount}
                 readOnly
                 className="w-28 p-1 border-b border-black text-center font-bold"
               />
@@ -206,7 +214,18 @@ const AkarniIndex = ({ part, nop, project, totalHoouse }) => {
               <input
                 id="pageRange"
                 type="text"
-                defaultValue={pageRange} // 1 to 100
+                defaultValue={
+                  total
+                    ? commercial
+                      ? `${Math.ceil(commercial / nop) + 1} થી ${
+                          Math.ceil(commercial / nop) + Math.ceil(total / nop)
+                        }`
+                      : `${part === 1 ? part : (part - 1) * 100 + 1} થી ${
+                          (part === 1 ? part : (part - 1) * 100) +
+                          Math.ceil(total / nop)
+                        }`
+                    : pageRange
+                }
                 readOnly
                 className="w-28 p-1 border-b border-black text-center font-bold"
               />

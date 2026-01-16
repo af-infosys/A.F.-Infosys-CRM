@@ -30,9 +30,13 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts"; // ગ્રાફ માટે
+import { useParams } from "react-router-dom";
 
 // The main component for the analytics report
+
 const AnalyticsReport = () => {
+  const { projectId } = useParams();
+
   // Use state to manage all the report data
   const [reportData, setReportData] = useState({
     village: "મેઘરજ",
@@ -163,7 +167,15 @@ const AnalyticsReport = () => {
 
   const fetchRecords = async () => {
     try {
-      const response = await fetch(`${await apiPath()}/api/sheet`);
+      const response = await fetch(
+        `${await apiPath()}/api/sheet?workId=${projectId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -178,7 +190,15 @@ const AnalyticsReport = () => {
   const [societies, setSocieties] = useState([]);
   const fetchAreas = async () => {
     try {
-      const response = await fetch(`${await apiPath()}/api/sheet/areas`);
+      const response = await fetch(
+        `${await apiPath()}/api/sheet/areas?workId=${projectId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }

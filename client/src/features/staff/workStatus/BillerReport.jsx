@@ -62,7 +62,13 @@ const BillerReport = () => {
 
   const fetchCallRecords = async () => {
     try {
-      const response = await fetch(`${await apiPath()}/api/sheet`);
+      const response = await fetch(`${await apiPath()}/api/sheet`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        // body: JSON.stringify({ workId: projectId }),
+      });
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }

@@ -34,9 +34,23 @@ const SurvayReport = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const [count, setCount] = useState({
+    totalPhoneNumber: 0,
+    totalTapConnection: 0,
+    totalToilet: 0,
+  });
+
   const fetchRecords = async () => {
     try {
-      const response = await fetch(`${await apiPath()}/api/sheet`);
+      const response = await fetch(
+        `${await apiPath()}/api/sheet?workId=${projectId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -49,6 +63,25 @@ const SurvayReport = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    // count tap connection
+    let tapConnections = 0;
+    let phoneNumbers = 0;
+    let toilets = 0;
+
+    records.forEach((record) => {
+      phoneNumbers += Number(record[5] || 0) > 0 ? 1 : 0;
+      tapConnections += Number(record[11] || 0);
+      toilets += Number(record[12] || 0);
+    });
+
+    setCount({
+      totalPhoneNumber: phoneNumbers,
+      totalTapConnection: tapConnections,
+      totalToilet: toilets,
+    });
+  }, [records]);
 
   const [project, setProject] = useState([]);
   const { projectId } = useParams();
@@ -88,6 +121,7 @@ const SurvayReport = () => {
           },
         }
       );
+
       setProject([]);
       fetchRecords();
       toast.success("Calculation Completed.");
@@ -230,7 +264,7 @@ const SurvayReport = () => {
     });
 
     if (!finalState.isCancelled) {
-      pdf.save("2. Akarni_Report.pdf");
+      pdf.save(`2. આકારણી રજીસ્ટર - ${project?.spot?.gaam}.pdf`);
       window.alert("PDF successfully saved.");
     } else {
       window.alert("PDF save operation skipped due to cancellation.");
@@ -327,7 +361,9 @@ const SurvayReport = () => {
         final.push({
           type: "cover",
           bundle: currentBundle,
-          name: "રહેણાંક મિલકત (Residential)", // Title for Normal
+          name: "રહેણાંક મિલકત", // Title for Normal
+          commercial: false,
+          total: normalRecords?.length,
         });
 
         // Add Benefits ONLY in the very first bundle
@@ -347,7 +383,7 @@ const SurvayReport = () => {
             bundle: currentBundle,
             pageIndex: start + idx, // Continuous index for "Page X of Y" logic
             pageRecords: pageRecs,
-            totalContext: normalPages.length + commercialPages.length, // Optional: Total pages count context
+            // totalContext: normalPages.length + commercialPages.length, // Optional: Total pages count context
           });
         });
 
@@ -366,7 +402,9 @@ const SurvayReport = () => {
           final.push({
             type: "cover",
             bundle: currentBundle,
-            name: "કોમર્શિયલ મિલકત (Commercial)", // Title for Commercial
+            name: "કોમર્શિયલ મિલકત", // Title for Commercial
+            total: commercialRecords?.length,
+            commercial: normalRecords?.length,
           });
 
           // Note: Usually benefits are not repeated for the commercial section part of the same report
@@ -404,7 +442,7 @@ const SurvayReport = () => {
         final.push({
           type: "cover",
           bundle,
-          name: "આકારણી રજીસ્ટર (General)",
+          name: "",
         });
 
         // 2. Only bundle 1 gets benefits
@@ -559,6 +597,9 @@ const SurvayReport = () => {
         <span className="text-gray-500">Standard Sort</span>
       )}
 
+      <br />
+      <br />
+
       <div className="pdf-report-container">
         {finalRenderPages.map((item, idx) => {
           const id = `report-page-${idx}`;
@@ -581,6 +622,8 @@ const SurvayReport = () => {
                   nop={PROPERTIES_PER_PAGE}
                   project={project}
                   totalHoouse={records?.length}
+                  total={item.total}
+                  commercial={item.commercial}
                 />
               </div>
             );
@@ -622,6 +665,7 @@ const SurvayReport = () => {
                 totalHoouse={records?.length}
                 current={idx + 1}
                 totalPages={finalRenderPages?.length}
+                count={count}
               />
             </div>
           );
