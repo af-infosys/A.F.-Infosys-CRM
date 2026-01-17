@@ -60,7 +60,7 @@ valuationRoutes.post(
   "/:id",
   authenticateToken,
   authorizeRoles("owner"),
-  addDetails
+  addDetails 
 );
 
 export default valuationRoutes;

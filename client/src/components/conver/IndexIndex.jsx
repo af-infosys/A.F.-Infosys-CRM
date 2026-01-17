@@ -1,5 +1,6 @@
 import React from "react";
 import LogoImage from "../../assets/logo.png";
+import WaleImage from "../../assets/wale.png";
 
 // Utility component for the main text blocks
 const TextBlock = ({ children }) => (
@@ -42,12 +43,26 @@ const IndexIndex = ({ part, nop, project, totalHoouse }) => {
         display: "flex",
         flexDirection: "column",
         boxSizing: "border-box",
+
+        paddingLeft: "50px",
+        paddingRight: "80px",
+        overflow: "hidden",
       }}
     >
+      <img
+        src={WaleImage}
+        style={{
+          position: "absolute",
+          top: "0",
+          right: "-10px",
+          height: "calc(100% + 50px)",
+        }}
+      />
+
       {/* -------------------- 1. Top Header -------------------- */}
       <header
         className="grid grid-cols-1 gap-4 text-2xl font-bold border-b-2 border-blue-800 pb-4"
-        style={{ marginTop: "40px" }}
+        style={{ marginTop: "40px", marginInline: "50px" }}
       >
         <div className="flex justify-between text-blue-700">
           <span>
@@ -67,7 +82,19 @@ const IndexIndex = ({ part, nop, project, totalHoouse }) => {
 
       {/* -------------------- 2. Main Title -------------------- */}
       <div className="text-center mt-10 mb-2">
-        <h1 className="text-4xl font-extrabold text-blue-900 border-4 border-blue-900 p-4 inline-block">
+        <h1
+          className="text-4xl font-extrabold text-blue-900  border-blue-900 p-4 inline-block"
+          style={{
+            border: "8px double darkblue",
+            borderRadius: "50px",
+            padding: "8px 20px",
+            paddingTop: "0px",
+            paddingBottom: "20px",
+            position: "relative",
+            transform: "translateY(-15px)",
+            marginTop: "20px",
+          }}
+        >
           ઈન્ડેક્સ રિપોર્ટ
         </h1>
         <h2 className="text-2xl font-semibold mt-6 text-gray-700">
@@ -87,59 +114,112 @@ const IndexIndex = ({ part, nop, project, totalHoouse }) => {
 
       {/* -------------------- 4. Computerised By Block (Stacked for Portrait) -------------------- */}
       <div className="mt-6 p-6 border-4 border-dashed border-gray-400 rounded-lg w-full">
-        <div className="text-center text-2xl font-bold text-gray-600 mb-6">
+        <div className="text-center text-3xl font-bold text-gray-600">
           --: કોમ્પ્યુટરાઈઝ કરનાર :--
         </div>
 
-        <div className="flex flex-col items-center text-center">
-          <img
-            src={LogoImage}
-            alt="Logo"
-            className="w-32 h-32 object-contain mb-4"
-          />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "0px",
+          }}
+        >
+          {/* Left Column (Address Details) */}
+          <div className="col-span-2 space-y-4 pt-2 pr-6">
+            <div className="text-base font-medium text-gray-800 space-y-1">
+              <p
+                style={{
+                  fontSize: "21px",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <span style={{ fontSize: "24px", paddingBottom: "10px" }}>
+                  એ.એફ. ઈન્ફોસીસ
+                </span>
+                <span>&bull; મુ:- સાવરકુંડલા. &bull; જીલ્લો:- અમરેલી.</span>
+              </p>
+              <p style={{ marginTop: "10px" }}>
+                <b>એડ્રેસ :</b> સેન્ટ્રલ પોઈન્ટ કોમ્પલેક્ષ, બીજા માળે, જુના
+                બસસ્ટેન્ડસામે,સાવરકુંડલા.
+              </p>
+              <p>પીન કોડ નં. ૩૬૪૫૧૫ સોરાષ્ટ્ર. (પશ્ચિમ ગુજરાત)</p>
+            </div>
 
-          <div className="space-y-2">
-            <p className="text-xl font-bold text-gray-800">
-              એ.એફ. ઈન્ફોસીસ &bull; મુ:- સાવરકુંડલા. &bull; જીલ્લો:- અમરેલી.
-            </p>
-            <p className="text-lg">
-              સેન્ટ્રલ પોઈન્ટ કોમ્પલેક્ષ, બીજા માળે, સાવરકુંડલા.
-            </p>
-            <p className="text-blue-600 font-semibold">
-              af.infosys146@gmail.com | www.afinfosys.com
-            </p>
+            <div className="mt-2 pt-2 border-t border-gray-300 flex items-center justify-between text-lg font-semibold">
+              <p>
+                <span className="text-blue-600">af.infosys146@gmail.com</span>
+              </p>
+              <a
+                href="https://www.afinfosys.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-600 hover:underline"
+              >
+                www.afinfosys.com
+              </a>
+            </div>
 
-            <div className="flex justify-center gap-6 mt-4 text-xl font-extrabold text-blue-900">
+            <div
+              className="flex justify-start text-xl font-extrabold text-blue-900"
+              style={{
+                gap: "10px",
+                marginTop: "10px",
+                flexDirection: "column",
+              }}
+            >
               <p>શાહિદ કાલવા : 93764 43146</p>
+              {/* <span className="text-gray-400">|</span> */}
               <p>સરફરાઝ કાલવા : 99247 82732</p>
             </div>
+          </div>
+
+          {/* Right Column (Logo) */}
+          <div className="col-span-1 flex justify-center items-center">
+            <img
+              src={LogoImage}
+              alt="A.F. Infosys Logo Placeholder"
+              className="w-48 h-48 object-contain rounded-lg shadow-lg"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src =
+                  "https://placehold.co/200x200/CCCCCC/000000?text=LOGO";
+              }}
+            />
           </div>
         </div>
       </div>
 
       {/* -------------------- 5. Footer Data/Counters -------------------- */}
-      <div className="mb-10 border-t-2 border-gray-300 pt-2 mt-2">
+      <div
+        className="mb-10 border-t-2 border-gray-300"
+        style={{ paddingInline: "50px", marginTop: "30px", paddingTop: "30px" }}
+      >
         <div className="grid grid-cols-2 gap-y-6 gap-x-10">
-          <div className="flex justify-between items-center border-b border-black pb-1">
+          <div className="flex justify-between items-center pb-1">
             <span className="text-xl font-bold">ભાગઃ–</span>
             <span className="text-xl font-extrabold">{part}</span>
           </div>
-          <div className="flex justify-between items-center border-b border-black pb-1">
+          <div className="flex justify-between items-center pb-1">
             <span className="text-xl font-bold">પાના નંબરઃ–</span>
             <span className="text-xl font-extrabold">{pageRange}</span>
           </div>
-          <div className="flex justify-between items-center border-b border-black pb-1">
+          <div className="flex justify-between items-center pb-1">
             <span className="text-xl font-bold">આ રજીસ્ટરના ઘરની સંખ્યા:-</span>
             <span className="text-xl font-extrabold">{registerHouseCount}</span>
           </div>
-          <div className="flex justify-between items-center border-b border-black pb-1">
+          <div className="flex justify-between items-center pb-1">
             <span className="text-xl font-bold">ગામના કુલ ઘરની સંખ્યા:-</span>
             <span className="text-xl font-extrabold">{totalHoouse}</span>
           </div>
         </div>
       </div>
 
-      <p className="absolute bottom-4 right-4 text-xs text-gray-400">
+      <p
+        className="absolute text-xs text-gray-800"
+        style={{ bottom: "120px", right: "150px" }}
+      >
         Cover - {part}
       </p>
     </div>

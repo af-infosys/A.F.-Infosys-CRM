@@ -23,7 +23,12 @@ const PublicBenefit = () => {
       {/* -------------------- 2. Benefits Grid Section (New Content) -------------------- */}
       <main
         className="flex-grow px-12 text-gray-700 benefit2"
-        style={{ maxWidth: "100%", overflow: "hidden" }}
+        style={{
+          width: "100%",
+          overflow: "hidden",
+
+          minWidth: "100%",
+        }}
       >
         <div className="grid grid-cols-2 gap-x-16">
           {/* Left Column (1-6) */}

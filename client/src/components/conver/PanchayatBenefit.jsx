@@ -24,10 +24,12 @@ const PanchayatBenefit = () => {
       <main
         className="flex-grow px-12 text-gray-700 benefit1"
         style={{
-          maxWidth: "100%",
+          width: "100%",
+
           marginTop: "-20px",
           paddingBottom: "0px",
           overflow: "hidden",
+          minWidth: "100%",
         }}
       >
         <BenefitPoint number="1">

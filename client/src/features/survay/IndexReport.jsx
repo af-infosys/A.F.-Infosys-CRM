@@ -654,6 +654,7 @@ const IndexReport = () => {
                   width: "100%",
                   position: "relative",
                   background: "transparent",
+                  paddingLeft: "50px",
                 }}
               >
                 {/* Headers and Page Count */}
@@ -799,12 +800,18 @@ const IndexReport = () => {
                           </tr>
                         ) : (
                           <tr key={rIdx}>
-                            <td id="pdff" style={{ textWrap: "wrap" }}>
+                            <td
+                              id="pdff"
+                              style={{ textWrap: "wrap", textAlign: "center" }}
+                            >
                               <span className="formatting">
                                 {row.data[0] || ""}
                               </span>
                             </td>
-                            <td id="pdff" style={{ textWrap: "wrap" }}>
+                            <td
+                              id="pdff"
+                              style={{ textWrap: "wrap", textAlign: "center" }}
+                            >
                               <span className="formatting">
                                 {row.data[2] || ""}
                               </span>
