@@ -3,7 +3,7 @@ import React from "react";
 // Utility component for structuring the benefit points
 const BenefitPoint = ({ number, children }) => (
   <div className="flex text-lg text-gray-800 mb-4 items-start">
-    <span className="font-extrabold text-blue-700 mr-3 mt-0">{number}.</span>
+    <span className="font-extrabold text-blue-700 mr-3 mt-0">({number})</span>
     <p className="flex-1 leading-relaxed text-justify">{children}</p>
   </div>
 );
@@ -14,7 +14,7 @@ const PanchayatBenefit = () => {
   return (
     <div style={{ position: "relative" }}>
       {/* -------------------- 1. Main Title -------------------- */}
-      <header className="text-center pb-12" style={{ marginTop: "150px" }}>
+      <header className="text-center pb-12" style={{ marginTop: "120px" }}>
         <h1 className="text-3xl font-extrabold text-gray-800 tracking-wider">
           --:: ગ્રામ પંચાયત મિલ્કત આકારણી સર્વેથી થતા વિશેષ ફાયદાઓ ::--
         </h1>
@@ -23,7 +23,12 @@ const PanchayatBenefit = () => {
       {/* -------------------- 2. Benefits Section -------------------- */}
       <main
         className="flex-grow px-12 text-gray-700 benefit1"
-        style={{ maxWidth: "100%", marginTop: "-20px", paddingBottom: "0px" }}
+        style={{
+          maxWidth: "100%",
+          marginTop: "-20px",
+          paddingBottom: "0px",
+          overflow: "hidden",
+        }}
       >
         <BenefitPoint number="1">
           ગ્રામ પંચાયત આકારણીથી કરવાથી ગામની ભૌગોલીક સ્થિતિ હાલની આર્થીક સ્થીતી

@@ -3,8 +3,7 @@ import Work from "../models/Work.js";
 import { sheets } from "../utils/googleSheets.js";
 import { getHouseCount } from "./survayController.js";
 
-const SHEET_NAME = "OrderValuation";
-const TAX_SHEET_NAME = "Taxes";
+const SPREADSHEET_ID = process.env.GOOGLE_SHEET_ID;
 
 // Get details
 export const getDetails = async (req, res) => {
@@ -15,8 +14,8 @@ export const getDetails = async (req, res) => {
     if (!works) return res.status(404).json({ error: "Work not found" });
 
     const response = await sheets.spreadsheets.values.get({
-      spreadsheetId: works.sheetId,
-      range: `${works.sheetId}_M!A2:D`, // assuming columns: A=Name, B=Price, C=Per, D=Tax
+      spreadsheetId: SPREADSHEET_ID,
+      range: `${works.sheetId}_OV!A2:D`, // assuming columns: A=Name, B=Price, C=Per, D=Tax
     });
 
     const rawValuation = response.data.values || [];
@@ -190,8 +189,8 @@ export const addDetails = async (req, res) => {
       ]);
 
       await sheets.spreadsheets.values.update({
-        spreadsheetId: works.sheetId,
-        range: `${SHEET_NAME}!A2`,
+        spreadsheetId: SPREADSHEET_ID,
+        range: `${works.sheetId}_OV!A2`,
         valueInputOption: "RAW",
         requestBody: {
           values: valuationArray,
@@ -216,7 +215,7 @@ export const getTaxes = async (req, res) => {
     if (!works) return res.status(404).json({ error: "Work not found" });
 
     const response = await sheets.spreadsheets.values.get({
-      spreadsheetId: works.sheetId,
+      spreadsheetId: SPREADSHEET_ID,
       range: `${works.sheetId}_Taxes!A2:F`, // assuming columns: A=Name, B=Base, C=Price1,  D=Price2, E=Price3, F=Price4
     });
 
@@ -261,7 +260,7 @@ export const addTaxes = async (req, res) => {
       ]);
 
       await sheets.spreadsheets.values.update({
-        spreadsheetId: works.sheetId,
+        spreadsheetId: SPREADSHEET_ID,
         range: `${works.sheetId}_Taxes!A2`,
         valueInputOption: "RAW",
         requestBody: {

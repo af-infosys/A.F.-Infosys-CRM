@@ -1,5 +1,6 @@
 import React from "react";
 import LogoImage from "../../assets/logo.png";
+import WaleImage from "../../assets/wale.png";
 
 // Utility component for the main text blocks
 const TextBlock = ({ children }) => (
@@ -11,7 +12,7 @@ const TextBlock = ({ children }) => (
   </p>
 );
 
-const TaxIndex = ({ part, nop, project, totalHoouse }) => {
+const TaxIndex = ({ part, nop, project, totalHoouse, taxes }) => {
   // Houses
   const housesPerBundle = nop * 100;
 
@@ -36,11 +37,40 @@ const TaxIndex = ({ part, nop, project, totalHoouse }) => {
   const pageRange = `${startPage} થી ${endPage}`;
 
   return (
-    <div style={{ position: "relative" }}>
+    <div
+      style={{
+        position: "relative",
+        paddingInline: "20px",
+        margin: 0,
+        paddingLeft: "0px",
+      }}
+    >
       {/* -------------------- 1. Top Header (Village, Taluka, District) -------------------- */}
+
+      <img
+        src={WaleImage}
+        style={{
+          position: "absolute",
+          top: "-50px",
+          right: "-40px",
+          height: "calc(100% + 40px + 100px)",
+        }}
+      />
+
+      <img
+        src={WaleImage}
+        style={{
+          position: "absolute",
+          top: "-50px",
+          left: "-55px",
+          height: "calc(100% + 40px + 100px)",
+          transform: "scaleX(-1)",
+        }}
+      />
+
       <header
         className="grid grid-cols-3 text-3xl font-bold pb-2"
-        style={{ marginTop: "180px" }}
+        style={{ marginTop: "130px" }}
       >
         <div className="text-left text-blue-700">
           <span className="font-extrabold">મોજે : </span>-{" "}
@@ -58,8 +88,20 @@ const TaxIndex = ({ part, nop, project, totalHoouse }) => {
 
       {/* -------------------- 2. Main Title and Subtitle -------------------- */}
       <div className="text-center mt-2 mb-2">
-        <h1 className="text-4xl font-extrabold text-blue-900 mb-2 p-2 inline-block">
-          ગામનું 9ડી વેરા રજીસ્ટર
+        <h1
+          className="text-4xl font-extrabold text-blue-900 p-2 inline-block"
+          style={{
+            border: "6px double #515151",
+            borderRadius: "50px",
+            padding: "8px 20px",
+            paddingTop: "0px",
+            paddingBottom: "20px",
+            position: "relative",
+            transform: "translateY(-15px)",
+            marginTop: "20px",
+          }}
+        >
+          ગામનું ૯(ડી) વેરા રજીસ્ટર
         </h1>
         <h2 className="text-2xl font-semibold mt-2 text-gray-700">
           વર્ષ :- {project?.details?.akarniYear || "2025/26"}
@@ -77,9 +119,83 @@ const TaxIndex = ({ part, nop, project, totalHoouse }) => {
           નમુના મળશે. કોમ્પ્યુટરાઈઝડ તમામ પ્રકારનું કામ પ્રિન્ટીંગ કામ માટે મળો.
           (ગ્રામપંચાયત ડીજીટલ) માટે{" "}
         </TextBlock>
+
+        <p className="taxes-container">
+          {/* 1. खा. पानी वेरो (Special Water) */}
+          <span className="tax-item">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              fill="currentColor"
+            >
+              <path d="M12,2 C16.9705627,2 21,6.02943725 21,11 C21,15.9705627 16.9705627,20 12,20 C8.89438596,20 6.16086392,18.4253386 4.60628526,16 L2,16 L2,14 L3.44299885,14 C3.15568576,13.0645632 3,12.0560377 3,11 C3,6.02943725 7.02943725,2 12,2 Z M12,4 C8.13400675,4 5,7.13400675 5,11 C5,14.8659932 8.13400675,18 12,18 C15.8659932,18 19,14.8659932 19,11 C19,7.13400675 15.8659932,4 12,4 Z M12,6 C12.5522847,6 13,6.44771525 13,7 L13,10.169 L15.1161165,12.2851165 C15.5066408,12.6756408 15.5066408,13.3088058 15.1161165,13.6993301 C14.7255922,14.0898544 14.0924272,14.0898544 13.7019029,13.6993301 L11.2928932,11.2903204 C11.1053568,11.102784 11,10.8484372 11,10.5831356 L11,7 C11,6.44771525 11.4477153,6 12,6 Z" />
+            </svg>{" "}
+            {taxes[0]?.name} : <b>{taxes[0]?.values?.residence}</b> |
+          </span>
+
+          {/* 2. सा. पानी वेरो (General Water) */}
+          <span className="tax-item">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              fill="currentColor"
+            >
+              <path d="M19,10 C20.1045695,10 21,10.8954305 21,12 L21,14 C21,14.5522847 20.5522847,15 20,15 L19,15 L19,18 C19,20.209139 17.209139,22 15,22 C12.790861,22 11,20.209139 11,18 L11,15 L4,15 C3.44771525,15 3,14.5522847 3,14 L3,12 C3,10.8954305 3.8954305,10 5,10 L11,10 L11,8 L9,8 C8.44771525,8 8,7.55228475 8,7 L8,5 C8,4.44771525 8.44771525,4 9,4 L11,4 L11,2 L13,2 L13,4 L15,4 C15.5522847,4 16,4.44771525 16,5 L16,7 C16,7.55228475 15.5522847,8 15,8 L13,8 L13,10 L19,10 Z M13,18 L13,15 L17,15 L17,18 C17,19.1045695 16.1045695,20 15,20 C13.8954305,20 13,19.1045695 13,18 Z" />
+            </svg>
+            {taxes[1]?.name} : <b>{taxes[1]?.values?.residence}</b> |
+          </span>
+
+          {/* 3. लाईट वेरो (Street Light) */}
+          <span className="tax-item">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              fill="currentColor"
+            >
+              <path d="M9,2 L15,2 L15,4 L18,4 C19.6568542,4 21,5.34314575 21,7 L21,9 C21,10.6568542 19.6568542,12 18,12 L18,14 C18,15.1045695 17.1045695,16 16,16 L14,16 L14,22 L10,22 L10,16 L8,16 C6.8954305,16 6,15.1045695 6,14 L6,12 C4.34314575,12 3,10.6568542 3,9 L3,7 C3,5.34314575 4.34314575,4 6,4 L9,4 L9,2 Z M18,6 L6,6 L6,9 C6,9.55228475 6.44771525,10 7,10 L17,10 C17.5522847,10 18,9.55228475 18,9 L18,6 Z M12,11 C11.4477153,11 11,11.4477153 11,12 L11,13 C11,13.5522847 11.4477153,14 12,14 C12.5522847,14 13,13.5522847 13,13 L13,12 C13,11.4477153 12.5522847,11 12,11 Z" />
+            </svg>
+            {taxes[2]?.name} : <b>{taxes[2]?.values?.residence}</b> |
+          </span>
+
+          {/* 4. सफाई वेरो (Cleaning/Broom) */}
+          <span className="tax-item">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              fill="currentColor"
+            >
+              <path d="M19.035,4.929 L20.449,6.343 L9.949,16.843 C9.667,17.125 9.256,17.228 8.887,17.121 L5.121,18.878 L2.293,21.707 L0.879,20.293 L3.707,17.464 L5.464,13.698 C5.357,13.329 5.46,12.919 5.743,12.636 L19.035,4.929 Z M15.464,9.257 L16.879,7.843 L19.707,10.672 L18.293,12.086 L15.464,9.257 Z M13.343,11.379 L14.757,9.964 L16.879,12.086 L15.464,13.5 L13.343,11.379 Z M11.222,13.5 L12.636,12.086 L14.757,14.207 L13.343,15.621 L11.222,13.5 Z" />
+            </svg>
+            {taxes[3]?.name} : <b>{taxes[3]?.values?.residence}</b>
+          </span>
+
+          {taxes.map((tax, index) => {
+            if (index < 4) return null;
+
+            if (
+              tax?.values?.commonPlot !== 0 ||
+              tax?.values?.nonResidence !== 0 ||
+              tax?.values?.plot !== 0 ||
+              tax?.values?.residence !== 0
+            )
+              return (
+                <span>
+                  | {tax?.name} : <b>{tax?.values?.residence}</b>
+                </span>
+              );
+          })}
+        </p>
       </div>
 
-      <div style={{ display: "flex", marginTop: "20px" }}>
+      <div style={{ display: "flex", marginTop: "0px" }}>
         {/* -------------------- 4. Central Information Block (Logo & Details) -------------------- */}
         <div
           className="mt-5 p-3 border-4 border-dashed border-gray-400 rounded-lg"
@@ -96,17 +212,26 @@ const TaxIndex = ({ part, nop, project, totalHoouse }) => {
             style={{
               display: "flex",
               justifyContent: "center",
-              marginTop: "10px",
+              marginTop: "0px",
             }}
           >
             {/* Left Column (Address Details) */}
             <div className="col-span-2 space-y-4 pt-2 pr-6">
               <div className="text-base font-medium text-gray-800 space-y-1">
-                <p style={{ fontSize: "22px" }}>
-                  એ.એફ. ઈન્ફોસીસ &bull; મુ:- સાવરકુંડલા. &bull; જીલ્લો:- અમરેલી.
+                <p
+                  style={{
+                    fontSize: "21px",
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
+                  <span style={{ fontSize: "24px", paddingBottom: "10px" }}>
+                    એ.એફ. ઈન્ફોસીસ
+                  </span>
+                  <span>&bull; મુ:- સાવરકુંડલા. &bull; જીલ્લો:- અમરેલી.</span>
                 </p>
                 <p style={{ marginTop: "10px" }}>
-                  સેન્ટ્રલ પોઈન્ટ કોમ્પલેક્ષ, બીજા માળે, જુના
+                  <b>એડ્રેસ :</b> સેન્ટ્રલ પોઈન્ટ કોમ્પલેક્ષ, બીજા માળે, જુના
                   બસસ્ટેન્ડસામે,સાવરકુંડલા.
                 </p>
                 <p>પીન કોડ નં. ૩૬૪૫૧૫ સોરાષ્ટ્ર. (પશ્ચિમ ગુજરાત)</p>
@@ -114,9 +239,10 @@ const TaxIndex = ({ part, nop, project, totalHoouse }) => {
 
               <div className="mt-2 pt-2 border-t border-gray-300 flex items-center justify-between text-lg font-semibold">
                 <p>
-                  E-mail ID:{" "}
+                  E-mail :{" "}
                   <span className="text-blue-600">af.infosys146@gmail.com</span>
                 </p>
+                {/* Website :{" "} */}
                 <a
                   href="https://www.afinfosys.com"
                   target="_blank"
@@ -157,7 +283,7 @@ const TaxIndex = ({ part, nop, project, totalHoouse }) => {
         {/* Changed to use grid-cols-2 for a two-column layout */}
         <div
           className="mt-3 pt-3 border-t border-gray-300"
-          style={{ marginLeft: "20px" }}
+          style={{ marginLeft: "40px", marginTop: "30px", paddingTop: "30px" }}
         >
           <div
             className="gap-x-12 gap-y-6"
@@ -168,62 +294,71 @@ const TaxIndex = ({ part, nop, project, totalHoouse }) => {
               className="flex items-center text-xl font-medium text-gray-700"
               style={{ justifyContent: "start" }}
             >
-              <label htmlFor="partNumber" style={{ maxWidth: "fit-content" }}>
+              <label style={{ maxWidth: "fit-content" }}>
                 ભાગઃ–
+                <b
+                  style={{
+                    // paddingBottom: "1px",
+                    paddingInline: "5px",
+                    marginLeft: "8px",
+                    // borderBottom: "1px solid #000",
+                  }}
+                >
+                  {part}
+                </b>
               </label>
-              <input
-                id="partNumber"
-                type="text"
-                value={part}
-                readOnly
-                className="w-28 p-1 border-b border-black text-center font-bold"
-              />
             </div>
 
             {/* 2. Village Count (Top Right) */}
             <div className="flex items-center text-xl font-medium text-gray-700">
-              <label
-                htmlFor="registerCount"
-                style={{ maxWidth: "fit-content" }}
-              >
+              <label style={{ maxWidth: "fit-content" }}>
                 આ રજીસ્ટર ના ઘરની સંખ્યા:-
+                <b
+                  style={{
+                    // paddingBottom: "1px",
+                    paddingInline: "5px",
+                    marginLeft: "8px",
+                    // borderBottom: "1px solid #000",
+                  }}
+                >
+                  {registerHouseCount}
+                </b>
               </label>
-              <input
-                id="registerCount"
-                type="text"
-                value={`${registerHouseCount}`}
-                readOnly
-                className="w-28 p-1 border-b border-black text-center font-bold"
-              />
             </div>
 
             {/* Applying border and padding to span both columns for a visual break before Part/Page info */}
 
             <div className="flex items-center text-xl font-medium text-gray-700">
-              <label htmlFor="pageRange" style={{ maxWidth: "fit-content" }}>
+              <label style={{ maxWidth: "fit-content" }}>
                 પાના નંબરઃ–
+                <b
+                  style={{
+                    // paddingBottom: "1px",
+                    paddingInline: "5px",
+                    marginLeft: "8px",
+                    // borderBottom: "1px solid #000",
+                  }}
+                >
+                  {pageRange}
+                </b>
               </label>
-              <input
-                id="pageRange"
-                type="text"
-                defaultValue={pageRange} // 1 to 100
-                readOnly
-                className="w-28 p-1 border-b border-black text-center font-bold"
-              />
             </div>
 
             {/* 4. NEW: Page Range (પાના નંબર) (Bottom Right) */}
             <div className="flex items-center text-xl font-medium text-gray-700">
-              <label htmlFor="villageCount" style={{ maxWidth: "fit-content" }}>
+              <label style={{ maxWidth: "fit-content" }}>
                 ગામના કુલ ઘરની સંખ્યા:-
+                <b
+                  style={{
+                    // paddingBottom: "1px",
+                    paddingInline: "5px",
+                    marginLeft: "8px",
+                    // borderBottom: "1px solid #000",
+                  }}
+                >
+                  {totalHoouse}
+                </b>
               </label>
-              <input
-                id="villageCount"
-                type="text"
-                value={totalHoouse}
-                readOnly
-                className="w-28 p-1 border-b border-black text-center font-bold"
-              />
             </div>
           </div>
         </div>

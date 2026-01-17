@@ -1,17 +1,18 @@
 {
   "files": {
-    "main.css": "/static/css/main.2da297f2.css",
-    "main.js": "/static/js/main.4f1c007f.js",
+    "main.css": "/static/css/main.50509d73.css",
+    "main.js": "/static/js/main.1aea41b9.js",
     "static/js/977.87a37736.chunk.js": "/static/js/977.87a37736.chunk.js",
     "static/js/455.8eec172f.chunk.js": "/static/js/455.8eec172f.chunk.js",
     "static/js/453.57b2eab3.chunk.js": "/static/js/453.57b2eab3.chunk.js",
-    "static/media/benefit1.png": "/static/media/benefit1.fed249d12d3da3ae9581.png",
     "static/media/Survey.png": "/static/media/Survey.d8b987afa361a4e9a8ac.png",
+    "static/media/benefit1-bg.png": "/static/media/benefit1-bg.22cc8a798f1e80d315fb.png",
     "static/media/circle.png": "/static/media/circle.c71fd130eef3e57d60ba.png",
-    "static/media/benefit2.png": "/static/media/benefit2.63bc57d31a55d4811884.png",
     "static/media/logo.png": "/static/media/logo.65093e0a1514f8a465c0.png",
     "static/media/KachaMakan.png": "/static/media/KachaMakan.48d30bd246c3006b6119.png",
+    "static/media/benefit2-bg.png": "/static/media/benefit2-bg.f6aa9cce7ced48690c7c.png",
     "static/media/bottom.svg": "/static/media/bottom.9508f54178bd780dfbe2.svg",
+    "static/media/wale.png": "/static/media/wale.e2fa4b02db583a508589.png",
     "static/media/data-entry.jpg": "/static/media/data-entry.44a2f179d27079d3a8bc.jpg",
     "static/media/sign.png": "/static/media/sign.f7813156da24004abd36.png",
     "static/media/Watermark.png": "/static/media/Watermark.3c235a673f501e51b16f.png",
@@ -45,14 +46,14 @@
     "static/media/expense.png": "/static/media/expense.e0c59843096bb7a05c4c.png",
     "static/media/House.png": "/static/media/House.640d0b1e39b36fd2550c.png",
     "index.html": "/index.html",
-    "main.2da297f2.css.map": "/static/css/main.2da297f2.css.map",
-    "main.4f1c007f.js.map": "/static/js/main.4f1c007f.js.map",
+    "main.50509d73.css.map": "/static/css/main.50509d73.css.map",
+    "main.1aea41b9.js.map": "/static/js/main.1aea41b9.js.map",
     "977.87a37736.chunk.js.map": "/static/js/977.87a37736.chunk.js.map",
     "455.8eec172f.chunk.js.map": "/static/js/455.8eec172f.chunk.js.map",
     "453.57b2eab3.chunk.js.map": "/static/js/453.57b2eab3.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.2da297f2.css",
-    "static/js/main.4f1c007f.js"
+    "static/css/main.50509d73.css",
+    "static/js/main.1aea41b9.js"
   ]
 }

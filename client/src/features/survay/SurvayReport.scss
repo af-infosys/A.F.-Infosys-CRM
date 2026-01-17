@@ -99,6 +99,21 @@
   }
 }
 
+.taxes-container {
+  text-align: center;
+  margin-top: 8px;
+  .tax-item {
+    display: inline-flex; /* या block/flex अगर आपको एक के नीचे एक चाहिए */
+    align-items: center; /* यह आइकॉन और टेक्स्ट को वर्टिकली सेंटर करेगा */
+    margin-right: 15px; /* आइटम्स के बीच गैप */
+    gap: 8px; /* आइकॉन और टेक्स्ट के बीच गैप */
+
+    svg {
+      transform: translateY(3px);
+    }
+  }
+}
+
 /* Column Widths */
 .s-no {
   width: 4%;

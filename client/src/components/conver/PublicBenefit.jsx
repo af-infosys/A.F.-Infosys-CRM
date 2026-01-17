@@ -14,7 +14,7 @@ const PublicBenefit = () => {
   return (
     <div style={{ position: "relative" }}>
       {/* -------------------- 1. Main Title -------------------- */}
-      <header className="text-center pb-12" style={{ marginTop: "150px" }}>
+      <header className="text-center pb-8" style={{ marginTop: "120px" }}>
         <h1 className="text-3xl font-extrabold text-gray-800 tracking-wider">
           --:: મિલ્કત માલિકને આકારણીથી થતા ફાયદાઓ ::--
         </h1>
@@ -23,7 +23,7 @@ const PublicBenefit = () => {
       {/* -------------------- 2. Benefits Grid Section (New Content) -------------------- */}
       <main
         className="flex-grow px-12 text-gray-700 benefit2"
-        style={{ maxWidth: "100%" }}
+        style={{ maxWidth: "100%", overflow: "hidden" }}
       >
         <div className="grid grid-cols-2 gap-x-16">
           {/* Left Column (1-6) */}
@@ -106,8 +106,34 @@ const PublicBenefit = () => {
 
       {/* -------------------- 3. Footer Contact Information (Removed to make this a single-purpose page) -------------------- */}
       {/* As per the image, the footer is empty here. Keeping the layout structure clean. */}
-      <footer className="mt-16 pt-8 text-center text-xs text-gray-500">
-        {/* <p>A.F. Infosys</p> */}
+      {/* -------------------- 3. Footer Contact Information -------------------- */}
+      <footer className="mt-0 pt-4 border-t-2 border-dashed border-gray-400">
+        {/* Company Name */}
+        <div className="text-center text-2xl font-extrabold text-blue-800 mb-2">
+          એ. એફ. ઈન્ફોસીસ – સાવરકુંડલા
+        </div>
+
+        {/* Contact Details (Shahid & Sarfaraz) */}
+        <div className="text-center text-xl font-bold text-gray-700 mb-2">
+          શાહિદ કાલવા - <span className="text-red-600">93764 43146</span>,
+          સરફરાઝ કાલવા - <span className="text-red-600">99247 82732</span>
+        </div>
+
+        {/* Email and Website */}
+        <div className="flex justify-center items-center space-x-12 text-lg font-semibold border-t border-gray-300 pt-2">
+          <p className="text-gray-700">
+            E-mail ID :{" "}
+            <span className="text-blue-600">af.infosys146@gmail.com</span>
+          </p>
+          <a
+            href="https://www.afinfosys.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 hover:underline"
+          >
+            www.afinfosys.com
+          </a>
+        </div>
       </footer>
 
       <p

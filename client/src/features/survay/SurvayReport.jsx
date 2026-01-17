@@ -653,7 +653,7 @@ const SurvayReport = () => {
               id={id}
               className="report-page legal-landscape-dimensions"
               style={{
-                paddingLeft: "65px",
+                paddingLeft: "20px",
                 paddingRight: "20px",
                 maxHeight: "800px",
               }}
@@ -703,9 +703,9 @@ const SurvayReport = () => {
                 <th className="th" rowSpan="2" style={{ minWidth: "250px" }}>
                   મિલ્કતનું વર્ણન
                 </th>
-                <th className="th" rowSpan="2" style={{ minWidth: "70px" }}>
+                {/* <th className="th" rowSpan="2" style={{ minWidth: "70px" }}>
                   બી.પ.
-                </th>
+                </th> */}
                 <th className="th" rowSpan="2" style={{ minWidth: "170px" }}>
                   માલિકનું નામ
                 </th>
@@ -736,7 +736,7 @@ const SurvayReport = () => {
                 <th className="th">શોચાલય</th>
               </tr>
               <tr>
-                {Array.from({ length: 14 }).map((_, index) => (
+                {Array.from({ length: 13 }).map((_, index) => (
                   <th
                     className="text-xs font-medium text-gray-500 uppercase tracking-wider"
                     style={{
@@ -758,9 +758,9 @@ const SurvayReport = () => {
                   <td className="td">{record[1]}</td>
                   <td className="td">{record[2]}</td>
                   <td className="td">{record[15]}</td>
-                  <td className="td">
+                  {/* <td className="td">
                     {record[13]?.includes("બી.પ.") ? "બી.પ." : ""}
-                  </td>
+                  </td> */}
                   <td className="td">{record[3]}</td>
                   <td className="td">{record[4]}</td>
                   <td className="td">{record[5]}</td>

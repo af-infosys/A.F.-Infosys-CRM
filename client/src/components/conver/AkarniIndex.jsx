@@ -1,5 +1,6 @@
 import React from "react";
 import LogoImage from "../../assets/logo.png";
+import WaleImage from "../../assets/wale.png";
 
 // Utility component for the main text blocks
 const TextBlock = ({ children }) => (
@@ -43,11 +44,40 @@ const AkarniIndex = ({
   const pageRange = `${startPage} થી ${endPage}`;
 
   return (
-    <div style={{ position: "relative" }}>
+    <div
+      style={{
+        position: "relative",
+        paddingInline: "20px",
+        margin: 0,
+        paddingLeft: "0px",
+      }}
+    >
       {/* -------------------- 1. Top Header (Village, Taluka, District) -------------------- */}
+
+      <img
+        src={WaleImage}
+        style={{
+          position: "absolute",
+          top: "-50px",
+          right: "-40px",
+          height: "calc(100% + 40px + 100px)",
+        }}
+      />
+
+      <img
+        src={WaleImage}
+        style={{
+          position: "absolute",
+          top: "-50px",
+          left: "-55px",
+          height: "calc(100% + 40px + 100px)",
+          transform: "scaleX(-1)",
+        }}
+      />
+
       <header
         className="grid grid-cols-3 text-3xl font-bold pb-2"
-        style={{ marginTop: "180px" }}
+        style={{ marginTop: "135px", paddingTop: "20px" }}
       >
         <div className="text-left text-blue-700">
           <span className="font-extrabold">મોજે : </span>-{" "}
@@ -65,10 +95,22 @@ const AkarniIndex = ({
 
       {/* -------------------- 2. Main Title and Subtitle -------------------- */}
       <div className="text-center mt-2 mb-2">
-        <h1 className="text-4xl font-extrabold text-blue-900 mb-2 p-2 inline-block">
-          ગામના નમુના નંબર (૮) આકારણી રજીસ્ટર {title ? `(${title})` : ""}
+        <h1
+          className="text-4xl font-extrabold text-blue-900 inline-block"
+          style={{
+            border: "6px double #515151",
+            borderRadius: "50px",
+            padding: "8px 20px",
+            paddingTop: "0px",
+            paddingBottom: "20px",
+            position: "relative",
+            transform: "translateY(-15px)",
+            marginTop: "20px",
+          }}
+        >
+          ગામના નમુના નંબર (૮) આકારણી રજીસ્ટર {title ? `- ${title}` : ""}
         </h1>
-        <h2 className="text-2xl font-semibold mt-2 text-gray-700">
+        <h2 className="text-2xl font-semibold mt-0 text-gray-700">
           વર્ષ :- {project?.details?.akarniYear || "2025/26"}
         </h2>
       </div>
@@ -86,7 +128,7 @@ const AkarniIndex = ({
         </TextBlock>
       </div>
 
-      <div style={{ display: "flex", marginTop: "20px" }}>
+      <div style={{ display: "flex", marginTop: "0px" }}>
         {/* -------------------- 4. Central Information Block (Logo & Details) -------------------- */}
         <div
           className="mt-5 p-3 border-4 border-dashed border-gray-400 rounded-lg"
@@ -103,17 +145,26 @@ const AkarniIndex = ({
             style={{
               display: "flex",
               justifyContent: "center",
-              marginTop: "10px",
+              marginTop: "0px",
             }}
           >
             {/* Left Column (Address Details) */}
             <div className="col-span-2 space-y-4 pt-2 pr-6">
               <div className="text-base font-medium text-gray-800 space-y-1">
-                <p style={{ fontSize: "22px" }}>
-                  એ.એફ. ઈન્ફોસીસ &bull; મુ:- સાવરકુંડલા. &bull; જીલ્લો:- અમરેલી.
+                <p
+                  style={{
+                    fontSize: "21px",
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
+                  <span style={{ fontSize: "24px", paddingBottom: "10px" }}>
+                    એ.એફ. ઈન્ફોસીસ
+                  </span>
+                  <span>&bull; મુ:- સાવરકુંડલા. &bull; જીલ્લો:- અમરેલી.</span>
                 </p>
                 <p style={{ marginTop: "10px" }}>
-                  સેન્ટ્રલ પોઈન્ટ કોમ્પલેક્ષ, બીજા માળે, જુના
+                  <b>એડ્રેસ :</b> સેન્ટ્રલ પોઈન્ટ કોમ્પલેક્ષ, બીજા માળે, જુના
                   બસસ્ટેન્ડસામે,સાવરકુંડલા.
                 </p>
                 <p>પીન કોડ નં. ૩૬૪૫૧૫ સોરાષ્ટ્ર. (પશ્ચિમ ગુજરાત)</p>
@@ -121,9 +172,10 @@ const AkarniIndex = ({
 
               <div className="mt-2 pt-2 border-t border-gray-300 flex items-center justify-between text-lg font-semibold">
                 <p>
-                  E-mail ID:{" "}
+                  E-mail :{" "}
                   <span className="text-blue-600">af.infosys146@gmail.com</span>
                 </p>
+                {/* Website :{" "} */}
                 <a
                   href="https://www.afinfosys.com"
                   target="_blank"
@@ -164,7 +216,7 @@ const AkarniIndex = ({
         {/* Changed to use grid-cols-2 for a two-column layout */}
         <div
           className="mt-3 pt-3 border-t border-gray-300"
-          style={{ marginLeft: "20px" }}
+          style={{ marginLeft: "40px", marginTop: "30px", paddingTop: "30px" }}
         >
           <div
             className="gap-x-12 gap-y-6"
@@ -175,47 +227,52 @@ const AkarniIndex = ({
               className="flex items-center text-xl font-medium text-gray-700"
               style={{ justifyContent: "start" }}
             >
-              <label htmlFor="partNumber" style={{ maxWidth: "fit-content" }}>
+              <label style={{ maxWidth: "fit-content" }}>
                 ભાગઃ–
+                <b
+                  style={{
+                    // paddingBottom: "4px",
+                    paddingInline: "5px",
+                    marginLeft: "8px",
+                    // borderBottom: "1px solid #000",
+                  }}
+                >
+                  {part}
+                </b>
               </label>
-              <input
-                id="partNumber"
-                type="text"
-                defaultValue="1"
-                value={part}
-                readOnly
-                className="w-28 p-1 border-b border-black text-center font-bold"
-              />
             </div>
 
             {/* 2. Village Count (Top Right) */}
             <div className="flex items-center text-xl font-medium text-gray-700">
-              <label
-                htmlFor="registerCount"
-                style={{ maxWidth: "fit-content" }}
-              >
+              <label style={{ maxWidth: "fit-content" }}>
                 આ રજીસ્ટર ના ઘરની સંખ્યા:-
+                <b
+                  style={{
+                    // paddingBottom: "4px",
+                    paddingInline: "5px",
+                    marginLeft: "8px",
+                    // borderBottom: "1px solid #000",
+                  }}
+                >
+                  {total ? `${total}` : registerHouseCount}
+                </b>
               </label>
-              <input
-                id="registerCount"
-                type="text"
-                value={total ? `${total}` : registerHouseCount}
-                readOnly
-                className="w-28 p-1 border-b border-black text-center font-bold"
-              />
             </div>
 
             {/* Applying border and padding to span both columns for a visual break before Part/Page info */}
 
             <div className="flex items-center text-xl font-medium text-gray-700">
-              <label htmlFor="pageRange" style={{ maxWidth: "fit-content" }}>
+              <label style={{ maxWidth: "fit-content" }}>
                 પાના નંબરઃ–
-              </label>
-              <input
-                id="pageRange"
-                type="text"
-                defaultValue={
-                  total
+                <b
+                  style={{
+                    // paddingBottom: "4px",
+                    paddingInline: "5px",
+                    marginLeft: "8px",
+                    // borderBottom: "1px solid #000",
+                  }}
+                >
+                  {total
                     ? commercial
                       ? `${Math.ceil(commercial / nop) + 1} થી ${
                           Math.ceil(commercial / nop) + Math.ceil(total / nop)
@@ -224,26 +281,26 @@ const AkarniIndex = ({
                           (part === 1 ? part : (part - 1) * 100) +
                           Math.ceil(total / nop)
                         }`
-                    : pageRange
-                }
-                readOnly
-                className="w-28 p-1 border-b border-black text-center font-bold"
-              />
+                    : pageRange}
+                </b>
+              </label>
             </div>
 
             {/* 4. NEW: Page Range (પાના નંબર) (Bottom Right) */}
             <div className="flex items-center text-xl font-medium text-gray-700">
-              <label htmlFor="villageCount" style={{ maxWidth: "fit-content" }}>
+              <label style={{ maxWidth: "fit-content" }}>
                 ગામના કુલ ઘરની સંખ્યા:-
+                <b
+                  style={{
+                    // paddingBottom: "4px",
+                    paddingInline: "5px",
+                    marginLeft: "8px",
+                    // borderBottom: "1px solid #000",
+                  }}
+                >
+                  {totalHoouse}
+                </b>
               </label>
-              <input
-                id="villageCount"
-                type="text"
-                defaultValue="800"
-                value={totalHoouse}
-                readOnly
-                className="w-28 p-1 border-b border-black text-center font-bold"
-              />
             </div>
           </div>
         </div>

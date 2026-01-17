@@ -96,7 +96,7 @@ const AkarniPage = ({
           </span>
         </div>
 
-        <div className="table-cell s-no">
+        {/* <div className="table-cell s-no">
           <span
             className="formatting"
             style={{
@@ -105,7 +105,7 @@ const AkarniPage = ({
           >
             બી.પ.
           </span>
-        </div>
+        </div> */}
 
         <div className="table-cell owner">
           <span
@@ -229,31 +229,35 @@ const AkarniPage = ({
           <span className="formatting">4</span>
         </div>
 
-        <div className="table-cell s-no">
+        {/* <div className="table-cell s-no">
+          <span className="formatting">5</span>
+        </div> */}
+
+        <div className="table-cell owner">
           <span className="formatting">5</span>
         </div>
 
-        <div className="table-cell owner">
+        <div className="table-cell old-prop-no">
           <span className="formatting">6</span>
         </div>
 
-        <div className="table-cell old-prop-no">
+        <div className="table-cell mobile">
           <span className="formatting">7</span>
         </div>
 
-        <div className="table-cell mobile">
+        <div className="table-cell valuation">
           <span className="formatting">8</span>
         </div>
 
-        <div className="table-cell valuation">
+        <div className="table-cell tax">
           <span className="formatting">9</span>
         </div>
 
-        <div className="table-cell tax">
+        <div className="table-cell prop-name">
           <span className="formatting">10</span>
         </div>
 
-        <div className="table-cell prop-name">
+        <div className="table-cell" style={{ width: "3%" }}>
           <span className="formatting">11</span>
         </div>
 
@@ -261,12 +265,8 @@ const AkarniPage = ({
           <span className="formatting">12</span>
         </div>
 
-        <div className="table-cell" style={{ width: "3%" }}>
-          <span className="formatting">13</span>
-        </div>
-
         <div className="table-cell remarks">
-          <span className="formatting">14</span>
+          <span className="formatting">13</span>
         </div>
       </div>
 
@@ -290,11 +290,11 @@ const AkarniPage = ({
             <span className="formatting">{record[15]}</span>
           </div>
 
-          <div className="table-cell s-no">
+          {/* <div className="table-cell s-no">
             <span className="formatting">
               {record[13]?.includes("બી.પ.") ? "બી.પ." : ""}
             </span>
-          </div>
+          </div> */}
 
           <div className="table-cell owner">
             <span className="formatting">{record[3]}</span>
