@@ -12,9 +12,17 @@ const OwnerBenefitItem = ({ number, children }) => (
 
 const PublicBenefit = () => {
   return (
-    <div style={{ position: "relative" }}>
+    <div
+      style={{
+        position: "relative",
+        border: "10px dotted #6a6a6a",
+        marginTop: "120px",
+        padding: "10px",
+        paddingBottom: "25px",
+      }}
+    >
       {/* -------------------- 1. Main Title -------------------- */}
-      <header className="text-center pb-8" style={{ marginTop: "120px" }}>
+      <header className="text-center pb-8">
         <h1 className="text-3xl font-extrabold text-gray-800 tracking-wider">
           --:: મિલ્કત માલિકને આકારણીથી થતા ફાયદાઓ ::--
         </h1>
@@ -119,13 +127,13 @@ const PublicBenefit = () => {
         </div>
 
         {/* Contact Details (Shahid & Sarfaraz) */}
-        <div className="text-center text-xl font-bold text-gray-700 mb-2">
+        <div className="text-center text-xl font-bold text-gray-700 mb-4">
           શાહિદ કાલવા - <span className="text-red-600">93764 43146</span>,
           સરફરાઝ કાલવા - <span className="text-red-600">99247 82732</span>
         </div>
 
         {/* Email and Website */}
-        <div className="flex justify-center items-center space-x-12 text-lg font-semibold border-t border-gray-300 pt-2">
+        <div className="flex justify-center items-center space-x-12 text-lg font-semibold border-t border-gray-300 pt-0">
           <p className="text-gray-700">
             E-mail ID :{" "}
             <span className="text-blue-600">af.infosys146@gmail.com</span>
@@ -144,7 +152,7 @@ const PublicBenefit = () => {
       <p
         style={{
           position: "absolute",
-          bottom: "-40px",
+          bottom: "20px",
           right: "10px",
           fontSize: "12px",
         }}

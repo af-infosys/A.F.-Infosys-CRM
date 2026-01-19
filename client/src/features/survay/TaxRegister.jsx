@@ -32,7 +32,7 @@ const TaxRegister = () => {
           headers: {
             "Content-Type": "application/json",
           },
-        }
+        },
       );
 
       if (!response.ok) {
@@ -65,7 +65,7 @@ const TaxRegister = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        }
+        },
       );
 
       console.log(data);
@@ -90,7 +90,7 @@ const TaxRegister = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        }
+        },
       );
 
       console.log(data?.data?.data || []);
@@ -115,7 +115,7 @@ const TaxRegister = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        }
+        },
       );
 
       fetchedData = fetchedData?.data?.taxes;
@@ -242,7 +242,7 @@ const TaxRegister = () => {
 
           timeRemaining = Math.max(
             0,
-            Math.round((averageTimePerPage * pagesRemaining) / 1000)
+            Math.round((averageTimePerPage * pagesRemaining) / 1000),
           );
         }
 
@@ -529,7 +529,7 @@ const TaxRegister = () => {
                 id={id}
                 className="report-page legal-landscape-dimensions"
                 style={{
-                  paddingLeft: "65px",
+                  paddingLeft: "80px",
                   paddingRight: "50px",
                   maxHeight: "800px",
                 }}
@@ -572,9 +572,10 @@ const TaxRegister = () => {
               className="report-page legal-landscape-dimensions"
               style={{
                 width: "1700px",
-                paddingLeft: "20px",
-                paddingRight: "20px",
                 paddingTop: "55px",
+
+                paddingLeft: "65px",
+                paddingRight: "20px",
               }}
             >
               <div
@@ -1234,7 +1235,7 @@ const TaxRegister = () => {
                       const totalForCategory = item.pageRecords.reduce(
                         (sum, record) => {
                           const taxData = JSON.parse(
-                            record[recordColumnIndex] || "{}"
+                            record[recordColumnIndex] || "{}",
                           );
                           return (
                             sum +
@@ -1242,27 +1243,27 @@ const TaxRegister = () => {
                             (taxData?.[0]?.curr || 0)
                           );
                         },
-                        0
+                        0,
                       );
 
                       // Need to calculate the Prev and Curr separately for each category as well, for consistency
                       const prevForCategory = item.pageRecords.reduce(
                         (sum, record) => {
                           const taxData = JSON.parse(
-                            record[recordColumnIndex] || "{}"
+                            record[recordColumnIndex] || "{}",
                           );
                           return sum + (taxData?.[0]?.prev || 0);
                         },
-                        0
+                        0,
                       );
                       const currForCategory = item.pageRecords.reduce(
                         (sum, record) => {
                           const taxData = JSON.parse(
-                            record[recordColumnIndex] || "{}"
+                            record[recordColumnIndex] || "{}",
                           );
                           return sum + (taxData?.[0]?.curr || 0);
                         },
-                        0
+                        0,
                       );
 
                       return (
@@ -1304,7 +1305,7 @@ const TaxRegister = () => {
                       const totalForCategory = item.pageRecords.reduce(
                         (sum, record) => {
                           const taxData = JSON.parse(
-                            record[recordColumnIndex] || "{}"
+                            record[recordColumnIndex] || "{}",
                           );
                           return (
                             sum +
@@ -1312,25 +1313,25 @@ const TaxRegister = () => {
                             (taxData?.[1]?.curr || 0)
                           );
                         },
-                        0
+                        0,
                       );
                       const prevForCategory = item.pageRecords.reduce(
                         (sum, record) => {
                           const taxData = JSON.parse(
-                            record[recordColumnIndex] || "{}"
+                            record[recordColumnIndex] || "{}",
                           );
                           return sum + (taxData?.[1]?.prev || 0);
                         },
-                        0
+                        0,
                       );
                       const currForCategory = item.pageRecords.reduce(
                         (sum, record) => {
                           const taxData = JSON.parse(
-                            record[recordColumnIndex] || "{}"
+                            record[recordColumnIndex] || "{}",
                           );
                           return sum + (taxData?.[1]?.curr || 0);
                         },
-                        0
+                        0,
                       );
 
                       return (
@@ -1372,7 +1373,7 @@ const TaxRegister = () => {
                       const totalForCategory = item.pageRecords.reduce(
                         (sum, record) => {
                           const taxData = JSON.parse(
-                            record[recordColumnIndex] || "{}"
+                            record[recordColumnIndex] || "{}",
                           );
                           return (
                             sum +
@@ -1380,25 +1381,25 @@ const TaxRegister = () => {
                             (taxData?.[2]?.curr || 0)
                           );
                         },
-                        0
+                        0,
                       );
                       const prevForCategory = item.pageRecords.reduce(
                         (sum, record) => {
                           const taxData = JSON.parse(
-                            record[recordColumnIndex] || "{}"
+                            record[recordColumnIndex] || "{}",
                           );
                           return sum + (taxData?.[2]?.prev || 0);
                         },
-                        0
+                        0,
                       );
                       const currForCategory = item.pageRecords.reduce(
                         (sum, record) => {
                           const taxData = JSON.parse(
-                            record[recordColumnIndex] || "{}"
+                            record[recordColumnIndex] || "{}",
                           );
                           return sum + (taxData?.[2]?.curr || 0);
                         },
-                        0
+                        0,
                       );
 
                       return (

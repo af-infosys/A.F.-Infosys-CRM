@@ -41,7 +41,7 @@ const IndexReport = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        }
+        },
       );
 
       console.log(data);
@@ -165,7 +165,7 @@ const IndexReport = () => {
   }, {});
 
   const sortedKeys = Object.keys(groupedRecords).sort((a, b) =>
-    a.localeCompare(b, "gu", { sensitivity: "base" })
+    a.localeCompare(b, "gu", { sensitivity: "base" }),
   );
 
   // Function to fetch dynamic data from an API
@@ -179,7 +179,7 @@ const IndexReport = () => {
           headers: {
             "Content-Type": "application/json",
           },
-        }
+        },
       );
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -297,7 +297,7 @@ const IndexReport = () => {
         if (completedPages >= 2) {
           const averageTimePerPage = totalDuration / completedPages;
           timeRemaining = Math.round(
-            (averageTimePerPage * (totalPages - completedPages)) / 1000
+            (averageTimePerPage * (totalPages - completedPages)) / 1000,
           );
         }
 
@@ -337,7 +337,7 @@ const IndexReport = () => {
 
     if (!finalState.isCancelled) {
       // 3. Finalize and Save PDF ONLY if not cancelled
-      pdf.save("2. Akarni_Report.pdf");
+      pdf.save(`Index_Report_${village || "Village"}.pdf`);
       window.alert("PDF successfully saved.");
     } else {
       window.alert("PDF save operation skipped due to cancellation.");
@@ -454,7 +454,7 @@ const IndexReport = () => {
   //   return final;
   // }
 
-  const PROPERTIES_PER_PAGE = 21; // એક પેજ પર કેટલી લાઇન બતાવવી
+  const PROPERTIES_PER_PAGE = 28; // એક પેજ પર કેટલી લાઇન બતાવવી
   const BUNDLE_SIZE = 100; // કેટલા પેજ પછી કવર પેજ મૂકવું
 
   // 1. પહેલા ગ્રુપિંગના આધારે પેજીસ તૈયાર કરો
@@ -544,7 +544,7 @@ const IndexReport = () => {
       {pdfProgress.isGenerating && (
         // Progress Modal/Overlay
         <div className="fixed inset-0 bg-gray-800 bg-opacity-80 flex items-center justify-center z-50 p-4">
-          <div className="p-8 rounded-xl shadow-2xl w-full max-w-sm">
+          <div className="p-8 rounded-xl bg-white shadow-2xl w-full max-w-sm">
             <h3 className="text-xl font-bold mb-2 text-center text-gray-800">
               {pdfProgress.isCancelled
                 ? "❌ Canceled"
@@ -666,16 +666,14 @@ const IndexReport = () => {
                     className="heading"
                     style={{ fontSize: "16px", paddingTop: "25px" }}
                   >
-                    Index Book - (પાનોત્રી બુક) ક, ખ, ગ, પ્રમાણે <br /> ગામનો
-                    નમુના નંબર ૯/ડી - કરવેરા રજીસ્ટરની પાનોત્રીની યાદી{" "}
+                    Index Book - (પાનોત્રી બુક) ક, ખ, ગ, પ્રમાણે <br /> પંચાયત
+                    હિસાબ નમુનો નંબર - ૮ આકારણી રજીસ્ટરની પાનોત્રી યાદી
                   </h1>
                   <h2 className="subheading">સને {"2025/2026"}</h2>
                   <span
                     className="page-numberN"
                     style={{
                       fontSize: "20px",
-                      // transform: "translateY(-20px)",
-                      // position: "relative",
                     }}
                   >
                     પાના નં. {toGujaratiNumber(item.actualPageIndex + 1)}
@@ -837,7 +835,7 @@ const IndexReport = () => {
                               </span>
                             </td>
                           </tr>
-                        )
+                        ),
                       )}
                     </tbody>
                   </table>

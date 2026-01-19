@@ -114,6 +114,10 @@
   }
 }
 
+.table-font {
+  font-size: 11px;
+}
+
 /* Column Widths */
 .s-no {
   width: 4%;
@@ -131,14 +135,14 @@
   max-width: 4%;
 }
 .description {
-  width: 18%;
-  min-width: 18%;
-  max-width: 18%;
+  width: 21%;
+  min-width: 21%;
+  max-width: 21%;
 }
 .owner {
-  width: 12%;
-  min-width: 12%;
-  max-width: 12%;
+  width: 15%;
+  min-width: 15%;
+  max-width: 15%;
 }
 .old-prop-no {
   width: 4%;
@@ -146,9 +150,9 @@
   max-width: 4%;
 }
 .mobile {
-  width: 6%;
-  min-width: 6%;
-  max-width: 6%;
+  width: 7%;
+  min-width: 7%;
+  max-width: 7%;
 }
 .valuation {
   width: 6%;
@@ -207,6 +211,7 @@
 }
 .remarks {
   width: 5%;
+  min-width: 5%;
 }
 
 /* Visible Table (for on-screen preview) */

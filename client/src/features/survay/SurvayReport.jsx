@@ -49,7 +49,7 @@ const SurvayReport = () => {
           headers: {
             "Content-Type": "application/json",
           },
-        }
+        },
       );
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -96,7 +96,7 @@ const SurvayReport = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        }
+        },
       );
       console.log(data);
       setProject(data?.data?.data || []);
@@ -119,7 +119,7 @@ const SurvayReport = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        }
+        },
       );
 
       setProject([]);
@@ -234,7 +234,7 @@ const SurvayReport = () => {
           const pagesRemaining = totalPages - completedPages;
           timeRemaining = Math.max(
             0,
-            Math.round((averageTimePerPage * pagesRemaining) / 1000)
+            Math.round((averageTimePerPage * pagesRemaining) / 1000),
           );
         }
 
@@ -274,7 +274,7 @@ const SurvayReport = () => {
   const SeparateCommercialProperties = async () => {
     if (
       !window.confirm(
-        "Are you sure you want to separate Commercial Properties?"
+        "Are you sure you want to separate Commercial Properties?",
       )
     )
       return;
@@ -290,7 +290,7 @@ const SurvayReport = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        }
+        },
       );
 
       console.log(data);
@@ -314,7 +314,7 @@ const SurvayReport = () => {
   const finalRenderPages = buildFinalPages(
     records,
     BUNDLE_SIZE,
-    PROPERTIES_PER_PAGE
+    PROPERTIES_PER_PAGE,
   );
 
   function buildFinalPages(allRecords, pagesPerBundle, recordsPerPage) {
@@ -337,10 +337,10 @@ const SurvayReport = () => {
 
       // 1. Separate Records based on Index 7
       const normalRecords = allRecords.filter(
-        (r) => !commercialCategories.includes(r[7])
+        (r) => !commercialCategories.includes(r[7]),
       );
       const commercialRecords = allRecords.filter((r) =>
-        commercialCategories.includes(r[7])
+        commercialCategories.includes(r[7]),
       );
 
       // 2. Create Pages for Normal
@@ -394,7 +394,7 @@ const SurvayReport = () => {
       // Only if there are commercial records
       if (commercialPages.length > 0) {
         const totalCommBundles = Math.ceil(
-          commercialPages.length / pagesPerBundle
+          commercialPages.length / pagesPerBundle,
         );
 
         for (let b = 1; b <= totalCommBundles; b++) {
@@ -611,7 +611,7 @@ const SurvayReport = () => {
                 id={id}
                 className="report-page legal-landscape-dimensions"
                 style={{
-                  paddingLeft: "65px",
+                  paddingLeft: "80px",
                   paddingRight: "50px",
                   maxHeight: "800px",
                 }}
@@ -637,7 +637,7 @@ const SurvayReport = () => {
                 className="report-page legal-landscape-dimensions"
                 style={{
                   paddingLeft: "65px",
-                  paddingRight: "50px",
+                  paddingRight: "40px",
                   maxHeight: "800px",
                 }}
               >
@@ -653,7 +653,7 @@ const SurvayReport = () => {
               id={id}
               className="report-page legal-landscape-dimensions"
               style={{
-                paddingLeft: "20px",
+                paddingLeft: "60px",
                 paddingRight: "20px",
                 maxHeight: "800px",
               }}

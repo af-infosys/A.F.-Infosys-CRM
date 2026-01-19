@@ -31,6 +31,8 @@ import {
   ResponsiveContainer,
 } from "recharts"; // ગ્રાફ માટે
 import { useParams } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 // The main component for the analytics report
 
@@ -46,7 +48,7 @@ const AnalyticsReport = () => {
     metrics: [
       {
         id: 1,
-        description: "ગામની કુલ ટોટલ મિલ્કતોની સંખ્યા",
+        description: "ગામની કુલ મિલ્કતોની સંખ્યા",
         count: 0,
         icon: TotalHouseIcon,
       },
@@ -129,32 +131,26 @@ const AnalyticsReport = () => {
         count: 0,
         icon: TotalHouseIcon,
       },
-      // {
-      //   id: 15,
-      //   description: "એરીયા/વિસ્તાર વાઇઝ મિલ્કતની સંખ્યા",
-      //   count: 0,
-      //   icon: TotalHouseIcon,
-      // },
       {
-        id: 16,
+        id: 15,
         description: "૧-મિલ્કતથી વધારે મિલ્કતો ધરાવતા હોય તેવા માલીકની સંખ્યા",
         count: 0,
         icon: TotalHouseIcon,
       },
       {
-        id: 17,
+        id: 16,
         description: "ફક્ત ૧ જ મિલ્કત હોય તેવા મિલ્કત માલીકની સંખ્યા",
         count: 0,
         icon: TotalHouseIcon,
       },
       {
-        id: 18,
+        id: 17,
         description: "મોબાઇલ ફોન ઉપયોગ કરતા વ્યકિતઓની નંબરની કુલ સંખ્યા",
         count: 0,
         icon: PhoneUserIcon,
       },
       {
-        id: 19,
+        id: 18,
         description: "બિન-પરવાનગી",
         count: 0,
         icon: PhoneUserIcon,
@@ -165,6 +161,28 @@ const AnalyticsReport = () => {
   const [records, setRecords] = useState([]);
   const [areaData, setAreaData] = useState([]); // પેજ 2 માટે
 
+  const [project, setProject] = useState([]);
+
+  const fetchProject = async () => {
+    try {
+      const data = await axios.get(
+        `${await apiPath()}/api/work/project/${projectId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        },
+      );
+
+      console.log(data);
+      setProject(data?.data?.data || []);
+    } catch (error) {
+      console.error("Error fetching projects:", error);
+      toast.error(`Error Fetching Projects: ${error}`);
+    }
+  };
+
   const fetchRecords = async () => {
     try {
       const response = await fetch(
@@ -174,7 +192,7 @@ const AnalyticsReport = () => {
           headers: {
             "Content-Type": "application/json",
           },
-        }
+        },
       );
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -197,8 +215,9 @@ const AnalyticsReport = () => {
           headers: {
             "Content-Type": "application/json",
           },
-        }
+        },
       );
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -213,6 +232,7 @@ const AnalyticsReport = () => {
   useEffect(() => {
     fetchRecords();
     fetchAreas();
+    fetchProject();
   }, []);
 
   useEffect(() => {
@@ -227,49 +247,50 @@ const AnalyticsReport = () => {
     }, {});
 
     setAreaData(
-      Object.entries(areaCounts).map(([name, count]) => ({ name, count }))
+      Object.entries(areaCounts).map(([name, count]) => ({ name, count })),
     );
 
     const TotalCount = records.length;
 
     const RahenankCount = records.filter(
-      (record) => record[7]?.trim() === "રહેણાંક"
+      (record) => record[7]?.trim() === "રહેણાંક - મકાન",
     ).length;
 
     const RahenankPakaCount = records.filter(
       (record) =>
-        record[7]?.trim() === "રહેણાંક" &&
+        record[7]?.trim() === "રહેણાંક - મકાન" &&
         record[15]?.includes("પાકા") &&
-        !record[15]?.includes("કાચા")
+        !record[15]?.includes("કાચા"),
     ).length;
 
     const RahenankKachaCount = records.filter(
       (record) =>
-        record[7]?.trim() === "રહેણાંક" && record[15]?.includes("કાચા")
+        record[7]?.trim() === "રહેણાંક - મકાન" && record[15]?.includes("કાચા"),
     ).length;
 
     const DukanCount = records.filter(
-      (record) => record[7]?.trim() === "દુકાન" || record[15]?.includes("દુકાન")
+      (record) =>
+        record[7]?.trim() === "દુકાન" || record[15]?.includes("દુકાન"),
     ).length;
 
     const FactoryCount = records.filter(
-      (record) => record[7]?.trim() === "કારખાના - ઇન્ડસ્ટ્રીજ઼"
+      (record) => record[7]?.trim() === "કારખાના - ઇન્ડસ્ટ્રીજ઼",
     ).length;
 
     const PlotCount = records.filter(
-      (record) => record[7]?.trim() === "પ્લોટ ખાનગી - ખુલ્લી જગ્યા"
+      (record) => record[7]?.trim() === "પ્લોટ ખાનગી - ખુલ્લી જગ્યા",
     ).length;
 
     const GovnPlotCount = records.filter(
-      (record) => record[7]?.trim() === "પ્લોટ સરકારી - કોમનપ્લોટ"
+      (record) => record[7]?.trim() === "પ્લોટ સરકારી - કોમનપ્લોટ",
     ).length;
 
     const GovnOwnedCount = records.filter((record) =>
-      record[7]?.includes("સરકારી મિલ્ક્ત")
+      record[7]?.includes("સરકારી મિલ્ક્ત"),
     ).length;
 
     const DharmikCount = records.filter(
-      (record) => record[7]?.trim() === "ધાર્મિક સ્થળ"
+      (record) => record[7]?.trim() === "ધાર્મિક સ્થળ",
     ).length;
 
     let TapCount = 0;
@@ -285,7 +306,7 @@ const AnalyticsReport = () => {
     const MobileTowerCount = records.filter(
       (record) =>
         record[6]?.includes("મોબાઈલ ટાવર") ||
-        record[13]?.includes("મોબાઈલ ટાવર")
+        record[13]?.includes("મોબાઈલ ટાવર"),
     ).length;
 
     const TotalAreaCount = societies?.length;
@@ -305,7 +326,7 @@ const AnalyticsReport = () => {
     const usePhoneCount = records.filter((record) => record[5] !== "").length;
 
     const bpCount = records.filter((record) =>
-      record[13]?.includes("બી.પ.")
+      record[13]?.includes("બી.પ."),
     )?.length;
 
     setReportData((prev) => {
@@ -326,10 +347,10 @@ const AnalyticsReport = () => {
           { ...prev.metrics[11], count: ToiletCount },
           { ...prev.metrics[12], count: MobileTowerCount },
           { ...prev.metrics[13], count: TotalAreaCount },
-          { ...prev.metrics[15], count: DuplicateCount },
-          { ...prev.metrics[16], count: UniqueCount },
-          { ...prev.metrics[17], count: usePhoneCount },
-          { ...prev.metrics[18], count: bpCount },
+          { ...prev.metrics[14], count: DuplicateCount },
+          { ...prev.metrics[15], count: UniqueCount },
+          { ...prev.metrics[16], count: usePhoneCount },
+          { ...prev.metrics[17], count: bpCount },
         ],
       };
     });
@@ -389,7 +410,7 @@ const AnalyticsReport = () => {
 
   // PDF જનરેશન લોજિક
   const generatePDF = async () => {
-    const toast = alert("PDF જનરેટ થઈ રહી છે, કૃપા કરીને થોડી રાહ જુઓ...");
+    alert("PDF જનરેટ થઈ રહી છે, કૃપા કરીને થોડી રાહ જુઓ...");
 
     // PDF સેટિંગ્સ: Portrait, unit: mm, format: a4
     // (તમે 'legal' પણ રાખી શકો છો, પણ A4 સ્ટાન્ડર્ડ છે)
@@ -433,12 +454,16 @@ const AnalyticsReport = () => {
   const pieData = [
     {
       name: "રહેણાંક",
-      value: records.filter((r) => r[7]?.trim() === "રહેણાંક").length,
+      value: records.filter((r) => r[7]?.trim() === "રહેણાંક - મકાન").length,
     },
     {
       name: "પ્લોટ",
       value: records.filter(
-        (r) => r[7]?.trim() === "પ્લોટ ખાનગી - ખુલ્લી જગ્યા"
+        (r) =>
+          r[7]?.trim() === "પ્લોટ ખાનગી - ખુલ્લી જગ્યા" ||
+          r[7]?.trim() === "પ્લોટ (ફરતી દિવાલ) ખાનગી" ||
+          r[7]?.trim() === "પ્લોટ ખાનગી - ખુલ્લી જગ્યા" ||
+          r[7]?.trim() === "પ્લોટ ખાનગી - ખુલ્લી જગ્યા",
       ).length,
     },
     {
@@ -446,6 +471,7 @@ const AnalyticsReport = () => {
       value: records.filter((r) => r[7]?.includes("સરકારી")).length,
     },
   ];
+
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
   return (
@@ -454,23 +480,26 @@ const AnalyticsReport = () => {
         <div id="report-content" className="w-[1024px] bg-white shadow-2xl">
           {/* --- PAGE 1: મુખ્ય વિશ્લેષણ --- */}
           <div
-            className="watermark"
+            // className="watermark"
             style={{
               minHeight: "100%",
               position: "relative",
               // background: "red",
             }}
           >
-            <div id="page-1" className="p-10 min-h-[1350px] border-b-2">
+            <div
+              id="page-1"
+              className="p-10 min-h-[1350px] border-b-2 watermark"
+            >
               {" "}
               <header className="text-center mb-8">
                 <h1 className="text-3xl font-bold text-blue-900">
                   Aakarni Analysis Report - ૨૦૨૫/૨૬
                 </h1>{" "}
                 <div className="flex justify-around mt-6 text-lg font-semibold p-4 rounded-lg">
-                  <span>ગામ: {reportData.village}</span>
-                  <span>તાલુકો: {reportData.taluka}</span>
-                  <span>જીલ્લો: {reportData.district}</span>
+                  <span>ગામ: {project?.spot?.gaam}</span>
+                  <span>તાલુકો: {project?.spot?.taluka}</span>
+                  <span>જીલ્લો: {project?.spot?.district}</span>
                 </div>
               </header>
               <div className="grid grid-cols-2 gap-6">
@@ -493,7 +522,7 @@ const AnalyticsReport = () => {
           </div>
 
           <div
-            className="watermark"
+            // className="watermark"
             style={{
               minHeight: "100%",
               position: "relative",
@@ -501,11 +530,21 @@ const AnalyticsReport = () => {
             }}
           >
             {/* --- PAGE 2: એરીયા વાઇઝ વિગત --- */}
-            <div id="page-2" className="p-10 min-h-[1350px] border-b-2">
+            <div
+              id="page-2"
+              className="p-10 min-h-[1350px] border-b-2 watermark"
+            >
               {" "}
-              <h2 className="text-2xl font-bold text-center mb-8 underline">
-                એરીયા/વિસ્તાર વાઇઝ મિલ્કતની સંખ્યા
-              </h2>
+              <header className="text-center mb-8">
+                <h1 className="text-3xl font-bold text-blue-900">
+                  એરીયા/વિસ્તાર વાઇઝ મિલ્કતની સંખ્યા
+                </h1>{" "}
+                <div className="flex justify-around mt-6 text-lg font-semibold p-4 rounded-lg">
+                  <span>ગામ: {project?.spot?.gaam}</span>
+                  <span>તાલુકો: {project?.spot?.taluka}</span>
+                  <span>જીલ્લો: {project?.spot?.district}</span>
+                </div>
+              </header>
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-blue-600 text-white">
@@ -528,7 +567,7 @@ const AnalyticsReport = () => {
           </div>
 
           <div
-            className="watermark"
+            // className="watermark"
             style={{
               minHeight: "100%",
               position: "relative",
@@ -536,15 +575,24 @@ const AnalyticsReport = () => {
             }}
           >
             {/* --- PAGE 3: ગ્રાફ્સ અને ચાર્ટ્સ --- */}
-            <div id="page-3" className="p-10 min-h-[1350px]">
-              <h2 className="text-2xl font-bold text-center mb-10 underline">
-                ગ્રાફિકલ વિશ્લેષણ (Charts & Graphs)
-              </h2>
+            <div id="page-3" className="p-10 min-h-[1350px] watermark">
+              <header className="text-center mb-8">
+                <h1 className="text-3xl font-bold text-blue-900">
+                  ગ્રાફિકલ વિશ્લેષણ (Charts & Graphs)
+                </h1>{" "}
+                <div className="flex justify-around mt-6 text-lg font-semibold p-4 rounded-lg">
+                  <span>ગામ: {project?.spot?.gaam}</span>
+                  <span>તાલુકો: {project?.spot?.taluka}</span>
+                  <span>જીલ્લો: {project?.spot?.district}</span>{" "}
+                </div>
+              </header>
+
               <div className="grid grid-cols-1 gap-12">
                 {/* Pie Chart */}
                 <div className="flex flex-col items-center">
                   <h3 className="text-xl font-semibold mb-4">
-                    મિલ્કત પ્રકારનું વિતરણ
+                    મિલ્કત પ્રકારનું વિતરણ -{" "}
+                    {reportData?.metrics[0]?.count || ""}
                   </h3>
                   <PieChart width={500} height={350}>
                     <Pie

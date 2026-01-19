@@ -33,8 +33,8 @@ const AkarniPage = ({
         </h1>
 
         <h2 className="subheading">
-          સને ૨૦૨૫/૨૬ ના વર્ષ માટેના વેરાપાત્ર હોય તેવા મકાનો જમીનનો આકારણી ની
-          યાદી
+          સને {project?.details?.akaraniYear} ના વર્ષ માટેના વેરાપાત્ર હોય તેવા
+          મકાનો જમીનનો આકારણી ની યાદી
         </h2>
 
         <div
@@ -53,100 +53,35 @@ const AkarniPage = ({
 
       <div className="table-row table-header-row">
         <div className="table-cell s-no">
-          <span
-            className="formatting"
-            style={{
-              fontSize: "10px",
-            }}
-          >
-            અનું ક્રમાંક
-          </span>
+          <span className="formatting table-font">અનું ક્રમાંક</span>
         </div>
 
         <div className="table-cell area-name">
-          <span
-            className="formatting"
-            style={{
-              fontSize: "10px",
-            }}
-          >
-            વિસ્તારનું નામ
-          </span>
+          <span className="formatting table-font">વિસ્તારનું નામ</span>
         </div>
 
         <div className="table-cell prop-no">
-          <span
-            className="formatting"
-            style={{
-              fontSize: "10px",
-            }}
-          >
-            મિલ્કત ક્રમાંક
-          </span>
+          <span className="formatting table-font">મિલ્કત ક્રમાંક</span>
         </div>
 
         <div className="table-cell description">
-          <span
-            className="formatting"
-            style={{
-              fontSize: "10px",
-            }}
-          >
-            મિલ્કતનું વર્ણન
-          </span>
+          <span className="formatting table-font">મિલ્કતનું વર્ણન</span>
         </div>
 
-        {/* <div className="table-cell s-no">
-          <span
-            className="formatting"
-            style={{
-              fontSize: "10px",
-            }}
-          >
-            બી.પ.
-          </span>
-        </div> */}
-
         <div className="table-cell owner">
-          <span
-            className="formatting"
-            style={{
-              fontSize: "10px",
-            }}
-          >
-            માલિકનું નામ
-          </span>
+          <span className="formatting table-font">માલિકનું નામ</span>
         </div>
 
         <div className="table-cell old-prop-no">
-          <span
-            className="formatting"
-            style={{
-              fontSize: "10px",
-            }}
-          >
-            જુનો મિ.નં.
-          </span>
+          <span className="formatting table-font">જુનો મિ.નં.</span>
         </div>
 
         <div className="table-cell mobile">
-          <span
-            className="formatting"
-            style={{
-              fontSize: "10px",
-            }}
-          >
-            મોબાઈલ નંબર
-          </span>
+          <span className="formatting table-font">મોબાઈલ નંબર</span>
         </div>
 
         <div className="table-cell valuation">
-          <span
-            className="formatting"
-            style={{
-              fontSize: "10px",
-            }}
-          >
+          <span className="formatting table-font">
             મિલ્કતની
             <br />
             કિંમત
@@ -154,23 +89,11 @@ const AkarniPage = ({
         </div>
 
         <div className="table-cell tax">
-          <span
-            className="formatting"
-            style={{
-              fontSize: "10px",
-            }}
-          >
-            આકારેલ વેરાની રકમ
-          </span>
+          <span className="formatting table-font">આકારેલ વેરાની રકમ</span>
         </div>
 
         <div className="table-cell prop-name">
-          <span
-            className="formatting"
-            style={{
-              fontSize: "10px",
-            }}
-          >
+          <span className="formatting table-font">
             મિલ્કત પર લખેલ
             <br />
             નામ
@@ -181,14 +104,14 @@ const AkarniPage = ({
                 <span className="formatting"> મકાન ટાઈપ </span>
               </div> */}
 
-        <div className="table-cell facility">
+        <div className="table-cell facility table-font">
           <div className="facility-inner">
             <div className="facility-title">
               <span className="formatting"> અન્ય સુવિધા </span>
             </div>
 
             <div
-              className="facility-sub-row"
+              className="facility-sub-row table-font"
               style={{ borderTop: "1px solid black" }}
             >
               <div className="table-cell">
@@ -203,9 +126,10 @@ const AkarniPage = ({
         </div>
 
         <div
-          className="table-cell remarks"
+          className="table-cell remarks table-font"
           style={{
-            fontSize: "10px",
+            // fontSize: "10px",
+            textAlign: "center",
           }}
         >
           નોંધ / રીમાર્કસ
@@ -214,59 +138,55 @@ const AkarniPage = ({
 
       <div className="table-row table-header-row">
         <div className="table-cell s-no">
-          <span className="formatting">1</span>
+          <span className="formatting table-font">1</span>
         </div>
 
         <div className="table-cell area-name">
-          <span className="formatting">2</span>
+          <span className="formatting table-font">2</span>
         </div>
 
         <div className="table-cell prop-no">
-          <span className="formatting">3</span>
+          <span className="formatting table-font">3</span>
         </div>
 
         <div className="table-cell description">
-          <span className="formatting">4</span>
+          <span className="formatting table-font">4</span>
         </div>
 
-        {/* <div className="table-cell s-no">
-          <span className="formatting">5</span>
-        </div> */}
-
         <div className="table-cell owner">
-          <span className="formatting">5</span>
+          <span className="formatting table-font">5</span>
         </div>
 
         <div className="table-cell old-prop-no">
-          <span className="formatting">6</span>
+          <span className="formatting table-font">6</span>
         </div>
 
         <div className="table-cell mobile">
-          <span className="formatting">7</span>
+          <span className="formatting table-font">7</span>
         </div>
 
         <div className="table-cell valuation">
-          <span className="formatting">8</span>
+          <span className="formatting table-font">8</span>
         </div>
 
         <div className="table-cell tax">
-          <span className="formatting">9</span>
+          <span className="formatting table-font">9</span>
         </div>
 
         <div className="table-cell prop-name">
-          <span className="formatting">10</span>
+          <span className="formatting table-font">10</span>
         </div>
 
         <div className="table-cell" style={{ width: "3%" }}>
-          <span className="formatting">11</span>
+          <span className="formatting table-font">11</span>
         </div>
 
         <div className="table-cell" style={{ width: "3%" }}>
-          <span className="formatting">12</span>
+          <span className="formatting table-font">12</span>
         </div>
 
         <div className="table-cell remarks">
-          <span className="formatting">13</span>
+          <span className="formatting table-font">13</span>
         </div>
       </div>
 
@@ -275,61 +195,55 @@ const AkarniPage = ({
       {pageRecords.map((record, index) => (
         <div key={index} className="table-row">
           <div className="table-cell s-no" style={{ textAlign: "center" }}>
-            <span className="formatting">{record[0]}</span>
+            <span className="formatting table-font">{record[0]}</span>
           </div>
 
           <div className="table-cell area-name">
-            <span className="formatting">{record[1]}</span>
+            <span className="formatting table-font">{record[1]}</span>
           </div>
 
           <div className="table-cell prop-no">
-            <span className="formatting">{record[2]}</span>
+            <span className="formatting table-font">{record[2]}</span>
           </div>
 
           <div className="table-cell description">
-            <span className="formatting">{record[15]}</span>
+            <span className="formatting table-font">{record[15]}</span>
           </div>
 
-          {/* <div className="table-cell s-no">
-            <span className="formatting">
-              {record[13]?.includes("બી.પ.") ? "બી.પ." : ""}
-            </span>
-          </div> */}
-
           <div className="table-cell owner">
-            <span className="formatting">{record[3]}</span>
+            <span className="formatting table-font">{record[3]}</span>
           </div>
 
           <div className="table-cell old-prop-no">
-            <span className="formatting">{record[4]}</span>
+            <span className="formatting table-font">{record[4]}</span>
           </div>
 
           <div className="table-cell mobile">
-            <span className="formatting">{record[5]}</span>
+            <span className="formatting table-font">{record[5]}</span>
           </div>
 
           <div className="table-cell valuation">
-            <span className="formatting">{record[18]}</span>
+            <span className="formatting table-font">{record[18]}</span>
           </div>
 
           <div className="table-cell tax">
-            <span className="formatting">{record[19]}</span>
+            <span className="formatting table-font">{record[19]}</span>
           </div>
 
           <div className="table-cell prop-name">
-            <span className="formatting">{record[6]}</span>
+            <span className="formatting table-font">{record[6]}</span>
           </div>
 
           <div className="table-cell tap">
-            <span className="formatting">{record[11]}</span>
+            <span className="formatting table-font">{record[11]}</span>
           </div>
 
           <div className="table-cell toilet">
-            <span className="formatting">{record[12]}</span>
+            <span className="formatting table-font">{record[12]}</span>
           </div>
 
           <div className="table-cell remarks">
-            <span className="formatting">{record[13]}</span>
+            <span className="formatting table-font">{record[13]}</span>
           </div>
         </div>
       ))}

@@ -1,12 +1,13 @@
 import React from "react";
 import LogoImage from "../../assets/logo.png";
 import WaleImage from "../../assets/wale.png";
+import WaleImage2 from "../../assets/wale2.png";
 
 // Utility component for the main text blocks
 const TextBlock = ({ children }) => (
   <p
     className="text-m text-gray-800 leading-relaxed mt-2"
-    style={{ fontSize: "20px" }}
+    style={{ fontSize: "19px" }}
   >
     {children}
   </p>
@@ -49,7 +50,7 @@ const AkarniIndex = ({
         position: "relative",
         paddingInline: "20px",
         margin: 0,
-        paddingLeft: "0px",
+        paddingLeft: "20px",
       }}
     >
       {/* -------------------- 1. Top Header (Village, Taluka, District) -------------------- */}
@@ -60,7 +61,7 @@ const AkarniIndex = ({
           position: "absolute",
           top: "-50px",
           right: "-40px",
-          height: "calc(100% + 40px + 100px)",
+          height: "calc(100% + 20px + 100px)",
         }}
       />
 
@@ -69,15 +70,35 @@ const AkarniIndex = ({
         style={{
           position: "absolute",
           top: "-50px",
-          left: "-55px",
-          height: "calc(100% + 40px + 100px)",
+          left: "-35px",
+          height: "calc(100% + 20px + 100px)",
           transform: "scaleX(-1)",
         }}
       />
 
+      <img
+        src={WaleImage2}
+        style={{
+          position: "absolute",
+          top: "-50px",
+          left: "10px",
+          width: "calc(100% - 20px)",
+        }}
+      />
+
+      <img
+        src={WaleImage2}
+        style={{
+          position: "absolute",
+          bottom: "-70px",
+          left: "10px",
+          width: "calc(100% - 20px)",
+        }}
+      />
+
       <header
-        className="grid grid-cols-3 text-3xl font-bold pb-2"
-        style={{ marginTop: "135px", paddingTop: "20px" }}
+        className="grid grid-cols-3 font-bold pb-2"
+        style={{ marginTop: "135px", paddingTop: "20px", fontSize: "38px" }}
       >
         <div className="text-left text-blue-700">
           <span className="font-extrabold">મોજે : </span>-{" "}
@@ -106,12 +127,16 @@ const AkarniIndex = ({
             position: "relative",
             transform: "translateY(-15px)",
             marginTop: "20px",
+            paddingInline: "40px",
           }}
         >
           ગામના નમુના નંબર (૮) આકારણી રજીસ્ટર {title ? `- ${title}` : ""}
         </h1>
-        <h2 className="text-2xl font-semibold mt-0 text-gray-700">
-          વર્ષ :- {project?.details?.akarniYear || "2025/26"}
+        <h2
+          className="font-semibold text-gray-700"
+          style={{ marginTop: "-25px", fontSize: "30px" }}
+        >
+          વર્ષ :- {project?.details?.akaraniYear || "2025/26"}
         </h2>
       </div>
 
@@ -135,6 +160,7 @@ const AkarniIndex = ({
           style={{
             maxWidth: "fit-content",
             minWidth: "800px",
+            paddingTop: "10px",
           }}
         >
           <div className="text-center text-3xl font-bold text-gray-600">
@@ -156,21 +182,24 @@ const AkarniIndex = ({
                     fontSize: "21px",
                     display: "flex",
                     flexDirection: "column",
+                    paddingBottom: "5px",
                   }}
                 >
-                  <span style={{ fontSize: "24px", paddingBottom: "10px" }}>
+                  <span style={{ fontSize: "28px", paddingBottom: "10px" }}>
                     એ.એફ. ઈન્ફોસીસ
                   </span>
                   <span>&bull; મુ:- સાવરકુંડલા. &bull; જીલ્લો:- અમરેલી.</span>
                 </p>
-                <p style={{ marginTop: "10px" }}>
+                <p style={{ marginTop: "10px", fontSize: "19px" }}>
                   <b>એડ્રેસ :</b> સેન્ટ્રલ પોઈન્ટ કોમ્પલેક્ષ, બીજા માળે, જુના
-                  બસસ્ટેન્ડસામે,સાવરકુંડલા.
+                  બસસ્ટેન્ડ સામે, સાવરકુંડલા.
                 </p>
-                <p>પીન કોડ નં. ૩૬૪૫૧૫ સોરાષ્ટ્ર. (પશ્ચિમ ગુજરાત)</p>
+                <p style={{ fontSize: "19px" }}>
+                  પીન કોડ નં. ૩૬૪૫૧૫ સોરાષ્ટ્ર. (પશ્ચિમ ગુજરાત)
+                </p>
               </div>
 
-              <div className="mt-2 pt-2 border-t border-gray-300 flex items-center justify-between text-lg font-semibold">
+              <div className="mt-4 pt-0 border-t border-gray-300 flex items-center justify-between text-lg font-semibold">
                 <p>
                   E-mail :{" "}
                   <span className="text-blue-600">af.infosys146@gmail.com</span>
@@ -227,13 +256,13 @@ const AkarniIndex = ({
               className="flex items-center text-xl font-medium text-gray-700"
               style={{ justifyContent: "start" }}
             >
-              <label style={{ maxWidth: "fit-content" }}>
-                ભાગઃ–
+              <label style={{ maxWidth: "fit-content", fontSize: "21px" }}>
+                ભાગ :-
                 <b
                   style={{
                     // paddingBottom: "4px",
                     paddingInline: "5px",
-                    marginLeft: "8px",
+                    marginLeft: "2px",
                     // borderBottom: "1px solid #000",
                   }}
                 >
@@ -244,13 +273,13 @@ const AkarniIndex = ({
 
             {/* 2. Village Count (Top Right) */}
             <div className="flex items-center text-xl font-medium text-gray-700">
-              <label style={{ maxWidth: "fit-content" }}>
-                આ રજીસ્ટર ના ઘરની સંખ્યા:-
+              <label style={{ maxWidth: "fit-content", fontSize: "21px" }}>
+                આ રજીસ્ટર ના ઘરની સંખ્યા :-
                 <b
                   style={{
                     // paddingBottom: "4px",
                     paddingInline: "5px",
-                    marginLeft: "8px",
+                    marginLeft: "2px",
                     // borderBottom: "1px solid #000",
                   }}
                 >
@@ -262,13 +291,13 @@ const AkarniIndex = ({
             {/* Applying border and padding to span both columns for a visual break before Part/Page info */}
 
             <div className="flex items-center text-xl font-medium text-gray-700">
-              <label style={{ maxWidth: "fit-content" }}>
-                પાના નંબરઃ–
+              <label style={{ maxWidth: "fit-content", fontSize: "21px" }}>
+                પાના નંબર :-
                 <b
                   style={{
                     // paddingBottom: "4px",
                     paddingInline: "5px",
-                    marginLeft: "8px",
+                    marginLeft: "2px",
                     // borderBottom: "1px solid #000",
                   }}
                 >
@@ -288,13 +317,13 @@ const AkarniIndex = ({
 
             {/* 4. NEW: Page Range (પાના નંબર) (Bottom Right) */}
             <div className="flex items-center text-xl font-medium text-gray-700">
-              <label style={{ maxWidth: "fit-content" }}>
-                ગામના કુલ ઘરની સંખ્યા:-
+              <label style={{ maxWidth: "fit-content", fontSize: "21px" }}>
+                ગામના કુલ ઘરની સંખ્યા :-
                 <b
                   style={{
                     // paddingBottom: "4px",
                     paddingInline: "5px",
-                    marginLeft: "8px",
+                    marginLeft: "2px",
                     // borderBottom: "1px solid #000",
                   }}
                 >
@@ -309,7 +338,7 @@ const AkarniIndex = ({
       <p
         style={{
           position: "absolute",
-          bottom: "-40px",
+          bottom: "0px",
           right: "10px",
           fontSize: "12px",
         }}

@@ -23,9 +23,9 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   max-height: 100vh;
@@ -33,8 +33,8 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  font-family:
+    source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
 .watermark {
@@ -66,10 +66,10 @@ code {
     height: 400%;
     // background: red !important;
 
-    background-image: url("./assets/benefit1-bg.png");
-    background-size: 250px;
+    background-image: url("./assets/benefit1-bg-new.png");
+    background-size: 370px;
     background-position: center;
-    transform: rotate(-30deg);
+    transform: rotate(-90deg);
 
     top: -50%;
     left: -50%;
@@ -91,10 +91,10 @@ code {
     height: 400%;
     // background: red !important;
 
-    background-image: url("./assets/benefit2-bg.png");
-    background-size: 250px;
+    background-image: url("./assets/benefit2-bg-new.png");
+    background-size: 700px;
     background-position: center;
-    transform: rotate(-30deg);
+    // transform: rotate(-30deg);
 
     top: -50%;
     left: -50%;

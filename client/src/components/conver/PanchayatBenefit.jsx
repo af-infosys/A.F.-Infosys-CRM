@@ -12,9 +12,17 @@ const PanchayatBenefit = () => {
   // Styling classes adjusted for a LANDSCAPE appearance (max-w-7xl)
 
   return (
-    <div style={{ position: "relative" }}>
+    <div
+      style={{
+        position: "relative",
+        border: "10px double #6a6a6a",
+        marginTop: "120px",
+        padding: "10px",
+        paddingBottom: "25px",
+      }}
+    >
       {/* -------------------- 1. Main Title -------------------- */}
-      <header className="text-center pb-12" style={{ marginTop: "120px" }}>
+      <header className="text-center pb-12">
         <h1 className="text-3xl font-extrabold text-gray-800 tracking-wider">
           --:: ગ્રામ પંચાયત મિલ્કત આકારણી સર્વેથી થતા વિશેષ ફાયદાઓ ::--
         </h1>
@@ -84,13 +92,13 @@ const PanchayatBenefit = () => {
         </div>
 
         {/* Address */}
-        <div className="text-center text-lg text-gray-600 mb-4">
+        <div className="text-center text-lg text-gray-600 mb-6">
           બીજા માળે, સેન્ટ્રલ પોઈન્ટ કોમ્પલેકક્ષ, જુના બસ સ્ટેન્ડ
           મું.સાવરકુંડલા. તાલુકો :– સાવરકુંડલા જીલ્લો :– અમરેલી (પશ્વિમ ગુજરાત)
         </div>
 
         {/* Email and Website */}
-        <div className="flex justify-center items-center space-x-12 text-lg font-semibold border-t border-gray-300 pt-2">
+        <div className="flex justify-center items-center space-x-12 text-lg font-semibold border-t border-gray-300 pt-0">
           <p className="text-gray-700">
             E-mail ID :{" "}
             <span className="text-blue-600">af.infosys146@gmail.com</span>
@@ -109,7 +117,7 @@ const PanchayatBenefit = () => {
       <p
         style={{
           position: "absolute",
-          bottom: "-40px",
+          bottom: "20px",
           right: "10px",
           fontSize: "12px",
         }}
