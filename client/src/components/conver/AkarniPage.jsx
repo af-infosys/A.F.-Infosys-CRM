@@ -63,14 +63,14 @@ const AkarniPage = ({
       >
         <thead>
           {/* Main Headers with RowSpan/ColSpan */}
-          <tr style={{ borderBottom: "1px solid black" }}>
-            <th className="-no" rowSpan={2} style={headerStyle}>
+          <tr>
+            <th className="" rowSpan={2} style={headerStyle}>
               <span className="formatting">અનું ક્રમાંક</span>
             </th>
             <th className="" rowSpan={2} style={headerStyle}>
               <span className="formatting">વિસ્તારનું નામ</span>
             </th>
-            <th className="-no" rowSpan={2} style={headerStyle}>
+            <th className="" rowSpan={2} style={headerStyle}>
               <span className="formatting">મિલ્કત ક્રમાંક</span>
             </th>
             <th className="" rowSpan={2} style={headerStyle}>
@@ -155,13 +155,17 @@ const AkarniPage = ({
                   maxHeight: "70px",
                 }}
               >
-                <span className="formatting">{record[0]}</span>
+                <span className="formatting">
+                  {toGujaratiNumber(record[0] || 0)}
+                </span>
               </td>
               <td className="" style={cellStyle}>
-                <span className="formatting">{record[1]}</span>
+                <span className="formatting">{record[1] || 0}</span>
               </td>
               <td className="" style={cellStyle}>
-                <span className="formatting">{record[2]}</span>
+                <span className="formatting">
+                  {toGujaratiNumber(record[2])}
+                </span>
               </td>
               <td className="" style={cellStyle}>
                 <span className="formatting">{record[15]}</span>
@@ -176,22 +180,28 @@ const AkarniPage = ({
                 <span className="formatting">{record[5]}</span>
               </td>
               <td className="" style={cellStyle}>
-                <span className="formatting">{record[18]}</span>
+                <span className="formatting">
+                  {toGujaratiNumber(record[18])}
+                </span>
               </td>
               <td className="" style={cellStyle}>
-                <span className="formatting">{record[19]}</span>
+                <span className="formatting">
+                  {toGujaratiNumber(record[19])}
+                </span>
               </td>
               <td className="" style={cellStyle}>
                 <span className="formatting">{record[6]}</span>
               </td>
               <td className="" style={cellStyle}>
                 <span className="formatting">
-                  {record[11]} {Number(record[11] || 0) !== 0 ? "હા" : "ના"}
+                  {toGujaratiNumber(Number(record[11] || 0))}{" "}
+                  {Number(record[11] || 0) !== 0 ? "હા" : "ના"}
                 </span>
               </td>
               <td className="" style={cellStyle}>
                 <span className="formatting">
-                  {record[12]} {Number(record[12] || 0) !== 0 ? "હા" : "ના"}
+                  {toGujaratiNumber(Number(record[12] || 0))}{" "}
+                  {Number(record[12] || 0) !== 0 ? "હા" : "ના"}
                 </span>
               </td>
               <td className="" style={cellStyle}>

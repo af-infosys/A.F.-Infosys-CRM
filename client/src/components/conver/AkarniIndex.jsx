@@ -2,6 +2,7 @@ import React from "react";
 import LogoImage from "../../assets/logo.png";
 import WaleImage from "../../assets/wale.png";
 import WaleImage2 from "../../assets/wale2.png";
+import toGujaratiNumber from "../toGujaratiNumber";
 
 // Utility component for the main text blocks
 const TextBlock = ({ children }) => (
@@ -42,7 +43,7 @@ const AkarniIndex = ({
   const startPage = (part - 1) * 100 + 1;
   const endPage = startPage + pagesInThisBundle - 1;
 
-  const pageRange = `${startPage} થી ${endPage}`;
+  const pageRange = `${toGujaratiNumber(startPage)} થી ${toGujaratiNumber(endPage)}`;
 
   return (
     <div
@@ -266,7 +267,7 @@ const AkarniIndex = ({
                     // borderBottom: "1px solid #000",
                   }}
                 >
-                  {part}
+                  {toGujaratiNumber(part)}
                 </b>
               </label>
             </div>
@@ -283,7 +284,9 @@ const AkarniIndex = ({
                     // borderBottom: "1px solid #000",
                   }}
                 >
-                  {total ? `${total}` : registerHouseCount}
+                  {total
+                    ? toGujaratiNumber(total)
+                    : toGujaratiNumber(registerHouseCount)}
                 </b>
               </label>
             </div>
@@ -306,10 +309,10 @@ const AkarniIndex = ({
                       ? `${Math.ceil(commercial / nop) + 1} થી ${
                           Math.ceil(commercial / nop) + Math.ceil(total / nop)
                         }`
-                      : `${part === 1 ? part : (part - 1) * 100 + 1} થી ${
+                      : `${toGujaratiNumber(part === 1 ? part : (part - 1) * 100 + 1)} થી ${toGujaratiNumber(
                           (part === 1 ? part : (part - 1) * 100) +
-                          Math.ceil(total / nop)
-                        }`
+                            Math.ceil(total / nop),
+                        )}`
                     : pageRange}
                 </b>
               </label>
@@ -327,7 +330,7 @@ const AkarniIndex = ({
                     // borderBottom: "1px solid #000",
                   }}
                 >
-                  {totalHoouse}
+                  {toGujaratiNumber(totalHoouse)}
                 </b>
               </label>
             </div>
