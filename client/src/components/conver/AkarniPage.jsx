@@ -67,22 +67,46 @@ const AkarniPage = ({
             <th className="" rowSpan={2} style={headerStyle}>
               <span className="formatting">અનુંક્રમાંક</span>
             </th>
-            <th className="" rowSpan={2} style={headerStyle}>
+            <th
+              className=""
+              rowSpan={2}
+              style={{ ...headerStyle, fontSize: "14px", width: "120px" }}
+            >
               <span className="formatting">વિસ્તારનું નામ</span>
             </th>
-            <th className="" rowSpan={2} style={headerStyle}>
+            <th
+              className=""
+              rowSpan={2}
+              style={{ ...headerStyle, fontSize: "14px", width: "55px" }}
+            >
               <span className="formatting">મિલ્કત ક્રમાંક</span>
             </th>
-            <th className="" rowSpan={2} style={headerStyle}>
+            <th
+              className=""
+              rowSpan={2}
+              style={{ ...headerStyle, fontSize: "14px" }}
+            >
               <span className="formatting">મિલ્કતનું વર્ણન</span>
             </th>
-            <th className="" rowSpan={2} style={headerStyle}>
+            <th
+              className=""
+              rowSpan={2}
+              style={{ ...headerStyle, fontSize: "14px" }}
+            >
               <span className="formatting">માલિકનું નામ</span>
             </th>
-            <th className="" rowSpan={2} style={headerStyle}>
+            <th
+              className=""
+              rowSpan={2}
+              style={{ ...headerStyle, fontSize: "14px", width: "45px" }}
+            >
               <span className="formatting">જુનો મિ.નં.</span>
             </th>
-            <th className="" rowSpan={2} style={headerStyle}>
+            <th
+              className=""
+              rowSpan={2}
+              style={{ ...headerStyle, fontSize: "14px" }}
+            >
               <span className="formatting">મોબાઈલ નંબર</span>
             </th>
             <th className="" rowSpan={2} style={{ ...headerStyle }}>
@@ -129,7 +153,15 @@ const AkarniPage = ({
             }}
           >
             {Array.from({ length: 13 }, (_, index) => (
-              <th key={index} style={{ ...headerStyle, textAlign: "center" }}>
+              <th
+                key={index}
+                style={{
+                  ...headerStyle,
+                  textAlign: "center",
+                  fontSize: "14px",
+                  paddingBottom: "2px",
+                }}
+              >
                 <span className="formatting" style={{ textAlign: "center" }}>
                   {toGujaratiNumber(index + 1)}
                 </span>
@@ -200,7 +232,8 @@ const AkarniPage = ({
               </td>
               <td className="" style={cellStyle}>
                 <span className="formatting">
-                  {toGujaratiNumber(Number(record[12] || 0))}{" "}
+                  {toGujaratiNumber(Number(record[12] || 0))}
+                  <br />
                   {Number(record[12] || 0) !== 0 ? "હા" : "ના"}
                 </span>
               </td>

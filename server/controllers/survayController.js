@@ -877,9 +877,7 @@ export const calculateValuation = async (req, res) => {
                   total *
                   Number(valuationData[7][2])) /
                 100;
-            }
-
-            if (room.roomHallShopGodown === "દુકાન મોટી") {
+            } else if (room.roomHallShopGodown === "દુકાન મોટી") {
               let total = 0;
 
               total += Number(room.slabRooms);
