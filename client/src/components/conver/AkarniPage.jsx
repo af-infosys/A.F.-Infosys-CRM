@@ -65,7 +65,7 @@ const AkarniPage = ({
           {/* Main Headers with RowSpan/ColSpan */}
           <tr>
             <th className="" rowSpan={2} style={headerStyle}>
-              <span className="formatting">અનું ક્રમાંક</span>
+              <span className="formatting">અનુંક્રમાંક</span>
             </th>
             <th className="" rowSpan={2} style={headerStyle}>
               <span className="formatting">વિસ્તારનું નામ</span>
@@ -250,6 +250,9 @@ const headerStyle = {
 
 const cellStyle = {
   fontSize: "14px",
+  verticalAlign: "top",
+  paddingTop: "4px",
+
   // border: "1px solid black",
   // padding: "5px",
   // textAlign: "center",
