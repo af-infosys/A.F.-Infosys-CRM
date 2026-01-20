@@ -185,7 +185,7 @@ const AkarniIndex = ({
                     paddingBottom: "5px",
                   }}
                 >
-                  <span style={{ fontSize: "28px", paddingBottom: "10px" }}>
+                  <span style={{ fontSize: "28px", paddingBottom: "15px" }}>
                     એ.એફ. ઈન્ફોસીસ
                   </span>
                   <span>&bull; મુ:- સાવરકુંડલા. &bull; જીલ્લો:- અમરેલી.</span>

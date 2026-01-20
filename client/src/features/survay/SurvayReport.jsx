@@ -308,7 +308,7 @@ const SurvayReport = () => {
   };
 
   // --- LOGIC STARTS HERE ---
-  const PROPERTIES_PER_PAGE = 15;
+  const PROPERTIES_PER_PAGE = 7;
   const BUNDLE_SIZE = 100; // Pages per bundle (excluding cover/benefit typically, or including. Logic below includes them in the flow)
 
   const finalRenderPages = buildFinalPages(

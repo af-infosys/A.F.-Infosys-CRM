@@ -251,7 +251,7 @@ const TaxIndex = ({ part, nop, project, totalHoouse, taxes }) => {
                     paddingBottom: "5px",
                   }}
                 >
-                  <span style={{ fontSize: "28px", paddingBottom: "10px" }}>
+                  <span style={{ fontSize: "28px", paddingBottom: "15px" }}>
                     એ.એફ. ઈન્ફોસીસ
                   </span>
                   <span>&bull; મુ:- સાવરકુંડલા. &bull; જીલ્લો:- અમરેલી.</span>
@@ -328,7 +328,7 @@ const TaxIndex = ({ part, nop, project, totalHoouse, taxes }) => {
                   style={{
                     // paddingBottom: "1px",
                     paddingInline: "5px",
-                    marginLeft: "8px",
+                    marginLeft: "2px",
                     // borderBottom: "1px solid #000",
                   }}
                 >
@@ -345,7 +345,7 @@ const TaxIndex = ({ part, nop, project, totalHoouse, taxes }) => {
                   style={{
                     // paddingBottom: "1px",
                     paddingInline: "5px",
-                    marginLeft: "8px",
+                    marginLeft: "2px",
                     // borderBottom: "1px solid #000",
                   }}
                 >
@@ -363,7 +363,7 @@ const TaxIndex = ({ part, nop, project, totalHoouse, taxes }) => {
                   style={{
                     // paddingBottom: "1px",
                     paddingInline: "5px",
-                    marginLeft: "8px",
+                    marginLeft: "2px",
                     // borderBottom: "1px solid #000",
                   }}
                 >
@@ -380,7 +380,7 @@ const TaxIndex = ({ part, nop, project, totalHoouse, taxes }) => {
                   style={{
                     // paddingBottom: "1px",
                     paddingInline: "5px",
-                    marginLeft: "8px",
+                    marginLeft: "2px",
                     // borderBottom: "1px solid #000",
                   }}
                 >

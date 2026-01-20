@@ -51,202 +51,156 @@ const AkarniPage = ({
         </div>
       </div>
 
-      <div className="table-row table-header-row">
-        <div className="table-cell s-no">
-          <span className="formatting table-font">અનું ક્રમાંક</span>
-        </div>
-
-        <div className="table-cell area-name">
-          <span className="formatting table-font">વિસ્તારનું નામ</span>
-        </div>
-
-        <div className="table-cell prop-no">
-          <span className="formatting table-font">મિલ્કત ક્રમાંક</span>
-        </div>
-
-        <div className="table-cell description">
-          <span className="formatting table-font">મિલ્કતનું વર્ણન</span>
-        </div>
-
-        <div className="table-cell owner">
-          <span className="formatting table-font">માલિકનું નામ</span>
-        </div>
-
-        <div className="table-cell old-prop-no">
-          <span className="formatting table-font">જુનો મિ.નં.</span>
-        </div>
-
-        <div className="table-cell mobile">
-          <span className="formatting table-font">મોબાઈલ નંબર</span>
-        </div>
-
-        <div className="table-cell valuation">
-          <span className="formatting table-font">
-            મિલ્કતની
-            <br />
-            કિંમત
-          </span>
-        </div>
-
-        <div className="table-cell tax">
-          <span className="formatting table-font">આકારેલ વેરાની રકમ</span>
-        </div>
-
-        <div className="table-cell prop-name">
-          <span className="formatting table-font">
-            મિલ્કત પર લખેલ
-            <br />
-            નામ
-          </span>
-        </div>
-
-        {/* <div className="table-cell type">
-                <span className="formatting"> મકાન ટાઈપ </span>
-              </div> */}
-
-        <div className="table-cell facility table-font">
-          <div className="facility-inner">
-            <div className="facility-title">
-              <span className="formatting"> અન્ય સુવિધા </span>
-            </div>
-
-            <div
-              className="facility-sub-row table-font"
-              style={{ borderTop: "1px solid black" }}
+      {/* --- Semantic Table Structure --- */}
+      <table
+        className="akarni-table"
+        style={{
+          width: "100%",
+          borderCollapse: "collapse",
+          border: "1px solid black",
+          textAlign: "center",
+        }}
+      >
+        <thead>
+          {/* Main Headers with RowSpan/ColSpan */}
+          <tr style={{ borderBottom: "1px solid black" }}>
+            <th className="-no" rowSpan={2} style={headerStyle}>
+              <span className="formatting">અનું ક્રમાંક</span>
+            </th>
+            <th className="" rowSpan={2} style={headerStyle}>
+              <span className="formatting">વિસ્તારનું નામ</span>
+            </th>
+            <th className="-no" rowSpan={2} style={headerStyle}>
+              <span className="formatting">મિલ્કત ક્રમાંક</span>
+            </th>
+            <th className="" rowSpan={2} style={headerStyle}>
+              <span className="formatting">મિલ્કતનું વર્ણન</span>
+            </th>
+            <th className="" rowSpan={2} style={headerStyle}>
+              <span className="formatting">માલિકનું નામ</span>
+            </th>
+            <th className="" rowSpan={2} style={headerStyle}>
+              <span className="formatting">જુનો મિ.નં.</span>
+            </th>
+            <th className="" rowSpan={2} style={headerStyle}>
+              <span className="formatting">મોબાઈલ નંબર</span>
+            </th>
+            <th className="" rowSpan={2} style={{ ...headerStyle }}>
+              <span className="formatting">
+                મિલ્કતની <br /> કિંમત
+              </span>
+            </th>
+            <th
+              className=""
+              rowSpan={2}
+              style={{ ...headerStyle, width: "60px" }}
             >
-              <div className="table-cell">
-                <span className="formatting">નળ</span>
-              </div>
+              <span className="formatting">આકારેલ વેરાની રકમ</span>
+            </th>
+            <th className="" rowSpan={2} style={headerStyle}>
+              <span className="formatting">મિલ્કત પર લખેલ નામ</span>
+            </th>
 
-              <div className="table-cell">
-                <span className="formatting">શોચાલય</span>
-              </div>
-            </div>
-          </div>
-        </div>
+            {/* Merged Header for Facilities */}
+            <th className="" colSpan={2} style={headerStyle}>
+              <span className="formatting">અન્ય સુવિધા</span>
+            </th>
 
-        <div
-          className="table-cell remarks table-font"
-          style={{
-            // fontSize: "10px",
-            textAlign: "center",
-          }}
-        >
-          નોંધ / રીમાર્કસ
-        </div>
-      </div>
+            <th className="" rowSpan={2} style={headerStyle}>
+              <span className="formatting">નોંધ / રીમાર્કસ</span>
+            </th>
+          </tr>
 
-      <div className="table-row table-header-row">
-        <div className="table-cell s-no">
-          <span className="formatting table-font">1</span>
-        </div>
+          {/* Sub Header Row for Facilities */}
+          <tr style={{ borderBottom: "1px solid black" }}>
+            <th style={headerStyle}>
+              <span className="formatting">નળ</span>
+            </th>
+            <th style={headerStyle}>
+              <span className="formatting">શોચાલય</span>
+            </th>
+          </tr>
 
-        <div className="table-cell area-name">
-          <span className="formatting table-font">2</span>
-        </div>
+          {/* Numbering Row (1, 2, 3...) */}
+          <tr
+            style={{
+              borderBottom: "1px solid black",
+              backgroundColor: "#f0f0f0",
+            }}
+          >
+            {Array.from({ length: 13 }, (_, index) => (
+              <th key={index} style={{ ...headerStyle, textAlign: "center" }}>
+                <span className="formatting" style={{ textAlign: "center" }}>
+                  {toGujaratiNumber(index + 1)}
+                </span>
+              </th>
+            ))}
+          </tr>
+        </thead>
 
-        <div className="table-cell prop-no">
-          <span className="formatting table-font">3</span>
-        </div>
-
-        <div className="table-cell description">
-          <span className="formatting table-font">4</span>
-        </div>
-
-        <div className="table-cell owner">
-          <span className="formatting table-font">5</span>
-        </div>
-
-        <div className="table-cell old-prop-no">
-          <span className="formatting table-font">6</span>
-        </div>
-
-        <div className="table-cell mobile">
-          <span className="formatting table-font">7</span>
-        </div>
-
-        <div className="table-cell valuation">
-          <span className="formatting table-font">8</span>
-        </div>
-
-        <div className="table-cell tax">
-          <span className="formatting table-font">9</span>
-        </div>
-
-        <div className="table-cell prop-name">
-          <span className="formatting table-font">10</span>
-        </div>
-
-        <div className="table-cell" style={{ width: "3%" }}>
-          <span className="formatting table-font">11</span>
-        </div>
-
-        <div className="table-cell" style={{ width: "3%" }}>
-          <span className="formatting table-font">12</span>
-        </div>
-
-        <div className="table-cell remarks">
-          <span className="formatting table-font">13</span>
-        </div>
-      </div>
-
-      {/* Table Rows using Divs */}
-
-      {pageRecords.map((record, index) => (
-        <div key={index} className="table-row">
-          <div className="table-cell s-no" style={{ textAlign: "center" }}>
-            <span className="formatting table-font">{record[0]}</span>
-          </div>
-
-          <div className="table-cell area-name">
-            <span className="formatting table-font">{record[1]}</span>
-          </div>
-
-          <div className="table-cell prop-no">
-            <span className="formatting table-font">{record[2]}</span>
-          </div>
-
-          <div className="table-cell description">
-            <span className="formatting table-font">{record[15]}</span>
-          </div>
-
-          <div className="table-cell owner">
-            <span className="formatting table-font">{record[3]}</span>
-          </div>
-
-          <div className="table-cell old-prop-no">
-            <span className="formatting table-font">{record[4]}</span>
-          </div>
-
-          <div className="table-cell mobile">
-            <span className="formatting table-font">{record[5]}</span>
-          </div>
-
-          <div className="table-cell valuation">
-            <span className="formatting table-font">{record[18]}</span>
-          </div>
-
-          <div className="table-cell tax">
-            <span className="formatting table-font">{record[19]}</span>
-          </div>
-
-          <div className="table-cell prop-name">
-            <span className="formatting table-font">{record[6]}</span>
-          </div>
-
-          <div className="table-cell tap">
-            <span className="formatting table-font">{record[11]}</span>
-          </div>
-
-          <div className="table-cell toilet">
-            <span className="formatting table-font">{record[12]}</span>
-          </div>
-
-          <div className="table-cell remarks">
-            <span className="formatting table-font">{record[13]}</span>
-          </div>
-        </div>
-      ))}
+        <tbody>
+          {pageRecords.map((record, index) => (
+            <tr
+              key={index}
+              style={{
+                borderBottom: "1px solid #000",
+              }}
+            >
+              <td
+                className=""
+                style={{
+                  ...cellStyle,
+                  height: "70px",
+                  minHeight: "70px",
+                  maxHeight: "70px",
+                }}
+              >
+                <span className="formatting">{record[0]}</span>
+              </td>
+              <td className="" style={cellStyle}>
+                <span className="formatting">{record[1]}</span>
+              </td>
+              <td className="" style={cellStyle}>
+                <span className="formatting">{record[2]}</span>
+              </td>
+              <td className="" style={cellStyle}>
+                <span className="formatting">{record[15]}</span>
+              </td>
+              <td className="" style={cellStyle}>
+                <span className="formatting">{record[3]}</span>
+              </td>
+              <td className="" style={cellStyle}>
+                <span className="formatting">{record[4]}</span>
+              </td>
+              <td className="" style={cellStyle}>
+                <span className="formatting">{record[5]}</span>
+              </td>
+              <td className="" style={cellStyle}>
+                <span className="formatting">{record[18]}</span>
+              </td>
+              <td className="" style={cellStyle}>
+                <span className="formatting">{record[19]}</span>
+              </td>
+              <td className="" style={cellStyle}>
+                <span className="formatting">{record[6]}</span>
+              </td>
+              <td className="" style={cellStyle}>
+                <span className="formatting">
+                  {record[11]} {Number(record[11] || 0) !== 0 ? "હા" : "ના"}
+                </span>
+              </td>
+              <td className="" style={cellStyle}>
+                <span className="formatting">
+                  {record[12]} {Number(record[12] || 0) !== 0 ? "હા" : "ના"}
+                </span>
+              </td>
+              <td className="" style={cellStyle}>
+                <span className="formatting">{record[13]}</span>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
 
       {totalPages === current ? (
         <p style={{ marginTop: "20px", textAlign: "center" }}>
@@ -275,6 +229,21 @@ const AkarniPage = ({
       </p>
     </div>
   );
+};
+
+const headerStyle = {
+  // border: "1px solid black",
+  // padding: "5px",
+  fontSize: "12px", // Adjust based on your table-font class
+  // verticalAlign: "middle",
+};
+
+const cellStyle = {
+  fontSize: "14px",
+  // border: "1px solid black",
+  // padding: "5px",
+  // textAlign: "center",
+  // verticalAlign: "middle",
 };
 
 export default AkarniPage;

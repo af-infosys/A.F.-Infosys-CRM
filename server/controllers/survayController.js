@@ -17,7 +17,7 @@ function buildPropertyDescription(formData) {
     for (let i = 0; i < arabicNumerals.length; i++) {
       gujaratiNumber = gujaratiNumber.replace(
         new RegExp(arabicNumerals[i], "g"),
-        gujaratiNumerals[i]
+        gujaratiNumerals[i],
       );
     }
 
@@ -59,7 +59,7 @@ function buildPropertyDescription(formData) {
             roomParts.push(
               `${roomType} સ્લેબવાળા ${
                 room.roomHallShopGodown
-              }-${convertToArabicToGujaratiNumerals(slabRoomsNum)}`
+              }-${convertToArabicToGujaratiNumerals(slabRoomsNum)}`,
             );
           }
 
@@ -67,21 +67,21 @@ function buildPropertyDescription(formData) {
             roomParts.push(
               `${roomType} પતરાવાળી ${
                 room.roomHallShopGodown
-              }-${convertToArabicToGujaratiNumerals(tinRoomsNum)}`
+              }-${convertToArabicToGujaratiNumerals(tinRoomsNum)}`,
             );
           }
           if (woodenRoomsNum > 0) {
             roomParts.push(
               `${roomType} પીઢીયાવાળી ${
                 room.roomHallShopGodown
-              }-${convertToArabicToGujaratiNumerals(woodenRoomsNum)}`
+              }-${convertToArabicToGujaratiNumerals(woodenRoomsNum)}`,
             );
           }
           if (tileRoomsNum > 0) {
             roomParts.push(
               `${roomType} નળિયાવાળી ${
                 room.roomHallShopGodown
-              }-${convertToArabicToGujaratiNumerals(tileRoomsNum)}`
+              }-${convertToArabicToGujaratiNumerals(tileRoomsNum)}`,
             );
           }
 
@@ -109,21 +109,21 @@ function buildPropertyDescription(formData) {
   // રસોડાની ગણતરી
   if (formData.kitchenCount > 0) {
     amenitiesParts.push(
-      `રસોડું-${convertToArabicToGujaratiNumerals(formData.kitchenCount)}`
+      `રસોડું-${convertToArabicToGujaratiNumerals(formData.kitchenCount)}`,
     );
   }
 
   // બાથરૂમની ગણતરી
   if (formData.bathroomCount > 0) {
     amenitiesParts.push(
-      `બાથરૂમ-${convertToArabicToGujaratiNumerals(formData.bathroomCount)}`
+      `બાથરૂમ-${convertToArabicToGujaratiNumerals(formData.bathroomCount)}`,
     );
   }
 
   // ફરજો (વરંડા) ની ગણતરી
   if (formData.verandaCount > 0) {
     amenitiesParts.push(
-      `ફરજો-${convertToArabicToGujaratiNumerals(formData.verandaCount)}`
+      `ફરજો-${convertToArabicToGujaratiNumerals(formData.verandaCount)}`,
     );
   }
 
@@ -435,6 +435,53 @@ export const syncSheetRecord = async (req, res) => {
   }
 };
 
+export const excelEdit = async (req, res) => {
+  const { workId, start } = req.body;
+
+  console.log("Syncing Records", req.body.workId);
+
+  const records = req.body.payload || [];
+
+  try {
+    if (!workId) {
+      console.log("work id nahi!");
+      return res.status(400).json({ message: "Work Id not Provided!" });
+    }
+
+    if (start == null || records.length === 0) {
+      console.log("start ya record nahi hai", records.length, start);
+      return res
+        .status(400)
+        .json({ message: "Start index or payload missing" });
+    }
+
+    const work = await Work.findById(workId);
+    const sheetName = `${work?.sheetId}_Main`;
+    const range = `${sheetName}!A${start + 4}`;
+
+    await sheets.spreadsheets.values.batchUpdate({
+      spreadsheetId: SPREADSHEET_ID,
+      requestBody: {
+        valueInputOption: "RAW",
+        data: [
+          {
+            range,
+            values: records,
+          },
+        ],
+      },
+    });
+
+    res.status(200).json({
+      message: "Records overwritten successfully",
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: "Failed to add records to Google Sheet.",
+      error: err.message || "Something went wrong",
+    });
+  }
+};
 // Controller function to fetch all records from the Google Sheet.
 export const getAllRecords = async (req, res) => {
   const { workId } = req.query;
@@ -580,7 +627,7 @@ export const editSheetRecord = async (req, res) => {
 
     // Find the matching row index based on the serial number (ID) in column A (index 0)
     const rowIndex = records.findIndex(
-      (record) => Number(record[0]) === Number(id)
+      (record) => Number(record[0]) === Number(id),
     );
     if (rowIndex === -1) {
       return res.status(404).json({ message: "Record not found" });
@@ -709,10 +756,16 @@ export const calculateValuation = async (req, res) => {
       range: `${project?.sheetId}_OV!A2:D`, // assuming columns: A=Name, B=Amount, C=Percentage,  D=TaxAmount
     });
 
+    const taxAmount = await sheets.spreadsheets.values.get({
+      spreadsheetId: SPREADSHEET_ID,
+      range: `${project?.sheetId}_Taxes!A2:ZZ`, // assuming columns: A=Name, B=Amount, C=Percentage,  D=TaxAmount
+    });
+
     let records = response.data.values || [];
     let valuationData = orderValuation.data.values || [];
+    let otherTaxdata = taxAmount.data.values || [];
 
-    console.log(valuationData);
+    console.log(valuationData, otherTaxdata);
 
     if (!records.length)
       return res.status(400).json({ error: "No data found" });
@@ -726,22 +779,27 @@ export const calculateValuation = async (req, res) => {
       const propertyCategory = row[7] || ""; // index 7
       const jsonData = row[14] ? JSON.parse(row[14]) : []; // index 14
 
+      const tabConnections = Number(row[11] || "0");
+
       // ---- Sample Calculation Logic ----
       let propertyPrice = 0;
       let tax = 0;
 
-
+      let otherTax = {};
 
       // calculate property price based on category
-      if(propertyCategory === "પ્લોટ (ફરતી દિવાલ) ખાનગી" || propertyCategory === "પ્લોટ ખાનગી - ખુલ્લી જગ્યા"){
+      if (
+        propertyCategory === "પ્લોટ (ફરતી દિવાલ) ખાનગી" ||
+        propertyCategory === "પ્લોટ ખાનગી - ખુલ્લી જગ્યા"
+      ) {
         propertyPrice = valuationData[14][1];
         tax = valuationData[14][3];
       }
 
-       if (propertyCategory.trim() === "રહેણાંક - મકાન") {
+      if (propertyCategory === "રહેણાંક - મકાન") {
         jsonData.forEach((item) => {
           item.roomDetails.forEach((room) => {
-            if (room.type === "કાચા" || room.roomHallShopGodown === "રૂમ") {
+            if (room.type === "કાચા" && room.roomHallShopGodown === "રૂમ") {
               let total = 0;
 
               total += Number(room.tinRooms);
@@ -756,7 +814,11 @@ export const calculateValuation = async (req, res) => {
                 100;
             }
 
-            if (room.type === "પાકા" || room.roomHallShopGodown === "રૂમ") {
+            if (
+              room.type === "પાકા" &&
+              room.roomHallShopGodown === "રૂમ" &&
+              Number(room.slabRooms || 0) === 0
+            ) {
               let total = 0;
 
               total += Number(room.tinRooms);
@@ -764,23 +826,34 @@ export const calculateValuation = async (req, res) => {
               total += Number(room.tileRooms);
 
               propertyPrice += Number(valuationData[1][1]) * total;
-              tax +=
-                (Number(valuationData[1][1]) *
-                  total *
-                  Number(valuationData[1][2])) /
-                100;
+              tax += Number(valuationData[1][3]) * total;
             }
 
-            if (room.type === "પાકા" || room.roomHallShopGodown === "રૂમ") {
+            if (room.type === "પાકા" && room.roomHallShopGodown === "રૂમ") {
               let total = 0;
 
               total += Number(room.slabRooms);
 
-              propertyPrice += Number(valuationData[1][1]) * total;
+              propertyPrice += Number(valuationData[2][1]) * total;
+              tax += Number(valuationData[2][3]) * total;
+            }
+
+            if (
+              room.type === "પાકા" &&
+              room.roomHallShopGodown === "હોલ મોટો"
+            ) {
+              let total = 0;
+
+              total += Number(room.slabRooms);
+              total += Number(room.tinRooms);
+              total += Number(room.woodenRooms);
+              total += Number(room.tileRooms);
+
+              propertyPrice += Number(valuationData[12][1]) * total;
               tax +=
-                (Number(valuationData[2][1]) *
+                (Number(valuationData[12][1]) *
                   total *
-                  Number(valuationData[2][2])) /
+                  Number(valuationData[12][2])) /
                 100;
             }
           });
@@ -806,7 +879,7 @@ export const calculateValuation = async (req, res) => {
                 100;
             }
 
-            if (room.roomHallShopGodown === "દુકાન નાની") {
+            if (room.roomHallShopGodown === "દુકાન મોટી") {
               let total = 0;
 
               total += Number(room.slabRooms);
@@ -846,36 +919,8 @@ export const calculateValuation = async (req, res) => {
             }
           });
         });
-      } else if (propertyCategory.trim() === "રહેણાંક") {
-        jsonData.forEach((item) => {
-          item.roomDetails.forEach((room) => {
-            if (
-              room.type === "પાકા" ||
-              room.roomHallShopGodown === "હોલ મોટો"
-            ) {
-              let total = 0;
-
-              total += Number(room.slabRooms);
-              total += Number(room.tinRooms);
-              total += Number(room.woodenRooms);
-              total += Number(room.tileRooms);
-
-              propertyPrice += Number(valuationData[12][1]) * total;
-              tax +=
-                (Number(valuationData[12][1]) *
-                  total *
-                  Number(valuationData[12][2])) /
-                100;
-            }
-          });
-        });
       } else if (propertyCategory.trim() === "મોબાઈલ ટાવર") {
         let total = 1;
-
-        // total += Number(room.slabRooms);
-        // total += Number(room.tinRooms);
-        // total += Number(room.woodenRooms);
-        // total += Number(room.tileRooms);
 
         propertyPrice += Number(valuationData[9][1]) * total;
         tax +=
@@ -885,13 +930,58 @@ export const calculateValuation = async (req, res) => {
           100;
       }
 
-      // Tax = 10% of property price
+      // Calculating Other Taxes
+      if (propertyCategory === "રહેણાંક - મકાન") {
+        otherTax.normal_water = { curr: otherTaxdata[0][2] || "-" };
+
+        if (tabConnections) {
+          otherTax.special_water = {
+            curr: otherTaxdata[1][2] * tabConnections || "-",
+          };
+        }
+
+        otherTax.light = { curr: otherTaxdata[2][2] || "-" };
+        otherTax.cleaning = { curr: otherTaxdata[3][2] || "-" };
+      } else if (propertyCategory === "dukan") {
+        otherTax.normal_water = { curr: otherTaxdata[0][3] || "-" };
+
+        if (tabConnections) {
+          otherTax.special_water = {
+            curr: otherTaxdata[1][3] * tabConnections || "-",
+          };
+        }
+
+        otherTax.light = { curr: otherTaxdata[2][3] || "-" };
+        otherTax.cleaning = { curr: otherTaxdata[3][3] || "-" };
+      } else if (propertyCategory === "પ્લોટ ખાનગી - ખુલ્લી જગ્યા") {
+        otherTax.normal_water = { curr: otherTaxdata[0][4] || "-" };
+
+        if (tabConnections) {
+          otherTax.special_water = {
+            curr: otherTaxdata[1][4] * tabConnections || "-",
+          };
+        }
+
+        otherTax.light = { curr: otherTaxdata[2][4] || "-" };
+        otherTax.cleaning = { curr: otherTaxdata[3][4] || "-" };
+      } else if (propertyCategory === "comanplot") {
+        otherTax.normal_water = { curr: otherTaxdata[0][5] || "-" };
+
+        if (tabConnections) {
+          otherTax.special_water = {
+            curr: otherTaxdata[1][5] * tabConnections || "-",
+          };
+        }
+
+        otherTax.light = { curr: otherTaxdata[2][5] || "-" };
+        otherTax.cleaning = { curr: otherTaxdata[3][5] || "-" };
+      }
 
       // ---- Collect updates ----
       const targetRow = rowIndex + 4; // since data starts at row 4
       updates.push({
-        range: `${project?.sheetId}_Main!S${targetRow}:T${targetRow}`, // col 18= S, col 19= T
-        values: [[propertyPrice, tax]],
+        range: `${project?.sheetId}_Main!S${targetRow}:U${targetRow}`, // col 18= S, col 20= U
+        values: [[propertyPrice, tax, JSON.stringify(otherTax)]],
       });
     });
 
@@ -929,7 +1019,7 @@ export const deleteSheetRecord = async (req, res) => {
     });
 
     const sheet = sheetMeta.data.sheets.find(
-      (s) => s.properties.title === `${work?.sheetId}_Main`
+      (s) => s.properties.title === `${work?.sheetId}_Main`,
     );
 
     if (!sheet) {
@@ -948,7 +1038,7 @@ export const deleteSheetRecord = async (req, res) => {
     const { id } = req.params;
 
     const rowIndex = records.findIndex(
-      (record) => Number(record[0]) === Number(id)
+      (record) => Number(record[0]) === Number(id),
     );
 
     if (rowIndex === -1) {
@@ -1156,7 +1246,7 @@ export const DeleteArea = async (req, res) => {
     const allAreas = await _getAllAreasWithRowIndex(work);
     // Find the area by matching the ID from req.params.id with the ID in column A
     const areaToDelete = allAreas.find(
-      (area) => String(area.id) === String(id)
+      (area) => String(area.id) === String(id),
     );
 
     if (!areaToDelete) {
@@ -1203,7 +1293,7 @@ export const seperateCommercialProperties = async (req, res) => {
           seperatecommercial: true,
         },
       },
-      { new: true }
+      { new: true },
     );
 
     const client = await auth.getClient();
@@ -1239,7 +1329,7 @@ export const seperateCommercialProperties = async (req, res) => {
     });
 
     console.log(
-      `Successfully updated ${response2.data.updatedCells} cells in range: ${response2.data.updatedRange}`
+      `Successfully updated ${response2.data.updatedCells} cells in range: ${response2.data.updatedRange}`,
     );
 
     res

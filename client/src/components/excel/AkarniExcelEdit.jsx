@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import apiPath from "../../isProduction";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const AkarniExcelEdit = () => {
   const navigation = useNavigate();
@@ -11,19 +13,22 @@ const AkarniExcelEdit = () => {
 
   const [lastSaved, setLastSaved] = useState(null);
 
+  const [project, setProject] = useState({});
   const { projectId } = useParams();
 
   const fetchRecords = async () => {
     try {
       // passing projectId in body as workId
 
-      const response = await fetch(`${await apiPath()}/api/sheet`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${await apiPath()}/api/sheet?workId=${projectId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
         },
-        body: JSON.stringify({ workId: projectId }),
-      });
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -41,19 +46,32 @@ const AkarniExcelEdit = () => {
     }
   };
 
-  console.log(data);
+  const fetchProject = async () => {
+    try {
+      setLoading(true);
+      const data = await axios.get(
+        `${await apiPath()}/api/work/project/${projectId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        },
+      );
+      console.log(data);
+      setProject(data?.data?.data || []);
+    } catch (error) {
+      console.error("Error fetching projects:", error);
+      toast.error(`Error Fetching Projects: ${error}`);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     fetchRecords();
+    fetchProject();
   }, []);
-
-  const project = {
-    spot: {
-      gaam: "રાજુલા",
-      taluka: "રાજુલા",
-      district: "અમરેલી",
-    },
-  };
 
   const handleCellChange = (rowIndex, key, value) => {
     const colIndex = COLUMN_MAP[key].colIndex;
@@ -75,11 +93,45 @@ const AkarniExcelEdit = () => {
     });
   };
 
-  const handleSave = () => {
-    // In a real application, you would send 'data' to Firestore here
-    console.log("Saving data:", data);
-    setLastSaved(new Date());
-    // Display a confirmation message using a custom modal (not alert!)
+  const handleSave = async () => {
+    const CHUNK_SIZE = 10; // safe for Google Sheets
+    const DELAY_MS = 1500; // 1.5 sec gap (rate limit safe)
+
+    const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+    try {
+      toast.info("Saving Data... Please Wait!");
+
+      let startIndex = 0; // row tracking (backend overwrite logic use karega)
+
+      for (let i = 0; i < data.length; i += CHUNK_SIZE) {
+        const chunk = data.slice(i, i + CHUNK_SIZE);
+
+        const payload = {
+          workId: projectId,
+          start: startIndex,
+          payload: chunk,
+        };
+
+        console.log(
+          `Uploading rows ${startIndex} → ${startIndex + chunk.length - 1}`,
+        );
+
+        await axios.put(`${await apiPath()}/api/sheet/excel`, payload);
+
+        // move start pointer for next overwrite
+        startIndex += chunk.length;
+
+        // hold to avoid Google Sheets API rate limit
+        await sleep(DELAY_MS);
+      }
+
+      toast.success("All data saved successfully 🚀");
+      setLastSaved(new Date());
+    } catch (error) {
+      console.error("Save Error:", error);
+      toast.error(error.response?.data?.message || "Error Saving Data");
+    }
   };
 
   // Map original column keys to the correct INDEX in the data tuple
@@ -132,7 +184,7 @@ const AkarniExcelEdit = () => {
             }
              ${lastSaved ? "hover:bg-green-700" : "hover:bg-orange-700"}
              text-white rounded-lg transition duration-150 shadow-md`}
-            title="Save Data (Simulated)"
+            title="Save Data"
           >
             <span className="hidden sm:inline">Save Data</span>
           </button>
@@ -168,7 +220,7 @@ const AkarniExcelEdit = () => {
               <div
                 key={key}
                 className={`p-2 border-r border-gray-300 flex-shrink-0 ${getColumnWidth(
-                  key
+                  key,
                 )}`}
                 style={{ minWidth: key === "description" ? "120px" : "60px" }}
               >
@@ -195,7 +247,7 @@ const AkarniExcelEdit = () => {
                   <div
                     key={key}
                     className={`border-r border-gray-200 flex-shrink-0 ${getColumnWidth(
-                      key
+                      key,
                     )} p-0 text-center flex items-center justify-center`}
                     style={{
                       minWidth: key === "description" ? "120px" : "60px",
@@ -239,7 +291,7 @@ const AkarniExcelEdit = () => {
               <div
                 key={`empty-${key}`}
                 className={`border-r border-gray-200 flex-shrink-0 ${getColumnWidth(
-                  key
+                  key,
                 )} p-0 text-center`}
                 style={{ minWidth: key === "description" ? "120px" : "60px" }}
               >

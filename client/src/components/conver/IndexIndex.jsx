@@ -95,10 +95,10 @@ const IndexIndex = ({ part, nop, project, totalHoouse }) => {
             marginTop: "20px",
           }}
         >
-          ઈન્ડેક્સ રિપોર્ટ
+          Index Report - (પાનોત્રી બુક)
         </h1>
-        <h2 className="text-2xl font-semibold mt-6 text-gray-700">
-          વર્ષ :- {project?.details?.akarniYear || "2025/26"}
+        <h2 className="text-2xl font-semibold mt-4 text-gray-700">
+          વર્ષ :- {project?.details?.taxYear || "2025/26"}
         </h2>
       </div>
 
@@ -126,7 +126,7 @@ const IndexIndex = ({ part, nop, project, totalHoouse }) => {
           }}
         >
           {/* Left Column (Address Details) */}
-          <div className="col-span-2 space-y-4 pt-2 pr-6">
+          <div className="col-span-2 space-y-4 pt-4 pr-6">
             <div className="text-base font-medium text-gray-800 space-y-1">
               <p
                 style={{
@@ -140,11 +140,13 @@ const IndexIndex = ({ part, nop, project, totalHoouse }) => {
                 </span>
                 <span>&bull; મુ:- સાવરકુંડલા. &bull; જીલ્લો:- અમરેલી.</span>
               </p>
-              <p style={{ marginTop: "10px" }}>
+              <p style={{ marginTop: "15px", fontSize: "18px" }}>
                 <b>એડ્રેસ :</b> સેન્ટ્રલ પોઈન્ટ કોમ્પલેક્ષ, બીજા માળે, જુના
-                બસસ્ટેન્ડસામે,સાવરકુંડલા.
+                બસસ્ટેન્ડ સામે, સાવરકુંડલા.
               </p>
-              <p>પીન કોડ નં. ૩૬૪૫૧૫ સોરાષ્ટ્ર. (પશ્ચિમ ગુજરાત)</p>
+              <p style={{ marginTop: "5px", fontSize: "17px" }}>
+                પીન કોડ નં. ૩૬૪૫૧૫ સોરાષ્ટ્ર. (પશ્ચિમ ગુજરાત)
+              </p>
             </div>
 
             <div className="mt-2 pt-2 border-t border-gray-300 flex items-center justify-between text-lg font-semibold">
@@ -192,7 +194,7 @@ const IndexIndex = ({ part, nop, project, totalHoouse }) => {
       </div>
 
       {/* -------------------- 5. Footer Data/Counters -------------------- */}
-      <div
+      {/* <div
         className="mb-10 border-t-2 border-gray-300"
         style={{ paddingInline: "50px", marginTop: "30px", paddingTop: "30px" }}
       >
@@ -214,7 +216,7 @@ const IndexIndex = ({ part, nop, project, totalHoouse }) => {
             <span className="text-xl font-extrabold">{totalHoouse}</span>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <p
         className="absolute text-xs text-gray-800"

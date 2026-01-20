@@ -639,7 +639,6 @@ const IndexReport = () => {
 
           return (
             <div
-              className="watermark"
               style={{
                 minHeight: "100%",
                 position: "relative",
@@ -649,7 +648,7 @@ const IndexReport = () => {
               <div
                 key={idx}
                 id={pageId}
-                className="report-page legal-landscape-dimensions"
+                className="report-page legal-landscape-dimensions watermark"
                 style={{
                   width: "100%",
                   position: "relative",
@@ -666,10 +665,12 @@ const IndexReport = () => {
                     className="heading"
                     style={{ fontSize: "16px", paddingTop: "25px" }}
                   >
-                    Index Book - (પાનોત્રી બુક) ક, ખ, ગ, પ્રમાણે <br /> પંચાયત
-                    હિસાબ નમુનો નંબર - ૮ આકારણી રજીસ્ટરની પાનોત્રી યાદી
+                    Index Report - (પાનોત્રી બુક) ક, ખ, ગ, પ્રમાણે <br /> ગામનો
+                    નમુના નંબર ૯/ડી - કરવેરા રજીસ્ટર
                   </h1>
-                  <h2 className="subheading">સને {"2025/2026"}</h2>
+                  <h2 className="subheading">
+                    સને {project?.details?.taxYear || "૨૦૨૫/૨૬"}
+                  </h2>
                   <span
                     className="page-numberN"
                     style={{
