@@ -289,15 +289,19 @@ const TarijReport = () => {
         <div
           className="pdf-report-container"
           id="pdf-report-container"
-          style={{ maxWidth: "1200px", minHeight: "500px" }}
+          style={{
+            maxWidth: "1200px",
+            minHeight: "500px",
+            paddingLeft: "35px",
+          }}
           // style={{ position: "absolute", left: "-9999px" }}
         >
           {" "}
           <div id="pdf-content-wrapper">
             <h1 className="text-xl font-bold text-center mb-0 text-gray-800">
-              કુલ મંગણાં તથા વસુલાતનો રિપોર્ટ (તારીજ) - સન 2024/25
+              કુલ મંગણાં તથા વસુલાતનો રિપોર્ટ (તારીજ)
               <br />
-              {project?.details?.akaraniYear || ""}
+              સને {project?.details?.akaraniYear || ""}
             </h1>
 
             <div
@@ -1046,14 +1050,43 @@ const TarijReport = () => {
               className="location-info-visible"
               style={{ paddingInline: "50px", paddingTop: "10px" }}
             >
-              <h3>કુલ મિલ્કતની સંખ્યા: {total?.totalCount}</h3>
+              <h3>
+                કુલ મિલ્કતની સંખ્યા: {toGujaratiNumber(total?.totalCount)}
+              </h3>
 
-              <h3>વેરો લેવા પાત્ર મિલ્કતની સંખ્યા: {total?.countTax}</h3>
+              <h3>
+                વેરો લેવા પાત્ર મિલ્કતની સંખ્યા:{" "}
+                {toGujaratiNumber(total?.countTax)}
+              </h3>
 
               <h3>
                 અન્ય મિલ્કત વેરો ન લેવાની મિલકતની સંખ્યા:{" "}
-                {total?.totalCount - total?.countTax}
+                {toGujaratiNumber(total?.totalCount - total?.countTax)}
               </h3>
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "end",
+                paddingRight: "50px",
+                marginTop: "170px",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <b style={{ fontSize: "18px" }}> તલાટી કમ મંત્રી </b>
+
+                <p>{project.spot?.gaam} ગ્રામપંચાયત </p>
+                <p>
+                  તા. {project?.spot?.taluka} જી. {project?.spot?.district}{" "}
+                </p>
+              </div>
             </div>
           </div>
         </div>
