@@ -574,7 +574,7 @@ const AnalyticsReport = () => {
 
   return (
     <>
-      <div className="flex flex-col items-center p-4 bg-gray-200 min-h-screen">
+      <div className="flex flex-col items-center min-h-screen">
         <div id="report-content" className="w-[1024px] bg-white shadow-2xl">
           {/* --- PAGE 1: મુખ્ય વિશ્લેષણ --- */}
           <div
@@ -587,34 +587,60 @@ const AnalyticsReport = () => {
           >
             <div
               id="page-1"
-              className="p-10 min-h-[1350px] border-b-2 watermark"
+              className="min-h-[1350px]"
+              style={{ padding: "20px" }}
             >
-              {" "}
-              <header className="text-center mb-8">
-                <h1 className="text-3xl font-bold text-blue-900">
-                  Aakarni Analysis Report - ૨૦૨૫/૨૬
-                </h1>{" "}
-                <div className="flex justify-around mt-2 text-lg font-semibold p-4 rounded-lg">
-                  <span>ગામ: {project?.spot?.gaam}</span>
-                  <span>તાલુકો: {project?.spot?.taluka}</span>
-                  <span>જીલ્લો: {project?.spot?.district}</span>
-                </div>
-              </header>
-              <div className="grid grid-cols-2 gap-6">
-                {reportData.metrics.map((m) => (
-                  <div
-                    key={m.id}
-                    className="flex items-center p-6 border rounded-xl shadow-sm"
+              <div
+                className="watermark"
+                style={{
+                  marginLeft: "145px",
+                }}
+              >
+                <header className="text-center mb-8">
+                  <h1
+                    className="text-3xl font-bold text-blue-900"
+                    style={{ position: "relative" }}
                   >
-                    <img src={m.icon} className="w-12 h-12 mr-4" alt="icon" />
-                    <div>
-                      <p className="text-gray-600">{m.description}</p>
-                      <p className="text-2xl font-bold text-blue-600">
-                        સંખ્યા: {m.count}
-                      </p>
-                    </div>
+                    Aakarni Analysis Report -{" "}
+                    {project?.details?.akaraniYear || "2025/26"}
+                    <span
+                      style={{
+                        position: "absolute",
+                        fontSize: "14px",
+                        right: "0px",
+                        top: "0px",
+                        color: "#000",
+                      }}
+                    >
+                      Page - A
+                    </span>
+                  </h1>
+
+                  <div
+                    className="flex justify-around text-lg font-semibold rounded-lg pt-2"
+                    style={{ fontSize: "22px" }}
+                  >
+                    <span>ગામ: {project?.spot?.gaam}</span>
+                    <span>તાલુકો: {project?.spot?.taluka}</span>
+                    <span>જીલ્લો: {project?.spot?.district}</span>
                   </div>
-                ))}
+                </header>
+                <div className="grid grid-cols-2 gap-6">
+                  {reportData.metrics.map((m) => (
+                    <div
+                      key={m.id}
+                      className="flex items-center p-4 border rounded-xl shadow-sm"
+                    >
+                      <img src={m.icon} className="w-12 h-12 mr-4" alt="icon" />
+                      <div>
+                        <p className="text-gray-600">{m.description}</p>
+                        <p className="text-2xl font-bold text-blue-600">
+                          સંખ્યા: {m.count}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -630,37 +656,145 @@ const AnalyticsReport = () => {
             {/* --- PAGE 2: એરીયા વાઇઝ વિગત --- */}
             <div
               id="page-2"
-              className="p-10 min-h-[1350px] border-b-2 watermark"
+              className="p-10 min-h-[1350px]"
+              style={{ padding: "20px" }}
             >
-              {" "}
-              <header className="text-center mb-8">
-                <h1 className="text-3xl font-bold text-blue-900">
-                  એરીયા/વિસ્તાર વાઇઝ મિલ્કતની સંખ્યા
-                </h1>{" "}
-                <div className="flex justify-around mt-2 text-lg font-semibold p-2 rounded-lg">
-                  <span>ગામ: {project?.spot?.gaam}</span>
-                  <span>તાલુકો: {project?.spot?.taluka}</span>
-                  <span>જીલ્લો: {project?.spot?.district}</span>
-                </div>
-              </header>
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="bg-blue-600 text-white">
-                    <th className="p-4 border">ક્રમ</th>
-                    <th className="p-4 border">એરીયા / વિસ્તારનું નામ</th>
-                    <th className="p-4 border">કુલ મિલ્કતો</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {areaData.map((area, idx) => (
-                    <tr key={idx} className="hover:bg-blue-50">
-                      <td className="p-2 border">{idx + 1}</td>
-                      <td className="p-2 border">{area.name}</td>
-                      <td className="p-2 border font-bold">{area.count}</td>
+              <div
+                className="watermark"
+                style={{
+                  marginLeft: "145px",
+                }}
+              >
+                <header className="text-center mb-8">
+                  <h1
+                    className="text-3xl font-bold text-blue-900"
+                    style={{ position: "relative" }}
+                  >
+                    એરીયા/વિસ્તાર વાઇઝ મિલ્કતની સંખ્યા -{" "}
+                    {project?.details?.akaraniYear || "2025/26"}
+                    <span
+                      style={{
+                        position: "absolute",
+                        fontSize: "14px",
+                        right: "0px",
+                        top: "0px",
+                        color: "#000",
+                      }}
+                    >
+                      Page - B
+                    </span>
+                  </h1>{" "}
+                  <div
+                    className="flex justify-around text-lg font-semibold rounded-lg pt-2"
+                    style={{ fontSize: "22px" }}
+                  >
+                    <span>ગામ: {project?.spot?.gaam}</span>
+                    <span>તાલુકો: {project?.spot?.taluka}</span>
+                    <span>જીલ્લો: {project?.spot?.district}</span>
+                  </div>
+                </header>
+                <table className="w-full text-left border-collapse mytable">
+                  <thead>
+                    <tr>
+                      <th
+                        className="p-4"
+                        style={{
+                          maxWidth: "15px",
+                          fontSize: "18px",
+                          paddingLeft: "10px",
+                        }}
+                      >
+                        ક્રમ
+                      </th>
+                      <th
+                        className="p-4"
+                        style={{
+                          maxWidth: "90px",
+
+                          fontSize: "18px",
+                          paddingLeft: "10px",
+                        }}
+                      >
+                        એરીયા / વિસ્તારનું નામ
+                      </th>
+                      <th
+                        className="p-4"
+                        style={{
+                          maxWidth: "30px",
+
+                          fontSize: "18px",
+                          paddingLeft: "10px",
+                        }}
+                      >
+                        કુલ મિલ્કતો
+                      </th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+
+                  <tbody>
+                    {areaData.map((area, idx) => (
+                      <tr key={idx}>
+                        <td
+                          className="p-2"
+                          style={{
+                            maxWidth: "15px",
+
+                            paddingLeft: "10px",
+                          }}
+                        >
+                          {idx + 1}
+                        </td>
+                        <td
+                          className="p-2"
+                          style={{
+                            maxWidth: "90px",
+
+                            fontSize: "18px",
+                            paddingLeft: "10px",
+                          }}
+                        >
+                          {area.name}
+                        </td>
+                        <td
+                          className="p-2 font-bold"
+                          style={{
+                            maxWidth: "30px",
+
+                            fontSize: "18px",
+                            paddingLeft: "10px",
+                          }}
+                        >
+                          {area.count}
+                        </td>
+                      </tr>
+                    ))}
+
+                    <tr>
+                      <td
+                        colSpan={2}
+                        style={{
+                          textAlign: "center",
+                          fontSize: "20px",
+                        }}
+                      >
+                        <b>કુલ</b>
+                      </td>
+                      <td
+                        style={{
+                          paddingLeft: "10px",
+                        }}
+                      >
+                        <b>
+                          {areaData.reduce(
+                            (total, area) => total + area.count,
+                            0,
+                          )}
+                        </b>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
 
@@ -673,166 +807,195 @@ const AnalyticsReport = () => {
             }}
           >
             {/* --- PAGE 3: ગ્રાફ્સ અને ચાર્ટ્સ --- */}
-            <div id="page-3" className="p-10 min-h-[1350px] watermark">
-              <header className="text-center mb-8">
-                <h1 className="text-3xl font-bold text-blue-900">
-                  ગ્રાફિકલ વિશ્લેષણ (Charts & Graphs)
-                </h1>{" "}
-                <div className="flex justify-around mt-2 text-lg font-semibold p-4 rounded-lg">
-                  <span>ગામ: {project?.spot?.gaam}</span>
-                  <span>તાલુકો: {project?.spot?.taluka}</span>
-                  <span>જીલ્લો: {project?.spot?.district}</span>{" "}
-                </div>
-              </header>
-
-              <div className="grid grid-cols-1 gap-12">
-                <div
-                  style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}
-                >
-                  {/* Pie Chart */}
-                  <div className="flex flex-col items-center">
-                    <h3 className="text-xl font-semibold mb-4">
-                      1. મિલ્કત પ્રકારનું વિતરણ -{" "}
-                      {reportData?.metrics[0]?.count || "0"}
-                    </h3>
-                    <PieChart width={500} height={350}>
-                      <Pie
-                        data={pieData}
-                        cx="50%"
-                        cy="50%"
-                        outerRadius={120}
-                        fill="#8884d8"
-                        dataKey="value"
-                        label
-                      >
-                        {pieData.map((entry, index) => (
-                          <Cell
-                            key={`cell-${index}`}
-                            fill={COLORS[index % COLORS.length]}
-                          />
-                        ))}
-                      </Pie>
-                      <Tooltip />
-                      <Legend />
-                    </PieChart>
-                  </div>
-
-                  <div className="flex flex-col items-center">
-                    <h3 className="text-xl font-semibold mb-4">
-                      2. કુલ રહેણાંક વાળા મકાનો -{" "}
-                      {reportData?.metrics[1]?.count || "0"}
-                    </h3>
-                    <PieChart width={500} height={350}>
-                      <Pie
-                        data={rahenankPieData}
-                        cx="50%"
-                        cy="50%"
-                        outerRadius={120}
-                        fill="#8884d8"
-                        dataKey="value"
-                        label
-                      >
-                        {rahenankPieData.map((entry, index) => (
-                          <Cell
-                            key={`cell-${index}`}
-                            fill={COLORS[index % COLORS.length]}
-                          />
-                        ))}
-                      </Pie>
-                      <Tooltip />
-                      <Legend />
-                    </PieChart>
-                  </div>
-                </div>
-
-                <div className="flex flex-col items-center">
-                  <h3 className="text-xl font-semibold mb-4">
-                    3. સરકારી મિલકત - {reportData?.metrics[8]?.count || "0"}
-                  </h3>
-                  <PieChart width={500} height={350}>
-                    <Pie
-                      data={govPieData}
-                      cx="50%"
-                      cy="50%"
-                      outerRadius={120}
-                      fill="#8884d8"
-                      dataKey="value"
-                      label
-                    >
-                      {govPieData.map((entry, index) => (
-                        <Cell
-                          key={`cell-${index}`}
-                          fill={COLORS[index % COLORS.length]}
-                        />
-                      ))}
-                    </Pie>
-                    <Tooltip />
-                    <Legend />
-                  </PieChart>
-                </div>
-
-                {/* Bar Chart */}
-                <div className="flex flex-col items-center">
-                  <h3 className="text-xl font-semibold mb-4">
-                    4. સુવિધાઓનું વિશ્લેષણ
-                  </h3>
-                  <BarChart
-                    width={850}
-                    height={350}
-                    data={[
-                      {
-                        name: `નળ કનેક્શન - ${
-                          reportData.metrics.find((m) => m.id === 11)?.count ||
-                          0
-                        }`,
-                        count:
-                          reportData.metrics.find((m) => m.id === 11)?.count ||
-                          0,
-                      },
-                      {
-                        name: `શૌચાલય - ${
-                          reportData.metrics.find((m) => m.id === 12)?.count ||
-                          0
-                        }`,
-                        count:
-                          reportData.metrics.find((m) => m.id === 12)?.count ||
-                          0,
-                      },
-                      {
-                        name: `મોબાઈલ ટાવર - ${
-                          reportData.metrics.find((m) => m.id === 13)?.count ||
-                          0
-                        }`,
-                        count:
-                          reportData.metrics.find((m) => m.id === 13)?.count ||
-                          0,
-                      },
-                      {
-                        name: `ફોન ઉપયોગ કરનાર - ${
-                          reportData.metrics.find((m) => m.id === 17)?.count ||
-                          0
-                        }`,
-                        count:
-                          reportData.metrics.find((m) => m.id === 17)?.count ||
-                          0,
-                      },
-                      {
-                        name: `બિન-પરવાનગી - ${
-                          reportData.metrics.find((m) => m.id === 18)?.count ||
-                          0
-                        }`,
-                        count:
-                          reportData.metrics.find((m) => m.id === 18)?.count ||
-                          0,
-                      },
-                    ]}
+            <div
+              id="page-3"
+              className="p-10 min-h-[1350px]"
+              style={{ padding: "20px" }}
+            >
+              <div
+                className="watermark1"
+                style={{
+                  marginLeft: "145px",
+                }}
+              >
+                <header className="text-center mb-8">
+                  <h1
+                    className="text-3xl font-bold text-blue-900"
+                    style={{ position: "relative" }}
                   >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <Tooltip />
-                    <Bar dataKey="count" fill="#82ca9d" barSize={60} />
-                  </BarChart>
+                    ગ્રાફિકલ વિશ્લેષણ (Charts & Graphs) -{" "}
+                    {project?.details?.akaraniYear || "2025/26"}
+                    <span
+                      style={{
+                        position: "absolute",
+                        fontSize: "14px",
+                        right: "0px",
+                        top: "0px",
+                        color: "#000",
+                      }}
+                    >
+                      Page - C
+                    </span>
+                  </h1>{" "}
+                  <div
+                    className="flex justify-around text-lg font-semibold rounded-lg pt-2"
+                    style={{ fontSize: "22px" }}
+                  >
+                    <span>ગામ: {project?.spot?.gaam}</span>
+                    <span>તાલુકો: {project?.spot?.taluka}</span>
+                    <span>જીલ્લો: {project?.spot?.district}</span>{" "}
+                  </div>
+                </header>
+
+                <div className="grid grid-cols-1 gap-12">
+                  <div
+                    style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}
+                  >
+                    {/* Pie Chart */}
+                    <div className="flex flex-col items-center">
+                      <h3 className="text-xl font-semibold">
+                        1. મિલ્કત પ્રકારનું વિતરણ -{" "}
+                        {reportData?.metrics[0]?.count || "0"}
+                      </h3>
+                      <PieChart width={400} height={350}>
+                        <Pie
+                          data={pieData}
+                          cx="50%"
+                          cy="50%"
+                          outerRadius={120}
+                          fill="#8884d8"
+                          dataKey="value"
+                          label
+                        >
+                          {pieData.map((entry, index) => (
+                            <Cell
+                              key={`cell-${index}`}
+                              fill={COLORS[index % COLORS.length]}
+                            />
+                          ))}
+                        </Pie>
+                        <Tooltip />
+                        <Legend />
+                      </PieChart>
+                    </div>
+
+                    <div className="flex flex-col items-center">
+                      <h3 className="text-xl font-semibold">
+                        2. કુલ રહેણાંક વાળા મકાનો -{" "}
+                        {reportData?.metrics[1]?.count || "0"}
+                      </h3>
+                      <PieChart width={300} height={350}>
+                        <Pie
+                          data={rahenankPieData}
+                          cx="50%"
+                          cy="50%"
+                          outerRadius={120}
+                          fill="#8884d8"
+                          dataKey="value"
+                          label
+                        >
+                          {rahenankPieData.map((entry, index) => (
+                            <Cell
+                              key={`cell-${index}`}
+                              fill={COLORS[index % COLORS.length]}
+                            />
+                          ))}
+                        </Pie>
+                        <Tooltip />
+                        <Legend />
+                      </PieChart>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col items-center">
+                    <h3 className="text-xl font-semibold">
+                      3. સરકારી મિલકત - {reportData?.metrics[8]?.count || "0"}
+                    </h3>
+                    <PieChart width={500} height={350}>
+                      <Pie
+                        data={govPieData}
+                        cx="50%"
+                        cy="50%"
+                        outerRadius={120}
+                        fill="#8884d8"
+                        dataKey="value"
+                        label
+                      >
+                        {govPieData.map((entry, index) => (
+                          <Cell
+                            key={`cell-${index}`}
+                            fill={COLORS[index % COLORS.length]}
+                          />
+                        ))}
+                      </Pie>
+                      <Tooltip />
+                      <Legend />
+                    </PieChart>
+                  </div>
+
+                  {/* Bar Chart */}
+                  <div className="flex flex-col items-center">
+                    <h3 className="text-xl font-semibold mb-4">
+                      4. સુવિધાઓનું વિશ્લેષણ
+                    </h3>
+                    <BarChart
+                      width={800}
+                      height={350}
+                      data={[
+                        {
+                          name: `નળ કનેક્શન - ${
+                            reportData.metrics.find((m) => m.id === 11)
+                              ?.count || 0
+                          }`,
+                          count:
+                            reportData.metrics.find((m) => m.id === 11)
+                              ?.count || 0,
+                        },
+                        {
+                          name: `શૌચાલય - ${
+                            reportData.metrics.find((m) => m.id === 12)
+                              ?.count || 0
+                          }`,
+                          count:
+                            reportData.metrics.find((m) => m.id === 12)
+                              ?.count || 0,
+                        },
+                        {
+                          name: `મોબાઈલ ટાવર - ${
+                            reportData.metrics.find((m) => m.id === 13)
+                              ?.count || 0
+                          }`,
+                          count:
+                            reportData.metrics.find((m) => m.id === 13)
+                              ?.count || 0,
+                        },
+                        {
+                          name: `ફોન ઉપયોગ કરનાર - ${
+                            reportData.metrics.find((m) => m.id === 17)
+                              ?.count || 0
+                          }`,
+                          count:
+                            reportData.metrics.find((m) => m.id === 17)
+                              ?.count || 0,
+                        },
+                        {
+                          name: `બિન-પરવાનગી - ${
+                            reportData.metrics.find((m) => m.id === 18)
+                              ?.count || 0
+                          }`,
+                          count:
+                            reportData.metrics.find((m) => m.id === 18)
+                              ?.count || 0,
+                        },
+                      ]}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="name" />
+                      <YAxis />
+                      <Tooltip />
+                      <Bar dataKey="count" fill="#82ca9d" barSize={60} />
+                    </BarChart>
+                  </div>
                 </div>
               </div>
             </div>
