@@ -597,7 +597,7 @@ const TaxRegister = () => {
                   </span>
 
                   <h1 className="heading" style={{ marginTop: "35px" }}>
-                    ગામનો નમુના નંબર ૯ ડી - કરવેરા રજીસ્ટર - સન{" "}
+                    ગામનો નમુના નંબર ૯ ડી - કરવેરા રજીસ્ટર - સને{" "}
                     {project?.details?.taxYear || "૨૦૨૫/૨૬"}
                   </h1>
 
@@ -626,7 +626,7 @@ const TaxRegister = () => {
                         rowSpan="2"
                         style={{ maxWidth: "45px" }}
                       >
-                        <span className="formatting">અનું ક્રમાંક</span>
+                        <span className="formatting">ખાતાનો નંબર</span>
                       </th>
 
                       <th
@@ -634,7 +634,7 @@ const TaxRegister = () => {
                         rowSpan="2"
                         style={{ maxWidth: "45px" }}
                       >
-                        <span className="formatting">મિલ્કત ક્રમાંક</span>
+                        <span className="formatting">પ્રોપર્ટી નંબર</span>
                       </th>
 
                       <th
@@ -642,7 +642,7 @@ const TaxRegister = () => {
                         rowSpan="2"
                         style={{ maxWidth: "90px" }}
                       >
-                        <span className="formatting">વિસ્તારનું નામ</span>
+                        <span className="formatting">એરિયાનું નામ</span>
                       </th>
 
                       <th
@@ -756,9 +756,7 @@ const TaxRegister = () => {
                           }}
                           key={index}
                         >
-                          <span className="formatting">
-                            {toGujaratiNumber(index + 1)}
-                          </span>
+                          <span className="formatting">{index + 1}</span>
                         </th>
                       ))}
                     </tr>
@@ -771,27 +769,39 @@ const TaxRegister = () => {
                     return (
                       <tbody>
                         <tr key={index}>
-                          <th rowSpan="3" style={{ textAlign: "right" }}>
+                          <th
+                            rowSpan="3"
+                            style={{ textAlign: "right", verticalAlign: "top" }}
+                          >
                             <span className="formatting">
                               {toGujaratiNumber(record[0])}
                             </span>
                           </th>
 
-                          <th rowSpan="3" style={{ textAlign: "right" }}>
+                          <th
+                            rowSpan="3"
+                            style={{ textAlign: "right", verticalAlign: "top" }}
+                          >
                             <span className="formatting">
                               {toGujaratiNumber(record[2])}
                             </span>
                           </th>
 
-                          <th rowSpan="3">
+                          <th rowSpan="3" style={{ verticalAlign: "top" }}>
                             <span className="formatting">{record[1]}</span>
                           </th>
 
                           <th
                             rowSpan="3"
                             // style={{ maxWidth: "150px" }}
+                            style={{ verticalAlign: "top" }}
                           >
-                            <span className="formatting">{record[3]}</span>
+                            <span
+                              className="formatting"
+                              style={{ verticalAlign: "top" }}
+                            >
+                              {record[3]}
+                            </span>
                           </th>
 
                           <th>
@@ -1018,7 +1028,7 @@ const TaxRegister = () => {
                           </td>
 
                           {/* ગઈ સાલના જાદે */}
-                          <td className="td"></td>
+                          <td className="td" rowSpan={3}></td>
                         </tr>
 
                         <tr>
@@ -1163,7 +1173,7 @@ const TaxRegister = () => {
                           </td>
 
                           {/* ગઈ સાલના જાદે */}
-                          <td className="td"></td>
+                          {/* <td className="td"></td> */}
                         </tr>
 
                         <tr>
@@ -1317,7 +1327,7 @@ const TaxRegister = () => {
                           </td>
 
                           {/* ગઈ સાલના જાદે */}
-                          <td className="td"></td>
+                          {/* <td className="td"></td> */}
                         </tr>
                       </tbody>
                     );
@@ -1451,7 +1461,7 @@ const TaxRegister = () => {
                       );
                     })}
 
-                    <td className="td"></td>
+                    <td className="td" rowSpan={3}></td>
 
                     {/* The last 'કુલ એકંદર' Demand totals (already calculated in pageTotals.demand) */}
                     {/* <td className="td">{pageTotals.demand.prev}</td> 
@@ -1522,7 +1532,7 @@ const TaxRegister = () => {
                       );
                     })}
 
-                    <td className="td"></td>
+                    {/* <td className="td"></td> */}
 
                     {/* 'કુલ એકંદર' Collection totals */}
                     {/* <td className="td">{pageTotals.collection.prev}</td>
@@ -1593,7 +1603,7 @@ const TaxRegister = () => {
                       );
                     })}
 
-                    <td className="td"></td>
+                    {/* <td className="td"></td> */}
 
                     {/* 'કુલ એકંદર' Outstanding totals */}
                     {/* <td className="td">{pageTotals.outstanding.prev}</td> 
@@ -1827,7 +1837,7 @@ const TaxRegister = () => {
                     </td>
 
                     {/* ગઈ સાલના જાદે */}
-                    <td className="td"></td>
+                    {/* <td className="td"></td> */}
                   </tr>
 
                   <tr>
@@ -1918,7 +1928,7 @@ const TaxRegister = () => {
                     </td>
 
                     {/* ગઈ સાલના જાદે */}
-                    <td className="td"></td>
+                    {/* <td className="td"></td> */}
                   </tr>
 
                   <tr>
@@ -2009,7 +2019,7 @@ const TaxRegister = () => {
                     </td>
 
                     {/* ગઈ સાલના જાદે */}
-                    <td className="td"></td>
+                    {/* <td className="td"></td> */}
                   </tr>
                 </>
               ))}

@@ -48,37 +48,37 @@ const AnalyticsReport = () => {
     metrics: [
       {
         id: 1,
-        description: "ગામની કુલ મિલ્કતોની સંખ્યા",
+        description: "ગામની મિલ્કતોની સંખ્યા",
         count: 0,
         icon: TotalHouseIcon,
       },
       {
         id: 2,
-        description: "કુલ રહેણાંક વાળા મકાનો",
+        description: "રહેણાંક વાળા મકાનો",
         count: 0,
         icon: HouseIcon,
       },
       {
         id: 3,
-        description: "કુલ રહેણાંક વાળા પાકા મકાનો",
+        description: "પાકા મકાનો રહેણાંક વાળા",
         count: 0,
         icon: PakaMakanIcon,
       },
       {
         id: 4,
-        description: "ગામના કુલ રહેણાંક વાળા કાચા મકાનો",
+        description: "કાચા મકાનો રહેણાંક વાળા",
         count: 0,
         icon: KachaMakanIcon,
       },
       {
         id: 5,
-        description: "ગામની કુલ દુકાનો",
+        description: "દુકાનો",
         count: 0,
         icon: StoreIcon,
       },
       {
         id: 6,
-        description: "કારખાનાઓ / ફેક્ટરી પ્રાઈવેટ-ખાનગી કુલ",
+        description: "કારખાનાઓ / ફેક્ટરી પ્રાઈવેટ-ખાનગી",
         count: 0,
         icon: FactoryIcon,
       },
@@ -91,61 +91,61 @@ const AnalyticsReport = () => {
 
       {
         id: 8,
-        description: "પ્લોટ સરકારી - કોમનપ્લોટ કુલ",
+        description: "પ્લોટ સરકારી - કોમનપ્લોટ",
         count: 0,
         icon: TotalHouseIcon,
       },
       {
         id: 9,
-        description: "સરકારી મિલ્કતો કુલ",
+        description: "સરકારી મિલ્કતો",
         count: 0,
         icon: TotalHouseIcon,
       },
       {
         id: 10,
-        description: "ધાર્મિક સ્થળો કુલ",
+        description: "ધાર્મિક સ્થળો",
         count: 0,
         icon: TotalHouseIcon,
       },
       {
         id: 11,
-        description: "નળની કુલ સંખ્યા",
+        description: "નળ",
         count: 0,
         icon: TotalHouseIcon,
       },
       {
         id: 12,
-        description: "શૌચાલયની કુલ સંખ્યા",
+        description: "શૌચાલય",
         count: 0,
         icon: TotalHouseIcon,
       },
       {
         id: 13,
-        description: "મોબાઈલ ટાવરની કુલ સંખ્યા",
+        description: "મોબાઈલ ટાવર",
         count: 0,
         icon: TotalHouseIcon,
       },
       {
         id: 14,
-        description: "વિસ્તાર - ગામના કુલ એરીયાની સંખ્યા",
+        description: "વિસ્તાર - ગામના એરીયા",
         count: 0,
         icon: TotalHouseIcon,
       },
       {
         id: 15,
-        description: "૧-મિલ્કતથી વધારે મિલ્કતો ધરાવતા હોય તેવા માલીકની સંખ્યા",
+        description: "૧-મિલ્કતથી વધારે મિલ્કતો ધરાવતા હોય તેવા માલીક",
         count: 0,
         icon: TotalHouseIcon,
       },
       {
         id: 16,
-        description: "ફક્ત ૧ જ મિલ્કત હોય તેવા મિલ્કત માલીકની સંખ્યા",
+        description: "ફક્ત ૧ જ મિલ્કત હોય તેવા મિલ્કત માલીક",
         count: 0,
         icon: TotalHouseIcon,
       },
       {
         id: 17,
-        description: "મોબાઇલ ફોન ઉપયોગ કરતા વ્યકિતઓની નંબરની કુલ સંખ્યા",
+        description: "મોબાઇલ ફોન ઉપયોગ કરતા વ્યકિતઓ",
         count: 0,
         icon: PhoneUserIcon,
       },
@@ -451,8 +451,8 @@ const AnalyticsReport = () => {
       }
     }
 
-    const today = new Date().toLocaleDateString("gu-IN").replace(/\//g, "-");
-    pdf.save(`Aakarni_Analysis_Report_${reportData.village}_${today}.pdf`);
+    // const today = new Date().toLocaleDateString("gu-IN").replace(/\//g, "-");
+    pdf.save(`Analysis_Report_${project?.spot?.gaam || "test"}.pdf`);
   };
 
   // ગ્રાફ માટે ડેટા
@@ -503,7 +503,7 @@ const AnalyticsReport = () => {
       }).length,
     },
     {
-      name: "પ્લોટ",
+      name: "ખાનગીપ્લોટ",
       value: records.filter(
         (r) =>
           r[7] === "પ્લોટ ખાનગી - ખુલ્લી જગ્યા" ||
@@ -599,7 +599,7 @@ const AnalyticsReport = () => {
                 <header className="text-center mb-8">
                   <h1
                     className="text-3xl font-bold text-blue-900"
-                    style={{ position: "relative" }}
+                    style={{ position: "relative", paddingTop: "10px" }}
                   >
                     Aakarni Analysis Report -{" "}
                     {project?.details?.akaraniYear || "2025/26"}
@@ -635,7 +635,7 @@ const AnalyticsReport = () => {
                       <div>
                         <p className="text-gray-600">{m.description}</p>
                         <p className="text-2xl font-bold text-blue-600">
-                          સંખ્યા: {m.count}
+                          કુલ સંખ્યા: {m.count}
                         </p>
                       </div>
                     </div>
@@ -668,7 +668,7 @@ const AnalyticsReport = () => {
                 <header className="text-center mb-8">
                   <h1
                     className="text-3xl font-bold text-blue-900"
-                    style={{ position: "relative" }}
+                    style={{ position: "relative", paddingTop: "10px" }}
                   >
                     એરીયા/વિસ્તાર વાઇઝ મિલ્કતની સંખ્યા -{" "}
                     {project?.details?.akaraniYear || "2025/26"}
@@ -693,40 +693,48 @@ const AnalyticsReport = () => {
                     <span>જીલ્લો: {project?.spot?.district}</span>
                   </div>
                 </header>
-                <table className="w-full text-left border-collapse mytable">
+                <table
+                  className="text-left border-collapse mytable"
+                  style={{ maxWidth: "fit-content", margin: "0 auto" }}
+                >
                   <thead>
                     <tr>
                       <th
                         className="p-4"
                         style={{
-                          maxWidth: "15px",
+                          width: "15px",
                           fontSize: "18px",
                           paddingLeft: "10px",
+                          textAlign: "center",
                         }}
                       >
-                        ક્રમ
+                        <span className="formatting">ક્રમ</span>
                       </th>
                       <th
                         className="p-4"
                         style={{
-                          maxWidth: "90px",
+                          width: "350px",
 
                           fontSize: "18px",
                           paddingLeft: "10px",
+                          textAlign: "center",
                         }}
                       >
-                        એરીયા / વિસ્તારનું નામ
+                        <span className="formatting">
+                          એરીયા / વિસ્તારનું નામ
+                        </span>
                       </th>
                       <th
                         className="p-4"
                         style={{
-                          maxWidth: "30px",
+                          width: "100px",
 
                           fontSize: "18px",
                           paddingLeft: "10px",
+                          textAlign: "center",
                         }}
                       >
-                        કુલ મિલ્કતો
+                        <span className="formatting">મિલ્કતોની સંખ્યા</span>
                       </th>
                     </tr>
                   </thead>
@@ -737,34 +745,34 @@ const AnalyticsReport = () => {
                         <td
                           className="p-2"
                           style={{
-                            maxWidth: "15px",
+                            width: "15px",
 
                             paddingLeft: "10px",
                           }}
                         >
-                          {idx + 1}
+                          <span className="formatting">{idx + 1}</span>
                         </td>
                         <td
                           className="p-2"
                           style={{
-                            maxWidth: "90px",
+                            width: "350px",
 
                             fontSize: "18px",
                             paddingLeft: "10px",
                           }}
                         >
-                          {area.name}
+                          <span className="formatting">{area.name}</span>
                         </td>
                         <td
                           className="p-2 font-bold"
                           style={{
-                            maxWidth: "30px",
+                            width: "100px",
 
                             fontSize: "18px",
                             paddingLeft: "10px",
                           }}
                         >
-                          {area.count}
+                          <span className="formatting">{area.count}</span>
                         </td>
                       </tr>
                     ))}
@@ -777,7 +785,7 @@ const AnalyticsReport = () => {
                           fontSize: "20px",
                         }}
                       >
-                        <b>કુલ</b>
+                        <b>ગામની કુલ મિલ્કતો</b>
                       </td>
                       <td
                         style={{
@@ -821,7 +829,7 @@ const AnalyticsReport = () => {
                 <header className="text-center mb-8">
                   <h1
                     className="text-3xl font-bold text-blue-900"
-                    style={{ position: "relative" }}
+                    style={{ position: "relative", paddingTop: "10px" }}
                   >
                     ગ્રાફિકલ વિશ્લેષણ (Charts & Graphs) -{" "}
                     {project?.details?.akaraniYear || "2025/26"}
