@@ -2,6 +2,7 @@ import React from "react";
 import LogoImage from "../../assets/logo.png";
 import WaleImage from "../../assets/wale.png";
 import WaleImage2 from "../../assets/wale2.png";
+import toGujaratiNumber from "../toGujaratiNumber";
 
 // Utility component for the main text blocks
 const TextBlock = ({ children }) => (
@@ -157,7 +158,8 @@ const TaxIndex = ({ part, nop, project, totalHoouse, taxes }) => {
             >
               <path d="M12,2 C16.9705627,2 21,6.02943725 21,11 C21,15.9705627 16.9705627,20 12,20 C8.89438596,20 6.16086392,18.4253386 4.60628526,16 L2,16 L2,14 L3.44299885,14 C3.15568576,13.0645632 3,12.0560377 3,11 C3,6.02943725 7.02943725,2 12,2 Z M12,4 C8.13400675,4 5,7.13400675 5,11 C5,14.8659932 8.13400675,18 12,18 C15.8659932,18 19,14.8659932 19,11 C19,7.13400675 15.8659932,4 12,4 Z M12,6 C12.5522847,6 13,6.44771525 13,7 L13,10.169 L15.1161165,12.2851165 C15.5066408,12.6756408 15.5066408,13.3088058 15.1161165,13.6993301 C14.7255922,14.0898544 14.0924272,14.0898544 13.7019029,13.6993301 L11.2928932,11.2903204 C11.1053568,11.102784 11,10.8484372 11,10.5831356 L11,7 C11,6.44771525 11.4477153,6 12,6 Z" />
             </svg>{" "}
-            {taxes[0]?.name} : <b>{taxes[0]?.values?.residence}</b> |
+            {taxes[0]?.name} :{" "}
+            <b>{toGujaratiNumber(taxes[0]?.values?.residence)}</b> |
           </span>
 
           {/* 2. सा. पानी वेरो (General Water) */}
@@ -171,7 +173,8 @@ const TaxIndex = ({ part, nop, project, totalHoouse, taxes }) => {
             >
               <path d="M19,10 C20.1045695,10 21,10.8954305 21,12 L21,14 C21,14.5522847 20.5522847,15 20,15 L19,15 L19,18 C19,20.209139 17.209139,22 15,22 C12.790861,22 11,20.209139 11,18 L11,15 L4,15 C3.44771525,15 3,14.5522847 3,14 L3,12 C3,10.8954305 3.8954305,10 5,10 L11,10 L11,8 L9,8 C8.44771525,8 8,7.55228475 8,7 L8,5 C8,4.44771525 8.44771525,4 9,4 L11,4 L11,2 L13,2 L13,4 L15,4 C15.5522847,4 16,4.44771525 16,5 L16,7 C16,7.55228475 15.5522847,8 15,8 L13,8 L13,10 L19,10 Z M13,18 L13,15 L17,15 L17,18 C17,19.1045695 16.1045695,20 15,20 C13.8954305,20 13,19.1045695 13,18 Z" />
             </svg>
-            {taxes[1]?.name} : <b>{taxes[1]?.values?.residence}</b> |
+            {taxes[1]?.name} :{" "}
+            <b>{toGujaratiNumber(taxes[1]?.values?.residence)}</b> |
           </span>
 
           {/* 3. लाईट वेरो (Street Light) */}
@@ -185,7 +188,8 @@ const TaxIndex = ({ part, nop, project, totalHoouse, taxes }) => {
             >
               <path d="M9,2 L15,2 L15,4 L18,4 C19.6568542,4 21,5.34314575 21,7 L21,9 C21,10.6568542 19.6568542,12 18,12 L18,14 C18,15.1045695 17.1045695,16 16,16 L14,16 L14,22 L10,22 L10,16 L8,16 C6.8954305,16 6,15.1045695 6,14 L6,12 C4.34314575,12 3,10.6568542 3,9 L3,7 C3,5.34314575 4.34314575,4 6,4 L9,4 L9,2 Z M18,6 L6,6 L6,9 C6,9.55228475 6.44771525,10 7,10 L17,10 C17.5522847,10 18,9.55228475 18,9 L18,6 Z M12,11 C11.4477153,11 11,11.4477153 11,12 L11,13 C11,13.5522847 11.4477153,14 12,14 C12.5522847,14 13,13.5522847 13,13 L13,12 C13,11.4477153 12.5522847,11 12,11 Z" />
             </svg>
-            {taxes[2]?.name} : <b>{taxes[2]?.values?.residence}</b> |
+            {taxes[2]?.name} :{" "}
+            <b>{toGujaratiNumber(taxes[2]?.values?.residence)}</b> |
           </span>
 
           {/* 4. सफाई वेरो (Cleaning/Broom) */}
@@ -199,7 +203,8 @@ const TaxIndex = ({ part, nop, project, totalHoouse, taxes }) => {
             >
               <path d="M19.035,4.929 L20.449,6.343 L9.949,16.843 C9.667,17.125 9.256,17.228 8.887,17.121 L5.121,18.878 L2.293,21.707 L0.879,20.293 L3.707,17.464 L5.464,13.698 C5.357,13.329 5.46,12.919 5.743,12.636 L19.035,4.929 Z M15.464,9.257 L16.879,7.843 L19.707,10.672 L18.293,12.086 L15.464,9.257 Z M13.343,11.379 L14.757,9.964 L16.879,12.086 L15.464,13.5 L13.343,11.379 Z M11.222,13.5 L12.636,12.086 L14.757,14.207 L13.343,15.621 L11.222,13.5 Z" />
             </svg>
-            {taxes[3]?.name} : <b>{taxes[3]?.values?.residence}</b>
+            {taxes[3]?.name} :{" "}
+            <b>{toGujaratiNumber(taxes[3]?.values?.residence)}</b>
           </span>
 
           {taxes.map((tax, index) => {
@@ -213,7 +218,8 @@ const TaxIndex = ({ part, nop, project, totalHoouse, taxes }) => {
             )
               return (
                 <span>
-                  | {tax?.name} : <b>{tax?.values?.residence}</b>
+                  | {tax?.name} :{" "}
+                  <b>{toGujaratiNumber(tax?.values?.residence)}</b>
                 </span>
               );
           })}
@@ -332,7 +338,7 @@ const TaxIndex = ({ part, nop, project, totalHoouse, taxes }) => {
                     // borderBottom: "1px solid #000",
                   }}
                 >
-                  {part}
+                  {toGujaratiNumber(part)}
                 </b>
               </label>
             </div>
@@ -349,7 +355,7 @@ const TaxIndex = ({ part, nop, project, totalHoouse, taxes }) => {
                     // borderBottom: "1px solid #000",
                   }}
                 >
-                  {registerHouseCount}
+                  {toGujaratiNumber(registerHouseCount)}
                 </b>
               </label>
             </div>
@@ -367,7 +373,7 @@ const TaxIndex = ({ part, nop, project, totalHoouse, taxes }) => {
                     // borderBottom: "1px solid #000",
                   }}
                 >
-                  {pageRange}
+                  {toGujaratiNumber(pageRange)}
                 </b>
               </label>
             </div>
@@ -384,7 +390,7 @@ const TaxIndex = ({ part, nop, project, totalHoouse, taxes }) => {
                     // borderBottom: "1px solid #000",
                   }}
                 >
-                  {totalHoouse}
+                  {toGujaratiNumber(totalHoouse)}
                 </b>
               </label>
             </div>

@@ -130,7 +130,11 @@ const AkarniPage = ({
               <span className="formatting">અન્ય સુવિધા</span>
             </th>
 
-            <th className="" rowSpan={2} style={headerStyle}>
+            <th
+              className=""
+              rowSpan={2}
+              style={{ ...headerStyle, minWidth: "90px" }}
+            >
               <span className="formatting">નોંધ / રીમાર્કસ</span>
             </th>
           </tr>
@@ -277,8 +281,9 @@ const AkarniPage = ({
 const headerStyle = {
   // border: "1px solid black",
   // padding: "5px",
-  fontSize: "12px", // Adjust based on your table-font class
-  // verticalAlign: "middle",
+  fontSize: "12px",
+  textAlign: "center",
+  verticalAlign: "middle",
 };
 
 const cellStyle = {

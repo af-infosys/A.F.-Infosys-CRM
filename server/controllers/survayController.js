@@ -940,7 +940,21 @@ export const calculateValuation = async (req, res) => {
 
         otherTax.light = { curr: otherTaxdata[2][2] || "-" };
         otherTax.cleaning = { curr: otherTaxdata[3][2] || "-" };
-      } else if (propertyCategory === "dukan") {
+      } else if (
+        propertyCategory === "દુકાન" ||
+        propertyCategory === "પ્રાઈવેટ - સંસ્થાઓ" ||
+        propertyCategory === "કારખાના - ઇન્ડસ્ટ્રીજ઼" ||
+        propertyCategory === "ટ્રસ્ટ મિલ્કત / NGO" ||
+        propertyCategory === "મંડળી - સેવા સહકારી મંડળી" ||
+        propertyCategory === "બેંક - અર્ધ સરકારી બેંક" ||
+        propertyCategory === "બેંક - પ્રાઇટ બેંક" ||
+        propertyCategory === "સરકારી સહાય આવાસ" ||
+        propertyCategory === "કોમ્પપ્લેક્ષ" ||
+        propertyCategory === "હિરાના કારખાના નાના" ||
+        propertyCategory === "હિરાના કારખાના મોટા" ||
+        propertyCategory === "મોબાઈલ ટાવર" ||
+        propertyCategory === "પેટ્રોલ પંપ, ગેસ પંપ"
+      ) {
         otherTax.normal_water = { curr: otherTaxdata[0][3] || "-" };
 
         if (tabConnections) {
@@ -951,7 +965,10 @@ export const calculateValuation = async (req, res) => {
 
         otherTax.light = { curr: otherTaxdata[2][3] || "-" };
         otherTax.cleaning = { curr: otherTaxdata[3][3] || "-" };
-      } else if (propertyCategory === "પ્લોટ ખાનગી - ખુલ્લી જગ્યા") {
+      } else if (
+        propertyCategory === "પ્લોટ ખાનગી - ખુલ્લી જગ્યા" ||
+        propertyCategory === "પ્લોટ (ફરતી દિવાલ) ખાનગી"
+      ) {
         otherTax.normal_water = { curr: otherTaxdata[0][4] || "-" };
 
         if (tabConnections) {
@@ -962,7 +979,13 @@ export const calculateValuation = async (req, res) => {
 
         otherTax.light = { curr: otherTaxdata[2][4] || "-" };
         otherTax.cleaning = { curr: otherTaxdata[3][4] || "-" };
-      } else if (propertyCategory === "comanplot") {
+      } else if (
+        propertyCategory === "ધાર્મિક સ્થળ" ||
+        propertyCategory === "સરકારી મિલ્ક્ત" ||
+        propertyCategory === "બેંક - સરકારી" ||
+        propertyCategory === "પ્લોટ સરકારી - કોમનપ્લોટ" ||
+        propertyCategory === "પ્લોટ (ફરતી દિવાલ) સરકારી"
+      ) {
         otherTax.normal_water = { curr: otherTaxdata[0][5] || "-" };
 
         if (tabConnections) {

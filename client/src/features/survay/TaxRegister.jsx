@@ -772,11 +772,15 @@ const TaxRegister = () => {
                       <tbody>
                         <tr key={index}>
                           <th rowSpan="3" style={{ textAlign: "right" }}>
-                            <span className="formatting">{record[0]}</span>
+                            <span className="formatting">
+                              {toGujaratiNumber(record[0])}
+                            </span>
                           </th>
 
                           <th rowSpan="3" style={{ textAlign: "right" }}>
-                            <span className="formatting">{record[2]}</span>
+                            <span className="formatting">
+                              {toGujaratiNumber(record[2])}
+                            </span>
                           </th>
 
                           <th rowSpan="3">

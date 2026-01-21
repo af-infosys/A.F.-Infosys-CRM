@@ -253,7 +253,7 @@ const AnalyticsReport = () => {
     const TotalCount = records.length;
 
     const RahenankCount = records.filter(
-      (record) => record[7]?.trim() === "રહેણાંક - મકાન",
+      (record) => record[7] === "રહેણાંક - મકાન",
     ).length;
 
     const RahenankPakaCount = records.filter(
@@ -285,8 +285,13 @@ const AnalyticsReport = () => {
       (record) => record[7]?.trim() === "પ્લોટ સરકારી - કોમનપ્લોટ",
     ).length;
 
-    const GovnOwnedCount = records.filter((record) =>
-      record[7]?.includes("સરકારી મિલ્ક્ત"),
+    const GovnOwnedCount = records.filter(
+      (record) =>
+        record[7]?.trim() === "ધાર્મિક સ્થળ" ||
+        record[7]?.trim() === "સરકારી મિલ્ક્ત" ||
+        record[7]?.trim() === "બેંક - સરકારી" ||
+        record[7]?.trim() === "પ્લોટ સરકારી - કોમનપ્લોટ" ||
+        record[7]?.trim() === "પ્લોટ (ફરતી દિવાલ) સરકારી",
     ).length;
 
     const DharmikCount = records.filter(
@@ -454,21 +459,114 @@ const AnalyticsReport = () => {
   const pieData = [
     {
       name: "રહેણાંક",
-      value: records.filter((r) => r[7]?.trim() === "રહેણાંક - મકાન").length,
+      value: records.filter((r) => r[7] === "રહેણાંક - મકાન").length,
+    },
+    {
+      name: "વ્યાવસાયિક",
+      value: records.filter((r) => {
+        // 1️⃣ Direct category match
+        if (
+          r[7] === "દુકાન" ||
+          r[7] === "પ્રાઈવેટ - સંસ્થાઓ" ||
+          r[7] === "કારખાના - ઇન્ડસ્ટ્રીજ઼" ||
+          r[7] === "ટ્રસ્ટ મિલ્કત / NGO" ||
+          r[7] === "મંડળી - સેવા સહકારી મંડળી" ||
+          r[7] === "બેંક - અર્ધ સરકારી બેંક" ||
+          r[7] === "બેંક - પ્રાઇટ બેંક" ||
+          r[7] === "સરકારી સહાય આવાસ" ||
+          r[7] === "કોમ્પપ્લેક્ષ" ||
+          r[7] === "હિરાના કારખાના નાના" ||
+          r[7] === "હિરાના કારખાના મોટા" ||
+          r[7] === "મોબાઈલ ટાવર" ||
+          r[7] === "પેટ્રોલ પંપ, ગેસ પંપ"
+        ) {
+          return true;
+        }
+
+        // 2️⃣ r[14] JSON અંદર "દુકાન" શોધવું
+        try {
+          const floors = JSON.parse(r[14]);
+
+          return (
+            Array.isArray(floors) &&
+            floors.some(
+              (floor) =>
+                Array.isArray(floor.roomDetails) &&
+                floor.roomDetails.some((room) =>
+                  room?.roomHallShopGodown?.includes("દુકાન"),
+                ),
+            )
+          );
+        } catch (e) {
+          return false;
+        }
+      }).length,
     },
     {
       name: "પ્લોટ",
       value: records.filter(
         (r) =>
-          r[7]?.trim() === "પ્લોટ ખાનગી - ખુલ્લી જગ્યા" ||
-          r[7]?.trim() === "પ્લોટ (ફરતી દિવાલ) ખાનગી" ||
-          r[7]?.trim() === "પ્લોટ ખાનગી - ખુલ્લી જગ્યા" ||
-          r[7]?.trim() === "પ્લોટ ખાનગી - ખુલ્લી જગ્યા",
+          r[7] === "પ્લોટ ખાનગી - ખુલ્લી જગ્યા" ||
+          r[7] === "પ્લોટ (ફરતી દિવાલ) ખાનગી",
+      ).length,
+    },
+
+    {
+      name: "કોમનપ્લોટ",
+      value: records.filter(
+        (r) =>
+          r[7] === "પ્લોટ સરકારી - કોમનપ્લોટ" ||
+          r[7] === "પ્લોટ (ફરતી દિવાલ) સરકારી",
+      ).length,
+    },
+
+    {
+      name: "સરકારી",
+      value: records.filter(
+        (r) =>
+          r[7] === "ધાર્મિક સ્થળ" ||
+          r[7] === "સરકારી મિલ્ક્ત" ||
+          r[7] === "બેંક - સરકારી" ||
+          r[7] === "પ્લોટ સરકારી - કોમનપ્લોટ" ||
+          r[7] === "પ્લોટ (ફરતી દિવાલ) સરકારી",
+      ).length,
+    },
+  ];
+
+  const rahenankPieData = [
+    { name: "કાચા મકાનો", value: reportData?.metrics[2]?.count },
+    { name: "પાકા મકાનો", value: reportData?.metrics[3]?.count },
+  ];
+
+  // records.filter(
+  //       (r) =>
+  //         r[7] === "ધાર્મિક સ્થળ" ||
+  //         r[7] === "સરકારી મિલ્ક્ત" ||
+  //         r[7] === "બેંક - સરકારી" ||
+  //         r[7] === "પ્લોટ સરકારી - કોમનપ્લોટ" ||
+  //         r[7] === "પ્લોટ (ફરતી દિવાલ) સરકારી",
+  //     ).length,
+
+  const govPieData = [
+    {
+      name: "ધાર્મિક સ્થળ",
+      value: records.filter((r) => r[7] === "ધાર્મિક સ્થળ").length,
+    },
+    {
+      name: "બેંક",
+      value: records.filter((r) => r[7] === "બેંક - સરકારી").length,
+    },
+    {
+      name: "કોમનપ્લોટ",
+      value: records.filter(
+        (r) =>
+          r[7] === "પ્લોટ સરકારી - કોમનપ્લોટ" ||
+          r[7] === "પ્લોટ (ફરતી દિવાલ) સરકારી",
       ).length,
     },
     {
-      name: "સરકારી",
-      value: records.filter((r) => r[7]?.includes("સરકારી")).length,
+      name: "અન્ય",
+      value: records.filter((r) => r[7] === "સરકારી મિલ્ક્ત").length,
     },
   ];
 
@@ -496,7 +594,7 @@ const AnalyticsReport = () => {
                 <h1 className="text-3xl font-bold text-blue-900">
                   Aakarni Analysis Report - ૨૦૨૫/૨૬
                 </h1>{" "}
-                <div className="flex justify-around mt-6 text-lg font-semibold p-4 rounded-lg">
+                <div className="flex justify-around mt-2 text-lg font-semibold p-4 rounded-lg">
                   <span>ગામ: {project?.spot?.gaam}</span>
                   <span>તાલુકો: {project?.spot?.taluka}</span>
                   <span>જીલ્લો: {project?.spot?.district}</span>
@@ -539,7 +637,7 @@ const AnalyticsReport = () => {
                 <h1 className="text-3xl font-bold text-blue-900">
                   એરીયા/વિસ્તાર વાઇઝ મિલ્કતની સંખ્યા
                 </h1>{" "}
-                <div className="flex justify-around mt-6 text-lg font-semibold p-4 rounded-lg">
+                <div className="flex justify-around mt-2 text-lg font-semibold p-2 rounded-lg">
                   <span>ગામ: {project?.spot?.gaam}</span>
                   <span>તાલુકો: {project?.spot?.taluka}</span>
                   <span>જીલ્લો: {project?.spot?.district}</span>
@@ -556,9 +654,9 @@ const AnalyticsReport = () => {
                 <tbody>
                   {areaData.map((area, idx) => (
                     <tr key={idx} className="hover:bg-blue-50">
-                      <td className="p-4 border">{idx + 1}</td>
-                      <td className="p-4 border">{area.name}</td>
-                      <td className="p-4 border font-bold">{area.count}</td>
+                      <td className="p-2 border">{idx + 1}</td>
+                      <td className="p-2 border">{area.name}</td>
+                      <td className="p-2 border font-bold">{area.count}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -580,7 +678,7 @@ const AnalyticsReport = () => {
                 <h1 className="text-3xl font-bold text-blue-900">
                   ગ્રાફિકલ વિશ્લેષણ (Charts & Graphs)
                 </h1>{" "}
-                <div className="flex justify-around mt-6 text-lg font-semibold p-4 rounded-lg">
+                <div className="flex justify-around mt-2 text-lg font-semibold p-4 rounded-lg">
                   <span>ગામ: {project?.spot?.gaam}</span>
                   <span>તાલુકો: {project?.spot?.taluka}</span>
                   <span>જીલ્લો: {project?.spot?.district}</span>{" "}
@@ -588,15 +686,72 @@ const AnalyticsReport = () => {
               </header>
 
               <div className="grid grid-cols-1 gap-12">
-                {/* Pie Chart */}
+                <div
+                  style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}
+                >
+                  {/* Pie Chart */}
+                  <div className="flex flex-col items-center">
+                    <h3 className="text-xl font-semibold mb-4">
+                      1. મિલ્કત પ્રકારનું વિતરણ -{" "}
+                      {reportData?.metrics[0]?.count || "0"}
+                    </h3>
+                    <PieChart width={500} height={350}>
+                      <Pie
+                        data={pieData}
+                        cx="50%"
+                        cy="50%"
+                        outerRadius={120}
+                        fill="#8884d8"
+                        dataKey="value"
+                        label
+                      >
+                        {pieData.map((entry, index) => (
+                          <Cell
+                            key={`cell-${index}`}
+                            fill={COLORS[index % COLORS.length]}
+                          />
+                        ))}
+                      </Pie>
+                      <Tooltip />
+                      <Legend />
+                    </PieChart>
+                  </div>
+
+                  <div className="flex flex-col items-center">
+                    <h3 className="text-xl font-semibold mb-4">
+                      2. કુલ રહેણાંક વાળા મકાનો -{" "}
+                      {reportData?.metrics[1]?.count || "0"}
+                    </h3>
+                    <PieChart width={500} height={350}>
+                      <Pie
+                        data={rahenankPieData}
+                        cx="50%"
+                        cy="50%"
+                        outerRadius={120}
+                        fill="#8884d8"
+                        dataKey="value"
+                        label
+                      >
+                        {rahenankPieData.map((entry, index) => (
+                          <Cell
+                            key={`cell-${index}`}
+                            fill={COLORS[index % COLORS.length]}
+                          />
+                        ))}
+                      </Pie>
+                      <Tooltip />
+                      <Legend />
+                    </PieChart>
+                  </div>
+                </div>
+
                 <div className="flex flex-col items-center">
                   <h3 className="text-xl font-semibold mb-4">
-                    મિલ્કત પ્રકારનું વિતરણ -{" "}
-                    {reportData?.metrics[0]?.count || ""}
+                    3. સરકારી મિલકત - {reportData?.metrics[8]?.count || "0"}
                   </h3>
                   <PieChart width={500} height={350}>
                     <Pie
-                      data={pieData}
+                      data={govPieData}
                       cx="50%"
                       cy="50%"
                       outerRadius={120}
@@ -604,7 +759,7 @@ const AnalyticsReport = () => {
                       dataKey="value"
                       label
                     >
-                      {pieData.map((entry, index) => (
+                      {govPieData.map((entry, index) => (
                         <Cell
                           key={`cell-${index}`}
                           fill={COLORS[index % COLORS.length]}
@@ -619,22 +774,55 @@ const AnalyticsReport = () => {
                 {/* Bar Chart */}
                 <div className="flex flex-col items-center">
                   <h3 className="text-xl font-semibold mb-4">
-                    સુવિધાઓનું વિશ્લેષણ (નળ અને શૌચાલય)
+                    4. સુવિધાઓનું વિશ્લેષણ
                   </h3>
                   <BarChart
-                    width={600}
+                    width={850}
                     height={350}
                     data={[
                       {
-                        name: "નળ કનેક્શન",
+                        name: `નળ કનેક્શન - ${
+                          reportData.metrics.find((m) => m.id === 11)?.count ||
+                          0
+                        }`,
                         count:
                           reportData.metrics.find((m) => m.id === 11)?.count ||
                           0,
                       },
                       {
-                        name: "શૌચાલય",
+                        name: `શૌચાલય - ${
+                          reportData.metrics.find((m) => m.id === 12)?.count ||
+                          0
+                        }`,
                         count:
                           reportData.metrics.find((m) => m.id === 12)?.count ||
+                          0,
+                      },
+                      {
+                        name: `મોબાઈલ ટાવર - ${
+                          reportData.metrics.find((m) => m.id === 13)?.count ||
+                          0
+                        }`,
+                        count:
+                          reportData.metrics.find((m) => m.id === 13)?.count ||
+                          0,
+                      },
+                      {
+                        name: `ફોન ઉપયોગ કરનાર - ${
+                          reportData.metrics.find((m) => m.id === 17)?.count ||
+                          0
+                        }`,
+                        count:
+                          reportData.metrics.find((m) => m.id === 17)?.count ||
+                          0,
+                      },
+                      {
+                        name: `બિન-પરવાનગી - ${
+                          reportData.metrics.find((m) => m.id === 18)?.count ||
+                          0
+                        }`,
+                        count:
+                          reportData.metrics.find((m) => m.id === 18)?.count ||
                           0,
                       },
                     ]}

@@ -10,6 +10,7 @@ import html2canvas from "html2canvas";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import toGujaratiNumber from "../../components/toGujaratiNumber";
 
 const TarijReport = () => {
   const [records, setRecords] = useState([]);
@@ -28,7 +29,7 @@ const TarijReport = () => {
           headers: {
             "Content-Type": "application/json",
           },
-        }
+        },
       );
 
       if (!response.ok) {
@@ -40,22 +41,115 @@ const TarijReport = () => {
 
       if (result?.data?.length > 0) {
         const totalValue = {
-          houseTax: [
-            {
-              curr:
-                result?.data?.reduce(
-                  (sum, item) =>
-                    sum + (JSON.parse(item[20] || "{}")[0]?.curr || 0),
-                  0
-                ) ?? 0,
-              prev:
-                result?.data?.reduce(
-                  (sum, item) =>
-                    sum + (JSON.parse(item[20] || "{}")[0]?.prev || 0),
-                  0
-                ) ?? 0,
-            },
-          ],
+          houseTax: {
+            curr:
+              result?.data?.reduce(
+                (sum, item) => sum + Number(item[19] || 0),
+                0,
+              ) ?? 0,
+            prev: 0,
+          },
+
+          waterTax: {
+            curr:
+              result?.data?.reduce(
+                (sum, item) =>
+                  sum +
+                  Number(JSON.parse(item[20] || "{}")?.normal_water?.curr || 0),
+                0,
+              ) ?? 0,
+            prev:
+              result?.data?.reduce(
+                (sum, item) =>
+                  sum +
+                  Number(JSON.parse(item[20] || "{}")?.normal_water?.prev || 0),
+                0,
+              ) ?? 0,
+          },
+
+          specialTax: {
+            curr:
+              result?.data?.reduce(
+                (sum, item) =>
+                  sum +
+                  Number(
+                    JSON.parse(item[20] || "{}")?.special_water?.curr || 0,
+                  ),
+                0,
+              ) ?? 0,
+            prev:
+              result?.data?.reduce(
+                (sum, item) =>
+                  sum +
+                  Number(
+                    JSON.parse(item[20] || "{}")?.special_water?.prev || 0,
+                  ),
+                0,
+              ) ?? 0,
+          },
+
+          lightTax: {
+            curr:
+              result?.data?.reduce(
+                (sum, item) =>
+                  sum + Number(JSON.parse(item[20] || "{}")?.light?.curr || 0),
+                0,
+              ) ?? 0,
+            prev:
+              result?.data?.reduce(
+                (sum, item) =>
+                  sum + Number(JSON.parse(item[20] || "{}")?.light?.prev || 0),
+                0,
+              ) ?? 0,
+          },
+
+          cleanTax: {
+            curr:
+              result?.data?.reduce(
+                (sum, item) =>
+                  sum +
+                  Number(JSON.parse(item[20] || "{}")?.cleaning?.curr || 0),
+                0,
+              ) ?? 0,
+            prev:
+              result?.data?.reduce(
+                (sum, item) =>
+                  sum +
+                  Number(JSON.parse(item[20] || "{}")?.cleaning?.prev || 0),
+                0,
+              ) ?? 0,
+          },
+
+          totalCount: result?.data?.length,
+          countTax:
+            result?.data?.reduce(
+              (sum, item) =>
+                sum +
+                (item[7] === "ધાર્મિક સ્થળ" ||
+                item[7] === "સરકારી મિલ્ક્ત" ||
+                item[7] === "બેંક - સરકારી" ||
+                item[7] === "પ્લોટ સરકારી - કોમનપ્લોટ" ||
+                item[7] === "પ્લોટ (ફરતી દિવાલ) સરકારી"
+                  ? 0
+                  : 1),
+              0,
+            ) ?? 0,
+          // countNonTax: result?.data?.length,
+
+          //  otherTax: {
+          // curr:
+          //   result?.data?.reduce(
+          //     (sum, item) =>
+          //       sum + Number(JSON.parse(item[20] || "{}")?.other?.curr || 0),
+          //     0,
+          //   ) ?? 0,
+          // prev:
+          //   result?.data?.reduce(
+          //     (sum, item) =>
+          //       sum + Number(JSON.parse(item[20] || "{}")?.other?.prev || 0),
+          //     0,
+          //   ) ?? 0,
+          // },
         };
 
         console.log(totalValue);
@@ -83,7 +177,7 @@ const TarijReport = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        }
+        },
       );
       setProject(data?.data?.data || []);
     } catch (error) {
@@ -336,7 +430,9 @@ const TarijReport = () => {
                         key={index}
                         colSpan={index === 0 ? 2 : 1}
                       >
-                        <span className="formatting">{index + 1}</span>
+                        <span className="formatting">
+                          {toGujaratiNumber(index + 1, 1)}
+                        </span>
                       </th>
                     ))}
                   </tr>
@@ -347,254 +443,429 @@ const TarijReport = () => {
                   {/* {records.map((record, index) => ( */}
                   {/* <> */}
 
-                  {total?.houseTax && total.houseTax.length > 0 ? (
+                  {total?.houseTax ? (
                     <>
                       <tr>
                         <td className="td">
-                          <span className="formatting">{"1"}</span>
+                          <span className="formatting">
+                            {toGujaratiNumber(1)}
+                          </span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"ઘર વેરો"}</span>
+                          <span className="formatting">ઘર વેરો</span>
                         </td>
                         <td className="td">
                           <span className="formatting">
-                            {total?.houseTax[0]?.prev || 0}
+                            {toGujaratiNumber(total?.houseTax?.prev || 0, 1)}
                           </span>
                         </td>
                         <td className="td">
                           <span className="formatting">
-                            {total?.houseTax[0]?.curr || 0}
+                            {toGujaratiNumber(total?.houseTax?.curr || 0, 1)}
                           </span>
                         </td>
                         <td className="td">
                           <span className="formatting">
-                            {(total?.houseTax[0]?.prev || 0) +
-                              (total?.houseTax[0]?.curr || 0)}
+                            {toGujaratiNumber(
+                              (total?.houseTax?.prev || 0) +
+                                (total?.houseTax?.curr || 0),
+                              1,
+                            )}
+                          </span>
+                        </td>
+
+                        <td className="td">
+                          <span className="formatting">
+                            {toGujaratiNumber(total?.houseTax?.prev || 0, 1)}
                           </span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">
+                            {toGujaratiNumber(total?.houseTax?.curr || 0, 1)}
+                          </span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">
+                            {toGujaratiNumber(
+                              (total?.houseTax?.prev || 0) +
+                                (total?.houseTax?.curr || 0),
+                              1,
+                            )}
+                          </span>
+                        </td>
+
+                        <td className="td">
+                          <span className="formatting">{"૦"}</span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">{"૦"}</span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">{"૦"}</span>
+                        </td>
+
+                        <td className="td">
+                          <span className="formatting">
+                            {toGujaratiNumber(total?.houseTax?.prev || 0, 1)}
+                          </span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">
+                            {toGujaratiNumber(total?.houseTax?.curr || 0, 1)}
+                          </span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">
+                            {toGujaratiNumber(
+                              (total?.houseTax?.prev || 0) +
+                                (total?.houseTax?.curr || 0),
+                              1,
+                            )}
+                          </span>
                         </td>
+
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
-                        </td>
-                        <td className="td">
-                          <span className="formatting">{"00"}</span>
-                        </td>
-                        <td className="td">
-                          <span className="formatting">{"00"}</span>
-                        </td>
-                        <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">{"૦"}</span>
                         </td>
                       </tr>
 
                       <tr>
                         <td className="td">
-                          <span className="formatting">{"2"}</span>
-                        </td>
-                        <td className="td">
                           <span className="formatting">
-                            {"સામાન્ય પાણી વેરો"}
+                            {toGujaratiNumber(2)}
                           </span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">સામાન્ય પાણી વેરો</span>
+                        </td>
+
+                        <td className="td">
+                          <span className="formatting">
+                            {toGujaratiNumber(total?.waterTax?.prev || 0, 1)}
+                          </span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">
+                            {toGujaratiNumber(total?.waterTax?.curr || 0, 1)}
+                          </span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">
+                            {toGujaratiNumber(
+                              (total?.waterTax?.prev || 0) +
+                                (total?.waterTax?.curr || 0),
+                              1,
+                            )}
+                          </span>
+                        </td>
+
+                        <td className="td">
+                          <span className="formatting">
+                            {toGujaratiNumber(total?.waterTax?.prev || 0, 1)}
+                          </span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">
+                            {toGujaratiNumber(total?.waterTax?.curr || 0, 1)}
+                          </span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">
+                            {toGujaratiNumber(
+                              (total?.waterTax?.prev || 0) +
+                                (total?.waterTax?.curr || 0),
+                              1,
+                            )}
+                          </span>
+                        </td>
+
+                        <td className="td">
+                          <span className="formatting">{"૦"}</span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">{"૦"}</span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">{"૦"}</span>
+                        </td>
+
+                        <td className="td">
+                          <span className="formatting">
+                            {toGujaratiNumber(total?.waterTax?.prev || 0, 1)}
+                          </span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">
+                            {toGujaratiNumber(total?.waterTax?.curr || 0, 1)}
+                          </span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">
+                            {toGujaratiNumber(
+                              (total?.waterTax?.prev || 0) +
+                                (total?.waterTax?.curr || 0),
+                              1,
+                            )}
+                          </span>
                         </td>
+
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
-                        </td>
-                        <td className="td">
-                          <span className="formatting">{"00"}</span>
-                        </td>
-                        <td className="td">
-                          <span className="formatting">{"00"}</span>
-                        </td>
-                        <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">{"૦"}</span>
                         </td>
                       </tr>
 
                       <tr>
                         <td className="td">
-                          <span className="formatting">{"3"}</span>
+                          <span className="formatting">
+                            {toGujaratiNumber(3)}
+                          </span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"ખાસ પાણી વેરો"}</span>
+                          <span className="formatting">ખાસ પાણી વેરો</span>
+                        </td>
+
+                        <td className="td">
+                          <span className="formatting">
+                            {toGujaratiNumber(total?.specialTax?.prev || 0, 1)}
+                          </span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">
+                            {toGujaratiNumber(total?.specialTax?.curr || 0, 1)}
+                          </span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">
+                            {toGujaratiNumber(
+                              (total?.specialTax?.prev || 0) +
+                                (total?.specialTax?.curr || 0),
+                              1,
+                            )}
+                          </span>
+                        </td>
+
+                        <td className="td">
+                          <span className="formatting">
+                            {toGujaratiNumber(total?.specialTax?.prev || 0, 1)}
+                          </span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">
+                            {toGujaratiNumber(total?.specialTax?.curr || 0, 1)}
+                          </span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">
+                            {toGujaratiNumber(
+                              (total?.specialTax?.prev || 0) +
+                                (total?.specialTax?.curr || 0),
+                              1,
+                            )}
+                          </span>
+                        </td>
+
+                        <td className="td">
+                          <span className="formatting">{"૦"}</span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">{"૦"}</span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">{"૦"}</span>
+                        </td>
+
+                        <td className="td">
+                          <span className="formatting">
+                            {toGujaratiNumber(total?.specialTax?.prev || 0, 1)}
+                          </span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">
+                            {toGujaratiNumber(total?.specialTax?.curr || 0, 1)}
+                          </span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">
+                            {toGujaratiNumber(
+                              (total?.specialTax?.prev || 0) +
+                                (total?.specialTax?.curr || 0),
+                              1,
+                            )}
+                          </span>
                         </td>
+
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
-                        </td>
-                        <td className="td">
-                          <span className="formatting">{"00"}</span>
-                        </td>
-                        <td className="td">
-                          <span className="formatting">{"00"}</span>
-                        </td>
-                        <td className="td">
-                          <span className="formatting">{"00"}</span>
-                        </td>
-                        <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">{"૦"}</span>
                         </td>
                       </tr>
 
                       <tr>
                         <td className="td">
-                          <span className="formatting">{"4"}</span>
+                          <span className="formatting">
+                            {toGujaratiNumber(4)}
+                          </span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"લાઈટ વેરો"}</span>
+                          <span className="formatting">લાઈટ વેરો</span>
+                        </td>
+
+                        <td className="td">
+                          <span className="formatting">
+                            {toGujaratiNumber(total?.lightTax?.prev || 0, 1)}
+                          </span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">
+                            {toGujaratiNumber(total?.lightTax?.curr || 0, 1)}
+                          </span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">
+                            {toGujaratiNumber(
+                              (total?.lightTax?.prev || 0) +
+                                (total?.lightTax?.curr || 0),
+                              1,
+                            )}
+                          </span>
+                        </td>
+
+                        <td className="td">
+                          <span className="formatting">
+                            {toGujaratiNumber(total?.lightTax?.prev || 0, 1)}
+                          </span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">
+                            {toGujaratiNumber(total?.lightTax?.curr || 0, 1)}
+                          </span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">
+                            {toGujaratiNumber(
+                              (total?.lightTax?.prev || 0) +
+                                (total?.lightTax?.curr || 0),
+                              1,
+                            )}
+                          </span>
+                        </td>
+
+                        <td className="td">
+                          <span className="formatting">{"૦"}</span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">{"૦"}</span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">{"૦"}</span>
+                        </td>
+
+                        <td className="td">
+                          <span className="formatting">
+                            {toGujaratiNumber(total?.lightTax?.prev || 0, 1)}
+                          </span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">
+                            {toGujaratiNumber(total?.lightTax?.curr || 0, 1)}
+                          </span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">
+                            {toGujaratiNumber(
+                              (total?.lightTax?.prev || 0) +
+                                (total?.lightTax?.curr || 0),
+                              1,
+                            )}
+                          </span>
                         </td>
+
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
-                        </td>
-                        <td className="td">
-                          <span className="formatting">{"00"}</span>
-                        </td>
-                        <td className="td">
-                          <span className="formatting">{"00"}</span>
-                        </td>
-                        <td className="td">
-                          <span className="formatting">{"00"}</span>
-                        </td>
-                        <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">{"૦"}</span>
                         </td>
                       </tr>
 
                       <tr>
                         <td className="td">
-                          <span className="formatting">{"5"}</span>
+                          <span className="formatting">
+                            {toGujaratiNumber(5)}
+                          </span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"સફાઈ વેરો"}</span>
+                          <span className="formatting">સફાઈ વેરો</span>
+                        </td>
+
+                        <td className="td">
+                          <span className="formatting">
+                            {toGujaratiNumber(total?.cleanTax?.prev || 0, 1)}
+                          </span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">
+                            {toGujaratiNumber(total?.cleanTax?.curr || 0, 1)}
+                          </span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">
+                            {toGujaratiNumber(
+                              (total?.cleanTax?.prev || 0) +
+                                (total?.cleanTax?.curr || 0),
+                              1,
+                            )}
+                          </span>
+                        </td>
+
+                        <td className="td">
+                          <span className="formatting">
+                            {toGujaratiNumber(total?.cleanTax?.prev || 0, 1)}
+                          </span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">
+                            {toGujaratiNumber(total?.cleanTax?.curr || 0, 1)}
+                          </span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">
+                            {toGujaratiNumber(
+                              (total?.cleanTax?.prev || 0) +
+                                (total?.cleanTax?.curr || 0),
+                              1,
+                            )}
+                          </span>
+                        </td>
+
+                        <td className="td">
+                          <span className="formatting">{"૦"}</span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">{"૦"}</span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">{"૦"}</span>
+                        </td>
+
+                        <td className="td">
+                          <span className="formatting">
+                            {toGujaratiNumber(total?.cleanTax?.prev || 0, 1)}
+                          </span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">
+                            {toGujaratiNumber(total?.cleanTax?.curr || 0, 1)}
+                          </span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">
+                            {toGujaratiNumber(
+                              (total?.cleanTax?.prev || 0) +
+                                (total?.cleanTax?.curr || 0),
+                              1,
+                            )}
+                          </span>
                         </td>
+
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
-                        </td>
-                        <td className="td">
-                          <span className="formatting">{"00"}</span>
-                        </td>
-                        <td className="td">
-                          <span className="formatting">{"00"}</span>
-                        </td>
-                        <td className="td">
-                          <span className="formatting">{"00"}</span>
-                        </td>
-                        <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">{"૦"}</span>
                         </td>
                       </tr>
 
@@ -610,51 +881,152 @@ const TarijReport = () => {
 
                       <tr>
                         <td className="td" colSpan="2">
-                          <span className="formatting">{"એકંદર કુલ"}</span>
+                          <span className="formatting">એકંદર કુલ</span>
+                        </td>
+
+                        <td className="td">
+                          <span className="formatting">
+                            {toGujaratiNumber(
+                              total?.houseTax?.prev +
+                                total?.waterTax?.prev +
+                                total?.specialTax?.prev +
+                                total?.lightTax?.prev +
+                                total?.cleanTax?.prev || 0,
+                              1,
+                            )}
+                          </span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">
+                            {toGujaratiNumber(
+                              total?.houseTax?.curr +
+                                total?.waterTax?.curr +
+                                total?.specialTax?.curr +
+                                total?.lightTax?.curr +
+                                total?.cleanTax?.curr || 0,
+                              1,
+                            )}
+                          </span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">
+                            {toGujaratiNumber(
+                              total?.houseTax?.curr +
+                                total?.waterTax?.curr +
+                                total?.specialTax?.curr +
+                                total?.lightTax?.curr +
+                                total?.cleanTax?.curr +
+                                total?.houseTax?.prev +
+                                total?.waterTax?.prev +
+                                total?.specialTax?.prev +
+                                total?.lightTax?.prev +
+                                total?.cleanTax?.prev || 0,
+                              1,
+                            )}
+                          </span>
+                        </td>
+
+                        <td className="td">
+                          <span className="formatting">
+                            {toGujaratiNumber(
+                              total?.houseTax?.prev +
+                                total?.waterTax?.prev +
+                                total?.specialTax?.prev +
+                                total?.lightTax?.prev +
+                                total?.cleanTax?.prev || 0,
+                              1,
+                            )}
+                          </span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">
+                            {toGujaratiNumber(
+                              total?.houseTax?.curr +
+                                total?.waterTax?.curr +
+                                total?.specialTax?.curr +
+                                total?.lightTax?.curr +
+                                total?.cleanTax?.curr || 0,
+                              1,
+                            )}
+                          </span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">
+                            {toGujaratiNumber(
+                              total?.houseTax?.curr +
+                                total?.waterTax?.curr +
+                                total?.specialTax?.curr +
+                                total?.lightTax?.curr +
+                                total?.cleanTax?.curr +
+                                total?.houseTax?.prev +
+                                total?.waterTax?.prev +
+                                total?.specialTax?.prev +
+                                total?.lightTax?.prev +
+                                total?.cleanTax?.prev || 0,
+                              1,
+                            )}
+                          </span>
+                        </td>
+
+                        <td className="td">
+                          <span className="formatting">{"૦"}</span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">{"૦"}</span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">{"૦"}</span>
+                        </td>
+
+                        <td className="td">
+                          <span className="formatting">
+                            {toGujaratiNumber(
+                              total?.houseTax?.prev +
+                                total?.waterTax?.prev +
+                                total?.specialTax?.prev +
+                                total?.lightTax?.prev +
+                                total?.cleanTax?.prev || 0,
+                              1,
+                            )}
+                          </span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">
+                            {toGujaratiNumber(
+                              total?.houseTax?.curr +
+                                total?.waterTax?.curr +
+                                total?.specialTax?.curr +
+                                total?.lightTax?.curr +
+                                total?.cleanTax?.curr || 0,
+                              1,
+                            )}
+                          </span>
                         </td>
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">
+                            {toGujaratiNumber(
+                              total?.houseTax?.curr +
+                                total?.waterTax?.curr +
+                                total?.specialTax?.curr +
+                                total?.lightTax?.curr +
+                                total?.cleanTax?.curr +
+                                total?.houseTax?.prev +
+                                total?.waterTax?.prev +
+                                total?.specialTax?.prev +
+                                total?.lightTax?.prev +
+                                total?.cleanTax?.prev || 0,
+                              1,
+                            )}
+                          </span>
                         </td>
+
                         <td className="td">
-                          <span className="formatting">{"00"}</span>
-                        </td>
-                        <td className="td">
-                          <span className="formatting">{"00"}</span>
-                        </td>
-                        <td className="td">
-                          <span className="formatting">{"00"}</span>
-                        </td>
-                        <td className="td">
-                          <span className="formatting">{"00"}</span>
-                        </td>
-                        <td className="td">
-                          <span className="formatting">{"00"}</span>
+                          <span className="formatting">{"૦"}</span>
                         </td>
                       </tr>
                     </>
                   ) : (
-                    <p>Loading house tax data...</p> // Or some other placeholder
+                    <p>Loading house tax data... </p> // Or some other placeholder
                   )}
                   {/* </>
               ))} */}
@@ -674,11 +1046,14 @@ const TarijReport = () => {
               className="location-info-visible"
               style={{ paddingInline: "50px", paddingTop: "10px" }}
             >
-              <h3>કુલ મિલ્કતની સંખ્યા: {"0"}</h3>
+              <h3>કુલ મિલ્કતની સંખ્યા: {total?.totalCount}</h3>
 
-              <h3>વેરો લેવા પાત્ર મિલ્કતની સંખ્યા: {"0"}</h3>
+              <h3>વેરો લેવા પાત્ર મિલ્કતની સંખ્યા: {total?.countTax}</h3>
 
-              <h3>અન્ય મિલ્કત વેરો ન લેવાની મિલકતની સંખ્યા: {"0"}</h3>
+              <h3>
+                અન્ય મિલ્કત વેરો ન લેવાની મિલકતની સંખ્યા:{" "}
+                {total?.totalCount - total?.countTax}
+              </h3>
             </div>
           </div>
         </div>
@@ -840,88 +1215,88 @@ const TarijReport = () => {
                       {(total?.houseTax[0]?.prev || 0) +
                         (total?.houseTax[0]?.curr || 0)}
                     </td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
                   </tr>
 
                   <tr>
                     <td className="td">{"2"}</td>
                     <td className="td">{"સામાન્ય પાણી વેરો"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
                   </tr>
 
                   <tr>
                     <td className="td">{"3"}</td>
                     <td className="td">{"ખાસ પાણી વેરો"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
                   </tr>
 
                   <tr>
                     <td className="td">{"4"}</td>
                     <td className="td">{"લાઈટ વેરો"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
                   </tr>
 
                   <tr>
                     <td className="td">{"5"}</td>
                     <td className="td">{"સફાઈ વેરો"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
                   </tr>
 
                   <tr>
@@ -934,19 +1309,19 @@ const TarijReport = () => {
                     <td className="td" colSpan="2">
                       {"એકંદર કુલ"}
                     </td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
-                    <td className="td">{"00"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
+                    <td className="td">{"૦"}</td>
                   </tr>
                 </>
               ) : (
@@ -970,11 +1345,14 @@ const TarijReport = () => {
           className="location-info-visible"
           style={{ paddingInline: "50px", paddingTop: "10px" }}
         >
-          <h3>કુલ મિલ્કતની સંખ્યા: {"0"}</h3>
+          <h3>કુલ મિલ્કતની સંખ્યા: {total?.totalCount}</h3>
 
-          <h3>વેરો લેવા પાત્ર મિલ્કતની સંખ્યા: {"0"}</h3>
+          <h3>વેરો લેવા પાત્ર મિલ્કતની સંખ્યા: {total?.countTax}</h3>
 
-          <h3>અન્ય મિલ્કત વેરો ન લેવાની મિલકતની સંખ્યા: {"0"}</h3>
+          <h3>
+            અન્ય મિલ્કત વેરો ન લેવાની મિલકતની સંખ્યા:{" "}
+            {total?.totalCount - total?.countTax}
+          </h3>
         </div>
       </div>
     </div>
