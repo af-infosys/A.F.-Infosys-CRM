@@ -48,7 +48,7 @@ const AnalyticsReport = () => {
     metrics: [
       {
         id: 1,
-        description: "ગામની મિલ્કતોની સંખ્યા",
+        description: "ગામની મિલ્કતો",
         count: 0,
         icon: TotalHouseIcon,
       },
@@ -278,11 +278,15 @@ const AnalyticsReport = () => {
     ).length;
 
     const PlotCount = records.filter(
-      (record) => record[7]?.trim() === "પ્લોટ ખાનગી - ખુલ્લી જગ્યા",
+      (record) =>
+        record[7]?.trim() === "પ્લોટ ખાનગી - ખુલ્લી જગ્યા" ||
+        record[7]?.trim() === "પ્લોટ (ફરતી દિવાલ) ખાનગી",
     ).length;
 
     const GovnPlotCount = records.filter(
-      (record) => record[7]?.trim() === "પ્લોટ સરકારી - કોમનપ્લોટ",
+      (record) =>
+        record[7]?.trim() === "પ્લોટ સરકારી - કોમનપ્લોટ" ||
+        record[7]?.trim() === "પ્લોટ (ફરતી દિવાલ) સરકારી",
     ).length;
 
     const GovnOwnedCount = records.filter(
@@ -510,7 +514,6 @@ const AnalyticsReport = () => {
           r[7] === "પ્લોટ (ફરતી દિવાલ) ખાનગી",
       ).length,
     },
-
     {
       name: "કોમનપ્લોટ",
       value: records.filter(
@@ -526,9 +529,7 @@ const AnalyticsReport = () => {
         (r) =>
           r[7] === "ધાર્મિક સ્થળ" ||
           r[7] === "સરકારી મિલ્ક્ત" ||
-          r[7] === "બેંક - સરકારી" ||
-          r[7] === "પ્લોટ સરકારી - કોમનપ્લોટ" ||
-          r[7] === "પ્લોટ (ફરતી દિવાલ) સરકારી",
+          r[7] === "બેંક - સરકારી",
       ).length,
     },
   ];
@@ -570,7 +571,15 @@ const AnalyticsReport = () => {
     },
   ];
 
-  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+  // const COLORS = ["green", "red", "brown", "orange", "blue"];
+
+  const COLORS = [
+    "#27AE60", // Deeper Green
+    "#C0392B", // Deep Red
+    "#7F4F24", // Dark Caramel Brown
+    "#E67E22", // Burnt Orange
+    "#2980B9", // Strong Blue
+  ];
 
   return (
     <>
@@ -781,18 +790,18 @@ const AnalyticsReport = () => {
                       <td
                         colSpan={2}
                         style={{
-                          textAlign: "center",
+                          textAlign: "right",
                           fontSize: "20px",
                         }}
                       >
-                        <b>ગામની કુલ મિલ્કતો</b>
+                        <b className="formatting">ગામની કુલ મિલ્કતો</b>
                       </td>
                       <td
                         style={{
                           paddingLeft: "10px",
                         }}
                       >
-                        <b>
+                        <b className="formatting">
                           {areaData.reduce(
                             (total, area) => total + area.count,
                             0,
@@ -829,7 +838,7 @@ const AnalyticsReport = () => {
                 <header className="text-center mb-8">
                   <h1
                     className="text-3xl font-bold text-blue-900"
-                    style={{ position: "relative", paddingTop: "10px" }}
+                    style={{ position: "relative", paddingTop: "30px" }}
                   >
                     ગ્રાફિકલ વિશ્લેષણ (Charts & Graphs) -{" "}
                     {project?.details?.akaraniYear || "2025/26"}
@@ -958,6 +967,8 @@ const AnalyticsReport = () => {
                           count:
                             reportData.metrics.find((m) => m.id === 11)
                               ?.count || 0,
+
+                          color: "red",
                         },
                         {
                           name: `શૌચાલય - ${
@@ -1001,7 +1012,13 @@ const AnalyticsReport = () => {
                       <XAxis dataKey="name" />
                       <YAxis />
                       <Tooltip />
-                      <Bar dataKey="count" fill="#82ca9d" barSize={60} />
+                      <Bar dataKey="count" barSize={60}>
+                        <Cell fill="#2ECC71" />
+                        <Cell fill="#E74C3C" />
+                        <Cell fill="#9B59B6" />
+                        <Cell fill="#F39C12" />
+                        <Cell fill="#3498DB" />
+                      </Bar>
                     </BarChart>
                   </div>
                 </div>
