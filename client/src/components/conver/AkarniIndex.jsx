@@ -16,34 +16,49 @@ const TextBlock = ({ children }) => (
 
 const AkarniIndex = ({
   title,
-  part,
-  nop,
+  part, // Current Bundle Number (e.g., 1, 2, 3)
+  nop, // Records per page (e.g., 7)
   project,
-  totalHoouse,
-  total,
-  commercial,
+  totalHoouse, // Grand Total of ALL houses (Res + Comm mixed or total context)
+  total, // Total records SPECIFIC to this category (passed as 'totalRecords' from parent)
+  commercial, // If commercial cover: contains count of Residential records. If residential: false/undefined.
 }) => {
-  const housesPerBundle = nop * 100;
+  // --- FIXED CALCULATIONS ---
 
-  const startHouseIndex = (part - 1) * housesPerBundle;
-  const remainingHouses = totalHoouse - startHouseIndex;
+  const PAGES_PER_BUNDLE = 100;
+  const MAX_RECORDS_PER_BUNDLE = PAGES_PER_BUNDLE * nop; // e.g., 700 records
 
-  const registerHouseCount =
-    remainingHouses >= housesPerBundle
-      ? housesPerBundle
-      : Math.max(remainingHouses, 0);
+  // 1. Calculate Records in THIS specific Register/Bundle
+  // Logic: (Part - 1) * 700 se start karo.
+  const startRecordIndex = (part - 1) * MAX_RECORDS_PER_BUNDLE;
+  const remainingRecords = total - startRecordIndex;
 
-  // Pages Range
-  const isLastBundle = remainingHouses <= housesPerBundle;
+  // Agar remaining 700 se jyada hai to 700 lo, nahi to remaining lo.
+  const recordsInThisBundle =
+    remainingRecords >= MAX_RECORDS_PER_BUNDLE
+      ? MAX_RECORDS_PER_BUNDLE
+      : Math.max(remainingRecords, 0);
 
-  const pagesInThisBundle = isLastBundle
-    ? Math.ceil(registerHouseCount / nop)
-    : 100;
+  console.log(recordsInThisBundle);
 
-  const startPage = (part - 1) * 100 + 1;
-  const endPage = startPage + pagesInThisBundle - 1;
+  // 2. Calculate Page Range (Start - End)
 
-  const pageRange = `${toGujaratiNumber(startPage)} થી ${toGujaratiNumber(endPage)}`;
+  // Step A: Find previous section offset (Pages used by Residential if this is Commercial)
+  // Note: 'commercial' prop holds the count of previous residential records if this is a commercial cover
+  const previousSectionPages = commercial ? Math.ceil(commercial / nop) : 0;
+
+  // Step B: Find pages skipped by previous bundles in THIS section
+  const previousBundlePages = (part - 1) * PAGES_PER_BUNDLE;
+
+  // Step C: Pages consumed by current bundle records
+  const pagesUsedCurrently = Math.ceil(recordsInThisBundle / nop);
+
+  // Final Page Numbers
+  const startPage = previousSectionPages + previousBundlePages + 1;
+  const endPage = startPage + pagesUsedCurrently - 1;
+
+  // Formatting Range string
+  const pageRangeString = `${toGujaratiNumber(startPage)} થી ${toGujaratiNumber(endPage)}`;
 
   return (
     <div
@@ -54,8 +69,7 @@ const AkarniIndex = ({
         paddingLeft: "20px",
       }}
     >
-      {/* -------------------- 1. Top Header (Village, Taluka, District) -------------------- */}
-
+      {/* -------------------- IMAGES / DESIGN -------------------- */}
       <img
         src={WaleImage}
         style={{
@@ -65,7 +79,6 @@ const AkarniIndex = ({
           height: "calc(100% + 20px + 100px)",
         }}
       />
-
       <img
         src={WaleImage}
         style={{
@@ -76,7 +89,6 @@ const AkarniIndex = ({
           transform: "scaleX(-1)",
         }}
       />
-
       <img
         src={WaleImage2}
         style={{
@@ -86,7 +98,6 @@ const AkarniIndex = ({
           width: "calc(100% - 20px)",
         }}
       />
-
       <img
         src={WaleImage2}
         style={{
@@ -97,11 +108,21 @@ const AkarniIndex = ({
         }}
       />
 
+      {/* -------------------- HEADER -------------------- */}
       <header
         className="grid grid-cols-3 font-bold pb-2"
-        style={{ marginTop: "135px", paddingTop: "20px", fontSize: "38px" }}
+        style={{
+          marginTop: "135px",
+          paddingTop: "20px",
+          fontSize: "38px",
+          display: "flex",
+          justifyContent: "space-between",
+        }}
       >
-        <div className="text-left text-blue-700">
+        <div
+          className="text-left text-blue-700"
+          style={{ whiteSpace: "nowrap" }}
+        >
           <span className="font-extrabold">મોજે : </span>-{" "}
           {project?.spot?.gaam || "..."}
         </div>
@@ -115,7 +136,7 @@ const AkarniIndex = ({
         </div>
       </header>
 
-      {/* -------------------- 2. Main Title and Subtitle -------------------- */}
+      {/* -------------------- TITLE -------------------- */}
       <div className="text-center mt-2 mb-2">
         <h1
           className="text-4xl font-extrabold text-blue-900 inline-block"
@@ -141,7 +162,7 @@ const AkarniIndex = ({
         </h2>
       </div>
 
-      {/* -------------------- 3. Instruction/Description Blocks -------------------- */}
+      {/* -------------------- INSTRUCTIONS -------------------- */}
       <div className="mt-3 text-justify">
         <TextBlock>
           ગ્રામ પંચાયત આકારણી સર્વે, વાર્ષીક જમાબંધી જમીન મહેસુલ હિસાબ, પંચાયત
@@ -155,7 +176,7 @@ const AkarniIndex = ({
       </div>
 
       <div style={{ display: "flex", marginTop: "0px" }}>
-        {/* -------------------- 4. Central Information Block (Logo & Details) -------------------- */}
+        {/* -------------------- INFO BLOCK -------------------- */}
         <div
           className="mt-5 p-3 border-4 border-dashed border-gray-400 rounded-lg"
           style={{
@@ -175,7 +196,6 @@ const AkarniIndex = ({
               marginTop: "0px",
             }}
           >
-            {/* Left Column (Address Details) */}
             <div className="col-span-2 space-y-4 pt-2 pr-6">
               <div className="text-base font-medium text-gray-800 space-y-1">
                 <p
@@ -205,7 +225,6 @@ const AkarniIndex = ({
                   E-mail :{" "}
                   <span className="text-blue-600">af.infosys146@gmail.com</span>
                 </p>
-                {/* Website :{" "} */}
                 <a
                   href="https://www.afinfosys.com"
                   target="_blank"
@@ -226,11 +245,10 @@ const AkarniIndex = ({
               </div>
             </div>
 
-            {/* Right Column (Logo) */}
             <div className="col-span-1 flex justify-center items-center">
               <img
                 src={LogoImage}
-                alt="A.F. Infosys Logo Placeholder"
+                alt="Logo"
                 className="w-48 h-48 object-contain rounded-lg shadow-lg"
                 onError={(e) => {
                   e.target.onerror = null;
@@ -242,8 +260,7 @@ const AkarniIndex = ({
           </div>
         </div>
 
-        {/* -------------------- 5. Footer Data/Counters (Now includes Part and Page Range) -------------------- */}
-        {/* Changed to use grid-cols-2 for a two-column layout */}
+        {/* -------------------- COUNTERS (DATA) -------------------- */}
         <div
           className="mt-3 pt-3 border-t border-gray-300"
           style={{ marginLeft: "40px", marginTop: "30px", paddingTop: "30px" }}
@@ -252,84 +269,41 @@ const AkarniIndex = ({
             className="gap-x-12 gap-y-6"
             style={{ display: "flex", flexDirection: "column" }}
           >
-            {/* 1. Register Count (Top Left) */}
-            <div
-              className="flex items-center text-xl font-medium text-gray-700"
-              style={{ justifyContent: "start" }}
-            >
+            {/* 1. Part Number */}
+            <div className="flex items-center text-xl font-medium text-gray-700">
               <label style={{ maxWidth: "fit-content", fontSize: "21px" }}>
                 ભાગ :-
-                <b
-                  style={{
-                    // paddingBottom: "4px",
-                    paddingInline: "5px",
-                    marginLeft: "2px",
-                    // borderBottom: "1px solid #000",
-                  }}
-                >
+                <b style={{ paddingInline: "5px", marginLeft: "2px" }}>
                   {toGujaratiNumber(part)}
                 </b>
               </label>
             </div>
 
-            {/* 2. Village Count (Top Right) */}
+            {/* 2. Records in THIS Register */}
             <div className="flex items-center text-xl font-medium text-gray-700">
               <label style={{ maxWidth: "fit-content", fontSize: "21px" }}>
                 આ રજીસ્ટર ના ઘરની સંખ્યા :-
-                <b
-                  style={{
-                    // paddingBottom: "4px",
-                    paddingInline: "5px",
-                    marginLeft: "2px",
-                    // borderBottom: "1px solid #000",
-                  }}
-                >
-                  {total
-                    ? toGujaratiNumber(total)
-                    : toGujaratiNumber(registerHouseCount)}
+                <b style={{ paddingInline: "5px", marginLeft: "2px" }}>
+                  {toGujaratiNumber(recordsInThisBundle)}
                 </b>
               </label>
             </div>
 
-            {/* Applying border and padding to span both columns for a visual break before Part/Page info */}
-
+            {/* 3. Page Numbers (Calculated cleanly above) */}
             <div className="flex items-center text-xl font-medium text-gray-700">
               <label style={{ maxWidth: "fit-content", fontSize: "21px" }}>
                 પાના નંબર :-
-                <b
-                  style={{
-                    // paddingBottom: "4px",
-                    paddingInline: "5px",
-                    marginLeft: "2px",
-                    // borderBottom: "1px solid #000",
-                  }}
-                >
-                  {total
-                    ? commercial
-                      ? `${Math.ceil(commercial / nop) + 1} થી ${
-                          Math.ceil(commercial / nop) + Math.ceil(total / nop)
-                        }`
-                      : `${toGujaratiNumber(part === 1 ? part : (part - 1) * 100 + 1)} થી ${toGujaratiNumber(
-                          (part === 1 ? part : (part - 1) * 100) +
-                            Math.ceil(total / nop),
-                        )}`
-                    : pageRange}
+                <b style={{ paddingInline: "5px", marginLeft: "2px" }}>
+                  {pageRangeString}
                 </b>
               </label>
             </div>
 
-            {/* 4. NEW: Page Range (પાના નંબર) (Bottom Right) */}
+            {/* 4. Total Records (Entire Village) */}
             <div className="flex items-center text-xl font-medium text-gray-700">
               <label style={{ maxWidth: "fit-content", fontSize: "21px" }}>
                 ગામના કુલ ઘરની સંખ્યા :-
-                <b
-                  style={{
-                    // paddingBottom: "4px",
-                    paddingInline: "5px",
-                    marginLeft: "2px",
-                    // borderBottom: "1px solid #000",
-                  }}
-                >
+                <b style={{ paddingInline: "5px", marginLeft: "2px" }}>
                   {toGujaratiNumber(totalHoouse)}
                 </b>
               </label>
@@ -346,7 +320,7 @@ const AkarniIndex = ({
           fontSize: "12px",
         }}
       >
-        Cover - {part}
+        Cover - {part} {commercial ? "(Comm)" : "(Res)"}
       </p>
     </div>
   );

@@ -207,7 +207,7 @@ const TaxIndex = ({ part, nop, project, totalHoouse, taxes }) => {
             <b>{toGujaratiNumber(taxes[3]?.values?.residence)}</b>
           </span>
 
-          {taxes.map((tax, index) => {
+          {taxes?.map((tax, index) => {
             if (index < 4) return null;
 
             if (

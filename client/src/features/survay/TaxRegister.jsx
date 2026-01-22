@@ -374,13 +374,6 @@ const TaxRegister = () => {
       // 1. Cover page
       final.push({ type: "cover", bundle });
 
-      // 2. Only bundle 1 gets benefits
-      // if (bundle === 1) {
-      //   final.push({ type: "benefit", name: "panchayat" });
-      //   final.push({ type: "benefit", name: "public" });
-      // }
-
-      // 3. Main pages of this bundle
       const start = (bundle - 1) * pagesPerBundle;
       const end = start + pagesPerBundle;
 

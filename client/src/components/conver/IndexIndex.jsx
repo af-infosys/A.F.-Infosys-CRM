@@ -13,6 +13,8 @@ const TextBlock = ({ children }) => (
 );
 
 const IndexIndex = ({ part, nop, project, totalHoouse }) => {
+  console.log(project);
+
   const housesPerBundle = nop * 100;
   const startHouseIndex = (part - 1) * housesPerBundle;
   const remainingHouses = totalHoouse - startHouseIndex;
@@ -62,18 +64,18 @@ const IndexIndex = ({ part, nop, project, totalHoouse }) => {
       {/* -------------------- 1. Top Header -------------------- */}
       <header
         className="grid grid-cols-1 gap-4 text-2xl font-bold border-b-2 border-blue-800 pb-4"
-        style={{ marginTop: "40px", marginInline: "50px" }}
+        style={{ marginTop: "40px", marginInline: "20px" }}
       >
         <div className="flex justify-between text-blue-700">
-          <span>
+          <span style={{ whiteSpace: "nowrap" }}>
             <span className="font-extrabold">મોજે : </span>
             {project?.spot?.gaam || "..."}
           </span>
-          <span>
+          <span style={{ whiteSpace: "nowrap" }}>
             <span className="font-extrabold">તાલુકો : </span>
             {project?.spot?.taluka || "..."}
           </span>
-          <span>
+          <span style={{ whiteSpace: "nowrap" }}>
             <span className="font-extrabold">જીલ્લો : </span>
             {project?.spot?.district || "..."}
           </span>
@@ -98,7 +100,7 @@ const IndexIndex = ({ part, nop, project, totalHoouse }) => {
           Index Report - (પાનોત્રી બુક)
         </h1>
         <h2 className="text-2xl font-semibold mt-4 text-gray-700">
-          વર્ષ :- {project?.details?.taxYear || "2025/26"}
+          સને :- {project?.details?.taxYear || "2025/26"}
         </h2>
       </div>
 

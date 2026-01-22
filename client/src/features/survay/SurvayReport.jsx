@@ -309,7 +309,7 @@ const SurvayReport = () => {
 
   // --- LOGIC STARTS HERE ---
   const PROPERTIES_PER_PAGE = 7;
-  const BUNDLE_SIZE = 100; // Pages per bundle (excluding cover/benefit typically, or including. Logic below includes them in the flow)
+  const BUNDLE_SIZE = 100;
 
   const finalRenderPages = buildFinalPages(
     records,
@@ -321,9 +321,10 @@ const SurvayReport = () => {
     if (!allRecords || allRecords.length === 0) return [];
 
     const final = [];
+    // Ensure we check for true explicitly
     const isSeparate = project?.details?.seperatecommercial === true;
 
-    // Helper to chunk array
+    // Helper: Split array into chunks (Create Pages)
     const chunkArray = (arr, size) => {
       const results = [];
       for (let i = 0; i < arr.length; i += size) {
@@ -333,9 +334,11 @@ const SurvayReport = () => {
     };
 
     if (isSeparate) {
-      // --- LOGIC FOR SEPARATED COMMERCIAL ---
+      // ==========================================
+      // LOGIC FOR SEPARATED (RESIDENTIAL + COMMERCIAL)
+      // ==========================================
 
-      // 1. Separate Records based on Index 7
+      // 1. Separate Records
       const normalRecords = allRecords.filter(
         (r) => !commercialCategories.includes(r[7]),
       );
@@ -343,81 +346,85 @@ const SurvayReport = () => {
         commercialCategories.includes(r[7]),
       );
 
-      // 2. Create Pages for Normal
+      // 2. Create Pages (Chunks of 7 records)
       const normalPages = chunkArray(normalRecords, recordsPerPage);
-      // 3. Create Pages for Commercial
       const commercialPages = chunkArray(commercialRecords, recordsPerPage);
 
-      // Global Bundle Counter
+      // Global Counter for Bundles (Booklet numbers: 1, 2, 3...)
       let currentBundle = 1;
 
-      // --- BUILD NORMAL BUNDLES ---
-      // Determine how many bundles needed for normal pages
+      // --- PART A: BUILD RESIDENTIAL (NORMAL) BUNDLES ---
       const totalNormalBundles =
         Math.ceil(normalPages.length / pagesPerBundle) || 1;
 
       for (let b = 1; b <= totalNormalBundles; b++) {
-        // Add Cover
+        // Calculate start and end index for pages in THIS bundle
+        const start = (b - 1) * pagesPerBundle;
+        const end = start + pagesPerBundle;
+        const pagesForThisBundle = normalPages.slice(start, end);
+
+        // Add Residential Cover
         final.push({
           type: "cover",
           bundle: currentBundle,
-          name: "રહેણાંક મિલકત", // Title for Normal
+          name: "રહેણાંક મિલકત", // Residential
           commercial: false,
-          total: normalRecords?.length,
+          totalRecords: normalRecords.length,
+          // Ye naye flags aapko help karenge UI me "Part 1 of 3" dikhane me
+          section: "residential",
+          part: b,
+          totalParts: totalNormalBundles,
         });
 
-        // Add Benefits ONLY in the very first bundle
+        // Add Benefits (Only in the very first bundle of Residential)
         if (currentBundle === 1) {
           final.push({ type: "benefit", name: "panchayat" });
           final.push({ type: "benefit", name: "public" });
         }
 
-        // Add Data Pages for this bundle
-        const start = (b - 1) * pagesPerBundle;
-        const end = start + pagesPerBundle;
-        const pagesForThisBundle = normalPages.slice(start, end);
-
+        // Add Data Pages
         pagesForThisBundle.forEach((pageRecs, idx) => {
           final.push({
             type: "page",
             bundle: currentBundle,
-            pageIndex: start + idx, // Continuous index for "Page X of Y" logic
+            pageIndex: start + idx, // 0 to N inside Residential
             pageRecords: pageRecs,
-            // totalContext: normalPages.length + commercialPages.length, // Optional: Total pages count context
+            isCommercial: false,
           });
         });
 
+        // Increment Bundle ID for next loop (or for Commercial section)
         currentBundle++;
       }
 
-      // --- BUILD COMMERCIAL BUNDLES ---
-      // Only if there are commercial records
+      // --- PART B: BUILD COMMERCIAL BUNDLES ---
       if (commercialPages.length > 0) {
         const totalCommBundles = Math.ceil(
           commercialPages.length / pagesPerBundle,
         );
 
         for (let b = 1; b <= totalCommBundles; b++) {
-          // Add Cover
-          final.push({
-            type: "cover",
-            bundle: currentBundle,
-            name: "કોમર્શિયલ મિલકત", // Title for Commercial
-            total: commercialRecords?.length,
-            commercial: normalRecords?.length,
-          });
-
-          // Note: Usually benefits are not repeated for the commercial section part of the same report
-
-          // Add Data Pages
+          // Calculate start and end index for pages in THIS bundle
           const start = (b - 1) * pagesPerBundle;
           const end = start + pagesPerBundle;
           const pagesForThisBundle = commercialPages.slice(start, end);
 
+          // Add Commercial Cover
+          final.push({
+            type: "cover",
+            bundle: currentBundle,
+            name: "કોમર્શિયલ મિલકત", // Commercial
+            commercial: true,
+            totalRecords: commercialRecords.length,
+            // Extra info for UI
+            section: "commercial",
+            part: b,
+            totalParts: totalCommBundles,
+          });
+
+          // Add Data Pages
           pagesForThisBundle.forEach((pageRecs, idx) => {
-            // Calculate a continuous page index if needed, or restart.
-            // Here we continue the visual page numbering? Or allow component to handle it.
-            // Let's pass a cumulative index offset for visual correctness if AkarniPage uses it.
+            // Page Index continues after Residential pages
             const globalPageIndex = normalPages.length + (start + idx);
 
             final.push({
@@ -433,7 +440,9 @@ const SurvayReport = () => {
         }
       }
     } else {
-      // --- ORIGINAL LOGIC (Mixed) ---
+      // ==========================================
+      // LOGIC FOR MIXED (ORIGINAL)
+      // ==========================================
       const pages = chunkArray(allRecords, recordsPerPage);
       const totalBundles = Math.ceil(pages.length / pagesPerBundle);
 
@@ -442,7 +451,9 @@ const SurvayReport = () => {
         final.push({
           type: "cover",
           bundle,
-          name: "",
+          name: "કુલ મિલકત", // Or generic name
+          part: bundle,
+          totalParts: totalBundles,
         });
 
         // 2. Only bundle 1 gets benefits
@@ -468,6 +479,7 @@ const SurvayReport = () => {
 
     return final;
   }
+
   // --- LOGIC ENDS HERE ---
 
   if (loading) {
@@ -617,12 +629,13 @@ const SurvayReport = () => {
                 }}
               >
                 <AkarniIndex
+                  key={idx}
                   title={item?.name} // Pass the dynamic title (Residential/Commercial)
                   part={item.bundle}
                   nop={PROPERTIES_PER_PAGE}
                   project={project}
                   totalHoouse={records?.length}
-                  total={item.total}
+                  total={item.totalRecords}
                   commercial={item.commercial}
                 />
               </div>
