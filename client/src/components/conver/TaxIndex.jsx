@@ -14,7 +14,7 @@ const TextBlock = ({ children }) => (
   </p>
 );
 
-const TaxIndex = ({ part, nop, project, totalHoouse, taxes }) => {
+const TaxIndex = ({ part, nop, project, totalHoouse, taxes, title }) => {
   // Houses
   const housesPerBundle = nop * 100;
 
@@ -92,11 +92,20 @@ const TaxIndex = ({ part, nop, project, totalHoouse, taxes }) => {
 
       <header
         className="grid grid-cols-3 text-3xl font-bold pb-2"
-        style={{ marginTop: "135px", paddingTop: "30px", fontSize: "38px" }}
+        style={{
+          marginTop: "135px",
+          paddingTop: "30px",
+          fontSize: "38px",
+
+          display: "flex",
+          justifyContent: "space-between",
+        }}
       >
         <div className="text-left text-blue-700">
-          <span className="font-extrabold">મોજે : </span>-{" "}
-          {project?.spot?.gaam || "..."}
+          <span className="font-extrabold" style={{ whiteSpace: "nowrap" }}>
+            મોજે :{" "}
+          </span>
+          - {project?.spot?.gaam || "..."}
         </div>
         <div className="text-center text-blue-700">
           <span className="font-extrabold">તાલુકો : </span>-{" "}
@@ -124,7 +133,7 @@ const TaxIndex = ({ part, nop, project, totalHoouse, taxes }) => {
             paddingInline: "40px",
           }}
         >
-          ગામનું ૯(ડી) વેરા રજીસ્ટર
+          ગામનું ૯(ડી) વેરા રજીસ્ટર {title ? `- ${title}` : ""}
         </h1>
         <h2
           className="text-2xl font-semibold text-gray-700"

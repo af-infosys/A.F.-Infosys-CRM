@@ -451,7 +451,7 @@ const SurvayReport = () => {
         final.push({
           type: "cover",
           bundle,
-          name: "કુલ મિલકત", // Or generic name
+          name: "", // Or generic name
           part: bundle,
           totalParts: totalBundles,
         });
