@@ -13,6 +13,7 @@ import {
   seperateCommercialProperties,
   syncSheetRecord,
   excelEdit,
+  insertRecord,
 } from "../controllers/survayController.js";
 
 const survayRoutes = express.Router();
@@ -21,6 +22,7 @@ const survayRoutes = express.Router();
 survayRoutes.get("/areas", getAllAreas); // <-- Move this up!
 survayRoutes.post("/areas", addArea);
 survayRoutes.post("/sync", syncSheetRecord);
+survayRoutes.post("/insert", insertRecord);
 
 survayRoutes.put("/excel", excelEdit);
 

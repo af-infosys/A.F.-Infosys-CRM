@@ -47,6 +47,7 @@ import AkarniExcelEdit from "../components/excel/AkarniExcelEdit";
 import BillWork from "../features/staff/BillWork";
 import NotFound from "../components/NotFound";
 import BillerReport from "../features/staff/workStatus/BillerReport";
+import SurvayInsertForm from "../components/SurveyInsertForm";
 
 export default function AppRoutes() {
   const { user } = useAuth();
@@ -136,6 +137,15 @@ export default function AppRoutes() {
             element={
               <ProtectedRoute allowedRoles={["owner"]}>
                 <SurvayReport />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="insert/:projectId"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <SurvayInsertForm />
               </ProtectedRoute>
             }
           />

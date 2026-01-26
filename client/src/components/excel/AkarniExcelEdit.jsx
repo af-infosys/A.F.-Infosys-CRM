@@ -9,12 +9,16 @@ const AkarniExcelEdit = () => {
 
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [notSaved, setNotSaved] = useState(false);
   const [error, setError] = useState(null);
 
   const [lastSaved, setLastSaved] = useState(null);
 
   const [project, setProject] = useState({});
   const { projectId } = useParams();
+
+  const CHUNK_SIZE = 20; // safe for Google Sheets
+  const DELAY_MS = 1500; // 1.5 sec gap (rate limit safe)
 
   const fetchRecords = async () => {
     try {
@@ -74,6 +78,7 @@ const AkarniExcelEdit = () => {
   }, []);
 
   const handleCellChange = (rowIndex, key, value) => {
+    setNotSaved(true);
     const colIndex = COLUMN_MAP[key].colIndex;
 
     setData((prevData) => {
@@ -94,9 +99,6 @@ const AkarniExcelEdit = () => {
   };
 
   const handleSave = async () => {
-    const CHUNK_SIZE = 10; // safe for Google Sheets
-    const DELAY_MS = 1500; // 1.5 sec gap (rate limit safe)
-
     const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
     try {
@@ -105,6 +107,8 @@ const AkarniExcelEdit = () => {
       let startIndex = 0; // row tracking (backend overwrite logic use karega)
 
       for (let i = 0; i < data.length; i += CHUNK_SIZE) {
+        setLoading(i);
+
         const chunk = data.slice(i, i + CHUNK_SIZE);
 
         const payload = {
@@ -131,6 +135,57 @@ const AkarniExcelEdit = () => {
     } catch (error) {
       console.error("Save Error:", error);
       toast.error(error.response?.data?.message || "Error Saving Data");
+    } finally {
+      setLoading(false);
+      setNotSaved(false);
+    }
+  };
+
+  const handleInsert = async () => {
+    try {
+      setLoading(true);
+      toast.info("Attempting to insert record");
+      navigation(`/survay/insert/${projectId}`);
+    } catch (err) {
+      console.error("Error inserting record:", err);
+      toast.error("Error inserting record:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      setLoading(true);
+      toast.info("Attempting to delete record with ID:", id);
+
+      // workId = projectId in body
+      const res = await fetch(`${await apiPath()}/api/sheet/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({
+          workId: projectId,
+        }),
+      });
+
+      if (res.status !== 200) {
+        throw new Error(res.statusText);
+      }
+
+      toast.success(
+        `Record deleted successfully! \n with id: ${Number(id)}, name: ${data[Number(id) - 1][3]} `,
+      );
+
+      setData([]);
+      fetchRecords();
+    } catch (err) {
+      console.error("Error deleting record:", err);
+      toast.error("Error deleting record:", err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -159,6 +214,7 @@ const AkarniExcelEdit = () => {
     tap: { label: "નળ", width: "w-[3%]", type: "number", colIndex: 11 }, // Yes/No or 1/0
     toilet: { label: "શોચાલય", width: "w-[3%]", type: "number", colIndex: 12 }, // Yes/No or 1/0
     remarks: { label: "નોંધ / રીમાર્કસ", width: "w-[8%]", colIndex: 13 },
+    delete: { label: "delete", width: "w-[8%]", colIndex: 14 },
   };
 
   const COLUMN_KEYS = Object.keys(COLUMN_MAP);
@@ -176,7 +232,18 @@ const AkarniExcelEdit = () => {
         <h1 className="text-2xl font-extrabold text-blue-800">
           પંચાયત હિસાબ નમુનો - ૮ (Editable Spreadsheet)
         </h1>
+
         <div className="flex space-x-3">
+          {/* insert button */}
+          <button
+            onClick={handleInsert}
+            className={`flex items-center space-x-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition duration-150 shadow-md ${loading !== false || notSaved ? "opacity-50 cursor-not-allowed" : ""}`}
+            title="Insert Row"
+            disabled={loading !== false || notSaved}
+          >
+            <span className="hidden sm:inline">Insert Row</span>
+          </button>
+
           <button
             onClick={handleSave}
             className={`flex items-center space-x-2 px-4 py-2 ${
@@ -185,6 +252,7 @@ const AkarniExcelEdit = () => {
              ${lastSaved ? "hover:bg-green-700" : "hover:bg-orange-700"}
              text-white rounded-lg transition duration-150 shadow-md`}
             title="Save Data"
+            disabled={loading !== false}
           >
             <span className="hidden sm:inline">Save Data</span>
           </button>
@@ -201,8 +269,8 @@ const AkarniExcelEdit = () => {
       {/* Report Header */}
       <div className="bg-white p-4 my-4 border border-gray-300 rounded-lg shadow-inner">
         <h2 className="text-xl font-bold text-center text-gray-700 mb-2">
-          સને ૨૦૨૫/૨૬ ના વર્ષ માટેના વેરાપાત્ર હોય તેવા મકાનો જમીનનો આકારણી ની
-          યાદી
+          સને {project?.details?.akaraniYear || "2025/26"} ના વર્ષ માટેના
+          વેરાપાત્ર હોય તેવા મકાનો જમીનનો આકારણી ની યાદી
         </h2>
         <div className="flex justify-around text-sm font-medium text-gray-600">
           <span>ગામ: {project?.spot?.gaam}</span>
@@ -236,11 +304,36 @@ const AkarniExcelEdit = () => {
           {data.map((record, rowIndex) => (
             <div
               key={rowIndex}
-              className="flex border-b border-gray-200 hover:bg-yellow-50 transition duration-50"
+              className={`flex border-b border-gray-200 hover:bg-yellow-50 transition duration-50 ${loading !== false ? (loading > rowIndex ? "bg-green-300" : loading === rowIndex || loading <= rowIndex + CHUNK_SIZE ? "bg-yellow-50" : "") : ""}`}
               style={{ minHeight: "32px" }}
             >
               {COLUMN_KEYS.map((key) => {
                 const colIndex = COLUMN_MAP[key].colIndex;
+
+                if (key === "delete") {
+                  return (
+                    <div
+                      key={key}
+                      className={`border-r border-gray-200 flex-shrink-0 ${getColumnWidth(
+                        key,
+                      )} p-0 text-center flex items-center justify-center`}
+                      style={{
+                        minWidth: key === "description" ? "120px" : "60px",
+                      }}
+                    >
+                      {/* Editable Input Field */}
+                      <button
+                        onClick={() => handleDelete(record[0])}
+                        className={`flex items-center space-x-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition duration-150 shadow-md ${loading !== false || notSaved ? "opacity-50 cursor-not-allowed" : ""}`}
+                        title="Delete Row"
+                        disabled={loading !== false || notSaved}
+                      >
+                        <span className="hidden sm:inline">Delete</span>
+                      </button>
+                    </div>
+                  );
+                }
+
                 const value = record[colIndex] || ""; // Retrieve value using index, default to '' to prevent uncontrolled warnings
 
                 return (
@@ -301,14 +394,6 @@ const AkarniExcelEdit = () => {
           </div>
         </div>
       </div>
-
-      {/* Optional: Display the structure of the saved data for debugging */}
-      {/* <div className="mt-8 p-4 bg-gray-700 text-white rounded-lg">
-        <h3 className="font-bold mb-2">Current Data State (JSON)</h3>
-        <pre className="whitespace-pre-wrap text-sm">
-          {JSON.stringify(data, null, 2)}
-        </pre>
-      </div> */}
     </div>
   );
 };

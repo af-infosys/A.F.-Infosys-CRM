@@ -482,6 +482,7 @@ export const excelEdit = async (req, res) => {
     });
   }
 };
+
 // Controller function to fetch all records from the Google Sheet.
 export const getAllRecords = async (req, res) => {
   const { workId } = req.query;
@@ -1027,20 +1028,146 @@ export const calculateValuation = async (req, res) => {
   }
 };
 
-export const deleteSheetRecord = async (req, res) => {
+export const insertRecord = async (req, res) => {
   try {
-    const work = await Work.findById(req.body.workId);
+    const { workId } = req.body;
+
+    if (!workId) {
+      return res.status(400).json({ message: "Work Id not provided" });
+    }
+
+    const work = await Work.findById(workId);
+    if (!work) {
+      return res.status(404).json({ message: "Work not found" });
+    }
 
     const client = await auth.getClient();
     const googleSheets = google.sheets({ version: "v4", auth: client });
 
-    // Step 1: Get the sheetId (numeric ID of the sheet)
+    // Extract form data
+    const {
+      serialNumber,
+      areaName,
+      propertyNumber,
+      ownerName,
+      oldPropertyNumber,
+      mobileNumber,
+      propertyNameOnRecord,
+      houseCategory,
+      kitchenCount,
+      bathroomCount,
+      verandaCount,
+      tapCount,
+      toiletCount,
+      remarks,
+      floors,
+      // description,
+      survayor,
+      img1,
+      img2,
+      img3,
+    } = req.body;
+
+    if (!serialNumber || !areaName || !propertyNumber || !ownerName) {
+      return res.status(400).json({ message: "Missing required fields" });
+    }
+
+    const description = buildPropertyDescription(req.body);
+
+    const newRow = [
+      null, // serialNumber will be set during resequence
+      areaName,
+      null, // propertyNumber index duplicate for sequence
+      ownerName,
+      oldPropertyNumber,
+      mobileNumber,
+      propertyNameOnRecord,
+      houseCategory,
+      kitchenCount,
+      bathroomCount,
+      verandaCount,
+      tapCount,
+      toiletCount,
+      remarks,
+      JSON.stringify(floors),
+      description,
+      JSON.stringify(survayor),
+
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+
+      img1,
+      img2,
+      img3,
+    ];
+
+    // Step 1: Fetch existing records
+    const existingResponse = await googleSheets.spreadsheets.values.get({
+      spreadsheetId: SPREADSHEET_ID,
+      range: `${work.sheetId}_Main!A4:ZZ`,
+    });
+
+    const records = existingResponse.data.values || [];
+
+    // Step 2: Insert at correct position
+    const insertIndex = Math.max(0, Number(serialNumber) - 1);
+    records.splice(insertIndex, 0, newRow);
+
+    // Step 3: Re-sequence IDs (Column A & C)
+    const resequencedRecords = records.map((row, index) => {
+      const id = index + 1;
+      row[0] = id; // Column A
+      row[2] = id; // Column C
+      return row;
+    });
+
+    // Step 4: Overwrite sheet data
+    await googleSheets.spreadsheets.values.update({
+      spreadsheetId: SPREADSHEET_ID,
+      range: `${work.sheetId}_Main!A4`,
+      valueInputOption: "USER_ENTERED",
+      requestBody: {
+        values: resequencedRecords,
+      },
+    });
+
+    res.status(200).json({
+      message: "Record inserted and sequence updated successfully",
+    });
+  } catch (error) {
+    console.error("Error inserting record:", error);
+    res.status(500).json({
+      message: "Failed to insert record",
+      error: error.message,
+    });
+  }
+};
+
+export const deleteSheetRecord = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const work = await Work.findById(req.body.workId);
+
+    if (!work) {
+      return res.status(404).json({ message: "Work not found" });
+    }
+
+    const client = await auth.getClient();
+    const googleSheets = google.sheets({ version: "v4", auth: client });
+
+    // Step 1: Get sheetId
     const sheetMeta = await googleSheets.spreadsheets.get({
       spreadsheetId: SPREADSHEET_ID,
     });
 
     const sheet = sheetMeta.data.sheets.find(
-      (s) => s.properties.title === `${work?.sheetId}_Main`,
+      (s) => s.properties.title === `${work.sheetId}_Main`,
     );
 
     if (!sheet) {
@@ -1049,14 +1176,13 @@ export const deleteSheetRecord = async (req, res) => {
 
     const sheetId = sheet.properties.sheetId;
 
-    // Step 2: Get the current records from A4 onwards
+    // Step 2: Get records from A4 onwards
     const response = await googleSheets.spreadsheets.values.get({
       spreadsheetId: SPREADSHEET_ID,
-      range: `${work?.sheetId}_Main!A4:ZZ`,
+      range: `${work.sheetId}_Main!A4:ZZ`,
     });
 
     const records = response.data.values || [];
-    const { id } = req.params;
 
     const rowIndex = records.findIndex(
       (record) => Number(record[0]) === Number(id),
@@ -1066,9 +1192,10 @@ export const deleteSheetRecord = async (req, res) => {
       return res.status(404).json({ message: "Record not found" });
     }
 
-    const rowNumber = rowIndex + 3; // Row index is 0-based, A4 is row 4, so shift by +3
+    // Actual row number in sheet (A4 = row 4)
+    const rowNumber = rowIndex + 4;
 
-    // Step 3: Delete the actual row using batchUpdate
+    // Step 3: Delete the row
     await googleSheets.spreadsheets.batchUpdate({
       spreadsheetId: SPREADSHEET_ID,
       requestBody: {
@@ -1078,8 +1205,8 @@ export const deleteSheetRecord = async (req, res) => {
               range: {
                 sheetId,
                 dimension: "ROWS",
-                startIndex: rowNumber,
-                endIndex: rowNumber + 1,
+                startIndex: rowNumber - 1, // 0-based
+                endIndex: rowNumber,
               },
             },
           },
@@ -1087,12 +1214,37 @@ export const deleteSheetRecord = async (req, res) => {
       },
     });
 
+    // Step 4: Re-fetch records after deletion
+    const updatedResponse = await googleSheets.spreadsheets.values.get({
+      spreadsheetId: SPREADSHEET_ID,
+      range: `${work.sheetId}_Main!A4:ZZ`,
+    });
+
+    const updatedRecords = updatedResponse.data.values || [];
+
+    // Step 5: Re-sequence IDs in column A (0) and C (2)
+    const resequencedRecords = updatedRecords.map((row, index) => {
+      const newId = index + 1;
+      row[0] = newId;
+      row[2] = newId;
+      return row;
+    });
+
+    // Step 6: Write updated rows back
+    await googleSheets.spreadsheets.values.update({
+      spreadsheetId: SPREADSHEET_ID,
+      range: `${work.sheetId}_Main!A4`,
+      valueInputOption: "USER_ENTERED",
+      requestBody: {
+        values: resequencedRecords,
+      },
+    });
+
     res.status(200).json({
-      message: "Record deleted successfully",
-      deletedRow: rowNumber + 1,
+      message: "Record deleted and sequence updated successfully",
     });
   } catch (error) {
-    console.error("Error deleting record:", error.message);
+    console.error("Error deleting record:", error);
     res.status(500).json({
       message: "Failed to delete record",
       error: error.message,
