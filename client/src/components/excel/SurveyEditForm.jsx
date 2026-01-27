@@ -208,6 +208,38 @@ const SurveyEditForm = ({
     }));
   };
 
+  const handleLandAreaChange = (e) => {
+    const checked = e.target.checked;
+
+    setFloors((prev) => {
+      if (checked) {
+        // already exists? do nothing
+        const exists = prev.some((floor) => floor.floorType === "ફળિયું");
+        if (exists) return prev;
+
+        return [
+          ...prev,
+          {
+            floorType: "ફળિયું",
+            roomDetails: [
+              {
+                type: "",
+                roomHallShopGodown: "",
+                slabRooms: 0,
+                tinRooms: 0,
+                woodenRooms: 0,
+                tileRooms: 0,
+              },
+            ],
+          },
+        ];
+      }
+
+      // unchecked → remove it
+      return prev.filter((floor) => floor.floorType !== "ફળિયું");
+    });
+  };
+
   if (!record[index]) return null;
 
   return (
@@ -261,9 +293,7 @@ const SurveyEditForm = ({
             })}
           </select>
         </div>
-
         <h2 className="section-title mt-8">9. માળની વિગતો *</h2>
-
         <div id="floorsContainer">
           {floors?.map((floor, floorIndex) =>
             floor?.floorType === "ફળિયું" ? null : floor?.floorType ===
@@ -307,28 +337,26 @@ const SurveyEditForm = ({
                     </select>
                   </div>
 
-                  {floors?.length > 1 && (
-                    <button
-                      type="button"
-                      onClick={() => deleteFloor(floorIndex)}
-                      className="delete-button text-red-600 hover:text-red-800"
+                  <button
+                    type="button"
+                    onClick={() => deleteFloor(floorIndex)}
+                    className="delete-button text-red-600 hover:text-red-800"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
                     >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-6 w-6"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                        />
-                      </svg>
-                    </button>
-                  )}
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                      />
+                    </svg>
+                  </button>
                 </div>
 
                 {floor.roomDetails.map((room, roomIndex) => (
@@ -342,29 +370,24 @@ const SurveyEditForm = ({
                         વર્ણન : {roomIndex + 1} *
                       </h4>
 
-                      {floor.roomDetails.length > 1 && (
-                        <button
-                          type="button"
-                          onClick={() =>
-                            deleteRoomDetails(floorIndex, roomIndex)
-                          }
-                          className="delete-button text-red-600 hover:text-red-800"
+                      <button
+                        type="button"
+                        onClick={() => deleteRoomDetails(floorIndex, roomIndex)}
+                        className="delete-button text-red-600 hover:text-red-800"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
                         >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="h-5 w-5"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                          Delete
-                        </button>
-                      )}
+                          <path
+                            fillRule="evenodd"
+                            d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </button>
                     </div>
 
                     <div className="grid grid-cols-1 gap-x-6 gap-y-4">
@@ -572,7 +595,6 @@ const SurveyEditForm = ({
             ),
           )}
         </div>
-
         {floors[0]?.floorType === "પ્લોટ" ? null : (
           <button type="button" onClick={addFloor} className="add-floor-button">
             <svg
@@ -590,10 +612,27 @@ const SurveyEditForm = ({
             વધુ માળ ઉમેરો
           </button>
         )}
+        <br /> <br />
+        <div className="form-field" style={{ display: "flex", gap: "20px" }}>
+          <label
+            className="form-label"
+            htmlFor="landArea"
+            style={{ textWrap: "nowrap", userSelect: "none" }}
+          >
+            10. ફળિયું (ખુલ્લી જગ્યા)
+          </label>
 
+          <input
+            type="checkbox"
+            id="landArea"
+            name="landArea"
+            checked={floors.some((floor) => floor.floorType === "ફળિયું")}
+            onChange={handleLandAreaChange}
+            style={{ width: "20px" }}
+          />
+        </div>
         <br />
         <br />
-
         <div className="form-group">
           {/* Field 16: રસોડું */}
           <div className="form-field">
@@ -680,7 +719,6 @@ const SurveyEditForm = ({
             />
           </div>
         </div>
-
         <br />
       </div>
 

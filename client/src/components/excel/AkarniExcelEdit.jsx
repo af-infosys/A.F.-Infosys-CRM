@@ -18,8 +18,8 @@ const AkarniExcelEdit = () => {
   const [project, setProject] = useState({});
   const { projectId } = useParams();
 
-  const CHUNK_SIZE = 20; // safe for Google Sheets
-  const DELAY_MS = 1500; // 1.5 sec gap (rate limit safe)
+  const CHUNK_SIZE = 80; // safe for Google Sheets
+  const DELAY_MS = 700; // 1.5 sec gap (rate limit safe)
 
   const fetchRecords = async () => {
     try {
@@ -234,17 +234,17 @@ const AkarniExcelEdit = () => {
 
   return (
     <div className="container mx-auto p-2 bg-gray-50 min-h-screen">
-      <div className="flex justify-between items-center bg-white p-4 sticky top-0 shadow-md rounded-b-lg z-20">
-        <h1 className="text-2xl font-extrabold text-blue-800">
-          પંચાયત હિસાબ નમુનો - ૮ (Editable Spreadsheet)
-        </h1>
+      <SurveyEditForm
+        index={showModal}
+        setShowModal={setShowModal}
+        handleChange={handleEditPopup}
+        record={data}
+      />
 
-        <SurveyEditForm
-          index={showModal}
-          setShowModal={setShowModal}
-          handleChange={handleEditPopup}
-          record={data}
-        />
+      <div className="flex justify-between items-center bg-white p-4 sticky top-0 shadow-md rounded-b-lg z-20 flex-wrap">
+        <h1 className="text-2xl font-extrabold text-blue-800">
+          Editable Spreadsheet
+        </h1>
 
         <div className="flex space-x-3">
           {/* insert button */}
@@ -254,7 +254,7 @@ const AkarniExcelEdit = () => {
             title="Insert Row"
             disabled={loading !== false || notSaved}
           >
-            <span className="hidden sm:inline">Insert Row</span>
+            <span>Insert Row</span>
           </button>
 
           <button
@@ -267,7 +267,7 @@ const AkarniExcelEdit = () => {
             title="Save Data"
             disabled={loading !== false}
           >
-            <span className="hidden sm:inline">Save Data</span>
+            <span>Save Data</span>
           </button>
         </div>
       </div>
@@ -348,7 +348,7 @@ const AkarniExcelEdit = () => {
                         title="Delete Row"
                         disabled={loading !== false || notSaved}
                       >
-                        <span className="hidden sm:inline">Delete</span>
+                        <span>Delete</span>
                       </button>
                     </div>
                   );
