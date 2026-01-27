@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import apiPath from "../../isProduction";
 import { toast } from "react-toastify";
 import axios from "axios";
+import SurveyEditForm from "./SurveyEditForm";
 
 const AkarniExcelEdit = () => {
   const navigation = useNavigate();
@@ -154,6 +155,11 @@ const AkarniExcelEdit = () => {
     }
   };
 
+  const [showModal, setShowModal] = useState(false);
+  const handleEditPopup = async (value) => {
+    if (showModal !== false) setData(value);
+  };
+
   const handleDelete = async (id) => {
     try {
       setLoading(true);
@@ -232,6 +238,13 @@ const AkarniExcelEdit = () => {
         <h1 className="text-2xl font-extrabold text-blue-800">
           પંચાયત હિસાબ નમુનો - ૮ (Editable Spreadsheet)
         </h1>
+
+        <SurveyEditForm
+          index={showModal}
+          setShowModal={setShowModal}
+          handleChange={handleEditPopup}
+          record={data}
+        />
 
         <div className="flex space-x-3">
           {/* insert button */}
@@ -318,12 +331,19 @@ const AkarniExcelEdit = () => {
                         key,
                       )} p-0 text-center flex items-center justify-center`}
                       style={{
-                        minWidth: key === "description" ? "120px" : "60px",
+                        minWidth: "60px",
                       }}
                     >
                       {/* Editable Input Field */}
                       <button
-                        onClick={() => handleDelete(record[0])}
+                        onClick={() => {
+                          if (
+                            window.confirm(
+                              `Are you Sure to Delete = ${record[0]} ?`,
+                            )
+                          )
+                            handleDelete(record[0]);
+                        }}
                         className={`flex items-center space-x-2 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition duration-150 shadow-md ${loading !== false || notSaved ? "opacity-50 cursor-not-allowed" : ""}`}
                         title="Delete Row"
                         disabled={loading !== false || notSaved}
@@ -335,6 +355,33 @@ const AkarniExcelEdit = () => {
                 }
 
                 const value = record[colIndex] || ""; // Retrieve value using index, default to '' to prevent uncontrolled warnings
+
+                if (key === "description") {
+                  return (
+                    <div
+                      key={key}
+                      className={`border-r border-gray-200 flex-shrink-0 ${getColumnWidth(
+                        key,
+                      )} p-0 text-center flex items-center justify-center`}
+                      style={{
+                        minWidth: "120px",
+                        fontSize: "12px",
+                      }}
+                    >
+                      <button
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                        }}
+                        onClick={() => {
+                          setShowModal(rowIndex);
+                        }}
+                      >
+                        {value}
+                      </button>
+                    </div>
+                  );
+                }
 
                 return (
                   <div

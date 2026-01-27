@@ -59,6 +59,30 @@ const SurvayInsertForm = () => {
     fetchProject();
   }, []);
 
+  const categories = [
+    "રહેણાંક - મકાન",
+    "દુકાન",
+    "ધાર્મિક સ્થળ",
+    "સરકારી મિલ્ક્ત",
+    "પ્રાઈવેટ - સંસ્થાઓ",
+    "પ્લોટ ખાનગી - ખુલ્લી જગ્યા",
+    "પ્લોટ (ફરતી દિવાલ) ખાનગી",
+    "પ્લોટ સરકારી - કોમનપ્લોટ",
+    "પ્લોટ (ફરતી દિવાલ) સરકારી",
+    "કારખાના - ઇન્ડસ્ટ્રીજ઼",
+    "ટ્રસ્ટ મિલ્કત / NGO",
+    "મંડળી - સેવા સહકારી મંડળી",
+    "બેંક - સરકારી",
+    "બેંક - અર્ધ સરકારી બેંક",
+    "બેંક - પ્રાઇટ બેંક",
+    "સરકારી સહાય આવાસ",
+    "કોમ્પપ્લેક્ષ",
+    "હિરાના કારખાના નાના",
+    "હિરાના કારખાના મોટા",
+    "મોબાઈલ ટાવર",
+    "પેટ્રોલ પંપ, ગેસ પંપ",
+  ];
+
   // --- Utility to convert Gujarati to English Digits ---
   const convertGujaratiToEnglishDigits = (input) => {
     const gujaratiDigits = "૦૧૨૩૪૫૬૭૮૯";
@@ -107,6 +131,75 @@ const SurvayInsertForm = () => {
 
   const handleChange = (e) => {
     const { name, value, checked } = e.target;
+
+    if (name === "houseCategory") {
+      if (value === "પ્લોટ ખાનગી - ખુલ્લી જગ્યા") {
+        setFloors([
+          {
+            floorType: "પ્લોટ",
+            roomDetails: [
+              {
+                type: "પ્લોટ",
+                roomHallShopGodown: "પ્લોટ ખાનગી - ખુલ્લી જગ્યા",
+                slabRooms: "",
+                tinRooms: "",
+                woodenRooms: "",
+                tileRooms: "",
+              },
+            ],
+          },
+        ]);
+      } else if (value === "પ્લોટ સરકારી - કોમનપ્લોટ") {
+        setFloors([
+          {
+            floorType: "પ્લોટ",
+            roomDetails: [
+              {
+                type: "પ્લોટ",
+                roomHallShopGodown: "પ્લોટ સરકારી - કોમનપ્લોટ",
+                slabRooms: "",
+                tinRooms: "",
+                woodenRooms: "",
+                tileRooms: "",
+              },
+            ],
+          },
+        ]);
+      } else if (value === "પ્લોટ (ફરતી દિવાલ) ખાનગી") {
+        setFloors([
+          {
+            floorType: "પ્લોટ",
+            roomDetails: [
+              {
+                type: "પ્લોટ",
+                roomHallShopGodown: "પ્લોટ (ફરતી દિવાલ) ખાનગી",
+                slabRooms: "",
+                tinRooms: "",
+                woodenRooms: "",
+                tileRooms: "",
+              },
+            ],
+          },
+        ]);
+      } else if (value === "પ્લોટ (ફરતી દિવાલ) સરકારી") {
+        setFloors([
+          {
+            floorType: "પ્લોટ",
+            roomDetails: [
+              {
+                type: "પ્લોટ",
+                roomHallShopGodown: "પ્લોટ (ફરતી દિવાલ) સરકારી",
+                slabRooms: "",
+                tinRooms: "",
+                woodenRooms: "",
+                tileRooms: "",
+              },
+            ],
+          },
+        ]);
+      }
+    }
+
     const englishValue = convertGujaratiToEnglishDigits(value);
 
     // Handle Checkbox for landArea
@@ -558,7 +651,10 @@ const SurvayInsertForm = () => {
               required
             >
               <option value="">કેટેગરી પસંદ કરો</option>
-              <option value="રહેણાંક - મકાન">1. રહેણાંક - મકાન</option>
+              {categories?.map((category) => {
+                return <option value={category}>{category}</option>;
+              })}
+              {/* <option value="રહેણાંક - મકાન">1. રહેણાંક - મકાન</option>
               <option value="દુકાન">2. દુકાન</option>
               <option value="ધાર્મિક સ્થળ">3. ધાર્મિક સ્થળ</option>
               <option value="સરકારી મિલ્ક્ત">4. સરકારી મિલ્ક્ત</option>
@@ -595,7 +691,7 @@ const SurvayInsertForm = () => {
               <option value="મોબાઈલ ટાવર">18. મોબાઈલ ટાવર</option>
               <option value="પેટ્રોલ પંપ, ગેસ પંપ">
                 19. પેટ્રોલ પંપ, ગેસ પંપ
-              </option>
+              </option> */}
             </select>
           </div>
         </div>
@@ -604,7 +700,8 @@ const SurvayInsertForm = () => {
 
         <div id="floorsContainer">
           {floors.map((floor, floorIndex) =>
-            floor.floorType === "ફળિયું" ? null : (
+            floor.floorType === "ફળિયું" ? null : floor.floorType ===
+              "પ્લોટ" ? null : (
               <div
                 key={floorIndex}
                 className="floor-section mb-6 p-4 border rounded-lg shadow-sm"
@@ -728,8 +825,6 @@ const SurvayInsertForm = () => {
                           </option>
                           <option value="પાકા">પાકા</option>
                           <option value="કાચા">કાચા</option>
-                          <option value="પ્લોટ">પ્લોટ</option>
-                          <option value="પ્લોટ">પ્લોટ</option>
                         </select>
                       </div>
 
@@ -912,21 +1007,23 @@ const SurvayInsertForm = () => {
           )}
         </div>
 
-        <button type="button" onClick={addFloor} className="add-floor-button">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fillRule="evenodd"
-              d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-              clipRule="evenodd"
-            />
-          </svg>
-          વધુ માળ ઉમેરો
-        </button>
+        {floors[0].floorType === "પ્લોટ" ? null : (
+          <button type="button" onClick={addFloor} className="add-floor-button">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                clipRule="evenodd"
+              />
+            </svg>
+            વધુ માળ ઉમેરો
+          </button>
+        )}
 
         <br />
         <br />

@@ -931,16 +931,16 @@ export const calculateValuation = async (req, res) => {
 
       // Calculating Other Taxes
       if (propertyCategory === "રહેણાંક - મકાન") {
-        otherTax.normal_water = { curr: otherTaxdata[0][2] || "-" };
+        otherTax.normal_water = { curr: otherTaxdata[0][2] || "0" };
 
         if (tabConnections) {
           otherTax.special_water = {
-            curr: otherTaxdata[1][2] * tabConnections || "-",
+            curr: otherTaxdata[1][2] * tabConnections || "0",
           };
         }
 
-        otherTax.light = { curr: otherTaxdata[2][2] || "-" };
-        otherTax.cleaning = { curr: otherTaxdata[3][2] || "-" };
+        otherTax.light = { curr: otherTaxdata[2][2] || "0" };
+        otherTax.cleaning = { curr: otherTaxdata[3][2] || "0" };
       } else if (
         propertyCategory === "દુકાન" ||
         propertyCategory === "પ્રાઈવેટ - સંસ્થાઓ" ||
@@ -956,30 +956,30 @@ export const calculateValuation = async (req, res) => {
         propertyCategory === "મોબાઈલ ટાવર" ||
         propertyCategory === "પેટ્રોલ પંપ, ગેસ પંપ"
       ) {
-        otherTax.normal_water = { curr: otherTaxdata[0][3] || "-" };
+        otherTax.normal_water = { curr: otherTaxdata[0][3] || "0" };
 
         if (tabConnections) {
           otherTax.special_water = {
-            curr: otherTaxdata[1][3] * tabConnections || "-",
+            curr: otherTaxdata[1][3] * tabConnections || "0",
           };
         }
 
-        otherTax.light = { curr: otherTaxdata[2][3] || "-" };
-        otherTax.cleaning = { curr: otherTaxdata[3][3] || "-" };
+        otherTax.light = { curr: otherTaxdata[2][3] || "0" };
+        otherTax.cleaning = { curr: otherTaxdata[3][3] || "0" };
       } else if (
         propertyCategory === "પ્લોટ ખાનગી - ખુલ્લી જગ્યા" ||
         propertyCategory === "પ્લોટ (ફરતી દિવાલ) ખાનગી"
       ) {
-        otherTax.normal_water = { curr: otherTaxdata[0][4] || "-" };
+        otherTax.normal_water = { curr: otherTaxdata[0][4] || "0" };
 
         if (tabConnections) {
           otherTax.special_water = {
-            curr: otherTaxdata[1][4] * tabConnections || "-",
+            curr: otherTaxdata[1][4] * tabConnections || "0",
           };
         }
 
-        otherTax.light = { curr: otherTaxdata[2][4] || "-" };
-        otherTax.cleaning = { curr: otherTaxdata[3][4] || "-" };
+        otherTax.light = { curr: otherTaxdata[2][4] || "0" };
+        otherTax.cleaning = { curr: otherTaxdata[3][4] || "0" };
       } else if (
         propertyCategory === "ધાર્મિક સ્થળ" ||
         propertyCategory === "સરકારી મિલ્ક્ત" ||
@@ -987,16 +987,16 @@ export const calculateValuation = async (req, res) => {
         propertyCategory === "પ્લોટ સરકારી - કોમનપ્લોટ" ||
         propertyCategory === "પ્લોટ (ફરતી દિવાલ) સરકારી"
       ) {
-        otherTax.normal_water = { curr: otherTaxdata[0][5] || "-" };
+        otherTax.normal_water = { curr: otherTaxdata[0][5] || "0" };
 
         if (tabConnections) {
           otherTax.special_water = {
-            curr: otherTaxdata[1][5] * tabConnections || "-",
+            curr: otherTaxdata[1][5] * tabConnections || "0",
           };
         }
 
-        otherTax.light = { curr: otherTaxdata[2][5] || "-" };
-        otherTax.cleaning = { curr: otherTaxdata[3][5] || "-" };
+        otherTax.light = { curr: otherTaxdata[2][5] || "0" };
+        otherTax.cleaning = { curr: otherTaxdata[3][5] || "0" };
       }
 
       // ---- Collect updates ----
