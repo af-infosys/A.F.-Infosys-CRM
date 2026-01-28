@@ -1540,23 +1540,41 @@ function sortAndSequenceProperties(data) {
   ]);
 
   // The index where the property category is located (index 7)
-  const categoryIndex = 7;
 
   // 2. Separate commercial properties from normal properties
   const normalProperties = [];
   const commercialProperties = [];
 
   data.forEach((row) => {
-    const category = row[categoryIndex] ? row[categoryIndex].trim() : "";
+    const category = row[7] ? row[7].trim() : "";
 
-    // Check if the category is commercial
+    let isCommercial = false;
+
+    // 1️⃣ Category based commercial check
     if (commercialCategories.has(category)) {
+      isCommercial = true;
+    }
+
+    // 2️⃣ Room details based commercial check (દુકાન)
+    if (!isCommercial && row[14]) {
+      const floors = JSON.parse(row[14]); // expected array
+
+      isCommercial = floors?.some(
+        (floor) =>
+          Array.isArray(floor?.roomDetails) &&
+          floor?.roomDetails?.some((room) =>
+            room?.roomHallShopGodown?.includes("દુકાન"),
+          ),
+      );
+    }
+
+    // 3️⃣ Final push
+    if (isCommercial) {
       commercialProperties.push(row);
     } else {
       normalProperties.push(row);
     }
   });
-
   // 3. Combine the arrays: Normal properties first, then commercial properties
   const sortedData = [...normalProperties, ...commercialProperties];
 

@@ -14,29 +14,39 @@ const TextBlock = ({ children }) => (
   </p>
 );
 
-const TaxIndex = ({ part, nop, project, totalHoouse, taxes, title }) => {
+const TaxIndex = ({
+  part,
+  project,
+  totalHoouse,
+  taxes,
+  title,
+
+  coverProperties,
+  pageFrom,
+  pageTo,
+}) => {
   // Houses
-  const housesPerBundle = nop * 100;
+  // const housesPerBundle = nop * 100;
 
-  const startHouseIndex = (part - 1) * housesPerBundle;
-  const remainingHouses = totalHoouse - startHouseIndex;
+  // const startHouseIndex = (part - 1) * housesPerBundle;
+  // const remainingHouses = totalHoouse - startHouseIndex;
 
-  const registerHouseCount =
-    remainingHouses >= housesPerBundle
-      ? housesPerBundle
-      : Math.max(remainingHouses, 0);
+  // const registerHouseCount =
+  //   remainingHouses >= housesPerBundle
+  //     ? housesPerBundle
+  //     : Math.max(remainingHouses, 0);
 
-  // Pages Range
-  const isLastBundle = remainingHouses <= housesPerBundle;
+  // // Pages Range
+  // const isLastBundle = remainingHouses <= housesPerBundle;
 
-  const pagesInThisBundle = isLastBundle
-    ? Math.ceil(registerHouseCount / nop)
-    : 100;
+  // const pagesInThisBundle = isLastBundle
+  //   ? Math.ceil(registerHouseCount / nop)
+  //   : 100;
 
-  const startPage = (part - 1) * 100 + 1;
-  const endPage = startPage + pagesInThisBundle - 1;
+  // const startPage = (part - 1) * 100 + 1;
+  // const endPage = startPage + pagesInThisBundle - 1;
 
-  const pageRange = `${startPage} થી ${endPage}`;
+  // const pageRange = `${startPage} થી ${endPage}`;
 
   return (
     <div
@@ -364,7 +374,7 @@ const TaxIndex = ({ part, nop, project, totalHoouse, taxes, title }) => {
                     // borderBottom: "1px solid #000",
                   }}
                 >
-                  {toGujaratiNumber(registerHouseCount)}
+                  {toGujaratiNumber(coverProperties)}{" "}
                 </b>
               </label>
             </div>
@@ -382,7 +392,7 @@ const TaxIndex = ({ part, nop, project, totalHoouse, taxes, title }) => {
                     // borderBottom: "1px solid #000",
                   }}
                 >
-                  {toGujaratiNumber(pageRange)}
+                  {`${toGujaratiNumber(pageFrom)} થી ${toGujaratiNumber(pageTo)}`}{" "}
                 </b>
               </label>
             </div>

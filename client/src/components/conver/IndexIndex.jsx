@@ -46,8 +46,8 @@ const IndexIndex = ({ part, nop, project, totalHoouse }) => {
         flexDirection: "column",
         boxSizing: "border-box",
 
-        paddingLeft: "50px",
-        paddingRight: "80px",
+        paddingLeft: "70px",
+        paddingRight: "75px",
         overflow: "hidden",
       }}
     >

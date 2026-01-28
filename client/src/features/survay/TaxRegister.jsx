@@ -374,26 +374,53 @@ const TaxRegister = () => {
   // Paginate records into chunks of 6
   // --- CONFIGURATION ---
 
-  const PROPERTIES_PER_PAGE = 6; // As requested for this specific case
+  const PROPERTIES_PER_PAGE = 6;
   const BUNDLE_SIZE = 100;
 
-  // Pass the raw 'records' array directly, not pre-sliced pages
   const finalRenderPages = buildFinalPages(
     records,
     BUNDLE_SIZE,
     PROPERTIES_PER_PAGE,
   );
 
+  function isCommercialProperty(row) {
+    const category = row[7] ? row[7].trim() : "";
+
+    // 1️⃣ Category based
+    if (commercialCategories.includes(category)) {
+      return true;
+    }
+
+    // 2️⃣ Room details based ("દુકાન")
+    if (row[14]) {
+      try {
+        const floors = JSON.parse(row[14]);
+
+        return floors.some(
+          (floor) =>
+            Array.isArray(floor.roomDetails) &&
+            floor.roomDetails.some((room) =>
+              room?.roomHallShopGodown?.includes("દુકાન"),
+            ),
+        );
+      } catch {
+        return false;
+      }
+    }
+
+    return false;
+  }
+
   function buildFinalPages(allRecords, pagesPerBundle, recordsPerPage) {
     if (!allRecords || allRecords.length === 0) return [];
 
     const final = [];
-
-    // Ensure we check for true explicitly
-    // NOTE: Ensure 'project' object is available in this scope
     const isSeparate = project?.details?.seperatecommercial === true;
 
-    // Helper: Split array into chunks (Create Pages)
+    // 🔢 Global page counter (1-based)
+    let globalPageNumber = 1;
+
+    // Helper: Split array into chunks
     const chunkArray = (arr, size) => {
       const results = [];
       for (let i = 0; i < arr.length; i += size) {
@@ -404,26 +431,21 @@ const TaxRegister = () => {
 
     if (isSeparate) {
       // ==========================================
-      // LOGIC FOR SEPARATED (RESIDENTIAL + COMMERCIAL)
+      // SEPARATE MODE (RESIDENTIAL + COMMERCIAL)
       // ==========================================
 
-      // 1. Separate Records
-      // NOTE: Ensure 'commercialCategories' is available in this scope
-      const normalRecords = allRecords.filter(
-        (r) => !commercialCategories.includes(r[7]),
-      );
+      const normalRecords = allRecords.filter((r) => !isCommercialProperty(r));
+
       const commercialRecords = allRecords.filter((r) =>
-        commercialCategories.includes(r[7]),
+        isCommercialProperty(r),
       );
 
-      // 2. Create Pages (Chunks of 6 records)
       const normalPages = chunkArray(normalRecords, recordsPerPage);
       const commercialPages = chunkArray(commercialRecords, recordsPerPage);
 
-      // Global Counter for Bundles
       let currentBundle = 1;
 
-      // --- PART A: BUILD RESIDENTIAL (NORMAL) BUNDLES ---
+      // ---------- RESIDENTIAL ----------
       const totalNormalBundles =
         Math.ceil(normalPages.length / pagesPerBundle) || 1;
 
@@ -432,39 +454,45 @@ const TaxRegister = () => {
         const end = start + pagesPerBundle;
         const pagesForThisBundle = normalPages.slice(start, end);
 
-        // Add Residential Cover
+        const coverProperties = pagesForThisBundle.reduce(
+          (sum, p) => sum + p.length,
+          0,
+        );
+
+        const pageFrom = globalPageNumber;
+        const pageTo = globalPageNumber + pagesForThisBundle.length - 1;
+
         final.push({
           type: "cover",
           bundle: currentBundle,
-          name: "રહેણાંક મિલકત", // Residential
+          name: "રહેણાંક મિલકત",
           commercial: false,
           totalRecords: normalRecords.length,
           section: "residential",
           part: b,
           totalParts: totalNormalBundles,
+
+          // 👇 NEW
+          coverProperties,
+          pageFrom,
+          pageTo,
         });
 
-        // Add Benefits (Only in the very first bundle of Residential)
-        // if (currentBundle === 1) {
-        //   final.push({ type: "benefit", name: "panchayat" });
-        //   final.push({ type: "benefit", name: "public" });
-        // }
-
-        // Add Data Pages
-        pagesForThisBundle.forEach((pageRecs, idx) => {
+        pagesForThisBundle.forEach((pageRecs) => {
           final.push({
             type: "page",
             bundle: currentBundle,
-            pageIndex: start + idx,
+            pageIndex: globalPageNumber - 1,
             pageRecords: pageRecs,
             isCommercial: false,
           });
+          globalPageNumber++;
         });
 
         currentBundle++;
       }
 
-      // --- PART B: BUILD COMMERCIAL BUNDLES ---
+      // ---------- COMMERCIAL ----------
       if (commercialPages.length > 0) {
         const totalCommBundles = Math.ceil(
           commercialPages.length / pagesPerBundle,
@@ -475,30 +503,39 @@ const TaxRegister = () => {
           const end = start + pagesPerBundle;
           const pagesForThisBundle = commercialPages.slice(start, end);
 
-          // Add Commercial Cover
+          const coverProperties = pagesForThisBundle.reduce(
+            (sum, p) => sum + p.length,
+            0,
+          );
+
+          const pageFrom = globalPageNumber;
+          const pageTo = globalPageNumber + pagesForThisBundle.length - 1;
+
           final.push({
             type: "cover",
             bundle: currentBundle,
-            name: "કોમર્શિયલ મિલકત", // Commercial
+            name: "કોમર્શિયલ મિલકત",
             commercial: true,
             totalRecords: commercialRecords.length,
             section: "commercial",
             part: b,
             totalParts: totalCommBundles,
+
+            // 👇 NEW
+            coverProperties,
+            pageFrom,
+            pageTo,
           });
 
-          // Add Data Pages
-          pagesForThisBundle.forEach((pageRecs, idx) => {
-            // Page Index continues after Residential pages
-            const globalPageIndex = normalPages.length + (start + idx);
-
+          pagesForThisBundle.forEach((pageRecs) => {
             final.push({
               type: "page",
               bundle: currentBundle,
-              pageIndex: globalPageIndex,
+              pageIndex: globalPageNumber - 1,
               pageRecords: pageRecs,
               isCommercial: true,
             });
+            globalPageNumber++;
           });
 
           currentBundle++;
@@ -506,40 +543,46 @@ const TaxRegister = () => {
       }
     } else {
       // ==========================================
-      // LOGIC FOR MIXED (ORIGINAL STANDARD)
+      // MIXED MODE
       // ==========================================
 
-      // Create Pages (Chunks of 6 records)
       const pages = chunkArray(allRecords, recordsPerPage);
       const totalBundles = Math.ceil(pages.length / pagesPerBundle);
 
       for (let bundle = 1; bundle <= totalBundles; bundle++) {
-        // 1. Cover page
+        const start = (bundle - 1) * pagesPerBundle;
+        const end = start + pagesPerBundle;
+        const pagesForThisBundle = pages.slice(start, end);
+
+        const coverProperties = pagesForThisBundle.reduce(
+          (sum, p) => sum + p.length,
+          0,
+        );
+
+        const pageFrom = globalPageNumber;
+        const pageTo = globalPageNumber + pagesForThisBundle.length - 1;
+
         final.push({
           type: "cover",
           bundle,
           name: "",
           part: bundle,
           totalParts: totalBundles,
+
+          // 👇 NEW
+          coverProperties,
+          pageFrom,
+          pageTo,
         });
 
-        // 2. Only bundle 1 gets benefits
-        // if (bundle === 1) {
-        //   final.push({ type: "benefit", name: "panchayat" });
-        //   final.push({ type: "benefit", name: "public" });
-        // }
-
-        // 3. Main pages of this bundle
-        const start = (bundle - 1) * pagesPerBundle;
-        const end = start + pagesPerBundle;
-
-        pages.slice(start, end).forEach((records, idx) => {
+        pagesForThisBundle.forEach((records) => {
           final.push({
             type: "page",
             bundle,
-            pageIndex: start + idx,
+            pageIndex: globalPageNumber - 1,
             pageRecords: records,
           });
+          globalPageNumber++;
         });
       }
     }
@@ -595,7 +638,7 @@ const TaxRegister = () => {
       {pdfProgress.isGenerating && (
         // Progress Modal/Overlay
         <div className="fixed inset-0 bg-gray-800 bg-opacity-80 flex items-center justify-center z-50 p-4">
-          <div className="bg-white p-8 rounded-xl shadow-2xl w-full max-w-sm">
+          <div className="p-2 rounded-xl shadow-2xl w-full max-w-sm">
             <h3 className="text-xl font-bold mb-2 text-center text-gray-800">
               {pdfProgress.isCancelled
                 ? "❌ Canceled"
@@ -661,6 +704,15 @@ const TaxRegister = () => {
       </button>
       <br />
       <br />
+      {project?.details?.seperatecommercial ? (
+        <span className="text-green-600 font-bold">
+          COMMERCIAL SEPARATION ACTIVE
+        </span>
+      ) : (
+        <span className="text-gray-500">Standard Sort</span>
+      )}
+      <br />
+      <br />
       <div
         className="pdf-report-container"
         // style={{ position: "absolute", left: "-9999px" }}
@@ -686,12 +738,14 @@ const TaxRegister = () => {
               >
                 <TaxIndex
                   part={item.bundle}
-                  nop={PROPERTIES_PER_PAGE}
                   project={project}
                   totalHoouse={records?.length}
                   taxes={taxes}
                   title={item?.name} // Pass the dynamic title (Residential/Commercial)
                   commercial={item.commercial}
+                  coverProperties={item.coverProperties}
+                  pageFrom={item.pageFrom}
+                  pageTo={item.pageTo}
                 />
               </div>
             );

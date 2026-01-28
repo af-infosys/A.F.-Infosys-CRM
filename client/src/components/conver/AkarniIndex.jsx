@@ -17,48 +17,50 @@ const TextBlock = ({ children }) => (
 const AkarniIndex = ({
   title,
   part, // Current Bundle Number (e.g., 1, 2, 3)
-  nop, // Records per page (e.g., 7)
   project,
   totalHoouse, // Grand Total of ALL houses (Res + Comm mixed or total context)
-  total, // Total records SPECIFIC to this category (passed as 'totalRecords' from parent)
   commercial, // If commercial cover: contains count of Residential records. If residential: false/undefined.
+
+  coverProperties,
+  pageFrom,
+  pageTo,
 }) => {
   // --- FIXED CALCULATIONS ---
 
-  const PAGES_PER_BUNDLE = 100;
-  const MAX_RECORDS_PER_BUNDLE = PAGES_PER_BUNDLE * nop; // e.g., 700 records
+  // const PAGES_PER_BUNDLE = 100;
+  // const MAX_RECORDS_PER_BUNDLE = PAGES_PER_BUNDLE * nop; // e.g., 700 records
 
-  // 1. Calculate Records in THIS specific Register/Bundle
-  // Logic: (Part - 1) * 700 se start karo.
-  const startRecordIndex = (part - 1) * MAX_RECORDS_PER_BUNDLE;
-  const remainingRecords = total - startRecordIndex;
+  // // 1. Calculate Records in THIS specific Register/Bundle
+  // // Logic: (Part - 1) * 700 se start karo.
+  // const startRecordIndex = (part - 1) * MAX_RECORDS_PER_BUNDLE;
+  // const remainingRecords = total - startRecordIndex;
 
-  // Agar remaining 700 se jyada hai to 700 lo, nahi to remaining lo.
-  const recordsInThisBundle =
-    remainingRecords >= MAX_RECORDS_PER_BUNDLE
-      ? MAX_RECORDS_PER_BUNDLE
-      : Math.max(remainingRecords, 0);
+  // // Agar remaining 700 se jyada hai to 700 lo, nahi to remaining lo.
+  // const recordsInThisBundle =
+  //   remainingRecords >= MAX_RECORDS_PER_BUNDLE
+  //     ? MAX_RECORDS_PER_BUNDLE
+  //     : Math.max(remainingRecords, 0);
 
-  console.log(recordsInThisBundle);
+  // console.log(recordsInThisBundle);
 
   // 2. Calculate Page Range (Start - End)
 
   // Step A: Find previous section offset (Pages used by Residential if this is Commercial)
   // Note: 'commercial' prop holds the count of previous residential records if this is a commercial cover
-  const previousSectionPages = commercial ? Math.ceil(commercial / nop) : 0;
+  // const previousSectionPages = commercial ? Math.ceil(commercial / nop) : 0;
 
-  // Step B: Find pages skipped by previous bundles in THIS section
-  const previousBundlePages = (part - 1) * PAGES_PER_BUNDLE;
+  // // Step B: Find pages skipped by previous bundles in THIS section
+  // const previousBundlePages = (part - 1) * PAGES_PER_BUNDLE;
 
-  // Step C: Pages consumed by current bundle records
-  const pagesUsedCurrently = Math.ceil(recordsInThisBundle / nop);
+  // // Step C: Pages consumed by current bundle records
+  // const pagesUsedCurrently = Math.ceil(recordsInThisBundle / nop);
 
-  // Final Page Numbers
-  const startPage = previousSectionPages + previousBundlePages + 1;
-  const endPage = startPage + pagesUsedCurrently - 1;
+  // // Final Page Numbers
+  // const startPage = previousSectionPages + previousBundlePages + 1;
+  // const endPage = startPage + pagesUsedCurrently - 1;
 
-  // Formatting Range string
-  const pageRangeString = `${toGujaratiNumber(startPage)} થી ${toGujaratiNumber(endPage)}`;
+  // // Formatting Range string
+  // const pageRangeString = `${toGujaratiNumber(startPage)} થી ${toGujaratiNumber(endPage)}`;
 
   return (
     <div
@@ -284,7 +286,7 @@ const AkarniIndex = ({
               <label style={{ maxWidth: "fit-content", fontSize: "21px" }}>
                 આ રજીસ્ટર ના ઘરની સંખ્યા :-
                 <b style={{ paddingInline: "5px", marginLeft: "2px" }}>
-                  {toGujaratiNumber(recordsInThisBundle)}
+                  {toGujaratiNumber(coverProperties)}
                 </b>
               </label>
             </div>
@@ -294,7 +296,7 @@ const AkarniIndex = ({
               <label style={{ maxWidth: "fit-content", fontSize: "21px" }}>
                 પાના નંબર :-
                 <b style={{ paddingInline: "5px", marginLeft: "2px" }}>
-                  {pageRangeString}
+                  {`${toGujaratiNumber(pageFrom)} થી ${toGujaratiNumber(pageTo)}`}
                 </b>
               </label>
             </div>
