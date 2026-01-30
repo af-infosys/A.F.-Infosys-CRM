@@ -1,13 +1,14 @@
 {
   "files": {
-    "main.css": "/static/css/main.4a714340.css",
-    "main.js": "/static/js/main.91f68b76.js",
+    "main.css": "/static/css/main.028d8957.css",
+    "main.js": "/static/js/main.cb90547d.js",
     "static/js/977.87a37736.chunk.js": "/static/js/977.87a37736.chunk.js",
-    "static/js/455.8eec172f.chunk.js": "/static/js/455.8eec172f.chunk.js",
+    "static/js/455.4f2c4757.chunk.js": "/static/js/455.4f2c4757.chunk.js",
     "static/js/453.57b2eab3.chunk.js": "/static/js/453.57b2eab3.chunk.js",
     "static/media/benefit1-bg-new.png": "/static/media/benefit1-bg-new.9313819db138fb188ccb.png",
     "static/media/benefit2-bg-new.png": "/static/media/benefit2-bg-new.3f68bda1fcc3f9b0b6be.png",
     "static/media/Survey.png": "/static/media/Survey.d8b987afa361a4e9a8ac.png",
+    "static/media/meeting-letter.png": "/static/media/meeting-letter.13630fbc3ee23abf3d84.png",
     "static/media/circle.png": "/static/media/circle.c71fd130eef3e57d60ba.png",
     "static/media/logo.png": "/static/media/logo.65093e0a1514f8a465c0.png",
     "static/media/KachaMakan.png": "/static/media/KachaMakan.48d30bd246c3006b6119.png",
@@ -47,14 +48,14 @@
     "static/media/expense.png": "/static/media/expense.e0c59843096bb7a05c4c.png",
     "static/media/House.png": "/static/media/House.640d0b1e39b36fd2550c.png",
     "index.html": "/index.html",
-    "main.4a714340.css.map": "/static/css/main.4a714340.css.map",
-    "main.91f68b76.js.map": "/static/js/main.91f68b76.js.map",
+    "main.028d8957.css.map": "/static/css/main.028d8957.css.map",
+    "main.cb90547d.js.map": "/static/js/main.cb90547d.js.map",
     "977.87a37736.chunk.js.map": "/static/js/977.87a37736.chunk.js.map",
-    "455.8eec172f.chunk.js.map": "/static/js/455.8eec172f.chunk.js.map",
+    "455.4f2c4757.chunk.js.map": "/static/js/455.4f2c4757.chunk.js.map",
     "453.57b2eab3.chunk.js.map": "/static/js/453.57b2eab3.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.4a714340.css",
-    "static/js/main.91f68b76.js"
+    "static/css/main.028d8957.css",
+    "static/js/main.cb90547d.js"
   ]
 }

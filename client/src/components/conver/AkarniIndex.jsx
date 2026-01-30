@@ -25,43 +25,6 @@ const AkarniIndex = ({
   pageFrom,
   pageTo,
 }) => {
-  // --- FIXED CALCULATIONS ---
-
-  // const PAGES_PER_BUNDLE = 100;
-  // const MAX_RECORDS_PER_BUNDLE = PAGES_PER_BUNDLE * nop; // e.g., 700 records
-
-  // // 1. Calculate Records in THIS specific Register/Bundle
-  // // Logic: (Part - 1) * 700 se start karo.
-  // const startRecordIndex = (part - 1) * MAX_RECORDS_PER_BUNDLE;
-  // const remainingRecords = total - startRecordIndex;
-
-  // // Agar remaining 700 se jyada hai to 700 lo, nahi to remaining lo.
-  // const recordsInThisBundle =
-  //   remainingRecords >= MAX_RECORDS_PER_BUNDLE
-  //     ? MAX_RECORDS_PER_BUNDLE
-  //     : Math.max(remainingRecords, 0);
-
-  // console.log(recordsInThisBundle);
-
-  // 2. Calculate Page Range (Start - End)
-
-  // Step A: Find previous section offset (Pages used by Residential if this is Commercial)
-  // Note: 'commercial' prop holds the count of previous residential records if this is a commercial cover
-  // const previousSectionPages = commercial ? Math.ceil(commercial / nop) : 0;
-
-  // // Step B: Find pages skipped by previous bundles in THIS section
-  // const previousBundlePages = (part - 1) * PAGES_PER_BUNDLE;
-
-  // // Step C: Pages consumed by current bundle records
-  // const pagesUsedCurrently = Math.ceil(recordsInThisBundle / nop);
-
-  // // Final Page Numbers
-  // const startPage = previousSectionPages + previousBundlePages + 1;
-  // const endPage = startPage + pagesUsedCurrently - 1;
-
-  // // Formatting Range string
-  // const pageRangeString = `${toGujaratiNumber(startPage)} થી ${toGujaratiNumber(endPage)}`;
-
   return (
     <div
       style={{

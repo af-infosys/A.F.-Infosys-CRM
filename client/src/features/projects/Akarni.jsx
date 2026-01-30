@@ -24,6 +24,7 @@ const quicklinks = [
   },
   { id: 6, label: "5. Tarij Report", path: "/survay/tarij" },
   { id: 7, label: "6. Analysis Report", path: "/survay/analysis" },
+  { id: 8, label: "Bill / Quotation", path: "/survay/bill" },
 ];
 
 const Akarni = () => {

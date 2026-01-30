@@ -855,3 +855,198 @@ const SurvayReport = () => {
 };
 
 export default SurvayReport;
+
+// import React from "react";
+// import {
+//   Page,
+//   Text,
+//   View,
+//   Document,
+//   StyleSheet,
+//   PDFDownloadLink,
+// } from "@react-pdf/renderer";
+
+// // --- 1. DUMMY DATA (Simulating your records) ---
+// const dummyData = [
+//   { id: 1, name: "Jatin Patel", city: "Ahmedabad", amount: 5000 },
+//   { id: 2, name: "Rahul Sharma", city: "Surat", amount: 2000 },
+//   { id: 3, name: "Sneha Gupta", city: "Vadodara", amount: 1500 },
+//   { id: 4, name: "Amit Shah", city: "Rajkot", amount: 9000 },
+//   { id: 5, name: "Priya Desai", city: "Gandhinagar", amount: 3500 },
+//   { id: 6, name: "Vikram Singh", city: "Bhavnagar", amount: 1200 },
+//   { id: 7, name: "Anjali Mehta", city: "Jamnagar", amount: 4800 },
+//   { id: 8, name: "Karan Johar", city: "Mumbai", amount: 7000 },
+// ];
+
+// // --- 2. STYLES (Simple CSS for PDF) ---
+// const styles = StyleSheet.create({
+//   page: {
+//     padding: 30,
+//     backgroundColor: "#ffffff",
+//     fontFamily: "Helvetica", // Default font (English Only for Demo to ensure it works)
+//   },
+//   header: {
+//     fontSize: 20,
+//     marginBottom: 20,
+//     textAlign: "center",
+//     color: "blue",
+//     fontWeight: "bold",
+//   },
+//   table: {
+//     display: "table",
+//     width: "auto",
+//     borderStyle: "solid",
+//     borderWidth: 1,
+//     borderRightWidth: 0,
+//     borderBottomWidth: 0,
+//   },
+//   tableRow: {
+//     margin: "auto",
+//     flexDirection: "row",
+//   },
+//   tableCol: {
+//     width: "25%",
+//     borderStyle: "solid",
+//     borderWidth: 1,
+//     borderLeftWidth: 0,
+//     borderTopWidth: 0,
+//   },
+//   tableCell: {
+//     margin: 5,
+//     fontSize: 10,
+//   },
+// });
+
+// // --- 3. THE PDF DOCUMENT DESIGN ---
+// const MyDocument = () => (
+//   <Document>
+//     {/* PAGE 1 */}
+//     <Page size="A4" style={styles.page}>
+//       <Text style={styles.header}>Demo Report - Page 1</Text>
+//       <Text style={{ marginBottom: 10 }}>
+//         This is a test PDF to check if the library works.
+//       </Text>
+
+//       {/* Simple Table */}
+//       <View style={styles.table}>
+//         {/* Table Header */}
+//         <View style={{ ...styles.tableRow, backgroundColor: "#eee" }}>
+//           <View style={styles.tableCol}>
+//             <Text style={{ ...styles.tableCell, fontWeight: "bold" }}>ID</Text>
+//           </View>
+//           <View style={styles.tableCol}>
+//             <Text style={{ ...styles.tableCell, fontWeight: "bold" }}>
+//               Name
+//             </Text>
+//           </View>
+//           <View style={styles.tableCol}>
+//             <Text style={{ ...styles.tableCell, fontWeight: "bold" }}>
+//               City
+//             </Text>
+//           </View>
+//           <View style={styles.tableCol}>
+//             <Text style={{ ...styles.tableCell, fontWeight: "bold" }}>
+//               Amount
+//             </Text>
+//           </View>
+//         </View>
+
+//         {/* First 4 Rows */}
+//         {dummyData.slice(0, 4).map((item) => (
+//           <View style={styles.tableRow} key={item.id}>
+//             <View style={styles.tableCol}>
+//               <Text style={styles.tableCell}>{item.id}</Text>
+//             </View>
+//             <View style={styles.tableCol}>
+//               <Text style={styles.tableCell}>{item.name}</Text>
+//             </View>
+//             <View style={styles.tableCol}>
+//               <Text style={styles.tableCell}>{item.city}</Text>
+//             </View>
+//             <View style={styles.tableCol}>
+//               <Text style={styles.tableCell}>{item.amount}</Text>
+//             </View>
+//           </View>
+//         ))}
+//       </View>
+//       <Text
+//         style={{ position: "absolute", bottom: 30, right: 30, fontSize: 10 }}
+//       >
+//         Page 1
+//       </Text>
+//     </Page>
+
+//     {/* PAGE 2 (Showing that multi-page works) */}
+//     <Page size="A4" style={styles.page}>
+//       <Text style={styles.header}>Demo Report - Page 2</Text>
+//       <Text style={{ marginBottom: 10 }}>Continued Data...</Text>
+
+//       <View style={styles.table}>
+//         {/* Remaining Rows */}
+//         {dummyData.slice(4, 8).map((item) => (
+//           <View style={styles.tableRow} key={item.id}>
+//             <View style={styles.tableCol}>
+//               <Text style={styles.tableCell}>{item.id}</Text>
+//             </View>
+//             <View style={styles.tableCol}>
+//               <Text style={styles.tableCell}>{item.name}</Text>
+//             </View>
+//             <View style={styles.tableCol}>
+//               <Text style={styles.tableCell}>{item.city}</Text>
+//             </View>
+//             <View style={styles.tableCol}>
+//               <Text style={styles.tableCell}>{item.amount}</Text>
+//             </View>
+//           </View>
+//         ))}
+//       </View>
+//       <Text
+//         style={{ position: "absolute", bottom: 30, right: 30, fontSize: 10 }}
+//       >
+//         Page 2
+//       </Text>
+//     </Page>
+//   </Document>
+// );
+
+// // --- 4. THE BUTTON COMPONENT ---
+// const SurvayReport = () => (
+//   <div
+//     style={{
+//       padding: "50px",
+//       textAlign: "center",
+//       border: "2px dashed gray",
+//       margin: "20px",
+//     }}
+//   >
+//     <h2>PDF Generator Prototype</h2>
+//     <p>Click below to test basic PDF generation</p>
+
+//     <br />
+
+//     <PDFDownloadLink document={<MyDocument />} fileName="test_demo.pdf">
+//       {({ blob, url, loading, error }) =>
+//         loading ? (
+//           <button
+//             style={{ padding: "10px 20px", background: "gray", color: "white" }}
+//           >
+//             Loading...
+//           </button>
+//         ) : (
+//           <button
+//             style={{
+//               padding: "10px 20px",
+//               background: "blue",
+//               color: "white",
+//               cursor: "pointer",
+//             }}
+//           >
+//             Download Demo PDF
+//           </button>
+//         )
+//       }
+//     </PDFDownloadLink>
+//   </div>
+// );
+
+// export default SurvayReport;

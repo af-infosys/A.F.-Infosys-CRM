@@ -5,7 +5,7 @@ export class GoogleSheetService {
     let credentials;
     if (!process.env.GOOGLE_CREDENTIALS_JSON) {
       throw new Error(
-        "GOOGLE_CREDENTIALS_JSON environment variable is not set."
+        "GOOGLE_CREDENTIALS_JSON environment variable is not set.",
       );
     }
 
@@ -26,7 +26,7 @@ export class GoogleSheetService {
       ],
     });
 
-    this.sheetId = process.env.GOOGLE_SHEET_ID;
+    this.sheetId = process.env.CRM_SPREADSHEET_ID;
     this.client = null;
   }
 

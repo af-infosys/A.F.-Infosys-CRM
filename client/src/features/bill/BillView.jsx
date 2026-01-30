@@ -7,10 +7,13 @@ import { Edit, Save } from "lucide-react";
 import numberToGujaratiWords from "../../components/ToGujarati";
 
 import LOGOpng from "../../assets/logo.png";
+import { useParams } from "react-router-dom";
 
 function BillView() {
   const reportRef = useRef(null);
   const reportRef2 = useRef(null);
+
+  const { projectId } = useParams();
 
   const [billData, setBillData] = useState({
     gaam: "loading...",
@@ -49,7 +52,7 @@ function BillView() {
             .json()
             .catch(() => ({ error: `HTTP error! Status: ${response.status}` }));
           throw new Error(
-            errorBody.error || `HTTP error! Status: ${response.status}`
+            errorBody.error || `HTTP error! Status: ${response.status}`,
           );
         }
         return response; // Return the raw response for parsing outside
@@ -67,7 +70,7 @@ function BillView() {
     setIsLoading(true);
 
     const id = "6882180eab7cc70564b9fb4b";
-    const endpoint = `${await apiPath()}/api/valuation/bill/${id}`;
+    const endpoint = `${await apiPath()}/api/valuation/bill/${projectId}`;
 
     // Payload structure must match the backend controller's expectation
     const payload = {
@@ -103,7 +106,7 @@ function BillView() {
       } else {
         // Handle unexpected response structure
         throw new Error(
-          "Update successful, but missing 'bill' data in response."
+          "Update successful, but missing 'bill' data in response.",
         );
       }
     } catch (error) {
@@ -111,7 +114,7 @@ function BillView() {
       alert(
         `Failed to update bill: ${
           error.message || "Server communication failed."
-        }`
+        }`,
       );
     } finally {
       setIsLoading(false);
@@ -120,9 +123,7 @@ function BillView() {
 
   useEffect(() => {
     const fetchBillDetails = async () => {
-      const id = "6882180eab7cc70564b9fb4b";
-
-      fetch(`${await apiPath()}/api/valuation/bill/${id}`, {
+      fetch(`${await apiPath()}/api/valuation/bill/${projectId}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -265,6 +266,7 @@ function BillView() {
                   id="houseCount"
                   name="houseCount"
                   value={billData.houseCount}
+                  onChange={handleFormChange}
                   className="mt-1 w-full input-field"
                 />
               </div>
@@ -622,7 +624,7 @@ function BillView() {
                       શબ્દોમાં અંકે રૂપિયા{" "}
                       <span className="text-gray-700">
                         {numberToGujaratiWords(
-                          billData?.houseCount * billData?.price
+                          billData?.houseCount * billData?.price,
                         )}
                       </span>{" "}
                       /-

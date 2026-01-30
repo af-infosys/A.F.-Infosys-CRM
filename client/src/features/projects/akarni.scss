@@ -63,7 +63,9 @@
   font-size: 16px;
   font-weight: 800;
   text-align: center;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 
   &:hover {
     transform: translateY(-3px);
@@ -104,6 +106,13 @@
     background: linear-gradient(
       135deg,
       #fc39ab,
+      #e629ff
+    ); // deep blue → royal blue
+  }
+  &:nth-child(8) {
+    background: linear-gradient(
+      135deg,
+      #39fcd5,
       #e629ff
     ); // deep blue → royal blue
   }

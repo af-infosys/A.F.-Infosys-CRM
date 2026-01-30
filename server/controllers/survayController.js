@@ -521,15 +521,20 @@ export const getAllRecords = async (req, res) => {
   }
 };
 
-export const getHouseCount = async (id = 0) => {
+export const getHouseCount = async (id) => {
   try {
+    if (!id) {
+      console.log("Work Id not found, for House Count!");
+      return 0;
+    }
+
     const client = await auth.getClient();
     const googleSheets = google.sheets({ version: "v4", auth: client });
 
     // Google Sheet
     const response = await googleSheets.spreadsheets.values.get({
       spreadsheetId: SPREADSHEET_ID,
-      range: `${work?.sheetId}_Main!A4:ZZ`,
+      range: `${id}_Main!A4:ZZ`,
     });
 
     const records = response.data.values || [];

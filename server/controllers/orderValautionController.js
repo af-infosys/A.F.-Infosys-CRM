@@ -47,7 +47,7 @@ export const getBillDetails = async (req, res) => {
 
     if (!works) return res.status(404).json({ error: "Work not found" });
 
-    const houseCount = await getHouseCount();
+    const houseCount = await getHouseCount(works?.sheetId);
 
     const bill = {
       gaam: works.spot?.gaam,
@@ -84,17 +84,17 @@ export const updateBillDetails = async (req, res) => {
       "details.date": date,
     };
 
-    const houseCount = await getHouseCount();
-
     const updatedWork = await Work.findByIdAndUpdate(
       id,
       { $set: updateFields },
-      { new: true, runValidators: true }
+      { new: true, runValidators: true },
     );
 
     if (!updatedWork) {
       return res.status(404).json({ error: "Work not found for update" });
     }
+
+    const houseCount = await getHouseCount(updatedWork?.sheetId);
 
     // Prepare the response bill object similar to the get function
     const bill = {

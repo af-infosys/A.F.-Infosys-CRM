@@ -378,39 +378,21 @@ export default function DashboardLayout() {
                 <div
                   className="main-link"
                   onClick={() =>
-                    setOpenMenu(openMenu === "/bills" ? null : "/bills")
+                    setOpenMenu(openMenu === "/meeting" ? null : "/meeting")
                   }
                 >
-                  Bill
+                  Meeting Later
                 </div>
 
-                {openMenu === "/bills" && (
+                {openMenu === "/meeting" && (
                   <div className="sub-links">
-                    {/* <NavLink
-                      to={`/bills/report`}
-                      className={({ isActive }) => (isActive ? "active" : "")}
-                      onClick={() => setIsSidebarOpen(false)}
-                    >
-                      Report
-                    </NavLink> */}
-
                     <NavLink
-                      to={`/bills/view`}
+                      to={`/meeting/manage`}
                       className={({ isActive }) => (isActive ? "active" : "")}
                       onClick={() => setIsSidebarOpen(false)}
                     >
-                      View
+                      Arji/Certificate
                     </NavLink>
-
-                    {/* {user.role === "owner" && (
-                      <NavLink
-                        to={"/customers/summary"}
-                        className={({ isActive }) => (isActive ? "active" : "")}
-                        onClick={() => setIsSidebarOpen(false)}
-                      >
-                        Summary
-                      </NavLink>
-                    )} */}
                   </div>
                 )}
               </div>

@@ -48,6 +48,9 @@ import BillWork from "../features/staff/BillWork";
 import NotFound from "../components/NotFound";
 import BillerReport from "../features/staff/workStatus/BillerReport";
 import SurvayInsertForm from "../components/SurveyInsertForm";
+import ManageCertificate from "../features/meetings/ManageCertificate";
+import ArjiLetter from "../features/meetings/ArjiLetter";
+import Certificate from "../features/meetings/Certificate";
 
 export default function AppRoutes() {
   const { user } = useAuth();
@@ -195,6 +198,15 @@ export default function AppRoutes() {
             }
           />
 
+          <Route
+            path="bill/:projectId"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <BillView />
+              </ProtectedRoute>
+            }
+          />
+
           <Route path="dailyReport" element={<DailyWordReport />} />
           <Route path="expenseReport" element={<SurvayorExpense />} />
         </Route>
@@ -209,13 +221,13 @@ export default function AppRoutes() {
         </Route>
         {/* Order Valuation Routes End */}
 
-        {/* Bill Routes Start */}
-        <Route path="bills">
-          {/* <Route path="form" element={<BillForm />} /> */}
-          <Route path="view" element={<BillView />} />
-          {/* <Route path="report" element={<BillReport />} /> */}
+        {/* Meeting Routes Start */}
+        <Route path="meeting">
+          <Route path="manage" element={<ManageCertificate />} />
+          <Route path="arji/:id" element={<ArjiLetter />} />
+          <Route path="certificate/:id" element={<Certificate />} />
         </Route>
-        {/* Bill Routes End */}
+        {/* Meeting Routes End */}
 
         {/* Accounts Routes Start */}
         <Route path="accounts">

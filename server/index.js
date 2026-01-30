@@ -10,6 +10,7 @@ import workRoutes from "./routes/workRoutes.js";
 import valuationRoutes from ".//routes/orderValuationRoutes.js";
 import driveRoutes from "./routes/driveRoutes.js";
 import BillRoutes from "./routes/billRoutes.js";
+import MeetingsRoutes from "./routes/meetingRoutes.js";
 
 let socket;
 let isConnected = false;
@@ -44,6 +45,7 @@ app.use("/api/messages", MessagesRoutes);
 app.use("/api/valuation", valuationRoutes);
 app.use("/api/images", driveRoutes);
 app.use("/api/bill-data", BillRoutes);
+app.use("/api/meetings", MeetingsRoutes);
 
 // Reciept Automation Script Start
 async function fetchDataFromSheet(sheetId, recordId) {
@@ -89,7 +91,7 @@ app.post("/send-receipt", async (req, res) => {
     console.log(`[Request] Received request for m_id: ${recordId}`);
     const record = await fetchDataFromSheet(
       process.env.GOOGLE_SHEET_ID,
-      recordId
+      recordId,
     );
     const ownerName = record[1] || "Valued Customer";
     const phoneNumber = record[17];
@@ -136,7 +138,7 @@ app.post("/send-receipt", async (req, res) => {
   } catch (error) {
     console.error(
       `[Failed] Could not send receipt for m_id ${m_id}:`,
-      error.message
+      error.message,
     );
     res.status(500).json({ success: false, message: error.message });
   }
@@ -274,7 +276,7 @@ app.post("/update-sheet-record", async (req, res) => {
         if (i === 2) continue; // Skip the 3rd row (index 2)
         const sheetMilkatId = rows[i][MILKAT_COL_INDEX];
         console.log(
-          `[DEBUG] Checking row ${i}, Milkat ID in sheet: ${sheetMilkatId}`
+          `[DEBUG] Checking row ${i}, Milkat ID in sheet: ${sheetMilkatId}`,
         );
         if (
           sheetMilkatId &&
@@ -291,7 +293,7 @@ app.post("/update-sheet-record", async (req, res) => {
       const rowNumber = rowIndexToUpdate + 1; // Google Sheets is 1-indexed
       const rangeToUpdate = `${SHEET_NAME}!A${rowNumber}`; // Update the entire row starting from column A
       console.log(
-        `[DEBUG] Updating sheet at row number: ${rowNumber}, range: ${rangeToUpdate}`
+        `[DEBUG] Updating sheet at row number: ${rowNumber}, range: ${rangeToUpdate}`,
       );
 
       await updateSheetCells(rangeToUpdate, [rowData]);
@@ -311,7 +313,7 @@ app.post("/update-sheet-record", async (req, res) => {
   } catch (error) {
     console.error(
       "[Failed] Could not update/append data to sheet:",
-      error.message
+      error.message,
     );
     res.status(500).json({ success: false, message: error.message });
   }
@@ -383,7 +385,7 @@ app.post("/update-receipt", async (req, res) => {
       });
 
       console.log(
-        `✅ Receipt ${receiptNumber} and Date updated at row ${rowNumber}`
+        `✅ Receipt ${receiptNumber} and Date updated at row ${rowNumber}`,
       );
       res.status(200).json({
         success: true,

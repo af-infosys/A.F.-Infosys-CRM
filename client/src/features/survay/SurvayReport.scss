@@ -335,3 +335,58 @@
     border: 0.3px solid #000 !important;
   }
 }
+
+/* --- SurvayReport.scss --- */
+
+/* Normal Screen View */
+.pdf-report-container {
+  // display: none; /* Screen par ye hidden rahega */
+}
+
+/* Print View (Jab Download PDF dabayenge) */
+@media print {
+  /* Hide everything unnecessary */
+  body * {
+    visibility: hidden;
+  }
+
+  /* Hide buttons explicitly */
+  .no-print {
+    display: none !important;
+  }
+
+  /* Setup PDF Container */
+  .pdf-report-container,
+  .pdf-report-container * {
+    visibility: visible;
+    display: block;
+  }
+
+  .pdf-report-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Page Break Logic - Important */
+  .report-page {
+    page-break-after: always;
+    break-after: page;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+
+    /* Ensure background colors print */
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Setup Landscape Paper */
+  @page {
+    size: landscape legal; /* Legal size Landscape */
+    margin: 0; /* Remove browser default margins */
+  }
+}
