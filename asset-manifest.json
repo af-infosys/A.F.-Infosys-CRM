@@ -1,17 +1,20 @@
 {
   "files": {
-    "main.css": "/static/css/main.028d8957.css",
-    "main.js": "/static/js/main.cb90547d.js",
+    "main.css": "/static/css/main.7f6dc232.css",
+    "main.js": "/static/js/main.03cdabb3.js",
     "static/js/977.87a37736.chunk.js": "/static/js/977.87a37736.chunk.js",
     "static/js/455.4f2c4757.chunk.js": "/static/js/455.4f2c4757.chunk.js",
     "static/js/453.57b2eab3.chunk.js": "/static/js/453.57b2eab3.chunk.js",
     "static/media/benefit1-bg-new.png": "/static/media/benefit1-bg-new.9313819db138fb188ccb.png",
     "static/media/benefit2-bg-new.png": "/static/media/benefit2-bg-new.3f68bda1fcc3f9b0b6be.png",
+    "static/media/Round Seal Stamp Format.png": "/static/media/Round Seal Stamp Format.1934a1e5ced0a98225be.png",
+    "static/media/Boder 1.png": "/static/media/Boder 1.b10b0e7364ba1239b8dc.png",
     "static/media/Survey.png": "/static/media/Survey.d8b987afa361a4e9a8ac.png",
     "static/media/meeting-letter.png": "/static/media/meeting-letter.13630fbc3ee23abf3d84.png",
     "static/media/circle.png": "/static/media/circle.c71fd130eef3e57d60ba.png",
     "static/media/logo.png": "/static/media/logo.65093e0a1514f8a465c0.png",
     "static/media/KachaMakan.png": "/static/media/KachaMakan.48d30bd246c3006b6119.png",
+    "static/media/3D Ball Rounded.png": "/static/media/3D Ball Rounded.6d354c7f2dbbbce51a69.png",
     "static/media/bottom.svg": "/static/media/bottom.9508f54178bd780dfbe2.svg",
     "static/media/wale.png": "/static/media/wale.e2fa4b02db583a508589.png",
     "static/media/wale2.png": "/static/media/wale2.c6a9edfeef92ca61322a.png",
@@ -20,9 +23,11 @@
     "static/media/Watermark.png": "/static/media/Watermark.3c235a673f501e51b16f.png",
     "static/media/search.png": "/static/media/search.17b40541e1ceaa04a220.png",
     "static/media/Heading.svg": "/static/media/Heading.49de966eac82eb524177.svg",
+    "static/media/Glasses Gandhi Ji.png": "/static/media/Glasses Gandhi Ji.99639cabcde2f7c387f1.png",
     "static/media/whatsapp.png": "/static/media/whatsapp.c339ff504121f060e736.png",
     "static/media/manage.png": "/static/media/manage.305d60fe50c399fff61b.png",
     "static/media/reminder.png": "/static/media/reminder.0ee0ab83378e9ee33e3d.png",
+    "static/media/Jai Hind Logi.png": "/static/media/Jai Hind Logi.caa679bf60bbe86b501b.png",
     "static/media/telecaller.png": "/static/media/telecaller.2ed50f5ddaba60548133.png",
     "static/media/check.png": "/static/media/check.f00ed9f207409fe465f1.png",
     "static/media/Total.png": "/static/media/Total.c134310de067dd459257.png",
@@ -48,14 +53,14 @@
     "static/media/expense.png": "/static/media/expense.e0c59843096bb7a05c4c.png",
     "static/media/House.png": "/static/media/House.640d0b1e39b36fd2550c.png",
     "index.html": "/index.html",
-    "main.028d8957.css.map": "/static/css/main.028d8957.css.map",
-    "main.cb90547d.js.map": "/static/js/main.cb90547d.js.map",
+    "main.7f6dc232.css.map": "/static/css/main.7f6dc232.css.map",
+    "main.03cdabb3.js.map": "/static/js/main.03cdabb3.js.map",
     "977.87a37736.chunk.js.map": "/static/js/977.87a37736.chunk.js.map",
     "455.4f2c4757.chunk.js.map": "/static/js/455.4f2c4757.chunk.js.map",
     "453.57b2eab3.chunk.js.map": "/static/js/453.57b2eab3.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.028d8957.css",
-    "static/js/main.cb90547d.js"
+    "static/css/main.7f6dc232.css",
+    "static/js/main.03cdabb3.js"
   ]
 }

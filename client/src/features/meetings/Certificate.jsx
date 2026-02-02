@@ -1,63 +1,213 @@
-const Certificate = ({ data }) => {
+import { useParams } from "react-router-dom";
+import "./Certificate.scss";
+import { useEffect, useRef, useState } from "react";
+import { fetchMeetingById } from "./meetingsApi";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+
+import toGujaratiNumber from "../../components/toGujaratiNumber";
+
+function formatDate(date) {
+  // dd/mm/yyyy
+
+  const d = new Date(date);
+  const day = d.getDate();
+  const month = d.getMonth() + 1;
+  const year = d.getFullYear();
+  return `${toGujaratiNumber(day)}/${toGujaratiNumber(month)}/${toGujaratiNumber(year)}`;
+}
+
+const Certificate = () => {
+  const { id } = useParams();
+  const [meeting, setMeeting] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const loadMeeting = async () => {
+      const res = await fetchMeetingById(id);
+      setMeeting(res.data);
+    };
+
+    loadMeeting();
+  }, [id]);
+
+  const pageRef = useRef();
+
+  const downloadPDF = async () => {
+    setLoading(true);
+
+    const pdf = new jsPDF("p", "mm", "a4");
+
+    const pageWidth = 400; // A4 width
+    const pageHeight = 297; // A4 height
+
+    const pages = [pageRef];
+
+    for (let i = 0; i < pages.length; i++) {
+      const pageElement = pages[i].current;
+
+      if (!pageElement) continue;
+
+      if (i > 0) pdf.addPage();
+
+      const canvas = await html2canvas(pageElement, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: "#ffffff",
+      });
+
+      const imgData = canvas.toDataURL("image/jpeg", 1.0);
+
+      const imgWidth = pageWidth;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight);
+    }
+
+    pdf.save(`Meeting_Letter_${meeting?.taluka}.pdf`);
+
+    setLoading(false);
+  };
+
+  if (!meeting) return <div className="p-6">Loading...</div>;
+
   return (
     <div
-      id="letter-page"
+      // className="bg-gray-300"
       style={{
-        width: "210mm",
-        height: "297mm",
-        padding: "18mm",
-        boxSizing: "border-box",
-        fontFamily: "Noto Serif Gujarati, serif",
-        fontSize: "12pt",
-        lineHeight: 1.6,
-        position: "relative",
-        border: "4mm solid #b23a3a",
+        display: "flex",
+        flexDirection: "column",
+        gap: "20px",
+        margin: "0px",
+        padding: "10px",
+        alignItems: "start",
       }}
     >
-      {/* Heading */}
-      <h1
-        style={{
-          textAlign: "center",
-          fontSize: "20pt",
-          marginBottom: "10mm",
-          letterSpacing: "1px",
-        }}
+      <button
+        onClick={downloadPDF}
+        className="px-4 py-2 bg-blue-600 text-white rounded"
+        disabled={loading}
       >
-        પ્રમાણપત્ર
-      </h1>
+        {loading ? "Downloading..." : "Download PDF"}
+      </button>
 
-      {/* Body */}
-      <p style={{ textIndent: "12mm", textAlign: "justify" }}>
-        આથી પ્રમાણપત્ર આપવામાં આવે છે કે, શ્રી એક્સ-વાયઝોન ઇન્ફોસિસ અમરેલી
-        દ્વારા અને તેની તાલુકા પંચાયત કચેરીમાં સાલાંતરીક માસિક તલાટી કમ મંત્રી
-        મિટિંગમાં પંચાયત સંબંધી અને દૈનિક રેકર્ડ અદ્યતન કરવા બાબતે વિસ્તૃત
-        માહિતી આપવામાં આવેલ છે.
-      </p>
+      <div
+        id="certificate-page"
+        style={{
+          width: "210mm",
+          height: "297mm",
+          padding: "0",
+          boxSizing: "border-box",
+          fontFamily: "Noto Serif Gujarati, serif",
 
-      <p style={{ textIndent: "12mm", textAlign: "justify" }}>
-        ગ્રામ પંચાયતોમાં કાર્યરત કર્મચારીઓ માટે તલાટી કમ મંત્રીની દૈનિક
-        કામગીરીમાં મદદરૂપ થાય તેવું માર્ગદર્શન આપવામાં આવેલ છે.
-      </p>
+          // fontSize: "12pt",
+          // lineHeight: 1.6,
 
-      <p style={{ textIndent: "12mm", textAlign: "justify" }}>
-        તેમજ પ્રેઝન્ટેશન દ્વારા તાલુકા કક્ષાની તલાટી કમ મંત્રીની કામગીરીને વધુ
-        સરળ અને ઝડપી બનાવવા અંગે માર્ગદર્શન આપવામાં આવેલ છે.
-      </p>
+          background: "#fff",
+          color: "#000",
 
-      <p style={{ textIndent: "12mm", textAlign: "justify" }}>
-        જે બદલ આ પ્રમાણપત્ર અહીં આપવામાં આવે છે.
-      </p>
+          position: "relative",
+        }}
+        ref={pageRef}
+      >
+        <div className="wrapper">
+          {/* Heading */}
+          <h1>પ્રમાણ પત્ર</h1>
 
-      {/* Footer */}
-      <div style={{ marginTop: "30mm" }}>
-        <div style={{ float: "left" }}>
-          <p>સ્થળ : તાલુકા પંચાયત કચેરી</p>
-          <p>તા. </p>
-        </div>
+          <div className="icon"></div>
+          <div className="roundseal">
+            <svg viewBox="15 0 270 70">
+              {/* d = Path Command:
+       M 30,60  -> यहाँ से शुरू (Left, थोड़ा ऊपर)
+       Q 150,140 -> यह पॉइंट चुंबक की तरह नीचे खींचेगा (Bottom Center)
+       270,60   -> यहाँ खत्म (Right, थोड़ा ऊपर)
+    */}
+              <path
+                id="sealCurve"
+                // d="M 30,60 Q 150,140 270,60"
 
-        <div style={{ float: "right", textAlign: "center" }}>
-          <p>તાલુકા વિકાસ અધિકારી</p>
-          <p> </p>
+                // d="M 30,60 Q 150,155 270,60"
+
+                // d="M 30,60 Q 150,175 270,60"
+
+                // d="M 30,60 Q 150,200 270,60"
+
+                d="M 30,60 Q 150,230 270,60"
+                // d="M 30,60 C 60,260 240,260 270,60"
+                // d="M 30,60 C 40,300 260,300 270,60"
+                fill="transparent"
+              />
+
+              <text width="300">
+                <textPath
+                  href="#sealCurve"
+                  startOffset="50%"
+                  textAnchor="middle"
+                  className="seal-text"
+                  side="left"
+                >
+                  {`${meeting?.taluka || "Taluka"} જી. ${meeting?.district || "District"}`}
+                </textPath>
+              </text>
+            </svg>
+          </div>
+
+          {/* જી.  */}
+
+          {/* Body */}
+          <p style={{ textIndent: "12mm", textAlign: "justify" }}>
+            આથી પ્રમાણ પત્ર આપવામાં આવે છે કે, એ.એફ.ઈન્ફોસીસ સાવરકુંડલા
+            જિ.અમરેલી દ્વારા અત્રેની તાલુકા પંચાયત કચેરી સપ્તાહિક / માસીક તલાટી
+            કમ મંત્રી મીટીંગમાં પંચાયત નમુના અને રેવન્યુ રેકર્ડ અધતન કરવા બાબતે
+            વિસ્તૃત સમજણ આપવામાં આવેલ છે.
+          </p>
+
+          <p style={{ textIndent: "12mm", textAlign: "justify" }}>
+            ગ્રામ પંચાયત દફતર અધતન કરવા માટે અમારી જાણકારી પ્રમાણે તલાટી કમ
+            મંત્રીને લગત કામગીરીમાં મદદરૂપ થઈ શકે તેવુ માર્ગદર્શન આપેલ છે અને
+            પ્રેજેન્ટેશન થી તાલુકાના તલાટી કમ મત્રીને કામગીરી સરળ અને જડપી બને
+            તે હેતુ માટે આ મીટીંગનું આયોજન કરેલ છે. આ પ્રેજેન્ટેશન સતોષકારક રીતે
+            નિવડેલ છે.
+          </p>
+
+          <p style={{ textIndent: "12mm", textAlign: "justify" }}>
+            જે બદલ આ પ્રમાણ પત્ર લખી આપવામાં આવે છે.
+          </p>
+
+          <div className="icon2"></div>
+
+          {/* Footer */}
+          <div
+            style={{
+              marginTop: "5mm",
+              display: "flex",
+              justifyContent: "flex-end",
+            }}
+          >
+            <div style={{ textAlign: "center" }} className="taluka-section">
+              <p>તાલુકા વિકાસ અધિકારી</p>
+              <p>{meeting?.taluka || "_____"}</p>
+            </div>
+          </div>
+
+          <div
+            style={{
+              marginTop: "2mm",
+              display: "flex",
+              justifyContent: "flex-start",
+            }}
+          >
+            <div style={{ textAlign: "left" }} className="spot-section">
+              <p>
+                સ્થળ : તાલુકા પંચાયત કચેરી - {meeting?.taluka || "____"}{" "}
+                <span style={{ paddingLeft: "10px", whiteSpace: "nowrap" }}>
+                  જિ. {meeting?.district || "____"}.
+                </span>
+              </p>
+              <p>તા. {formatDate(meeting?.date || "")}</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
