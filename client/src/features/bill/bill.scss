@@ -138,6 +138,23 @@ h3.text-base {
   background-repeat: no-repeat;
 }
 
+.watermark-logo-arji {
+  content: "";
+  position: absolute;
+
+  left: 220px;
+  top: 350px;
+
+  width: 400px;
+  height: 400px;
+  opacity: 0.25;
+  z-index: -1;
+
+  background: url("../../../public/logo.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
 table,
 table th,
 table td,

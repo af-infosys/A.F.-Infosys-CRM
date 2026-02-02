@@ -1,3 +1,4 @@
+import LOGOpng from "../../../assets/logo.png";
 import toGujaratiNumber from "../../../components/toGujaratiNumber";
 
 const Page3 = ({ data }) => {
@@ -92,22 +93,76 @@ const Page3 = ({ data }) => {
     <div
       id="letter-page"
       style={{
-        width: "210mm",
-        height: "297mm",
-        padding: "20mm",
+        width: "794px",
+        height: "1123px",
+        padding: "8mm",
         boxSizing: "border-box",
         fontFamily: "Noto Serif Gujarati, serif",
         fontSize: "13.5pt",
         lineHeight: "1.6",
+
+        position: "relative",
+        zIndex: 1,
       }}
       className="bg-white"
     >
+      <div className="watermark-logo-arji"></div>
+
+      <div className="flex justify-between items-center mb-4 w-full">
+        <div className="flex flex-col items-end w-full">
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "start",
+            }}
+          >
+            <h3 className="text-base font-grey-700">
+              Shahid Kalva - <span>93764 43146</span>
+            </h3>
+            <h3 className="text-base font-grey-700">
+              Sarfaraz Kalva - <span>99247 82732</span>
+            </h3>
+            <h3 className="text-base font-grey-700">
+              E-Mail :-{" "}
+              <span className="underline">af.infosys146@gmail.com</span>
+            </h3>
+            <h3 className="text-base font-grey-700">
+              Website :- <span className="underline">afinfosys.com</span>
+            </h3>
+          </div>
+        </div>
+      </div>
+
+      <div id="title">
+        <div>
+          <h2 className="text-5xl text-center font-extrabold mt-4">
+            {/* A.F. Infosys */}
+          </h2>
+
+          <p className="trans">
+            ગ્રામપંચાયત રેવન્યુ(જમાબંધી) વાર્ષીક હિસાબ, આકાણીસર્વે, કરવેરા
+            રજીસ્ટર, રોજમેળ, ગ્રામસુવિધા પોર્ટલ તથા ઓનલાઈન / ઓફલાઈન તમામ
+            પ્રકારની ડેટાએન્ટ્રી અને પ્રિન્ટીંગ, વેબસાઈટ, સોફ્ટવેર, કોમ્પ્યુટર
+            કામ માટે મળો
+          </p>
+
+          <p className="address trans">
+            બીજામાળે, સેન્ટ્રલપોઈન્ટ કોમ્પ્લેક્ષ, જુનાબસસ્ટેન્ડ સામે -
+            સાવરકુંડલા જિ.અમરેલી. સૌરાષ્ટ્ર (પશ્વિમગુજરાત)
+          </p>
+        </div>
+
+        <img src={LOGOpng} alt="Logo" />
+      </div>
+
       {/* TABLE */}
       <table
         style={{
           width: "100%",
           borderCollapse: "collapse",
-          marginBottom: "10mm",
+          marginBottom: "5mm",
+          marginTop: "15px",
         }}
       >
         <thead>
@@ -123,10 +178,10 @@ const Page3 = ({ data }) => {
                 key={i}
                 style={{
                   border: "1px solid black",
-                  padding: "6px",
+                  padding: "4px",
                   textAlign: "center",
                   fontWeight: "bold",
-                  fontSize: "16px",
+                  fontSize: "14px",
                   maxWidth:
                     i === 4 ? "90px" : i === 2 ? "45px" : i === 1 ? "30px" : "",
                 }}
@@ -165,7 +220,7 @@ const Page3 = ({ data }) => {
       {/* NOTE */}
       <p
         style={{
-          marginBottom: "10mm",
+          marginBottom: "5mm",
           textAlign: "justify",
           textIndent: "15mm",
         }}
@@ -177,7 +232,7 @@ const Page3 = ({ data }) => {
 
       {/* SIGNATURE */}
       <div
-        style={{ textAlign: "right", marginTop: "15mm", paddingRight: "10mm" }}
+        style={{ textAlign: "right", marginTop: "5mm", paddingRight: "10mm" }}
       >
         <p>લી. આપનો વિશ્વાસુ</p>
         {/* <p style={{ fontWeight: "bold" }}>
@@ -247,6 +302,7 @@ const cellStyle = {
   border: "1px solid black",
   padding: "2px",
   textAlign: "center",
+  fontSize: "15px",
 };
 
 export default Page3;

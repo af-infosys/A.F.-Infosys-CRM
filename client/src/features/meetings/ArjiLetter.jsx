@@ -44,16 +44,17 @@ const ArjiLetter = () => {
       if (i > 0) pdf.addPage();
 
       const canvas = await html2canvas(pageElement, {
-        scale: 2,
+        scale: 2, // perfect for clarity
         useCORS: true,
-        allowTaint: true,
         backgroundColor: "#ffffff",
+        width: 794,
+        height: 1123,
       });
 
       const imgData = canvas.toDataURL("image/jpeg", 1.0);
 
-      const imgWidth = pageWidth;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      const imgWidth = 210;
+      const imgHeight = 297;
 
       pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight);
     }

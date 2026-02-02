@@ -1,12 +1,23 @@
 import LOGOpng from "../../../assets/logo.png";
+import toGujaratiNumber from "../../../components/toGujaratiNumber";
+
+function formatDate(date) {
+  // dd/mm/yyyy
+
+  const d = new Date(date);
+  const day = d.getDate();
+  const month = d.getMonth() + 1;
+  const year = d.getFullYear();
+  return `${toGujaratiNumber(day)}/${toGujaratiNumber(month)}/${toGujaratiNumber(year)}`;
+}
 
 const Page1 = ({ data }) => {
   return (
     <div
       id="letter-page"
       style={{
-        width: "210mm",
-        height: "297mm",
+        width: "794px",
+        height: "1123px",
         padding: "8mm",
         paddingLeft: "10mm",
         boxSizing: "border-box",
@@ -14,6 +25,7 @@ const Page1 = ({ data }) => {
         fontSize: "14pt",
         lineHeight: "1.6",
         position: "relative",
+        zIndex: 1,
       }}
       className="bg-white"
     >
@@ -68,11 +80,13 @@ const Page1 = ({ data }) => {
         <img src={LOGOpng} alt="Logo" />
       </div>
 
+      <div className="watermark-logo-arji"></div>
+
       {/* Top right date */}
       <div
         style={{ textAlign: "right", marginBottom: "6mm", marginTop: "3mm" }}
       >
-        તારીખ :- {data.date || "__________"}
+        તારીખ :- {formatDate(data.date)}
       </div>
 
       {/* Recipient block */}

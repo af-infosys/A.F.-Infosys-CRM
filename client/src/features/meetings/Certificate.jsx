@@ -15,7 +15,7 @@ function formatDate(date) {
   const month = d.getMonth() + 1;
   const year = d.getFullYear();
   return `${toGujaratiNumber(day)}/${toGujaratiNumber(month)}/${toGujaratiNumber(year)}`;
-}
+} 
 
 const Certificate = () => {
   const { id } = useParams();
@@ -37,10 +37,6 @@ const Certificate = () => {
     setLoading(true);
 
     const pdf = new jsPDF("p", "mm", "a4");
-
-    const pageWidth = 400; // A4 width
-    const pageHeight = 297; // A4 height
-
     const pages = [pageRef];
 
     for (let i = 0; i < pages.length; i++) {
@@ -51,21 +47,22 @@ const Certificate = () => {
       if (i > 0) pdf.addPage();
 
       const canvas = await html2canvas(pageElement, {
-        scale: 2,
+        scale: 2, // perfect for clarity
         useCORS: true,
-        allowTaint: true,
         backgroundColor: "#ffffff",
+        width: 794,
+        height: 1123,
       });
 
       const imgData = canvas.toDataURL("image/jpeg", 1.0);
 
-      const imgWidth = pageWidth;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      const imgWidth = 210;
+      const imgHeight = 297;
 
       pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight);
     }
 
-    pdf.save(`Meeting_Letter_${meeting?.taluka}.pdf`);
+    pdf.save(`Certificate_${meeting?.taluka}.pdf`);
 
     setLoading(false);
   };
@@ -95,8 +92,9 @@ const Certificate = () => {
       <div
         id="certificate-page"
         style={{
-          width: "210mm",
-          height: "297mm",
+          width: "794px",
+          height: "1123px",
+
           padding: "0",
           boxSizing: "border-box",
           fontFamily: "Noto Serif Gujarati, serif",

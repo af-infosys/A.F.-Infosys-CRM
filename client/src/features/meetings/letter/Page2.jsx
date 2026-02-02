@@ -6,8 +6,8 @@ const Page2 = ({ data }) => {
       id="letter-page"
       className="bg-white"
       style={{
-        width: "210mm",
-        height: "297mm",
+        width: "794px",
+        height: "1123px",
         padding: "20mm",
         boxSizing: "border-box",
       }}
