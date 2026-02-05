@@ -7,85 +7,85 @@ const Page3 = ({ data }) => {
       designation: "તાલુકા વિકાસ અધિકારી સાહેબશ્રી",
       taluko: "જાફરાબાદ",
       district: "અમરેલી",
-      date: "૨૭-૧૨-૨૦૧૮",
+      date: "27-12-2018",
     },
     {
       designation: "- / / -",
       taluko: "લીલીયા",
       district: "અમરેલી",
-      date: "૩-૦૧-૨૦૧૯",
+      date: "3-01-2019",
     },
     {
       designation: "લીલીયા તાલુકા તલાટી કમ મંત્રી મંડળ",
       taluko: "લીલીયા",
       district: "અમરેલી",
-      date: "૩-૦૧-૨૦૧૯",
+      date: "3-01-2019",
     },
     {
       designation: "તાલુકા વિકાસ અધિકારી સાહેબશ્રી",
       taluko: "અમરેલી",
       district: "અમરેલી",
-      date: "૩-૦૧-૨૦૧૯",
+      date: "3-01-2019",
     },
     {
       designation: "- / / -",
       taluko: "બાબરા",
       district: "અમરેલી",
-      date: "૧૦-૦૧-૨૦૧૯",
+      date: "10-01-2019",
     },
     {
       designation: "- / / -",
       taluko: "લાઠી",
       district: "અમરેલી",
-      date: "૧૭-૦૧-૨૦૧૯",
+      date: "17-01-2019",
     },
     {
       designation: "- / / -",
       taluko: "જેતપુર",
       district: "રાજકોટ",
-      date: "૨૪-૦૧-૨૦૧૯",
+      date: "24-01-2019",
     },
     {
       designation: "- / / -",
       taluko: "ધારી",
       district: "અમરેલી",
-      date: "૩૧-૦૧-૨૦૧૯",
+      date: "31-01-2019",
     },
     {
       designation: "- / / -",
       taluko: "પાલીતાણા",
       district: "ભાવનગર",
-      date: "૨-૦૨-૨૦૧૯",
+      date: "2-02-2019",
     },
     {
       designation: "- / / -",
       taluko: "વિસાવદર",
       district: "જુનાગઢ",
-      date: "૫-૦૨-૨૦૧૯",
+      date: "5-02-2019",
     },
     {
       designation: "- / / -",
       taluko: "કુંકાવાવ",
       district: "અમરેલી",
-      date: "૭-૦૨-૨૦૧૯",
+      date: "7-02-2019",
     },
     {
       designation: "- / / -",
       taluko: "ખાંભા",
       district: "અમરેલી",
-      date: "૨૮-૦૨-૨૦૧૯",
+      date: "28-02-2019",
     },
     {
       designation: "- / / -",
       taluko: "ઉના",
       district: "ગીર સોમનાથ",
-      date: "૨૭-૦૬-૨૦૧૯",
+      date: "27-06-2019",
     },
     {
       designation: "- / / -",
       taluko: "બગસરા",
       district: "અમરેલી",
-      date: "૩૧-૧૧-૨૦૧૯",
+      date: "31-11-2019",
     },
   ];
 
@@ -196,9 +196,7 @@ const Page3 = ({ data }) => {
           {structure.map((row, index) => (
             <tr key={index}>
               <td style={cellStyle}>
-                <span className="formatting">
-                  {toGujaratiNumber(index + 1)}
-                </span>
+                <span className="formatting">{index + 1}</span>
               </td>
               <td style={cellStyle}>
                 <span className="formatting">{row?.designation || ""}</span>

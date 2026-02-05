@@ -15,7 +15,7 @@ function formatDate(date) {
   const month = d.getMonth() + 1;
   const year = d.getFullYear();
   return `${toGujaratiNumber(day)}/${toGujaratiNumber(month)}/${toGujaratiNumber(year)}`;
-} 
+}
 
 const Certificate = () => {
   const { id } = useParams();
@@ -114,13 +114,8 @@ const Certificate = () => {
           <h1>પ્રમાણ પત્ર</h1>
 
           <div className="icon"></div>
-          <div className="roundseal">
+          {/* <div className="roundseal">
             <svg viewBox="15 0 270 70">
-              {/* d = Path Command:
-       M 30,60  -> यहाँ से शुरू (Left, थोड़ा ऊपर)
-       Q 150,140 -> यह पॉइंट चुंबक की तरह नीचे खींचेगा (Bottom Center)
-       270,60   -> यहाँ खत्म (Right, थोड़ा ऊपर)
-    */}
               <path
                 id="sealCurve"
                 // d="M 30,60 Q 150,140 270,60"
@@ -149,19 +144,29 @@ const Certificate = () => {
                 </textPath>
               </text>
             </svg>
-          </div>
-
-          {/* જી.  */}
+          </div> */}
 
           {/* Body */}
-          <p style={{ textIndent: "12mm", textAlign: "justify" }}>
+          <p
+            style={{
+              textIndent: "12mm",
+              textAlign: "justify",
+              fontSize: "27px",
+            }}
+          >
             આથી પ્રમાણ પત્ર આપવામાં આવે છે કે, એ.એફ.ઈન્ફોસીસ સાવરકુંડલા
             જિ.અમરેલી દ્વારા અત્રેની તાલુકા પંચાયત કચેરી સપ્તાહિક / માસીક તલાટી
             કમ મંત્રી મીટીંગમાં પંચાયત નમુના અને રેવન્યુ રેકર્ડ અધતન કરવા બાબતે
             વિસ્તૃત સમજણ આપવામાં આવેલ છે.
           </p>
 
-          <p style={{ textIndent: "12mm", textAlign: "justify" }}>
+          <p
+            style={{
+              textIndent: "12mm",
+              textAlign: "justify",
+              fontSize: "27px",
+            }}
+          >
             ગ્રામ પંચાયત દફતર અધતન કરવા માટે અમારી જાણકારી પ્રમાણે તલાટી કમ
             મંત્રીને લગત કામગીરીમાં મદદરૂપ થઈ શકે તેવુ માર્ગદર્શન આપેલ છે અને
             પ્રેજેન્ટેશન થી તાલુકાના તલાટી કમ મત્રીને કામગીરી સરળ અને જડપી બને
@@ -169,7 +174,13 @@ const Certificate = () => {
             નિવડેલ છે.
           </p>
 
-          <p style={{ textIndent: "12mm", textAlign: "justify" }}>
+          <p
+            style={{
+              textIndent: "12mm",
+              textAlign: "justify",
+              fontSize: "27px",
+            }}
+          >
             જે બદલ આ પ્રમાણ પત્ર લખી આપવામાં આવે છે.
           </p>
 

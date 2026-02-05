@@ -8,10 +8,12 @@ function formatDate(date) {
   const day = d.getDate();
   const month = d.getMonth() + 1;
   const year = d.getFullYear();
-  return `${toGujaratiNumber(day)}/${toGujaratiNumber(month)}/${toGujaratiNumber(year)}`;
+  return `${day}/${month}/${year}`;
 }
 
 const Page1 = ({ data }) => {
+  const date = new Date();
+
   return (
     <div
       id="letter-page"
@@ -84,9 +86,20 @@ const Page1 = ({ data }) => {
 
       {/* Top right date */}
       <div
-        style={{ textAlign: "right", marginBottom: "6mm", marginTop: "3mm" }}
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          marginBottom: "6mm",
+          marginTop: "3mm",
+        }}
       >
-        તારીખ :- {formatDate(data.date)}
+        <span>
+          એ.એફ.ઇન્ફો/નં.{date?.index || "-0-"}/પ્રેજ/મીટીંગ/તા.પં/
+          {toGujaratiNumber(date.getMonth() + 1)}/
+          {toGujaratiNumber(date.getFullYear())}
+        </span>
+
+        <span>તારીખ :- {formatDate(data.date)}</span>
       </div>
 
       {/* Recipient block */}

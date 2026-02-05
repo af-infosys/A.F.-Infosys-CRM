@@ -101,6 +101,7 @@ export const getMeetingById = async (req, res) => {
           karmchariName: rows[i][5],
           designation: rows[i][6],
           mobileNumber: rows[i][7],
+          index: i,
         };
 
         return res.json({ success: true, data: meeting });

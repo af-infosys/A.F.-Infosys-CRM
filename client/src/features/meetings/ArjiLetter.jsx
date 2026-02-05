@@ -31,9 +31,6 @@ const ArjiLetter = () => {
 
     const pdf = new jsPDF("p", "mm", "a4");
 
-    const pageWidth = 400; // A4 width
-    const pageHeight = 297; // A4 height
-
     const pages = [page1Ref, page2Ref, page3Ref];
 
     for (let i = 0; i < pages.length; i++) {
