@@ -1,10 +1,12 @@
 {
   "files": {
-    "main.css": "/static/css/main.595d4e61.css",
-    "main.js": "/static/js/main.873eb0a3.js",
+    "main.css": "/static/css/main.dff563d3.css",
+    "main.js": "/static/js/main.c35ce4a4.js",
     "static/js/977.87a37736.chunk.js": "/static/js/977.87a37736.chunk.js",
     "static/js/455.4f2c4757.chunk.js": "/static/js/455.4f2c4757.chunk.js",
     "static/js/453.57b2eab3.chunk.js": "/static/js/453.57b2eab3.chunk.js",
+    "static/media/icon.png": "/static/media/icon.86c940b3dd40751c3dc9.png",
+    "static/media/content.png": "/static/media/content.dd991f6ed94ae8748d81.png",
     "static/media/benefit1-bg-new.png": "/static/media/benefit1-bg-new.9313819db138fb188ccb.png",
     "static/media/benefit2-bg-new.png": "/static/media/benefit2-bg-new.3f68bda1fcc3f9b0b6be.png",
     "static/media/Round Seal Stamp Format.png": "/static/media/Round Seal Stamp Format.1934a1e5ced0a98225be.png",
@@ -53,14 +55,14 @@
     "static/media/expense.png": "/static/media/expense.e0c59843096bb7a05c4c.png",
     "static/media/House.png": "/static/media/House.640d0b1e39b36fd2550c.png",
     "index.html": "/index.html",
-    "main.595d4e61.css.map": "/static/css/main.595d4e61.css.map",
-    "main.873eb0a3.js.map": "/static/js/main.873eb0a3.js.map",
+    "main.dff563d3.css.map": "/static/css/main.dff563d3.css.map",
+    "main.c35ce4a4.js.map": "/static/js/main.c35ce4a4.js.map",
     "977.87a37736.chunk.js.map": "/static/js/977.87a37736.chunk.js.map",
     "455.4f2c4757.chunk.js.map": "/static/js/455.4f2c4757.chunk.js.map",
     "453.57b2eab3.chunk.js.map": "/static/js/453.57b2eab3.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.595d4e61.css",
-    "static/js/main.873eb0a3.js"
+    "static/css/main.dff563d3.css",
+    "static/js/main.c35ce4a4.js"
   ]
 }

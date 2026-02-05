@@ -678,6 +678,8 @@ const SurvayReport = () => {
                   paddingLeft: "80px",
                   paddingRight: "50px",
                   maxHeight: "800px",
+
+                  background: "linear-gradient(#FDED8B, #FDF6C2)",
                 }}
               >
                 <AkarniIndex

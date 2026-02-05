@@ -114,7 +114,7 @@ const Certificate = () => {
           <h1>પ્રમાણ પત્ર</h1>
 
           <div className="icon"></div>
-          {/* <div className="roundseal">
+          <div className="roundseal">
             <svg viewBox="15 0 270 70">
               <path
                 id="sealCurve"
@@ -144,12 +144,12 @@ const Certificate = () => {
                 </textPath>
               </text>
             </svg>
-          </div> */}
+          </div>
 
           {/* Body */}
           <p
             style={{
-              textIndent: "12mm",
+              textIndent: "30mm",
               textAlign: "justify",
               fontSize: "27px",
             }}
@@ -162,7 +162,7 @@ const Certificate = () => {
 
           <p
             style={{
-              textIndent: "12mm",
+              textIndent: "30mm",
               textAlign: "justify",
               fontSize: "27px",
             }}
@@ -176,7 +176,7 @@ const Certificate = () => {
 
           <p
             style={{
-              textIndent: "12mm",
+              textIndent: "30mm",
               textAlign: "justify",
               fontSize: "27px",
             }}

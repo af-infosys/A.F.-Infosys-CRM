@@ -94,8 +94,8 @@ const Page1 = ({ data }) => {
         }}
       >
         <span>
-          એ.એફ.ઇન્ફો/નં.{date?.index || "-0-"}/પ્રેજ/મીટીંગ/તા.પં/
-          {toGujaratiNumber(date.getMonth() + 1)}/
+          એ.એફ.ઇન્ફો/નં.{date?.index || "-0-"}/પ્રેજ/તા.પં/મીટીંગ/
+          {toGujaratiNumber(date.getMonth())}/
           {toGujaratiNumber(date.getFullYear())}
         </span>
 
@@ -118,10 +118,10 @@ const Page1 = ({ data }) => {
           style={{
             fontWeight: "bold",
             textDecoration: "underline",
-            fontSize: "21px",
+            fontSize: "24px",
           }}
         >
-          વિષય ::- તલાટી કમ મંત્રીશ્રીઑની મીટીંગમાં પ્રેજન્ટેશન આપવા બાબત.
+          વિષય ::- તલાટી કમ મંત્રીશ્રીઑની મીટીંગમાં પ્રેજન્ટેશન આપવા બાબત...
         </p>
       </div>
 

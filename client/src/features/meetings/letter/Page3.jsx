@@ -157,63 +157,88 @@ const Page3 = ({ data }) => {
       </div>
 
       {/* TABLE */}
-      <table
+      <div
         style={{
-          width: "100%",
-          borderCollapse: "collapse",
           marginBottom: "5mm",
           marginTop: "15px",
+          display: "flex",
+          justifyContent: "center",
         }}
       >
-        <thead>
-          <tr>
-            {[
-              "ક્રમ",
-              "હોદ્દો",
-              "તાલુકા ઑફિસ",
-              "જિલ્લો",
-              "પ્રમાણ પત્ર આપ્યા તારીખ",
-            ].map((h, i) => (
-              <th
-                key={i}
-                style={{
-                  border: "1px solid black",
-                  padding: "4px",
-                  textAlign: "center",
-                  fontWeight: "bold",
-                  fontSize: "14px",
-                  maxWidth:
-                    i === 4 ? "90px" : i === 2 ? "45px" : i === 1 ? "30px" : "",
-                }}
-              >
-                <span className="formatting">{h}</span>
-              </th>
-            ))}
-          </tr>
-        </thead>
+        <table
+          style={{
+            // width: "100%",
+            maxWidth: "fit-content",
+            borderCollapse: "collapse",
+          }}
+        >
+          <thead>
+            <tr>
+              {[
+                "ક્રમ",
+                "હોદ્દો",
+                "તાલુકા ઑફિસ",
+                "જિલ્લો",
+                "પ્રમાણ પત્ર આપ્યા તારીખ",
+              ].map((h, i) => (
+                <th
+                  key={i}
+                  style={{
+                    border: "1px solid black",
+                    padding: "4px",
 
-        <tbody>
-          {structure.map((row, index) => (
-            <tr key={index}>
-              <td style={cellStyle}>
-                <span className="formatting">{index + 1}</span>
-              </td>
-              <td style={cellStyle}>
-                <span className="formatting">{row?.designation || ""}</span>
-              </td>
-              <td style={cellStyle}>
-                <span className="formatting">{row?.taluko || ""}</span>
-              </td>
-              <td style={cellStyle}>
-                <span className="formatting">{row?.district || ""}</span>
-              </td>
-              <td style={{ ...cellStyle, maxWidth: "30px" }}>
-                <span className="formatting">{row?.date || ""}</span>
-              </td>
+                    paddingRight: "8px",
+                    paddingLeft: "8px",
+
+                    textAlign: "center",
+                    fontWeight: "bold",
+                    fontSize: "14px",
+                    maxWidth:
+                      i === 4
+                        ? "100px"
+                        : i === 2
+                          ? "45px"
+                          : i === 1
+                            ? "70px"
+                            : "",
+                  }}
+                >
+                  <span className="formatting">{h}</span>
+                </th>
+              ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+
+          <tbody>
+            {structure.map((row, index) => (
+              <tr key={index}>
+                <td style={cellStyle}>
+                  <span className="formatting">{index + 1}</span>
+                </td>
+                <td style={cellStyle}>
+                  <span className="formatting">{row?.designation || ""}</span>
+                </td>
+                <td style={cellStyle}>
+                  <span className="formatting">{row?.taluko || ""}</span>
+                </td>
+                <td style={cellStyle}>
+                  <span className="formatting">{row?.district || ""}</span>
+                </td>
+                <td style={{ ...cellStyle, maxWidth: "80px" }}>
+                  <span
+                    className="formatting"
+                    style={{
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {row?.date || ""}
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       {/* NOTE */}
       <p
@@ -299,6 +324,10 @@ const Page3 = ({ data }) => {
 const cellStyle = {
   border: "1px solid black",
   padding: "2px",
+
+  paddingRight: "8px",
+  paddingLeft: "8px",
+
   textAlign: "center",
   fontSize: "15px",
 };

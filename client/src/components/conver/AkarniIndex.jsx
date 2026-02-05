@@ -1,8 +1,14 @@
 import React from "react";
-import LogoImage from "../../assets/logo.png";
-import WaleImage from "../../assets/wale.png";
-import WaleImage2 from "../../assets/wale2.png";
+// import LogoImage from "../../assets/logo.png";
+// import WaleImage from "../../assets/wale.png";
+// import WaleImage2 from "../../assets/wale2.png";
+
+import ContentImage from "../../assets/cover/content.png";
+import IconImage from "../../assets/cover/icon.png";
+
 import toGujaratiNumber from "../toGujaratiNumber";
+
+import "./AkarniIndex.scss";
 
 // Utility component for the main text blocks
 const TextBlock = ({ children }) => (
@@ -29,13 +35,13 @@ const AkarniIndex = ({
     <div
       style={{
         position: "relative",
-        paddingInline: "20px",
+        paddingInline: "0",
         margin: 0,
-        paddingLeft: "20px",
+        paddingLeft: "0",
       }}
     >
       {/* -------------------- IMAGES / DESIGN -------------------- */}
-      <img
+      {/* <img
         src={WaleImage}
         style={{
           position: "absolute",
@@ -44,25 +50,29 @@ const AkarniIndex = ({
           height: "calc(100% + 20px + 100px)",
         }}
       />
+      */}
+
       <img
-        src={WaleImage}
+        src={ContentImage}
         style={{
           position: "absolute",
-          top: "-50px",
+          top: "200px",
           left: "-35px",
-          height: "calc(100% + 20px + 100px)",
-          transform: "scaleX(-1)",
+          width: "calc(75%)",
         }}
       />
+
       <img
-        src={WaleImage2}
+        src={IconImage}
         style={{
           position: "absolute",
-          top: "-50px",
-          left: "10px",
-          width: "calc(100% - 20px)",
+          top: "200px",
+          right: "-10px",
+          width: "calc(42%)",
         }}
       />
+
+      {/*
       <img
         src={WaleImage2}
         style={{
@@ -71,7 +81,7 @@ const AkarniIndex = ({
           left: "10px",
           width: "calc(100% - 20px)",
         }}
-      />
+      /> */}
 
       {/* -------------------- HEADER -------------------- */}
       <header
@@ -104,13 +114,14 @@ const AkarniIndex = ({
       {/* -------------------- TITLE -------------------- */}
       <div className="text-center mt-2 mb-2">
         <h1
-          className="text-4xl font-extrabold text-blue-900 inline-block"
+          className="text-4xl font-extrabold text-white inline-block"
           style={{
-            border: "6px double #515151",
+            border: "6px solid white",
+            background: "#8F392C",
             borderRadius: "50px",
             padding: "8px 20px",
             paddingTop: "0px",
-            paddingBottom: "20px",
+            paddingBottom: "25px",
             position: "relative",
             transform: "translateY(-15px)",
             marginTop: "20px",
@@ -121,14 +132,14 @@ const AkarniIndex = ({
         </h1>
         <h2
           className="font-semibold text-gray-700"
-          style={{ marginTop: "-25px", fontSize: "30px" }}
+          style={{ marginTop: "-15px", fontSize: "30px" }}
         >
           વર્ષ :- {project?.details?.akaraniYear || "2025/26"}
         </h2>
       </div>
 
       {/* -------------------- INSTRUCTIONS -------------------- */}
-      <div className="mt-3 text-justify">
+      {/* <div className="mt-3 text-justify">
         <TextBlock>
           ગ્રામ પંચાયત આકારણી સર્વે, વાર્ષીક જમાબંધી જમીન મહેસુલ હિસાબ, પંચાયત
           કરવેરાનું ૯(ડી) રજીસ્ટર, ગામના નમુના નં.ર, લેમીનેશન, સ્કેનીંગ વર્ક
@@ -138,10 +149,10 @@ const AkarniIndex = ({
           નમુના મળશે. કોમ્પ્યુટરાઈઝડ તમામ પ્રકારનું કામ પ્રિન્ટીંગ કામ માટે મળો.
           (ગ્રામપંચાયત ડીજીટલ) માટે{" "}
         </TextBlock>
-      </div>
+      </div> */}
 
-      <div style={{ display: "flex", marginTop: "0px" }}>
-        {/* -------------------- INFO BLOCK -------------------- */}
+      {/* -------------------- INFO BLOCK -------------------- */}
+      {/* <div style={{ display: "flex", marginTop: "0px" }}>
         <div
           className="mt-5 p-3 border-4 border-dashed border-gray-400 rounded-lg"
           style={{
@@ -225,8 +236,7 @@ const AkarniIndex = ({
           </div>
         </div>
 
-        {/* -------------------- COUNTERS (DATA) -------------------- */}
-        <div
+         <div
           className="mt-3 pt-3 border-t border-gray-300"
           style={{ marginLeft: "40px", marginTop: "30px", paddingTop: "30px" }}
         >
@@ -234,8 +244,7 @@ const AkarniIndex = ({
             className="gap-x-12 gap-y-6"
             style={{ display: "flex", flexDirection: "column" }}
           >
-            {/* 1. Part Number */}
-            <div className="flex items-center text-xl font-medium text-gray-700">
+             <div className="flex items-center text-xl font-medium text-gray-700">
               <label style={{ maxWidth: "fit-content", fontSize: "21px" }}>
                 ભાગ :-
                 <b style={{ paddingInline: "5px", marginLeft: "2px" }}>
@@ -244,7 +253,6 @@ const AkarniIndex = ({
               </label>
             </div>
 
-            {/* 2. Records in THIS Register */}
             <div className="flex items-center text-xl font-medium text-gray-700">
               <label style={{ maxWidth: "fit-content", fontSize: "21px" }}>
                 આ રજીસ્ટર ના ઘરની સંખ્યા :-
@@ -254,7 +262,6 @@ const AkarniIndex = ({
               </label>
             </div>
 
-            {/* 3. Page Numbers (Calculated cleanly above) */}
             <div className="flex items-center text-xl font-medium text-gray-700">
               <label style={{ maxWidth: "fit-content", fontSize: "21px" }}>
                 પાના નંબર :-
@@ -264,7 +271,6 @@ const AkarniIndex = ({
               </label>
             </div>
 
-            {/* 4. Total Records (Entire Village) */}
             <div className="flex items-center text-xl font-medium text-gray-700">
               <label style={{ maxWidth: "fit-content", fontSize: "21px" }}>
                 ગામના કુલ ઘરની સંખ્યા :-
@@ -275,7 +281,7 @@ const AkarniIndex = ({
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <p
         style={{
