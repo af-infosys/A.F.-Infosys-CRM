@@ -22,8 +22,8 @@
     .roundseal {
       position: absolute;
       top: -50px;
-      left: 50px;
-      width: calc(100% - 100px);
+      left: 80px;
+      width: calc(100% - 150px);
       height: 100%;
 
       /* Background Settings */
@@ -126,10 +126,11 @@
     }
 
     .taluka-section {
-      padding-right: 25px;
+      margin-top: 35px;
+      padding-right: 55px;
 
       p {
-        font-size: 18px;
+        font-size: 10px;
         color: rgb(24, 36, 143);
         font-weight: 600;
       }
@@ -137,7 +138,7 @@
 
     .spot-section {
       padding-left: 30px;
-      margin-top: 10px;
+      margin-top: 20px;
 
       p {
         font-size: 20px;
