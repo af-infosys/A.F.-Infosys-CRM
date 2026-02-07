@@ -23,6 +23,14 @@
   }
 }
 
+.cover-bg {
+  background: url("../../assets/cover/bg.png") !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+
+  // background: red !important;
+}
+
 /* Legal Landscape Dimensions */
 .legal-landscape-dimensions {
   width: 355.6mm; // Legal width in landscape

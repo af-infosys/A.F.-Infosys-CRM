@@ -3,8 +3,9 @@ import React from "react";
 // import WaleImage from "../../assets/wale.png";
 // import WaleImage2 from "../../assets/wale2.png";
 
-import ContentImage from "../../assets/cover/content.png";
-import IconImage from "../../assets/cover/icon.png";
+import ContentImage from "../../assets/cover/akarni-i/content.png";
+import IconImage from "../../assets/cover/akarni-i/icon.png";
+import Icon2Image from "../../assets/cover/akarni-ii/icon.png";
 
 import toGujaratiNumber from "../toGujaratiNumber";
 
@@ -26,6 +27,8 @@ const AkarniIndex = ({
   project,
   totalHoouse, // Grand Total of ALL houses (Res + Comm mixed or total context)
   commercial, // If commercial cover: contains count of Residential records. If residential: false/undefined.
+
+  totalNormalBundles,
 
   coverProperties,
   pageFrom,
@@ -56,21 +59,33 @@ const AkarniIndex = ({
         src={ContentImage}
         style={{
           position: "absolute",
-          top: "200px",
+          top: "230px",
           left: "-35px",
-          width: "calc(75%)",
+          width: "calc(77%)",
         }}
       />
 
-      <img
-        src={IconImage}
-        style={{
-          position: "absolute",
-          top: "200px",
-          right: "-10px",
-          width: "calc(42%)",
-        }}
-      />
+      {commercial ? (
+        <img
+          src={Icon2Image}
+          style={{
+            position: "absolute",
+            top: "230px",
+            right: "-10px",
+            width: "calc(35%)",
+          }}
+        />
+      ) : (
+        <img
+          src={IconImage}
+          style={{
+            position: "absolute",
+            top: "230px",
+            right: "-10px",
+            width: "calc(42%)",
+          }}
+        />
+      )}
 
       {/*
       <img
@@ -87,9 +102,9 @@ const AkarniIndex = ({
       <header
         className="grid grid-cols-3 font-bold pb-2"
         style={{
-          marginTop: "135px",
+          marginTop: "85px",
           paddingTop: "20px",
-          fontSize: "38px",
+          fontSize: "33px",
           display: "flex",
           justifyContent: "space-between",
         }}
@@ -98,15 +113,15 @@ const AkarniIndex = ({
           className="text-left text-blue-700"
           style={{ whiteSpace: "nowrap" }}
         >
-          <span className="font-extrabold">મોજે : </span>-{" "}
+          <span className="font-bold">મોજે : </span>-{" "}
           {project?.spot?.gaam || "..."}
         </div>
         <div className="text-center text-blue-700">
-          <span className="font-extrabold">તાલુકો : </span>-{" "}
+          <span className="font-bold">તાલુકો : </span>-{" "}
           {project?.spot?.taluka || "..."}
         </div>
         <div className="text-right text-blue-700">
-          <span className="font-extrabold">જીલ્લો : </span>-{" "}
+          <span className="font-bold">જીલ્લો : </span>-{" "}
           {project?.spot?.district || "..."}
         </div>
       </header>
@@ -121,7 +136,7 @@ const AkarniIndex = ({
             borderRadius: "50px",
             padding: "8px 20px",
             paddingTop: "0px",
-            paddingBottom: "25px",
+            paddingBottom: "35px",
             position: "relative",
             transform: "translateY(-15px)",
             marginTop: "20px",
@@ -132,7 +147,7 @@ const AkarniIndex = ({
         </h1>
         <h2
           className="font-semibold text-gray-700"
-          style={{ marginTop: "-15px", fontSize: "30px" }}
+          style={{ marginTop: "-20px", fontSize: "30px" }}
         >
           વર્ષ :- {project?.details?.akaraniYear || "2025/26"}
         </h2>
@@ -283,15 +298,70 @@ const AkarniIndex = ({
         </div>
       </div> */}
 
+      <b
+        style={{
+          position: "absolute",
+          bottom: "-250px",
+          left: "65px",
+          fontSize: "25px",
+          fontWeight: "400",
+          color: "blueviolet",
+        }}
+      >
+        {toGujaratiNumber(part)}
+      </b>
+
+      <b
+        style={{
+          position: "absolute",
+          bottom: "-302px",
+          left: "305px",
+          fontSize: "25px",
+          fontWeight: "400",
+          color: "blueviolet",
+        }}
+      >
+        {toGujaratiNumber(coverProperties)}
+      </b>
+
+      <b
+        style={{
+          position: "absolute",
+          bottom: "-355px",
+          left: "135px",
+          fontSize: "25px",
+          fontWeight: "400",
+          color: "blueviolet",
+        }}
+      >
+        {`${toGujaratiNumber(pageFrom)} થી ${toGujaratiNumber(pageTo)}`}
+      </b>
+
+      <b
+        style={{
+          position: "absolute",
+          bottom: "-407px",
+          left: "270px",
+          fontSize: "25px",
+          fontWeight: "400",
+          color: "blueviolet",
+        }}
+      >
+        {toGujaratiNumber(totalHoouse)}
+      </b>
+
       <p
         style={{
           position: "absolute",
-          bottom: "0px",
+          bottom: "-480px",
           right: "10px",
-          fontSize: "12px",
+          fontSize: "17px",
+          fontWeight: "600",
+          color: "blue",
         }}
       >
-        Cover - {part} {commercial ? "(Comm)" : "(Res)"}
+        Cover - {commercial ? 1 : part}{" "}
+        {commercial ? `+ ${part - totalNormalBundles || 0} (Comm.)` : "(Res.)"}
       </p>
     </div>
   );

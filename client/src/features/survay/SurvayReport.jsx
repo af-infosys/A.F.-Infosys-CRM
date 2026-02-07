@@ -453,6 +453,7 @@ const SurvayReport = () => {
             bundle: currentBundle,
             name: "કોમર્શિયલ મિલકત",
             commercial: true,
+            totalNormalBundles: totalNormalBundles,
 
             section: "commercial",
             part: b,
@@ -673,13 +674,11 @@ const SurvayReport = () => {
               <div
                 key={id}
                 id={id}
-                className="report-page legal-landscape-dimensions"
+                className="report-page legal-landscape-dimensions cover-bg"
                 style={{
                   paddingLeft: "80px",
                   paddingRight: "50px",
                   maxHeight: "800px",
-
-                  background: "linear-gradient(#FDED8B, #FDF6C2)",
                 }}
               >
                 <AkarniIndex
@@ -692,6 +691,7 @@ const SurvayReport = () => {
                   coverProperties={item.coverProperties}
                   pageFrom={item.pageFrom}
                   pageTo={item.pageTo}
+                  totalNormalBundles={item.totalNormalBundles || 0}
                 />
               </div>
             );

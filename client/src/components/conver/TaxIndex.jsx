@@ -1,7 +1,10 @@
 import React from "react";
 import LogoImage from "../../assets/logo.png";
-import WaleImage from "../../assets/wale.png";
-import WaleImage2 from "../../assets/wale2.png";
+
+import ContentImage from "../../assets/cover/9d-i/content.png";
+import IconImage from "../../assets/cover/9d-i/icon.png";
+import Icon2Image from "../../assets/cover/9d-ii/icon.png";
+
 import toGujaratiNumber from "../toGujaratiNumber";
 
 // Utility component for the main text blocks
@@ -20,6 +23,8 @@ const TaxIndex = ({
   totalHoouse,
   taxes,
   title,
+  commercial,
+  totalNormalBundles,
 
   coverProperties,
   pageFrom,
@@ -52,14 +57,14 @@ const TaxIndex = ({
     <div
       style={{
         position: "relative",
-        paddingInline: "20px",
+        paddingInline: "0",
         margin: 0,
-        paddingLeft: "20px",
+        paddingLeft: "0",
       }}
     >
       {/* -------------------- 1. Top Header (Village, Taluka, District) -------------------- */}
 
-      <img
+      {/* <img
         src={WaleImage}
         style={{
           position: "absolute",
@@ -98,31 +103,63 @@ const TaxIndex = ({
           left: "10px",
           width: "calc(100% - 20px)",
         }}
+      /> */}
+
+      <img
+        src={ContentImage}
+        style={{
+          position: "absolute",
+          top: "350px",
+          left: "-10px",
+          width: "calc(100%)",
+        }}
       />
 
-      <header
-        className="grid grid-cols-3 text-3xl font-bold pb-2"
-        style={{
-          marginTop: "135px",
-          paddingTop: "30px",
-          fontSize: "38px",
+      {commercial ? (
+        <img
+          src={Icon2Image}
+          style={{
+            position: "absolute",
+            top: "210px",
+            left: "10px",
+            width: "calc(100%)",
+          }}
+        />
+      ) : (
+        <img
+          src={IconImage}
+          style={{
+            position: "absolute",
+            top: "210px",
+            left: "10px",
+            width: "calc(100%)",
+          }}
+        />
+      )}
 
+      <header
+        className="grid grid-cols-3 font-bold pb-2"
+        style={{
+          marginTop: "85px",
+          paddingTop: "20px",
+          fontSize: "33px",
           display: "flex",
           justifyContent: "space-between",
         }}
       >
-        <div className="text-left text-blue-700">
-          <span className="font-extrabold" style={{ whiteSpace: "nowrap" }}>
-            મોજે :{" "}
-          </span>
-          - {project?.spot?.gaam || "..."}
+        <div
+          className="text-left text-blue-700"
+          style={{ whiteSpace: "nowrap" }}
+        >
+          <span className="font-bold">મોજે : </span>-{" "}
+          {project?.spot?.gaam || "..."}
         </div>
         <div className="text-center text-blue-700">
-          <span className="font-extrabold">તાલુકો : </span>-{" "}
+          <span className="font-bold">તાલુકો : </span>-{" "}
           {project?.spot?.taluka || "..."}
         </div>
         <div className="text-right text-blue-700">
-          <span className="font-extrabold">જીલ્લો : </span>-{" "}
+          <span className="font-bold">જીલ્લો : </span>-{" "}
           {project?.spot?.district || "..."}
         </div>
       </header>
@@ -130,31 +167,32 @@ const TaxIndex = ({
       {/* -------------------- 2. Main Title and Subtitle -------------------- */}
       <div className="text-center mt-2 mb-2">
         <h1
-          className="text-4xl font-extrabold text-blue-900 inline-block"
+          className="text-4xl font-extrabold text-white inline-block"
           style={{
-            border: "6px double #515151",
+            border: "6px solid white",
+            background: "#8F392C",
             borderRadius: "50px",
             padding: "8px 20px",
             paddingTop: "0px",
-            paddingBottom: "20px",
+            paddingBottom: "35px",
             position: "relative",
             transform: "translateY(-15px)",
             marginTop: "20px",
             paddingInline: "40px",
           }}
         >
-          ગામનું ૯(ડી) વેરા રજીસ્ટર {title ? `- ${title}` : ""}
+          ગામના નમુના નંબર ૯(ડી) વેરા રજીસ્ટર {title ? `- ${title}` : ""}
         </h1>
         <h2
           className="text-2xl font-semibold text-gray-700"
-          style={{ marginTop: "-25px", fontSize: "30px" }}
+          style={{ marginTop: "-20px", fontSize: "30px" }}
         >
           વર્ષ :- {project?.details?.taxYear || "2025/26"}
         </h2>
       </div>
 
       {/* -------------------- 3. Instruction/Description Blocks -------------------- */}
-      <div className="mt-3 text-justify">
+      {/* <div className="mt-3 text-justify">
         <TextBlock>
           ગ્રામ પંચાયત આકારણી સર્વે, વાર્ષીક જમાબંધી જમીન મહેસુલ હિસાબ, પંચાયત
           કરવેરાનું ૯(ડી) રજીસ્ટર, ગામના નમુના નં.ર, લેમીનેશન, સ્કેનીંગ વર્ક
@@ -166,8 +204,7 @@ const TaxIndex = ({
         </TextBlock>
 
         <p className="taxes-container">
-          {/* 1. खा. पानी वेरो (Special Water) */}
-          <span className="tax-item">
+           <span className="tax-item">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -181,8 +218,7 @@ const TaxIndex = ({
             <b>{toGujaratiNumber(taxes[0]?.values?.residence)}</b> |
           </span>
 
-          {/* 2. सा. पानी वेरो (General Water) */}
-          <span className="tax-item">
+           <span className="tax-item">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -196,8 +232,7 @@ const TaxIndex = ({
             <b>{toGujaratiNumber(taxes[1]?.values?.residence)}</b> |
           </span>
 
-          {/* 3. लाईट वेरो (Street Light) */}
-          <span className="tax-item">
+           <span className="tax-item">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -211,8 +246,7 @@ const TaxIndex = ({
             <b>{toGujaratiNumber(taxes[2]?.values?.residence)}</b> |
           </span>
 
-          {/* 4. सफाई वेरो (Cleaning/Broom) */}
-          <span className="tax-item">
+           <span className="tax-item">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -243,11 +277,10 @@ const TaxIndex = ({
               );
           })}
         </p>
-      </div>
+      </div> */}
 
-      <div style={{ display: "flex", marginTop: "0px" }}>
-        {/* -------------------- 4. Central Information Block (Logo & Details) -------------------- */}
-        <div
+      {/* <div style={{ display: "flex", marginTop: "0px" }}>
+         <div
           className="mt-5 p-3 border-4 border-dashed border-gray-400 rounded-lg"
           style={{
             maxWidth: "fit-content",
@@ -265,8 +298,7 @@ const TaxIndex = ({
               marginTop: "0px",
             }}
           >
-            {/* Left Column (Address Details) */}
-            <div className="col-span-2 space-y-4 pt-2 pr-6">
+             <div className="col-span-2 space-y-4 pt-2 pr-6">
               <div className="text-base font-medium text-gray-800 space-y-1">
                 <p
                   style={{
@@ -295,8 +327,7 @@ const TaxIndex = ({
                   E-mail :{" "}
                   <span className="text-blue-600">af.infosys146@gmail.com</span>
                 </p>
-                {/* Website :{" "} */}
-                <a
+                 <a
                   href="https://www.afinfosys.com"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -316,8 +347,7 @@ const TaxIndex = ({
               </div>
             </div>
 
-            {/* Right Column (Logo) */}
-            <div className="col-span-1 flex justify-center items-center">
+             <div className="col-span-1 flex justify-center items-center">
               <img
                 src={LogoImage}
                 alt="A.F. Infosys Logo Placeholder"
@@ -332,9 +362,7 @@ const TaxIndex = ({
           </div>
         </div>
 
-        {/* -------------------- 5. Footer Data/Counters (Now includes Part and Page Range) -------------------- */}
-        {/* Changed to use grid-cols-2 for a two-column layout */}
-        <div
+         <div
           className="mt-3 pt-3 border-t border-gray-300"
           style={{ marginLeft: "40px", marginTop: "30px", paddingTop: "30px" }}
         >
@@ -342,8 +370,7 @@ const TaxIndex = ({
             className="gap-x-12 gap-y-6"
             style={{ display: "flex", flexDirection: "column" }}
           >
-            {/* 1. Register Count (Top Left) */}
-            <div
+             <div
               className="flex items-center text-xl font-medium text-gray-700"
               style={{ justifyContent: "start" }}
             >
@@ -362,8 +389,7 @@ const TaxIndex = ({
               </label>
             </div>
 
-            {/* 2. Village Count (Top Right) */}
-            <div className="flex items-center text-xl font-medium text-gray-700">
+             <div className="flex items-center text-xl font-medium text-gray-700">
               <label style={{ maxWidth: "fit-content", fontSize: "21px" }}>
                 આ રજીસ્ટર ના ઘરની સંખ્યા :-
                 <b
@@ -379,8 +405,7 @@ const TaxIndex = ({
               </label>
             </div>
 
-            {/* Applying border and padding to span both columns for a visual break before Part/Page info */}
-
+ 
             <div className="flex items-center text-xl font-medium text-gray-700">
               <label style={{ maxWidth: "fit-content", fontSize: "21px" }}>
                 પાના નંબર :-
@@ -397,8 +422,7 @@ const TaxIndex = ({
               </label>
             </div>
 
-            {/* 4. NEW: Page Range (પાના નંબર) (Bottom Right) */}
-            <div className="flex items-center text-xl font-medium text-gray-700">
+             <div className="flex items-center text-xl font-medium text-gray-700">
               <label style={{ maxWidth: "fit-content", fontSize: "21px" }}>
                 ગામના કુલ ઘરની સંખ્યા :-
                 <b
@@ -415,17 +439,20 @@ const TaxIndex = ({
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <p
         style={{
           position: "absolute",
-          bottom: "0px",
+          bottom: "-490px",
           right: "10px",
-          fontSize: "12px",
+          fontSize: "17px",
+          fontWeight: "600",
+          color: "blue",
         }}
       >
-        Cover - {part}
+        Cover - {commercial ? 2 : part}{" "}
+        {commercial ? `+ ${part - totalNormalBundles || 0} (Comm.)` : "(Res.)"}
       </p>
     </div>
   );

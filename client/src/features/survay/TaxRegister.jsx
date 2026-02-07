@@ -520,6 +520,7 @@ const TaxRegister = () => {
             section: "commercial",
             part: b,
             totalParts: totalCommBundles,
+            totalNormalBundles: totalNormalBundles,
 
             // 👇 NEW
             coverProperties,
@@ -729,7 +730,7 @@ const TaxRegister = () => {
               <div
                 key={id}
                 id={id}
-                className="report-page legal-landscape-dimensions"
+                className="report-page legal-landscape-dimensions cover-bg"
                 style={{
                   paddingLeft: "80px",
                   paddingRight: "50px",
@@ -743,6 +744,7 @@ const TaxRegister = () => {
                   taxes={taxes}
                   title={item?.name} // Pass the dynamic title (Residential/Commercial)
                   commercial={item.commercial}
+                  totalNormalBundles={item.totalNormalBundles || ""}
                   coverProperties={item.coverProperties}
                   pageFrom={item.pageFrom}
                   pageTo={item.pageTo}
