@@ -23,10 +23,10 @@ const TextBlock = ({ children }) => (
 
 const AkarniIndex = ({
   title,
-  part, // Current Bundle Number (e.g., 1, 2, 3)
+  part,
   project,
-  totalHoouse, // Grand Total of ALL houses (Res + Comm mixed or total context)
-  commercial, // If commercial cover: contains count of Residential records. If residential: false/undefined.
+  totalHoouse,
+  commercial,
 
   totalNormalBundles,
 
@@ -308,7 +308,7 @@ const AkarniIndex = ({
           color: "blueviolet",
         }}
       >
-        {toGujaratiNumber(part)}
+        {part}
       </b>
 
       <b
@@ -321,7 +321,7 @@ const AkarniIndex = ({
           color: "blueviolet",
         }}
       >
-        {toGujaratiNumber(coverProperties)}
+        {coverProperties}
       </b>
 
       <b
@@ -334,7 +334,7 @@ const AkarniIndex = ({
           color: "blueviolet",
         }}
       >
-        {`${toGujaratiNumber(pageFrom)} થી ${toGujaratiNumber(pageTo)}`}
+        {`${pageFrom} થી ${pageTo}`}
       </b>
 
       <b
@@ -347,7 +347,7 @@ const AkarniIndex = ({
           color: "blueviolet",
         }}
       >
-        {toGujaratiNumber(totalHoouse)}
+        {totalHoouse}
       </b>
 
       <p
@@ -360,8 +360,7 @@ const AkarniIndex = ({
           color: "blue",
         }}
       >
-        Cover - {commercial ? 1 : part}{" "}
-        {commercial ? `+ ${part - totalNormalBundles || 0} (Comm.)` : "(Res.)"}
+        Cover - 1 {commercial ? `+ 1 (Comm.)` : "(Res.)"}
       </p>
     </div>
   );

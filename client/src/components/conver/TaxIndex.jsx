@@ -441,56 +441,112 @@ const TaxIndex = ({
         </div>
       </div> */}
 
+      {/* Tax */}
+
       <b
         style={{
           position: "absolute",
-          bottom: "-250px",
-          left: "65px",
+          bottom: "-230px",
+          left: "370px",
           fontSize: "25px",
           fontWeight: "400",
           color: "blueviolet",
         }}
       >
-        {toGujaratiNumber(part)}
+        {taxes[0]?.values?.residence}/-
       </b>
 
       <b
         style={{
           position: "absolute",
-          bottom: "-302px",
-          left: "305px",
+          bottom: "-230px",
+          left: "760px",
           fontSize: "25px",
           fontWeight: "400",
           color: "blueviolet",
         }}
       >
-        {toGujaratiNumber(coverProperties)}
+        {taxes[1]?.values?.residence}/-
       </b>
 
       <b
         style={{
           position: "absolute",
-          bottom: "-355px",
-          left: "135px",
+          bottom: "-290px",
+          left: "485px",
           fontSize: "25px",
           fontWeight: "400",
           color: "blueviolet",
         }}
       >
-        {`${toGujaratiNumber(pageFrom)} થી ${toGujaratiNumber(pageTo)}`}
+        {taxes[2]?.values?.residence}/-
       </b>
 
       <b
         style={{
           position: "absolute",
-          bottom: "-407px",
-          left: "270px",
+          bottom: "-290px",
+          left: "765px",
           fontSize: "25px",
           fontWeight: "400",
           color: "blueviolet",
         }}
       >
-        {toGujaratiNumber(totalHoouse)}
+        {taxes[3]?.values?.residence}/-
+      </b>
+
+      {/* {coverProperties} */}
+
+      <b
+        style={{
+          position: "absolute",
+          bottom: "-350px",
+          left: "90px",
+          fontSize: "25px",
+          fontWeight: "400",
+          color: "blueviolet",
+        }}
+      >
+        {part}
+      </b>
+
+      <b
+        style={{
+          position: "absolute",
+          bottom: "-387px",
+          left: "320px",
+          fontSize: "25px",
+          fontWeight: "400",
+          color: "blueviolet",
+        }}
+      >
+        {coverProperties}
+      </b>
+
+      <b
+        style={{
+          position: "absolute",
+          bottom: "-420px",
+          left: "155px",
+          fontSize: "25px",
+          fontWeight: "400",
+          color: "blueviolet",
+        }}
+      >
+        {`${pageFrom} થી ${pageTo}`}
+      </b>
+
+      <b
+        style={{
+          position: "absolute",
+          bottom: "-462px",
+          left: "290px",
+          fontSize: "25px",
+          fontWeight: "400",
+          color: "blueviolet",
+        }}
+      >
+        {totalHoouse}
       </b>
 
       <p
@@ -503,8 +559,7 @@ const TaxIndex = ({
           color: "blue",
         }}
       >
-        Cover - {commercial ? 2 : part}{" "}
-        {commercial ? `+ ${part - totalNormalBundles || 0} (Comm.)` : "(Res.)"}
+        Cover - 2 {commercial ? `+ 2 (Comm.)` : "(Res.)"}
       </p>
     </div>
   );
