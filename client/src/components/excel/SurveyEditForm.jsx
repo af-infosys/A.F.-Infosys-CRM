@@ -640,7 +640,7 @@ const SurveyEditForm = ({
               રસોડું
             </label>
             <input
-              type="number"
+              type="text"
               id="kitchenCount"
               name="kitchenCount"
               className="form-input"
@@ -657,7 +657,7 @@ const SurveyEditForm = ({
               બાથરૂમ
             </label>
             <input
-              type="number"
+              type="text"
               id="bathroomCount"
               name="bathroomCount"
               className="form-input"
@@ -674,7 +674,7 @@ const SurveyEditForm = ({
               ફરજો
             </label>
             <input
-              type="number"
+              type="text"
               id="verandaCount"
               name="verandaCount"
               className="form-input"
@@ -685,13 +685,12 @@ const SurveyEditForm = ({
             />
           </div>
 
-          {/* Field 19: નળ */}
-          <div className="form-field">
+          {/* <div className="form-field">
             <label htmlFor="tapCount" className="form-label">
               નળ
             </label>
             <input
-              type="number"
+              type="text"
               id="tapCount"
               name="tapCount"
               className="form-input"
@@ -701,14 +700,13 @@ const SurveyEditForm = ({
               maxLength="3"
             />
           </div>
-
-          {/* Field 20: શોચાલ્ય */}
+ 
           <div className="form-field">
             <label htmlFor="toiletCount" className="form-label">
               શોચાલ્ય
             </label>
             <input
-              type="number"
+              type="text"
               id="toiletCount"
               name="toiletCount"
               className="form-input"
@@ -717,7 +715,7 @@ const SurveyEditForm = ({
               onChange={handleFacilitiesChange}
               maxLength="3"
             />
-          </div>
+          </div> */}
         </div>
         <br />
       </div>

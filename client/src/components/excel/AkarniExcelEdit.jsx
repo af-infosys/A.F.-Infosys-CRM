@@ -8,6 +8,7 @@ import SurveyEditForm from "./SurveyEditForm";
 const AkarniExcelEdit = () => {
   const navigation = useNavigate();
 
+  const [initialData, setInitialData] = useState([]);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [notSaved, setNotSaved] = useState(false);
@@ -42,6 +43,7 @@ const AkarniExcelEdit = () => {
       const result = await response.json();
 
       setData(result.data);
+      setInitialData(result.data);
     } catch (err) {
       console.error("Error fetching records:", err);
 
@@ -208,17 +210,17 @@ const AkarniExcelEdit = () => {
     valuation: {
       label: "મિલ્કતની કિંમત",
       width: "w-[8%]",
-      type: "number",
+      type: "text",
       colIndex: 18,
     },
     tax: {
       label: "આકારેલ વેરાની રકમ",
       width: "w-[8%]",
-      type: "number",
+      type: "text",
       colIndex: 19,
     },
     tap: { label: "નળ", width: "w-[3%]", type: "number", colIndex: 11 }, // Yes/No or 1/0
-    toilet: { label: "શોચાલય", width: "w-[3%]", type: "number", colIndex: 12 }, // Yes/No or 1/0
+    toilet: { label: "શોચાલય", width: "w-[3%]", type: "text", colIndex: 12 }, // Yes/No or 1/0
     remarks: { label: "નોંધ / રીમાર્કસ", width: "w-[8%]", colIndex: 13 },
     delete: { label: "delete", width: "w-[8%]", colIndex: 14 },
   };
@@ -411,6 +413,8 @@ const AkarniExcelEdit = () => {
                         // Special case for description and remarks to allow more vertical space
                         height: "100%",
                         minHeight: "32px",
+
+                        background: `${initialData[rowIndex][colIndex] == value ? "" : "yellow"}`,
                       }}
                       // sNo should not be manually editable
                       readOnly={key === "sNo" || key === "description"}
