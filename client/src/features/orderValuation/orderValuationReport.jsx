@@ -94,7 +94,7 @@ const OrderValuationReport = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        }
+        },
       );
 
       const data = response.data;
@@ -104,7 +104,7 @@ const OrderValuationReport = () => {
       setValuation(
         Array.isArray(data?.valuation) && data?.valuation.length
           ? data.valuation
-          : valuation
+          : valuation,
       );
 
       console.log(`Fetching data for project ID: ${projectId}`);
@@ -128,7 +128,7 @@ const OrderValuationReport = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        }
+        },
       );
 
       fetchedData = fetchedData?.data?.taxes;
@@ -424,8 +424,8 @@ const OrderValuationReport = () => {
                       {details?.panchayat?.includes("નહિ")
                         ? "નહિ"
                         : details?.panchayat === ""
-                        ? ""
-                        : "હા"}
+                          ? ""
+                          : "હા"}
                     </b>{" "}
                   </span>
                   <span
@@ -570,7 +570,7 @@ const OrderValuationReport = () => {
                   border: "1px solid #000",
                   borderRadius: "5px",
                   marginBottom: "8px",
-                  marginTop: "10px",
+                  marginTop: "20px",
                   paddingBottom: "3px",
 
                   paddingInline: "15px",
@@ -1223,7 +1223,7 @@ const OrderValuationReport = () => {
                     <b>
                       {details?.meetingDate
                         ? new Date(details.meetingDate).toLocaleDateString(
-                            "en-GB"
+                            "en-GB",
                           )
                         : " "}
                     </b>{" "}
@@ -1231,11 +1231,9 @@ const OrderValuationReport = () => {
                   ના રોજ બેઠક નંબર{" "}
                   <b>{details?.meetingNumber || ".................."}</b>
                   {", "}
-                  મુદ્દા નં. <b>{details?.agendaNumber || ".............."}</b>
-                  {", "}
-                  ઠરાવ નં. <b>
-                    {details?.resolutionNumber || "............."}
-                  </b>{" "}
+                  {/* મુદ્દા નં. <b>{details?.agendaNumber || ".............."}</b>
+                  {", "} */}
+                  ઠરાવ નં. <b>{details?.resolutionNumber || "............."}</b>{" "}
                   થી મિલ્કત આકારણી સર્વેની કામગીરી કરી આપવા{" "}
                   <b>
                     <u>" એ.એફ. ઇન્ફોસીસ - સાવરકુંડલા "</u>
@@ -1362,6 +1360,7 @@ const OrderValuationReport = () => {
                 width: "100%",
                 height: "100%",
                 padding: "5px",
+                paddingBottom: "15px",
               }}
             >
               <div
@@ -1540,8 +1539,8 @@ const OrderValuationReport = () => {
                     {details?.generalWaterTaxApplicable === "yes"
                       ? "હા"
                       : details?.generalWaterTaxApplicable === "no"
-                      ? "ના"
-                      : ""}
+                        ? "ના"
+                        : ""}
                   </b>
                 </h2>
 
@@ -1587,30 +1586,37 @@ const OrderValuationReport = () => {
                 </ol>
               </div>
 
-              <div style={{ padding: "0px 20px", fontSize: "15px" }}>
-                <table>
+              <div
+                style={{
+                  padding: "0px 20px",
+                  fontSize: "15px",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <table style={{ maxWidth: "fit-content" }}>
                   <thead>
                     <tr>
-                      <th style={{ padding: "2px", textAlign: "center" }}>
+                      <th style={{ padding: "2px 8px", textAlign: "center" }}>
                         <span id="format"> ક્રમ </span>
                       </th>
 
                       <th style={{ padding: "0px", textAlign: "center" }}>
-                        <span id="format"> એડવાન્સ આયોજન </span>
+                        <span id="format"> આયોજન </span>
                       </th>
 
                       <th style={{ padding: "0px", textAlign: "center" }}>
-                        <span id="format"> અંદાજીત તારીખ </span>
+                        <span id="format"> તારીખ </span>
                       </th>
 
-                      <th style={{ padding: "0px", textAlign: "center" }}>
+                      {/* <th style={{ padding: "0px", textAlign: "center" }}>
                         <span id="format">
                           {" "}
                           આકારણી સર્વે કામ
                           <br />
                           પુર્ણ કર્યા તારીખ
                         </span>
-                      </th>
+                      </th> */}
                     </tr>
                   </thead>
 
@@ -1619,36 +1625,29 @@ const OrderValuationReport = () => {
                       <td style={{ padding: "2px 5px", textAlign: "right" }}>
                         <span id="format">1</span>
                       </td>
-                      <td style={{ padding: "2px 5px" }}>
-                        <span id="format">
-                          આકારણી સર્વે કામ શરૂ કર્યા તારીખ
-                        </span>
+                      <td style={{ padding: "2px 10px" }}>
+                        <span id="format">વર્ક ઓર્ડર આપ્યા તારીખ</span>
                       </td>
                       <td style={{ padding: "0px", textAlign: "center" }}>
                         <span id="format">
                           <b>{formatDate(details?.date)}</b>
                         </span>
                       </td>
-                      <td style={{ padding: "0px", textAlign: "center" }}>
+                      {/* <td style={{ padding: "0px", textAlign: "center" }}>
                         <span id="format">
                           <b>{formatDate(details?.date)}</b>
                         </span>
-                      </td>
+                      </td> */}
                     </tr>
 
                     <tr>
                       <td style={{ padding: "2px 5px", textAlign: "right" }}>
                         <span id="format">2</span>
                       </td>
-                      <td style={{ padding: "2px 5px" }}>
-                        <span id="format">સર્વે કામ પુર્ણ કર્યા તારીખ</span>
+                      <td style={{ padding: "2px 10px" }}>
+                        <span id="format">ગામજનો માટે જાહેરાત તારીખ</span>
                       </td>
-                      <td style={{ padding: "0px", textAlign: "center" }}>
-                        <span id="format">
-                          <b>{formatDate(details?.date)}</b>
-                        </span>
-                      </td>
-                      <td style={{ padding: "0px", textAlign: "center" }}>
+                      <td style={{ padding: "2px 10px", textAlign: "center" }}>
                         <span id="format">
                           <b>{formatDate(details?.date)}</b>
                         </span>
@@ -1659,14 +1658,9 @@ const OrderValuationReport = () => {
                       <td style={{ padding: "2px 5px", textAlign: "right" }}>
                         <span id="format">3</span>
                       </td>
-                      <td style={{ padding: "2px 5px" }}>
+                      <td style={{ padding: "2px 10px" }}>
                         <span id="format">
-                          રફ સર્વે રજી. PDF આકારણી મોકલ્યા તારીખ
-                        </span>
-                      </td>
-                      <td style={{ padding: "0px", textAlign: "center" }}>
-                        <span id="format">
-                          <b>{formatDate(details?.date)}</b>
+                          આકારણી સર્વે કામ શરૂ કર્યા તારીખ
                         </span>
                       </td>
                       <td style={{ padding: "0px", textAlign: "center" }}>
@@ -1680,15 +1674,8 @@ const OrderValuationReport = () => {
                       <td style={{ padding: "2px 5px", textAlign: "right" }}>
                         <span id="format">4</span>
                       </td>
-                      <td style={{ padding: "2px 5px" }}>
-                        <span id="format">
-                          ફાઇનલ સુધારો કરેલ સમય અને ૧૫ દિવસ તારીખ
-                        </span>
-                      </td>
-                      <td style={{ padding: "0px", textAlign: "center" }}>
-                        <span id="format">
-                          <b>{formatDate(details?.date)}</b>
-                        </span>
+                      <td style={{ padding: "2px 10px" }}>
+                        <span id="format">સર્વે કામ પુર્ણ કર્યા તારીખ</span>
                       </td>
                       <td style={{ padding: "0px", textAlign: "center" }}>
                         <span id="format">
@@ -1701,14 +1688,41 @@ const OrderValuationReport = () => {
                       <td style={{ padding: "2px 5px", textAlign: "right" }}>
                         <span id="format">5</span>
                       </td>
-                      <td style={{ padding: "2px 5px" }}>
+                      <td style={{ padding: "2px 10px" }}>
                         <span id="format">
-                          પોર્ટલમાં ડેટા એન્ટ્રી કયારે કરવાની 4 મહિના બાદ તારીખ
+                          રફ સર્વે રજી. PDF આકારણી મોકલ્યા તારીખ
                         </span>
                       </td>
                       <td style={{ padding: "0px", textAlign: "center" }}>
                         <span id="format">
                           <b>{formatDate(details?.date)}</b>
+                        </span>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td style={{ padding: "2px 5px", textAlign: "right" }}>
+                        <span id="format">6</span>
+                      </td>
+                      <td style={{ padding: "2px 10px" }}>
+                        <span id="format">
+                          ફાઇનલ સુધારો કરેલ સમય અને ૧૫ દિવસ તારીખ
+                        </span>
+                      </td>
+                      <td style={{ padding: "0px", textAlign: "center" }}>
+                        <span id="format">
+                          <b>{formatDate(details?.date)}</b>
+                        </span>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td style={{ padding: "2px 5px", textAlign: "right" }}>
+                        <span id="format">7</span>
+                      </td>
+                      <td style={{ padding: "2px 10px" }}>
+                        <span id="format">
+                          પોર્ટલમાં ડેટા એન્ટ્રી કરવાની 4 મહિના બાદ તારીખ
                         </span>
                       </td>
                       <td style={{ padding: "0px", textAlign: "center" }}>
@@ -1790,7 +1804,7 @@ const OrderValuationReport = () => {
               <div
                 style={{
                   position: "absolute",
-                  bottom: "20px",
+                  bottom: "15px",
                   right: "30px",
                   fontSize: "14px",
                   color: "#000",

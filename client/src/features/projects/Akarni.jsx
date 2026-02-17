@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import "./akarni.scss";
 
 const quicklinks = [
+  { id: 0, label: "0. Tharaav Set", path: "/orderValuation/tharav" },
   { id: 1, label: "1. Order Valuation Report", path: "/orderValuation/report" },
 
   { id: 2, label: "2. Akarni Register (No.8)", path: "/survay/akarniReport" },

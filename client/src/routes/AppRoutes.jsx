@@ -51,6 +51,7 @@ import SurvayInsertForm from "../components/SurveyInsertForm";
 import ManageCertificate from "../features/meetings/ManageCertificate";
 import ArjiLetter from "../features/meetings/ArjiLetter";
 import Certificate from "../features/meetings/Certificate";
+import TharavSet from "../features/orderValuation/TharavSet";
 
 export default function AppRoutes() {
   const { user } = useAuth();
@@ -214,10 +215,10 @@ export default function AppRoutes() {
         {/* Order Valuation Routes Start */}
         <Route path="/orderValuation">
           <Route path="form/:projectId" element={<OrderValuationForm />} />
+          <Route path="tax/:projectId" element={<TaxManage />} />
 
           <Route path="report/:projectId" element={<OrderValuationReport />} />
-
-          <Route path="tax/:projectId" element={<TaxManage />} />
+          <Route path="tharav/:projectId" element={<TharavSet />} />
         </Route>
         {/* Order Valuation Routes End */}
 

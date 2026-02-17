@@ -52,6 +52,8 @@ const OrderValuationForm = () => {
 
     seperatecommercial: false,
 
+    comity: [{ name: "", designation: "" }],
+
     notes: [],
   });
 
@@ -226,7 +228,7 @@ const OrderValuationForm = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        }
+        },
       );
 
       const data = response.data;
@@ -236,7 +238,7 @@ const OrderValuationForm = () => {
       setValuation(
         Array.isArray(data?.valuation) && data?.valuation.length
           ? data.valuation
-          : valuation
+          : valuation,
       );
 
       console.log(`Fetching data for project ID: ${projectId}`);
@@ -261,7 +263,7 @@ const OrderValuationForm = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        }
+        },
       );
 
       console.log("Data saved successfully!");
@@ -287,7 +289,7 @@ const OrderValuationForm = () => {
 
   const handleDeleteRow = (index) => {
     setValuation((prevValuation) =>
-      prevValuation.filter((_, i) => i !== index)
+      prevValuation.filter((_, i) => i !== index),
     );
   };
 
@@ -351,6 +353,40 @@ const OrderValuationForm = () => {
     setDetails((prev) => {
       const notes = Array.isArray(prev?.notes) ? prev.notes : [];
       return { ...prev, notes: notes.filter((_, i) => i !== idx) };
+    });
+  };
+
+  const addCommittee = () => {
+    setDetails((prev) => ({
+      ...prev,
+      comity: [...(prev.comity || []), { name: "", designation: "" }],
+    }));
+  };
+
+  const handleChange = (index, field, value) => {
+    setDetails((prev) => {
+      const updated = [...(prev.comity || [])];
+      updated[index] = {
+        ...updated[index],
+        [field]: value,
+      };
+
+      return {
+        ...prev,
+        comity: updated,
+      };
+    });
+  };
+
+  const deleteCommittee = (index) => {
+    setDetails((prev) => {
+      const updated = [...(prev.comity || [])];
+      updated.splice(index, 1);
+
+      return {
+        ...prev,
+        comity: updated,
+      };
     });
   };
 
@@ -828,7 +864,7 @@ const OrderValuationForm = () => {
                           handleChangeValuation(
                             index,
                             "price",
-                            Number(e.target.value)
+                            Number(e.target.value),
                           );
                         }}
                         className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 transition-all duration-200"
@@ -845,13 +881,13 @@ const OrderValuationForm = () => {
                           handleChangeValuation(
                             index,
                             "per",
-                            Number(e.target.value)
+                            Number(e.target.value),
                           );
 
                           handleChangeValuation(
                             index,
                             "price",
-                            Number((data.tax * 100) / data.per)
+                            Number((data.tax * 100) / data.per),
                           );
                         }}
                         className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 transition-all duration-200"
@@ -868,13 +904,13 @@ const OrderValuationForm = () => {
                           handleChangeValuation(
                             index,
                             "tax",
-                            Number(e.target.value)
+                            Number(e.target.value),
                           );
 
                           handleChangeValuation(
                             index,
                             "price",
-                            Number((data.tax * 100) / data.per)
+                            Number((data.tax * 100) / data.per),
                           );
                         }}
                         className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 transition-all duration-200"
@@ -1020,7 +1056,7 @@ const OrderValuationForm = () => {
                     setDetails((prev) => ({
                       ...prev,
                       approvedAmountWords: numberToGujaratiWords(
-                        e.target.value
+                        e.target.value,
                       ),
                     }));
 
@@ -1229,6 +1265,183 @@ const OrderValuationForm = () => {
                 ))}
               </ul>
             </div>
+
+            <table
+              style={{
+                marginTop: "30px",
+                maxWidth: "fit-content",
+              }}
+            >
+              <thead>
+                <tr>
+                  <th>ક્રમ</th> <th>આયોજન</th> <th>તારીખ</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>વર્ક ઓર્ડર આપ્યા તારીખ</td>
+                  <td>
+                    <input
+                      type="date"
+                      id="workOrderDate"
+                      name="workOrderDate"
+                      value={details.workOrderDate}
+                      onChange={handleChangeDetails}
+                    />
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>2</td>
+                  <td>ગામજનો માટે જાહેરાત તારીખ</td>
+                  <td>
+                    <input
+                      type="date"
+                      id="jaheratDate"
+                      name="jaheratDate"
+                      value={details.jaheratDate}
+                      onChange={handleChangeDetails}
+                    />
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>3</td>
+                  <td>આકારણી સર્વે કામ શરૂ કર્યા તારીખ</td>
+                  <td>
+                    <input
+                      type="date"
+                      id="akaraniStartDate"
+                      name="akaraniStartDate"
+                      value={details.akaraniStartDate}
+                      onChange={handleChangeDetails}
+                    />
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>4</td>
+                  <td>સર્વે કામ પુર્ણ કર્યા તારીખ</td>
+                  <td>
+                    <input
+                      type="date"
+                      id="akaraniEndDate"
+                      name="akaraniEndDate"
+                      value={details.akaraniEndDate}
+                      onChange={handleChangeDetails}
+                    />
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>5</td>
+                  <td>રફ સર્વે રજી. PDF આકારણી મોકલ્યા તારીખ</td>
+                  <td>
+                    <input
+                      type="date"
+                      id="submitionDate"
+                      name="submitionDate"
+                      value={details.submitionDate}
+                      onChange={handleChangeDetails}
+                    />
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>6</td>
+                  <td>ફાઇનલ સુધારો કરેલ સમય અને ૧૫ દિવસ તારીખ</td>
+                  <td>
+                    <input
+                      type="date"
+                      id="updationDate"
+                      name="updationDate"
+                      value={details.updationDate}
+                      onChange={handleChangeDetails}
+                    />
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>7</td>
+                  <td>પોર્ટલમાં ડેટા એન્ટ્રી કરવાની 4 મહિના બાદ તારીખ</td>
+                  <td>
+                    <input
+                      type="date"
+                      id="entryDate"
+                      name="entryDate"
+                      value={details.entryDate}
+                      onChange={handleChangeDetails}
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <table
+              style={{
+                marginTop: "50px",
+                maxWidth: "fit-content",
+              }}
+            >
+              <thead>
+                <tr>
+                  <th>ક્રમ</th>
+                  <th>આકરણી કમિટીના નામ</th>
+                  <th>હોદો</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {details?.comity?.map((comity, index) => (
+                  <tr key={index}>
+                    <td>{index + 1}</td>
+
+                    <td>
+                      <input
+                        type="text"
+                        value={comity?.name}
+                        onChange={(e) =>
+                          handleChange(index, "name", e.target.value)
+                        }
+                      />
+                    </td>
+
+                    <td>
+                      <input
+                        type="text"
+                        value={comity?.designation}
+                        onChange={(e) =>
+                          handleChange(index, "designation", e.target.value)
+                        }
+                      />
+                    </td>
+
+                    <td>
+                      <button
+                        type="button"
+                        onClick={() => deleteCommittee(index)}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            <button
+              type="button"
+              onClick={addCommittee}
+              style={{
+                marginTop: "30px",
+              }}
+              className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-full shadow-md transition-all duration-200 flex items-center gap-2"
+            >
+              Add Commitee Member
+            </button>
           </section>
 
           <div className="flex justify-end gap-4 mt-6">
