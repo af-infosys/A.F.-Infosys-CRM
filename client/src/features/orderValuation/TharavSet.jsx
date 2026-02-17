@@ -171,7 +171,7 @@ const TharavSet = () => {
       doc.addPage();
       await addImageFitWidth(input3);
 
-      doc.save(`1. Order_Valuation_Report_${details?.akaraniYear}.pdf`);
+      doc.save(`Tharav_Set_${details?.akaraniYear}.pdf`);
     } catch (error) {
       console.error("Error generating PDF:", error);
     } finally {

@@ -447,10 +447,10 @@ const TaxIndex = ({
         style={{
           position: "absolute",
           bottom: "-230px",
-          left: "370px",
+          left: "357px",
           fontSize: "25px",
-          fontWeight: "400",
-          color: "blueviolet",
+          fontWeight: "600",
+          color: "black",
         }}
       >
         {taxes[0]?.values?.residence}/-
@@ -460,10 +460,10 @@ const TaxIndex = ({
         style={{
           position: "absolute",
           bottom: "-230px",
-          left: "760px",
+          left: "740px",
           fontSize: "25px",
-          fontWeight: "400",
-          color: "blueviolet",
+          fontWeight: "600",
+          color: "black",
         }}
       >
         {taxes[1]?.values?.residence}/-
@@ -473,10 +473,10 @@ const TaxIndex = ({
         style={{
           position: "absolute",
           bottom: "-290px",
-          left: "485px",
+          left: "483px",
           fontSize: "25px",
-          fontWeight: "400",
-          color: "blueviolet",
+          fontWeight: "600",
+          color: "black",
         }}
       >
         {taxes[2]?.values?.residence}/-
@@ -486,10 +486,10 @@ const TaxIndex = ({
         style={{
           position: "absolute",
           bottom: "-290px",
-          left: "765px",
+          left: "745px",
           fontSize: "25px",
-          fontWeight: "400",
-          color: "blueviolet",
+          fontWeight: "600",
+          color: "black",
         }}
       >
         {taxes[3]?.values?.residence}/-
@@ -503,8 +503,8 @@ const TaxIndex = ({
           bottom: "-350px",
           left: "90px",
           fontSize: "25px",
-          fontWeight: "400",
-          color: "blueviolet",
+          fontWeight: "600",
+          color: "black",
         }}
       >
         {part}
@@ -516,8 +516,8 @@ const TaxIndex = ({
           bottom: "-387px",
           left: "320px",
           fontSize: "25px",
-          fontWeight: "400",
-          color: "blueviolet",
+          fontWeight: "600",
+          color: "black",
         }}
       >
         {coverProperties}
@@ -529,8 +529,8 @@ const TaxIndex = ({
           bottom: "-420px",
           left: "155px",
           fontSize: "25px",
-          fontWeight: "400",
-          color: "blueviolet",
+          fontWeight: "600",
+          color: "black",
         }}
       >
         {`${pageFrom} થી ${pageTo}`}
@@ -542,8 +542,8 @@ const TaxIndex = ({
           bottom: "-462px",
           left: "290px",
           fontSize: "25px",
-          fontWeight: "400",
-          color: "blueviolet",
+          fontWeight: "600",
+          color: "black",
         }}
       >
         {totalHoouse}

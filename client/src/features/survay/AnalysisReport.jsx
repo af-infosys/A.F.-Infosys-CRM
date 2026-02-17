@@ -5,15 +5,28 @@ import TotalHouseIcon from "../../assets/icon/analytics/Total.png";
 import HouseIcon from "../../assets/icon/analytics/House.png";
 import PakaMakanIcon from "../../assets/icon/analytics/PakaMakan.png";
 import KachaMakanIcon from "../../assets/icon/analytics/KachaMakan.png";
-import StoreIcon from "../../assets/icon/analytics/Store.png";
 
+import StoreIcon from "../../assets/icon/analytics/Store.png";
 import FactoryIcon from "../../assets/icon/analytics/Factory.png";
+
+import PlotPvtIcon from "../../assets/icon/analytics/Plot-Pvt.png";
+import PlotGovIcon from "../../assets/icon/analytics/Plot-Gov.png";
+
+import GovernmentIcon from "../../assets/icon/analytics/Government.png";
+import ReligiousIcon from "../../assets/icon/analytics/Religious.png";
+
+import TapIcon from "../../assets/icon/analytics/Tap.png";
+import ToiletIcon from "../../assets/icon/analytics/Toilet.png";
+import MobileTowerIcon from "../../assets/icon/analytics/MobileTower.png";
+import AreasIcon from "../../assets/icon/analytics/Areas.png";
+
+import MultipleIcon from "../../assets/icon/analytics/Multiple.png";
+import SingleIcon from "../../assets/icon/analytics/Single.png";
+
 // import ShopIcon from "../../assets/icon/analytics/Shop.png";
-// import AgricultureIcon from "../../assets/icon/analytics/Agriculture.png";
-// import Agriculture2Icon from "../../assets/icon/analytics/Agriculture2.png";
-// import Agriculture3Icon from "../../assets/icon/analytics/Agriculture3.png";
-// import Agriculture4Icon from "../../assets/icon/analytics/Agriculture4.png";
 import PhoneUserIcon from "../../assets/icon/analytics/PhoneUser.png";
+import UnAuthorizedIcon from "../../assets/icon/analytics/UnAuthorized.png";
+
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 
@@ -86,62 +99,62 @@ const AnalyticsReport = () => {
         id: 7,
         description: "પ્લોટ ખાનગી - ખુલ્લી જગ્યા",
         count: 0,
-        icon: TotalHouseIcon,
+        icon: PlotPvtIcon,
       },
 
       {
         id: 8,
         description: "પ્લોટ સરકારી - કોમનપ્લોટ",
         count: 0,
-        icon: TotalHouseIcon,
+        icon: PlotGovIcon,
       },
       {
         id: 9,
         description: "સરકારી મિલ્કતો",
         count: 0,
-        icon: TotalHouseIcon,
+        icon: GovernmentIcon,
       },
       {
         id: 10,
         description: "ધાર્મિક સ્થળો",
         count: 0,
-        icon: TotalHouseIcon,
+        icon: ReligiousIcon,
       },
       {
         id: 11,
         description: "નળ",
         count: 0,
-        icon: TotalHouseIcon,
+        icon: TapIcon,
       },
       {
         id: 12,
         description: "શૌચાલય",
         count: 0,
-        icon: TotalHouseIcon,
+        icon: ToiletIcon,
       },
       {
         id: 13,
         description: "મોબાઈલ ટાવર",
         count: 0,
-        icon: TotalHouseIcon,
+        icon: MobileTowerIcon,
       },
       {
         id: 14,
         description: "વિસ્તાર - ગામના એરીયા",
         count: 0,
-        icon: TotalHouseIcon,
+        icon: AreasIcon,
       },
       {
         id: 15,
         description: "૧-મિલ્કતથી વધારે મિલ્કતો ધરાવતા હોય તેવા માલીક",
         count: 0,
-        icon: TotalHouseIcon,
+        icon: MultipleIcon,
       },
       {
         id: 16,
         description: "ફક્ત ૧ જ મિલ્કત હોય તેવા મિલ્કત માલીક",
         count: 0,
-        icon: TotalHouseIcon,
+        icon: SingleIcon,
       },
       {
         id: 17,
@@ -153,7 +166,7 @@ const AnalyticsReport = () => {
         id: 18,
         description: "બિન-પરવાનગી",
         count: 0,
-        icon: PhoneUserIcon,
+        icon: UnAuthorizedIcon,
       },
     ],
   });

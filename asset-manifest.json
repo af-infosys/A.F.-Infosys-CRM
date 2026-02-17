@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.1044cfb8.css",
-    "main.js": "/static/js/main.bbbdaa3a.js",
+    "main.js": "/static/js/main.622245e6.js",
     "static/js/977.87a37736.chunk.js": "/static/js/977.87a37736.chunk.js",
     "static/js/455.4f2c4757.chunk.js": "/static/js/455.4f2c4757.chunk.js",
     "static/js/453.57b2eab3.chunk.js": "/static/js/453.57b2eab3.chunk.js",
@@ -18,10 +18,21 @@
     "static/media/logo.png": "/static/media/logo.65093e0a1514f8a465c0.png",
     "static/media/KachaMakan.png": "/static/media/KachaMakan.48d30bd246c3006b6119.png",
     "static/media/3D Ball Rounded.png": "/static/media/3D Ball Rounded.6d354c7f2dbbbce51a69.png",
+    "static/media/UnAuthorized.png": "/static/media/UnAuthorized.2e4140c0244196a93e1c.png",
+    "static/media/Areas.png": "/static/media/Areas.11538e4fab1951582468.png",
     "static/media/bottom.svg": "/static/media/bottom.9508f54178bd780dfbe2.svg",
     "static/media/wale.png": "/static/media/wale.e2fa4b02db583a508589.png",
+    "static/media/Government.png": "/static/media/Government.0513cfb858c2308be052.png",
+    "static/media/Religious.png": "/static/media/Religious.ba09ed283ed76baaddf0.png",
+    "static/media/Multiple.png": "/static/media/Multiple.8f061b84ce4eb21acd51.png",
     "static/media/data-entry.jpg": "/static/media/data-entry.44a2f179d27079d3a8bc.jpg",
+    "static/media/Plot-Gov.png": "/static/media/Plot-Gov.2760ff17199c9758ee55.png",
     "static/media/sign.png": "/static/media/sign.f7813156da24004abd36.png",
+    "static/media/Plot-Pvt.png": "/static/media/Plot-Pvt.77132b32487d00907cee.png",
+    "static/media/Single.png": "/static/media/Single.4747829fc336f8681dda.png",
+    "static/media/Tap.png": "/static/media/Tap.1747f07682447218723b.png",
+    "static/media/MobileTower.png": "/static/media/MobileTower.d8d6f325668c4052a98b.png",
+    "static/media/Toilet.png": "/static/media/Toilet.9fb7dbd01476c0c77487.png",
     "static/media/Watermark.png": "/static/media/Watermark.3c235a673f501e51b16f.png",
     "static/media/search.png": "/static/media/search.17b40541e1ceaa04a220.png",
     "static/media/Heading.svg": "/static/media/Heading.49de966eac82eb524177.svg",
@@ -56,13 +67,13 @@
     "static/media/House.png": "/static/media/House.640d0b1e39b36fd2550c.png",
     "index.html": "/index.html",
     "main.1044cfb8.css.map": "/static/css/main.1044cfb8.css.map",
-    "main.bbbdaa3a.js.map": "/static/js/main.bbbdaa3a.js.map",
+    "main.622245e6.js.map": "/static/js/main.622245e6.js.map",
     "977.87a37736.chunk.js.map": "/static/js/977.87a37736.chunk.js.map",
     "455.4f2c4757.chunk.js.map": "/static/js/455.4f2c4757.chunk.js.map",
     "453.57b2eab3.chunk.js.map": "/static/js/453.57b2eab3.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.1044cfb8.css",
-    "static/js/main.bbbdaa3a.js"
+    "static/js/main.622245e6.js"
   ]
 }
