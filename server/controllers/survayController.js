@@ -243,9 +243,7 @@ export const addSheetRecord = async (req, res) => {
       "",
       "",
 
-      img1, // Column 25
-      img2, // Column 26
-      img3, // Column 27
+      JSON.stringify([img1, img2, img3]), // Column 25
     ];
 
     // 5. Append the row to the Google Sheet
@@ -715,11 +713,7 @@ export const editSheetRecord = async (req, res) => {
 
     // Handle Image Links (Columns 25-27 / Indices 24-26)
     // img1 (25th Column) -> Index 24
-    updatedRow[26] = img1 || "";
-    // img2 (26th Column) -> Index 25
-    updatedRow[27] = img2 || "";
-    // img3 (27th Column) -> Index 26
-    updatedRow[28] = img3 || "";
+    updatedRow[26] = JSON.stringify([img1, img2, img3]) || [];
 
     // --- API ERROR FIX ---
     // CRITICAL: Ensure the array length does not exceed 27 elements (indices 0-26).
