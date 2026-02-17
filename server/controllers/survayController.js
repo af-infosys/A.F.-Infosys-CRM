@@ -1013,7 +1013,7 @@ export const calculateValuation = async (req, res) => {
       // ---- Collect updates ----
       const targetRow = rowIndex + 4; // since data starts at row 4
       updates.push({
-        range: `${project?.sheetId}_Main!S${targetRow}:U${targetRow}`, // col 18= S, col 20= U
+        range: `${project?.sheetId}_Main!T${targetRow}:V${targetRow}`, // col 19= T, col 21= V
         values: [[propertyPrice, tax, JSON.stringify(otherTax)]],
       });
     });
