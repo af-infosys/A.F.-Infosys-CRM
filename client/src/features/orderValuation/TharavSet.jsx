@@ -465,7 +465,7 @@ const TharavSet = () => {
                   textAlign: "justify",
                 }}
               >
-                તથા મકાન કર ઉપરાંત મકાન દિઠ{" "}
+                મકાન કર ઉપરાંત મકાન દિઠ{" "}
                 <b>
                   સામાન્ય પાણી વેરો રૂ।.
                   {taxes[0]?.values?.residence || "0"}

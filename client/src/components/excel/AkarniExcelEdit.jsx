@@ -203,26 +203,27 @@ const AkarniExcelEdit = () => {
     areaName: { label: "વિસ્તારનું નામ", width: "w-[10%]", colIndex: 1 },
     propNo: { label: "મિલ્કત ક્રમાંક", width: "w-[8%]", colIndex: 2 },
     owner: { label: "માલિકનું નામ", width: "w-[15%]", colIndex: 3 },
-    oldPropNo: { label: "જુનો મિ.નં.", width: "w-[6%]", colIndex: 4 },
-    mobile: { label: "મોબાઈલ નંબર", width: "w-[8%]", type: "tel", colIndex: 5 },
-    propName: { label: "મિલ્કત પર લખેલ નામ", width: "w-[10%]", colIndex: 6 },
-    description: { label: "મિલ્કતનું વર્ણન", width: "w-[16%]", colIndex: 15 },
+    occupant: { label: "કબ્જેદારનું નામ", width: "w-[15%]", colIndex: 4 },
+    oldPropNo: { label: "જુનો મિ.નં.", width: "w-[6%]", colIndex: 5 },
+    mobile: { label: "મોબાઈલ નંબર", width: "w-[8%]", type: "tel", colIndex: 6 },
+    propName: { label: "મિલ્કત પર લખેલ નામ", width: "w-[10%]", colIndex: 7 },
+    description: { label: "મિલ્કતનું વર્ણન", width: "w-[16%]", colIndex: 16 },
     valuation: {
       label: "મિલ્કતની કિંમત",
       width: "w-[8%]",
       type: "text",
-      colIndex: 18,
+      colIndex: 19,
     },
     tax: {
       label: "આકારેલ વેરાની રકમ",
       width: "w-[8%]",
       type: "text",
-      colIndex: 19,
+      colIndex: 20,
     },
-    tap: { label: "નળ", width: "w-[3%]", type: "number", colIndex: 11 }, // Yes/No or 1/0
-    toilet: { label: "શોચાલય", width: "w-[3%]", type: "text", colIndex: 12 }, // Yes/No or 1/0
-    remarks: { label: "નોંધ / રીમાર્કસ", width: "w-[8%]", colIndex: 13 },
-    delete: { label: "delete", width: "w-[8%]", colIndex: 14 },
+    tap: { label: "નળ", width: "w-[3%]", type: "number", colIndex: 12 }, // Yes/No or 1/0
+    toilet: { label: "શોચાલય", width: "w-[3%]", type: "text", colIndex: 13 }, // Yes/No or 1/0
+    remarks: { label: "નોંધ / રીમાર્કસ", width: "w-[8%]", colIndex: 14 },
+    delete: { label: "delete", width: "w-[8%]", colIndex: 15 },
   };
 
   const COLUMN_KEYS = Object.keys(COLUMN_MAP);

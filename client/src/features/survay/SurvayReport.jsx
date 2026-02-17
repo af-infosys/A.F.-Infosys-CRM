@@ -789,9 +789,7 @@ const SurvayReport = () => {
                 <th className="th" rowSpan="2" style={{ minWidth: "70px" }}>
                   આકારેલ વેરાની રકમ (₹)
                 </th>
-                <th className="th" rowSpan="2" style={{ minWidth: "130px" }}>
-                  મિલ્કત પર લખેલ નામ
-                </th>
+
                 <th className="th" colSpan="2">
                   અન્ય સુવિધા
                 </th>
@@ -825,19 +823,21 @@ const SurvayReport = () => {
                   <td className="td">{record[0]}</td>
                   <td className="td">{record[1]}</td>
                   <td className="td">{record[2]}</td>
-                  <td className="td">{record[15]}</td>
+                  <td className="td">
+                    {record[16]} {record[7] && `, '${record[7]}'`}{" "}
+                  </td>
                   {/* <td className="td">
                     {record[13]?.includes("બી.પ.") ? "બી.પ." : ""}
                   </td> */}
                   <td className="td">{record[3]}</td>
-                  <td className="td">{record[4]}</td>
                   <td className="td">{record[5]}</td>
-                  <td className="td">{record[18]}</td>
-                  <td className="td">{record[19]}</td>
                   <td className="td">{record[6]}</td>
-                  <td className="td">{record[11]}</td>
+                  <td className="td">{record[19]}</td>
+                  <td className="td">{record[20]}</td>
+                  {/* <td className="td">{record[6]}</td> */}
                   <td className="td">{record[12]}</td>
                   <td className="td">{record[13]}</td>
+                  <td className="td">{record[14]}</td>
                 </tr>
               ))}
 

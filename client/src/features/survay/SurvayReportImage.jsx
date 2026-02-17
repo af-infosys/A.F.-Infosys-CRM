@@ -64,7 +64,7 @@ const SurvayReportImage = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        }
+        },
       );
 
       console.log(data);
@@ -89,7 +89,7 @@ const SurvayReportImage = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        }
+        },
       );
 
       console.log(data?.data?.data || []);
@@ -476,7 +476,7 @@ const SurvayReportImage = () => {
               </div>
 
               <div className="table-cell description">
-                <span className="formatting">{record[15]}</span>
+                <span className="formatting">{record[16]}</span>
               </div>
 
               <div className="table-cell owner">
@@ -484,23 +484,23 @@ const SurvayReportImage = () => {
               </div>
 
               <div className="table-cell old-prop-no">
-                <span className="formatting">{record[4]}</span>
-              </div>
-
-              <div className="table-cell mobile">
                 <span className="formatting">{record[5]}</span>
               </div>
 
-              <div className="table-cell valuation">
-                <span className="formatting">{record[18]}</span>
+              <div className="table-cell mobile">
+                <span className="formatting">{record[6]}</span>
               </div>
 
-              <div className="table-cell tax">
+              <div className="table-cell valuation">
                 <span className="formatting">{record[19]}</span>
               </div>
 
+              <div className="table-cell tax">
+                <span className="formatting">{record[20]}</span>
+              </div>
+
               <div className="table-cell prop-name">
-                <span className="formatting">{record[6]}</span>
+                <span className="formatting">{record[7]}</span>
               </div>
 
               {/* <div className="table-cell type">
@@ -508,15 +508,15 @@ const SurvayReportImage = () => {
                 </div> */}
 
               <div className="table-cell tap">
-                <span className="formatting">{record[11]}</span>
-              </div>
-
-              <div className="table-cell toilet">
                 <span className="formatting">{record[12]}</span>
               </div>
 
-              <div className="table-cell remarks">
+              <div className="table-cell toilet">
                 <span className="formatting">{record[13]}</span>
+              </div>
+
+              <div className="table-cell remarks">
+                <span className="formatting">{record[14]}</span>
               </div>
             </div>
 
@@ -529,7 +529,7 @@ const SurvayReportImage = () => {
                 gap: "10px",
               }}
             >
-              {[record[25], record[26], record[27]].map((fileId, idx) => (
+              {[record[26], record[27], record[28]].map((fileId, idx) => (
                 <div key={idx} style={{ width: "30%", textAlign: "center" }}>
                   {fileId ? (
                     <img

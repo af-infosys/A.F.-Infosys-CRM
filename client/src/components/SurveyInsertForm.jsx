@@ -584,10 +584,26 @@ const SurvayInsertForm = () => {
             />
           </div>
 
+          <div className="form-field">
+            <label htmlFor="occName" className="form-label">
+              5. કબ્જેદારનું નામ *
+            </label>
+            <input
+              type="text"
+              id="occName"
+              name="occName"
+              className="form-input"
+              placeholder="Name Fathername Surname"
+              value={formData.occName}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
           {/* Field 5: જુનો મિલકત નંબર */}
           <div className="form-field">
             <label htmlFor="oldPropertyNumber" className="form-label">
-              5. જુનો મિલકત નંબર
+              6. જુનો મિલકત નંબર
             </label>
             <input
               type="text"
@@ -605,7 +621,7 @@ const SurvayInsertForm = () => {
           {/* Field 6: મોબાઈલ નંબર */}
           <div className="form-field">
             <label htmlFor="mobileNumber" className="form-label">
-              6. મોબાઈલ નંબર (Whatsapp)
+              7. મોબાઈલ નંબર (Whatsapp)
             </label>
             <input
               type="tel"
@@ -624,7 +640,7 @@ const SurvayInsertForm = () => {
           {/* Field 7: મિલ્ક્ત પર લખેલ નામ મકાન/દુકાન/ કારખાના/ કંપનીનું નામ */}
           <div className="form-field md:col-span-2">
             <label htmlFor="propertyNameOnRecord" className="form-label">
-              7. મિલ્ક્ત પર લખેલ નામ મકાન/દુકાન/ કારખાના/ કંપનીનું નામ
+              8. મિલ્ક્ત પર લખેલ નામ મકાન/દુકાન/ કારખાના/ કંપનીનું નામ
             </label>
             <input
               type="text"
@@ -640,7 +656,7 @@ const SurvayInsertForm = () => {
           {/* Field 9: મકાન category */}
           <div className="form-field">
             <label htmlFor="houseCategory" className="form-label">
-              8. મકાન category *
+              9. મકાન category *
             </label>
             <select
               id="houseCategory"
@@ -696,7 +712,7 @@ const SurvayInsertForm = () => {
           </div>
         </div>
 
-        <h2 className="section-title mt-8">9. માળની વિગતો *</h2>
+        <h2 className="section-title mt-8">10. માળની વિગતો *</h2>
 
         <div id="floorsContainer">
           {floors.map((floor, floorIndex) =>
@@ -1040,7 +1056,7 @@ const SurvayInsertForm = () => {
               htmlFor="landArea"
               style={{ textWrap: "nowrap", userSelect: "none" }}
             >
-              10. ફળિયું (ખુલ્લી જગ્યા)
+              11. ફળિયું (ખુલ્લી જગ્યા)
             </label>
 
             <input
@@ -1064,7 +1080,7 @@ const SurvayInsertForm = () => {
               htmlFor="bp"
               style={{ textWrap: "nowrap", userSelect: "none" }}
             >
-              11. બિ.પ.
+              12. બિ.પ.
             </label>
 
             <input
@@ -1176,7 +1192,7 @@ const SurvayInsertForm = () => {
         {/* Field 21: રીમાર્કસ */}
         <div className="form-field md:col-span-2">
           <label htmlFor="remarks" className="form-label">
-            17. નોંધ/રીમાર્કસ
+            નોંધ/રીમાર્કસ
           </label>
           <textarea
             id="remarks"

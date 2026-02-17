@@ -187,6 +187,7 @@ export const addSheetRecord = async (req, res) => {
       areaName,
       propertyNumber,
       ownerName,
+      occName,
       oldPropertyNumber,
       mobileNumber,
       propertyNameOnRecord,
@@ -217,6 +218,7 @@ export const addSheetRecord = async (req, res) => {
       areaName,
       propertyNumber,
       ownerName,
+      occName,
       oldPropertyNumber,
       mobileNumber,
       propertyNameOnRecord,
@@ -316,6 +318,7 @@ export const syncSheetRecord = async (req, res) => {
         areaName,
         propertyNumber,
         ownerName,
+        occName,
         oldPropertyNumber,
         mobileNumber,
         propertyNameOnRecord,
@@ -346,6 +349,7 @@ export const syncSheetRecord = async (req, res) => {
         areaName,
         propertyNumber,
         ownerName,
+        occName,
         oldPropertyNumber,
         mobileNumber,
         propertyNameOnRecord,
@@ -650,6 +654,7 @@ export const editSheetRecord = async (req, res) => {
       areaName,
       propertyNumber,
       ownerName,
+      occName,
       oldPropertyNumber,
       mobileNumber,
       propertyNameOnRecord,
@@ -680,6 +685,7 @@ export const editSheetRecord = async (req, res) => {
       areaName, // Index 1
       propertyNumber, // Index 2
       ownerName, // Index 3
+      occName, // New(4)
       oldPropertyNumber, // Index 4
       mobileNumber, // Index 5
       propertyNameOnRecord, // Index 6
@@ -704,22 +710,22 @@ export const editSheetRecord = async (req, res) => {
     // UNLESS the new request explicitly sends a 'survayor' object.
     const newSurveyorString = survayor
       ? JSON.stringify(survayor)
-      : existingRow[16];
-    updatedRow[16] = newSurveyorString;
+      : existingRow[17];
+    updatedRow[17] = newSurveyorString;
 
     // Handle Image Links (Columns 25-27 / Indices 24-26)
     // img1 (25th Column) -> Index 24
-    updatedRow[25] = img1 || "";
+    updatedRow[26] = img1 || "";
     // img2 (26th Column) -> Index 25
-    updatedRow[26] = img2 || "";
+    updatedRow[27] = img2 || "";
     // img3 (27th Column) -> Index 26
-    updatedRow[27] = img3 || "";
+    updatedRow[28] = img3 || "";
 
     // --- API ERROR FIX ---
     // CRITICAL: Ensure the array length does not exceed 27 elements (indices 0-26).
     // This prevents the "tried writing to column [AB]" error.
-    if (updatedRow.length > 27) {
-      updatedRow.length = 27;
+    if (updatedRow.length > 28) {
+      updatedRow.length = 28;
     }
     // --- END API ERROR FIX ---
 
@@ -782,10 +788,10 @@ export const calculateValuation = async (req, res) => {
     // 2. Loop through rows and calculate
     let updates = [];
     records.forEach((row, rowIndex) => {
-      const propertyCategory = row[7] || ""; // index 7
-      const jsonData = row[14] ? JSON.parse(row[14]) : []; // index 14
+      const propertyCategory = row[8] || ""; // index 7
+      const jsonData = row[15] ? JSON.parse(row[15]) : []; // index 14
 
-      const tabConnections = Number(row[11] || "0");
+      const tabConnections = Number(row[12] || "0");
 
       // ---- Sample Calculation Logic ----
       let propertyPrice = 0;
@@ -1055,6 +1061,7 @@ export const insertRecord = async (req, res) => {
       areaName,
       propertyNumber,
       ownerName,
+      occName,
       oldPropertyNumber,
       mobileNumber,
       propertyNameOnRecord,
@@ -1084,6 +1091,7 @@ export const insertRecord = async (req, res) => {
       areaName,
       null, // propertyNumber index duplicate for sequence
       ownerName,
+      occName,
       oldPropertyNumber,
       mobileNumber,
       propertyNameOnRecord,
@@ -1551,7 +1559,7 @@ function sortAndSequenceProperties(data) {
   const commercialProperties = [];
 
   data.forEach((row) => {
-    const category = row[7] ? row[7].trim() : "";
+    const category = row[8] ? row[8].trim() : "";
 
     let isCommercial = false;
 
@@ -1561,8 +1569,8 @@ function sortAndSequenceProperties(data) {
     }
 
     // 2️⃣ Room details based commercial check (દુકાન)
-    if (!isCommercial && row[14]) {
-      const floors = JSON.parse(row[14]); // expected array
+    if (!isCommercial && row[15]) {
+      const floors = JSON.parse(row[15]); // expected array
 
       isCommercial = floors?.some(
         (floor) =>

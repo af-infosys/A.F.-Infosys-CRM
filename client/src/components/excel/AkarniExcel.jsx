@@ -133,16 +133,16 @@ const AkarniExcel = ({ records, headerData }) => {
         record[0], // અનું ક્રમાંક
         record[1], // વિસ્તારનું નામ
         record[2], // મિલ્કત ક્રમાંક
-        record[15], // મિલ્કતનું વર્ણન
+        record[16], // મિલ્કતનું વર્ણન
         record[3], // માલિકનું નામ
-        record[4], // જુનો મિ.નં.
-        record[5], // મોબાઈલ નંબર
-        record[18], // મિલ્કતની કિંમત
-        record[19], // આકારેલ વેરાની રકમ
-        record[6], // મિલ્કત પર લખેલ નામ
-        record[11], // નળ
-        record[12], // શોચાલય
-        record[13], // નોંધ / રીમાર્કસ
+        record[5], // જુનો મિ.નં.
+        record[6], // મોબાઈલ નંબર
+        record[19], // મિલ્કતની કિંમત
+        record[20], // આકારેલ વેરાની રકમ
+        record[7], // મિલ્કત પર લખેલ નામ
+        record[12], // નળ
+        record[13], // શોચાલય
+        record[14], // નોંધ / રીમાર્કસ
       ]);
     });
 
@@ -187,7 +187,7 @@ const AkarniExcel = ({ records, headerData }) => {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       }),
 
-      "1.Akarn_Report.xlsx"
+      "1.Akarn_Report.xlsx",
     );
   };
 

@@ -891,7 +891,7 @@ const IndexReport = () => {
                             </td>
                             <td id="pdff" style={{ textWrap: "wrap" }}>
                               <span className="formatting">
-                                {Math.ceil((Number(row.data[0])) / 7) || 0}
+                                {Math.ceil(Number(row.data[0]) / 7) || 0}
                               </span>
                             </td>
                             <td
@@ -1065,7 +1065,7 @@ const IndexReport = () => {
                           className="px-1 py-2 whitespace-normal text-sm text-gray-500"
                           style={{ padding: "3px 8px" }}
                         >
-                          {data[5] || ""}
+                          {data[6] || ""}
                         </td>
                       </tr>
                     ))}

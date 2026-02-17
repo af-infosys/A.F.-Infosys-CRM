@@ -529,7 +529,7 @@ const SurvayReport = () => {
 
                   {/* મિલકતનું વર્ણન (description) */}
                   <td className="px-2 py-4 whitespace-normal text-sm text-gray-500">
-                    {record[15]}
+                    {record[16]}
                   </td>
 
                   {/* માલિકનું નામ (ownerName) */}
@@ -539,12 +539,12 @@ const SurvayReport = () => {
 
                   {/* જુનો મિલકત નંબર (OldNumber) */}
                   <td className="px-2 py-4 whitespace-normal text-sm text-gray-500">
-                    {record[4]}
+                    {record[5]}
                   </td>
 
                   {/* મોબાઈલ નંબર (MobileNumber) */}
                   <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {record[5]}
+                    {record[6]}
                   </td>
 
                   {/* Valuation/Price */}
@@ -561,27 +561,27 @@ const SurvayReport = () => {
 
                   {/* મિલ્ક્ત પર લખેલ નામ મકાન/દુકાન/ કારખાના/ કંપનીનું નામ */}
                   <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {record[6]}
+                    {record[7]}
                   </td>
 
                   {/* મકાન category */}
                   <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {record[7]}
+                    {record[8]}
                   </td>
 
                   {/* પાણી નો નળ (tapCount) */}
                   <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {record[11]}
+                    {record[12]}
                   </td>
 
                   {/* શૌચાલય (toiletCount) */}
                   <td className="px-2 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {record[12]}
+                    {record[13]}
                   </td>
 
                   {/* રીમાર્કસ/નોંધ (remarks) */}
                   <td className="px-2 py-4 whitespace-normal text-sm text-gray-500">
-                    {record[13]}
+                    {record[14]}
                   </td>
 
                   {user.id === survayorData?.id ? (

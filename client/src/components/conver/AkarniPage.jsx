@@ -98,6 +98,13 @@ const AkarniPage = ({
             <th
               className=""
               rowSpan={2}
+              style={{ ...headerStyle, fontSize: "14px" }}
+            >
+              <span className="formatting">કબ્જેદારનું નામ</span>
+            </th>
+            <th
+              className=""
+              rowSpan={2}
               style={{ ...headerStyle, fontSize: "14px", width: "45px" }}
             >
               <span className="formatting">જુનો મિ.નં.</span>
@@ -121,9 +128,9 @@ const AkarniPage = ({
             >
               <span className="formatting">આકારેલ વેરાની રકમ</span>
             </th>
-            <th className="" rowSpan={2} style={headerStyle}>
+            {/* <th className="" rowSpan={2} style={headerStyle}>
               <span className="formatting">મિલ્કત પર લખેલ નામ</span>
-            </th>
+            </th> */}
 
             {/* Merged Header for Facilities */}
             <th className="" colSpan={2} style={headerStyle}>
@@ -204,11 +211,14 @@ const AkarniPage = ({
                 </span>
               </td>
               <td className="" style={cellStyle}>
-                <span className="formatting">{record[15]}</span>
+                <span className="formatting">
+                  {record[16]}
+                  {record[7] && `, '${record[7]}'`}
+                </span>
               </td>
               <td className="" style={cellStyle}>
                 <span className="formatting">{record[3]}</span>
-              </td>
+              </td>{" "}
               <td className="" style={cellStyle}>
                 <span className="formatting">{record[4]}</span>
               </td>
@@ -216,9 +226,7 @@ const AkarniPage = ({
                 <span className="formatting">{record[5]}</span>
               </td>
               <td className="" style={cellStyle}>
-                <span className="formatting">
-                  {toGujaratiNumber(record[18])}
-                </span>
+                <span className="formatting">{record[6]}</span>
               </td>
               <td className="" style={cellStyle}>
                 <span className="formatting">
@@ -226,15 +234,13 @@ const AkarniPage = ({
                 </span>
               </td>
               <td className="" style={cellStyle}>
-                <span className="formatting">{record[6]}</span>
-              </td>
-              <td className="" style={cellStyle}>
                 <span className="formatting">
-                  {toGujaratiNumber(Number(record[11] || 0))}
-                  <br />
-                  {Number(record[11] || 0) !== 0 ? "હા" : "ના"}
+                  {toGujaratiNumber(record[20])}
                 </span>
               </td>
+              {/* <td className="" style={cellStyle}>
+                <span className="formatting">{record[6]}</span>
+              </td> */}
               <td className="" style={cellStyle}>
                 <span className="formatting">
                   {toGujaratiNumber(Number(record[12] || 0))}
@@ -243,7 +249,14 @@ const AkarniPage = ({
                 </span>
               </td>
               <td className="" style={cellStyle}>
-                <span className="formatting">{record[13]}</span>
+                <span className="formatting">
+                  {toGujaratiNumber(Number(record[12] || 0))}
+                  <br />
+                  {Number(record[13] || 0) !== 0 ? "હા" : "ના"}
+                </span>
+              </td>
+              <td className="" style={cellStyle}>
+                <span className="formatting">{record[14]}</span>
               </td>
             </tr>
           ))}
