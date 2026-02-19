@@ -10,6 +10,18 @@ import toGujaratiNumber from "../../components/toGujaratiNumber";
 import "./tharav.scss";
 
 const TharavSet = () => {
+  const [margins, setMargins] = useState({
+    letterA: 20,
+    letterB: 30,
+  });
+
+  const handleMarginChange = (field, value) => {
+    setMargins((prev) => ({
+      ...prev,
+      [field]: Number(value),
+    }));
+  };
+
   const { projectId } = useParams();
 
   const [isPdfGenerating, setIsPdfGenerating] = useState(false);
@@ -121,18 +133,44 @@ const TharavSet = () => {
     }
   };
 
+  const [project, setProject] = useState([]);
+
+  const fetchProject = async () => {
+    try {
+      const response = await fetch(
+        `${await apiPath()}/api/sheet?workId=${projectId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const result = await response.json();
+      setProject(result.data);
+    } catch (err) {
+      console.error("Error fetching records:", err);
+      setError("ડેટા લાવવામાં નિષ્ફળ. કૃપા કરીને ફરી પ્રયાસ કરો.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
+    fetchProject();
     fetchData();
     fetchTaxes();
   }, []);
 
   const handleDownloadPdf = async () => {
     setIsPdfGenerating(true);
-    const input1 = document.getElementById("report-1");
-    const input2 = document.getElementById("report-2");
-    const input3 = document.getElementById("report-3");
+    const input1 = document.getElementById("legel-1");
+    const input2 = document.getElementById("legel-2");
 
-    if (!input1 || !input2 || !input3) {
+    if (!input1 || !input2) {
       console.error("Could not find report elements.");
       setIsPdfGenerating(false);
       return;
@@ -168,10 +206,10 @@ const TharavSet = () => {
       await addImageFitWidth(input1);
       doc.addPage();
       await addImageFitWidth(input2);
-      doc.addPage();
-      await addImageFitWidth(input3);
+      // doc.addPage();
+      // await addImageFitWidth(input3);
 
-      doc.save(`Tharav_Set_${details?.akaraniYear}.pdf`);
+      doc.save(`Tharav_Set_${details?.akaraniYear} - (Legel 1,4).pdf`);
     } catch (error) {
       console.error("Error generating PDF:", error);
     } finally {
@@ -179,15 +217,57 @@ const TharavSet = () => {
     }
   };
 
-  const alphabets = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  const getAlphabeticalIndex = (index) => {
-    let result = "";
-    let temp = index;
-    while (temp >= 0) {
-      result = alphabets[temp % 26] + result;
-      temp = Math.floor(temp / 26) - 1;
+  const handleDownloadPdf2 = async () => {
+    setIsPdfGenerating(true);
+    const input1 = document.getElementById("letter-1");
+    const input2 = document.getElementById("letter-2");
+    const input3 = document.getElementById("letter-3");
+
+    if (!input1 || !input2 || !input3) {
+      console.error("Could not find report elements.");
+      setIsPdfGenerating(false);
+      return;
     }
-    return result;
+
+    try {
+      const doc = new jsPDF({
+        orientation: "portrait",
+        unit: "px",
+        format: [680, 962],
+      });
+
+      // const pageWidth = doc.internal.pageSize.getWidth();
+      // const pageHeight = doc.internal.pageSize.getHeight();
+
+      const addImageFitWidth = async (element) => {
+        const canvas = await html2canvas(element, { scale: 3 }); // sharpness
+        const imgData = canvas.toDataURL("image/png");
+
+        // const imgWidth = canvas.width;
+        // const imgHeight = canvas.height;
+
+        // const ratio = pageWidth / imgWidth;
+        // const finalWidth = pageWidth;
+        // const finalHeight = imgHeight * ratio;
+
+        // const y = finalHeight > pageHeight ? 0 : (pageHeight - finalHeight) / 2;
+
+        doc.addImage(imgData, "PNG", 0, 0, 680, 962);
+      };
+
+      // Add pages
+      await addImageFitWidth(input1);
+      doc.addPage();
+      await addImageFitWidth(input2);
+      doc.addPage();
+      await addImageFitWidth(input3);
+
+      doc.save(`Tharav_Set_${details?.akaraniYear} - (Letter 2,3,5).pdf`);
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+    } finally {
+      setIsPdfGenerating(false);
+    }
   };
 
   function formatDate(dateString) {
@@ -225,12 +305,22 @@ const TharavSet = () => {
         <button
           onClick={handleDownloadPdf}
           className="bg-blue-500 text-white font-bold py-2 px-4 rounded-full mb-8 self-center"
-          disabled={isPdfGenerating}
+          disabled={isPdfGenerating || loading}
         >
-          {isPdfGenerating ? "Generating PDF..." : "Download as PDF"}
+          {isPdfGenerating ? "Generating PDF..." : "Download PDF (Legel)"}
         </button>
 
-        {/* Report - 1 */}
+        <button
+          onClick={handleDownloadPdf2}
+          className="bg-blue-500 text-white font-bold py-2 px-4 rounded-full mb-8 self-center"
+          disabled={isPdfGenerating || loading}
+        >
+          {isPdfGenerating
+            ? "Generating PDF..."
+            : "Download PDF (Letter Pad - A4)"}
+        </button>
+
+        {/* Page - 1, Legel - 1 */}
         <div
           style={{
             maxWidth: "100%",
@@ -241,11 +331,14 @@ const TharavSet = () => {
         >
           <div
             className="table-container shadow-md"
-            id="report-1"
+            id="legel-1"
             style={{
-              width: "680px",
-              minWidth: "680px",
-              minHeight: "1080px",
+              width: "750px",
+              minWidth: "750px",
+              maxWidth: "750px",
+              minHeight: "1235px",
+              maxHeight: "1235px",
+
               position: "relative",
               padding: "15px",
               paddtingTop: "23px",
@@ -283,11 +376,13 @@ const TharavSet = () => {
                   }}
                 >
                   <h3 style={{ fontSize: "14px", textWrap: "nowrap" }}>
-                    બેઠક નં. <b>{Number(details?.meetingNumber) || "--"}</b>
+                    બેઠક નં.{" "}
+                    <b>{Number(details?.meetingNumber) || "............"}</b>
                   </h3>
 
                   <h3 style={{ fontSize: "14px", textWrap: "nowrap" }}>
-                    ઠરાવ નં. <b>{Number(details?.resolutionNumber) || "--"}</b>
+                    ઠરાવ નં.{" "}
+                    <b>{Number(details?.resolutionNumber) || "............"}</b>
                   </h3>
                 </div>
 
@@ -297,7 +392,8 @@ const TharavSet = () => {
                     textWrap: "nowrap",
                   }}
                 >
-                  તારીખ :– <b>{formatDate(details?.date) || "--/--/----"}</b>
+                  તારીખ :–{" "}
+                  <b>{formatDate(details?.date) || "..../..../........"}</b>
                 </h3>
 
                 <div
@@ -342,7 +438,7 @@ const TharavSet = () => {
                 }}
               >
                 મિલ્કત આકારણી સર્વે કરવા અગેં ઠરાવ આકારણી વર્ષ :-{" "}
-                {details?.akaraniYear || "--"}
+                {details?.akaraniYear || "............"}
               </h2>
               <p
                 style={{
@@ -357,8 +453,12 @@ const TharavSet = () => {
                 ગામે થયેલ નથી જેથી પંચાયતની આવક વધારવા તથા કરવેરા રજીસ્ટર અધ્યતન
                 બનાવવા આજની સભામાં નકકી કરવામાં આવે છે આ આકારણી મિલ્કતની
                 મુડીરૂપી કિંમત રૂ।.૧૦,૦૦૦/–{" "}
-                <span style={{ whiteSpace: "nowrap" }}>(૦.પ% ટકા લેખે)</span>{" "}
-                લઘુતમ મિલ્કતનો વેરો રૂ।.પ૦/– નિર્ણય કરેલ છે.{" "}
+                <span style={{ whiteSpace: "nowrap" }}>
+                  ({toGujaratiNumber(valuation[0]?.per || "0")}% ટકા લેખે)
+                </span>{" "}
+                લઘુતમ મિલ્કતનો વેરો રૂ।.
+                {toGujaratiNumber((10000 * valuation[0]?.per) / 100)}/– નિર્ણય
+                કરેલ છે.{" "}
                 <b>
                   મિલ્કતને {details?.valuationType === "room" ? "રૂમ" : "મકાન"}{" "}
                   દિઠ કિમત
@@ -392,20 +492,20 @@ const TharavSet = () => {
                   <tbody>
                     <tr>
                       <td>(૧) કાચા ગાર માટી</td>
-                      <td>{valuation[0]?.price}</td>
-                      <td>{valuation[0]?.tax}</td>
+                      <td>{toGujaratiNumber(valuation[0]?.price, 1)}</td>
+                      <td>{toGujaratiNumber(valuation[0]?.tax, 1)}</td>
                     </tr>
 
                     <tr>
                       <td>(૨) નળીયા, પતરા, પીઢીયા, પાકા</td>
-                      <td>{valuation[1]?.price}</td>
-                      <td>{valuation[1]?.tax}</td>{" "}
+                      <td>{toGujaratiNumber(valuation[1]?.price, 1)}</td>
+                      <td>{toGujaratiNumber(valuation[1]?.tax, 1)}</td>{" "}
                     </tr>
 
                     <tr>
                       <td>(૩) પાકા સ્લેબવાળા</td>
-                      <td>{valuation[2]?.price}</td>
-                      <td>{valuation[2]?.tax}</td>{" "}
+                      <td>{toGujaratiNumber(valuation[2]?.price, 1)}</td>
+                      <td>{toGujaratiNumber(valuation[2]?.tax, 1)}</td>{" "}
                     </tr>
                   </tbody>
                 </table>
@@ -424,26 +524,26 @@ const TharavSet = () => {
                   <tbody>
                     <tr>
                       <td>(૪) દુકાન પાકી નાની </td>
-                      <td>{valuation[7]?.price}</td>
-                      <td>{valuation[7]?.tax}</td>{" "}
+                      <td>{toGujaratiNumber(valuation[7]?.price, 1)}</td>
+                      <td>{toGujaratiNumber(valuation[7]?.tax, 1)}</td>{" "}
                     </tr>
 
                     <tr>
                       <td>(૫) દુકાન પાકી મોટી</td>
-                      <td>{valuation[8]?.price}</td>
-                      <td>{valuation[8]?.tax}</td>{" "}
+                      <td>{toGujaratiNumber(valuation[8]?.price, 1)}</td>
+                      <td>{toGujaratiNumber(valuation[8]?.tax, 1)}</td>{" "}
                     </tr>
 
                     <tr>
                       <td>(૬) ગોડાઉન નાના</td>
-                      <td>{valuation[9]?.price}</td>
-                      <td>{valuation[9]?.tax}</td>{" "}
+                      <td>{toGujaratiNumber(valuation[9]?.price, 1)}</td>
+                      <td>{toGujaratiNumber(valuation[9]?.tax, 1)}</td>{" "}
                     </tr>
 
                     <tr>
                       <td>(૭) ગોડાઉન મોટા</td>
-                      <td>{valuation[10]?.price}</td>
-                      <td>{valuation[10]?.tax}</td>{" "}
+                      <td>{toGujaratiNumber(valuation[10]?.price, 1)}</td>
+                      <td>{toGujaratiNumber(valuation[10]?.tax, 1)}</td>{" "}
                     </tr>
                   </tbody>
                 </table>
@@ -468,21 +568,22 @@ const TharavSet = () => {
                 મકાન કર ઉપરાંત મકાન દિઠ{" "}
                 <b>
                   સામાન્ય પાણી વેરો રૂ।.
-                  {taxes[0]?.values?.residence || "0"}
+                  {toGujaratiNumber(taxes[0]?.values?.residence) || "0"}
                 </b>{" "}
                 લેખે તથા{" "}
                 <b>
-                  દિવાબતિ (લાઈટ વેરો) રૂ।.{taxes[2]?.values?.residence || "0"}
+                  દિવાબતિ (લાઈટ વેરો) રૂ।.
+                  {toGujaratiNumber(taxes[2]?.values?.residence) || "0"}
                 </b>{" "}
                 લેખે તેમજ{" "}
                 <b>
                   સફાઈ વેરો રૂ।.
-                  {taxes[3]?.values?.residence || "0"}
+                  {toGujaratiNumber(taxes[3]?.values?.residence) || "0"}
                 </b>
                 ,{" "}
                 <b>
                   ખાસ પાણી વેરો નળ વેરો રૂ।.
-                  {taxes[1]?.values?.residence || "0"}{" "}
+                  {toGujaratiNumber(taxes[1]?.values?.residence) || "0"}{" "}
                 </b>{" "}
                 વાર્ષિક લેખે આકાર નકિક કરવામાં છે તેમજ કિંમત અને વેરો બેસાડવાનો
                 નિર્ણય કરેલ છે.
@@ -542,7 +643,7 @@ const TharavSet = () => {
                   <tbody>
                     {details?.comity?.map((comity, index) => (
                       <tr key={index}>
-                        <td>{index + 1}</td>
+                        <td>{toGujaratiNumber(index + 1)}</td>
                         <td>{comity?.name || "________"}</td>
                         <td>{comity?.designation || "______"}</td>
                         <td>__________________</td>
@@ -598,7 +699,8 @@ const TharavSet = () => {
               >
                 <b>અસલ ઉપરથી નકલ</b>
                 <span style={{ whiteSpace: "nowrap" }}>
-                  તારીખ :– <b>{formatDate(details?.date) || "--/--/----"}</b>
+                  તારીખ :–{" "}
+                  <b>{formatDate(details?.date) || "..../..../........"}</b>
                 </span>
               </p>
 
@@ -677,12 +779,16 @@ const TharavSet = () => {
           }}
         >
           <div
-            id="report-2"
+            id="letter-1"
             className="table-container shadow-md"
             style={{
               width: "680px",
               minWidth: "680px",
-              minHeight: "1080px",
+              maxWidth: "680px",
+              height: "962px",
+              minHeight: "962px",
+              maxHeight: "962px",
+
               position: "relative",
               padding: "15px",
               paddtingTop: "23px",
@@ -723,7 +829,7 @@ const TharavSet = () => {
                     border: "1px solid #000",
                     borderRadius: "5px",
 
-                    marginTop: "80px",
+                    marginTop: `${margins?.letterA}px`,
                     marginBottom: "8px",
                     paddingBottom: "3px",
 
@@ -862,7 +968,9 @@ const TharavSet = () => {
                   paddingBottom: "130px",
                   paddingInline: "42px",
                   position: "absolute",
-                  bottom: "0px",
+
+                  bottom: `${margins?.letterB}px`,
+
                   left: "0px",
                   width: "100%",
                   fontSize: "16px",
@@ -936,6 +1044,48 @@ const TharavSet = () => {
               </div>
             </div>
           </div>
+
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              padding: "10px",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <span>{margins?.letterA}</span>
+              <input
+                type="range"
+                max={200}
+                value={margins.letterA}
+                onChange={(e) => {
+                  handleMarginChange("letterA", e.target.value);
+                }}
+              />
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <span>{margins?.letterB}</span>
+              <input
+                type="range"
+                value={margins.letterB}
+                onChange={(e) => {
+                  handleMarginChange("letterB", e.target.value);
+                }}
+              />
+            </div>
+          </div>
         </div>
 
         <br />
@@ -950,12 +1100,16 @@ const TharavSet = () => {
           }}
         >
           <div
-            id="report-3"
+            id="letter-2"
             className="table-container shadow-m"
             style={{
               width: "680px",
               minWidth: "680px",
-              minHeight: "1080px",
+              maxWidth: "680px",
+              height: "962px",
+              minHeight: "962px",
+              maxHeight: "962px",
+
               position: "relative",
               padding: "15px",
               paddtingTop: "23px",
@@ -1052,7 +1206,7 @@ const TharavSet = () => {
 
                 <b
                   style={{
-                    fontSize: "18px",
+                    fontSize: "16px",
                     textAlign: "center",
                     marginTop: "20px",
                     marginBottom: "10px",
@@ -1067,7 +1221,7 @@ const TharavSet = () => {
 
                 <p
                   style={{
-                    fontSize: "16px",
+                    fontSize: "14px",
                     // lineHeight: "23px",
                     textIndent: "20mm",
                   }}
@@ -1082,7 +1236,7 @@ const TharavSet = () => {
 
                 <p
                   style={{
-                    fontSize: "16px",
+                    fontSize: "14px",
                     // lineHeight: "23px",
                     textIndent: "20mm",
                   }}
@@ -1105,7 +1259,7 @@ const TharavSet = () => {
 
                 <p
                   style={{
-                    fontSize: "16px",
+                    fontSize: "14px",
                     // lineHeight: "23px",
                     textIndent: "20mm",
                   }}
@@ -1198,6 +1352,532 @@ const TharavSet = () => {
                 }}
               >
                 <b> પાના નં. {toGujaratiNumber(3)} </b>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <br />
+
+        {/* Page - 4, Legel - 2 */}
+        <div
+          style={{
+            maxWidth: "100%",
+            overflow: "auto",
+            display: "flex",
+            justifyContent: "start",
+          }}
+        >
+          <div
+            className="table-container shadow-md"
+            id="legel-2"
+            style={{
+              width: "750px",
+              minWidth: "750px",
+              maxWidth: "750px",
+              minHeight: "1235px",
+              maxHeight: "1235px",
+
+              position: "relative",
+              padding: "15px",
+              paddtingTop: "23px",
+              paddingRight: "23px",
+              background: "#fff",
+            }}
+          >
+            <div
+            // className="rounded-lg border border-black"
+            // style={{
+            //   border: "2px solid black",
+            //   width: "100%",
+            //   height: "100%",
+            //   padding: "8px",
+            // }}
+            >
+              {/* <div
+                className="flex justify-between items-center"
+                style={{ width: "100%", paddingRight: "0px" }}
+              > */}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "start",
+                  justifyContent: "space-between",
+                  width: "100%",
+                  paddingInline: "5px",
+
+                  marginTop: "20px",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "start",
+                  }}
+                >
+                  <h3 style={{ fontSize: "16px", textWrap: "nowrap" }}>
+                    બેઠક નં.{" "}
+                    <b>{Number(details?.meetingNumber2) || "............"}</b>
+                  </h3>
+
+                  <h3 style={{ fontSize: "16px", textWrap: "nowrap" }}>
+                    ઠરાવ નં.{" "}
+                    <b>
+                      {Number(details?.resolutionNumber2) || "............"}
+                    </b>
+                  </h3>
+                </div>
+
+                <h3
+                  style={{
+                    fontSize: "16px",
+                    textWrap: "nowrap",
+                  }}
+                >
+                  તારીખ :–{" "}
+                  <b>{formatDate(details?.date2) || "..../..../........"}</b>
+                </h3>
+
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "start",
+                  }}
+                >
+                  <h2 style={{ fontSize: "16px" }}>
+                    <b style={{ textDecoration: "underline" }}>
+                      {details?.gaam || "-"}
+                    </b>{" "}
+                    ગ્રામ પંચાયત કચેરી
+                  </h2>
+
+                  <h2
+                    style={{
+                      fontSize: "16px",
+                    }}
+                  >
+                    તાલુકો :– <b>{details?.taluka || "-"}</b>
+                  </h2>
+
+                  <h2
+                    style={{
+                      fontSize: "16px",
+                    }}
+                  >
+                    જિલ્લો :- <b>{details?.district || "-"}</b>
+                  </h2>
+                </div>
+              </div>
+
+              <h2
+                style={{
+                  textDecoration: "underline",
+                  marginTop: "20px",
+                  marginBottom: "10px",
+                  textAlign: "center",
+                  fontSize: "18px",
+                  fontWeight: "700",
+                }}
+              >
+                કરવેરાની નવી આકારણી પ્રસિધ્ધ કરી આકારણી રજીસ્ટર મંજુર કરવા
+                બાબત...
+              </h2>
+              <p
+                style={{
+                  textIndent: "20mm",
+                  fontSize: "16px",
+                  textAlign: "justify",
+                }}
+              >
+                આથી ઠરાવવામાં આવે છે કે, આપણા ગામે કરવેરાની નવી આકારણી ગુજરાત
+                પંચાયત અધિનિયમ ૧૯૯૩ કાયદાની કલમ ર૦૦ મુજબ ગ્રામ પંચાયતની બેઠક નં{" "}
+                <b>{Number(details?.meetingNumber2) || "............"}</b> તા{" "}
+                <b>{formatDate(details?.date2) || "..../..../........"}</b> ના
+                ઠરાવ નં{" "}
+                <b>{Number(details?.resolutionNumber2) || "............"}</b> થી
+                ગામે મકાન કર, સામાન્ય પાણી કર, દિવાબતી કર, ખાસ પાણી કર, ગ્રામ
+                સફાઈ કર ની આકારણી કરી નમુના નં. ૮ રજીસ્ટર આકારણી કમિટી ધ્વારા
+                કરવામાં આવેલ છે જે રજીસ્ટર ગ્રામ પંચાયત કચેરીએ રજાના દિવસો સિવાય
+                જોવા મુકેલ આ આકારણી સામે વાંધો તકકરાર સુચનો અરજદારના લેખીતમાં
+                ધ્યાને લીધેલ જે આજની આકારણી કમિટીએ વંચાણે લીધે તેમજ વિવાદીત
+                અરજીઓનો યોગ્ય રીતે નિકાલ કરી આકારણી કમિટીએ આકારણી રજીસ્ટર વંચાણે
+                લઈ આજની સભામાં આકારણી રજીસ્ટર મંજુર કરેલ છે.
+              </p>
+
+              <p
+                style={{
+                  textIndent: "20mm",
+                  fontSize: "16px",
+                  textAlign: "justify",
+                }}
+              >
+                મુદત બહાર આવેલા તકકરાર વાંધા સુચનો ધ્યાને લેવામાં આવશે નહિ અને
+                નાણાકિય વર્ષ ૨૦ {details?.taxYear} થી {details?.taxYear} પંચાયત
+                વેરા અમલ થશે જે આકરણી કમિટીએ મંજુર કરેલ છે.
+              </p>
+
+              <p
+                style={{
+                  textAlign: "center",
+                  marginTop: "20px",
+                  fontSize: "18px",
+                  fontWeight: "700",
+                }}
+              >
+                આકારણી કમિટી
+              </p>
+
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "start",
+                  justifyContent: "center",
+                }}
+              >
+                <table className="comityTable border">
+                  <thead>
+                    <tr>
+                      <th>ક્રમ</th>
+
+                      <th>આકરણી કમિટીના નામ</th>
+
+                      <th>હોદો</th>
+
+                      <th>સહી</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {details?.comity?.map((comity, index) => (
+                      <tr key={index}>
+                        <td>{index + 1}</td>
+                        <td>{comity?.name || "________"}</td>
+                        <td>{comity?.designation || "______"}</td>
+                        <td> </td>
+                      </tr>
+                    ))}
+                    {!details?.comity && (
+                      <tr>
+                        <td>--</td>
+                        <td>--</td>
+                        <td>--</td>
+                        <td>--</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Footer & Signature */}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  paddingBottom: "90px",
+                  paddingInline: "42px",
+                  position: "absolute",
+                  bottom: "0px",
+                  left: "0px",
+                  width: "100%",
+                  fontSize: "16px",
+                }}
+              >
+                {/* TCM */}
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    textAlign: "center",
+                  }}
+                >
+                  <span>
+                    તલાટી કમ મંત્રી
+                    <b
+                      style={{
+                        display: "block",
+                        marginTop: "3px",
+                      }}
+                    >
+                      {details?.tcmName || "......................."}
+                    </b>
+                  </span>
+
+                  <span> {details?.gaam || ""} ગ્રામ પંચાયત કચેરી </span>
+
+                  <span>
+                    તા. {details?.taluka || ""}, જિ. {details?.district || ""}
+                  </span>
+                </div>
+
+                {/* Sarpanch */}
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    textAlign: "center",
+                  }}
+                >
+                  <span>
+                    સરપંચ
+                    <b
+                      style={{
+                        display: "block",
+                        marginTop: "3px",
+                      }}
+                    >
+                      {details?.sarpanchName || "......................."}
+                    </b>
+                  </span>
+
+                  <span> {details?.gaam || ""} ગ્રામ પંચાયત કચેરી </span>
+
+                  <span>
+                    તા. {details?.taluka || ""}, જિ. {details?.district || ""}
+                  </span>
+                </div>
+              </div>
+
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: "18px",
+                  right: "30px",
+                  fontSize: "14px",
+                  color: "#000",
+                }}
+              >
+                <b> પાના નં. {toGujaratiNumber(4)} </b>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <br />
+
+        {/* Report - 5 */}
+        <div
+          style={{
+            maxWidth: "100%",
+            overflow: "auto",
+            display: "flex",
+            justifyContent: "start",
+          }}
+        >
+          <div
+            id="letter-3"
+            className="table-container shadow-m"
+            style={{
+              width: "680px",
+              minWidth: "680px",
+              maxWidth: "680px",
+              height: "962px",
+              minHeight: "962px",
+              maxHeight: "962px",
+
+              position: "relative",
+              padding: "15px",
+              paddtingTop: "23px",
+              paddingRight: "23px",
+              background: "#fff",
+            }}
+          >
+            <div
+            // className="rounded-lg border border-black"
+            // style={{
+            //   border: "2px solid black",
+            //   width: "100%",
+            //   height: "100%",
+            //   padding: "5px",
+            // }}
+            >
+              {/* Order Report */}
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "3px",
+                  padding: "8px",
+
+                  marginTop: "20px",
+
+                  borderRadius: "10px",
+                  background: "#ffffffff",
+                }}
+              >
+                <h2
+                  style={{
+                    fontSize: "18px",
+                    width: "100%",
+                    maxWidth: "fit-content",
+
+                    textAlign: "center",
+                    border: "1px solid #000",
+                    borderRadius: "5px",
+
+                    marginTop: "25px",
+                    marginBottom: "8px",
+                    paddingBottom: "3px",
+
+                    paddingInline: "15px",
+                    position: "relative",
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                  }}
+                >
+                  <span
+                    style={{
+                      position: "relative",
+                      transform: "translateY(-8px)",
+                      fontSize: "20px",
+                    }}
+                  >
+                    ** પ્રમાણપત્ર **
+                  </span>
+                </h2>
+
+                <p
+                  style={{
+                    fontSize: "18px",
+                    // lineHeight: "23px",
+                    textIndent: "20mm",
+                  }}
+                >
+                  આથી પ્રમાણપત્ર લખી આપવામાં આવે છે કે, એ.એફ.ઈન્ફોસીસ –
+                  સાવરકુંડલા એ{" "}
+                  <b style={{ whiteSpace: "nowrap" }}>
+                    {details?.gaam || ".................."} ગ્રામ પંચાયત
+                  </b>
+                  {", "}
+                  તાલુકો <b>{details?.taluka || ".................."}</b>,
+                  જિલ્લો <b>{details?.district || ".................."}</b> ની
+                  ગામની અંદર તમામ સમાવિષ્ટ થતી મિલ્કતો, ઘરો ની કુલ સંખ્યા{" "}
+                  <b>{project?.length || "........."}</b> ની આકારણી સર્વે કરેલ
+                  છે.
+                </p>
+
+                <p
+                  style={{
+                    fontSize: "18px",
+                    // lineHeight: "23px",
+                    textIndent: "20mm",
+                  }}
+                >
+                  આ આકારણી સર્વે સને.ર૦ માં ગામના દરેક મકાનો, શોપીંગ સેન્ટર,
+                  એપાર્ટમેન્ટ, કોમ્પલેક્ષ, સોસાઈટી, પરા, વિસ્તાર, ઔર્ધૌગીક
+                  હેંતુના કારખાનાઓ અને તમામ ફેકટરીઓ મિલ્કતો રૂબરૂ સ્થળ તપાસ /
+                  ચકાસણી કરીને આકારણી રજીસ્ટર તૈયાર કરી તેના આધારે કરવેરા
+                  રજીસ્ટર કોમ્પ્યુટરાઈઝડ પ્રિન્ટ તથા સ્પાઈરલ બાઈડીંગ સાથે અધ્યતન
+                  બનાવેલ છે તેમજ (જોબવર્ક) મજુરી થી આ કામગીરી ખુંબજ ખંતપુર્વક,
+                  સારી રીતે તથા ઝડપી તેમજ કોઈ પણ જાતની ક્ષતિ વિના પુર્ણં કરેલ
+                  છે.
+                </p>
+
+                <p
+                  style={{
+                    fontSize: "18px",
+                    // lineHeight: "23px",
+                    textIndent: "20mm",
+                  }}
+                >
+                  અન્યથા અત્રેની ગ્રામ પંચાયતનું આકારણી રેકર્ડ સરપંચશ્રી તથા
+                  તલાટી કમમંત્રીશ્રી ની રૂબરુમાં સોંપેલ છે. આ કામગીરી હકીકતલક્ષી
+                  અને નિયમ / ધારા ધોરણ મુજબ કરેલ છે જેથી કામગીરી સંતોષ કારક છે.
+                </p>
+                <p
+                  style={{
+                    fontSize: "18px",
+                    // lineHeight: "23px",
+                    textIndent: "20mm",
+                  }}
+                >
+                  આ કામના આધારે રેકર્ડ થી ચકાસતા/ખાતરી કરી આ પ્રમાણપત્ર લખી
+                  આપવામાં આવે છે.
+                </p>
+              </div>
+
+              <br />
+
+              {/* Footer & Signature */}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  paddingBottom: "90px",
+                  paddingInline: "42px",
+                  position: "absolute",
+                  bottom: "0px",
+                  left: "0px",
+                  width: "100%",
+                  fontSize: "16px",
+                }}
+              >
+                {/* TCM */}
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    textAlign: "center",
+                  }}
+                >
+                  <span>
+                    તલાટી કમ મંત્રી
+                    <b
+                      style={{
+                        display: "block",
+                        marginTop: "3px",
+                      }}
+                    >
+                      {details?.tcmName || "......................."}
+                    </b>
+                  </span>
+
+                  <span> {details?.gaam || ""} ગ્રામ પંચાયત કચેરી </span>
+
+                  <span>
+                    તા. {details?.taluka || ""}, જિ. {details?.district || ""}
+                  </span>
+                </div>
+
+                {/* Sarpanch */}
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    textAlign: "center",
+                  }}
+                >
+                  <span>
+                    સરપંચ
+                    <b
+                      style={{
+                        display: "block",
+                        marginTop: "3px",
+                      }}
+                    >
+                      {details?.sarpanchName || "......................."}
+                    </b>
+                  </span>
+
+                  <span> {details?.gaam || ""} ગ્રામ પંચાયત કચેરી </span>
+
+                  <span>
+                    તા. {details?.taluka || ""}, જિ. {details?.district || ""}
+                  </span>
+                </div>
+              </div>
+
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: "18px",
+                  right: "30px",
+                  fontSize: "14px",
+                  color: "#000",
+                }}
+              >
+                <b> પાના નં. {toGujaratiNumber(5)} </b>
               </div>
             </div>
           </div>

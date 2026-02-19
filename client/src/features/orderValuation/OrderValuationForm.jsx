@@ -1120,6 +1120,60 @@ const OrderValuationForm = () => {
                 />
               </div>
 
+              <br />
+
+              <div className="flex flex-col">
+                <h2>પ્રસિધ્ધ આકારણી :-</h2>
+                <label
+                  htmlFor="meetingNumber2"
+                  className="text-sm font-medium text-gray-700 mb-1"
+                >
+                  i. બેઠક નંબર
+                </label>
+                <input
+                  type="text"
+                  id="meetingNumber2"
+                  name="meetingNumber2"
+                  value={details?.meetingNumber2 || ""}
+                  onChange={handleChangeDetails}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
+              <div className="flex flex-col">
+                <label
+                  htmlFor="resolutionNumber2"
+                  className="text-sm font-medium text-gray-700 mb-1"
+                >
+                  ii. ઠરાવ નંબર
+                </label>
+                <input
+                  type="text"
+                  id="resolutionNumber2"
+                  name="resolutionNumber2"
+                  value={details?.resolutionNumber2 || ""}
+                  onChange={handleChangeDetails}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
+              <div className="flex flex-col">
+                <label
+                  htmlFor="date2"
+                  className="text-sm font-medium text-gray-700 mb-1"
+                >
+                  iii. તારીખ
+                </label>
+                <input
+                  type="date"
+                  id="date2"
+                  name="date2"
+                  value={details?.date2 || ""}
+                  onChange={handleChangeDetails}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
               {/* Water Details */}
 
               <div className="flex flex-col">
