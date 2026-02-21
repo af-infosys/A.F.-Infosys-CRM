@@ -401,7 +401,9 @@ const TharavSet = () => {
                   }}
                 >
                   તારીખ :–{" "}
-                  <b>{formatDate(details?.date) || "..../..../........"}</b>
+                  <b>
+                    {formatDate(details?.meetingDate) || "..../..../........"}
+                  </b>
                 </h3>
 
                 <div
@@ -708,7 +710,9 @@ const TharavSet = () => {
                 <b>અસલ ઉપરથી નકલ</b>
                 <span style={{ whiteSpace: "nowrap" }}>
                   તારીખ :–{" "}
-                  <b>{formatDate(details?.date) || "..../..../........"}</b>
+                  <b>
+                    {formatDate(details?.meetingDate) || "..../..../........"}
+                  </b>
                 </span>
               </p>
 
