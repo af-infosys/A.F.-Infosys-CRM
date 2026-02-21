@@ -11,6 +11,7 @@ import AkarniIndex from "../../components/conver/AkarniIndex";
 import PanchayatBenefit from "../../components/conver/PanchayatBenefit";
 import PublicBenefit from "../../components/conver/PublicBenefit";
 import AkarniPage from "../../components/conver/AkarniPage";
+import AkarniIndexRaw from "../../components/conver/AkarniIndexRaw";
 
 const commercialCategories = [
   "દુકાન",
@@ -348,6 +349,7 @@ const SurvayReport = () => {
 
     const final = [];
     const isSeparate = project?.details?.seperatecommercial === true;
+    const isRaw = project?.details?.finalAkarni || false;
 
     // 🔢 Global page counter (1-based)
     let globalPageNumber = 1;
@@ -410,7 +412,7 @@ const SurvayReport = () => {
           pageTo,
         });
 
-        if (currentBundle === 1) {
+        if (currentBundle === 1 && isRaw) {
           final.push({ type: "benefit", name: "panchayat" });
           final.push({ type: "benefit", name: "public" });
         }
@@ -513,7 +515,7 @@ const SurvayReport = () => {
           pageTo,
         });
 
-        if (bundle === 1) {
+        if (bundle === 1 && isRaw) {
           final.push({ type: "benefit", name: "panchayat" });
           final.push({ type: "benefit", name: "public" });
         }
@@ -674,25 +676,40 @@ const SurvayReport = () => {
               <div
                 key={id}
                 id={id}
-                className="report-page legal-landscape-dimensions cover-bg"
+                className={`report-page legal-landscape-dimensions ${project?.details?.finalAkarni === true && "cover-bg"}`}
                 style={{
                   paddingLeft: "80px",
                   paddingRight: "50px",
                   maxHeight: "800px",
                 }}
               >
-                <AkarniIndex
-                  key={idx}
-                  title={item?.name} // Pass the dynamic title (Residential/Commercial)
-                  part={item.bundle}
-                  project={project}
-                  totalHoouse={records?.length}
-                  commercial={item.commercial}
-                  coverProperties={item.coverProperties}
-                  pageFrom={item.pageFrom}
-                  pageTo={item.pageTo}
-                  totalNormalBundles={item.totalNormalBundles || 0}
-                />
+                {project?.details?.finalAkarni === true ? (
+                  <AkarniIndex
+                    key={idx}
+                    title={item?.name} // Pass the dynamic title (Residential/Commercial)
+                    part={item.bundle}
+                    project={project}
+                    totalHoouse={records?.length}
+                    commercial={item.commercial}
+                    coverProperties={item.coverProperties}
+                    pageFrom={item.pageFrom}
+                    pageTo={item.pageTo}
+                    totalNormalBundles={item.totalNormalBundles || 0}
+                  />
+                ) : (
+                  <AkarniIndexRaw
+                    key={idx}
+                    title={item?.name} // Pass the dynamic title (Residential/Commercial)
+                    part={item.bundle}
+                    project={project}
+                    totalHoouse={records?.length}
+                    commercial={item.commercial}
+                    coverProperties={item.coverProperties}
+                    pageFrom={item.pageFrom}
+                    pageTo={item.pageTo}
+                    totalNormalBundles={item.totalNormalBundles || 0}
+                  />
+                )}
               </div>
             );
           }

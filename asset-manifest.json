@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.df883648.css",
-    "main.js": "/static/js/main.ed391f57.js",
+    "main.js": "/static/js/main.b875194c.js",
     "static/js/977.87a37736.chunk.js": "/static/js/977.87a37736.chunk.js",
     "static/js/455.4f2c4757.chunk.js": "/static/js/455.4f2c4757.chunk.js",
     "static/js/453.57b2eab3.chunk.js": "/static/js/453.57b2eab3.chunk.js",
@@ -25,6 +25,7 @@
     "static/media/Government.png": "/static/media/Government.0513cfb858c2308be052.png",
     "static/media/Religious.png": "/static/media/Religious.ba09ed283ed76baaddf0.png",
     "static/media/Multiple.png": "/static/media/Multiple.8f061b84ce4eb21acd51.png",
+    "static/media/wale2.png": "/static/media/wale2.c6a9edfeef92ca61322a.png",
     "static/media/data-entry.jpg": "/static/media/data-entry.44a2f179d27079d3a8bc.jpg",
     "static/media/Plot-Gov.png": "/static/media/Plot-Gov.2760ff17199c9758ee55.png",
     "static/media/sign.png": "/static/media/sign.f7813156da24004abd36.png",
@@ -67,13 +68,13 @@
     "static/media/House.png": "/static/media/House.640d0b1e39b36fd2550c.png",
     "index.html": "/index.html",
     "main.df883648.css.map": "/static/css/main.df883648.css.map",
-    "main.ed391f57.js.map": "/static/js/main.ed391f57.js.map",
+    "main.b875194c.js.map": "/static/js/main.b875194c.js.map",
     "977.87a37736.chunk.js.map": "/static/js/977.87a37736.chunk.js.map",
     "455.4f2c4757.chunk.js.map": "/static/js/455.4f2c4757.chunk.js.map",
     "453.57b2eab3.chunk.js.map": "/static/js/453.57b2eab3.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.df883648.css",
-    "static/js/main.ed391f57.js"
+    "static/js/main.b875194c.js"
   ]
 }

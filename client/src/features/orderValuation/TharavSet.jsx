@@ -8,6 +8,7 @@ import jsPDF from "jspdf";
 import { toast } from "react-toastify";
 import toGujaratiNumber from "../../components/toGujaratiNumber";
 import "./tharav.scss";
+import LOGOpng from "../../assets/logo.png";
 
 const TharavSet = () => {
   const [margins, setMargins] = useState({
@@ -222,6 +223,8 @@ const TharavSet = () => {
     const input1 = document.getElementById("letter-1");
     const input2 = document.getElementById("letter-2");
     const input3 = document.getElementById("letter-3");
+    const input4 = document.getElementById("letter-4");
+    const input5 = document.getElementById("letter-5");
 
     if (!input1 || !input2 || !input3) {
       console.error("Could not find report elements.");
@@ -261,8 +264,12 @@ const TharavSet = () => {
       await addImageFitWidth(input2);
       doc.addPage();
       await addImageFitWidth(input3);
+      doc.addPage();
+      await addImageFitWidth(input4);
+      doc.addPage();
+      await addImageFitWidth(input5);
 
-      doc.save(`Tharav_Set_${details?.akaraniYear} - (Letter 2,3,5).pdf`);
+      doc.save(`${details?.akaraniYear} - Letter Pad.pdf`);
     } catch (error) {
       console.error("Error generating PDF:", error);
     } finally {
@@ -321,6 +328,7 @@ const TharavSet = () => {
         </button>
 
         {/* Page - 1, Legel - 1 */}
+        <h2 className="text-xl font-bold text-gray-800">ઠરાવ સેટ - 1</h2>
         <div
           style={{
             maxWidth: "100%",
@@ -769,7 +777,308 @@ const TharavSet = () => {
 
         <br />
 
-        {/* Report - 2 */}
+        {/* Page - 4, Legel - 2 */}
+        <h2 className="text-xl font-bold text-gray-800">ઠરાવ સેટ - 2</h2>
+        <div
+          style={{
+            maxWidth: "100%",
+            overflow: "auto",
+            display: "flex",
+            justifyContent: "start",
+          }}
+        >
+          <div
+            className="table-container shadow-md"
+            id="legel-2"
+            style={{
+              width: "750px",
+              minWidth: "750px",
+              maxWidth: "750px",
+              minHeight: "1235px",
+              maxHeight: "1235px",
+
+              position: "relative",
+              padding: "15px",
+              paddtingTop: "23px",
+              paddingRight: "23px",
+              background: "#fff",
+            }}
+          >
+            <div
+            // className="rounded-lg border border-black"
+            // style={{
+            //   border: "2px solid black",
+            //   width: "100%",
+            //   height: "100%",
+            //   padding: "8px",
+            // }}
+            >
+              {/* <div
+                className="flex justify-between items-center"
+                style={{ width: "100%", paddingRight: "0px" }}
+              > */}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "start",
+                  justifyContent: "space-between",
+                  width: "100%",
+                  paddingInline: "5px",
+
+                  marginTop: "20px",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "start",
+                  }}
+                >
+                  <h3 style={{ fontSize: "16px", textWrap: "nowrap" }}>
+                    બેઠક નં.{" "}
+                    <b>{Number(details?.meetingNumber2) || "............"}</b>
+                  </h3>
+
+                  <h3 style={{ fontSize: "16px", textWrap: "nowrap" }}>
+                    ઠરાવ નં.{" "}
+                    <b>
+                      {Number(details?.resolutionNumber2) || "............"}
+                    </b>
+                  </h3>
+                </div>
+
+                <h3
+                  style={{
+                    fontSize: "16px",
+                    textWrap: "nowrap",
+                  }}
+                >
+                  તારીખ :–{" "}
+                  <b>{formatDate(details?.date2) || "..../..../........"}</b>
+                </h3>
+
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "start",
+                  }}
+                >
+                  <h2 style={{ fontSize: "16px" }}>
+                    <b style={{ textDecoration: "underline" }}>
+                      {details?.gaam || "-"}
+                    </b>{" "}
+                    ગ્રામ પંચાયત કચેરી
+                  </h2>
+
+                  <h2
+                    style={{
+                      fontSize: "16px",
+                    }}
+                  >
+                    તાલુકો :– <b>{details?.taluka || "-"}</b>
+                  </h2>
+
+                  <h2
+                    style={{
+                      fontSize: "16px",
+                    }}
+                  >
+                    જિલ્લો :- <b>{details?.district || "-"}</b>
+                  </h2>
+                </div>
+              </div>
+
+              <h2
+                style={{
+                  textDecoration: "underline",
+                  marginTop: "20px",
+                  marginBottom: "10px",
+                  textAlign: "center",
+                  fontSize: "18px",
+                  fontWeight: "700",
+                }}
+              >
+                કરવેરાની નવી આકારણી પ્રસિધ્ધ કરી આકારણી રજીસ્ટર મંજુર કરવા
+                બાબત...
+              </h2>
+              <p
+                style={{
+                  textIndent: "20mm",
+                  fontSize: "16px",
+                  textAlign: "justify",
+                }}
+              >
+                આથી ઠરાવવામાં આવે છે કે, આપણા ગામે કરવેરાની નવી આકારણી ગુજરાત
+                પંચાયત અધિનિયમ ૧૯૯૩ કાયદાની કલમ ર૦૦ મુજબ ગ્રામ પંચાયતની બેઠક નં{" "}
+                <b>{Number(details?.meetingNumber2) || "............"}</b> તા{" "}
+                <b>{formatDate(details?.date2) || "..../..../........"}</b> ના
+                ઠરાવ નં{" "}
+                <b>{Number(details?.resolutionNumber2) || "............"}</b> થી
+                ગામે મકાન કર, સામાન્ય પાણી કર, દિવાબતી કર, ખાસ પાણી કર, ગ્રામ
+                સફાઈ કર ની આકારણી કરી નમુના નં. ૮ રજીસ્ટર આકારણી કમિટી ધ્વારા
+                કરવામાં આવેલ છે જે રજીસ્ટર ગ્રામ પંચાયત કચેરીએ રજાના દિવસો સિવાય
+                જોવા મુકેલ આ આકારણી સામે વાંધો તકકરાર સુચનો અરજદારના લેખીતમાં
+                ધ્યાને લીધેલ જે આજની આકારણી કમિટીએ વંચાણે લીધે તેમજ વિવાદીત
+                અરજીઓનો યોગ્ય રીતે નિકાલ કરી આકારણી કમિટીએ આકારણી રજીસ્ટર વંચાણે
+                લઈ આજની સભામાં આકારણી રજીસ્ટર મંજુર કરેલ છે.
+              </p>
+
+              <p
+                style={{
+                  textIndent: "20mm",
+                  fontSize: "16px",
+                  textAlign: "justify",
+                }}
+              >
+                મુદત બહાર આવેલા તકકરાર વાંધા સુચનો ધ્યાને લેવામાં આવશે નહિ અને
+                નાણાકિય વર્ષ ૨૦ {details?.taxYear} થી {details?.taxYear} પંચાયત
+                વેરા અમલ થશે જે આકરણી કમિટીએ મંજુર કરેલ છે.
+              </p>
+
+              <p
+                style={{
+                  textAlign: "center",
+                  marginTop: "20px",
+                  fontSize: "18px",
+                  fontWeight: "700",
+                }}
+              >
+                આકારણી કમિટી
+              </p>
+
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "start",
+                  justifyContent: "center",
+                }}
+              >
+                <table className="comityTable border">
+                  <thead>
+                    <tr>
+                      <th>ક્રમ</th>
+
+                      <th>આકરણી કમિટીના નામ</th>
+
+                      <th>હોદો</th>
+
+                      <th>સહી</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    {details?.comity?.map((comity, index) => (
+                      <tr key={index}>
+                        <td>{index + 1}</td>
+                        <td>{comity?.name || "________"}</td>
+                        <td>{comity?.designation || "______"}</td>
+                        <td> </td>
+                      </tr>
+                    ))}
+                    {!details?.comity && (
+                      <tr>
+                        <td>--</td>
+                        <td>--</td>
+                        <td>--</td>
+                        <td>--</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Footer & Signature */}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  paddingBottom: "90px",
+                  paddingInline: "42px",
+                  position: "absolute",
+                  bottom: "0px",
+                  left: "0px",
+                  width: "100%",
+                  fontSize: "16px",
+                }}
+              >
+                {/* TCM */}
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    textAlign: "center",
+                  }}
+                >
+                  <span>
+                    તલાટી કમ મંત્રી
+                    <b
+                      style={{
+                        display: "block",
+                        marginTop: "3px",
+                      }}
+                    >
+                      {details?.tcmName || "......................."}
+                    </b>
+                  </span>
+
+                  <span> {details?.gaam || ""} ગ્રામ પંચાયત કચેરી </span>
+
+                  <span>
+                    તા. {details?.taluka || ""}, જિ. {details?.district || ""}
+                  </span>
+                </div>
+
+                {/* Sarpanch */}
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    textAlign: "center",
+                  }}
+                >
+                  <span>
+                    સરપંચ
+                    <b
+                      style={{
+                        display: "block",
+                        marginTop: "3px",
+                      }}
+                    >
+                      {details?.sarpanchName || "......................."}
+                    </b>
+                  </span>
+
+                  <span> {details?.gaam || ""} ગ્રામ પંચાયત કચેરી </span>
+
+                  <span>
+                    તા. {details?.taluka || ""}, જિ. {details?.district || ""}
+                  </span>
+                </div>
+              </div>
+
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: "18px",
+                  right: "30px",
+                  fontSize: "14px",
+                  color: "#000",
+                }}
+              >
+                <b> પાના નં. {toGujaratiNumber(4)} </b>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <br />
+
+        {/* Report - 3 */}
+        <h2 className="text-xl font-bold text-gray-800">
+          વર્ક ઓર્ડર - Letter Pad
+        </h2>
         <div
           style={{
             maxWidth: "100%",
@@ -1090,7 +1399,10 @@ const TharavSet = () => {
 
         <br />
 
-        {/* Report - 3 */}
+        {/* Report - 4 */}
+        <h2 className="text-xl font-bold text-gray-800">
+          ગામજનો માટે જાહેરાત - Letter Pad
+        </h2>
         <div
           style={{
             maxWidth: "100%",
@@ -1150,7 +1462,7 @@ const TharavSet = () => {
                     border: "1px solid #000",
                     borderRadius: "5px",
 
-                    marginTop: "25px",
+                    marginTop: `${margins?.letterC}px`,
                     marginBottom: "8px",
                     paddingBottom: "3px",
 
@@ -1281,7 +1593,7 @@ const TharavSet = () => {
                   paddingBottom: "90px",
                   paddingInline: "42px",
                   position: "absolute",
-                  bottom: "0px",
+                  bottom: `${margins?.letterD}px`,
                   left: "0px",
                   width: "100%",
                   fontSize: "16px",
@@ -1355,301 +1667,46 @@ const TharavSet = () => {
               </div>
             </div>
           </div>
-        </div>
 
-        <br />
-
-        {/* Page - 4, Legel - 2 */}
-        <div
-          style={{
-            maxWidth: "100%",
-            overflow: "auto",
-            display: "flex",
-            justifyContent: "start",
-          }}
-        >
           <div
-            className="table-container shadow-md"
-            id="legel-2"
             style={{
-              width: "750px",
-              minWidth: "750px",
-              maxWidth: "750px",
-              minHeight: "1235px",
-              maxHeight: "1235px",
-
-              position: "relative",
-              padding: "15px",
-              paddtingTop: "23px",
-              paddingRight: "23px",
-              background: "#fff",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              padding: "10px",
             }}
           >
             <div
-            // className="rounded-lg border border-black"
-            // style={{
-            //   border: "2px solid black",
-            //   width: "100%",
-            //   height: "100%",
-            //   padding: "8px",
-            // }}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+              }}
             >
-              {/* <div
-                className="flex justify-between items-center"
-                style={{ width: "100%", paddingRight: "0px" }}
-              > */}
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "start",
-                  justifyContent: "space-between",
-                  width: "100%",
-                  paddingInline: "5px",
-
-                  marginTop: "20px",
+              <span>{margins?.letterC}</span>
+              <input
+                type="range"
+                max={200}
+                value={margins.letterC}
+                onChange={(e) => {
+                  handleMarginChange("letterC", e.target.value);
                 }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "start",
-                  }}
-                >
-                  <h3 style={{ fontSize: "16px", textWrap: "nowrap" }}>
-                    બેઠક નં.{" "}
-                    <b>{Number(details?.meetingNumber2) || "............"}</b>
-                  </h3>
+              />
+            </div>
 
-                  <h3 style={{ fontSize: "16px", textWrap: "nowrap" }}>
-                    ઠરાવ નં.{" "}
-                    <b>
-                      {Number(details?.resolutionNumber2) || "............"}
-                    </b>
-                  </h3>
-                </div>
-
-                <h3
-                  style={{
-                    fontSize: "16px",
-                    textWrap: "nowrap",
-                  }}
-                >
-                  તારીખ :–{" "}
-                  <b>{formatDate(details?.date2) || "..../..../........"}</b>
-                </h3>
-
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "start",
-                  }}
-                >
-                  <h2 style={{ fontSize: "16px" }}>
-                    <b style={{ textDecoration: "underline" }}>
-                      {details?.gaam || "-"}
-                    </b>{" "}
-                    ગ્રામ પંચાયત કચેરી
-                  </h2>
-
-                  <h2
-                    style={{
-                      fontSize: "16px",
-                    }}
-                  >
-                    તાલુકો :– <b>{details?.taluka || "-"}</b>
-                  </h2>
-
-                  <h2
-                    style={{
-                      fontSize: "16px",
-                    }}
-                  >
-                    જિલ્લો :- <b>{details?.district || "-"}</b>
-                  </h2>
-                </div>
-              </div>
-
-              <h2
-                style={{
-                  textDecoration: "underline",
-                  marginTop: "20px",
-                  marginBottom: "10px",
-                  textAlign: "center",
-                  fontSize: "18px",
-                  fontWeight: "700",
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <span>{margins?.letterD}</span>
+              <input
+                type="range"
+                value={margins.letterD}
+                onChange={(e) => {
+                  handleMarginChange("letterD", e.target.value);
                 }}
-              >
-                કરવેરાની નવી આકારણી પ્રસિધ્ધ કરી આકારણી રજીસ્ટર મંજુર કરવા
-                બાબત...
-              </h2>
-              <p
-                style={{
-                  textIndent: "20mm",
-                  fontSize: "16px",
-                  textAlign: "justify",
-                }}
-              >
-                આથી ઠરાવવામાં આવે છે કે, આપણા ગામે કરવેરાની નવી આકારણી ગુજરાત
-                પંચાયત અધિનિયમ ૧૯૯૩ કાયદાની કલમ ર૦૦ મુજબ ગ્રામ પંચાયતની બેઠક નં{" "}
-                <b>{Number(details?.meetingNumber2) || "............"}</b> તા{" "}
-                <b>{formatDate(details?.date2) || "..../..../........"}</b> ના
-                ઠરાવ નં{" "}
-                <b>{Number(details?.resolutionNumber2) || "............"}</b> થી
-                ગામે મકાન કર, સામાન્ય પાણી કર, દિવાબતી કર, ખાસ પાણી કર, ગ્રામ
-                સફાઈ કર ની આકારણી કરી નમુના નં. ૮ રજીસ્ટર આકારણી કમિટી ધ્વારા
-                કરવામાં આવેલ છે જે રજીસ્ટર ગ્રામ પંચાયત કચેરીએ રજાના દિવસો સિવાય
-                જોવા મુકેલ આ આકારણી સામે વાંધો તકકરાર સુચનો અરજદારના લેખીતમાં
-                ધ્યાને લીધેલ જે આજની આકારણી કમિટીએ વંચાણે લીધે તેમજ વિવાદીત
-                અરજીઓનો યોગ્ય રીતે નિકાલ કરી આકારણી કમિટીએ આકારણી રજીસ્ટર વંચાણે
-                લઈ આજની સભામાં આકારણી રજીસ્ટર મંજુર કરેલ છે.
-              </p>
-
-              <p
-                style={{
-                  textIndent: "20mm",
-                  fontSize: "16px",
-                  textAlign: "justify",
-                }}
-              >
-                મુદત બહાર આવેલા તકકરાર વાંધા સુચનો ધ્યાને લેવામાં આવશે નહિ અને
-                નાણાકિય વર્ષ ૨૦ {details?.taxYear} થી {details?.taxYear} પંચાયત
-                વેરા અમલ થશે જે આકરણી કમિટીએ મંજુર કરેલ છે.
-              </p>
-
-              <p
-                style={{
-                  textAlign: "center",
-                  marginTop: "20px",
-                  fontSize: "18px",
-                  fontWeight: "700",
-                }}
-              >
-                આકારણી કમિટી
-              </p>
-
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "start",
-                  justifyContent: "center",
-                }}
-              >
-                <table className="comityTable border">
-                  <thead>
-                    <tr>
-                      <th>ક્રમ</th>
-
-                      <th>આકરણી કમિટીના નામ</th>
-
-                      <th>હોદો</th>
-
-                      <th>સહી</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    {details?.comity?.map((comity, index) => (
-                      <tr key={index}>
-                        <td>{index + 1}</td>
-                        <td>{comity?.name || "________"}</td>
-                        <td>{comity?.designation || "______"}</td>
-                        <td> </td>
-                      </tr>
-                    ))}
-                    {!details?.comity && (
-                      <tr>
-                        <td>--</td>
-                        <td>--</td>
-                        <td>--</td>
-                        <td>--</td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
-              </div>
-
-              {/* Footer & Signature */}
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  paddingBottom: "90px",
-                  paddingInline: "42px",
-                  position: "absolute",
-                  bottom: "0px",
-                  left: "0px",
-                  width: "100%",
-                  fontSize: "16px",
-                }}
-              >
-                {/* TCM */}
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    textAlign: "center",
-                  }}
-                >
-                  <span>
-                    તલાટી કમ મંત્રી
-                    <b
-                      style={{
-                        display: "block",
-                        marginTop: "3px",
-                      }}
-                    >
-                      {details?.tcmName || "......................."}
-                    </b>
-                  </span>
-
-                  <span> {details?.gaam || ""} ગ્રામ પંચાયત કચેરી </span>
-
-                  <span>
-                    તા. {details?.taluka || ""}, જિ. {details?.district || ""}
-                  </span>
-                </div>
-
-                {/* Sarpanch */}
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    textAlign: "center",
-                  }}
-                >
-                  <span>
-                    સરપંચ
-                    <b
-                      style={{
-                        display: "block",
-                        marginTop: "3px",
-                      }}
-                    >
-                      {details?.sarpanchName || "......................."}
-                    </b>
-                  </span>
-
-                  <span> {details?.gaam || ""} ગ્રામ પંચાયત કચેરી </span>
-
-                  <span>
-                    તા. {details?.taluka || ""}, જિ. {details?.district || ""}
-                  </span>
-                </div>
-              </div>
-
-              <div
-                style={{
-                  position: "absolute",
-                  bottom: "18px",
-                  right: "30px",
-                  fontSize: "14px",
-                  color: "#000",
-                }}
-              >
-                <b> પાના નં. {toGujaratiNumber(4)} </b>
-              </div>
+              />
             </div>
           </div>
         </div>
@@ -1657,6 +1714,9 @@ const TharavSet = () => {
         <br />
 
         {/* Report - 5 */}
+        <h2 className="text-xl font-bold text-gray-800">
+          GP પ્રમાણપત્ર - Letter Pad
+        </h2>
         <div
           style={{
             maxWidth: "100%",
@@ -1716,7 +1776,7 @@ const TharavSet = () => {
                     border: "1px solid #000",
                     borderRadius: "5px",
 
-                    marginTop: "25px",
+                    marginTop: `${margins?.letterE}px`,
                     marginBottom: "8px",
                     paddingBottom: "3px",
 
@@ -1807,7 +1867,7 @@ const TharavSet = () => {
                   paddingBottom: "90px",
                   paddingInline: "42px",
                   position: "absolute",
-                  bottom: "0px",
+                  bottom: `${margins?.letterF}px`,
                   left: "0px",
                   width: "100%",
                   fontSize: "16px",
@@ -1881,9 +1941,524 @@ const TharavSet = () => {
               </div>
             </div>
           </div>
+
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+              padding: "10px",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <span>{margins?.letterE}</span>
+              <input
+                type="range"
+                max={200}
+                value={margins.letterE}
+                onChange={(e) => {
+                  handleMarginChange("letterE", e.target.value);
+                }}
+              />
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <span>{margins?.letterF}</span>
+              <input
+                type="range"
+                value={margins.letterF}
+                onChange={(e) => {
+                  handleMarginChange("letterF", e.target.value);
+                }}
+              />
+            </div>
+          </div>
         </div>
 
         <br />
+
+        {/* Report - 6 */}
+        <h2 className="text-xl font-bold text-gray-800">કરાર - i</h2>
+        <div
+          style={{
+            maxWidth: "100%",
+            overflow: "auto",
+            display: "flex",
+            justifyContent: "start",
+          }}
+        >
+          <div
+            id="letter-4"
+            className="table-container shadow-m"
+            style={{
+              width: "680px",
+              minWidth: "680px",
+              maxWidth: "680px",
+              height: "962px",
+              minHeight: "962px",
+              maxHeight: "962px",
+
+              position: "relative",
+              padding: "15px",
+              paddtingTop: "23px",
+              paddingRight: "23px",
+              background: "#fff",
+            }}
+          >
+            <br />
+            <br /> <br />
+            <div id="title">
+              <div>
+                <h2 className="text-5xl text-center font-extrabold mt-4">
+                  {/* A.F. Infosys */}
+                </h2>
+
+                <p className="trans" style={{ fontSize: "13px" }}>
+                  ગ્રામપંચાયત રેવન્યુ(જમાબંધી) વાર્ષીક હિસાબ, આકાણીસર્વે, કરવેરા
+                  રજીસ્ટર, રોજમેળ, ગ્રામસુવિધા પોર્ટલ તથા ઓનલાઈન / ઓફલાઈન તમામ
+                  પ્રકારની ડેટાએન્ટ્રી અને પ્રિન્ટીંગ, વેબસાઈટ, સોફ્ટવેર,
+                  કોમ્પ્યુટર કામ માટે મળો
+                </p>
+
+                <p className="address trans" style={{ fontSize: "13px" }}>
+                  બીજામાળે, સેન્ટ્રલપોઈન્ટ કોમ્પ્લેક્ષ, જુનાબસસ્ટેન્ડ સામે -
+                  સાવરકુંડલા જિ.અમરેલી. સૌરાષ્ટ્ર (પશ્વિમગુજરાત)
+                </p>
+              </div>
+
+              <img src={LOGOpng} alt="Logo" />
+            </div>
+            <div
+            // className="rounded-lg border border-black"
+            // style={{
+            //   border: "2px solid black",
+            //   width: "100%",
+            //   height: "100%",
+            //   padding: "5px",
+            // }}
+            >
+              {/* Order Report */}
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "3px",
+                  padding: "8px",
+
+                  marginTop: "20px",
+
+                  borderRadius: "10px",
+                  background: "#ffffffff",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "end",
+                    paddingInline: "20px",
+
+                    fontSize: "18px",
+                  }}
+                >
+                  <span>
+                    તારીખ :-{" "}
+                    <b>
+                      {formatDate(details?.workOrderDate) || ".../.../......"}
+                    </b>
+                  </span>
+                </div>
+
+                <br />
+
+                <p
+                  style={{
+                    fontSize: "18px",
+                  }}
+                >
+                  પ્રતિ,
+                </p>
+                <p
+                  style={{
+                    fontSize: "18px",
+                  }}
+                >
+                  સરપંચશ્રી / તલાટી કમ મંત્રી,
+                </p>
+                <p
+                  style={{
+                    fontSize: "18px",
+                  }}
+                >
+                  {details?.gaam || "____________"} ગ્રામ પંચાયત કચેરી,
+                </p>
+                <p
+                  style={{
+                    fontSize: "18px",
+                  }}
+                >
+                  તાલુકો :- {details?.taluka || "____________"}{" "}
+                </p>
+                <p
+                  style={{
+                    fontSize: "18px",
+                  }}
+                >
+                  જિલ્લો :- {details?.district || "____________"}{" "}
+                </p>
+
+                <b
+                  style={{
+                    fontSize: "20px",
+                    textAlign: "center",
+                    marginTop: "23px",
+                    marginBottom: "10px",
+                  }}
+                >
+                  <u>વિષય : – આકારણી સર્વે કામ અંગે સમજુતી પત્ર બાબત</u>
+                </b>
+
+                <b
+                  style={{
+                    fontSize: "18px",
+                  }}
+                >
+                  સવિનય,
+                </b>
+                <p
+                  style={{
+                    fontSize: "18px",
+                    // lineHeight: "23px",
+                    textIndent: "20mm",
+                  }}
+                >
+                  ઉપરોક્ત વિષય અન્વયે જણાવવાનું કે, એ. એફ. ઈન્ફોસીસ અને{" "}
+                  {details?.gaam || "____________"} ગ્રામપંચાયત કચેરી બન્ને
+                  વચ્ચે થયેલા ચર્ચાયેલા નિયમો આકારણી સર્વે કામ કરવા બાબત સતાવાર
+                  કરાર તરીકે કાર્ય કરે છે.
+                </p>
+
+                <p
+                  style={{
+                    fontSize: "18px",
+                    // lineHeight: "23px",
+                    textIndent: "20mm",
+                  }}
+                >
+                  ગ્રામ પંચાયત બેઠકની તારીખ{" "}
+                  <b>
+                    {formatDate(details?.meetingDate) || "..../..../........"}
+                  </b>{" "}
+                  અને બેઠક નં. {details?.resolutionNumber || "........."} ઠરાવ
+                  નં. {details?.meetingNumber || "........."} ના આધારે બન્ને
+                  પક્ષ વચ્ચે ચર્ચા કરેલ જેમાં આકારણી સર્વે કામ સંબંધિત તમામ
+                  પ્રકારની વિગતો, જરૂરીયાતો અને શરતો ચર્ચાઈ અને નક્કિ કરવામાં
+                  આવ્યું હતુ.
+                </p>
+
+                <p
+                  style={{
+                    fontSize: "18px",
+                    // lineHeight: "23px",
+                    textIndent: "20mm",
+                  }}
+                >
+                  એ. એફ. ઈન્ફોસીસ અને __________ગ્રામપંચાયત કચેરી ધ્વારા બન્ને
+                  વચ્ચે થયેલા ચર્ચાયેલા નીચે મુજબના મુદ્દાઑ ખાસ ધ્યાનમાં લેવામાં
+                  આવશે
+                </p>
+
+                <p
+                  style={{
+                    fontSize: "18px",
+                    // lineHeight: "23px",
+                    // textIndent: "20mm",
+                  }}
+                >
+                  <ul>
+                    <li style={{ display: "flex", gap: "10px" }}>
+                      <span>(૧)</span>
+                      મિલ્કતનું વર્ણન લખવું ગામની તમામ મિલ્કતનું આકારણી રજી.,
+                      કરવેરા માંગણા રજી. તેમજ તારીજ અને કોમ્પ્યુટરાઈઝ્ર્ડ
+                      પ્રિન્ટિંગ બાઈન્ડીંગ સાથે અધ્યતન બનાવી આપવાનું રહેશે તે
+                      અંગેની તમામ કામગીરી એ. એફ. ઇન્ફૉસીસ ને કરી આપવાની રહેશે.
+                    </li>
+
+                    <li style={{ display: "flex", gap: "10px" }}>
+                      <span>(૨)</span>
+                      સ્ટેશનરી જેવી કે કાગળ, છાપકામ, બાઇન્ડિંગ, પ્લાસ્ટીક,
+                      કોમ્પ્યુટરાઈઝ્ર્ડ ડેટા એન્ટ્રી મજુરી કામ સાથેના તમામ
+                      પ્રકારના ભાવ એ. એફ. ઇન્ફૉસીસ કંપની એ આપવાના રહેશે{" "}
+                    </li>
+                  </ul>
+                </p>
+              </div>
+
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: "18px",
+                  right: "30px",
+                  fontSize: "14px",
+                  color: "#000",
+                }}
+              >
+                <b> પાના નં. {toGujaratiNumber(2)} </b>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <br />
+
+        {/* Report - 7 */}
+        <h2 className="text-xl font-bold text-gray-800">કરાર - ii</h2>
+        <div
+          style={{
+            maxWidth: "100%",
+            overflow: "auto",
+            display: "flex",
+            justifyContent: "start",
+          }}
+        >
+          <div
+            id="letter-5"
+            className="table-container shadow-m"
+            style={{
+              width: "680px",
+              minWidth: "680px",
+              maxWidth: "680px",
+              height: "962px",
+              minHeight: "962px",
+              maxHeight: "962px",
+
+              position: "relative",
+              padding: "15px",
+              paddtingTop: "23px",
+              paddingRight: "23px",
+              background: "#fff",
+            }}
+          >
+            <div
+            // className="rounded-lg border border-black"
+            // style={{
+            //   border: "2px solid black",
+            //   width: "100%",
+            //   height: "100%",
+            //   padding: "5px",
+            // }}
+            >
+              {/* Order Report */}
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "3px",
+                  padding: "8px",
+
+                  marginTop: "20px",
+
+                  borderRadius: "10px",
+                  background: "#ffffffff",
+                }}
+              >
+                <p
+                  style={{
+                    fontSize: "18px",
+                    // lineHeight: "23px",
+                    // textIndent: "20mm",
+                  }}
+                >
+                  <ul>
+                    <li style={{ display: "flex", gap: "10px" }}>
+                      <span>(૩)</span>
+                      આકારણી કમિટીના સભ્યો તથા તલાટી કમ મંત્રી સાહેબ અને
+                      પંચાયતના ક્લાર્ક અને સરપંચશ્રી આકારણી સર્વે શરૂ કરવા માટે
+                      ફરજીયાત હાજર હશે ત્યારબાદ જ એજન્સી આકારણી સર્વે કામ શરૂ
+                      કરવાનું રહેશે.
+                    </li>
+
+                    <li style={{ display: "flex", gap: "10px" }}>
+                      <span>(૪)</span>
+                      જુના આકારણી રજી. નો જુનો મિલ્કત નંબર નવા આકારણી રજી. મા
+                      તલાટી કમ મંત્રી સાહેબ પોતે ખરાઈ કરી લખવાના રહેશે.
+                    </li>
+
+                    <li style={{ display: "flex", gap: "10px" }}>
+                      <span>(૫)</span>
+                      પાછલી બાકી વેરા રકમ નવા કરવેરા માંગણા રજી. માં જુના કરવેરા
+                      માંગણા રજી. તલાટી કમ મંત્રી સાહેબ પોતે ખરાઈ કરી ઉમેરવાની
+                      રહેશે.
+                    </li>
+
+                    <li style={{ display: "flex", gap: "10px" }}>
+                      <span>(૬)</span>
+                      એ. એફ. ઇન્ફૉસીસ કંપની એ કોમ્પ્યુટરાઈઝ્ર્ડ આકારણીનું તમામ
+                      પ્રકારનું રેકર્ડ બે વખત સુધારો કરી આપવાનો રહેશે ત્યાર બાદ
+                      સુધારો કરી આપવામાં આવશે નહિ.
+                    </li>
+
+                    <li style={{ display: "flex", gap: "10px" }}>
+                      <span>(૭)</span>
+                      રહેવા માટેની રૂમની વ્યવસ્થા ગ્રામ પંચાયતે કરી આપવાની રહેશે
+                      અથવા ગેસ્ટ હાઉસ ભાડુ ગ્રામપંચાયતને ચુકવવાનું રહેશે.
+                    </li>
+                  </ul>
+                </p>
+
+                <br />
+
+                <b style={{ fontSize: "20px" }}>
+                  <u>પેમેન્ટ વિગત :-</u>
+                </b>
+                <p
+                  style={{
+                    fontSize: "18px",
+                  }}
+                >
+                  ……………………ગ્રામ પંચાયત ધ્વારા એડવાન્સ
+                  રૂI..................ચુંકવણું કરવામાં આવ્યું છે. ચુંકવણી
+                  દ્વારા કરવામાં આવ્યું છે તેના નં. મુજબ આધાર છે ચુંકવણું કર્યા
+                  તારીખ :- ના રોજ કરેલ છે.
+                </p>
+
+                <br />
+
+                <b style={{ fontSize: "20px" }}>
+                  <u>ડિલેવરીની શરતો :-</u>
+                </b>
+                <p
+                  style={{
+                    fontSize: "18px",
+                  }}
+                >
+                  સર્વે કામ પુર્ણ થાય તે સમય એ બાકીનું તમામ રકમનું ફુલ પેમેન્ટ
+                  ગ્રામપંચાયત એ ચુંકવણું કરવાનું રહેશે ત્યાર બાદ જ એ. એફ.
+                  ઇન્ફોસીસ ગ્રામ પંચાયતને આકારણી બાબતના રેકર્ડ મળશે
+                </p>
+              </div>
+
+              <br />
+
+              {/* Footer & Signature */}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  paddingBottom: "130px",
+                  paddingInline: "42px",
+                  position: "absolute",
+
+                  bottom: `70px`,
+
+                  left: "0px",
+                  width: "100%",
+                  fontSize: "16px",
+                }}
+              >
+                {/* Owner */}
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    textAlign: "center",
+                  }}
+                >
+                  <span>
+                    <b
+                      style={{
+                        display: "block",
+                        marginTop: "3px",
+                        marginBottom: "10px",
+                      }}
+                    >
+                      લી. આપનો વિશ્વાશું
+                    </b>
+                  </span>
+
+                  <span id="sikko"> (A. F. Infosys) </span>
+
+                  <span id="circle"></span>
+                </div>
+
+                {/* TCM */}
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    textAlign: "center",
+                  }}
+                >
+                  <span>
+                    તલાટી કમ મંત્રી
+                    <b
+                      style={{
+                        display: "block",
+                        marginTop: "3px",
+                      }}
+                    >
+                      {details?.tcmName || "......................."}
+                    </b>
+                  </span>
+
+                  <span> {details?.gaam || ""} ગ્રામ પંચાયત કચેરી </span>
+
+                  <span>
+                    તા. {details?.taluka || ""}, જિ. {details?.district || ""}
+                  </span>
+                </div>
+
+                {/* Sarpanch */}
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    textAlign: "center",
+                  }}
+                >
+                  <span>
+                    સરપંચ
+                    <b
+                      style={{
+                        display: "block",
+                        marginTop: "3px",
+                      }}
+                    >
+                      {details?.sarpanchName || "......................."}
+                    </b>
+                  </span>
+
+                  <span> {details?.gaam || ""} ગ્રામ પંચાયત કચેરી </span>
+
+                  <span>
+                    તા. {details?.taluka || ""}, જિ. {details?.district || ""}
+                  </span>
+                </div>
+              </div>
+
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: "18px",
+                  right: "30px",
+                  fontSize: "14px",
+                  color: "#000",
+                }}
+              >
+                <b> પાના નં. {toGujaratiNumber(3)} </b>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );

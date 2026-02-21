@@ -473,9 +473,28 @@ const OrderValuationForm = () => {
                 type="checkbox"
                 id="imageAkarni"
                 name="imageAkarni"
-                checked={details.imageAkarni}
+                checked={details.imageAkarni || false}
                 onChange={(e) =>
                   setDetails({ ...details, imageAkarni: e.target.checked })
+                }
+                className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-2 focus:ring-blue-500 transition-all duration-200"
+              />
+            </div>
+
+            <div className="flex flex-col">
+              <label
+                htmlFor="imageAkarni"
+                className="text-sm font-medium text-gray-700 mb-1"
+              >
+                Final Akarni ?
+              </label>
+              <input
+                type="checkbox"
+                id="finalAkarni"
+                name="finalAkarni"
+                checked={details.finalAkarni}
+                onChange={(e) =>
+                  setDetails({ ...details, finalAkarni: e.target.checked })
                 }
                 className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-2 focus:ring-blue-500 transition-all duration-200"
               />
