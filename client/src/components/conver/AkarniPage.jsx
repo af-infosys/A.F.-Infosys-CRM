@@ -152,7 +152,7 @@ const AkarniPage = ({
               <span className="formatting">નળ</span>
             </th>
             <th style={headerStyle}>
-              <span className="formatting">શોચાલય</span>
+              <span className="formatting">શૌચા.</span>
             </th>
           </tr>
 

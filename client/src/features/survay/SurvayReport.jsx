@@ -12,6 +12,8 @@ import PanchayatBenefit from "../../components/conver/PanchayatBenefit";
 import PublicBenefit from "../../components/conver/PublicBenefit";
 import AkarniPage from "../../components/conver/AkarniPage";
 import AkarniIndexRaw from "../../components/conver/AkarniIndexRaw";
+import TharavPage1 from "../../components/conver/TharavPage1";
+import TharavPage2 from "../../components/conver/TharavPage2";
 
 const commercialCategories = [
   "દુકાન",
@@ -415,6 +417,9 @@ const SurvayReport = () => {
         if (currentBundle === 1 && isRaw) {
           final.push({ type: "benefit", name: "panchayat" });
           final.push({ type: "benefit", name: "public" });
+
+          final.push({ type: "tharav", name: "committee" });
+          final.push({ type: "tharav", name: "certificate" });
         }
 
         pagesForThisBundle.forEach((pageRecs) => {
@@ -518,6 +523,9 @@ const SurvayReport = () => {
         if (bundle === 1 && isRaw) {
           final.push({ type: "benefit", name: "panchayat" });
           final.push({ type: "benefit", name: "public" });
+
+          final.push({ type: "tharav", name: "committee" });
+          final.push({ type: "tharav", name: "certificate" });
         }
 
         pagesForThisBundle.forEach((records) => {
@@ -728,6 +736,26 @@ const SurvayReport = () => {
               >
                 {item.name === "panchayat" && <PanchayatBenefit />}
                 {item.name === "public" && <PublicBenefit />}
+              </div>
+            );
+          }
+
+          if (item.type === "tharav") {
+            return (
+              <div
+                key={id}
+                id={id}
+                className="report-page legal-landscape-dimensions"
+                style={{
+                  paddingLeft: "65px",
+                  paddingRight: "40px",
+                  maxHeight: "800px",
+                }}
+              >
+                {item.name === "committee" && <TharavPage1 project={project} />}
+                {item.name === "certificate" && (
+                  <TharavPage2 project={project} />
+                )}
               </div>
             );
           }

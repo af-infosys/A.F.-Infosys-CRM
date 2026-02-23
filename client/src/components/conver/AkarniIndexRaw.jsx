@@ -274,8 +274,8 @@ const AkarniIndexRaw = ({
       <p
         style={{
           position: "absolute",
-          bottom: "-480px",
-          right: "10px",
+          bottom: "0px",
+          right: "30px",
           fontSize: "17px",
           fontWeight: "600",
           color: "blue",
