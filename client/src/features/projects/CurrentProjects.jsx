@@ -8,7 +8,6 @@ const CurrentProjects = () => {
   const navigate = useNavigate();
 
   const [projects, setProjects] = useState([]);
-
   const [loading, setLoading] = useState(false);
 
   const fetchProjects = async () => {
@@ -56,7 +55,7 @@ const CurrentProjects = () => {
             <th>સર્વેયરનું નામ</th>
             <th>સ્થિતિ</th>
             <th>નોંધ / રિમાર્કસ</th>
-            <th>Order Valuation</th>
+            <th>Action</th>
           </tr>
         </thead>
 
@@ -64,28 +63,32 @@ const CurrentProjects = () => {
           {projects?.map((project, index) => (
             <tr>
               <td>{index + 1}</td>
-              <td>{project?.spot?.gaam}</td>
-              <td>{project?.totalHouses}</td>
-              <td>{project?.spot?.taluka}</td>
-              <td>{project?.spot?.district}</td>
-              <td>{new Date(project?.createdAt).toLocaleDateString()}</td>
-              <td>{project?.name}</td>
-              <td>{project?.updates}</td>
-              <td>{project?.remarks}</td>
+              <td>{project?.spot?.gaam || "..."}</td>
+              <td>{project?.details?.totalHouses || "...."}</td>
+              <td>{project?.spot?.taluka || "...."}</td>
+              <td>{project?.spot?.district || "...."}</td>
+              <td>
+                {/* {new Date(project?.createdAt).toLocaleDateString() || "...."} */}
+                {new Date(project?.details?.date)?.toLocaleDateString() ||
+                  "...."}
+              </td>
+              <td>{project?.name || "...."}</td>
+              <td>{project?.updates || "...."}</td>
+              <td>{project?.remarks || "...."}</td>
               <td>
                 <button
                   style={{
-                    background: "orange",
+                    background: "blue",
                     color: "white",
                     borderRadius: "20px",
                     padding: ".3rem 1rem",
                   }}
                   className="ml-2 cursor-pointer"
                   onClick={() => {
-                    navigate(`/orderValuation/form/${project?._id}`);
+                    navigate(`/survay/manage/${project?._id}`);
                   }}
                 >
-                  Form
+                  Details
                 </button>
 
                 <button
@@ -101,6 +104,21 @@ const CurrentProjects = () => {
                   }}
                 >
                   Report
+                </button>
+
+                <button
+                  style={{
+                    background: "orangered",
+                    color: "white",
+                    borderRadius: "20px",
+                    padding: ".3rem 1rem",
+                  }}
+                  className="ml-2 cursor-pointer"
+                  onClick={() => {
+                    navigate(`/orderValuation/form/${project?._id}`);
+                  }}
+                >
+                  Form
                 </button>
               </td>
             </tr>

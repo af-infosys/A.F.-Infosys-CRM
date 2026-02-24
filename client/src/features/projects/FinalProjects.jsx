@@ -6,10 +6,13 @@ import { useNavigate } from "react-router-dom";
 const FinalProjects = () => {
   const navigate = useNavigate();
 
+  const [loading, setLoading] = useState(false);
   const [projects, setProjects] = useState([]);
 
   const fetchProjects = async () => {
     try {
+      setLoading(true);
+
       const data = await axios.get(`${await apiPath()}/api/work`, {
         headers: {
           "Content-Type": "application/json",
@@ -21,6 +24,8 @@ const FinalProjects = () => {
       setProjects(data?.data?.data || []);
     } catch (error) {
       console.error("Error fetching projects:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -30,7 +35,7 @@ const FinalProjects = () => {
 
   return (
     <div>
-      <h2>ચાલુ કામ હોય તેની આકારણી સર્વેની યાદિ</h2>
+      <h2>પુર્ણ કરેલ કામની આકારણી સર્વેની યાદિ</h2>
       <h3>A.F. Infosys</h3>
 
       <table>
@@ -40,14 +45,16 @@ const FinalProjects = () => {
 
             <th>ગામ</th>
 
-            <th>અંદાજીત ઘર</th>
+            <th>ઘર</th>
 
             <th>તાલુકો</th>
-
             <th>જિલ્લો</th>
             <th>કામની વિગત</th>
             <th>સર્વેયરનું નામ</th>
             <th>સ્થિતિ</th>
+            <th>સરપંચશ્રી ત્થા તલાટી કમ મંત્રીનું નામ </th>
+            <th>મોબાઈલ નંબર </th>
+            <th>બિલ / ભાવ</th>
             <th>નોંધ / રિમાર્કસ</th>
             <th>Action</th>
           </tr>
@@ -58,28 +65,33 @@ const FinalProjects = () => {
             <tr>
               <td>{index + 1}</td>
               <td>{project?.spot?.gaam}</td>
-              <td>{project?.totalHouses}</td>
+              <td>{"--"}</td>
               <td>{project?.spot?.taluka}</td>
               <td>{project?.spot?.district}</td>
-              <td>{new Date(project?.createdAt).toLocaleDateString()}</td>
-              <td>{project?.name}</td>
-              <td>{project?.updates}</td>
+              <td>{new Date()?.toLocaleDateString() && "--"}</td>
+              <td>{project?.name || "--"}</td>
+              <td>{project?.updates || "--"}</td>
+
+              <td>Sarpanch</td>
+              <td>9876543210</td>
+
+              <td>Bill</td>
+
               <td>{project?.remarks}</td>
               <td>
                 <button
                   style={{
-                    background: "orange",
+                    background: "blue",
                     color: "white",
                     borderRadius: "20px",
                     padding: ".3rem 1rem",
-                    marginTop: ".4rem",
                   }}
                   className="ml-2 cursor-pointer"
                   onClick={() => {
-                    navigate(`/orderValuation/form/${project?._id}`);
+                    navigate(`/survay/manage/${project?._id}`);
                   }}
                 >
-                  Form
+                  Details
                 </button>
 
                 <button
@@ -88,7 +100,6 @@ const FinalProjects = () => {
                     color: "white",
                     borderRadius: "20px",
                     padding: ".3rem 1rem",
-                    marginTop: ".4rem",
                   }}
                   className="ml-2 cursor-pointer"
                   onClick={() => {
@@ -97,9 +108,32 @@ const FinalProjects = () => {
                 >
                   Report
                 </button>
+
+                <button
+                  style={{
+                    background: "orangered",
+                    color: "white",
+                    borderRadius: "20px",
+                    padding: ".3rem 1rem",
+                  }}
+                  className="ml-2 cursor-pointer"
+                  onClick={() => {
+                    navigate(`/orderValuation/form/${project?._id}`);
+                  }}
+                >
+                  Form
+                </button>
               </td>
             </tr>
           ))}
+
+          {loading ? (
+            <tr>
+              <td colSpan="10" className="text-center">
+                Loading Project / Work Data...
+              </td>
+            </tr>
+          ) : null}
         </tbody>
       </table>
     </div>

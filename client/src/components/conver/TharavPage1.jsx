@@ -20,7 +20,13 @@ const TharavPage1 = ({ project }) => {
         <h1 className="text-3xl font-extrabold text-gray-800 tracking-wider">
           {project?.spot?.gaam || "................"} ગ્રામપંચાયત આકારણી કમિટિ
         </h1>
+        x
       </header>
+
+      <h2 style={{ textAlign: "center", fontWeight: "bold" }}>
+        તા. {project?.spot?.taluka || "......"}, જિ.{" "}
+        {project?.spot?.district || "....."}
+      </h2>
 
       {/* Header */}
       <h2 style={{ textAlign: "center", fontWeight: "bold" }}>
@@ -76,7 +82,6 @@ const TharavPage1 = ({ project }) => {
               </th>
               <th>
                 <span className="formatting" style={{ textAlign: "center" }}>
-                  {" "}
                   આકારણી કમિટિનો હોદ્દો
                 </span>
               </th>

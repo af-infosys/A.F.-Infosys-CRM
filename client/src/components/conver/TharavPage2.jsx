@@ -119,7 +119,7 @@ const TharavPage2 = ({ project }) => {
           fontSize: "12px",
         }}
       >
-        GP Benefits
+        Tharav - Certificate
       </p>
     </div>
   );

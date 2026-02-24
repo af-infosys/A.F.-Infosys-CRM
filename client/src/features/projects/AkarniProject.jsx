@@ -37,7 +37,7 @@ const AkarniProjects = () => {
 
   return (
     <div>
-      <h2>ચાલુ કામ હોય તેની આકારણી સર્વેની યાદિ</h2>
+      <h2>નક્કિ કરેલ ચાલુ કામ કરવાના હોય તેની આકારણી સર્વેની યાદિ</h2>
       <h3>A.F. Infosys</h3>
 
       <table>
@@ -47,79 +47,79 @@ const AkarniProjects = () => {
 
             <th>ગામ</th>
 
+            <th>અંદાજીત ઘર</th>
+
             <th>તાલુકો</th>
 
             <th>જિલ્લો</th>
-
+            <th>સ્થિતિ</th>
+            <th>ક્યા સર્વેયરને આપવું</th>
+            <th>નોંધ / રિમાર્કસ</th>
             <th>Action</th>
           </tr>
         </thead>
 
         <tbody>
           {projects?.map((project, index) => (
-            <tr style={{ cursor: "pointer" }}>
-              <td
-                onClick={() => {
-                  navigate(`/survay/manage/${project?._id}`);
-                }}
-              >
-                {index + 1}
-              </td>
-              <td
-                onClick={() => {
-                  navigate(`/survay/manage/${project?._id}`);
-                }}
-              >
-                {project?.spot?.gaam}
-              </td>
-              <td
-                onClick={() => {
-                  navigate(`/survay/manage/${project?._id}`);
-                }}
-              >
-                {project?.spot?.taluka}
-              </td>
-              <td
-                onClick={() => {
-                  navigate(`/survay/manage/${project?._id}`);
-                }}
-              >
-                {project?.spot?.district}
-              </td>
-
+            <tr>
+              <td>{index + 1}</td>
+              <td>{project?.spot?.gaam || "..."}</td>
+              <td>{project?.details?.totalHouses || "...."}</td>
+              <td>{project?.spot?.taluka || "...."}</td>
+              <td>{project?.spot?.district || "...."}</td>
+              {/* <td> */}
+              {/* {new Date(project?.createdAt).toLocaleDateString() || "...."} */}
+              {/* {new Date(project?.details?.date)?.toLocaleDateString() ||
+                  "...."} */}
+              {/* </td> */}
+              <td>{project?.updates || "...."}</td>
+              <td>{project?.name || "...."}</td>
+              <td>{project?.remarks || "...."}</td>
               <td>
-                <div style={{ display: "flex" }}>
-                  <button
-                    style={{
-                      background: "orange",
-                      color: "white",
-                      borderRadius: "20px",
-                      padding: ".3rem 1rem",
-                      textWrap: "nowrap",
-                    }}
-                    className="ml-2 cursor-pointer"
-                    onClick={() => {
-                      navigate(`/survay/manage/${project?._id}`);
-                    }}
-                  >
-                    Details
-                  </button>
-                  <button
-                    style={{
-                      background: "orange",
-                      color: "white",
-                      borderRadius: "20px",
-                      padding: ".3rem 1rem",
-                      textWrap: "nowrap",
-                    }}
-                    className="ml-2 cursor-pointer"
-                    onClick={() => {
-                      navigate(`/orderValuation/form/${project?._id}`);
-                    }}
-                  >
-                    Order Valuation Form
-                  </button>
-                </div>
+                <button
+                  style={{
+                    background: "blue",
+                    color: "white",
+                    borderRadius: "20px",
+                    padding: ".3rem 1rem",
+                  }}
+                  className="ml-2 cursor-pointer"
+                  onClick={() => {
+                    navigate(`/survay/manage/${project?._id}`);
+                  }}
+                >
+                  Details
+                </button>
+
+                <button
+                  style={{
+                    background: "orange",
+                    color: "white",
+                    borderRadius: "20px",
+                    padding: ".3rem 1rem",
+                  }}
+                  className="ml-2 cursor-pointer"
+                  onClick={() => {
+                    navigate(`/orderValuation/report/${project?._id}`);
+                  }}
+                >
+                  Report
+                </button>
+
+                <button
+                  style={{
+                    background: "orangered",
+                    color: "white",
+                    borderRadius: "20px",
+                    padding: ".3rem 1rem",
+                  }}
+                  className="ml-2 cursor-pointer"
+                  onClick={() => {
+                    navigate(`/orderValuation/form/${project?._id}`);
+                  }}
+                >
+                  Form
+                </button>
               </td>
             </tr>
           ))}

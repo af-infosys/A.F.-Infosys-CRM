@@ -329,20 +329,36 @@ export default function DashboardLayout() {
                   <>
                     <div className="sub-links">
                       <NavLink
-                        to={`/`}
+                        to={`/projects/first`}
                         className={({ isActive }) => (isActive ? "active" : "")}
                         onClick={() => setIsSidebarOpen(false)}
                       >
-                        Manage Orders
+                        નક્કિ કરેલ કામ
                       </NavLink>
 
-                      {/* <NavLink
-                        to={`/survay/manage`}
+                      <NavLink
+                        to={`/projects/current`}
                         className={({ isActive }) => (isActive ? "active" : "")}
                         onClick={() => setIsSidebarOpen(false)}
                       >
-                        Manage Orders
-                      </NavLink> */}
+                        ચાલુ કામ
+                      </NavLink>
+
+                      <NavLink
+                        to={`/projects/final`}
+                        className={({ isActive }) => (isActive ? "active" : "")}
+                        onClick={() => setIsSidebarOpen(false)}
+                      >
+                        પુર્ણ કામ
+                      </NavLink>
+
+                      <NavLink
+                        to={`/projects/cancled`}
+                        className={({ isActive }) => (isActive ? "active" : "")}
+                        onClick={() => setIsSidebarOpen(false)}
+                      >
+                        રદ થયેલ કામ
+                      </NavLink>
 
                       {/* <NavLink
                         to={`/projects/final`}

@@ -52,6 +52,7 @@ import ManageCertificate from "../features/meetings/ManageCertificate";
 import ArjiLetter from "../features/meetings/ArjiLetter";
 import Certificate from "../features/meetings/Certificate";
 import TharavSet from "../features/orderValuation/TharavSet";
+import CancledProjects from "../features/projects/CancledProjects";
 
 export default function AppRoutes() {
   const { user } = useAuth();
@@ -241,13 +242,14 @@ export default function AppRoutes() {
         <Route path="projects">
           {/* <Route path="add" element={<AddProject />} /> */}
           <Route
-            path="final"
+            path="first"
             element={
               <ProtectedRoute allowedRoles={["owner"]}>
-                <FinalProjects />
+                <AkarniProjects />
               </ProtectedRoute>
             }
           />
+
           <Route
             path="current"
             element={
@@ -256,8 +258,24 @@ export default function AppRoutes() {
               </ProtectedRoute>
             }
           />
-          {/* <Route path="completed" element={<ProtectedRoute allowedRoles={["owner"]}><CompletedProjects /></ProtectedRoute>} /> */}
-          {/* <Route path="cancled" element={<ProtectedRoute allowedRoles={["owner"]}><CancledProjects /></ProtectedRoute>} /> */}
+
+          <Route
+            path="final"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <FinalProjects />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="cancled"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <CancledProjects />
+              </ProtectedRoute>
+            }
+          />
         </Route>
         {/* Projects Routes End */}
 
