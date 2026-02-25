@@ -53,6 +53,7 @@ import ArjiLetter from "../features/meetings/ArjiLetter";
 import Certificate from "../features/meetings/Certificate";
 import TharavSet from "../features/orderValuation/TharavSet";
 import CancledProjects from "../features/projects/CancledProjects";
+import UpdateStatus from "../features/projects/Status";
 
 export default function AppRoutes() {
   const { user } = useAuth();
@@ -273,6 +274,15 @@ export default function AppRoutes() {
             element={
               <ProtectedRoute allowedRoles={["owner"]}>
                 <CancledProjects />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="update/:id"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <UpdateStatus />
               </ProtectedRoute>
             }
           />

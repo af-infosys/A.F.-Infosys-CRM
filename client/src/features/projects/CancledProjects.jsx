@@ -79,50 +79,52 @@ const CancledProjects = () => {
 
               <td>{project?.remarks}</td>
               <td>
-                <button
-                  style={{
-                    background: "blue",
-                    color: "white",
-                    borderRadius: "20px",
-                    padding: ".3rem 1rem",
-                  }}
-                  className="ml-2 cursor-pointer"
-                  onClick={() => {
-                    navigate(`/survay/manage/${project?._id}`);
-                  }}
-                >
-                  Details
-                </button>
+                <div style={{ display: "flex" }}>
+                  <button
+                    style={{
+                      background: "blue",
+                      color: "white",
+                      borderRadius: "20px",
+                      padding: ".3rem 1rem",
+                    }}
+                    className="ml-2 cursor-pointer"
+                    onClick={() => {
+                      navigate(`/survay/manage/${project?._id}`);
+                    }}
+                  >
+                    Details
+                  </button>
 
-                <button
-                  style={{
-                    background: "orange",
-                    color: "white",
-                    borderRadius: "20px",
-                    padding: ".3rem 1rem",
-                  }}
-                  className="ml-2 cursor-pointer"
-                  onClick={() => {
-                    navigate(`/orderValuation/report/${project?._id}`);
-                  }}
-                >
-                  Report
-                </button>
+                  <button
+                    style={{
+                      background: "orange",
+                      color: "white",
+                      borderRadius: "20px",
+                      padding: ".3rem 1rem",
+                    }}
+                    className="ml-2 cursor-pointer"
+                    onClick={() => {
+                      navigate(`/projects/update/${project?._id}`);
+                    }}
+                  >
+                    <span style={{ whiteSpace: "nowrap" }}>Update Status</span>
+                  </button>
 
-                <button
-                  style={{
-                    background: "orangered",
-                    color: "white",
-                    borderRadius: "20px",
-                    padding: ".3rem 1rem",
-                  }}
-                  className="ml-2 cursor-pointer"
-                  onClick={() => {
-                    navigate(`/orderValuation/form/${project?._id}`);
-                  }}
-                >
-                  Form
-                </button>
+                  <button
+                    style={{
+                      background: "orangered",
+                      color: "white",
+                      borderRadius: "20px",
+                      padding: ".3rem 1rem",
+                    }}
+                    className="ml-2 cursor-pointer"
+                    onClick={() => {
+                      navigate(`/orderValuation/form/${project?._id}`);
+                    }}
+                  >
+                    <span style={{ whiteSpace: "nowrap" }}>OV Form</span>
+                  </button>
+                </div>
               </td>
             </tr>
           ))}

@@ -14,6 +14,7 @@ import {
   getBillWork,
   getAllBillWork,
   getBillWorkDetail,
+  updateWorkStatus,
 } from "../controllers/workController.js";
 
 const userRoutes = express.Router();
@@ -24,7 +25,7 @@ userRoutes.get(
   "/bill",
   authenticateToken,
   authorizeRoles("owner"),
-  getAllBillWork
+  getAllBillWork,
 );
 
 // userRoutes.get(
@@ -35,6 +36,13 @@ userRoutes.get(
 // );
 
 userRoutes.get("/project/:id", getProjectDetail); // ✅ pehle specific
+
+userRoutes.put(
+  "/project/status/:id",
+  authenticateToken,
+  authorizeRoles("owner"),
+  updateWorkStatus,
+);
 
 userRoutes.get("/:id", authenticateToken, getWorkSpot); // ✅ baad me generic
 userRoutes.get("/bill/:id", authenticateToken, getBillWork); // ✅ baad me generic
@@ -48,7 +56,7 @@ userRoutes.delete(
   "/:id",
   authenticateToken,
   authorizeRoles("owner"),
-  deleteWork
+  deleteWork,
 );
 
 export default userRoutes;

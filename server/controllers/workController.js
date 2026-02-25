@@ -261,15 +261,7 @@ export const getProjectDetail = async (req, res) => {
 export const editWork = async (req, res) => {
   try {
     const { id } = req.params; // The sheetId from the URL parameter
-    const { sheetId: newSheetId, spot: newSpot } = req.body; // Updated data from body
-
-    // Ensure sheetId is not changed if it's the identifier, or handle carefully
-    if (newSheetId && newSheetId !== id) {
-      return res.status(400).json({
-        message:
-          "Sheet ID cannot be changed directly via edit. Create a new entry instead.",
-      });
-    }
+    const { spot: newSpot } = req.body; // Updated data from body
 
     // Basic validation
     if (!newSpot || !newSpot.gaam || !newSpot.taluka || !newSpot.district) {
@@ -282,7 +274,7 @@ export const editWork = async (req, res) => {
     const updatedWork = await Work.findOneAndUpdate(
       { sheetId: id }, // Find by the sheetId from URL params
       { spot: newSpot }, // Update only the spot object
-      { new: true } // Return the updated document
+      { new: true }, // Return the updated document
     );
 
     if (!updatedWork) {
@@ -321,6 +313,40 @@ export const deleteWork = async (req, res) => {
     console.error("Error deleting work entry:", error);
     res.status(500).json({
       message: "Failed to delete work entry.",
+      error: error.message,
+    });
+  }
+};
+
+// --- Edit (Update) Work Entry ---
+export const updateWorkStatus = async (req, res) => {
+  console.log("Updating Akarni Work Status...", req.body);
+
+  try {
+    const { id } = req.params; // The sheetId from the URL parameter
+    const newStatus = req.body; // Updated data from body
+
+    // Find and update the work entry by sheetId
+    const updatedWork = await Work.findOneAndUpdate(
+      { _id: id }, // Find by the sheetId from URL params
+      { other: newStatus.other || {} }, // Update only the spot object
+      { new: true }, // Return the updated document
+    );
+
+    console.log(updatedWork);
+
+    if (!updatedWork) {
+      return res.status(404).json({ message: "Work entry not found." });
+    }
+
+    res.status(200).json({
+      message: "Work entry updated successfully!",
+      data: updatedWork,
+    });
+  } catch (error) {
+    console.error("Error editing work entry:", error);
+    res.status(500).json({
+      message: "Failed to update work entry.",
       error: error.message,
     });
   }

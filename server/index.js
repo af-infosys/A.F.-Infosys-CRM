@@ -442,12 +442,12 @@ import MessagesRoutes from "./routes/waFromatRoutes.js";
 
 // import { sendMessageToWhatsApp } from "./controllers/sendController.js";
 
-app.post("/send-message", sendMessageToWhatsApp);
-app.post("/check-whatsapp-numbers", checkWhatsAppNumbers);
+// app.post("/send-message", sendMessageToWhatsApp);
+// app.post("/check-whatsapp-numbers", checkWhatsAppNumbers);
 
 // Server
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, async () => {
   console.log(`🚀 Server running on port ${PORT}`);
-  connectWhatsAPP();
+  // connectWhatsAPP();
 });

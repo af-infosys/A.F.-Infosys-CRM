@@ -6,6 +6,7 @@ const workSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+
     spot: {
       type: Object,
     },
@@ -13,9 +14,13 @@ const workSchema = new mongoose.Schema(
     details: {
       type: Object,
     },
+
+    other: {
+      type: Object,
+    },
   },
 
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export default mongoose.model("Work", workSchema);

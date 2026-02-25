@@ -52,8 +52,8 @@ const FinalProjects = () => {
             <th>કામની વિગત</th>
             <th>સર્વેયરનું નામ</th>
             <th>સ્થિતિ</th>
-            <th>સરપંચશ્રી ત્થા તલાટી કમ મંત્રીનું નામ </th>
-            <th>મોબાઈલ નંબર </th>
+            <th>સરપંચશ્રી ત્થા તલાટી કમ મંત્રીનું નામ</th>
+            <th>મોબાઈલ નંબર</th>
             <th>બિલ / ભાવ</th>
             <th>નોંધ / રિમાર્કસ</th>
             <th>Action</th>
@@ -64,13 +64,15 @@ const FinalProjects = () => {
           {projects?.map((project, index) => (
             <tr>
               <td>{index + 1}</td>
-              <td>{project?.spot?.gaam}</td>
+              <td>
+                <p style={{ whiteSpace: "nowrap" }}>{project?.spot?.gaam}</p>
+              </td>
               <td>{"--"}</td>
               <td>{project?.spot?.taluka}</td>
               <td>{project?.spot?.district}</td>
               <td>{new Date()?.toLocaleDateString() && "--"}</td>
               <td>{project?.name || "--"}</td>
-              <td>{project?.updates || "--"}</td>
+              <td>{project?.other?.updates || "--"}</td>
 
               <td>Sarpanch</td>
               <td>9876543210</td>
@@ -79,50 +81,52 @@ const FinalProjects = () => {
 
               <td>{project?.remarks}</td>
               <td>
-                <button
-                  style={{
-                    background: "blue",
-                    color: "white",
-                    borderRadius: "20px",
-                    padding: ".3rem 1rem",
-                  }}
-                  className="ml-2 cursor-pointer"
-                  onClick={() => {
-                    navigate(`/survay/manage/${project?._id}`);
-                  }}
-                >
-                  Details
-                </button>
+                <div style={{ display: "flex" }}>
+                  <button
+                    style={{
+                      background: "blue",
+                      color: "white",
+                      borderRadius: "20px",
+                      padding: ".3rem 1rem",
+                    }}
+                    className="ml-2 cursor-pointer"
+                    onClick={() => {
+                      navigate(`/survay/manage/${project?._id}`);
+                    }}
+                  >
+                    Details
+                  </button>
 
-                <button
-                  style={{
-                    background: "orange",
-                    color: "white",
-                    borderRadius: "20px",
-                    padding: ".3rem 1rem",
-                  }}
-                  className="ml-2 cursor-pointer"
-                  onClick={() => {
-                    navigate(`/orderValuation/report/${project?._id}`);
-                  }}
-                >
-                  Report
-                </button>
+                  <button
+                    style={{
+                      background: "orange",
+                      color: "white",
+                      borderRadius: "20px",
+                      padding: ".3rem 1rem",
+                    }}
+                    className="ml-2 cursor-pointer"
+                    onClick={() => {
+                      navigate(`/projects/update/${project?._id}`);
+                    }}
+                  >
+                    <span style={{ whiteSpace: "nowrap" }}>Update Status</span>
+                  </button>
 
-                <button
-                  style={{
-                    background: "orangered",
-                    color: "white",
-                    borderRadius: "20px",
-                    padding: ".3rem 1rem",
-                  }}
-                  className="ml-2 cursor-pointer"
-                  onClick={() => {
-                    navigate(`/orderValuation/form/${project?._id}`);
-                  }}
-                >
-                  Form
-                </button>
+                  <button
+                    style={{
+                      background: "orangered",
+                      color: "white",
+                      borderRadius: "20px",
+                      padding: ".3rem 1rem",
+                    }}
+                    className="ml-2 cursor-pointer"
+                    onClick={() => {
+                      navigate(`/orderValuation/form/${project?._id}`);
+                    }}
+                  >
+                    <span style={{ whiteSpace: "nowrap" }}>OV Form</span>
+                  </button>
+                </div>
               </td>
             </tr>
           ))}
