@@ -172,109 +172,280 @@ const SurvayReport = () => {
     }));
   };
 
-  const handleDownloadPDF = async () => {
-    const totalPages = finalRenderPages.length;
-    let totalDuration = 0;
-    const startTime = window.performance.now();
+  // const handleDownloadPDF = async () => {
+  //   const totalPages = finalRenderPages.length;
+  //   let totalDuration = 0;
+  //   const startTime = window.performance.now();
 
-    setPdfProgress({
-      isGenerating: true,
-      isCancelled: false,
-      completedPages: 0,
-      totalPages: totalPages,
-      percentage: 0,
-      timeRemaining: null,
+  //   setPdfProgress({
+  //     isGenerating: true,
+  //     isCancelled: false,
+  //     completedPages: 0,
+  //     totalPages: totalPages,
+  //     percentage: 0,
+  //     timeRemaining: null,
+  //   });
+
+  //   const pdf = new jsPDF("landscape", "mm", "legal");
+
+  //   for (let i = 0; i < totalPages; i++) {
+  //     const currentState = await new Promise((resolve) => {
+  //       setPdfProgress((prev) => {
+  //         resolve(prev);
+  //         return prev;
+  //       });
+  //     });
+
+  //     if (currentState.isCancelled) {
+  //       console.log("PDF generation cancelled by user.");
+  //       break;
+  //     }
+
+  //     const pageStart = window.performance.now();
+  //     const pageElement = document.getElementById(`report-page-${i}`);
+
+  //     if (!pageElement) {
+  //       console.error(`Page element with ID 'report-page-${i}' not found.`);
+  //       continue;
+  //     }
+
+  //     if (i > 0) {
+  //       pdf.addPage();
+  //     }
+
+  //     try {
+  //       const canvas = await html2canvas(pageElement, {
+  //         scale: 2,
+  //         logging: false,
+  //         useCORS: true,
+  //         allowTaint: true,
+  //       });
+
+  //       const imgData = canvas.toDataURL("image/jpeg", 1.0);
+  //       const imgWidth = 355.6;
+  //       const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+  //       pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight);
+
+  //       const pageEnd = window.performance.now();
+  //       const pageDuration = pageEnd - pageStart;
+  //       totalDuration += pageDuration;
+
+  //       const completedPages = i + 1;
+  //       const percentage = Math.round((completedPages / totalPages) * 100);
+
+  //       let timeRemaining = null;
+
+  //       if (completedPages >= 2) {
+  //         const averageTimePerPage = totalDuration / completedPages;
+  //         const pagesRemaining = totalPages - completedPages;
+  //         timeRemaining = Math.max(
+  //           0,
+  //           Math.round((averageTimePerPage * pagesRemaining) / 1000),
+  //         );
+  //       }
+
+  //       setPdfProgress((prev) => ({
+  //         ...prev,
+  //         completedPages: completedPages,
+  //         percentage: percentage,
+  //         timeRemaining: timeRemaining,
+  //       }));
+  //     } catch (error) {
+  //       console.error("Error generating PDF page:", error);
+  //       break;
+  //     }
+  //   }
+
+  //   const finalState = await new Promise((resolve) => {
+  //     setPdfProgress((prev) => {
+  //       resolve(prev);
+  //       return {
+  //         ...prev,
+  //         isGenerating: false,
+  //         isCancelled: prev.isCancelled,
+  //         percentage: prev.isCancelled ? prev.percentage : 100,
+  //         timeRemaining: null,
+  //       };
+  //     });
+  //   });
+
+  //   if (!finalState.isCancelled) {
+  //     pdf.save(`2. આકારણી રજીસ્ટર - ${project?.spot?.gaam}.pdf`);
+  //     window.alert("PDF successfully saved.");
+  //   } else {
+  //     window.alert("PDF save operation skipped due to cancellation.");
+  //   }
+  // };
+
+  const handleDownloadPDF = async () => {
+    const isSeparate = project?.details?.seperatecommercial === true;
+
+    const residentialIndexes = [];
+    const commercialIndexes = [];
+
+    finalRenderPages.forEach((item, idx) => {
+      if (isSeparate) {
+        if (item.commercial) {
+          commercialIndexes.push(idx);
+        } else {
+          residentialIndexes.push(idx);
+        }
+      }
     });
 
-    const pdf = new jsPDF("landscape", "mm", "legal");
+    const generatePDF = async (pageIndexes, fileName) => {
+      const totalPages = pageIndexes.length;
+      let totalDuration = 0;
 
-    for (let i = 0; i < totalPages; i++) {
-      const currentState = await new Promise((resolve) => {
-        setPdfProgress((prev) => {
-          resolve(prev);
-          return prev;
-        });
-      });
+      const pdf = new jsPDF("landscape", "mm", "legal");
 
-      if (currentState.isCancelled) {
-        console.log("PDF generation cancelled by user.");
-        break;
-      }
-
-      const pageStart = window.performance.now();
-      const pageElement = document.getElementById(`report-page-${i}`);
-
-      if (!pageElement) {
-        console.error(`Page element with ID 'report-page-${i}' not found.`);
-        continue;
-      }
-
-      if (i > 0) {
-        pdf.addPage();
-      }
-
-      try {
-        const canvas = await html2canvas(pageElement, {
-          scale: 2,
-          logging: false,
-          useCORS: true,
-          allowTaint: true,
+      for (let i = 0; i < totalPages; i++) {
+        const currentState = await new Promise((resolve) => {
+          setPdfProgress((prev) => {
+            resolve(prev);
+            return prev;
+          });
         });
 
-        const imgData = canvas.toDataURL("image/jpeg", 1.0);
-        const imgWidth = 355.6;
-        const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-        pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight);
-
-        const pageEnd = window.performance.now();
-        const pageDuration = pageEnd - pageStart;
-        totalDuration += pageDuration;
-
-        const completedPages = i + 1;
-        const percentage = Math.round((completedPages / totalPages) * 100);
-
-        let timeRemaining = null;
-
-        if (completedPages >= 2) {
-          const averageTimePerPage = totalDuration / completedPages;
-          const pagesRemaining = totalPages - completedPages;
-          timeRemaining = Math.max(
-            0,
-            Math.round((averageTimePerPage * pagesRemaining) / 1000),
-          );
+        if (currentState.isCancelled) {
+          console.log("PDF generation cancelled by user.");
+          break;
         }
 
-        setPdfProgress((prev) => ({
-          ...prev,
-          completedPages: completedPages,
-          percentage: percentage,
-          timeRemaining: timeRemaining,
-        }));
-      } catch (error) {
-        console.error("Error generating PDF page:", error);
-        break;
+        const pageIndex = pageIndexes[i];
+        const pageStart = window.performance.now();
+        const pageElement = document.getElementById(`report-page-${pageIndex}`);
+
+        if (!pageElement) {
+          console.error(
+            `Page element with ID 'report-page-${pageIndex}' not found.`,
+          );
+          continue;
+        }
+
+        if (i > 0) {
+          pdf.addPage();
+        }
+
+        try {
+          const canvas = await html2canvas(pageElement, {
+            scale: 2,
+            logging: false,
+            useCORS: true,
+            allowTaint: true,
+          });
+
+          const imgData = canvas.toDataURL("image/jpeg", 1.0);
+          const imgWidth = 355.6;
+          const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+          pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight);
+
+          const pageEnd = window.performance.now();
+          const pageDuration = pageEnd - pageStart;
+          totalDuration += pageDuration;
+
+          const completedPages = i + 1;
+          const percentage = Math.round((completedPages / totalPages) * 100);
+
+          let timeRemaining = null;
+
+          if (completedPages >= 2) {
+            const avgTime = totalDuration / completedPages;
+            const remaining = totalPages - completedPages;
+            timeRemaining = Math.max(
+              0,
+              Math.round((avgTime * remaining) / 1000),
+            );
+          }
+
+          setPdfProgress((prev) => ({
+            ...prev,
+            completedPages,
+            totalPages,
+            percentage,
+            timeRemaining,
+          }));
+        } catch (error) {
+          console.error("Error generating PDF page:", error);
+          break;
+        }
       }
-    }
 
-    const finalState = await new Promise((resolve) => {
-      setPdfProgress((prev) => {
-        resolve(prev);
-        return {
-          ...prev,
-          isGenerating: false,
-          isCancelled: prev.isCancelled,
-          percentage: prev.isCancelled ? prev.percentage : 100,
-          timeRemaining: null,
-        };
+      const finalState = await new Promise((resolve) => {
+        setPdfProgress((prev) => {
+          resolve(prev);
+          return {
+            ...prev,
+            isGenerating: false,
+            isCancelled: prev.isCancelled,
+            percentage: prev.isCancelled ? prev.percentage : 100,
+            timeRemaining: null,
+          };
+        });
       });
-    });
 
-    if (!finalState.isCancelled) {
-      pdf.save(`2. આકારણી રજીસ્ટર - ${project?.spot?.gaam}.pdf`);
-      window.alert("PDF successfully saved.");
+      if (!finalState.isCancelled) {
+        pdf.save(fileName);
+      }
+    };
+
+    if (isSeparate) {
+      // Residential PDF
+      if (residentialIndexes.length > 0) {
+        setPdfProgress({
+          isGenerating: true,
+          isCancelled: false,
+          completedPages: 0,
+          totalPages: residentialIndexes.length,
+          percentage: 0,
+          timeRemaining: null,
+        });
+
+        await generatePDF(
+          residentialIndexes,
+          `Residential - આકારણી રજીસ્ટર - ${project?.spot?.gaam}.pdf`,
+        );
+      }
+
+      // Commercial PDF
+      if (commercialIndexes.length > 0) {
+        setPdfProgress({
+          isGenerating: true,
+          isCancelled: false,
+          completedPages: 0,
+          totalPages: commercialIndexes.length,
+          percentage: 0,
+          timeRemaining: null,
+        });
+
+        await generatePDF(
+          commercialIndexes,
+          `Commercial - આકારણી રજીસ્ટર - ${project?.spot?.gaam}.pdf`,
+        );
+      }
+
+      window.alert("Residential & Commercial PDFs generated successfully.");
     } else {
-      window.alert("PDF save operation skipped due to cancellation.");
+      // Default single PDF
+      const allIndexes = finalRenderPages.map((_, idx) => idx);
+
+      setPdfProgress({
+        isGenerating: true,
+        isCancelled: false,
+        completedPages: 0,
+        totalPages: allIndexes.length,
+        percentage: 0,
+        timeRemaining: null,
+      });
+
+      await generatePDF(
+        allIndexes,
+        `2. આકારણી રજીસ્ટર - ${project?.spot?.gaam}.pdf`,
+      );
+
+      window.alert("PDF successfully saved.");
     }
   };
 
@@ -388,7 +559,7 @@ const SurvayReport = () => {
   );
 
   function isCommercialProperty(row) {
-    const category = row[7] ? row[7].trim() : "";
+    const category = row[8] ? row[8].trim() : "";
 
     // 1️⃣ Category based
     if (commercialCategories.includes(category)) {
@@ -396,9 +567,9 @@ const SurvayReport = () => {
     }
 
     // 2️⃣ Room details based ("દુકાન")
-    if (row[14]) {
+    if (row[15]) {
       try {
-        const floors = JSON.parse(row[14]);
+        const floors = JSON.parse(row[15]);
 
         return floors.some(
           (floor) =>
@@ -549,6 +720,7 @@ const SurvayReport = () => {
               pageRecords: pageRecs,
               isCommercial: true,
             });
+
             globalPageNumber++;
           });
 
@@ -760,7 +932,7 @@ const SurvayReport = () => {
           if (item.type === "cover") {
             return (
               <div
-                key={id}
+                key={idx}
                 id={id}
                 className={`report-page legal-landscape-dimensions ${project?.details?.finalAkarni === true && "cover-bg"}`}
                 style={{
@@ -803,7 +975,7 @@ const SurvayReport = () => {
           if (item.type === "benefit") {
             return (
               <div
-                key={id}
+                key={idx}
                 id={id}
                 className="report-page legal-landscape-dimensions"
                 style={{
@@ -821,7 +993,7 @@ const SurvayReport = () => {
           if (item.type === "tharav") {
             return (
               <div
-                key={id}
+                key={idx}
                 id={id}
                 className="report-page legal-landscape-dimensions"
                 style={{
@@ -840,7 +1012,7 @@ const SurvayReport = () => {
 
           return (
             <div
-              key={id}
+              key={idx}
               id={id}
               className="report-page legal-landscape-dimensions"
               style={{
