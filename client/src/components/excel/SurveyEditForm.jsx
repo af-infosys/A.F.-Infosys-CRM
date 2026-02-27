@@ -24,16 +24,16 @@ const SurveyEditForm = ({
 
   useEffect(() => {
     if (index !== false) {
-      setCategory(record[index][7]);
+      setCategory(record[index][8]);
 
-      setFloors(JSON.parse(record[index][14]));
+      setFloors(JSON.parse(record[index][15]));
 
       setFacilities({
-        kitchenCount: Number(record[index][8] || 0),
-        bathroomCount: Number(record[index][9] || 0),
-        verandaCount: Number(record[index][10] || 0),
-        tapCount: Number(record[index][11] || 0),
-        toiletCount: Number(record[index][12] || 0),
+        kitchenCount: Number(record[index][9] || 0),
+        bathroomCount: Number(record[index][10] || 0),
+        verandaCount: Number(record[index][11] || 0),
+        tapCount: Number(record[index][12] || 0),
+        toiletCount: Number(record[index][13] || 0),
       });
     }
   }, [index]);
@@ -42,8 +42,8 @@ const SurveyEditForm = ({
     if (index !== false) {
       setData(() => {
         const newData = [...record];
-        newData[index][7] = category;
-        console.log(newData[index][7]);
+        newData[index][8] = category;
+        console.log(newData[index][8]);
 
         return newData;
       });
@@ -54,8 +54,8 @@ const SurveyEditForm = ({
     if (index !== false) {
       setData(() => {
         const newData = [...record];
-        newData[index][14] = JSON.stringify(floors);
-        newData[index][15] = BuildDescription(record[index], floors);
+        newData[index][15] = JSON.stringify(floors);
+        newData[index][16] = BuildDescription(record[index], floors);
 
         return newData;
       });
@@ -66,13 +66,13 @@ const SurveyEditForm = ({
     if (index !== false) {
       setData(() => {
         const newData = [...record];
-        newData[index][8] = facilities.kitchenCount;
-        newData[index][9] = facilities.bathroomCount;
-        newData[index][10] = facilities.verandaCount;
-        newData[index][11] = facilities.tapCount;
-        newData[index][12] = facilities.toiletCount;
+        newData[index][9] = facilities.kitchenCount;
+        newData[index][10] = facilities.bathroomCount;
+        newData[index][11] = facilities.verandaCount;
+        newData[index][12] = facilities.tapCount;
+        newData[index][13] = facilities.toiletCount;
 
-        newData[index][15] = BuildDescription(newData[index], floors);
+        newData[index][16] = BuildDescription(newData[index], floors);
 
         return newData;
       });
