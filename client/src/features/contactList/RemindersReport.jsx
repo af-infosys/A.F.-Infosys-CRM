@@ -98,14 +98,14 @@ const RemindersReport = () => {
               <tr>
                 <th
                   className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-lg"
-                  style={{ color: "white", background: background }}
+                  style={{ color: "blue", background: background }}
                 >
                   અનું ક્રમાંક
                 </th>
                 <th
                   className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
                   style={{
-                    color: "white",
+                    color: "blue",
                     background: background,
                     minWidth: "150px",
                   }}
@@ -114,56 +114,56 @@ const RemindersReport = () => {
                 </th>
                 <th
                   className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  style={{ color: "white", background: background }}
+                  style={{ color: "blue", background: background }}
                 >
                   મોબાઈલ નંબર
                 </th>
                 <th
                   className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  style={{ color: "white", background: background }}
+                  style={{ color: "blue", background: background }}
                 >
                   વોટસેઅપ નબંર
                 </th>
                 <th
                   className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  style={{ color: "white", background: background }}
+                  style={{ color: "blue", background: background }}
                 >
                   કેટેગરી
                 </th>
                 <th
                   className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  style={{ color: "white", background: background }}
+                  style={{ color: "blue", background: background }}
                 >
                   ગામ
                 </th>
                 <th
                   className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  style={{ color: "white", background: background }}
+                  style={{ color: "blue", background: background }}
                 >
                   ચાર્જ નું ગામ
                 </th>
                 <th
                   className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  style={{ color: "white", background: background }}
+                  style={{ color: "blue", background: background }}
                 >
                   તાલુકો
                 </th>
                 <th
                   className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  style={{ color: "white", background: background }}
+                  style={{ color: "blue", background: background }}
                 >
                   જિલ્લો
                 </th>
 
                 <th
                   className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  style={{ color: "white", background: background }}
+                  style={{ color: "blue", background: background }}
                 >
                   Updated by
                 </th>
                 <th
                   className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tr-lg"
-                  style={{ color: "white", background: background }}
+                  style={{ color: "blue", background: background }}
                 >
                   Action
                 </th>
@@ -178,7 +178,7 @@ const RemindersReport = () => {
                   className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
                   style={{
                     textAlign: "center",
-                    color: "white",
+                    color: "blue",
                     background: background,
                   }}
                   key={index}

@@ -2,12 +2,14 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import apiPath from "../../isProduction";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const FinalProjects = () => {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
   const [projects, setProjects] = useState([]);
+  const [users, setUsers] = useState([]);
 
   const fetchProjects = async () => {
     try {
@@ -20,7 +22,6 @@ const FinalProjects = () => {
         },
       });
 
-      console.log(data);
       setProjects(data?.data?.data || []);
     } catch (error) {
       console.error("Error fetching projects:", error);
@@ -29,9 +30,91 @@ const FinalProjects = () => {
     }
   };
 
+  const fetchUsers = async () => {
+    setLoading(true);
+    try {
+      const url = await apiPath();
+      const res = await fetch(`${url}/api/users`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      const data = await res.json();
+
+      const usersWithWork = data.map((user) => ({
+        ...user,
+        work: user.work || { gaam: "", taluka: "", district: "" },
+      }));
+      setUsers(usersWithWork);
+    } catch (err) {
+      console.error("Failed to fetch users:", err);
+      toast.error("સ્ટાફ ડેટા લાવવામાં નિષ્ફળ.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const [lengths, setLengths] = useState([]);
+  const fetchLengths = async () => {
+    try {
+      setLoading(true);
+
+      const baseUrl = await apiPath();
+
+      const results = await Promise.all(
+        projects
+          ?.filter((project) => {
+            return project?.other?.status === "completed";
+          })
+          ?.map(async (project) => {
+            const response = await fetch(
+              `${baseUrl}/api/sheet?workId=${project?._id}`,
+              {
+                method: "GET",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              },
+            );
+
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const result = await response.json();
+
+            return {
+              projectId: project?._id,
+              totalRecords: result?.data?.length || 0,
+            };
+          }),
+      );
+
+      setLengths(results);
+    } catch (err) {
+      console.error("Error fetching records:", err);
+      toast.error("ડેટા લાવવામાં નિષ્ફળ. કૃપા કરીને ફરી પ્રયાસ કરો.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchProjects();
+    fetchUsers();
   }, []);
+
+  useEffect(() => {
+    if (projects.length > 0) {
+      fetchLengths();
+    }
+  }, [projects]);
 
   return (
     <div>
@@ -61,75 +144,96 @@ const FinalProjects = () => {
         </thead>
 
         <tbody>
-          {projects?.map((project, index) => (
-            <tr>
-              <td>{index + 1}</td>
-              <td>
-                <p style={{ whiteSpace: "nowrap" }}>{project?.spot?.gaam}</p>
-              </td>
-              <td>{"--"}</td>
-              <td>{project?.spot?.taluka}</td>
-              <td>{project?.spot?.district}</td>
-              <td>{new Date()?.toLocaleDateString() && "--"}</td>
-              <td>{project?.name || "--"}</td>
-              <td>{project?.other?.updates || "--"}</td>
+          {projects
+            ?.filter((project) => {
+              return project?.other?.status === "completed";
+            })
+            ?.map((project, index) => (
+              <tr key={project?._id}>
+                <td>{index + 1}</td>
+                <td>
+                  <p style={{ whiteSpace: "nowrap" }}>{project?.spot?.gaam}</p>
+                </td>
+                <td>
+                  {lengths?.find((length) => length?.projectId === project?._id)
+                    ?.totalRecords || "--"}
+                </td>
+                <td>{project?.spot?.taluka}</td>
+                <td>{project?.spot?.district}</td>
+                <td>{new Date()?.toLocaleDateString() && "--"}</td>
+                <td style={{ whiteSpace: "nowrap" }}>
+                  {users?.find((user) => user._id === project?.other?.surveyor)
+                    ?.name || "----"}
+                </td>
+                <td style={{ whiteSpace: "nowrap" }}>
+                  {project?.other?.updates || "--"}
+                </td>
 
-              <td>Sarpanch</td>
-              <td>9876543210</td>
+                <td style={{ whiteSpace: "nowrap" }}>
+                  {project?.details?.sarpanchName}
+                </td>
+                <td style={{ whiteSpace: "nowrap" }}>
+                  {project?.details?.sarpanchNumber}
+                </td>
 
-              <td>Bill</td>
+                <td style={{ whiteSpace: "nowrap" }}>
+                  {lengths?.find((length) => length?.projectId === project?._id)
+                    ?.totalRecords * project?.details?.surveyHouseRate}
+                </td>
 
-              <td>{project?.remarks}</td>
-              <td>
-                <div style={{ display: "flex" }}>
-                  <button
-                    style={{
-                      background: "blue",
-                      color: "white",
-                      borderRadius: "20px",
-                      padding: ".3rem 1rem",
-                    }}
-                    className="ml-2 cursor-pointer"
-                    onClick={() => {
-                      navigate(`/survay/manage/${project?._id}`);
-                    }}
-                  >
-                    Details
-                  </button>
+                <td>{project?.other?.remarks}</td>
+                <td>
+                  <div style={{ display: "flex" }}>
+                    <button
+                      style={{
+                        background: "blue",
+                        color: "white",
+                        borderRadius: "20px",
+                        padding: ".3rem 1rem",
+                      }}
+                      className="ml-2 cursor-pointer"
+                      onClick={() => {
+                        navigate(`/survay/manage/${project?._id}`);
+                      }}
+                    >
+                      Details
+                    </button>
 
-                  <button
-                    style={{
-                      background: "orange",
-                      color: "white",
-                      borderRadius: "20px",
-                      padding: ".3rem 1rem",
-                    }}
-                    className="ml-2 cursor-pointer"
-                    onClick={() => {
-                      navigate(`/projects/update/${project?._id}`);
-                    }}
-                  >
-                    <span style={{ whiteSpace: "nowrap" }}>Update Status</span>
-                  </button>
+                    <button
+                      style={{
+                        background: "orange",
+                        color: "white",
+                        borderRadius: "20px",
+                        padding: ".3rem 1rem",
+                      }}
+                      className="ml-2 cursor-pointer"
+                      onClick={() => {
+                        navigate(`/projects/update/${project?._id}`);
+                      }}
+                    >
+                      <span style={{ whiteSpace: "nowrap" }}>
+                        Update Status
+                      </span>
+                    </button>
 
-                  <button
-                    style={{
-                      background: "orangered",
-                      color: "white",
-                      borderRadius: "20px",
-                      padding: ".3rem 1rem",
-                    }}
-                    className="ml-2 cursor-pointer"
-                    onClick={() => {
-                      navigate(`/orderValuation/form/${project?._id}`);
-                    }}
-                  >
-                    <span style={{ whiteSpace: "nowrap" }}>OV Form</span>
-                  </button>
-                </div>
-              </td>
-            </tr>
-          ))}
+                    <button
+                      style={{
+                        background: "orangered",
+                        color: "white",
+                        borderRadius: "20px",
+                        padding: ".3rem 1rem",
+                      }}
+                      className="ml-2 cursor-pointer"
+                      onClick={() => {
+                        navigate(`/orderValuation/form/${project?._id}`);
+                      }}
+                    >
+                      <span style={{ whiteSpace: "nowrap" }}>OV Form</span>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
 
           {loading ? (
             <tr>

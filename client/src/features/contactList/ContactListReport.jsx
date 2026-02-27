@@ -36,7 +36,7 @@ const ContactListReport = () => {
     } catch (err) {
       console.error("Error fetching records:", err);
       setError(
-        "Error Fetching Records! Try Again Later. OR Contact the Admin."
+        "Error Fetching Records! Try Again Later. OR Contact the Admin.",
       );
     } finally {
       setLoading(false);
@@ -68,7 +68,7 @@ const ContactListReport = () => {
     setSelectedRecords((prevSelected) =>
       prevSelected.includes(recordId)
         ? prevSelected.filter((id) => id !== recordId)
-        : [...prevSelected, recordId]
+        : [...prevSelected, recordId],
     );
   };
 
@@ -89,13 +89,13 @@ const ContactListReport = () => {
 
     // Check if all of these records are already selected
     const allAreSelected = recordsToSelect.every((id) =>
-      selectedRecords.includes(id)
+      selectedRecords.includes(id),
     );
 
     // If all are selected, unselect them. Otherwise, add them to the selection.
     if (allAreSelected) {
       setSelectedRecords((prevSelected) =>
-        prevSelected.filter((id) => !recordsToSelect.includes(id))
+        prevSelected.filter((id) => !recordsToSelect.includes(id)),
       );
     } else {
       setSelectedRecords((prevSelected) => {
@@ -129,7 +129,7 @@ const ContactListReport = () => {
     }
 
     setSendingStatus(
-      `Sending messages to ${selectedRecords.length} contacts...`
+      `Sending messages to ${selectedRecords.length} contacts...`,
     );
 
     const initialStatuses = {};
@@ -182,7 +182,7 @@ const ContactListReport = () => {
     }
 
     setSendingStatus(
-      "All messages have been processed. Check individual statuses below."
+      "All messages have been processed. Check individual statuses below.",
     );
     setSelectedRecords([]);
   };
@@ -208,7 +208,7 @@ const ContactListReport = () => {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
           body: JSON.stringify({ numbers: selectedWhatsAppNumbers }),
-        }
+        },
       );
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -219,7 +219,7 @@ const ContactListReport = () => {
         setInvalid(result?.invalid);
       }
       setSendingStatus(
-        `Check complete: ${result?.valid.length} valid numbers found, ${result?.invalid.length} invalid numbers found.`
+        `Check complete: ${result?.valid.length} valid numbers found, ${result?.invalid.length} invalid numbers found.`,
       );
       console.log("Valid WhatsApp numbers:", result?.valid, result?.invalid);
     } catch (error) {
@@ -339,8 +339,8 @@ const ContactListReport = () => {
               ? "140px"
               : "100px" // small vs larger devices
             : window.innerWidth < 640
-            ? "8px"
-            : "32px",
+              ? "8px"
+              : "32px",
         }}
       >
         <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">
@@ -362,7 +362,7 @@ const ContactListReport = () => {
                 <button
                   style={{
                     background: "orange",
-                    color: "white",
+                    color: "blue",
                     borderRadius: "20px",
                     padding: ".3rem 1rem",
                     marginTop: ".4rem",
@@ -526,7 +526,7 @@ const ContactListReport = () => {
                   {isSelectionMode && (
                     <th
                       className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-lg sticky top-0 z-10"
-                      style={{ color: "white", background: background }}
+                      style={{ color: "blue", background: background }}
                       rowSpan="2"
                     >
                       <input
@@ -543,7 +543,7 @@ const ContactListReport = () => {
                     className={`px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider ${
                       !isSelectionMode && "rounded-tl-lg"
                     } sticky top-0 z-10`}
-                    style={{ color: "white", background: background }}
+                    style={{ color: "blue", background: background }}
                     rowSpan="2"
                   >
                     અનું ક્રમાંક
@@ -551,7 +551,7 @@ const ContactListReport = () => {
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
                     style={{
-                      color: "white",
+                      color: "blue",
                       background: background,
                       minWidth: "180px",
                     }}
@@ -561,49 +561,49 @@ const ContactListReport = () => {
                   </th>
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
-                    style={{ color: "white", background: background }}
+                    style={{ color: "blue", background: background }}
                     rowSpan="2"
                   >
                     મોબાઈલ નંબર
                   </th>
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
-                    style={{ color: "white", background: background }}
+                    style={{ color: "blue", background: background }}
                     rowSpan="2"
                   >
                     વોટસેઅપ નબંર
                   </th>
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
-                    style={{ color: "white", background: background }}
+                    style={{ color: "blue", background: background }}
                     rowSpan="2"
                   >
                     કેટેગરી
                   </th>
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
-                    style={{ color: "white", background: background }}
+                    style={{ color: "blue", background: background }}
                     rowSpan="2"
                   >
                     ગામ
                   </th>
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
-                    style={{ color: "white", background: background }}
+                    style={{ color: "blue", background: background }}
                     rowSpan="2"
                   >
                     ચાર્જ નું ગામ
                   </th>
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
-                    style={{ color: "white", background: background }}
+                    style={{ color: "blue", background: background }}
                     rowSpan="2"
                   >
                     તાલુકો
                   </th>
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
-                    style={{ color: "white", background: background }}
+                    style={{ color: "blue", background: background }}
                     rowSpan="2"
                   >
                     જિલ્લો
@@ -611,7 +611,7 @@ const ContactListReport = () => {
 
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-lg sticky top-0 z-10"
-                    style={{ color: "white", background: callBackground }}
+                    style={{ color: "blue", background: callBackground }}
                     colSpan="10"
                   >
                     Call History
@@ -620,14 +620,14 @@ const ContactListReport = () => {
                   {/* Entry Date */}
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
-                    style={{ color: "white", background: background }}
+                    style={{ color: "blue", background: background }}
                     rowSpan="2"
                   >
                     ઑફીસમા યાદી બનાવેલ તારીખ
                   </th>
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
-                    style={{ color: "white", background: background }}
+                    style={{ color: "blue", background: background }}
                     rowSpan="2"
                   >
                     કમ્પની ને મળેલ તારીખ
@@ -635,7 +635,7 @@ const ContactListReport = () => {
                   {/* Status */}
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
-                    style={{ color: "white", background: background }}
+                    style={{ color: "blue", background: background }}
                     rowSpan="2"
                   >
                     Updated by
@@ -646,7 +646,7 @@ const ContactListReport = () => {
                       className={`px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10 ${
                         !isSelectionMode && "rounded-tr-lg"
                       }`}
-                      style={{ color: "white", background: background }}
+                      style={{ color: "blue", background: background }}
                       rowSpan="2"
                     >
                       Action
@@ -658,7 +658,7 @@ const ContactListReport = () => {
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
                     style={{
-                      color: "white",
+                      color: "blue",
                       background: callBackground,
                       minWidth: "150px",
                     }}
@@ -667,14 +667,14 @@ const ContactListReport = () => {
                   </th>
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
-                    style={{ color: "white", background: callBackground }}
+                    style={{ color: "blue", background: callBackground }}
                   >
                     કયા ગામનું કામ કરવાનું છે
                   </th>
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
                     style={{
-                      color: "white",
+                      color: "blue",
                       background: callBackground,
                       minWidth: "180px",
                     }}
@@ -683,43 +683,43 @@ const ContactListReport = () => {
                   </th>{" "}
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
-                    style={{ color: "white", background: callBackground }}
+                    style={{ color: "blue", background: callBackground }}
                   >
                     ઘર/ ખાતા ગામના કેટલા છે
                   </th>{" "}
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
-                    style={{ color: "white", background: callBackground }}
+                    style={{ color: "blue", background: callBackground }}
                   >
                     ભાવ ઘર ખાતા દીઠ
                   </th>{" "}
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
-                    style={{ color: "white", background: callBackground }}
+                    style={{ color: "blue", background: callBackground }}
                   >
                     અંદાજીત બીલ રકમ રૂ
                   </th>{" "}
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
-                    style={{ color: "white", background: callBackground }}
+                    style={{ color: "blue", background: callBackground }}
                   >
                     કસ્ટમરને કેટલા પૈસા સુધી પોસાય ઘર/ખાતા
                   </th>{" "}
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
-                    style={{ color: "white", background: callBackground }}
+                    style={{ color: "blue", background: callBackground }}
                   >
                     ફોન કર્યા તારીખ ટેલીકોલર
                   </th>{" "}
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
-                    style={{ color: "white", background: callBackground }}
+                    style={{ color: "blue", background: callBackground }}
                   >
                     મીટીંગ તારીખ રૂબરુ મળવા જવુ
                   </th>
                   <th
                     className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
-                    style={{ color: "white", background: callBackground }}
+                    style={{ color: "blue", background: callBackground }}
                   >
                     Reminder Date
                   </th>
@@ -732,7 +732,7 @@ const ContactListReport = () => {
                       className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
                       style={{
                         textAlign: "center",
-                        color: "white",
+                        color: "blue",
                         background: background,
                       }}
                     >
@@ -750,7 +750,7 @@ const ContactListReport = () => {
                       className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
                       style={{
                         textAlign: "center",
-                        color: "white",
+                        color: "blue",
                         background: [
                           9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
                         ].includes(index)
@@ -930,8 +930,8 @@ const ContactListReport = () => {
                           isSelectionMode && selectedRecords.includes(record[0])
                             ? { background: "#ff0" }
                             : isSelectionMode
-                            ? { cursor: "pointer", background: "#ff0" }
-                            : { cursor: "default" }
+                              ? { cursor: "pointer", background: "#ff0" }
+                              : { cursor: "default" }
                         }
                       >
                         {record[8]}
@@ -1042,7 +1042,7 @@ const ContactListReport = () => {
                         <p style={{ whiteSpace: "nowrap" }}>
                           {formatDate(
                             callHistory[callHistory?.length - 1]?.dateOfCall ||
-                              ""
+                              "",
                           )}
                         </p>
                       </td>
@@ -1058,7 +1058,7 @@ const ContactListReport = () => {
                         <p style={{ whiteSpace: "nowrap" }}>
                           {formatDate(
                             callHistory?.[callHistory.length - 1]
-                              ?.meetingDate || ""
+                              ?.meetingDate || "",
                           )}
                         </p>
                       </td>
@@ -1074,7 +1074,7 @@ const ContactListReport = () => {
                         <p style={{ whiteSpace: "nowrap" }}>
                           {formatDate(
                             callHistory?.[callHistory.length - 1]
-                              ?.reminderDate || ""
+                              ?.reminderDate || "",
                           )}
                         </p>
                       </td>

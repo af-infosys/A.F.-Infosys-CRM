@@ -15,6 +15,10 @@ import AkarniIndexRaw from "../../components/conver/AkarniIndexRaw";
 import TharavPage1 from "../../components/conver/TharavPage1";
 import TharavPage2 from "../../components/conver/TharavPage2";
 
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
+import toGujaratiNumber from "../../components/toGujaratiNumber";
+
 const commercialCategories = [
   "દુકાન",
   "પ્રાઈવેટ - સંસ્થાઓ",
@@ -272,6 +276,71 @@ const SurvayReport = () => {
     } else {
       window.alert("PDF save operation skipped due to cancellation.");
     }
+  };
+
+  const handleDownloadExcel = () => {
+    // Header rows (same structure jaisa table me hai)
+    const headers = [
+      [
+        "અનુંક્રમાંક",
+        "વિસ્તારનું નામ",
+        "મિલ્કત ક્રમાંક",
+        "મિલ્કતનું વર્ણન",
+        "માલિકનું નામ",
+        "કબ્જેદારનું નામ",
+        "જુનો મિ.નં.",
+        "મોબાઈલ નંબર",
+        "મિલ્કતની કિંમત",
+        "આકારેલ વેરાની રકમ",
+        "નળ",
+        "શૌચા.",
+        "નોંધ / રીમાર્કસ",
+      ],
+    ];
+
+    const data = records?.map((record) => [
+      toGujaratiNumber(record[0] || 0),
+      record[1] || "",
+      toGujaratiNumber(record[2] || 0),
+      `${record[16] || ""}${record[7] ? `, '${record[7]}'` : ""}`,
+      record[3] || "",
+      record[4] || "",
+      record[5] || "",
+      record[6] || "",
+      toGujaratiNumber(record[19] || 0),
+      toGujaratiNumber(record[20] || 0),
+      Number(record[12] || 0) !== 0 ? "હા" : "ના",
+      Number(record[13] || 0) !== 0 ? "હા" : "ના",
+      record[14] || "",
+    ]);
+
+    const footer = [
+      [],
+      [
+        `કુલ ઘર : ${records?.length}`,
+        `કુલ મોબાઈલ નં. : ${count?.totalPhoneNumber || 0}`,
+        `કુલ નળ : ${count?.totalTapConnection || 0}`,
+        `કુલ શૌચાલય : ${count?.totalToilet || 0}`,
+      ],
+    ];
+
+    const worksheetData = [...headers, ...data, ...footer];
+
+    const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
+
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Akarni Register");
+
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: "xlsx",
+      type: "array",
+    });
+
+    const file = new Blob([excelBuffer], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
+    });
+
+    saveAs(file, "Akarni_Register.xlsx");
   };
 
   const SeparateCommercialProperties = async () => {
@@ -563,13 +632,22 @@ const SurvayReport = () => {
 
   return (
     <div className="container mx-auto p-4 sm:p-6 lg:p-8">
-      <button
-        onClick={handleDownloadPDF}
-        className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transition duration-200 disabled:opacity-50"
-        disabled={pdfProgress.isGenerating}
-      >
-        {pdfProgress.isGenerating ? "Generating..." : "Download PDF"}
-      </button>
+      <div style={{ display: "flex", gap: "20px" }}>
+        <button
+          onClick={handleDownloadPDF}
+          className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transition duration-200 disabled:opacity-50"
+          disabled={pdfProgress.isGenerating}
+        >
+          {pdfProgress.isGenerating ? "Generating..." : "Download PDF"}
+        </button>
+
+        <button
+          onClick={handleDownloadExcel}
+          className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transition duration-200 disabled:opacity-50"
+        >
+          Download Excel
+        </button>
+      </div>
 
       {pdfProgress.isGenerating && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-80 flex items-center justify-center z-50 p-4">

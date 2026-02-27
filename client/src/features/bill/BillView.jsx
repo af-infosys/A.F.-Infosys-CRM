@@ -10,8 +10,22 @@ import LOGOpng from "../../assets/logo.png";
 import { useParams } from "react-router-dom";
 
 function BillView() {
+  const [margins, setMargins] = useState({
+    letterA: 20,
+    letterB: 30,
+  });
+
+  const handleMarginChange = (field, value) => {
+    setMargins((prev) => ({
+      ...prev,
+      [field]: Number(value),
+    }));
+  };
+
   const reportRef = useRef(null);
   const reportRef2 = useRef(null);
+  const reportRef3 = useRef(null);
+  const reportRef4 = useRef(null);
 
   const { projectId } = useParams();
 
@@ -165,6 +179,54 @@ function BillView() {
   };
 
   const handleDownloadPdf2 = () => {
+    const input = reportRef2.current;
+    if (!input) return;
+
+    html2canvas(input, {
+      scale: 2,
+      useCORS: true,
+      allowTaint: true,
+    }).then((canvas) => {
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: "a4",
+      });
+
+      const imgData = canvas.toDataURL("image/png");
+      const imgWidth = pdf.internal.pageSize.getWidth();
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+      pdf.save("A.F.Infosys-Quotation.pdf");
+    });
+  };
+
+  const handleDownloadPdf3 = () => {
+    const input = reportRef2.current;
+    if (!input) return;
+
+    html2canvas(input, {
+      scale: 2,
+      useCORS: true,
+      allowTaint: true,
+    }).then((canvas) => {
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: "a4",
+      });
+
+      const imgData = canvas.toDataURL("image/png");
+      const imgWidth = pdf.internal.pageSize.getWidth();
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+      pdf.save("A.F.Infosys-Bill.pdf");
+    });
+  };
+
+  const handleDownloadPdf4 = () => {
     const input = reportRef2.current;
     if (!input) return;
 
@@ -965,6 +1027,540 @@ function BillView() {
               </h2>
             </div>
             <div className="watermark-logo"></div>
+          </div>
+        </div>
+
+        {/* Download PDF button */}
+        <div className="flex justify-end p-4">
+          <button
+            onClick={handleDownloadPdf3}
+            className="px-6 py-2 bg-purple-600 text-white font-semibold rounded-full shadow-lg hover:bg-purple-700 transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+          >
+            Download PDF
+          </button>
+        </div>
+
+        {/* Header Section */}
+        <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">
+          Bill/Invoice
+        </h1>
+        <h2 className="text-xl text-center text-gray-600">Owner & Sales</h2>
+        <h2 className="text-xl text-center mb-8 text-gray-600">
+          by - A.F. Infosys
+        </h2>
+
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            padding: "10px",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              maxWidth: "300px",
+            }}
+          >
+            <span>{margins?.letterA}</span>
+            <input
+              type="range"
+              max={300}
+              value={margins.letterA}
+              onChange={(e) => {
+                handleMarginChange("letterA", e.target.value);
+              }}
+            />
+          </div>
+        </div>
+
+        {/* Report - 1 */}
+        <div
+          className="flex justify-start md:justify-center"
+          style={{
+            maxWidth: "100%",
+            overflow: "auto",
+            display: "flex",
+            alignItems: "start",
+            justifyContent: "start",
+          }}
+        >
+          <div
+            ref={reportRef3}
+            className="table-container rounded-lg shadow-md border border-gray-200"
+            style={{
+              position: "relative",
+              width: "735px",
+              padding: "1rem",
+              background: "#fff",
+              minWidth: "735px",
+              height: "1040px",
+              paddingTop: `${margins.letterA}px`,
+            }}
+          >
+            {/* Invoice Details */}
+            <div className="flex flex-col w-full p-2">
+              <div className="flex justify-between">
+                <span>
+                  Invois No.{" "}
+                  <b className="text-red-700">{billData.invoiceNo}</b>
+                </span>
+                <span>
+                  Date <b className="text-gray-500">{billData.year}</b>
+                </span>
+              </div>
+              <div className="flex justify-between mt-2">
+                <div className="flex flex-col">
+                  <span>પ્રતિ, {billData?.gaam} ગ્રામ પંચાયત,</span>
+                  <span>સરપંચશ્રી/તલાટી કમ મંત્રીશ્રી</span>
+                  <span>
+                    તા. {billData?.taluka}, જિ. {billData?.district}
+                  </span>
+                </div>
+
+                <div className="flex flex-col pt-2">
+                  <span className="font-semibold">Invoice / Bill</span>
+                  <span className="font-semibold">DEBIT MEMO</span>
+                </div>
+              </div>
+            </div>
+            {/* Table Section */}
+            <table className="min-w-full mt-2">
+              <thead>
+                <tr>
+                  <th
+                    className="text-xs font-medium text-gray-800 uppercase tracking-wider"
+                    colSpan="6"
+                    style={{ textAlign: "center", padding: "7px" }}
+                  >
+                    <span className="trans">
+                      આકારણી રજીસ્ટર કોમ્પ્યુટરાઇઝડ પ્રિન્ટ જોબ વર્કનું બિલ સને.{" "}
+                      {billData?.year}
+                    </span>
+                  </th>
+                </tr>
+                <tr>
+                  <th
+                    className="text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    style={{
+                      maxWidth: "5px",
+                      textAlign: "center",
+                      padding: "2px",
+                    }}
+                  >
+                    <span className="trans">ક્રમ</span>
+                  </th>
+                  <th
+                    className="text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    style={{
+                      padding: "5px",
+                      textAlign: "center",
+                    }}
+                  >
+                    <span className="trans">તારીખ</span>
+                  </th>
+                  <th
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    style={{
+                      padding: "5px",
+                      textAlign: "center",
+                    }}
+                  >
+                    <span className="trans">વિગત</span>
+                  </th>
+                  <th
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    style={{
+                      padding: "5px",
+                      textAlign: "center",
+                    }}
+                  >
+                    <span className="trans">ઘર</span>
+                  </th>
+                  <th
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    style={{
+                      padding: "5px",
+                      textAlign: "center",
+                    }}
+                  >
+                    <span className="trans">ભાવ</span>
+                  </th>
+                  <th
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    style={{
+                      padding: "1px",
+                      textAlign: "center",
+                    }}
+                  >
+                    <span className="trans">રૂપિયા</span>
+                  </th>
+                </tr>
+                <tr>
+                  {/* Index row */}
+                  {Array.from({ length: 6 }).map((_, index) => (
+                    <th
+                      className="text-xs font-light text-gray-600 text-center"
+                      key={index}
+                      style={{ padding: "3px", textAlign: "center" }}
+                    >
+                      <span className="trans">{index + 1}</span>
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {/* Bill record row */}
+                <tr>
+                  <td
+                    className="text-sm font-medium text-gray-900 text-center"
+                    style={{
+                      minWidth: "30px",
+                      padding: "5px",
+                      textAlign: "center",
+                    }}
+                  >
+                    <span className="trans">1</span>
+                  </td>
+                  <td
+                    className="text-sm text-gray-800 text-center"
+                    style={{
+                      padding: "5px",
+                      textAlign: "center",
+                    }}
+                  >
+                    <span className="trans" style={{ textWrap: "nowrap" }}>
+                      {billData?.date}
+                    </span>
+                  </td>
+                  <td
+                    className="text-sm text-gray-800 text-center"
+                    style={{
+                      fontSize: ".95rem",
+                      padding: "7px",
+                    }}
+                  >
+                    <span className="trans">
+                      {billData?.gaam} ગામની મકાન આકારણી સર્વે, વર્ષ:-{" "}
+                      {billData.year} નું ગામ નમુના નં. ૮ આકારણી રજીસ્ટર ઘેર ઘેર
+                      જઇને બનાવી અને ગા.ન.ન.- ૯/ડી કરવેરા રજીસ્ટર બનાવિ
+                      કોમ્પ્યુટરાઈઝડ પ્રિન્ટ સાથે સ્પાઇરલ બાઈન્ડિંગ સાથે ઓનલાઈન
+                      ગ્રામ સુવિધા પોર્ટલમાં ડેટાએન્ટ્રી સાથે જોબવર્ક/મજુરીથી
+                      કમ્પલેટ અદ્યતન બનાવેલ
+                    </span>
+                  </td>
+                  <td
+                    className="text-sm text-gray-800 text-center"
+                    style={{
+                      padding: "5px",
+                      textAlign: "center",
+                    }}
+                  >
+                    <span className="trans">{billData?.houseCount}</span>
+                  </td>
+                  <td
+                    className="text-sm text-gray-800 text-center"
+                    style={{
+                      padding: "5px",
+                      textAlign: "center",
+                    }}
+                  >
+                    <span className="trans">₹{billData?.price}/-</span>
+                  </td>
+                  <td
+                    className="text-sm text-gray-800 text-center"
+                    style={{ padding: "5px" }}
+                  >
+                    <span className="trans">{totalAmount}</span>
+                  </td>
+                </tr>
+                {/* Total row */}
+                <tr>
+                  <td
+                    className="text-sm text-gray-600 pr-4 font-bold"
+                    colSpan="5"
+                    style={{ textAlign: "right", padding: "3px" }}
+                  >
+                    <span className="trans">
+                      શબ્દોમાં અંકે રૂપિયા{" "}
+                      <span className="text-gray-700">
+                        {numberToGujaratiWords(
+                          billData?.houseCount * billData?.price,
+                        )}
+                      </span>{" "}
+                      /-
+                    </span>
+                  </td>
+                  <td
+                    className="text-sm text-gray-600 text-center font-bold"
+                    style={{ padding: "5px" }}
+                  >
+                    <span className="trans">{totalAmount}</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            {/* Footer Section */}
+            <div
+              className="w-full mt-2"
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                marginTop: "40px",
+              }}
+            >
+              <span
+                style={{
+                  position: "relative",
+                  transform: "translate(50px, -40px)",
+                }}
+              >
+                આભાર
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Download PDF button */}
+        <div className="flex justify-end p-4">
+          <button
+            onClick={handleDownloadPdf4}
+            className="px-6 py-2 bg-purple-600 text-white font-semibold rounded-full shadow-lg hover:bg-purple-700 transition duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+          >
+            Download PDF (without LetterPad)
+          </button>
+        </div>
+
+        {/* Header Section */}
+        <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">
+          Quotation
+        </h1>
+        <h2 className="text-xl text-center text-gray-600">Owner & Sales</h2>
+        <h2 className="text-xl text-center mb-8 text-gray-600">
+          by - A.F. Infosys
+        </h2>
+
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            padding: "10px",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              maxWidth: "300px",
+            }}
+          >
+            <span>{margins?.letterB}</span>
+            <input
+              type="range"
+              max={300}
+              value={margins.letterB}
+              onChange={(e) => {
+                handleMarginChange("letterB", e.target.value);
+              }}
+            />
+          </div>
+        </div>
+
+        {/* Report - 4 */}
+
+        <div
+          className="flex justify-start md:justify-center"
+          style={{
+            maxWidth: "100%",
+            overflow: "auto",
+            display: "flex",
+            alignItems: "start",
+            justifyContent: "start",
+          }}
+        >
+          <div
+            ref={reportRef4}
+            className="table-container rounded-lg shadow-md border border-gray-200"
+            style={{
+              position: "relative",
+              width: "735px",
+              padding: "1rem",
+              background: "#fff",
+              minWidth: "735px",
+              height: "1040px",
+              paddingTop: `${margins.letterB}px`,
+            }}
+          >
+            {/* Check info */}
+            <div className="w-full flex justify-center">
+              <span
+                className="text-xs text-center"
+                style={{
+                  marginTop: "10px",
+                  fontSize: "16px",
+                  textAlign: "center",
+                }}
+              >
+                <b>( ક્વોટેશન )</b>
+              </span>
+            </div>
+            <br />
+            {/* Invoice Details */}
+            <div className="flex flex-col w-full p-2">
+              <div className="flex justify-between">
+                <span>
+                  Quotation No.{" "}
+                  <b className="text-red-700">{billData.invoiceNo}</b>
+                </span>
+                {/* <span>
+                  Date <b className="text-gray-500">{billData.year}</b>
+                </span> */}
+              </div>
+              <div className="flex justify-between mt-2">
+                <div className="flex flex-col">
+                  <span>પ્રતિ, {billData?.gaam} ગ્રામ પંચાયત,</span>
+                  <span>સરપંચશ્રી/તલાટી કમ મંત્રીશ્રી</span>
+                  <span>
+                    તા. {billData?.taluka}, જિ. {billData?.district}
+                  </span>
+                </div>
+
+                <div className="flex flex-col pt-2">
+                  <span className="font-semibold">
+                    Date: {billData?.date || "///"}
+                  </span>
+                  {/* <span className="font-semibold"></span> */}
+                </div>
+              </div>
+            </div>
+            {/* Table Section */}
+            <table className="min-w-full mt-2">
+              <thead>
+                <tr>
+                  <th
+                    className="text-xs font-medium text-gray-800 uppercase tracking-wider"
+                    colSpan="3"
+                    style={{ textAlign: "center", padding: "7px" }}
+                  >
+                    <span className="trans">
+                      આકારણી રજીસ્ટર કોમ્પ્યુટરાઇઝડ પ્રિન્ટ જોબ વર્કનું બિલ સને.{" "}
+                      {billData?.year}
+                    </span>
+                  </th>
+                </tr>
+                <tr>
+                  <th
+                    className="text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    style={{
+                      maxWidth: "5px",
+                      textAlign: "center",
+                      padding: "2px",
+                    }}
+                  >
+                    <span className="trans">ક્રમ</span>
+                  </th>
+
+                  <th
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    style={{
+                      padding: "5px",
+                      textAlign: "center",
+                    }}
+                  >
+                    <span className="trans">વિગત</span>
+                  </th>
+
+                  <th
+                    className="text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    style={{
+                      padding: "3px",
+                      textAlign: "center",
+                    }}
+                  >
+                    <span className="trans" style={{ textWrap: "wrap" }}>
+                      ભાવ <span style={{ textWrap: "nowrap" }}>(ઘર દીઠ)</span>
+                    </span>
+                  </th>
+                </tr>
+                <tr>
+                  {/* Index row */}
+                  {Array.from({ length: 3 }).map((_, index) => (
+                    <th
+                      className="text-xs font-light text-gray-600 text-center"
+                      key={index}
+                      style={{ padding: "3px", textAlign: "center" }}
+                    >
+                      <span className="trans">{index + 1}</span>
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {/* Bill record row */}
+                <tr>
+                  <td
+                    className="text-sm font-medium text-gray-900 text-center"
+                    style={{
+                      minWidth: "30px",
+                      padding: "5px",
+                      textAlign: "center",
+                    }}
+                  >
+                    <span className="trans">1</span>
+                  </td>
+
+                  <td
+                    className="text-sm text-gray-800 text-center"
+                    style={{
+                      fontSize: ".95rem",
+                      padding: "7px",
+                    }}
+                  >
+                    <span className="trans">
+                      {billData?.gaam} ગામની મકાન આકારણી સર્વે, વર્ષ:-{" "}
+                      {billData.year} નું ગામ નમુના નં. ૮ આકારણી રજીસ્ટર ઘેર ઘેર
+                      જઇને બનાવી અને ગા.ન.ન.- ૯/ડી કરવેરા રજીસ્ટર બનાવિ
+                      કોમ્પ્યુટરાઈઝડ પ્રિન્ટ સાથે સ્પાઇરલ બાઈન્ડિંગ સાથે ઓનલાઈન
+                      ગ્રામ સુવિધા પોર્ટલમાં ડેટાએન્ટ્રી સાથે જોબવર્ક/મજુરીથી
+                      કમ્પલેટ અદ્યતન બનાવેલ
+                    </span>
+                  </td>
+
+                  <td
+                    className="text-sm text-gray-800 text-center"
+                    style={{
+                      padding: "5px",
+                      textAlign: "center",
+                    }}
+                  >
+                    <span className="trans">₹{billData?.price}/-</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            {/* Footer Section */}
+            <div
+              className="w-full mt-2"
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                marginTop: "40px",
+              }}
+            >
+              <span
+                style={{
+                  position: "relative",
+                  transform: "translate(50px, -40px)",
+                }}
+              >
+                આભાર
+              </span>
+            </div>
           </div>
         </div>
       </div>

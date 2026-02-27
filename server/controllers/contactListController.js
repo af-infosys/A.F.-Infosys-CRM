@@ -63,6 +63,9 @@ export const addSheetRecord = async (req, res) => {
       listCreated,
       listReceived,
 
+      sarpanchName,
+      sarpanchMobile,
+
       // whatBusiness,
       // workVillage,
       // clientAnswer,
@@ -124,6 +127,12 @@ export const addSheetRecord = async (req, res) => {
       "", // Recieved Messages
 
       isInterested || false,
+
+      "",
+      "",
+      "",
+
+      JSON.stringify({ sarpanchName, sarpanchMobile }),
     ];
 
     console.log(callHistory);
@@ -424,7 +433,7 @@ export const deleteSheetRecord = async (req, res) => {
     });
 
     const sheet = sheetMeta.data.sheets.find(
-      (s) => s.properties.title === DATA_SHEET
+      (s) => s.properties.title === DATA_SHEET,
     );
 
     if (!sheet) {
@@ -443,7 +452,7 @@ export const deleteSheetRecord = async (req, res) => {
     const { id } = req.params;
 
     const rowIndex = records.findIndex(
-      (record) => Number(record[0]) === Number(id)
+      (record) => Number(record[0]) === Number(id),
     );
 
     if (rowIndex === -1) {
@@ -498,7 +507,7 @@ export const updateRecievedMessage = async (
   number,
   text,
   timestamp,
-  senderName
+  senderName,
 ) => {
   try {
     const googleSheets = await getSheets();
@@ -570,7 +579,7 @@ export const updateSentMessage = async (
   number,
   text,
   timestamp,
-  senderName
+  senderName,
 ) => {
   try {
     const googleSheets = await getSheets();

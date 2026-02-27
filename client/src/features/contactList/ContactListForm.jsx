@@ -34,6 +34,9 @@ const ContactListForm = () => {
     listReceived: "",
 
     isInterested: false,
+
+    sarpanchName: "",
+    sarpanchMobile: "",
   });
 
   // [
@@ -80,7 +83,7 @@ const ContactListForm = () => {
 
     return input.replace(
       /[૦૧૨૩૪૫૬૭૮૯]/g,
-      (char) => englishDigits[gujaratiDigits.indexOf(char)]
+      (char) => englishDigits[gujaratiDigits.indexOf(char)],
     );
   };
 
@@ -263,7 +266,7 @@ const ContactListForm = () => {
         setFormError(
           `Error While ${isEditMode ? "Updating" : "Submiting"}: ${
             result.message
-          }`
+          }`,
         );
       }
     } catch (error) {
@@ -284,7 +287,7 @@ const ContactListForm = () => {
 
       try {
         const response = await fetch(
-          `${await apiPath()}/api/contactList/${id}`
+          `${await apiPath()}/api/contactList/${id}`,
         );
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -311,6 +314,9 @@ const ContactListForm = () => {
             listReceived: record[12] || "",
 
             isInterested: record[16] === "TRUE" ? true : false,
+
+            sarpanchName: JSON.parse(record[20])?.sarpanchName || "",
+            sarpanchMobile: JSON.parse(record[20])?.sarpanchMobile || "",
 
             telecaller: { id: user?.id, name: user?.name, time: new Date() },
           });
@@ -385,7 +391,7 @@ const ContactListForm = () => {
     const { name, value } = e.target;
 
     const updatedHistory = callHistory.map((call, i) =>
-      i === index ? { ...call, [name]: value } : call
+      i === index ? { ...call, [name]: value } : call,
     );
     setCallHistory(updatedHistory);
   };
@@ -402,7 +408,7 @@ const ContactListForm = () => {
     const { name, checked } = e.target;
 
     const updatedHistory = callHistory.map((call, i) =>
-      i === index ? { ...call, [name]: checked } : call
+      i === index ? { ...call, [name]: checked } : call,
     );
 
     setCallHistory(updatedHistory);
@@ -413,7 +419,7 @@ const ContactListForm = () => {
     const isIncoming = value === "true";
 
     const updatedHistory = callHistory.map((call, i) =>
-      i === index ? { ...call, incoming: isIncoming } : call
+      i === index ? { ...call, incoming: isIncoming } : call,
     );
 
     setCallHistory(updatedHistory);
@@ -444,7 +450,7 @@ const ContactListForm = () => {
     if (!window.confirm("Are you sure you want to delete this record?")) return;
 
     setCallHistory((prevHistory) =>
-      prevHistory.filter((_, index) => index !== indexToDelete)
+      prevHistory.filter((_, index) => index !== indexToDelete),
     );
   };
 
@@ -639,6 +645,46 @@ const ContactListForm = () => {
                 </option>
               ))}
             </select>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-x-6 gap-y-4">
+          {/* Field 8: Jilla  / જિલ્લો */}
+          <div className="form-field">
+            <label htmlFor="sarpanchName" className="form-label">
+              6. Sarpanch Name
+            </label>
+            <input
+              type="text"
+              id="sarpanchName"
+              name="sarpanchName"
+              className="form-input"
+              value={formData?.sarpanchName}
+              onChange={handleChange}
+              disabled={isEditMode && formLoading}
+            />
+          </div>
+
+          {/* Field 8: Jilla  / જિલ્લો */}
+          <div className="form-field">
+            <label htmlFor="sarpanchMobile" className="form-label">
+              7. Sarpanch Mobile
+            </label>
+            <input
+              type="text"
+              id="sarpanchMobile"
+              name="sarpanchMobile"
+              className="form-input"
+              value={formData?.sarpanchMobile}
+              onChange={handleChange}
+              disabled={isEditMode && formLoading}
+            />
+
+            <datalist id="district-options">
+              {districts.map((d, i) => (
+                <option key={i} value={d} />
+              ))}
+            </datalist>
           </div>
         </div>
 

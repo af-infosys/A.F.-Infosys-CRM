@@ -21,7 +21,7 @@ const SummaryReport = () => {
     } catch (err) {
       console.error("Error fetching records:", err);
       setError(
-        "Error Fetching Records! Try Again Later. OR Contact the Admin."
+        "Error Fetching Records! Try Again Later. OR Contact the Admin.",
       );
     } finally {
       setLoading(false);
@@ -96,7 +96,7 @@ const SummaryReport = () => {
 
   const updateDateField = (id, field, value) => {
     setDateSummaries((prev) =>
-      prev.map((row) => (row.id === id ? { ...row, [field]: value } : row))
+      prev.map((row) => (row.id === id ? { ...row, [field]: value } : row)),
     );
   };
 
@@ -155,14 +155,14 @@ const SummaryReport = () => {
               <tr>
                 <th
                   className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-lg"
-                  style={{ color: "white", background: background }}
+                  style={{ color: "blue", background: background }}
                 >
                   ક્રમ
                 </th>
                 <th
                   className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
                   style={{
-                    color: "white",
+                    color: "blue",
                     background: background,
                     minWidth: "150px",
                   }}
@@ -171,63 +171,63 @@ const SummaryReport = () => {
                 </th>
                 <th
                   className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  style={{ color: "white", background: background }}
+                  style={{ color: "blue", background: background }}
                 >
                   તારીખ
                 </th>
                 <th
                   className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  style={{ color: "white", background: background }}
+                  style={{ color: "blue", background: background }}
                 >
                   ફોનમા વાત કરેલ સંખ્યા
                 </th>
                 <th
                   className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  style={{ color: "white", background: background }}
+                  style={{ color: "blue", background: background }}
                 >
                   આવેલ કોલની સંખ્યા
                 </th>
                 <th
                   className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  style={{ color: "white", background: background }}
+                  style={{ color: "blue", background: background }}
                 >
                   ટોટલ કોલ કરેલ / આવેલ ની સંખ્યા
                 </th>
                 <th
                   className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  style={{ color: "white", background: background }}
+                  style={{ color: "blue", background: background }}
                 >
                   મીટીંગ તારીખ રૂબરુ મળવા જવાની સંખ્યા
                 </th>
                 <th
                   className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  style={{ color: "white", background: background }}
+                  style={{ color: "blue", background: background }}
                 >
                   સર્વિસ (1) આકારણી સર્વે કેટેગરી વાઈઝ સંખ્યા
                 </th>
                 <th
                   className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  style={{ color: "white", background: background }}
+                  style={{ color: "blue", background: background }}
                 >
                   સર્વિસ (2)રેવન્યુ હિસાબ કેટેગરી વાઈઝ સંખ્યા
                 </th>
 
                 <th
                   className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  style={{ color: "white", background: background }}
+                  style={{ color: "blue", background: background }}
                 >
                   સર્વિસ (3) 9/ડી વેરા રજીસ્ટર કેટેગરી વાઈઝ સંખ્યા
                 </th>
 
                 <th
                   className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  style={{ color: "white", background: background }}
+                  style={{ color: "blue", background: background }}
                 >
                   સર્વિસ (4) ગામ નમુના - 2 રજીસ્ટર કેટેગરી વાઈઝ સંખ્યા
                 </th>
                 <th
                   className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tr-lg"
-                  style={{ color: "white", background: background }}
+                  style={{ color: "blue", background: background }}
                 >
                   સર્વિસ (5) ઓડિટ પેરા જવાબ કેટેગરી વાઈઝ સંખ્યા
                 </th>
@@ -242,7 +242,7 @@ const SummaryReport = () => {
                   className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
                   style={{
                     textAlign: "center",
-                    color: "white",
+                    color: "blue",
                     background: background,
                   }}
                   key={index}
