@@ -250,8 +250,9 @@ export const addSheetRecord = async (req, res) => {
     // The `append` method adds a new row(s) to the end of the specified sheet.
     const response = await googleSheets.spreadsheets.values.append({
       spreadsheetId: SPREADSHEET_ID,
-      range: `${work?.sheetId}_Main!A4`, // રેકોર્ડ્સને ચોથી પંક્તિથી ઉમેરવા માટે
+      range: `${work?.sheetId}_Main`,
       valueInputOption: "RAW",
+      insertDataOption: "INSERT_ROWS",
       resource: {
         values: [rowData],
       },
