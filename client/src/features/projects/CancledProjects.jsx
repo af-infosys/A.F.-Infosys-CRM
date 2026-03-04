@@ -68,7 +68,7 @@ const CancledProjects = () => {
 
   return (
     <div>
-      <h2>પુર્ણ કરેલ કામની આકારણી સર્વેની યાદિ</h2>
+      <h2>રદ થયેલ કામની આકારણી સર્વેની યાદિ</h2>
       <h3>A.F. Infosys</h3>
 
       <table>

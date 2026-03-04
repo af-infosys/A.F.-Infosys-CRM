@@ -60,7 +60,7 @@ const Work = () => {
       });
     } else {
       setFormData({
-        sheetId: "",
+        sheetId: Math.random().toString(36).substring(2, 15).toUpperCase(),
         spot: { gaam: "", taluka: "", district: "" }, // Reset spot object
       });
     }
@@ -142,7 +142,7 @@ const Work = () => {
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(
-          errorData.message || `HTTP error! status: ${response.status}`
+          errorData.message || `HTTP error! status: ${response.status}`,
         );
       }
 
@@ -150,14 +150,14 @@ const Work = () => {
       setActionMessage(
         `કાર્ય સફળતાપૂર્વક ${currentWork ? "અપડેટ" : "ઉમેરવામાં"} આવ્યું: ${
           result.message
-        }`
+        }`,
       );
       closeModal();
       fetchWorkEntries(); // Refresh list
     } catch (err) {
       console.error("Error adding/editing work:", err);
       setActionMessage(
-        `કાર્ય ${currentWork ? "અપડેટ" : "ઉમેરવામાં"} નિષ્ફળ: ${err.message}`
+        `કાર્ય ${currentWork ? "અપડેટ" : "ઉમેરવામાં"} નિષ્ફળ: ${err.message}`,
       );
     } finally {
       setLoading(false);
@@ -183,7 +183,7 @@ const Work = () => {
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(
-          errorData.message || `HTTP error! status: ${response.status}`
+          errorData.message || `HTTP error! status: ${response.status}`,
         );
       }
 
@@ -393,7 +393,7 @@ const Work = () => {
                     value={formData.sheetId}
                     onChange={handleInputChange}
                     className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    disabled={currentWork !== null || loading} // Disable sheetId if editing
+                    disabled={true} // Disable sheetId if editing
                     required
                   />
                 </div>

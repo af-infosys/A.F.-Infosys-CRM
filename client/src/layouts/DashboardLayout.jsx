@@ -1,4 +1,4 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import "./DashboardLayout.scss";
 import { useAuth } from "../config/AuthContext";
@@ -33,6 +33,8 @@ export default function DashboardLayout() {
   const { logout, user } = useAuth();
   console.log(user);
 
+  const navigate = useNavigate();
+
   const menuItems = [
     { label: "Lead Inquiry", base: "/leads" },
     // { label: "Order Valuation", base: "/orders" },
@@ -53,7 +55,14 @@ export default function DashboardLayout() {
       {/* Sidebar */}
       <aside className={isSidebarOpen ? "open" : ""}>
         <div className="navigation">
-          <h1 className="text-2xl font-bold mb-6">A.F. Infosys</h1>
+          <h1
+            className="text-2xl font-bold mb-6 cursor-pointer"
+            onClick={() => {
+              navigate("/");
+            }}
+          >
+            A.F. Infosys
+          </h1>
           <nav className="flex flex-col gap-4" style={{ userSelect: "none" }}>
             {(user.role === "owner" ||
               user.role === "telecaller" ||
@@ -329,11 +338,24 @@ export default function DashboardLayout() {
                   <>
                     <div className="sub-links">
                       <NavLink
+                        to={"/staff/work"}
+                        className={({ isActive }) => (isActive ? "active" : "")}
+                        onClick={() => setIsSidebarOpen(false)}
+                      >
+                        <img
+                          src={ProjectManagementIcon}
+                          alt="Customer List"
+                          style={{ width: "23px" }}
+                        />
+                        All Orders
+                      </NavLink>
+
+                      <NavLink
                         to={`/projects/first`}
                         className={({ isActive }) => (isActive ? "active" : "")}
                         onClick={() => setIsSidebarOpen(false)}
                       >
-                        નક્કિ કરેલ કામ
+                        Final Orders (નક્કિ કરેલ)
                       </NavLink>
 
                       <NavLink
@@ -341,7 +363,7 @@ export default function DashboardLayout() {
                         className={({ isActive }) => (isActive ? "active" : "")}
                         onClick={() => setIsSidebarOpen(false)}
                       >
-                        ચાલુ કામ
+                        Current Orders (ચાલુ કામ)
                       </NavLink>
 
                       <NavLink
@@ -349,7 +371,7 @@ export default function DashboardLayout() {
                         className={({ isActive }) => (isActive ? "active" : "")}
                         onClick={() => setIsSidebarOpen(false)}
                       >
-                        પુર્ણ કામ
+                        Completed Orders (પુર્ણ)
                       </NavLink>
 
                       <NavLink
@@ -357,7 +379,7 @@ export default function DashboardLayout() {
                         className={({ isActive }) => (isActive ? "active" : "")}
                         onClick={() => setIsSidebarOpen(false)}
                       >
-                        રદ થયેલ કામ
+                        Cancled Orders (રદ થયેલ)
                       </NavLink>
 
                       {/* <NavLink
@@ -480,7 +502,7 @@ export default function DashboardLayout() {
               </div>
             )}
 
-            {(user.role === "owner" || user.role === "telecaller") && (
+            {/* {(user.role === "owner" || user.role === "telecaller") && (
               <>
                 {menuItems.map(({ label, base }) => (
                   <div key={base}>
@@ -517,7 +539,7 @@ export default function DashboardLayout() {
                   </div>
                 ))}
               </>
-            )}
+            )} */}
 
             {user.role === "owner" && (
               <div>
@@ -559,19 +581,6 @@ export default function DashboardLayout() {
                       style={{ width: "23px" }}
                     />
                     Add
-                  </NavLink>
-
-                  <NavLink
-                    to={"/staff/work"}
-                    className={({ isActive }) => (isActive ? "active" : "")}
-                    onClick={() => setIsSidebarOpen(false)}
-                  >
-                    <img
-                      src={ProjectManagementIcon}
-                      alt="Customer List"
-                      style={{ width: "23px" }}
-                    />
-                    Akarni Project
                   </NavLink>
 
                   <NavLink

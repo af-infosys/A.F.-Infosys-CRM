@@ -278,18 +278,22 @@ const SurvayReport = () => {
   //   }
   // };
 
-  const handleDownloadPDF = async () => {
+  const handleDownloadPDF = async (mode) => {
     const isSeparate = project?.details?.seperatecommercial === true;
 
     const residentialIndexes = [];
     const commercialIndexes = [];
 
     finalRenderPages.forEach((item, idx) => {
-      if (isSeparate) {
+      if (mode === "res") {
+        if (!item.commercial) {
+          commercialIndexes.push(idx);
+        }
+      }
+
+      if (mode === "com") {
         if (item.commercial) {
           commercialIndexes.push(idx);
-        } else {
-          residentialIndexes.push(idx);
         }
       }
     });
@@ -659,7 +663,6 @@ const SurvayReport = () => {
           final.push({ type: "benefit", name: "public" });
 
           final.push({ type: "tharav", name: "committee" });
-          final.push({ type: "tharav", name: "certificate" });
         }
 
         pagesForThisBundle.forEach((pageRecs) => {
@@ -675,6 +678,7 @@ const SurvayReport = () => {
 
         currentBundle++;
       }
+      final.push({ type: "tharav", name: "certificate" });
 
       // ---------- COMMERCIAL ----------
       if (commercialPages.length > 0) {
@@ -719,6 +723,7 @@ const SurvayReport = () => {
               pageIndex: globalPageNumber - 1,
               pageRecords: pageRecs,
               isCommercial: true,
+              commercial: true,
             });
 
             globalPageNumber++;
@@ -779,6 +784,8 @@ const SurvayReport = () => {
           globalPageNumber++;
         });
       }
+
+      final.push({ type: "tharav", name: "certificate" });
     }
 
     return final;
@@ -805,13 +812,37 @@ const SurvayReport = () => {
   return (
     <div className="container mx-auto p-4 sm:p-6 lg:p-8">
       <div style={{ display: "flex", gap: "20px" }}>
-        <button
-          onClick={handleDownloadPDF}
-          className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transition duration-200 disabled:opacity-50"
-          disabled={pdfProgress.isGenerating}
-        >
-          {pdfProgress.isGenerating ? "Generating..." : "Download PDF"}
-        </button>
+        {project?.details?.seperatecommercial ? (
+          <>
+            <button
+              onClick={() => handleDownloadPDF("res")}
+              className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transition duration-200 disabled:opacity-50"
+              disabled={pdfProgress.isGenerating}
+            >
+              {pdfProgress.isGenerating
+                ? "Generating..."
+                : "Download PDF (Residencial)"}
+            </button>
+
+            <button
+              onClick={() => handleDownloadPDF("com")}
+              className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transition duration-200 disabled:opacity-50"
+              disabled={pdfProgress.isGenerating}
+            >
+              {pdfProgress.isGenerating
+                ? "Generating..."
+                : "Download PDF (Commercial)"}
+            </button>
+          </>
+        ) : (
+          <button
+            onClick={handleDownloadPDF}
+            className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transition duration-200 disabled:opacity-50"
+            disabled={pdfProgress.isGenerating}
+          >
+            {pdfProgress.isGenerating ? "Generating..." : "Download PDF"}
+          </button>
+        )}
 
         <button
           onClick={handleDownloadExcel}

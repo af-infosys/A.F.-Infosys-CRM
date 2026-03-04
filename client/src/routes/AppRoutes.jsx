@@ -54,6 +54,7 @@ import Certificate from "../features/meetings/Certificate";
 import TharavSet from "../features/orderValuation/TharavSet";
 import CancledProjects from "../features/projects/CancledProjects";
 import UpdateStatus from "../features/projects/Status";
+import OwnerAdmin from "../layouts/OwnerAdmin";
 
 export default function AppRoutes() {
   const { user } = useAuth();
@@ -82,7 +83,7 @@ export default function AppRoutes() {
           element={
             <>
               {user?.role === "owner" ? (
-                <AkarniProjects />
+                <OwnerAdmin />
               ) : user?.role === "telecaller" ? (
                 <ContactListForm />
               ) : (

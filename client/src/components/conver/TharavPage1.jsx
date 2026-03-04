@@ -152,7 +152,7 @@ const TharavPage1 = ({ project }) => {
           fontSize: "12px",
         }}
       >
-        Tharav - Committee
+        Book Tharav 1 - Committee
       </p>
     </div>
   );

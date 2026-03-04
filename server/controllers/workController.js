@@ -225,6 +225,12 @@ export const addWork = async (req, res) => {
     const newWork = new Work({ sheetId, spot });
     await newWork.save();
 
+    sheet.createNewTab(process.env.GOOGLE_SHEET_ID, `${sheetId}_Main`);
+
+    //     Meghraj Grampanchayat Database
+    // 0	1	2	3	4	5	6	7	8	9	10	11	12	13	14	15	16	17	18	19	20	21	22	23	24	25	26	27	28
+    // ક્રમાંક	વિસ્તારનું નામ	મિલ્કત ક્રમાંક	માલિકનું નામ	Column 29	જુનો મિલકત નંબર	મોબાઈલ નંબર	મિલ્ક્ત પર લખેલ નામ મકાન/દુકાન/ કારખાના/ કંપનીનું નામ	મકાન category	રસોડું	બાથરૂમ	ફરજો	નળ	શોચાલ્ય	રીમાર્કસ	માળની વિગતો	મિલકતનું વર્ણન	Created At	Updated At	Price	Tax	Other Tax	Special Water Tax	Light Tax	Cleaning Tax	Total Tax	img1	Img2	img3
+
     res.status(201).json({
       message: "Work entry added successfully!",
       data: newWork,

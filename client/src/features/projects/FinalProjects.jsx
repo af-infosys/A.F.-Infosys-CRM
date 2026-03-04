@@ -179,6 +179,7 @@ const FinalProjects = () => {
                 <td style={{ whiteSpace: "nowrap" }}>
                   {lengths?.find((length) => length?.projectId === project?._id)
                     ?.totalRecords * project?.details?.surveyHouseRate}
+                  {"/- "}({project?.details?.surveyHouseRate}₹)
                 </td>
 
                 <td>{project?.other?.remarks}</td>

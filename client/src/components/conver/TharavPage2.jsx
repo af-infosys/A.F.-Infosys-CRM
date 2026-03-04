@@ -119,7 +119,7 @@ const TharavPage2 = ({ project }) => {
           fontSize: "12px",
         }}
       >
-        Tharav - Certificate
+        Book Tharav 2 - Certificate
       </p>
     </div>
   );
