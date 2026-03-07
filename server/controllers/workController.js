@@ -23,7 +23,22 @@ export const getWorkSpot = async (req, res) => {
       const workID = user?.work;
 
       if (workID) {
-        const work = await Work.findById(workID);
+        // const work = await Work.findById(workID);
+
+        const result = await sheet.findById(
+          process.env.GOOGLE_SHEET_ID,
+          "Index",
+          workID,
+        );
+
+        const work = {
+          _id: result[0],
+          sheetId: result[0],
+          spot: JSON.parse(result[1]),
+          details: JSON.parse(result[2]),
+          other: JSON.parse(result[3]),
+        };
+
         if (work) {
           res.status(200).json({
             message: "Work Spot Fetched Successfully!",
@@ -115,7 +130,20 @@ export const getBillWork = async (req, res) => {
 // --- Get All Work Entries ---
 export const getAllWork = async (req, res) => {
   try {
-    const workEntries = await Work.find({});
+    // const workEntries = await Work.find({});
+    const result = await sheet.read(process.env.GOOGLE_SHEET_ID, "Index");
+    const workEntries = (await result)?.map((item) => {
+      return {
+        _id: item[0],
+        sheetId: item[0],
+        spot: JSON.parse(item[1] || {}),
+        details: JSON.parse(item[2] || {}),
+        other: JSON.parse(item[3] || {}),
+        createdAt: item[6],
+        updatedAt: item[7],
+      };
+    });
+
     res.status(200).json({
       message: "Work entries fetched successfully!",
       data: workEntries,
@@ -215,23 +243,35 @@ export const addWork = async (req, res) => {
     }
 
     // Check if a work entry with the given sheetId already exists
-    const existingWork = await Work.findOne({ sheetId: sheetId });
-    if (existingWork) {
-      return res
-        .status(409)
-        .json({ message: "Work entry with this Sheet ID already exists." });
-    }
+    // const existingWork = await Work.findOne({ sheetId: sheetId });
+    // if (existingWork) {
+    //   return res
+    //     .status(409)
+    //     .json({ message: "Work entry with this Sheet ID already exists." });
+    // }
 
-    const newWork = new Work({ sheetId, spot });
-    await newWork.save();
+    // const newWork = new Work({ sheetId, spot });
+    // await newWork.save();
 
-    sheet.createNewTab(process.env.GOOGLE_SHEET_ID, `${sheetId}_Main`);
+    const newWork = await sheet.insert(process.env.GOOGLE_SHEET_ID, "Index", [
+      sheetId,
+      JSON.stringify(spot),
+      JSON.stringify([]),
+      JSON.stringify([]),
+      JSON.stringify([]),
+      JSON.stringify([]),
+      new Date().toISOString(),
+      new Date().toISOString(),
+    ]);
+
+    await sheet.createNewTab(process.env.GOOGLE_SHEET_ID, `${sheetId}_Main`);
+    await sheet.createNewTab(process.env.GOOGLE_SHEET_ID, `${sheetId}_Areas`);
 
     //     Meghraj Grampanchayat Database
     // 0	1	2	3	4	5	6	7	8	9	10	11	12	13	14	15	16	17	18	19	20	21	22	23	24	25	26	27	28
     // ક્રમાંક	વિસ્તારનું નામ	મિલ્કત ક્રમાંક	માલિકનું નામ	Column 29	જુનો મિલકત નંબર	મોબાઈલ નંબર	મિલ્ક્ત પર લખેલ નામ મકાન/દુકાન/ કારખાના/ કંપનીનું નામ	મકાન category	રસોડું	બાથરૂમ	ફરજો	નળ	શોચાલ્ય	રીમાર્કસ	માળની વિગતો	મિલકતનું વર્ણન	Created At	Updated At	Price	Tax	Other Tax	Special Water Tax	Light Tax	Cleaning Tax	Total Tax	img1	Img2	img3
 
-    res.status(201).json({
+    res.status(200).json({
       message: "Work entry added successfully!",
       data: newWork,
     });
@@ -247,10 +287,26 @@ export const addWork = async (req, res) => {
 export const getProjectDetail = async (req, res) => {
   try {
     const projectId = req.params.id;
-    const project = await Work.findById(projectId);
+    // const project = await Work.findById(projectId);
+
+    const result = await sheet.findById(
+      process.env.GOOGLE_SHEET_ID,
+      "Index",
+      projectId,
+    );
+
+    const project = {
+      _id: result[0],
+      sheetId: result[0],
+      spot: JSON.parse(result[1]),
+      details: JSON.parse(result[2]),
+      other: JSON.parse(result[3]),
+      createdAt: result[6],
+      updatedAt: result[7],
+    };
 
     res.status(200).json({
-      message: "Work entries fetched successfully!",
+      message: "Work Details fetched successfully!",
       data: project,
     });
   } catch (error) {
@@ -276,16 +332,30 @@ export const editWork = async (req, res) => {
         .json({ message: "Missing required fields for work update." });
     }
 
-    // Find and update the work entry by sheetId
-    const updatedWork = await Work.findOneAndUpdate(
-      { sheetId: id }, // Find by the sheetId from URL params
-      { spot: newSpot }, // Update only the spot object
-      { new: true }, // Return the updated document
+    const updatedWork = await sheet.findById(
+      process.env.GOOGLE_SHEET_ID,
+      "Index",
+      id,
     );
 
     if (!updatedWork) {
       return res.status(404).json({ message: "Work entry not found." });
     }
+
+    updatedWork[1] = JSON.stringify(newSpot || {});
+
+    await sheet.update(process.env.GOOGLE_SHEET_ID, "Index", id, updatedWork);
+
+    // Find and update the work entry by sheetId
+    // const updatedWork = await Work.findOneAndUpdate(
+    //   { sheetId: id },
+    //   { spot: newSpot },
+    //   { new: true },
+    // );
+
+    // if (!updatedWork) {
+    //   return res.status(404).json({ message: "Work entry not found." });
+    // }
 
     res.status(200).json({
       message: "Work entry updated successfully!",
@@ -305,11 +375,19 @@ export const deleteWork = async (req, res) => {
   try {
     const { id } = req.params; // The sheetId from the URL parameter
 
-    const deletedWork = await Work.findOneAndDelete({ sheetId: id });
+    // const deletedWork = await Work.findOneAndDelete({ sheetId: id });
+    const deletedWork = await sheet.deleteRow(
+      process.env.GOOGLE_SHEET_ID,
+      "Index",
+      id,
+    );
 
     if (!deletedWork) {
       return res.status(404).json({ message: "Work entry not found." });
     }
+
+    await sheet.deleteTab(process.env.GOOGLE_SHEET_ID, `${id}_Main`);
+    await sheet.deleteTab(process.env.GOOGLE_SHEET_ID, `${id}_Areas`);
 
     res.status(200).json({
       message: "Work entry deleted successfully!",

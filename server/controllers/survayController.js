@@ -4,6 +4,9 @@ dotenv.config();
 import { google } from "googleapis";
 import { sheets } from "../utils/googleSheets.js";
 import Work from "../models/Work.js";
+import { GoogleSheetService } from "../config/crud.js";
+
+const sheet = new GoogleSheetService();
 
 // buildPropertyDescription ફંક્શનને અહીં જ વ્યાખ્યાયિત કરેલ છે
 function buildPropertyDescription(formData) {
@@ -103,7 +106,7 @@ function buildPropertyDescription(formData) {
 
   //
   if (isFaliyu) {
-    amenitiesParts.push(`ફળિયું (ખુલ્લી જગ્યા)`);
+    amenitiesParts.push(`ફળિયું`);
   }
 
   // રસોડાની ગણતરી
@@ -172,8 +175,6 @@ export const addSheetRecord = async (req, res) => {
       });
       return;
     }
-
-    const work = await Work.findById(workId);
 
     // 1. Get the authenticated client
     const client = await auth.getClient();
@@ -250,7 +251,7 @@ export const addSheetRecord = async (req, res) => {
     // The `append` method adds a new row(s) to the end of the specified sheet.
     const response = await googleSheets.spreadsheets.values.append({
       spreadsheetId: SPREADSHEET_ID,
-      range: `${work?.sheetId}_Main`,
+      range: `${workId}_Main`,
       valueInputOption: "RAW",
       insertDataOption: "INSERT_ROWS",
       resource: {
@@ -293,7 +294,7 @@ export const syncSheetRecord = async (req, res) => {
       return;
     }
 
-    const work = await Work.findById(workId);
+    // const work = await Work.findById(workId);
 
     // 1. Auth
     const client = await auth.getClient();
@@ -387,7 +388,7 @@ export const syncSheetRecord = async (req, res) => {
 
     const getResponse = await googleSheets.spreadsheets.values.get({
       spreadsheetId: SPREADSHEET_ID,
-      range: `${work?.sheetId}_Main!A:A`,
+      range: `${workId}_Main!A:A`,
     });
 
     const lastRow = getResponse.data.values
@@ -396,7 +397,7 @@ export const syncSheetRecord = async (req, res) => {
 
     //  const response = await googleSheets.spreadsheets.values.append({
     //   spreadsheetId: SPREADSHEET_ID,
-    //   range: `${work?.sheetId}_Main!A4`, // રેકોર્ડ્સને ચોથી પંક્તિથી ઉમેરવા માટે
+    //   range: `${workId}_Main!A4`, // રેકોર્ડ્સને ચોથી પંક્તિથી ઉમેરવા માટે
     //   valueInputOption: "RAW",
     //   resource: {
     //     values: [rowData],
@@ -406,7 +407,7 @@ export const syncSheetRecord = async (req, res) => {
     // 4. Append all rows at once
     const response = await googleSheets.spreadsheets.values.append({
       spreadsheetId: SPREADSHEET_ID,
-      range: `${work?.sheetId}_Main!A${lastRow + 1}`,
+      range: `${workId}_Main!A${lastRow + 1}`,
       valueInputOption: "RAW",
       insertDataOption: "INSERT_ROWS",
       resource: {
@@ -458,8 +459,8 @@ export const excelEdit = async (req, res) => {
         .json({ message: "Start index or payload missing" });
     }
 
-    const work = await Work.findById(workId);
-    const sheetName = `${work?.sheetId}_Main`;
+    // const work = await Work.findById(workId);
+    const sheetName = `${workId}_Main`;
     const range = `${sheetName}!A${start + 4}`;
 
     await sheets.spreadsheets.values.batchUpdate({
@@ -498,15 +499,13 @@ export const getAllRecords = async (req, res) => {
       return;
     }
 
-    const work = await Work.findById(workId);
-
     const client = await auth.getClient();
     const googleSheets = google.sheets({ version: "v4", auth: client });
 
     // Google Sheet
     const response = await googleSheets.spreadsheets.values.get({
       spreadsheetId: SPREADSHEET_ID,
-      range: `${work?.sheetId}_Main!A4:ZZ`,
+      range: `${workId}_Main!A4:ZZ`,
     });
 
     const records = response.data.values || [];
@@ -556,7 +555,7 @@ const _getAllAreasWithRowIndex = async (work) => {
 
     const response = await googleSheets.spreadsheets.values.get({
       spreadsheetId: SPREADSHEET_ID,
-      range: `${work?.sheetId}_Areas!A:B`,
+      range: `${work}_Areas!A:B`,
     });
 
     const values = response.data.values || [];
@@ -586,7 +585,7 @@ export const getRecord = async (req, res) => {
   try {
     const { workId } = req.query;
 
-    const work = await Work.findById(workId);
+    // const work = await Work.findById(workId);
 
     const client = await auth.getClient();
     const googleSheets = google.sheets({ version: "v4", auth: client });
@@ -594,7 +593,7 @@ export const getRecord = async (req, res) => {
     // Google Sheet
     const response = await googleSheets.spreadsheets.values.get({
       spreadsheetId: SPREADSHEET_ID,
-      range: `${work?.sheetId}_Main!A4:ZZ`,
+      range: `${workId}_Main!A4:ZZ`,
     });
 
     const records = response.data.values || [];
@@ -618,7 +617,7 @@ export const getRecord = async (req, res) => {
 };
 
 export const editSheetRecord = async (req, res) => {
-  const work = await Work.findById(req.body.workId);
+  const workId = req.body.workId;
 
   try {
     const client = await auth.getClient();
@@ -628,7 +627,7 @@ export const editSheetRecord = async (req, res) => {
     const response = await googleSheets.spreadsheets.values.get({
       spreadsheetId: SPREADSHEET_ID,
       // Fetch up to Column AA (27th column) to get all current data
-      range: `${work?.sheetId}_Main!A4:AA`,
+      range: `${workId}_Main!A4:AA`,
     });
 
     const records = response.data.values || [];
@@ -727,7 +726,7 @@ export const editSheetRecord = async (req, res) => {
     // Update the sheet row
     await googleSheets.spreadsheets.values.update({
       spreadsheetId: SPREADSHEET_ID,
-      range: `${work?.sheetId}_Main!A${rowNumber}:AA${rowNumber}`,
+      range: `${workId}_Main!A${rowNumber}:AA${rowNumber}`,
       valueInputOption: "RAW",
       requestBody: {
         values: [updatedRow],
@@ -1042,10 +1041,10 @@ export const insertRecord = async (req, res) => {
       return res.status(400).json({ message: "Work Id not provided" });
     }
 
-    const work = await Work.findById(workId);
-    if (!work) {
-      return res.status(404).json({ message: "Work not found" });
-    }
+    // const work = await Work.findById(workId);
+    // if (!work) {
+    //   return res.status(404).json({ message: "Work not found" });
+    // }
 
     const client = await auth.getClient();
     const googleSheets = google.sheets({ version: "v4", auth: client });
@@ -1118,7 +1117,7 @@ export const insertRecord = async (req, res) => {
     // Step 1: Fetch existing records
     const existingResponse = await googleSheets.spreadsheets.values.get({
       spreadsheetId: SPREADSHEET_ID,
-      range: `${work.sheetId}_Main!A4:ZZ`,
+      range: `${workId}_Main!A4:ZZ`,
     });
 
     const records = existingResponse.data.values || [];
@@ -1138,7 +1137,7 @@ export const insertRecord = async (req, res) => {
     // Step 4: Overwrite sheet data
     await googleSheets.spreadsheets.values.update({
       spreadsheetId: SPREADSHEET_ID,
-      range: `${work.sheetId}_Main!A4`,
+      range: `${workId}_Main!A4`,
       valueInputOption: "USER_ENTERED",
       requestBody: {
         values: resequencedRecords,
@@ -1160,9 +1159,9 @@ export const insertRecord = async (req, res) => {
 export const deleteSheetRecord = async (req, res) => {
   try {
     const { id } = req.params;
-    const work = await Work.findById(req.body.workId);
+    const workId = req.body.workId;
 
-    if (!work) {
+    if (!workId) {
       return res.status(404).json({ message: "Work not found" });
     }
 
@@ -1175,7 +1174,7 @@ export const deleteSheetRecord = async (req, res) => {
     });
 
     const sheet = sheetMeta.data.sheets.find(
-      (s) => s.properties.title === `${work.sheetId}_Main`,
+      (s) => s.properties.title === `${workId}_Main`,
     );
 
     if (!sheet) {
@@ -1187,7 +1186,7 @@ export const deleteSheetRecord = async (req, res) => {
     // Step 2: Get records from A4 onwards
     const response = await googleSheets.spreadsheets.values.get({
       spreadsheetId: SPREADSHEET_ID,
-      range: `${work.sheetId}_Main!A4:ZZ`,
+      range: `${workId}_Main!A4:ZZ`,
     });
 
     const records = response.data.values || [];
@@ -1225,7 +1224,7 @@ export const deleteSheetRecord = async (req, res) => {
     // Step 4: Re-fetch records after deletion
     const updatedResponse = await googleSheets.spreadsheets.values.get({
       spreadsheetId: SPREADSHEET_ID,
-      range: `${work.sheetId}_Main!A4:ZZ`,
+      range: `${workId}_Main!A4:ZZ`,
     });
 
     const updatedRecords = updatedResponse.data.values || [];
@@ -1241,7 +1240,7 @@ export const deleteSheetRecord = async (req, res) => {
     // Step 6: Write updated rows back
     await googleSheets.spreadsheets.values.update({
       spreadsheetId: SPREADSHEET_ID,
-      range: `${work.sheetId}_Main!A4`,
+      range: `${workId}_Main!A4`,
       valueInputOption: "USER_ENTERED",
       requestBody: {
         values: resequencedRecords,
@@ -1264,14 +1263,14 @@ export const getAllAreas = async (req, res) => {
   try {
     const { workId } = req.query;
 
-    const work = await Work.findById(workId);
+    // const work = await Work.findById(workId);
 
     const client = await auth.getClient();
     const googleSheets = google.sheets({ version: "v4", auth: client });
 
     const response = await googleSheets.spreadsheets.values.get({
       spreadsheetId: SPREADSHEET_ID,
-      range: `${work?.sheetId}_Areas!A:B`, // Read both ID (A) and Area Name (B) columns
+      range: `${workId}_Areas!A:B`, // Read both ID (A) and Area Name (B) columns
     });
 
     const values = response.data.values || [];
@@ -1305,7 +1304,7 @@ export const getAllAreas = async (req, res) => {
 
 export const addArea = async (req, res) => {
   try {
-    const work = await Work.findById(req.body.workId);
+    const workId = req.body.workId;
 
     const client = await auth.getClient();
     const googleSheets = google.sheets({ version: "v4", auth: client });
@@ -1320,7 +1319,7 @@ export const addArea = async (req, res) => {
     }
 
     // Get all existing areas to determine the next ID
-    const existingAreas = await _getAllAreasWithRowIndex(work);
+    const existingAreas = await _getAllAreasWithRowIndex(workId);
     let nextId = 1;
 
     // Filter out potential header row and non-numeric IDs, then find the max
@@ -1336,7 +1335,7 @@ export const addArea = async (req, res) => {
     // Append the new area with auto-incremented ID to the AREAS_SHEET
     const response = await googleSheets.spreadsheets.values.append({
       spreadsheetId: SPREADSHEET_ID,
-      range: `${work?.sheetId}_Areas!A:B`, // Append to columns A and B
+      range: `${workId}_Areas!A:B`, // Append to columns A and B
       valueInputOption: "RAW",
       resource: {
         values: [[nextId, areaName.trim()]], // New ID in A, Area Name in B
@@ -1359,7 +1358,7 @@ export const addArea = async (req, res) => {
 
 export const EditArea = async (req, res) => {
   try {
-    const work = await Work.findById(req.body.workId);
+    const workId = req.body.workId;
 
     const client = await auth.getClient();
     const googleSheets = google.sheets({ version: "v4", auth: client });
@@ -1378,7 +1377,7 @@ export const EditArea = async (req, res) => {
     }
 
     // Fetch all areas with their row indices to find the row number corresponding to the given ID
-    const allAreas = await _getAllAreasWithRowIndex(work);
+    const allAreas = await _getAllAreasWithRowIndex(workId);
     // Find the area by matching the ID from req.params.id with the ID in column A
     const areaToEdit = allAreas.find((area) => String(area.id) === String(id));
 
@@ -1393,7 +1392,7 @@ export const EditArea = async (req, res) => {
     // Update the specific cell (Column B) in the AREAS_SHEET at the found row number
     const response = await googleSheets.spreadsheets.values.update({
       spreadsheetId: SPREADSHEET_ID,
-      range: `${work?.sheetId}_Areas!B${rowNumber}`, // Update column B at the specified row
+      range: `${workId}_Areas!B${rowNumber}`, // Update column B at the specified row
       valueInputOption: "RAW",
       resource: {
         values: [[newAreaName.trim()]], // Wrap in a nested array for a single cell update
@@ -1416,7 +1415,7 @@ export const EditArea = async (req, res) => {
 
 export const DeleteArea = async (req, res) => {
   try {
-    const work = await Work.findById(req.body.workId);
+    const workId = req.body.workId;
 
     const client = await auth.getClient();
     const googleSheets = google.sheets({ version: "v4", auth: client });
@@ -1424,7 +1423,7 @@ export const DeleteArea = async (req, res) => {
     const { id } = req.params; // This `id` is the value from Column A (e.g., "1", "2", "3")
 
     // Fetch all areas with their row indices to find the row number corresponding to the given ID
-    const allAreas = await _getAllAreasWithRowIndex(work);
+    const allAreas = await _getAllAreasWithRowIndex(workId);
     // Find the area by matching the ID from req.params.id with the ID in column A
     const areaToDelete = allAreas.find(
       (area) => String(area.id) === String(id),
@@ -1441,7 +1440,7 @@ export const DeleteArea = async (req, res) => {
     // Delete the specific cell (Column B) in the AREAS_SHEET at the found row number
     const response = await googleSheets.spreadsheets.values.delete({
       spreadsheetId: SPREADSHEET_ID,
-      range: `${work?.sheetId}_Areas!B${rowNumber}`, // Delete column B at the specified row
+      range: `${workId}_Areas!B${rowNumber}`, // Delete column B at the specified row
     });
 
     res.status(200).json({
@@ -1464,17 +1463,24 @@ export const seperateCommercialProperties = async (req, res) => {
   try {
     const projectId = req.params.id;
 
-    const prev = await Work.findById(projectId);
-
-    const project = await Work.findByIdAndUpdate(
+    // const prev = await Work.findById(projectId);
+    const prev = await sheet.findById(
+      process.env.GOOGLE_SHEET_ID,
+      "Index",
       projectId,
-      {
-        details: {
-          ...prev.details,
-          seperatecommercial: true,
-        },
-      },
-      { new: true },
+    );
+
+    const details = JSON.parse((await prev[2]) || {});
+
+    details.seperatecommercial = true;
+
+    prev[2] = JSON.stringify(details);
+
+    const project = await sheet.update(
+      process.env.GOOGLE_SHEET_ID,
+      "Index",
+      projectId,
+      prev,
     );
 
     const client = await auth.getClient();
@@ -1483,7 +1489,7 @@ export const seperateCommercialProperties = async (req, res) => {
     // Google Sheet
     const response = await googleSheets.spreadsheets.values.get({
       spreadsheetId: SPREADSHEET_ID,
-      range: `${project.sheetId}_Main!A4:ZZ`,
+      range: `${projectId}_Main!A4:ZZ`,
     });
 
     const records = response.data.values || [];
@@ -1493,7 +1499,7 @@ export const seperateCommercialProperties = async (req, res) => {
 
     const endRow = startRow + modifiedData.length - 1;
 
-    const range = `${project.sheetId}_Main!A${startRow}:AA${endRow}`;
+    const range = `${projectId}_Main!A${startRow}:AA${endRow}`;
 
     // 2. Prepare the request body
     const requestBody = {

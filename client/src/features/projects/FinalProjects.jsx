@@ -22,6 +22,8 @@ const FinalProjects = () => {
         },
       });
 
+      console.log("work data: ", data);
+
       setProjects(data?.data?.data || []);
     } catch (error) {
       console.error("Error fetching projects:", error);

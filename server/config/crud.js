@@ -28,6 +28,17 @@ export class GoogleSheetService {
 
     this.sheetId = process.env.CRM_SPREADSHEET_ID;
     this.client = null;
+
+    this.getSheetId = async (sheetId, sheetName) => {
+      await this.init();
+
+      const res = await this.sheets.spreadsheets.get({
+        spreadsheetId: sheetId,
+        ranges: [sheetName],
+      });
+
+      return res.data.sheets[0].properties.sheetId;
+    };
   }
 
   async init() {
@@ -87,10 +98,41 @@ export class GoogleSheetService {
     }
   }
 
+  async deleteTab(spreadsheetId, sheetName) {
+    console.log("Deleting Tab:", sheetName);
+    // Deleting Tab using SheetName (Title)
+
+    await this.init();
+
+    try {
+      const request = {
+        spreadsheetId,
+        resource: {
+          requests: [
+            {
+              deleteSheet: {
+                sheetId: await this.getSheetId(spreadsheetId, sheetName),
+              },
+            },
+          ],
+        },
+      };
+
+      const response = await this.sheets.spreadsheets.batchUpdate(request);
+
+      console.log("Tab Deleted Successfully!", response);
+
+      return response.data;
+    } catch (err) {
+      console.log("ERror Deleting Sheet", err);
+      return err;
+    }
+  }
+
   async insert(sheetId, entity, values) {
     console.log("Insert Called");
     await this.init();
-    const range = `${entity}!A1:Z1`;
+    const range = `${entity}!A2:Z9999`;
 
     return this.sheets.spreadsheets.values.append({
       spreadsheetId: sheetId,
@@ -102,7 +144,7 @@ export class GoogleSheetService {
 
   async read(sheetId, entity) {
     await this.init();
-    const range = `${entity}!A1:Z9999`;
+    const range = `${entity}!A2:Z9999`;
 
     const res = await this.sheets.spreadsheets.values.get({
       spreadsheetId: sheetId,
@@ -112,38 +154,106 @@ export class GoogleSheetService {
     return res.data.values || [];
   }
 
-  async update(sheetId, entity, rowIndex, values) {
+  async findById(sheetId, entity, id) {
     await this.init();
-    const safeRowIndex = Number(rowIndex);
-    const range = `${entity}!A${safeRowIndex}`;
+    const range = `${entity}!A2:Z9999`;
 
-    return this.sheets.spreadsheets.values.update({
+    const res = await this.sheets.spreadsheets.values.get({
       spreadsheetId: sheetId,
       range,
+    });
+
+    return res.data.values.find((row) => row[0] === id);
+  }
+
+  async update(spreadsheetId, entity, id, values) {
+    await this.init();
+
+    const range = `${entity}!A1:Z9999`;
+
+    // get all rows
+    const res = await this.sheets.spreadsheets.values.get({
+      spreadsheetId,
+      range,
+    });
+
+    const records = res.data.values || [];
+
+    // find row by ID (column A)
+    const rowIndex = records.findIndex((row) => row[0] === id);
+
+    if (rowIndex === -1) {
+      throw new Error("Record not found");
+    }
+
+    // Google sheet rows start from 1
+    const rowNumber = rowIndex + 1;
+
+    const updateRange = `${entity}!A${rowNumber}`;
+
+    return this.sheets.spreadsheets.values.update({
+      spreadsheetId,
+      range: updateRange,
       valueInputOption: "USER_ENTERED",
-      requestBody: { values: [values] },
+      requestBody: {
+        values: [values],
+      },
     });
   }
 
-  async deleteRow(entity, rowIndex) {
+  async deleteRow(spreadsheetId, entity, id) {
     await this.init();
 
-    return this.sheets.spreadsheets.batchUpdate({
-      spreadsheetId: this.sheetId,
+    // Get sheet metadata
+    const meta = await this.sheets.spreadsheets.get({
+      spreadsheetId,
+    });
+
+    const sheetInfo = meta.data.sheets.find(
+      (s) => s.properties.title === entity,
+    );
+
+    if (!sheetInfo) {
+      throw new Error(`Sheet "${entity}" not found`);
+    }
+
+    const sheetTabId = sheetInfo.properties.sheetId;
+
+    // Fetch rows
+    const range = `${entity}!A1:Z9999`;
+
+    const res = await this.sheets.spreadsheets.values.get({
+      spreadsheetId,
+      range,
+    });
+
+    const records = res.data.values || [];
+
+    const rowIndex = records.findIndex((row) => row[0] === id);
+
+    if (rowIndex === -1) {
+      throw new Error("Record not found");
+    }
+
+    // Delete row
+    await this.sheets.spreadsheets.batchUpdate({
+      spreadsheetId,
       requestBody: {
         requests: [
           {
             deleteDimension: {
               range: {
-                sheetId: await this.getSheetId(entity),
+                sheetId: sheetTabId,
                 dimension: "ROWS",
-                startIndex: rowIndex - 1,
-                endIndex: rowIndex,
+                startIndex: rowIndex,
+                endIndex: rowIndex + 1,
               },
             },
           },
         ],
       },
     });
+
+    return { success: true };
   }
 }
