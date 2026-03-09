@@ -118,7 +118,7 @@ function BuildDescription(formData, floorData) {
 
   //
   if (isFaliyu) {
-    amenitiesParts.push(`ફળિયું (ખુલ્લી જગ્યા)`);
+    amenitiesParts.push(`ફળિયું`);
   }
 
   if (isGovPlot) {

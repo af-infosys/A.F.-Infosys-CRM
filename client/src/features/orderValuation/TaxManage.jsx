@@ -49,7 +49,7 @@ const TaxManage = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        }
+        },
       );
 
       fetchedData = fetchedData?.data?.taxes;
@@ -73,6 +73,7 @@ const TaxManage = () => {
 
   // Function to save data to the server
   const handleSave = async (e) => {
+    setLoading(true);
     e.preventDefault();
     try {
       await axios.post(
@@ -83,7 +84,7 @@ const TaxManage = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        }
+        },
       );
 
       console.log("Saving taxes:", taxes);
@@ -93,6 +94,8 @@ const TaxManage = () => {
     } catch (err) {
       console.error("Error saving data:", err);
       toast.error("ડેટા સેવ કરવામાં નિષ્ફળ. કૃપા કરીને ફરી પ્રયાસ કરો.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -208,7 +211,7 @@ const TaxManage = () => {
                             handleValueChange(
                               taxIndex,
                               "residence",
-                              e.target.value
+                              e.target.value,
                             )
                           }
                           className="w-full p-2 border border-gray-300 rounded-md"
@@ -223,7 +226,7 @@ const TaxManage = () => {
                             handleValueChange(
                               taxIndex,
                               "nonResidence",
-                              e.target.value
+                              e.target.value,
                             )
                           }
                           className="w-full p-2 border border-gray-300 rounded-md"
@@ -249,7 +252,7 @@ const TaxManage = () => {
                             handleValueChange(
                               taxIndex,
                               "commonPlot",
-                              e.target.value
+                              e.target.value,
                             )
                           }
                           className="w-full p-2 border border-gray-300 rounded-md"
@@ -266,8 +269,9 @@ const TaxManage = () => {
             <button
               type="submit"
               className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full shadow-md transition-all duration-200"
+              disabled={loading}
             >
-              સેવ કરો
+              {loading ? "Loading..." : "સેવ કરો"}
             </button>
           </div>
         </form>

@@ -11,6 +11,7 @@ const OrderValuationForm = () => {
   const navigate = useNavigate();
 
   const { projectId } = useParams();
+  const [loading, setLoading] = useState(true);
 
   const [details, setDetails] = useState({
     javak: `0/આકરણી/${new Date().getMonth() + 1}/${new Date()
@@ -220,6 +221,8 @@ const OrderValuationForm = () => {
 
   const fetchData = async () => {
     try {
+      setLoading(true);
+
       // In a real application, you would pass a token for authentication
       const response = await axios.get(
         `${await apiPath()}/api/valuation/${projectId}`,
@@ -246,6 +249,8 @@ const OrderValuationForm = () => {
       console.error("Error fetching data:", error);
 
       console.log("ડેટા લાવવામાં નિષ્ફળ. કૃપા કરીને ફરી પ્રયાસ કરો.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -253,6 +258,7 @@ const OrderValuationForm = () => {
 
   const handleSave = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       await axios.post(
@@ -271,6 +277,8 @@ const OrderValuationForm = () => {
     } catch (error) {
       console.error("Error saving data:", error);
       console.log("ડેટા સેવ કરવામાં નિષ્ફળ. કૃપા કરીને ફરી પ્રયાસ કરો.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -1502,8 +1510,9 @@ const OrderValuationForm = () => {
             <button
               type="submit"
               className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full shadow-md transition-all duration-200 flex items-center gap-2"
+              disabled={loading}
             >
-              <span>Save & Next</span>
+              <span>{loading ? "Loading..." : "Save & Next"}</span>
             </button>
           </div>
         </form>
