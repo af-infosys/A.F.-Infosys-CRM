@@ -16,11 +16,10 @@ const TharavPage1 = ({ project }) => {
       }}
     >
       {/* -------------------- 1. Main Title -------------------- */}
-      <header className="text-center pb-12">
+      <header className="text-center pb-6">
         <h1 className="text-3xl font-extrabold text-gray-800 tracking-wider">
           {project?.spot?.gaam || "................"} ગ્રામપંચાયત આકારણી કમિટિ
         </h1>
-        x
       </header>
 
       <h2 style={{ textAlign: "center", fontWeight: "bold" }}>

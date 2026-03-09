@@ -64,6 +64,33 @@ export default function DashboardLayout() {
             A.F. Infosys
           </h1>
           <nav className="flex flex-col gap-4" style={{ userSelect: "none" }}>
+            <div>
+              <div
+                className="main-link"
+                style={{ display: "flex", padding: 0 }}
+              >
+                <NavLink
+                  to={`/`}
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                  onClick={() => setIsSidebarOpen(false)}
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    color: "white",
+                    gap: ".5rem",
+                    padding: 8,
+                  }}
+                >
+                  <img
+                    src={ProjectManagementIcon}
+                    alt="Dashboard"
+                    style={{ width: "20px" }}
+                  />
+                  Dashboard
+                </NavLink>
+              </div>
+            </div>
             {(user.role === "owner" ||
               user.role === "telecaller" ||
               user.role === "monitor") && (
