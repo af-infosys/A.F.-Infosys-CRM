@@ -28,7 +28,7 @@ export const getDetails = async (req, res) => {
     // });
 
     // const rawValuation = response.data.values || [];
-    const rawValuation = work[3] ? JSON.parse(work[3]) : [];
+    const rawValuation = work[4] ? JSON.parse(work[4]) : [];
 
     const valuation = rawValuation?.map((row) => ({
       name: row[0] || "",

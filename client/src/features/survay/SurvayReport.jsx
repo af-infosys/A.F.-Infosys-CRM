@@ -595,7 +595,7 @@ const SurvayReport = () => {
 
     const final = [];
     const isSeparate = project?.details?.seperatecommercial === true;
-    const isRaw = project?.details?.finalAkarni || false;
+    const isRaw = project?.other?.status || false;
 
     // 🔢 Global page counter (1-based)
     let globalPageNumber = 1;
@@ -965,14 +965,14 @@ const SurvayReport = () => {
               <div
                 key={idx}
                 id={id}
-                className={`report-page legal-landscape-dimensions ${project?.details?.finalAkarni === true && "cover-bg"}`}
+                className={`report-page legal-landscape-dimensions ${project?.other?.status === "completed" && "cover-bg"}`}
                 style={{
                   paddingLeft: "80px",
                   paddingRight: "50px",
                   maxHeight: "800px",
                 }}
               >
-                {project?.details?.finalAkarni === true ? (
+                {project?.other?.status === "completed" ? (
                   <AkarniIndex
                     key={idx}
                     title={item?.name} // Pass the dynamic title (Residential/Commercial)

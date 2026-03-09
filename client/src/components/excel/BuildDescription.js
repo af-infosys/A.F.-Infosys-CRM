@@ -24,42 +24,29 @@ function BuildDescription(formData, floorData) {
   let isGovPlotDival = false;
   let isPvtPlotDival = false;
 
+  // 🟢 પ્લોટ માટે ખાસ હેન્ડલિંગ
+  if (formData?.houseCategory?.inclues("પ્લોટ")) {
+    if (formData?.houseCategory?.inclues("પ્લોટ સરકારી - કોમનપ્લોટ")) {
+      isGovPlot = true;
+      return;
+    } else if (formData?.houseCategory?.inclues("પ્લોટ ખાનગી - ખુલ્લી જગ્યા")) {
+      isPvtPlot = true;
+      return;
+    } else if (formData?.houseCategory?.inclues("પ્લોટ (ફરતી દિવાલ) ખાનગી")) {
+      isGovPlotDival = true;
+      return;
+    } else if (formData?.houseCategory?.inclues("પ્લોટ (ફરતી દિવાલ) સરકારી")) {
+      isPvtPlotDival = true;
+      return;
+    }
+  }
+
   // માળની વિગતોનું વર્ણન
   if (floorData && floorData.length > 0) {
     floorData.forEach((floor) => {
       if (floor.floorType === "ફળિયું") {
         isFaliyu = true;
         return;
-      }
-
-      // 🟢 પ્લોટ માટે ખાસ હેન્ડલિંગ
-      if (
-        floor.floorType === "પ્લોટ" &&
-        floor.roomDetails[0].type === "પ્લોટ"
-      ) {
-        if (
-          floor.roomDetails[0].roomHallShopGodown === "પ્લોટ સરકારી - કોમનપ્લોટ"
-        ) {
-          isGovPlot = true;
-          return;
-        } else if (
-          floor.roomDetails[0].roomHallShopGodown ===
-          "પ્લોટ ખાનગી - ખુલ્લી જગ્યા"
-        ) {
-          isPvtPlot = true;
-          return;
-        } else if (
-          floor.roomDetails[0].roomHallShopGodown === "પ્લોટ (ફરતી દિવાલ) ખાનગી"
-        ) {
-          isGovPlotDival = true;
-          return;
-        } else if (
-          floor.roomDetails[0].roomHallShopGodown ===
-          "પ્લોટ (ફરતી દિવાલ) સરકારી"
-        ) {
-          isPvtPlotDival = true;
-          return;
-        }
       }
 
       let floorPrefix = "";
