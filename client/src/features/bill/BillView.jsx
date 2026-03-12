@@ -41,8 +41,7 @@ function BillView() {
 
     invoiceNo: 0,
     date: "",
-    description:
-      "x ગામની મકાન આકારણી સર્વે, વર્ષ:- 2025/26 નું ગામ નમુના નં. ૮ આકારણી રજીસ્ટર ઘેર ઘેર જઇને બનાવી અને ગા.ન.ન.- ૯/ડી કરવેરા રજીસ્ટર બનાવિ કોમ્પ્યુટરાઈઝડ પ્રિન્ટ સાથે સ્પાઇરલ બાઈન્ડિંગ સાથે ઓનલાઈન ગ્રામ સુવિધા પોર્ટલમાં ડેટાએન્ટ્રી સાથે જોબવર્ક/મજુરીથી કમ્પલેટ અદ્યતન બનાવેલ",
+
     houseCount: 0,
     price: 0,
   });
@@ -519,7 +518,12 @@ function BillView() {
                 </div>
                 <br />
                 {/* Invoice Details */}
-                <div className="flex flex-col w-full p-2">
+                <div
+                  className="flex flex-col w-full p-2"
+                  style={{
+                    paddingInline: "20px",
+                  }}
+                >
                   <div className="flex justify-between">
                     <span>
                       Invois No.{" "}
@@ -663,7 +667,8 @@ function BillView() {
                       <td
                         className="text-sm text-gray-800 text-center"
                         style={{
-                          fontSize: ".95rem",
+                          fontSize: "1rem",
+                          lineHeight: "1.4",
                           padding: "7px",
                         }}
                       >
@@ -740,7 +745,8 @@ function BillView() {
                   <span
                     style={{
                       position: "relative",
-                      transform: "translate(50px, -40px)",
+                      transform: "translate(50px, -20px)",
+                      fontSize: "19px",
                     }}
                     id="circle"
                   >
@@ -883,7 +889,12 @@ function BillView() {
                 </div>
                 <br />
                 {/* Invoice Details */}
-                <div className="flex flex-col w-full p-2">
+                <div
+                  className="flex flex-col w-full p-2"
+                  style={{
+                    paddingInline: "20px",
+                  }}
+                >
                   <div className="flex justify-between">
                     <span>
                       Quotation No.{" "}
@@ -997,7 +1008,8 @@ function BillView() {
                       <td
                         className="text-sm text-gray-800 text-center"
                         style={{
-                          fontSize: ".95rem",
+                          fontSize: "1rem",
+                          lineHeight: "1.4",
                           padding: "7px",
                         }}
                       >
@@ -1036,7 +1048,8 @@ function BillView() {
                   <span
                     style={{
                       position: "relative",
-                      transform: "translate(50px, -40px)",
+                      transform: "translate(50px, -20px)",
+                      fontSize: "19px",
                     }}
                     id="circle"
                   >
@@ -1141,7 +1154,12 @@ function BillView() {
                 }}
               >
                 {/* Invoice Details */}
-                <div className="flex flex-col w-full p-2">
+                <div
+                  className="flex flex-col w-full p-2"
+                  style={{
+                    paddingInline: "20px",
+                  }}
+                >
                   <div className="flex justify-between">
                     <span>
                       Invois No.{" "}
@@ -1285,7 +1303,8 @@ function BillView() {
                       <td
                         className="text-sm text-gray-800 text-center"
                         style={{
-                          fontSize: ".95rem",
+                          fontSize: "1rem",
+                          lineHeight: "1.4",
                           padding: "7px",
                         }}
                       >
@@ -1362,7 +1381,8 @@ function BillView() {
                   <span
                     style={{
                       position: "relative",
-                      transform: "translate(50px, -40px)",
+                      transform: "translate(50px, -20px)",
+                      fontSize: "19px",
                     }}
                   >
                     આભાર
@@ -1460,7 +1480,12 @@ function BillView() {
                 </div>
                 <br />
                 {/* Invoice Details */}
-                <div className="flex flex-col w-full p-2">
+                <div
+                  className="flex flex-col w-full p-2"
+                  style={{
+                    paddingInline: "20px",
+                  }}
+                >
                   <div className="flex justify-between">
                     <span>
                       Quotation No.{" "}
@@ -1574,7 +1599,8 @@ function BillView() {
                       <td
                         className="text-sm text-gray-800 text-center"
                         style={{
-                          fontSize: ".95rem",
+                          fontSize: "1rem",
+                          lineHeight: "1.4",
                           padding: "7px",
                         }}
                       >
@@ -1613,7 +1639,8 @@ function BillView() {
                   <span
                     style={{
                       position: "relative",
-                      transform: "translate(50px, -40px)",
+                      transform: "translate(50px, -20px)",
+                      fontSize: "19px",
                     }}
                   >
                     આભાર

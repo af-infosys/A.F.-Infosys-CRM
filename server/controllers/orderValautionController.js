@@ -181,6 +181,8 @@ export const getImageMode = async (req, res) => {
         res.status(200).json({
           message: "Image Akarni!",
           isImage: JSON.parse(isImage[2] || {})?.imageAkarni || false,
+          isPtvPlot: JSON.parse(isImage[2] || {})?.pvtplot || false,
+          isGovPlot: JSON.parse(isImage[2] || {})?.govplot || false,
         });
       }
     } else {

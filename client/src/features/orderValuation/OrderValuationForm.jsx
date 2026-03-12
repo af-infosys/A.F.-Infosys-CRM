@@ -1233,32 +1233,54 @@ const OrderValuationForm = () => {
 
             <br />
 
-            {/* <div className="flex gap-3 mb-4 mt-2">
+            <div className="flex gap-3 mb-4 mt-2">
+              <h3>11. Plot : </h3>
+
               <label
-                htmlFor="seperatecommercial"
+                htmlFor="pvtplot"
                 className="text-sm font-medium text-gray-700 mb-1"
               >
-                11. Seperate commercial Properties
+                Private Plot
               </label>
 
               <input
                 type="checkbox"
-                id="seperatecommercial"
-                value={details.seperatecommercial}
+                id="pvtplot"
+                value={details.pvtplot}
                 onChange={(e) => {
                   setDetails((prev) => ({
                     ...prev,
-                    seperatecommercial: e.target.checked,
+                    pvtplot: e.target.checked,
                   }));
                 }}
-                checked={details.seperatecommercial || false}
+                checked={details.pvtplot || true}
               />
-            </div> */}
+
+              <label
+                htmlFor="govplot"
+                className="text-sm font-medium text-gray-700 mb-1"
+              >
+                Government Plot
+              </label>
+
+              <input
+                type="checkbox"
+                id="govplot"
+                value={details.govplot}
+                onChange={(e) => {
+                  setDetails((prev) => ({
+                    ...prev,
+                    govplot: e.target.checked,
+                  }));
+                }}
+                checked={details.govplot || true}
+              />
+            </div>
 
             {/* Notes Section */}
             <div className="flex flex-col col-span-3">
               <label className="text-sm font-medium text-gray-700 mb-1">
-                11. નોધ (Notes)
+                12. નોધ (Notes)
               </label>
               <div className="flex gap-2">
                 <input
@@ -1371,7 +1393,7 @@ const OrderValuationForm = () => {
 
                 <tr>
                   <td>3</td>
-                  <td>આકારણી સર્વે કામ શરૂ કર્યા તારીખ</td>
+                  <td>આકારણી સર્વે કામ શરૂ કર્યા તારીખ (auto)</td>
                   <td>
                     <input
                       type="date"
@@ -1385,7 +1407,7 @@ const OrderValuationForm = () => {
 
                 <tr>
                   <td>4</td>
-                  <td>સર્વે કામ પુર્ણ કર્યા તારીખ</td>
+                  <td>સર્વે કામ પુર્ણ કર્યા તારીખ (auto)</td>
                   <td>
                     <input
                       type="date"
@@ -1399,7 +1421,7 @@ const OrderValuationForm = () => {
 
                 <tr>
                   <td>5</td>
-                  <td>રફ સર્વે રજી. PDF આકારણી મોકલ્યા તારીખ</td>
+                  <td>રફ સર્વે રજી. PDF આકારણી મોકલ્યા તારીખ </td>
                   <td>
                     <input
                       type="date"
@@ -1427,7 +1449,9 @@ const OrderValuationForm = () => {
 
                 <tr>
                   <td>7</td>
-                  <td>પોર્ટલમાં ડેટા એન્ટ્રી કરવાની 4 મહિના બાદ તારીખ</td>
+                  <td>
+                    પોર્ટલમાં ડેટા એન્ટ્રી કરવાની 4 મહિના બાદ તારીખ (auto)
+                  </td>
                   <td>
                     <input
                       type="date"
@@ -1502,7 +1526,7 @@ const OrderValuationForm = () => {
               }}
               className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-full shadow-md transition-all duration-200 flex items-center gap-2"
             >
-              Add Commitee Member
+              + Add Commitee Member
             </button>
           </section>
 
