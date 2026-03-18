@@ -749,27 +749,38 @@ export const editSheetRecord = async (req, res) => {
 export const calculateValuation = async (req, res) => {
   try {
     const projectId = req.params.id;
-    const project = await Work.findById(projectId);
+    console.log(req.params);
+    // const project = await Work.findById(projectId);
+
+    const project = await sheet.findById(
+      process.env.GOOGLE_SHEET_ID,
+      "Index",
+      projectId,
+    );
 
     // 1. Get full data
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId: SPREADSHEET_ID,
-      range: `${project?.sheetId}_Main!A4:ZZ`,
+      range: `${project[0]}_Main!A4:ZZ`,
     });
 
-    const orderValuation = await sheets.spreadsheets.values.get({
-      spreadsheetId: SPREADSHEET_ID,
-      range: `${project?.sheetId}_OV!A2:D`, // assuming columns: A=Name, B=Amount, C=Percentage,  D=TaxAmount
-    });
+    // const orderValuation = await sheets.spreadsheets.values.get({
+    //   spreadsheetId: SPREADSHEET_ID,
+    //   range: `${project[0]}_OV!A2:D`, // assuming columns: A=Name, B=Amount, C=Percentage,  D=TaxAmount
+    // });
 
-    const taxAmount = await sheets.spreadsheets.values.get({
-      spreadsheetId: SPREADSHEET_ID,
-      range: `${project?.sheetId}_Taxes!A2:ZZ`, // assuming columns: A=Name, B=Amount, C=Percentage,  D=TaxAmount
-    });
+    // const taxAmount = await sheets.spreadsheets.values.get({
+    //   spreadsheetId: SPREADSHEET_ID,
+    //   range: `${project[0]}_Taxes!A2:ZZ`, // assuming columns: A=Name, B=Amount, C=Percentage,  D=TaxAmount
+    // });
 
     let records = response.data.values || [];
-    let valuationData = orderValuation.data.values || [];
-    let otherTaxdata = taxAmount.data.values || [];
+
+    // let valuationData = orderValuation.data.values || [];
+    let valuationData = JSON.parse(project[4] || "[]");
+
+    // let otherTaxdata = taxAmount.data.values || [];
+    let otherTaxdata = JSON.parse(project[5] || "[]");
 
     console.log(valuationData, otherTaxdata);
 
@@ -860,6 +871,37 @@ export const calculateValuation = async (req, res) => {
                 (Number(valuationData[12][1]) *
                   total *
                   Number(valuationData[12][2])) /
+                100;
+            }
+
+            // Duakn
+            if (room.roomHallShopGodown === "દુકાન નાની") {
+              let total = 0;
+
+              total += Number(room.slabRooms);
+              total += Number(room.tinRooms);
+              total += Number(room.woodenRooms);
+              total += Number(room.tileRooms);
+
+              propertyPrice += Number(valuationData[7][1]) * total;
+              tax +=
+                (Number(valuationData[7][1]) *
+                  total *
+                  Number(valuationData[7][2])) /
+                100;
+            } else if (room.roomHallShopGodown === "દુકાન મોટી") {
+              let total = 0;
+
+              total += Number(room.slabRooms);
+              total += Number(room.tinRooms);
+              total += Number(room.woodenRooms);
+              total += Number(room.tileRooms);
+
+              propertyPrice += Number(valuationData[8][1]) * total;
+              tax +=
+                (Number(valuationData[8][1]) *
+                  total *
+                  Number(valuationData[8][2])) /
                 100;
             }
           });
@@ -1007,7 +1049,7 @@ export const calculateValuation = async (req, res) => {
       // ---- Collect updates ----
       const targetRow = rowIndex + 4; // since data starts at row 4
       updates.push({
-        range: `${project?.sheetId}_Main!T${targetRow}:V${targetRow}`, // col 19= T, col 21= V
+        range: `${project[0]}_Main!T${targetRow}:V${targetRow}`, // col 19= T, col 21= V
         values: [[propertyPrice, tax, JSON.stringify(otherTax)]],
       });
     });
