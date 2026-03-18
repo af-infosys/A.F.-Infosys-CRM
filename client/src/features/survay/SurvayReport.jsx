@@ -41,7 +41,7 @@ const SurvayReport = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const [showCommercial, setShowCommercial] = useState(false);
+  // const [showCommercial, setShowCommercial] = useState(false);
 
   const [count, setCount] = useState({
     totalPhoneNumber: 0,
@@ -287,6 +287,7 @@ const SurvayReport = () => {
     const commercialIndexes = [];
 
     finalRenderPages.forEach((item, idx) => {
+      console.log(item.commercial, item.type, idx);
       if (mode === "res") {
         if (!item.commercial) {
           commercialIndexes.push(idx);
@@ -727,15 +728,15 @@ const SurvayReport = () => {
             pageIndex: globalPageNumber - 1,
             pageRecords: pageRecs,
             isCommercial: false,
+            commercial: false,
           });
           globalPageNumber++;
         });
 
-        if (currentBundle === 1 && isRaw) {
-          final.push({ type: "tharav", name: "certificate" });
-        }
-
         currentBundle++;
+      }
+      if (isRaw) {
+        final.push({ type: "tharav", name: "certificate" });
       }
 
       // ---------- COMMERCIAL ----------
@@ -1007,14 +1008,14 @@ const SurvayReport = () => {
       {project?.details?.seperatecommercial ? (
         <span className="text-green-600 font-bold">
           COMMERCIAL SEPARATION ACTIVE
-          <button
+          {/* <button
             className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transition duration-200 disabled:opacity-50"
             onClick={() => {
               setShowCommercial((prev) => !prev);
             }}
           >
             {showCommercial ? "Show Residencial" : "Show Commercial"}
-          </button>
+          </button> */}
         </span>
       ) : (
         <span className="text-gray-500">Normal Mode</span>
@@ -1023,9 +1024,7 @@ const SurvayReport = () => {
       <br />
       <br />
 
-      <div className="pdf-report-container">
-        {finalRenderPages
-          ?.filter((item) => {
+      {/*     ?.filter((item) => {
             if (project?.details?.seperatecommercial) {
               return showCommercial
                 ? item.commercial === true
@@ -1033,117 +1032,116 @@ const SurvayReport = () => {
             } else {
               return true;
             }
-          })
-          .map((item, idx) => {
-            const id = `report-page-${idx}`;
+          }) */}
+      <div className="pdf-report-container">
+        {finalRenderPages?.map((item, idx) => {
+          const id = `report-page-${idx}`;
 
-            if (item.type === "cover") {
-              return (
-                <div
-                  key={idx}
-                  id={id}
-                  className={`report-page legal-landscape-dimensions ${project?.other?.status === "completed" && "cover-bg"}`}
-                  style={{
-                    paddingLeft: "80px",
-                    paddingRight: "50px",
-                    maxHeight: "800px",
-                  }}
-                >
-                  {project?.other?.status === "completed" ? (
-                    <AkarniIndex
-                      key={idx}
-                      title={item?.name} // Pass the dynamic title (Residential/Commercial)
-                      part={item.bundle}
-                      project={project}
-                      totalHoouse={records?.length}
-                      commercial={item.commercial}
-                      coverProperties={item.coverProperties}
-                      pageFrom={item.pageFrom}
-                      pageTo={item.pageTo}
-                      totalNormalBundles={item.totalNormalBundles || 0}
-                    />
-                  ) : (
-                    <AkarniIndexRaw
-                      key={idx}
-                      title={item?.name} // Pass the dynamic title (Residential/Commercial)
-                      part={item.bundle}
-                      project={project}
-                      totalHoouse={records?.length}
-                      commercial={item.commercial}
-                      coverProperties={item.coverProperties}
-                      pageFrom={item.pageFrom}
-                      pageTo={item.pageTo}
-                      totalNormalBundles={item.totalNormalBundles || 0}
-                    />
-                  )}
-                </div>
-              );
-            }
+          if (item.type === "cover") {
+            return (
+              <div
+                key={idx}
+                id={id}
+                className={`report-page legal-landscape-dimensions ${project?.other?.status === "completed" && "cover-bg"}`}
+                style={{
+                  paddingLeft: "80px",
+                  paddingRight: "50px",
+                  maxHeight: "800px",
+                }}
+              >
+                {project?.other?.status === "completed" ? (
+                  <AkarniIndex
+                    key={idx}
+                    title={item?.name} // Pass the dynamic title (Residential/Commercial)
+                    part={item.bundle}
+                    project={project}
+                    totalHoouse={records?.length}
+                    commercial={item.commercial}
+                    coverProperties={item.coverProperties}
+                    pageFrom={item.pageFrom}
+                    pageTo={item.pageTo}
+                    totalNormalBundles={item.totalNormalBundles || 0}
+                  />
+                ) : (
+                  <AkarniIndexRaw
+                    key={idx}
+                    title={item?.name} // Pass the dynamic title (Residential/Commercial)
+                    part={item.bundle}
+                    project={project}
+                    totalHoouse={records?.length}
+                    commercial={item.commercial}
+                    coverProperties={item.coverProperties}
+                    pageFrom={item.pageFrom}
+                    pageTo={item.pageTo}
+                    totalNormalBundles={item.totalNormalBundles || 0}
+                  />
+                )}
+              </div>
+            );
+          }
 
-            if (item.type === "benefit") {
-              return (
-                <div
-                  key={idx}
-                  id={id}
-                  className="report-page legal-landscape-dimensions"
-                  style={{
-                    paddingLeft: "65px",
-                    paddingRight: "40px",
-                    maxHeight: "800px",
-                  }}
-                >
-                  {item.name === "panchayat" && <PanchayatBenefit />}
-                  {item.name === "public" && <PublicBenefit />}
-                </div>
-              );
-            }
-
-            if (item.type === "tharav") {
-              return (
-                <div
-                  key={idx}
-                  id={id}
-                  className="report-page legal-landscape-dimensions"
-                  style={{
-                    paddingLeft: "65px",
-                    paddingRight: "40px",
-                    maxHeight: "800px",
-                  }}
-                >
-                  {item.name === "committee" && (
-                    <TharavPage1 project={project} />
-                  )}
-                  {item.name === "certificate" && (
-                    <TharavPage2 project={project} />
-                  )}
-                </div>
-              );
-            }
-
+          if (item.type === "benefit") {
             return (
               <div
                 key={idx}
                 id={id}
                 className="report-page legal-landscape-dimensions"
                 style={{
-                  paddingLeft: "60px",
-                  paddingRight: "20px",
+                  paddingLeft: "65px",
+                  paddingRight: "40px",
                   maxHeight: "800px",
                 }}
               >
-                <AkarniPage
-                  project={project}
-                  pageIndex={item.pageIndex}
-                  pageRecords={item.pageRecords}
-                  totalHoouse={records?.length}
-                  current={idx + 1}
-                  totalPages={finalRenderPages?.length}
-                  count={count}
-                  isCommercial={item?.isCommercial}
-                />
+                {item.name === "panchayat" && <PanchayatBenefit />}
+                {item.name === "public" && <PublicBenefit />}
               </div>
             );
-          })}
+          }
+
+          if (item.type === "tharav") {
+            return (
+              <div
+                key={idx}
+                id={id}
+                className="report-page legal-landscape-dimensions"
+                style={{
+                  paddingLeft: "65px",
+                  paddingRight: "40px",
+                  maxHeight: "800px",
+                }}
+              >
+                {item.name === "committee" && <TharavPage1 project={project} />}
+                {item.name === "certificate" && (
+                  <TharavPage2 project={project} />
+                )}
+              </div>
+            );
+          }
+
+          return (
+            <div
+              key={idx}
+              id={id}
+              className="report-page legal-landscape-dimensions"
+              style={{
+                paddingLeft: "60px",
+                paddingRight: "20px",
+                maxHeight: "800px",
+              }}
+            >
+              <AkarniPage
+                project={project}
+                pageIndex={item.pageIndex}
+                pageRecords={item.pageRecords}
+                totalHoouse={records?.length}
+                current={idx + 1}
+                totalPages={finalRenderPages?.length}
+                count={count}
+                isCommercial={item?.isCommercial}
+              />
+            </div>
+          );
+        })}
       </div>
 
       <div className="visible-report-container">
