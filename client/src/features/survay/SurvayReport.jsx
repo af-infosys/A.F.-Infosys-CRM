@@ -731,9 +731,12 @@ const SurvayReport = () => {
           globalPageNumber++;
         });
 
+        if (currentBundle === 1 && isRaw) {
+          final.push({ type: "tharav", name: "certificate" });
+        }
+
         currentBundle++;
       }
-      final.push({ type: "tharav", name: "certificate" });
 
       // ---------- COMMERCIAL ----------
       if (commercialPages.length > 0) {
@@ -838,9 +841,9 @@ const SurvayReport = () => {
           globalPageNumber++;
         });
 
-        if (bundle === 1 && isRaw) {
-          final.push({ type: "tharav", name: "certificate" });
-        }
+        // if (bundle === 1 && isRaw) {
+        //   final.push({ type: "tharav", name: "certificate" });
+        // }
       }
     }
 
