@@ -98,7 +98,7 @@ const AkarniPage = ({
             <th
               className=""
               rowSpan={2}
-              style={{ ...headerStyle, fontSize: "14px" }}
+              style={{ ...headerStyle, fontSize: "14px", minWidth: "200px" }}
             >
               <span className="formatting">માલિકનું નામ</span>
             </th>
@@ -223,7 +223,7 @@ const AkarniPage = ({
                   {record[7] && `, '${record[7]}'`}
                 </span>
               </td>
-              <td className="" style={cellStyle}>
+              <td className="" style={{ ...cellStyle, minWidth: "200px" }}>
                 <span className="formatting">{record[3]}</span>
               </td>{" "}
               <td className="" style={cellStyle}>

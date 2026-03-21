@@ -450,9 +450,9 @@ const OrderValuationReport = () => {
                       <b>
                         {!details?.panchayat?.includes("નહિ") &&
                           details?.panchayat
-                            .split(/\d+\./) // split at "1.", "2.", etc.
-                            .filter(Boolean) // remove empty strings
-                            .map((village, index) => (
+                            ?.split(/\d+\./) // split at "1.", "2.", etc.
+                            ?.filter(Boolean) // remove empty strings
+                            ?.map((village, index) => (
                               <div
                                 key={index}
                                 style={{ textAlign: "left", fontSize: "15px" }}

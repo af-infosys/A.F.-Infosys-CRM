@@ -215,11 +215,30 @@ const AkarniExcelEdit = () => {
       colIndex: 19,
     },
     tax: {
-      label: "આકારેલ વેરાની રકમ",
+      label: "ધર વેરો",
       width: "w-[8%]",
       type: "text",
       colIndex: 20,
     },
+    preTax: {
+      label: "ધર વેરો (પાછલી બાકી)",
+      width: "w-[9%]",
+      type: "text",
+      colIndex: 22,
+    },
+    otherTax: {
+      label: "અન્ય વેરા",
+      width: "w-[32%]",
+      type: "text",
+      colIndex: 21,
+    },
+    preOtherTax: {
+      label: "અન્ય વેરા (પાછલી બાકી)",
+      width: "w-[32%]",
+      type: "text",
+      colIndex: 23,
+    },
+
     tap: { label: "નળ", width: "w-[3%]", type: "number", colIndex: 12 }, // Yes/No or 1/0
     toilet: { label: "શોચાલય", width: "w-[3%]", type: "text", colIndex: 13 }, // Yes/No or 1/0
     remarks: { label: "નોંધ / રીમાર્કસ", width: "w-[8%]", colIndex: 14 },
@@ -306,7 +325,13 @@ const AkarniExcelEdit = () => {
                 className={`p-2 border-r border-gray-300 flex-shrink-0 ${getColumnWidth(
                   key,
                 )}`}
-                style={{ minWidth: key === "description" ? "120px" : "60px" }}
+                style={{
+                  minWidth: key === "description" ? "120px" : "60px",
+                  maxWidth:
+                    key === "otherTax" || key === "preOtherTax"
+                      ? "280px"
+                      : "auto",
+                }}
               >
                 {COLUMN_MAP[key].label}
                 <div className="text-gray-500 font-normal mt-0.5 text-[10px]">
@@ -382,6 +407,313 @@ const AkarniExcelEdit = () => {
                       >
                         {value}
                       </button>
+                    </div>
+                  );
+                }
+
+                if (key === "otherTax") {
+                  return (
+                    <div style={{ display: "flex" }}>
+                      <div
+                        key={key + "1"}
+                        className={`border-r border-gray-200 flex-shrink-0 ${
+                          getColumnWidth(key) / 4
+                        } p-0 text-center flex items-center justify-center`}
+                      >
+                        <input
+                          type={COLUMN_MAP[key].type || "text"}
+                          value={
+                            JSON.parse(value || "{}")?.normal_water?.curr || ""
+                          }
+                          onChange={(e) =>
+                            handleCellChange(
+                              rowIndex,
+                              key,
+                              JSON.stringify({
+                                ...JSON.parse(value || "{}"),
+                                normal_water: {
+                                  curr: Number(e.target.value || 0),
+                                },
+                              }),
+                            )
+                          }
+                          className={inputStyle}
+                          style={{
+                            textAlign: "left",
+                            paddingLeft: "4px",
+                            paddingRight: "4px",
+                            // Special case for description and remarks to allow more vertical space
+                            height: "100%",
+                            minHeight: "32px",
+                            width: "70px",
+
+                            background: `${initialData[rowIndex][colIndex] == value ? "" : "yellow"}`,
+                          }}
+                        />
+                      </div>{" "}
+                      <div
+                        key={key + "2"}
+                        className={`border-r border-gray-200 flex-shrink-0 ${
+                          getColumnWidth(key) / 4
+                        } p-0 text-center flex items-center justify-center`}
+                      >
+                        <input
+                          type={COLUMN_MAP[key].type || "text"}
+                          value={
+                            JSON.parse(value || "{}")?.special_water?.curr || ""
+                          }
+                          onChange={(e) =>
+                            handleCellChange(
+                              rowIndex,
+                              key,
+
+                              JSON.stringify({
+                                ...JSON.parse(value || "{}"),
+                                special_water: {
+                                  curr: Number(e.target.value || 0),
+                                },
+                              }),
+                            )
+                          }
+                          className={inputStyle}
+                          style={{
+                            textAlign: "left",
+                            paddingLeft: "4px",
+                            paddingRight: "4px",
+                            // Special case for description and remarks to allow more vertical space
+                            height: "100%",
+                            minHeight: "32px",
+                            width: "70px",
+
+                            background: `${initialData[rowIndex][colIndex] == value ? "" : "yellow"}`,
+                          }}
+                        />
+                      </div>
+                      <div
+                        key={key + "3"}
+                        className={`border-r border-gray-200 flex-shrink-0 ${
+                          getColumnWidth(key) / 4
+                        } p-0 text-center flex items-center justify-center`}
+                      >
+                        <input
+                          type={COLUMN_MAP[key].type || "text"}
+                          value={JSON.parse(value || "{}")?.light?.curr || ""}
+                          onChange={(e) =>
+                            handleCellChange(
+                              rowIndex,
+                              key,
+                              JSON.stringify({
+                                ...JSON.parse(value || "{}"),
+                                light: {
+                                  curr: Number(e.target.value || 0),
+                                },
+                              }),
+                            )
+                          }
+                          className={inputStyle}
+                          style={{
+                            textAlign: "left",
+                            paddingLeft: "4px",
+                            paddingRight: "4px",
+                            // Special case for description and remarks to allow more vertical space
+                            height: "100%",
+                            minHeight: "32px",
+                            width: "70px",
+
+                            background: `${initialData[rowIndex][colIndex] == value ? "" : "yellow"}`,
+                          }}
+                        />
+                      </div>
+                      <div
+                        key={key + "4"}
+                        className={`border-r border-gray-200 flex-shrink-0 ${
+                          getColumnWidth(key) / 4
+                        } p-0 text-center flex items-center justify-center`}
+                      >
+                        <input
+                          type={COLUMN_MAP[key].type || "text"}
+                          value={
+                            JSON.parse(value || "{}")?.cleaning?.curr || ""
+                          }
+                          onChange={(e) =>
+                            handleCellChange(
+                              rowIndex,
+                              key,
+                              JSON.stringify({
+                                ...JSON.parse(value || "{}"),
+                                cleaning: {
+                                  curr: Number(e.target.value || 0),
+                                },
+                              }),
+                            )
+                          }
+                          className={inputStyle}
+                          style={{
+                            textAlign: "left",
+                            paddingLeft: "4px",
+                            paddingRight: "4px",
+                            // Special case for description and remarks to allow more vertical space
+                            height: "100%",
+                            minHeight: "32px",
+                            width: "70px",
+
+                            background: `${initialData[rowIndex][colIndex] == value ? "" : "yellow"}`,
+                          }}
+                        />
+                      </div>
+                    </div>
+                  );
+                }
+
+                if (key === "preOtherTax") {
+                  return (
+                    <div style={{ display: "flex" }}>
+                      <div
+                        key={key + "5"}
+                        className={`border-r border-gray-200 flex-shrink-0 ${
+                          getColumnWidth(key) / 4
+                        } p-0 text-center flex items-center justify-center`}
+                      >
+                        <input
+                          type={COLUMN_MAP[key].type || "text"}
+                          value={
+                            JSON.parse(value || "{}")?.normal_water?.prev || ""
+                          }
+                          onChange={(e) =>
+                            handleCellChange(
+                              rowIndex,
+                              key,
+                              JSON.stringify({
+                                ...JSON.parse(value || "{}"),
+                                normal_water: {
+                                  prev: Number(e.target.value || 0),
+                                },
+                              }),
+                            )
+                          }
+                          className={inputStyle}
+                          style={{
+                            textAlign: "left",
+                            paddingLeft: "4px",
+                            paddingRight: "4px",
+                            // Special case for description and remarks to allow more vertical space
+                            height: "100%",
+                            minHeight: "32px",
+                            width: "70px",
+
+                            background: `${initialData[rowIndex][colIndex] == value ? "" : "yellow"}`,
+                          }}
+                        />
+                      </div>{" "}
+                      <div
+                        key={key + "6"}
+                        className={`border-r border-gray-200 flex-shrink-0 ${
+                          getColumnWidth(key) / 4
+                        } p-0 text-center flex items-center justify-center`}
+                      >
+                        <input
+                          type={COLUMN_MAP[key].type || "text"}
+                          value={
+                            JSON.parse(value || "{}")?.special_water?.prev || ""
+                          }
+                          onChange={(e) =>
+                            handleCellChange(
+                              rowIndex,
+                              key,
+                              JSON.stringify({
+                                ...JSON.parse(value || "{}"),
+                                special_water: {
+                                  prev: Number(e.target.value || 0),
+                                },
+                              }),
+                            )
+                          }
+                          className={inputStyle}
+                          style={{
+                            textAlign: "left",
+                            paddingLeft: "4px",
+                            paddingRight: "4px",
+                            // Special case for description and remarks to allow more vertical space
+                            height: "100%",
+                            minHeight: "32px",
+                            width: "70px",
+
+                            background: `${initialData[rowIndex][colIndex] == value ? "" : "yellow"}`,
+                          }}
+                        />
+                      </div>
+                      <div
+                        key={key + "7"}
+                        className={`border-r border-gray-200 flex-shrink-0 ${
+                          getColumnWidth(key) / 4
+                        } p-0 text-center flex items-center justify-center`}
+                      >
+                        <input
+                          type={COLUMN_MAP[key].type || "text"}
+                          value={JSON.parse(value || "{}")?.light?.prev || ""}
+                          onChange={(e) =>
+                            handleCellChange(
+                              rowIndex,
+                              key,
+                              JSON.stringify({
+                                ...JSON.parse(value || "{}"),
+                                light: {
+                                  prev: Number(e.target.value || 0),
+                                },
+                              }),
+                            )
+                          }
+                          className={inputStyle}
+                          style={{
+                            textAlign: "left",
+                            paddingLeft: "4px",
+                            paddingRight: "4px",
+                            // Special case for description and remarks to allow more vertical space
+                            height: "100%",
+                            minHeight: "32px",
+                            width: "70px",
+
+                            background: `${initialData[rowIndex][colIndex] == value ? "" : "yellow"}`,
+                          }}
+                        />
+                      </div>
+                      <div
+                        key={key + "8"}
+                        className={`border-r border-gray-200 flex-shrink-0 ${
+                          getColumnWidth(key) / 4
+                        } p-0 text-center flex items-center justify-center`}
+                      >
+                        <input
+                          type={COLUMN_MAP[key].type || "text"}
+                          value={
+                            JSON.parse(value || "{}")?.cleaning?.prev || ""
+                          }
+                          onChange={(e) =>
+                            handleCellChange(
+                              rowIndex,
+                              key,
+                              JSON.stringify({
+                                ...JSON.parse(value || "{}"),
+                                cleaning: {
+                                  prev: Number(e.target.value || 0),
+                                },
+                              }),
+                            )
+                          }
+                          className={inputStyle}
+                          style={{
+                            textAlign: "left",
+                            paddingLeft: "4px",
+                            paddingRight: "4px",
+                            // Special case for description and remarks to allow more vertical space
+                            height: "100%",
+                            minHeight: "32px",
+                            width: "70px",
+
+                            background: `${initialData[rowIndex][colIndex] == value ? "" : "yellow"}`,
+                          }}
+                        />
+                      </div>
                     </div>
                   );
                 }
