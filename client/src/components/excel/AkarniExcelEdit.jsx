@@ -228,13 +228,13 @@ const AkarniExcelEdit = () => {
     },
     otherTax: {
       label: "અન્ય વેરા",
-      width: "w-[32%]",
+      width: "w-[280px]",
       type: "text",
       colIndex: 21,
     },
     preOtherTax: {
       label: "અન્ય વેરા (પાછલી બાકી)",
-      width: "w-[32%]",
+      width: "w-[280px]",
       type: "text",
       colIndex: 23,
     },
@@ -315,10 +315,16 @@ const AkarniExcelEdit = () => {
       </div>
 
       {/* Virtual Spreadsheet Container */}
-      <div className="overflow-x-auto relative shadow-xl rounded-lg border border-gray-200">
+      <div
+        className="overflow-x-auto relative shadow-xl rounded-lg border border-gray-200"
+        style={{ maxHeight: "80vh" }}
+      >
         <div className="inline-block min-w-full">
           {/* Table Header Row */}
-          <div className="flex bg-gray-100 font-bold text-gray-700 sticky z-10 border-b-2 border-gray-400 text-center text-xs whitespace-nowrap">
+          <div
+            className="flex bg-gray-100 font-bold text-gray-700 sticky z-10 border-b-2 border-gray-400 text-center text-xs whitespace-nowrap"
+            style={{ position: "sticky", top: "0px" }}
+          >
             {COLUMN_KEYS.map((key, index) => (
               <div
                 key={key}
@@ -331,12 +337,24 @@ const AkarniExcelEdit = () => {
                     key === "otherTax" || key === "preOtherTax"
                       ? "280px"
                       : "auto",
+                  minHeight: "80px",
                 }}
               >
                 {COLUMN_MAP[key].label}
                 <div className="text-gray-500 font-normal mt-0.5 text-[10px]">
                   ({COLUMN_MAP[key].colIndex + 1})
                 </div>
+
+                {key === "otherTax" || key === "preOtherTax" ? (
+                  <div
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    <div className="mt-0.5 text-[10px]">સા.પા.</div>
+                    <div className="mt-0.5 text-[10px]">ખા.પા.</div>
+                    <div className="mt-0.5 text-[10px]">લાઈટ</div>
+                    <div className="mt-0.5 text-[10px]">સફાઈ</div>
+                  </div>
+                ) : null}
               </div>
             ))}
           </div>

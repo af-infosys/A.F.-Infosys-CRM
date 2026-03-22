@@ -1003,9 +1003,7 @@ const TaxRegister = () => {
                           {/* ઘર વેરો */}
                           <td className="td" style={{ textAlign: "right" }}>
                             <span className="formatting">
-                              {toGujaratiNumber(
-                                JSON.parse(record[25] || "{}")?.[0]?.prev || 0,
-                              )}
+                              {toGujaratiNumber(record[22] || 0)}
                             </span>
                           </td>
                           <td className="td" style={{ textAlign: "right" }}>
@@ -1020,7 +1018,10 @@ const TaxRegister = () => {
                                 0) +
                                 (JSON.parse(record[23] || "{}")?.[0]?.prev ||
                                   0)} */}
-                              {toGujaratiNumber(record[20])}
+                              {toGujaratiNumber(
+                                Number(record[20] || 0) +
+                                  Number(record[22] || 0),
+                              )}
                             </span>
                           </td>
 
@@ -1029,7 +1030,7 @@ const TaxRegister = () => {
                           <td className="td" style={{ textAlign: "right" }}>
                             <span className="formatting">
                               {toGujaratiNumber(
-                                JSON.parse(record[21] || "{}")?.normal_water
+                                JSON.parse(record[23] || "{}")?.normal_water
                                   ?.prev || 0,
                               )}
                             </span>
@@ -1052,7 +1053,7 @@ const TaxRegister = () => {
                                     ?.curr || 0,
                                 ) +
                                   Number(
-                                    JSON.parse(record[21] || "{}")?.normal_water
+                                    JSON.parse(record[23] || "{}")?.normal_water
                                       ?.prev || 0,
                                   ),
                               )}
@@ -1063,7 +1064,7 @@ const TaxRegister = () => {
                           <td className="td" style={{ textAlign: "right" }}>
                             <span className="formatting">
                               {toGujaratiNumber(
-                                JSON.parse(record[21] || "{}")?.special_water
+                                JSON.parse(record[23] || "{}")?.special_water
                                   ?.prev || 0,
                               )}
                             </span>
@@ -1086,7 +1087,7 @@ const TaxRegister = () => {
                                     ?.curr || 0,
                                 ) +
                                   Number(
-                                    JSON.parse(record[21] || "{}")
+                                    JSON.parse(record[23] || "{}")
                                       ?.special_water?.prev || 0,
                                   ),
                               )}
@@ -1097,7 +1098,7 @@ const TaxRegister = () => {
                           <td className="td" style={{ textAlign: "right" }}>
                             <span className="formatting">
                               {toGujaratiNumber(
-                                JSON.parse(record[21] || "{}")?.light?.prev ||
+                                JSON.parse(record[23] || "{}")?.light?.prev ||
                                   0,
                               )}
                             </span>
@@ -1120,7 +1121,7 @@ const TaxRegister = () => {
                                     0,
                                 ) +
                                   Number(
-                                    JSON.parse(record[21] || "{}")?.light
+                                    JSON.parse(record[23] || "{}")?.light
                                       ?.prev || 0,
                                   ),
                               )}
@@ -1131,7 +1132,7 @@ const TaxRegister = () => {
                           <td className="td" style={{ textAlign: "right" }}>
                             <span className="formatting">
                               {toGujaratiNumber(
-                                JSON.parse(record[21] || "{}")?.cleaning
+                                JSON.parse(record[23] || "{}")?.cleaning
                                   ?.prev || 0,
                               )}
                             </span>
@@ -1154,7 +1155,7 @@ const TaxRegister = () => {
                                     ?.curr || 0,
                                 ) +
                                   Number(
-                                    JSON.parse(record[21] || "{}")?.cleaning
+                                    JSON.parse(record[23] || "{}")?.cleaning
                                       ?.prev || 0,
                                   ),
                               )}
@@ -1165,20 +1166,21 @@ const TaxRegister = () => {
                           <td className="td" style={{ textAlign: "right" }}>
                             <span className="formatting">
                               {toGujaratiNumber(
-                                Number(
-                                  JSON.parse(record[21] || "{}")?.normal_water
-                                    ?.prev || 0,
-                                ) +
+                                Number(record[22] || 0) +
                                   Number(
-                                    JSON.parse(record[21] || "{}")
-                                      ?.special_water?.prev || 0,
-                                  ) +
-                                  Number(
-                                    JSON.parse(record[21] || "{}")?.light
+                                    JSON.parse(record[23] || "{}")?.normal_water
                                       ?.prev || 0,
                                   ) +
                                   Number(
-                                    JSON.parse(record[21] || "{}")?.cleaning
+                                    JSON.parse(record[23] || "{}")
+                                      ?.special_water?.prev || 0,
+                                  ) +
+                                  Number(
+                                    JSON.parse(record[23] || "{}")?.light
+                                      ?.prev || 0,
+                                  ) +
+                                  Number(
+                                    JSON.parse(record[23] || "{}")?.cleaning
                                       ?.prev || 0,
                                   ),
                               )}
@@ -1213,6 +1215,7 @@ const TaxRegister = () => {
                             <span className="formatting">
                               {toGujaratiNumber(
                                 Number(record[20] || 0) +
+                                  Number(record[22] || 0) +
                                   Number(
                                     JSON.parse(record[21] || "{}")?.normal_water
                                       ?.curr || 0,
@@ -1230,19 +1233,19 @@ const TaxRegister = () => {
                                       ?.curr || 0,
                                   ) +
                                   Number(
-                                    JSON.parse(record[21] || "{}")?.normal_water
+                                    JSON.parse(record[23] || "{}")?.normal_water
                                       ?.prev || 0,
                                   ) +
                                   Number(
-                                    JSON.parse(record[21] || "{}")
+                                    JSON.parse(record[23] || "{}")
                                       ?.special_water?.prev || 0,
                                   ) +
                                   Number(
-                                    JSON.parse(record[21] || "{}")?.light
+                                    JSON.parse(record[23] || "{}")?.light
                                       ?.prev || 0,
                                   ) +
                                   Number(
-                                    JSON.parse(record[21] || "{}")?.cleaning
+                                    JSON.parse(record[23] || "{}")?.cleaning
                                       ?.prev || 0,
                                   ),
                               )}
@@ -1639,45 +1642,46 @@ const TaxRegister = () => {
                     <td className="td">
                       <span className="formatting">માંગણું</span>
                     </td>
-                    {/* Iterate 6 times for the 6 tax categories and the final total column (Total = 6 categories * 3 columns = 18 data columns) */}
                     {Array.from({ length: 6 }).map((_, categoryIndex) => {
-                      // Calculate the total for the current category's demand
-                      // Demand is always at index [0]
-                      const recordColumnIndex = 20 + categoryIndex; // 20 to 25
-                      const totalForCategory = item.pageRecords.reduce(
-                        (sum, record) => {
-                          const taxData = JSON.parse(
-                            record[recordColumnIndex] || "{}",
-                          );
-                          return (
-                            sum +
-                            (taxData?.[0]?.prev || 0) +
-                            (taxData?.[0]?.curr || 0)
-                          );
-                        },
-                        0,
-                      );
+                      let prevForCategory = 0;
 
-                      // Need to calculate the Prev and Curr separately for each category as well, for consistency
-                      const prevForCategory = item.pageRecords.reduce(
-                        (sum, record) => {
-                          const taxData = JSON.parse(
-                            record[recordColumnIndex] || "{}",
-                          );
-                          return sum + (taxData?.[0]?.prev || 0);
-                        },
-                        0,
-                      );
-                      {
-                        /* const currForCategory = item.pageRecords.reduce(
-                        (sum, record) => {
-                          const taxData = JSON.parse(
-                            record[recordColumnIndex] || "{}",
-                          );
-                          return sum + (taxData?.[0]?.curr || 0);
-                        },
-                        0,
-                      ); */
+                      if (categoryIndex === 0) {
+                        prevForCategory = item.pageRecords.reduce(
+                          (sum, record) => {
+                            return sum + Number(record[22] || 0);
+                          },
+                          0,
+                        );
+                      } else {
+                        prevForCategory = item.pageRecords.reduce(
+                          (sum, record) => {
+                            const taxData = JSON.parse(record[23] || "{}");
+
+                            if (categoryIndex === 1) {
+                              return (
+                                sum + Number(taxData?.normal_water?.prev || 0)
+                              );
+                            } else if (categoryIndex === 2) {
+                              return (
+                                sum + Number(taxData?.special_water?.prev || 0)
+                              );
+                            } else if (categoryIndex === 3) {
+                              return sum + Number(taxData?.light?.prev || 0);
+                            } else if (categoryIndex === 4) {
+                              return sum + Number(taxData?.cleaning?.prev || 0);
+                            } else if (categoryIndex === 5) {
+                              return (
+                                sum +
+                                (Number(taxData?.normal_water?.prev || 0) +
+                                  Number(taxData?.special_water?.prev || 0) +
+                                  Number(taxData?.light?.prev || 0) +
+                                  Number(taxData?.cleaning?.prev || 0) +
+                                  Number(record[22] || 0))
+                              );
+                            }
+                          },
+                          0,
+                        );
                       }
 
                       let currForCategory = 0;
@@ -1712,7 +1716,8 @@ const TaxRegister = () => {
                                 (Number(taxData?.normal_water?.curr || 0) +
                                   Number(taxData?.special_water?.curr || 0) +
                                   Number(taxData?.light?.curr || 0) +
-                                  Number(taxData?.cleaning?.curr || 0))
+                                  Number(taxData?.cleaning?.curr || 0) +
+                                  Number(record[20] || 0))
                               );
                             }
                           },
@@ -1738,7 +1743,9 @@ const TaxRegister = () => {
                           {/* ચાલુ */}
                           <td className="td" style={{ textAlign: "right" }}>
                             <span className="formatting">
-                              {toGujaratiNumber(currForCategory)}
+                              {toGujaratiNumber(
+                                prevForCategory + currForCategory,
+                              )}
                             </span>
                           </td>
                           {/* કુલ */}
