@@ -13,7 +13,6 @@ function BuildDescription(formData, floorData) {
         gujaratiNumerals[i],
       );
     }
-
     return gujaratiNumber;
   };
 
@@ -28,16 +27,12 @@ function BuildDescription(formData, floorData) {
   if (formData?.houseCategory?.inclues("પ્લોટ")) {
     if (formData?.houseCategory?.inclues("પ્લોટ સરકારી - કોમનપ્લોટ")) {
       isGovPlot = true;
-      return;
     } else if (formData?.houseCategory?.inclues("પ્લોટ ખાનગી - ખુલ્લી જગ્યા")) {
       isPvtPlot = true;
-      return;
     } else if (formData?.houseCategory?.inclues("પ્લોટ (ફરતી દિવાલ) ખાનગી")) {
-      isGovPlotDival = true;
-      return;
-    } else if (formData?.houseCategory?.inclues("પ્લોટ (ફરતી દિવાલ) સરકારી")) {
       isPvtPlotDival = true;
-      return;
+    } else if (formData?.houseCategory?.inclues("પ્લોટ (ફરતી દિવાલ) સરકારી")) {
+      isGovPlotDival = true;
     }
   }
 
@@ -46,7 +41,6 @@ function BuildDescription(formData, floorData) {
     floorData.forEach((floor) => {
       if (floor.floorType === "ફળિયું") {
         isFaliyu = true;
-        return;
       }
 
       let floorPrefix = "";
@@ -129,11 +123,11 @@ function BuildDescription(formData, floorData) {
     amenitiesParts.push(`પ્લોટ ખાનગી - ખુલ્લી જગ્યા`);
   }
 
-  if (isGovPlotDival) {
+  if (isPvtPlotDival) {
     amenitiesParts.push(`પ્લોટ (ફરતી દિવાલ) ખાનગી`);
   }
 
-  if (isPvtPlotDival) {
+  if (isGovPlotDival) {
     amenitiesParts.push(`પ્લોટ (ફરતી દિવાલ) સરકારી`);
   }
 
