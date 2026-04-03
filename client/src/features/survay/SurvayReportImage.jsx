@@ -27,13 +27,15 @@ const SurvayReportImage = () => {
 
   const fetchRecords = async () => {
     try {
-      const response = await fetch(`${await apiPath()}/api/sheet`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${await apiPath()}/api/sheet?workId=${projectId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
         },
-        body: JSON.stringify({ workId: projectId }),
-      });
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -529,7 +531,7 @@ const SurvayReportImage = () => {
                 gap: "10px",
               }}
             >
-              {[record[26], record[27], record[28]].map((fileId, idx) => (
+              {JSON.parse(record[26] || [])?.map((fileId, idx) => (
                 <div key={idx} style={{ width: "30%", textAlign: "center" }}>
                   {fileId ? (
                     <img
@@ -543,7 +545,7 @@ const SurvayReportImage = () => {
                       }}
                       crossOrigin="anonymous" // PDF generation ke liye zaroori hai
                       onError={(e) => {
-                        e.target.style.display = "none"; // Agar image load na ho toh hide kar de
+                        // e.target.style.display = "none"; // Agar image load na ho toh hide kar de
                         console.error("Image failed to load for ID:", fileId);
                       }}
                     />
