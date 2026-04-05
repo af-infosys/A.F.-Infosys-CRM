@@ -1,13 +1,12 @@
 {
   "files": {
     "main.css": "/static/css/main.582661da.css",
-    "main.js": "/static/js/main.1964376a.js",
+    "main.js": "/static/js/main.677e2929.js",
     "static/js/977.87a37736.chunk.js": "/static/js/977.87a37736.chunk.js",
     "static/js/455.4f2c4757.chunk.js": "/static/js/455.4f2c4757.chunk.js",
     "static/js/453.57b2eab3.chunk.js": "/static/js/453.57b2eab3.chunk.js",
     "static/media/icon.png": "/static/media/icon.433609c1126f8d05942b.png",
     "static/media/content.png": "/static/media/content.cd1d4bc2ef772b946c67.png",
-    "static/media/Toilet.png": "/static/media/Toilet.62dddd0f70d2deef742c.png",
     "static/media/benefit1-bg-new.png": "/static/media/benefit1-bg-new.9313819db138fb188ccb.png",
     "static/media/benefit2-bg-new.png": "/static/media/benefit2-bg-new.3f68bda1fcc3f9b0b6be.png",
     "static/media/Round Seal Stamp Format.png": "/static/media/Round Seal Stamp Format.1934a1e5ced0a98225be.png",
@@ -68,13 +67,13 @@
     "static/media/House.png": "/static/media/House.640d0b1e39b36fd2550c.png",
     "index.html": "/index.html",
     "main.582661da.css.map": "/static/css/main.582661da.css.map",
-    "main.1964376a.js.map": "/static/js/main.1964376a.js.map",
+    "main.677e2929.js.map": "/static/js/main.677e2929.js.map",
     "977.87a37736.chunk.js.map": "/static/js/977.87a37736.chunk.js.map",
     "455.4f2c4757.chunk.js.map": "/static/js/455.4f2c4757.chunk.js.map",
     "453.57b2eab3.chunk.js.map": "/static/js/453.57b2eab3.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.582661da.css",
-    "static/js/main.1964376a.js"
+    "static/js/main.677e2929.js"
   ]
 }
