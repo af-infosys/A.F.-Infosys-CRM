@@ -1,12 +1,13 @@
 {
   "files": {
     "main.css": "/static/css/main.582661da.css",
-    "main.js": "/static/js/main.fb61d3b7.js",
+    "main.js": "/static/js/main.1964376a.js",
     "static/js/977.87a37736.chunk.js": "/static/js/977.87a37736.chunk.js",
     "static/js/455.4f2c4757.chunk.js": "/static/js/455.4f2c4757.chunk.js",
     "static/js/453.57b2eab3.chunk.js": "/static/js/453.57b2eab3.chunk.js",
     "static/media/icon.png": "/static/media/icon.433609c1126f8d05942b.png",
     "static/media/content.png": "/static/media/content.cd1d4bc2ef772b946c67.png",
+    "static/media/Toilet.png": "/static/media/Toilet.62dddd0f70d2deef742c.png",
     "static/media/benefit1-bg-new.png": "/static/media/benefit1-bg-new.9313819db138fb188ccb.png",
     "static/media/benefit2-bg-new.png": "/static/media/benefit2-bg-new.3f68bda1fcc3f9b0b6be.png",
     "static/media/Round Seal Stamp Format.png": "/static/media/Round Seal Stamp Format.1934a1e5ced0a98225be.png",
@@ -33,7 +34,6 @@
     "static/media/Single.png": "/static/media/Single.4747829fc336f8681dda.png",
     "static/media/Tap.png": "/static/media/Tap.1747f07682447218723b.png",
     "static/media/MobileTower.png": "/static/media/MobileTower.d8d6f325668c4052a98b.png",
-    "static/media/Toilet.png": "/static/media/Toilet.9fb7dbd01476c0c77487.png",
     "static/media/Watermark.png": "/static/media/Watermark.3c235a673f501e51b16f.png",
     "static/media/search.png": "/static/media/search.17b40541e1ceaa04a220.png",
     "static/media/Heading.svg": "/static/media/Heading.49de966eac82eb524177.svg",
@@ -68,13 +68,13 @@
     "static/media/House.png": "/static/media/House.640d0b1e39b36fd2550c.png",
     "index.html": "/index.html",
     "main.582661da.css.map": "/static/css/main.582661da.css.map",
-    "main.fb61d3b7.js.map": "/static/js/main.fb61d3b7.js.map",
+    "main.1964376a.js.map": "/static/js/main.1964376a.js.map",
     "977.87a37736.chunk.js.map": "/static/js/977.87a37736.chunk.js.map",
     "455.4f2c4757.chunk.js.map": "/static/js/455.4f2c4757.chunk.js.map",
     "453.57b2eab3.chunk.js.map": "/static/js/453.57b2eab3.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.582661da.css",
-    "static/js/main.fb61d3b7.js"
+    "static/js/main.1964376a.js"
   ]
 }

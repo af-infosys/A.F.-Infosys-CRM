@@ -266,53 +266,53 @@ const AnalyticsReport = () => {
     const TotalCount = records.length;
 
     const RahenankCount = records.filter(
-      (record) => record[7] === "રહેણાંક - મકાન",
+      (record) => record[8] === "રહેણાંક - મકાન",
     ).length;
 
     const RahenankPakaCount = records.filter(
       (record) =>
-        record[7]?.trim() === "રહેણાંક - મકાન" &&
-        record[15]?.includes("પાકા") &&
-        !record[15]?.includes("કાચા"),
+        record[8]?.trim() === "રહેણાંક - મકાન" &&
+        record[16]?.includes("પાકા") &&
+        !record[16]?.includes("કાચા"),
     ).length;
 
     const RahenankKachaCount = records.filter(
       (record) =>
-        record[7]?.trim() === "રહેણાંક - મકાન" && record[15]?.includes("કાચા"),
+        record[8]?.trim() === "રહેણાંક - મકાન" && record[16]?.includes("કાચા"),
     ).length;
 
     const DukanCount = records.filter(
       (record) =>
-        record[7]?.trim() === "દુકાન" || record[15]?.includes("દુકાન"),
+        record[8]?.trim() === "દુકાન" || record[16]?.includes("દુકાન"),
     ).length;
 
     const FactoryCount = records.filter(
-      (record) => record[7]?.trim() === "કારખાના - ઇન્ડસ્ટ્રીજ઼",
+      (record) => record[8]?.trim() === "કારખાના - ઇન્ડસ્ટ્રીજ઼",
     ).length;
 
     const PlotCount = records.filter(
       (record) =>
-        record[7]?.trim() === "પ્લોટ ખાનગી - ખુલ્લી જગ્યા" ||
-        record[7]?.trim() === "પ્લોટ (ફરતી દિવાલ) ખાનગી",
+        record[8]?.trim() === "પ્લોટ ખાનગી - ખુલ્લી જગ્યા" ||
+        record[8]?.trim() === "પ્લોટ (ફરતી દિવાલ) ખાનગી",
     ).length;
 
     const GovnPlotCount = records.filter(
       (record) =>
-        record[7]?.trim() === "પ્લોટ સરકારી - કોમનપ્લોટ" ||
-        record[7]?.trim() === "પ્લોટ (ફરતી દિવાલ) સરકારી",
+        record[8]?.trim() === "પ્લોટ સરકારી - કોમનપ્લોટ" ||
+        record[8]?.trim() === "પ્લોટ (ફરતી દિવાલ) સરકારી",
     ).length;
 
     const GovnOwnedCount = records.filter(
       (record) =>
-        record[7]?.trim() === "ધાર્મિક સ્થળ" ||
-        record[7]?.trim() === "સરકારી મિલ્ક્ત" ||
-        record[7]?.trim() === "બેંક - સરકારી" ||
-        record[7]?.trim() === "પ્લોટ સરકારી - કોમનપ્લોટ" ||
-        record[7]?.trim() === "પ્લોટ (ફરતી દિવાલ) સરકારી",
+        record[8]?.trim() === "ધાર્મિક સ્થળ" ||
+        record[8]?.trim() === "સરકારી મિલ્ક્ત" ||
+        record[8]?.trim() === "બેંક - સરકારી" ||
+        record[8]?.trim() === "પ્લોટ સરકારી - કોમનપ્લોટ" ||
+        record[8]?.trim() === "પ્લોટ (ફરતી દિવાલ) સરકારી",
     ).length;
 
     const DharmikCount = records.filter(
-      (record) => record[7]?.trim() === "ધાર્મિક સ્થળ",
+      (record) => record[8]?.trim() === "ધાર્મિક સ્થળ",
     ).length;
 
     let TapCount = 0;
@@ -362,7 +362,7 @@ const AnalyticsReport = () => {
           { ...prev.metrics[4], count: DukanCount },
           { ...prev.metrics[5], count: FactoryCount },
           { ...prev.metrics[6], count: PlotCount },
-          { ...prev.metrics[7], count: GovnPlotCount },
+          { ...prev.metrics[8], count: GovnPlotCount },
           { ...prev.metrics[8], count: GovnOwnedCount },
           { ...prev.metrics[9], count: DharmikCount },
           { ...prev.metrics[10], count: TapCount },
@@ -370,7 +370,7 @@ const AnalyticsReport = () => {
           { ...prev.metrics[12], count: MobileTowerCount },
           { ...prev.metrics[13], count: TotalAreaCount },
           { ...prev.metrics[14], count: DuplicateCount },
-          { ...prev.metrics[15], count: UniqueCount },
+          { ...prev.metrics[16], count: UniqueCount },
           { ...prev.metrics[16], count: usePhoneCount },
           { ...prev.metrics[17], count: bpCount },
         ],
@@ -476,26 +476,26 @@ const AnalyticsReport = () => {
   const pieData = [
     {
       name: "રહેણાંક",
-      value: records.filter((r) => r[7] === "રહેણાંક - મકાન").length,
+      value: records.filter((r) => r[8] === "રહેણાંક - મકાન").length,
     },
     {
       name: "વ્યાવસાયિક",
       value: records.filter((r) => {
         // 1️⃣ Direct category match
         if (
-          r[7] === "દુકાન" ||
-          r[7] === "પ્રાઈવેટ - સંસ્થાઓ" ||
-          r[7] === "કારખાના - ઇન્ડસ્ટ્રીજ઼" ||
-          r[7] === "ટ્રસ્ટ મિલ્કત / NGO" ||
-          r[7] === "મંડળી - સેવા સહકારી મંડળી" ||
-          r[7] === "બેંક - અર્ધ સરકારી બેંક" ||
-          r[7] === "બેંક - પ્રાઇટ બેંક" ||
-          r[7] === "સરકારી સહાય આવાસ" ||
-          r[7] === "કોમ્પપ્લેક્ષ" ||
-          r[7] === "હિરાના કારખાના નાના" ||
-          r[7] === "હિરાના કારખાના મોટા" ||
-          r[7] === "મોબાઈલ ટાવર" ||
-          r[7] === "પેટ્રોલ પંપ, ગેસ પંપ"
+          r[8] === "દુકાન" ||
+          r[8] === "પ્રાઈવેટ - સંસ્થાઓ" ||
+          r[8] === "કારખાના - ઇન્ડસ્ટ્રીજ઼" ||
+          r[8] === "ટ્રસ્ટ મિલ્કત / NGO" ||
+          r[8] === "મંડળી - સેવા સહકારી મંડળી" ||
+          r[8] === "બેંક - અર્ધ સરકારી બેંક" ||
+          r[8] === "બેંક - પ્રાઇટ બેંક" ||
+          r[8] === "સરકારી સહાય આવાસ" ||
+          r[8] === "કોમ્પપ્લેક્ષ" ||
+          r[8] === "હિરાના કારખાના નાના" ||
+          r[8] === "હિરાના કારખાના મોટા" ||
+          r[8] === "મોબાઈલ ટાવર" ||
+          r[8] === "પેટ્રોલ પંપ, ગેસ પંપ"
         ) {
           return true;
         }
@@ -523,16 +523,16 @@ const AnalyticsReport = () => {
       name: "ખાનગીપ્લોટ",
       value: records.filter(
         (r) =>
-          r[7] === "પ્લોટ ખાનગી - ખુલ્લી જગ્યા" ||
-          r[7] === "પ્લોટ (ફરતી દિવાલ) ખાનગી",
+          r[8] === "પ્લોટ ખાનગી - ખુલ્લી જગ્યા" ||
+          r[8] === "પ્લોટ (ફરતી દિવાલ) ખાનગી",
       ).length,
     },
     {
       name: "કોમનપ્લોટ",
       value: records.filter(
         (r) =>
-          r[7] === "પ્લોટ સરકારી - કોમનપ્લોટ" ||
-          r[7] === "પ્લોટ (ફરતી દિવાલ) સરકારી",
+          r[8] === "પ્લોટ સરકારી - કોમનપ્લોટ" ||
+          r[8] === "પ્લોટ (ફરતી દિવાલ) સરકારી",
       ).length,
     },
 
@@ -540,9 +540,9 @@ const AnalyticsReport = () => {
       name: "સરકારી",
       value: records.filter(
         (r) =>
-          r[7] === "ધાર્મિક સ્થળ" ||
-          r[7] === "સરકારી મિલ્ક્ત" ||
-          r[7] === "બેંક - સરકારી",
+          r[8] === "ધાર્મિક સ્થળ" ||
+          r[8] === "સરકારી મિલ્ક્ત" ||
+          r[8] === "બેંક - સરકારી",
       ).length,
     },
   ];
@@ -554,33 +554,33 @@ const AnalyticsReport = () => {
 
   // records.filter(
   //       (r) =>
-  //         r[7] === "ધાર્મિક સ્થળ" ||
-  //         r[7] === "સરકારી મિલ્ક્ત" ||
-  //         r[7] === "બેંક - સરકારી" ||
-  //         r[7] === "પ્લોટ સરકારી - કોમનપ્લોટ" ||
-  //         r[7] === "પ્લોટ (ફરતી દિવાલ) સરકારી",
+  //         r[8] === "ધાર્મિક સ્થળ" ||
+  //         r[8] === "સરકારી મિલ્ક્ત" ||
+  //         r[8] === "બેંક - સરકારી" ||
+  //         r[8] === "પ્લોટ સરકારી - કોમનપ્લોટ" ||
+  //         r[8] === "પ્લોટ (ફરતી દિવાલ) સરકારી",
   //     ).length,
 
   const govPieData = [
     {
       name: "ધાર્મિક સ્થળ",
-      value: records.filter((r) => r[7] === "ધાર્મિક સ્થળ").length,
+      value: records.filter((r) => r[8] === "ધાર્મિક સ્થળ").length,
     },
     {
       name: "બેંક",
-      value: records.filter((r) => r[7] === "બેંક - સરકારી").length,
+      value: records.filter((r) => r[8] === "બેંક - સરકારી").length,
     },
     {
       name: "કોમનપ્લોટ",
       value: records.filter(
         (r) =>
-          r[7] === "પ્લોટ સરકારી - કોમનપ્લોટ" ||
-          r[7] === "પ્લોટ (ફરતી દિવાલ) સરકારી",
+          r[8] === "પ્લોટ સરકારી - કોમનપ્લોટ" ||
+          r[8] === "પ્લોટ (ફરતી દિવાલ) સરકારી",
       ).length,
     },
     {
       name: "અન્ય",
-      value: records.filter((r) => r[7] === "સરકારી મિલ્ક્ત").length,
+      value: records.filter((r) => r[8] === "સરકારી મિલ્ક્ત").length,
     },
   ];
 
