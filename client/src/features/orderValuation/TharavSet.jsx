@@ -1221,7 +1221,7 @@ const TharavSet = () => {
 
                   <span
                     style={{
-                      marginTop: "150px",
+                      marginTop: "120px",
                       fontSize: "10px",
                     }}
                   >
@@ -1260,7 +1260,7 @@ const TharavSet = () => {
 
                   <span
                     style={{
-                      marginTop: "150px",
+                      marginTop: "120px",
                       fontSize: "10px",
                     }}
                   >
@@ -1529,7 +1529,7 @@ const TharavSet = () => {
 
                   <span
                     style={{
-                      marginTop: "150px",
+                      marginTop: "120px",
                       fontSize: "10px",
                     }}
                   >
@@ -1568,7 +1568,7 @@ const TharavSet = () => {
 
                   <span
                     style={{
-                      marginTop: "150px",
+                      marginTop: "120px",
                       fontSize: "10px",
                     }}
                   >
@@ -1840,7 +1840,6 @@ const TharavSet = () => {
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
-                  paddingBottom: "90px",
                   paddingInline: "42px",
                   position: "absolute",
                   bottom: `${margins?.letterD}px`,
@@ -1871,7 +1870,7 @@ const TharavSet = () => {
 
                   <span
                     style={{
-                      marginTop: "150px",
+                      marginTop: "120px",
                       fontSize: "10px",
                     }}
                   >
@@ -1910,7 +1909,7 @@ const TharavSet = () => {
 
                   <span
                     style={{
-                      marginTop: "150px",
+                      marginTop: "120px",
                       fontSize: "10px",
                     }}
                   >
@@ -2247,7 +2246,7 @@ const TharavSet = () => {
 
                   <span
                     style={{
-                      marginTop: "150px",
+                      marginTop: "120px",
                       fontSize: "10px",
                     }}
                   >
@@ -2286,7 +2285,7 @@ const TharavSet = () => {
 
                   <span
                     style={{
-                      marginTop: "150px",
+                      marginTop: "120px",
                       fontSize: "10px",
                     }}
                   >
@@ -2507,7 +2506,7 @@ const TharavSet = () => {
 
                   <span
                     style={{
-                      marginTop: "150px",
+                      marginTop: "120px",
                       fontSize: "10px",
                     }}
                   >
@@ -2546,7 +2545,7 @@ const TharavSet = () => {
 
                   <span
                     style={{
-                      marginTop: "150px",
+                      marginTop: "120px",
                       fontSize: "10px",
                     }}
                   >
