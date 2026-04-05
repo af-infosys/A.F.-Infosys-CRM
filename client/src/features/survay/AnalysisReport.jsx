@@ -317,18 +317,18 @@ const AnalyticsReport = () => {
 
     let TapCount = 0;
     records.forEach((record) => {
-      TapCount += Number(record[11]);
+      TapCount += Number(record[12]);
     });
 
     let ToiletCount = 0;
     records.forEach((record) => {
-      ToiletCount += Number(record[12]) || 0;
+      ToiletCount += Number(record[13]) || 0;
     });
 
     const MobileTowerCount = records.filter(
       (record) =>
-        record[6]?.includes("મોબાઈલ ટાવર") ||
-        record[13]?.includes("મોબાઈલ ટાવર"),
+        record[8]?.includes("મોબાઈલ ટાવર") ||
+        record[14]?.includes("મોબાઈલ ટાવર"),
     ).length;
 
     const TotalAreaCount = societies?.length;
@@ -649,15 +649,12 @@ const AnalyticsReport = () => {
                 </header>
                 <div
                   className="grid grid-cols-2 gap-6"
-                  style={{ paddingLeft: "50px" }}
+                  style={{ paddingLeft: "50px", marginTop: "50px" }}
                 >
                   {reportData.metrics.map((m, index) => (
                     <div
                       key={m.id}
                       className="flex items-center p-4 border rounded-xl shadow-sm"
-                      style={{
-                        maxWidth: `${index % 2 !== 0 ? "350px" : ""}`,
-                      }}
                     >
                       <img src={m.icon} className="w-12 h-12 mr-4" alt="icon" />
                       <div>
