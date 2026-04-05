@@ -36,7 +36,7 @@ const TharavPage2 = ({ project }) => {
         </h1>
       </header>
 
-      <p style={{ fontSize: "21px", textIndent: "100px" }}>
+      <p style={{ fontSize: "19px", textIndent: "100px" }}>
         સદરહુ મોજે <span>{project?.spot?.gaam || "................"}</span>{" "}
         તાલુકો <span>{project?.spot?.taluka || "..............."}</span>{" "}
         જિલ્લાની <span>{project?.spot?.district || "..............."}</span> સને
@@ -57,7 +57,7 @@ const TharavPage2 = ({ project }) => {
         લાગુ કરવા આખરી પ્રમાણીત કરવામાં આવે છે.
       </p>
 
-      <p style={{ fontSize: "21px", textIndent: "100px" }}>
+      <p style={{ fontSize: "19px", textIndent: "100px" }}>
         સદરહુ આકારણી યાદિ મુજબના મિલ્કતના ક્રમ નં{" "}
         <span>{dummy?.propertyFrom || ".............."}</span> થી ક્રમ નં{" "}
         <span>{dummy?.propertyTo || ".............."}</span> સુધીના ટેક્સ પાત્ર
@@ -75,7 +75,7 @@ const TharavPage2 = ({ project }) => {
           fontSize: "18px",
 
           marginTop: "50px",
-          marginBottom: "70px",
+          marginBottom: "10px",
           paddingRight: "50px",
         }}
       >
@@ -99,12 +99,15 @@ const TharavPage2 = ({ project }) => {
             </b>
           </span>
 
-          <span style={{ marginTop: "10px" }}>
-            {" "}
+          <span style={{ marginTop: "120px", fontSize: "14px" }}>
             {project?.details?.gaam || "....."} ગ્રામ પંચાયત કચેરી{" "}
           </span>
 
-          <span>
+          <span
+            style={{
+              fontSize: "14px",
+            }}
+          >
             તા. {project?.details?.taluka || "......"}, જિ.{" "}
             {project?.details?.district || "....."}
           </span>
@@ -114,7 +117,7 @@ const TharavPage2 = ({ project }) => {
       <p
         style={{
           position: "absolute",
-          bottom: "20px",
+          bottom: "15px",
           right: "10px",
           fontSize: "12px",
         }}

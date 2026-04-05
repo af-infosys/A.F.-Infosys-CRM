@@ -2218,7 +2218,7 @@ const TharavSet = () => {
 
                   paddingInline: "42px",
                   position: "absolute",
-                  bottom: "0px",
+                  bottom: "30px",
                   left: "0px",
                   width: "100%",
                   fontSize: "16px",

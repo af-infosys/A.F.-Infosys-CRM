@@ -45,7 +45,7 @@ const TharavPage1 = ({ project }) => {
           paddingInline: "70px",
         }}
       >
-        <div>સામાન્ય બેઠક તા. __________</div>
+        <div>સામાન્ય બેઠક તા. ......../......../.............. </div>
         <div>ઠરાવ નં. __________</div>
         <div>સામાન્ય બેઠક નં. __________</div>
       </div>
@@ -118,7 +118,8 @@ const TharavPage1 = ({ project }) => {
         </h4>
 
         <div style={{ textAlign: "center", marginTop: "10px" }}>
-          તારીખ __________ થી તારીખ __________ સુધી (30) દિવસની મુદત
+          તારીખ ......../......../.............. થી તારીખ
+          ......../......../.............. સુધી (30) દિવસની મુદત
         </div>
       </div>
 
@@ -127,7 +128,6 @@ const TharavPage1 = ({ project }) => {
         <h4 style={{ textAlign: "center", textDecoration: "underline" }}>
           <b>આખરી અમલવારીની તારીખ</b>
         </h4>
-
         <div
           style={{
             display: "flex",
@@ -135,12 +135,14 @@ const TharavPage1 = ({ project }) => {
             marginTop: "10px",
           }}
         >
-          <div>સામાન્ય બેઠક તા. __________</div>
+          <div>સામાન્ય બેઠક તા. ......../......../.............. </div>
           <div>ઠરાવ નં. __________</div>
           <div>સામાન્ય બેઠક નં. __________</div>
         </div>
 
-        <div style={{ marginTop: "10px" }}>અમલવારી કરવાની તારીખ __________</div>
+        <div style={{ marginTop: "10px" }}>
+          અમલવારી કરવાની તા. ......../......../..............
+        </div>
       </div>
 
       <p

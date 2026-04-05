@@ -62,44 +62,44 @@ const calculateTotal = (data = []) => {
     waterTax: {
       curr: data.reduce(
         (s, i) =>
-          s + Number(JSON.parse(i[20] || "{}")?.normal_water?.curr || 0),
+          s + Number(JSON.parse(i[21] || "{}")?.normal_water?.curr || 0),
         0,
       ),
       prev: data.reduce(
         (s, i) =>
-          s + Number(JSON.parse(i[20] || "{}")?.normal_water?.prev || 0),
+          s + Number(JSON.parse(i[23] || "{}")?.normal_water?.prev || 0),
         0,
       ),
     },
     specialTax: {
       curr: data.reduce(
         (s, i) =>
-          s + Number(JSON.parse(i[20] || "{}")?.special_water?.curr || 0),
+          s + Number(JSON.parse(i[21] || "{}")?.special_water?.curr || 0),
         0,
       ),
       prev: data.reduce(
         (s, i) =>
-          s + Number(JSON.parse(i[20] || "{}")?.special_water?.prev || 0),
+          s + Number(JSON.parse(i[23] || "{}")?.special_water?.prev || 0),
         0,
       ),
     },
     lightTax: {
       curr: data.reduce(
-        (s, i) => s + Number(JSON.parse(i[20] || "{}")?.light?.curr || 0),
+        (s, i) => s + Number(JSON.parse(i[21] || "{}")?.light?.curr || 0),
         0,
       ),
       prev: data.reduce(
-        (s, i) => s + Number(JSON.parse(i[20] || "{}")?.light?.prev || 0),
+        (s, i) => s + Number(JSON.parse(i[23] || "{}")?.light?.prev || 0),
         0,
       ),
     },
     cleanTax: {
       curr: data.reduce(
-        (s, i) => s + Number(JSON.parse(i[20] || "{}")?.cleaning?.curr || 0),
+        (s, i) => s + Number(JSON.parse(i[21] || "{}")?.cleaning?.curr || 0),
         0,
       ),
       prev: data.reduce(
-        (s, i) => s + Number(JSON.parse(i[20] || "{}")?.cleaning?.prev || 0),
+        (s, i) => s + Number(JSON.parse(i[23] || "{}")?.cleaning?.prev || 0),
         0,
       ),
     },
@@ -113,7 +113,7 @@ const calculateTotal = (data = []) => {
           "બેંક - સરકારી",
           "પ્લોટ સરકારી - કોમનપ્લોટ",
           "પ્લોટ (ફરતી દિવાલ) સરકારી",
-        ].includes(i[7])
+        ].includes(i[8])
           ? 0
           : 1),
       0,

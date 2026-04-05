@@ -621,7 +621,7 @@ const AnalyticsReport = () => {
                 <header className="text-center mb-8">
                   <h1
                     className="text-3xl font-bold text-blue-900"
-                    style={{ position: "relative", paddingTop: "10px" }}
+                    style={{ position: "relative", paddingTop: "50px" }}
                   >
                     Aakarni Analysis Report -{" "}
                     {project?.details?.akaraniYear || "2025/26"}
