@@ -370,7 +370,7 @@ const AnalyticsReport = () => {
           { ...prev.metrics[12], count: MobileTowerCount },
           { ...prev.metrics[13], count: TotalAreaCount },
           { ...prev.metrics[14], count: DuplicateCount },
-          { ...prev.metrics[16], count: UniqueCount },
+          { ...prev.metrics[15], count: UniqueCount },
           { ...prev.metrics[16], count: usePhoneCount },
           { ...prev.metrics[17], count: bpCount },
         ],
@@ -647,11 +647,17 @@ const AnalyticsReport = () => {
                     <span>જીલ્લો: {project?.spot?.district}</span>
                   </div>
                 </header>
-                <div className="grid grid-cols-2 gap-6">
-                  {reportData.metrics.map((m) => (
+                <div
+                  className="grid grid-cols-2 gap-6"
+                  style={{ paddingLeft: "50px" }}
+                >
+                  {reportData.metrics.map((m, index) => (
                     <div
                       key={m.id}
                       className="flex items-center p-4 border rounded-xl shadow-sm"
+                      style={{
+                        maxWidth: `${index % 2 !== 0 ? "350px" : ""}`,
+                      }}
                     >
                       <img src={m.icon} className="w-12 h-12 mr-4" alt="icon" />
                       <div>

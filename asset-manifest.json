@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.582661da.css",
-    "main.js": "/static/js/main.677e2929.js",
+    "main.js": "/static/js/main.8a227f2f.js",
     "static/js/977.87a37736.chunk.js": "/static/js/977.87a37736.chunk.js",
     "static/js/455.4f2c4757.chunk.js": "/static/js/455.4f2c4757.chunk.js",
     "static/js/453.57b2eab3.chunk.js": "/static/js/453.57b2eab3.chunk.js",
@@ -13,6 +13,7 @@
     "static/media/Boder 1.png": "/static/media/Boder 1.b10b0e7364ba1239b8dc.png",
     "static/media/Survey.png": "/static/media/Survey.d8b987afa361a4e9a8ac.png",
     "static/media/meeting-letter.png": "/static/media/meeting-letter.13630fbc3ee23abf3d84.png",
+    "static/media/Government.png": "/static/media/Government.66ba0643d9f45d5f9dd2.png",
     "static/media/bg.png": "/static/media/bg.e11b062113c19ad9c846.png",
     "static/media/circle.png": "/static/media/circle.c71fd130eef3e57d60ba.png",
     "static/media/logo.png": "/static/media/logo.65093e0a1514f8a465c0.png",
@@ -22,7 +23,6 @@
     "static/media/Areas.png": "/static/media/Areas.11538e4fab1951582468.png",
     "static/media/bottom.svg": "/static/media/bottom.9508f54178bd780dfbe2.svg",
     "static/media/wale.png": "/static/media/wale.e2fa4b02db583a508589.png",
-    "static/media/Government.png": "/static/media/Government.0513cfb858c2308be052.png",
     "static/media/Religious.png": "/static/media/Religious.ba09ed283ed76baaddf0.png",
     "static/media/Multiple.png": "/static/media/Multiple.8f061b84ce4eb21acd51.png",
     "static/media/wale2.png": "/static/media/wale2.c6a9edfeef92ca61322a.png",
@@ -48,7 +48,6 @@
     "static/media/addemp.png": "/static/media/addemp.2233c75e19f5122ae2cb.png",
     "static/media/accounts.png": "/static/media/accounts.25504df4af75c65a5ec2.png",
     "static/media/incoming-call.png": "/static/media/incoming-call.89fabc5168654e132e2e.png",
-    "static/media/PhoneUser.png": "/static/media/PhoneUser.2d2a2293d6c02d58284d.png",
     "static/media/outgoing-call.png": "/static/media/outgoing-call.32562060d6494096e408.png",
     "static/media/project-management.png": "/static/media/project-management.790d4a6dbbef7c8eb5d5.png",
     "static/media/interested.png": "/static/media/interested.19f411e095bd0daef715.png",
@@ -59,6 +58,7 @@
     "static/media/summary.png": "/static/media/summary.c1eeff22a900858fa9f4.png",
     "static/media/mobile.png": "/static/media/mobile.6138bd6c12528df92a56.png",
     "static/media/Store.png": "/static/media/Store.ac36915e7210e7230b99.png",
+    "static/media/PhoneUser.png": "/static/media/PhoneUser.2081bca1632d2b226c80.png",
     "static/media/settings.png": "/static/media/settings.266092d3905d4f547f2e.png",
     "static/media/income.png": "/static/media/income.383090b6bba77dbe7dd6.png",
     "static/media/mobileNo.png": "/static/media/mobileNo.9ecec675bca004b7d120.png",
@@ -67,13 +67,13 @@
     "static/media/House.png": "/static/media/House.640d0b1e39b36fd2550c.png",
     "index.html": "/index.html",
     "main.582661da.css.map": "/static/css/main.582661da.css.map",
-    "main.677e2929.js.map": "/static/js/main.677e2929.js.map",
+    "main.8a227f2f.js.map": "/static/js/main.8a227f2f.js.map",
     "977.87a37736.chunk.js.map": "/static/js/977.87a37736.chunk.js.map",
     "455.4f2c4757.chunk.js.map": "/static/js/455.4f2c4757.chunk.js.map",
     "453.57b2eab3.chunk.js.map": "/static/js/453.57b2eab3.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.582661da.css",
-    "static/js/main.677e2929.js"
+    "static/js/main.8a227f2f.js"
   ]
 }
