@@ -335,6 +335,8 @@ const TharavSet = () => {
             overflow: "auto",
             display: "flex",
             justifyContent: "start",
+
+            overFlow: "hidden",
           }}
         >
           <div
@@ -342,6 +344,8 @@ const TharavSet = () => {
             id="legel-1"
             style={{
               width: "750px",
+              overFlow: "hidden",
+
               minWidth: "750px",
               maxWidth: "750px",
               minHeight: "1235px",
@@ -402,7 +406,8 @@ const TharavSet = () => {
                 >
                   ગ્રામ પંચાયત બેઠક તારીખ :–{" "}
                   <b>
-                    {formatDate(details?.meetingDate) || "..../..../........"}
+                    {formatDate(details?.meetingDate) ||
+                      "......./......../................"}
                   </b>
                 </h3>
 
@@ -711,7 +716,8 @@ const TharavSet = () => {
                 <span style={{ whiteSpace: "nowrap" }}>
                   તારીખ :–{" "}
                   <b>
-                    {formatDate(details?.meetingDate) || "..../..../........"}
+                    {formatDate(details?.meetingDate) ||
+                      "......./......../................"}
                   </b>
                 </span>
               </p>
@@ -789,6 +795,8 @@ const TharavSet = () => {
             overflow: "auto",
             display: "flex",
             justifyContent: "start",
+
+            overFlow: "hidden",
           }}
         >
           <div
@@ -796,6 +804,8 @@ const TharavSet = () => {
             className="table-container shadow-m"
             style={{
               width: "680px",
+              overFlow: "hidden",
+
               minWidth: "680px",
               maxWidth: "680px",
               height: "962px",
@@ -950,7 +960,8 @@ const TharavSet = () => {
                 >
                   ગ્રામ પંચાયત બેઠકની તારીખ{" "}
                   <b>
-                    {formatDate(details?.meetingDate) || "..../..../........"}
+                    {formatDate(details?.meetingDate) ||
+                      "......./......../................"}
                   </b>{" "}
                   અને બેઠક નં. {details?.resolutionNumber || "........."} ઠરાવ
                   નં. {details?.meetingNumber || "........."} ના આધારે બન્ને
@@ -1022,6 +1033,8 @@ const TharavSet = () => {
             overflow: "auto",
             display: "flex",
             justifyContent: "start",
+
+            overFlow: "hidden",
           }}
         >
           <div
@@ -1029,6 +1042,8 @@ const TharavSet = () => {
             className="table-container shadow-m"
             style={{
               width: "680px",
+              overFlow: "hidden",
+
               minWidth: "680px",
               maxWidth: "680px",
               height: "962px",
@@ -1204,7 +1219,14 @@ const TharavSet = () => {
                     </b>
                   </span>
 
-                  <span> {details?.gaam || ""} ગ્રામ પંચાયત કચેરી </span>
+                  <span
+                    style={{
+                      marginTop: "150px",
+                    }}
+                  >
+                    {" "}
+                    {details?.gaam || ""} ગ્રામ પંચાયત કચેરી{" "}
+                  </span>
 
                   <span>
                     તા. {details?.taluka || ""}, જિ. {details?.district || ""}
@@ -1231,7 +1253,14 @@ const TharavSet = () => {
                     </b>
                   </span>
 
-                  <span> {details?.gaam || ""} ગ્રામ પંચાયત કચેરી </span>
+                  <span
+                    style={{
+                      marginTop: "150px",
+                    }}
+                  >
+                    {" "}
+                    {details?.gaam || ""} ગ્રામ પંચાયત કચેરી{" "}
+                  </span>
 
                   <span>
                     તા. {details?.taluka || ""}, જિ. {details?.district || ""}
@@ -1266,6 +1295,8 @@ const TharavSet = () => {
             overflow: "auto",
             display: "flex",
             justifyContent: "start",
+
+            overFlow: "hidden",
           }}
         >
           <div
@@ -1273,6 +1304,8 @@ const TharavSet = () => {
             className="table-container shadow-md"
             style={{
               width: "680px",
+              overFlow: "hidden",
+
               minWidth: "680px",
               maxWidth: "680px",
               height: "962px",
@@ -1486,7 +1519,14 @@ const TharavSet = () => {
                     </b>
                   </span>
 
-                  <span> {details?.gaam || ""} ગ્રામ પંચાયત કચેરી </span>
+                  <span
+                    style={{
+                      marginTop: "150px",
+                    }}
+                  >
+                    {" "}
+                    {details?.gaam || ""} ગ્રામ પંચાયત કચેરી{" "}
+                  </span>
 
                   <span>
                     તા. {details?.taluka || ""}, જિ. {details?.district || ""}
@@ -1513,7 +1553,14 @@ const TharavSet = () => {
                     </b>
                   </span>
 
-                  <span> {details?.gaam || ""} ગ્રામ પંચાયત કચેરી </span>
+                  <span
+                    style={{
+                      marginTop: "150px",
+                    }}
+                  >
+                    {" "}
+                    {details?.gaam || ""} ગ્રામ પંચાયત કચેરી{" "}
+                  </span>
 
                   <span>
                     તા. {details?.taluka || ""}, જિ. {details?.district || ""}
@@ -1569,6 +1616,7 @@ const TharavSet = () => {
               <span>{margins?.letterB}</span>
               <input
                 type="range"
+                min={-50}
                 value={margins.letterB}
                 onChange={(e) => {
                   handleMarginChange("letterB", e.target.value);
@@ -1590,6 +1638,8 @@ const TharavSet = () => {
             overflow: "auto",
             display: "flex",
             justifyContent: "start",
+
+            overFlow: "hidden",
           }}
         >
           <div
@@ -1597,6 +1647,8 @@ const TharavSet = () => {
             className="table-container shadow-m"
             style={{
               width: "680px",
+              overFlow: "hidden",
+
               minWidth: "680px",
               maxWidth: "680px",
               height: "962px",
@@ -1800,7 +1852,14 @@ const TharavSet = () => {
                     </b>
                   </span>
 
-                  <span> {details?.gaam || ""} ગ્રામ પંચાયત કચેરી </span>
+                  <span
+                    style={{
+                      marginTop: "150px",
+                    }}
+                  >
+                    {" "}
+                    {details?.gaam || ""} ગ્રામ પંચાયત કચેરી{" "}
+                  </span>
 
                   <span>
                     તા. {details?.taluka || ""}, જિ. {details?.district || ""}
@@ -1827,7 +1886,14 @@ const TharavSet = () => {
                     </b>
                   </span>
 
-                  <span> {details?.gaam || ""} ગ્રામ પંચાયત કચેરી </span>
+                  <span
+                    style={{
+                      marginTop: "150px",
+                    }}
+                  >
+                    {" "}
+                    {details?.gaam || ""} ગ્રામ પંચાયત કચેરી{" "}
+                  </span>
 
                   <span>
                     તા. {details?.taluka || ""}, જિ. {details?.district || ""}
@@ -1883,6 +1949,7 @@ const TharavSet = () => {
               <span>{margins?.letterD}</span>
               <input
                 type="range"
+                min={-50}
                 value={margins.letterD}
                 onChange={(e) => {
                   handleMarginChange("letterD", e.target.value);
@@ -1902,6 +1969,8 @@ const TharavSet = () => {
             overflow: "auto",
             display: "flex",
             justifyContent: "start",
+
+            overFlow: "hidden",
           }}
         >
           <div
@@ -1909,6 +1978,8 @@ const TharavSet = () => {
             id="legel-2"
             style={{
               width: "750px",
+              overFlow: "hidden",
+
               minWidth: "750px",
               maxWidth: "750px",
               minHeight: "1235px",
@@ -1972,7 +2043,10 @@ const TharavSet = () => {
                   }}
                 >
                   તારીખ :–{" "}
-                  <b>{formatDate(details?.date2) || "..../..../........"}</b>
+                  <b>
+                    {formatDate(details?.date2) ||
+                      "......./......../................"}
+                  </b>
                 </h3>
 
                 <div
@@ -2030,8 +2104,11 @@ const TharavSet = () => {
                 આથી ઠરાવવામાં આવે છે કે, આપણા ગામે કરવેરાની નવી આકારણી ગુજરાત
                 પંચાયત અધિનિયમ ૧૯૯૩ કાયદાની કલમ ર૦૦ મુજબ ગ્રામ પંચાયતની બેઠક નં{" "}
                 <b>{Number(details?.meetingNumber2) || "............"}</b> તા{" "}
-                <b>{formatDate(details?.date2) || "..../..../........"}</b> ના
-                ઠરાવ નં{" "}
+                <b>
+                  {formatDate(details?.date2) ||
+                    "......./......../................"}
+                </b>{" "}
+                ના ઠરાવ નં{" "}
                 <b>{Number(details?.resolutionNumber2) || "............"}</b> થી
                 ગામે મકાન કર, સામાન્ય પાણી કર, દિવાબતી કર, ખાસ પાણી કર, ગ્રામ
                 સફાઈ કર ની આકારણી કરી નમુના નં. ૮ રજીસ્ટર આકારણી કમિટી ધ્વારા
@@ -2140,7 +2217,14 @@ const TharavSet = () => {
                     </b>
                   </span>
 
-                  <span> {details?.gaam || ""} ગ્રામ પંચાયત કચેરી </span>
+                  <span
+                    style={{
+                      marginTop: "150px",
+                    }}
+                  >
+                    {" "}
+                    {details?.gaam || ""} ગ્રામ પંચાયત કચેરી{" "}
+                  </span>
 
                   <span>
                     તા. {details?.taluka || ""}, જિ. {details?.district || ""}
@@ -2167,7 +2251,14 @@ const TharavSet = () => {
                     </b>
                   </span>
 
-                  <span> {details?.gaam || ""} ગ્રામ પંચાયત કચેરી </span>
+                  <span
+                    style={{
+                      marginTop: "150px",
+                    }}
+                  >
+                    {" "}
+                    {details?.gaam || ""} ગ્રામ પંચાયત કચેરી{" "}
+                  </span>
 
                   <span>
                     તા. {details?.taluka || ""}, જિ. {details?.district || ""}
@@ -2202,6 +2293,8 @@ const TharavSet = () => {
             overflow: "auto",
             display: "flex",
             justifyContent: "start",
+
+            overFlow: "hidden",
           }}
         >
           <div
@@ -2209,6 +2302,8 @@ const TharavSet = () => {
             className="table-container shadow-m"
             style={{
               width: "680px",
+              overFlow: "hidden",
+
               minWidth: "680px",
               maxWidth: "680px",
               height: "962px",
@@ -2372,7 +2467,14 @@ const TharavSet = () => {
                     </b>
                   </span>
 
-                  <span> {details?.gaam || ""} ગ્રામ પંચાયત કચેરી </span>
+                  <span
+                    style={{
+                      marginTop: "150px",
+                    }}
+                  >
+                    {" "}
+                    {details?.gaam || ""} ગ્રામ પંચાયત કચેરી{" "}
+                  </span>
 
                   <span>
                     તા. {details?.taluka || ""}, જિ. {details?.district || ""}
@@ -2399,7 +2501,14 @@ const TharavSet = () => {
                     </b>
                   </span>
 
-                  <span> {details?.gaam || ""} ગ્રામ પંચાયત કચેરી </span>
+                  <span
+                    style={{
+                      marginTop: "150px",
+                    }}
+                  >
+                    {" "}
+                    {details?.gaam || ""} ગ્રામ પંચાયત કચેરી{" "}
+                  </span>
 
                   <span>
                     તા. {details?.taluka || ""}, જિ. {details?.district || ""}
@@ -2455,6 +2564,7 @@ const TharavSet = () => {
               <span>{margins?.letterF}</span>
               <input
                 type="range"
+                min={-50}
                 value={margins.letterF}
                 onChange={(e) => {
                   handleMarginChange("letterF", e.target.value);
