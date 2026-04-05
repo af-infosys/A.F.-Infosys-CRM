@@ -2215,7 +2215,7 @@ const TharavSet = () => {
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
-                  paddingBottom: "90px",
+
                   paddingInline: "42px",
                   position: "absolute",
                   bottom: "0px",
@@ -2475,7 +2475,7 @@ const TharavSet = () => {
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
-                  paddingBottom: "90px",
+
                   paddingInline: "42px",
                   position: "absolute",
                   bottom: `${margins?.letterF}px`,
