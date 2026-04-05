@@ -304,11 +304,11 @@ const AnalyticsReport = () => {
 
     const GovnOwnedCount = records.filter(
       (record) =>
-        record[8]?.trim() === "ધાર્મિક સ્થળ" ||
+        // record[8]?.trim() === "ધાર્મિક સ્થળ" ||
         record[8]?.trim() === "સરકારી મિલ્ક્ત" ||
-        record[8]?.trim() === "બેંક - સરકારી" ||
-        record[8]?.trim() === "પ્લોટ સરકારી - કોમનપ્લોટ" ||
-        record[8]?.trim() === "પ્લોટ (ફરતી દિવાલ) સરકારી",
+        record[8]?.trim() === "બેંક - સરકારી",
+      // record[8]?.trim() === "પ્લોટ સરકારી - કોમનપ્લોટ" ||
+      // record[8]?.trim() === "પ્લોટ (ફરતી દિવાલ) સરકારી",
     ).length;
 
     const DharmikCount = records.filter(
@@ -362,7 +362,7 @@ const AnalyticsReport = () => {
           { ...prev.metrics[4], count: DukanCount },
           { ...prev.metrics[5], count: FactoryCount },
           { ...prev.metrics[6], count: PlotCount },
-          { ...prev.metrics[8], count: GovnPlotCount },
+          { ...prev.metrics[7], count: GovnPlotCount },
           { ...prev.metrics[8], count: GovnOwnedCount },
           { ...prev.metrics[9], count: DharmikCount },
           { ...prev.metrics[10], count: TapCount },
