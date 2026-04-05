@@ -1163,7 +1163,7 @@ const TharavSet = () => {
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
-                  paddingBottom: "130px",
+
                   paddingInline: "42px",
                   position: "absolute",
 
@@ -1222,13 +1222,18 @@ const TharavSet = () => {
                   <span
                     style={{
                       marginTop: "150px",
+                      fontSize: "10px",
                     }}
                   >
                     {" "}
                     {details?.gaam || ""} ગ્રામ પંચાયત કચેરી{" "}
                   </span>
 
-                  <span>
+                  <span
+                    style={{
+                      fontSize: "10px",
+                    }}
+                  >
                     તા. {details?.taluka || ""}, જિ. {details?.district || ""}
                   </span>
                 </div>
@@ -1256,13 +1261,18 @@ const TharavSet = () => {
                   <span
                     style={{
                       marginTop: "150px",
+                      fontSize: "10px",
                     }}
                   >
                     {" "}
                     {details?.gaam || ""} ગ્રામ પંચાયત કચેરી{" "}
                   </span>
 
-                  <span>
+                  <span
+                    style={{
+                      fontSize: "10px",
+                    }}
+                  >
                     તા. {details?.taluka || ""}, જિ. {details?.district || ""}
                   </span>
                 </div>
@@ -1398,8 +1408,6 @@ const TharavSet = () => {
                   </span>
                 </div>
 
-                <br />
-
                 <p>પ્રતિ,</p>
                 <p>શ્રી એ.એફ.ઈન્ફોસીસ</p>
                 <p>મું.સાવરકુંડલા.</p>
@@ -1409,8 +1417,8 @@ const TharavSet = () => {
                   style={{
                     fontSize: "18px",
                     textAlign: "center",
-                    marginTop: "20px",
-                    marginBottom: "10px",
+                    marginTop: "10px",
+                    marginBottom: "5px",
                   }}
                 >
                   <u>
@@ -1488,7 +1496,7 @@ const TharavSet = () => {
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
-                  paddingBottom: "130px",
+
                   paddingInline: "42px",
                   position: "absolute",
 
@@ -1522,13 +1530,18 @@ const TharavSet = () => {
                   <span
                     style={{
                       marginTop: "150px",
+                      fontSize: "10px",
                     }}
                   >
                     {" "}
                     {details?.gaam || ""} ગ્રામ પંચાયત કચેરી{" "}
                   </span>
 
-                  <span>
+                  <span
+                    style={{
+                      fontSize: "10px",
+                    }}
+                  >
                     તા. {details?.taluka || ""}, જિ. {details?.district || ""}
                   </span>
                 </div>
@@ -1556,13 +1569,18 @@ const TharavSet = () => {
                   <span
                     style={{
                       marginTop: "150px",
+                      fontSize: "10px",
                     }}
                   >
                     {" "}
                     {details?.gaam || ""} ગ્રામ પંચાયત કચેરી{" "}
                   </span>
 
-                  <span>
+                  <span
+                    style={{
+                      fontSize: "10px",
+                    }}
+                  >
                     તા. {details?.taluka || ""}, જિ. {details?.district || ""}
                   </span>
                 </div>
@@ -1616,7 +1634,8 @@ const TharavSet = () => {
               <span>{margins?.letterB}</span>
               <input
                 type="range"
-                min={-50}
+                min={-100}
+                max={220}
                 value={margins.letterB}
                 onChange={(e) => {
                   handleMarginChange("letterB", e.target.value);
@@ -1741,8 +1760,6 @@ const TharavSet = () => {
                   </span>
                 </div>
 
-                <br />
-
                 <p>પ્રતિ,</p>
                 <p>
                   શ્રી <b>{details?.gaam || "................"}</b>, તમામ ગામ
@@ -1753,8 +1770,8 @@ const TharavSet = () => {
                   style={{
                     fontSize: "16px",
                     textAlign: "center",
-                    marginTop: "20px",
-                    marginBottom: "10px",
+                    marginTop: "5px",
+                    marginBottom: "0px",
                     paddingInline: "100px",
                   }}
                 >
@@ -1855,13 +1872,18 @@ const TharavSet = () => {
                   <span
                     style={{
                       marginTop: "150px",
+                      fontSize: "10px",
                     }}
                   >
                     {" "}
                     {details?.gaam || ""} ગ્રામ પંચાયત કચેરી{" "}
                   </span>
 
-                  <span>
+                  <span
+                    style={{
+                      fontSize: "10px",
+                    }}
+                  >
                     તા. {details?.taluka || ""}, જિ. {details?.district || ""}
                   </span>
                 </div>
@@ -1889,13 +1911,18 @@ const TharavSet = () => {
                   <span
                     style={{
                       marginTop: "150px",
+                      fontSize: "10px",
                     }}
                   >
                     {" "}
                     {details?.gaam || ""} ગ્રામ પંચાયત કચેરી{" "}
                   </span>
 
-                  <span>
+                  <span
+                    style={{
+                      fontSize: "10px",
+                    }}
+                  >
                     તા. {details?.taluka || ""}, જિ. {details?.district || ""}
                   </span>
                 </div>
@@ -1949,7 +1976,8 @@ const TharavSet = () => {
               <span>{margins?.letterD}</span>
               <input
                 type="range"
-                min={-50}
+                min={-100}
+                max={220}
                 value={margins.letterD}
                 onChange={(e) => {
                   handleMarginChange("letterD", e.target.value);
@@ -2220,13 +2248,18 @@ const TharavSet = () => {
                   <span
                     style={{
                       marginTop: "150px",
+                      fontSize: "10px",
                     }}
                   >
                     {" "}
                     {details?.gaam || ""} ગ્રામ પંચાયત કચેરી{" "}
                   </span>
 
-                  <span>
+                  <span
+                    style={{
+                      fontSize: "10px",
+                    }}
+                  >
                     તા. {details?.taluka || ""}, જિ. {details?.district || ""}
                   </span>
                 </div>
@@ -2254,13 +2287,18 @@ const TharavSet = () => {
                   <span
                     style={{
                       marginTop: "150px",
+                      fontSize: "10px",
                     }}
                   >
                     {" "}
                     {details?.gaam || ""} ગ્રામ પંચાયત કચેરી{" "}
                   </span>
 
-                  <span>
+                  <span
+                    style={{
+                      fontSize: "10px",
+                    }}
+                  >
                     તા. {details?.taluka || ""}, જિ. {details?.district || ""}
                   </span>
                 </div>
@@ -2470,13 +2508,18 @@ const TharavSet = () => {
                   <span
                     style={{
                       marginTop: "150px",
+                      fontSize: "10px",
                     }}
                   >
                     {" "}
                     {details?.gaam || ""} ગ્રામ પંચાયત કચેરી{" "}
                   </span>
 
-                  <span>
+                  <span
+                    style={{
+                      fontSize: "10px",
+                    }}
+                  >
                     તા. {details?.taluka || ""}, જિ. {details?.district || ""}
                   </span>
                 </div>
@@ -2504,13 +2547,18 @@ const TharavSet = () => {
                   <span
                     style={{
                       marginTop: "150px",
+                      fontSize: "10px",
                     }}
                   >
                     {" "}
                     {details?.gaam || ""} ગ્રામ પંચાયત કચેરી{" "}
                   </span>
 
-                  <span>
+                  <span
+                    style={{
+                      fontSize: "10px",
+                    }}
+                  >
                     તા. {details?.taluka || ""}, જિ. {details?.district || ""}
                   </span>
                 </div>
@@ -2564,7 +2612,8 @@ const TharavSet = () => {
               <span>{margins?.letterF}</span>
               <input
                 type="range"
-                min={-50}
+                min={-100}
+                max={220}
                 value={margins.letterF}
                 onChange={(e) => {
                   handleMarginChange("letterF", e.target.value);
