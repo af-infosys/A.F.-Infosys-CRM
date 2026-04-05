@@ -841,10 +841,9 @@ const SurvayReport = () => {
           });
           globalPageNumber++;
         });
-
-        // if (bundle === 1 && isRaw) {
-        //   final.push({ type: "tharav", name: "certificate" });
-        // }
+      }
+      if (isRaw) {
+        final.push({ type: "tharav", name: "certificate" });
       }
     }
 
