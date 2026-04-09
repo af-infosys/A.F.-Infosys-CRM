@@ -1,4 +1,5 @@
 import React from "react";
+import toGujaratiNumber from "../toGujaratiNumber";
 
 const TharavPage1 = ({ project }) => {
   // Styling classes adjusted for a LANDSCAPE appearance (max-w-7xl)
@@ -18,7 +19,8 @@ const TharavPage1 = ({ project }) => {
       {/* -------------------- 1. Main Title -------------------- */}
       <header className="text-center pb-6">
         <h1 className="text-3xl font-extrabold text-gray-800 tracking-wider">
-          {project?.spot?.gaam || "................"} ગ્રામપંચાયત આકારણી કમિટિ
+          {project?.spot?.gaam || "................"} ગ્રામપંચાયત આકારણી કમિટિની
+          રચના
         </h1>
       </header>
 
@@ -28,24 +30,28 @@ const TharavPage1 = ({ project }) => {
       </h2>
 
       {/* Header */}
-      <h2 style={{ textAlign: "center", fontWeight: "bold" }}>
+      {/* <h2 style={{ textAlign: "center", fontWeight: "bold" }}>
         ગ્રામપંચાયત આકારણી કમિટિ
       </h2>
 
       <h3 style={{ textAlign: "center", textDecoration: "underline" }}>
         <b>આકારણી કમિટિ રચના</b>
-      </h3>
+      </h3> */}
 
       {/* Meeting Details */}
       <div
         style={{
           display: "flex",
-          justifyContent: "space-between",
+          justifyContent: "center",
           marginTop: "20px",
-          paddingInline: "70px",
+          paddingInline: "200px",
+          gap: "50px",
         }}
       >
-        <div>સામાન્ય બેઠક તા. ......../......../.............. </div>
+        <div>
+          સામાન્ય બેઠક તા. .........../.........../......................{" "}
+          ....{" "}
+        </div>
         <div>ઠરાવ નં. __________</div>
         <div>સામાન્ય બેઠક નં. __________</div>
       </div>
@@ -90,20 +96,20 @@ const TharavPage1 = ({ project }) => {
             {project?.details?.comity?.map((comity, index) => (
               <tr key={index}>
                 <td>
-                  <span className="formatting">{index + 1}</span>
-                </td>
-                <td>
                   <span className="formatting">
-                    {comity?.name || "..............."}
+                    {toGujaratiNumber(index + 1)}
                   </span>
                 </td>
-                <td>
+                <td style={{ minWidth: "500px", height: "38px" }}>
+                  <span className="formatting">{comity?.name || ""}</span>
+                </td>
+                <td style={{ minWidth: "230px" }}>
                   <span className="formatting">
-                    {comity?.designation || "..............."}
+                    {comity?.designation || ""}
                   </span>
                 </td>
-                <td>
-                  <span className="formatting">..............</span>
+                <td style={{ minWidth: "270px" }}>
+                  <span className="formatting"></span>
                 </td>
               </tr>
             ))}
@@ -118,8 +124,9 @@ const TharavPage1 = ({ project }) => {
         </h4>
 
         <div style={{ textAlign: "center", marginTop: "10px" }}>
-          તારીખ ......../......../.............. થી તારીખ
-          ......../......../.............. સુધી (30) દિવસની મુદત
+          તારીખ .........../.........../.......................... થી તારીખ
+          .........../.........../.......................... સુધી (30) દિવસની
+          મુદત
         </div>
       </div>
 
@@ -131,17 +138,27 @@ const TharavPage1 = ({ project }) => {
         <div
           style={{
             display: "flex",
-            justifyContent: "space-between",
+            justifyContent: "center",
             marginTop: "10px",
+            gap: "50px",
           }}
         >
-          <div>સામાન્ય બેઠક તા. ......../......../.............. </div>
+          <div>
+            સામાન્ય બેઠક તા.
+            .........../.........../..........................{" "}
+          </div>
           <div>ઠરાવ નં. __________</div>
           <div>સામાન્ય બેઠક નં. __________</div>
         </div>
 
-        <div style={{ marginTop: "10px" }}>
-          અમલવારી કરવાની તા. ......../......../..............
+        <div
+          style={{
+            marginTop: "10px",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          અમલવારી કરવાની તા. .........../.........../..........................
         </div>
       </div>
 
