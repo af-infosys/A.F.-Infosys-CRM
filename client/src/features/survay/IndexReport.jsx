@@ -729,7 +729,7 @@ const IndexReport = () => {
                     className="heading"
                     style={{ fontSize: "16px", paddingTop: "25px" }}
                   >
-                    Index Report - (પાનોત્રી બુક) ક, ખ, ગ, પ્રમાણે <br /> ગામનો
+                    Index Book - (પાનોત્રી બુક) ક, ખ, ગ, પ્રમાણે <br /> ગામનો
                     નમુના નંબર ૯/ડી - કરવેરા રજીસ્ટર
                   </h1>
                   <h2 className="subheading">
@@ -858,7 +858,9 @@ const IndexReport = () => {
                               id="pdff"
                               style={{ textWrap: "wrap" }}
                             >
-                              <span className="formatting">{row.key}</span>
+                              <span className="formatting">
+                                {row.key === "vowels" ? "અ" : row.key}
+                              </span>
                             </td>
                           </tr>
                         ) : (
