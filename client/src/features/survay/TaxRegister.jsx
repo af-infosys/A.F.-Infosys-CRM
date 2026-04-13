@@ -13,8 +13,11 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 import TaxIndex from "../../components/conver/TaxIndex";
-import PublicBenefit from "../../components/conver/PublicBenefit";
-import PanchayatBenefit from "../../components/conver/PanchayatBenefit";
+// import PublicBenefit from "../../components/conver/PublicBenefit";
+// import PanchayatBenefit from "../../components/conver/PanchayatBenefit";
+
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
 
 const TaxRegister = () => {
   const [records, setRecords] = useState([]);
@@ -627,15 +630,382 @@ const TaxRegister = () => {
   //   return totals;
   // };
 
+  const handleDownloadExcel = () => {
+    // Safe parsing helper function
+    const safeParse = (val) => {
+      try {
+        return JSON.parse(val || "{}");
+      } catch (e) {
+        return {};
+      }
+    };
+
+    const getNum = (val) => Number(val) || 0;
+
+    // 1. Title Row (Ab sabse pehle)
+    const titleRow = [
+      [
+        `ગામનો નમુના નંબર ૯ ડી - કરવેરા રજીસ્ટર - સને ${project?.details?.taxYear || "2026/27"}`,
+      ],
+    ];
+
+    // 2. Location Row (Title ke baad)
+    const locationRow = [
+      [
+        `ગામ:- ${project?.spot?.gaam || ""}`,
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        `તાલુકો:- ${project?.spot?.taluka || ""}`,
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        `જિલ્લો:- ${project?.spot?.district || ""}`,
+        "",
+        "",
+        "",
+        "",
+        "",
+      ],
+    ];
+
+    // 3. Header Rows
+    const headerRow1 = [
+      "ખાતાનો નંબર",
+      "પ્રોપર્ટી નંબર",
+      "એરિયાનું નામ",
+      "ખાતેદારનું નામ",
+      "પહોંચ નંબર તારીખ રકમ",
+      "વિગત",
+      "ઘર વેરો",
+      "",
+      "",
+      "સામાન્ય પાણી વેરો",
+      "",
+      "",
+      "ખાસ પાણી નળ વેરો",
+      "",
+      "",
+      "દિવાબતી લાઈટ વેરો",
+      "",
+      "",
+      "સફાઈ વેરો",
+      "",
+      "",
+      "કુલ એકંદર",
+      "",
+      "",
+      "ગઈ સાલના જાદે",
+    ];
+
+    const headerRow2 = [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "", // First 6 columns blank
+      "પા.બા",
+      "ચાલુ",
+      "કુલ", // ઘર વેરો
+      "પા.બા",
+      "ચાલુ",
+      "કુલ", // સામાન્ય પાણી વેરો
+      "પા.બા",
+      "ચાલુ",
+      "કુલ", // ખાસ પાણી નળ વેરો
+      "પા.બા",
+      "ચાલુ",
+      "કુલ", // દિવાબતી લાઈટ વેરો
+      "પા.બા",
+      "ચાલુ",
+      "કુલ", // સફાઈ વેરો
+      "પા.બા",
+      "ચાલુ",
+      "કુલ", // કુલ એકંદર
+      "", // ગઈ સાલના જાદે
+    ];
+
+    // Numbering in English digits
+    const headerNumbers = [Array.from({ length: 25 }, (_, i) => i + 1)];
+
+    const dataRows = [];
+
+    // Update Merges logic as per Title first
+    const merges = [
+      // Header Merges
+      { s: { r: 0, c: 0 }, e: { r: 0, c: 24 } }, // Title (Now Row 0)
+      { s: { r: 1, c: 0 }, e: { r: 1, c: 8 } }, // ગામ (Now Row 1)
+      { s: { r: 1, c: 9 }, e: { r: 1, c: 18 } }, // તાલુકો
+      { s: { r: 1, c: 19 }, e: { r: 1, c: 24 } }, // જિલ્લો
+
+      // Column spans for Tax Headers (Row 2)
+      { s: { r: 2, c: 6 }, e: { r: 2, c: 8 } },
+      { s: { r: 2, c: 9 }, e: { r: 2, c: 11 } },
+      { s: { r: 2, c: 12 }, e: { r: 2, c: 14 } },
+      { s: { r: 2, c: 15 }, e: { r: 2, c: 17 } },
+      { s: { r: 2, c: 18 }, e: { r: 2, c: 20 } },
+      { s: { r: 2, c: 21 }, e: { r: 2, c: 23 } },
+
+      // Row spans for Base Columns (Row 2 & 3)
+      { s: { r: 2, c: 0 }, e: { r: 3, c: 0 } }, // ખાતાનો નંબર
+      { s: { r: 2, c: 1 }, e: { r: 3, c: 1 } }, // પ્રોપર્ટી નંબર
+      { s: { r: 2, c: 2 }, e: { r: 3, c: 2 } }, // એરિયાનું નામ
+      { s: { r: 2, c: 3 }, e: { r: 3, c: 3 } }, // ખાતેદારનું નામ
+      { s: { r: 2, c: 4 }, e: { r: 3, c: 4 } }, // પહોંચ નંબર
+      { s: { r: 2, c: 5 }, e: { r: 3, c: 5 } }, // વિગત
+      { s: { r: 2, c: 24 }, e: { r: 3, c: 24 } }, // ગઈ સાલના જાદે
+    ];
+
+    let currentRowIndex = 5;
+
+    // Variables to hold Footer Totals
+    const grandTotals = [
+      Array(25).fill(0), // Demand totals
+      Array(25).fill(0), // Recovery totals
+      Array(25).fill(0), // Balance totals
+    ];
+
+    records?.forEach((record) => {
+      const parsed21 = safeParse(record[21]);
+      const parsed22 = safeParse(record[22]);
+      const parsed23 = safeParse(record[23]);
+      const parsed24 = safeParse(record[24]);
+      const parsed25 = safeParse(record[25]);
+      const parsed26 = safeParse(record[26]);
+
+      const commonInfo = [
+        record[0] || "", // 0: ખાતાનો નંબર
+        record[2] || "", // 1: પ્રોપર્ટી નંબર
+        record[1] || "", // 2: એરિયાનું નામ
+        record[3] || "", // 3: ખાતેદારનું નામ
+        "", // 4: પહોંચ નંબર (Will remain unmerged and blank)
+      ];
+
+      // ====== ROW 1: માંગણું (Demand) ======
+      const r1_ghar_prev = getNum(record[22]);
+      const r1_ghar_curr = getNum(record[20]);
+      const r1_samanya_prev = getNum(parsed23?.normal_water?.prev);
+      const r1_samanya_curr = getNum(parsed21?.normal_water?.curr);
+      const r1_khas_prev = getNum(parsed23?.special_water?.prev);
+      const r1_khas_curr = getNum(parsed21?.special_water?.curr);
+      const r1_light_prev = getNum(parsed23?.light?.prev);
+      const r1_light_curr = getNum(parsed21?.light?.curr);
+      const r1_safai_prev = getNum(parsed23?.cleaning?.prev);
+      const r1_safai_curr = getNum(parsed21?.cleaning?.curr);
+
+      const r1_kul_prev =
+        r1_ghar_prev +
+        r1_samanya_prev +
+        r1_khas_prev +
+        r1_light_prev +
+        r1_safai_prev;
+      const r1_kul_curr =
+        r1_ghar_curr +
+        r1_samanya_curr +
+        r1_khas_curr +
+        r1_light_curr +
+        r1_safai_curr;
+
+      const row1 = [
+        ...commonInfo,
+        "માંગણું",
+        r1_ghar_prev,
+        r1_ghar_curr,
+        r1_ghar_prev + r1_ghar_curr,
+        r1_samanya_prev,
+        r1_samanya_curr,
+        r1_samanya_prev + r1_samanya_curr,
+        r1_khas_prev,
+        r1_khas_curr,
+        r1_khas_prev + r1_khas_curr,
+        r1_light_prev,
+        r1_light_curr,
+        r1_light_prev + r1_light_curr,
+        r1_safai_prev,
+        r1_safai_curr,
+        r1_safai_prev + r1_safai_curr,
+        r1_kul_prev,
+        r1_kul_curr,
+        r1_kul_prev + r1_kul_curr,
+        "", // ગઈ સાલના જાદે
+      ];
+
+      // ====== ROW 2: વસુલાત (Recovery) ======
+      const row2 = [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "વસુલાત",
+        getNum(parsed21?.[1]?.prev),
+        getNum(parsed21?.[1]?.curr),
+        getNum(parsed21?.[1]?.prev) + getNum(parsed21?.[1]?.curr),
+        getNum(parsed22?.[1]?.prev),
+        getNum(parsed22?.[1]?.curr),
+        getNum(parsed22?.[1]?.prev) + getNum(parsed22?.[1]?.curr),
+        getNum(parsed23?.[1]?.prev),
+        getNum(parsed23?.[1]?.curr),
+        getNum(parsed23?.[1]?.prev) + getNum(parsed23?.[1]?.curr),
+        getNum(parsed24?.[1]?.prev),
+        getNum(parsed24?.[1]?.curr),
+        getNum(parsed24?.[1]?.prev) + getNum(parsed24?.[1]?.curr),
+        getNum(parsed25?.[1]?.prev),
+        getNum(parsed25?.[1]?.curr),
+        getNum(parsed25?.[1]?.prev) + getNum(parsed25?.[1]?.curr),
+        getNum(parsed26?.[1]?.prev),
+        getNum(parsed26?.[1]?.curr),
+        getNum(parsed26?.[1]?.prev) + getNum(parsed26?.[1]?.curr),
+        "",
+      ];
+
+      // ====== ROW 3: બાકી (Balance) ======
+      const row3 = [
+        "",
+        "",
+        "",
+        "",
+        "",
+        "બાકી",
+        getNum(parsed21?.[1]?.prev),
+        getNum(parsed21?.[1]?.curr),
+        getNum(parsed21?.[1]?.prev) + getNum(parsed21?.[1]?.curr),
+        getNum(parsed22?.[1]?.prev),
+        getNum(parsed22?.[1]?.curr),
+        getNum(parsed22?.[1]?.prev) + getNum(parsed22?.[1]?.curr),
+        getNum(parsed23?.[1]?.prev),
+        getNum(parsed23?.[1]?.curr),
+        getNum(parsed23?.[1]?.prev) + getNum(parsed23?.[1]?.curr),
+        getNum(parsed24?.[1]?.prev),
+        getNum(parsed24?.[1]?.curr),
+        getNum(parsed24?.[1]?.prev) + getNum(parsed24?.[1]?.curr),
+        getNum(parsed25?.[1]?.prev),
+        getNum(parsed25?.[1]?.curr),
+        getNum(parsed25?.[1]?.prev) + getNum(parsed25?.[1]?.curr),
+        getNum(parsed26?.[1]?.prev),
+        getNum(parsed26?.[1]?.curr),
+        getNum(parsed26?.[1]?.prev) + getNum(parsed26?.[1]?.curr),
+        "",
+      ];
+
+      // Summing values into Grand Totals array (cols 6 to 23)
+      for (let i = 6; i <= 23; i++) {
+        grandTotals[0][i] += Number(row1[i]) || 0;
+        grandTotals[1][i] += Number(row2[i]) || 0;
+        grandTotals[2][i] += Number(row3[i]) || 0;
+      }
+
+      dataRows.push(row1, row2, row3);
+
+      // Vertical Merges (Removed Index 4 - પહોંચ નંબર)
+      [0, 1, 2, 3, 24].forEach((colIndex) => {
+        merges.push({
+          s: { r: currentRowIndex, c: colIndex },
+          e: { r: currentRowIndex + 2, c: colIndex },
+        });
+      });
+
+      currentRowIndex += 3;
+    });
+
+    // ====== FOOTER ROWS (Grand Totals) ======
+    const footerRow1 = [
+      "કુલ",
+      "",
+      "",
+      "",
+      "",
+      "માંગણું",
+      ...grandTotals[0].slice(6, 24),
+      "",
+    ];
+    const footerRow2 = [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "વસુલાત",
+      ...grandTotals[1].slice(6, 24),
+      "",
+    ];
+    const footerRow3 = [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "બાકી",
+      ...grandTotals[2].slice(6, 24),
+      "",
+    ];
+
+    dataRows.push(footerRow1, footerRow2, footerRow3);
+
+    // Merge the first 5 columns of the Footer to show "કુલ" dynamically centered
+    merges.push({
+      s: { r: currentRowIndex, c: 0 },
+      e: { r: currentRowIndex + 2, c: 4 },
+    });
+
+    // Create Data Array
+    const worksheetData = [
+      ...titleRow, // Title first
+      ...locationRow, // Location second
+      headerRow1,
+      headerRow2,
+      ...headerNumbers,
+      ...dataRows,
+    ];
+
+    const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
+    worksheet["!merges"] = merges;
+
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Karvera Register");
+
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: "xlsx",
+      type: "array",
+    });
+
+    const file = new Blob([excelBuffer], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
+    });
+
+    saveAs(file, "Karvera_Register_9D.xlsx");
+  };
+
   return (
     <div className="container mx-auto p-4 sm:p-6 lg:p-8">
-      <button
-        onClick={handleDownloadPDF}
-        className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transition duration-200 disabled:opacity-50"
-        disabled={pdfProgress.isGenerating} // Disable button while generating
-      >
-        {pdfProgress.isGenerating ? "Generating..." : "Download PDF"}
-      </button>
+      <div style={{ display: "flex", gap: "1rem" }}>
+        <button
+          onClick={handleDownloadPDF}
+          className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transition duration-200 disabled:opacity-50"
+          disabled={pdfProgress.isGenerating} // Disable button while generating
+        >
+          {pdfProgress.isGenerating ? "Generating..." : "Download PDF"}
+        </button>
+
+        <button
+          onClick={handleDownloadExcel}
+          className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transition duration-200 disabled:opacity-50"
+        >
+          Download Excel
+        </button>
+      </div>
       {pdfProgress.isGenerating && (
         // Progress Modal/Overlay
         <div className="fixed inset-0 bg-gray-800 bg-opacity-80 flex items-center justify-center z-50 p-4">

@@ -13,7 +13,7 @@ const AkarniPage = ({
 }) => {
   return (
     <div
-      className="watermark"
+      className={`${project?.other?.status === "completed" ? "watermark" : "watermark-raw"}`}
       style={{ minHeight: "100%", position: "relative" }}
     >
       <div className="page-header-container">
@@ -293,7 +293,9 @@ const AkarniPage = ({
           color: "#333",
         }}
       >
-        A.F. INFOSYS | 93764 43146 | 99247 82732{" "}
+        {project?.other?.status === "completed"
+          ? "A.F. INFOSYS | 93764 43146 | 99247 82732"
+          : "A.F. INFOSYS | 93764 43146 | 99247 82732"}
       </p>
     </div>
   );
