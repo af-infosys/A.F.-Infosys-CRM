@@ -11,6 +11,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import toGujaratiNumber from "../../components/toGujaratiNumber";
+import DelayedImage from "../../components/DelayedImage";
 
 const SurvayReportImage = () => {
   const [records, setRecords] = useState([]);
@@ -22,7 +23,7 @@ const SurvayReportImage = () => {
   const getDriveImageUrl = (fileId) => {
     if (!fileId) return null;
 
-    return `https://lh3.googleusercontent.com/u/0/d/${fileId}`;
+    return `https://lh3.googleusercontent.com/u/0/d/$${fileId}`;
   };
 
   const fetchRecords = async () => {
@@ -203,362 +204,387 @@ const SurvayReportImage = () => {
         // style={{ position: "absolute", left: "-9999px" }}
         style={{ position: "relative", left: "0px" }}
       >
-        {records.map((record, pageIndex) => (
-          <div
-            key={pageIndex}
-            id={`report-page-${pageIndex}`}
-            className="report-page legal-landscape-dimensions"
-            style={{ paddingLeft: "65px", paddingRight: "20px" }}
-          >
-            {/* Headers and Page Count */}
+        {records.map((record, pageIndex) => {
+          return (
+            <div
+              key={pageIndex}
+              id={`report-page-${pageIndex}`}
+              className="report-page legal-landscape-dimensions"
+              style={{ paddingLeft: "65px", paddingRight: "20px" }}
+            >
+              {/* Headers and Page Count */}
 
-            <div className="page-header-container">
-              <span
-                className="page-number"
-                style={{
-                  position: "relative",
-                  color: "black",
-                  fontSize: "16px",
-                  transform: "translate(-3px, 65px)",
-                }}
-              >
-                પાના નં. {toGujaratiNumber(pageIndex + 1)}
-              </span>
-
-              <h1 className="heading" style={{ marginTop: "38px" }}>
-                પંચાયત હિસાબ નમુનો નંબર - ૮ (આકારણી રજીસ્ટર)
-              </h1>
-
-              <h2 className="subheading">
-                સને ૨૦૨૫/૨૬ ના વર્ષ માટેના વેરાપાત્ર હોય તેવા મકાનો જમીનનો
-                આકારણી ની યાદી
-              </h2>
-
-              <div
-                className="location-info"
-                style={{
-                  paddingInline: "50px",
-                }}
-              >
-                <span>ગામ:- {project?.spot?.gaam}</span>
-
-                <span>તાલુકો:- {project?.spot?.taluka}</span>
-
-                <span>જિલ્લો:- {project?.spot?.district}</span>
-              </div>
-            </div>
-
-            {/* Table Header using Divs */}
-
-            <div className="table-row table-header-row">
-              <div className="table-cell s-no">
+              <div className="page-header-container">
                 <span
-                  className="formatting"
+                  className="page-number"
                   style={{
-                    fontSize: "10px",
+                    position: "relative",
+                    color: "black",
+                    fontSize: "16px",
+                    transform: "translate(-3px, 65px)",
                   }}
                 >
-                  અનું ક્રમાંક
+                  પાના નં. {toGujaratiNumber(pageIndex + 1)}
                 </span>
-              </div>
 
-              <div className="table-cell area-name">
-                <span
-                  className="formatting"
+                <h1 className="heading" style={{ marginTop: "38px" }}>
+                  પંચાયત હિસાબ નમુનો નંબર - ૮ (આકારણી રજીસ્ટર)
+                </h1>
+
+                <h2 className="subheading">
+                  સને ૨૦૨૫/૨૬ ના વર્ષ માટેના વેરાપાત્ર હોય તેવા મકાનો જમીનનો
+                  આકારણી ની યાદી
+                </h2>
+
+                <div
+                  className="location-info"
                   style={{
-                    fontSize: "10px",
+                    paddingInline: "50px",
                   }}
                 >
-                  વિસ્તારનું નામ
-                </span>
+                  <span>ગામ:- {project?.spot?.gaam}</span>
+
+                  <span>તાલુકો:- {project?.spot?.taluka}</span>
+
+                  <span>જિલ્લો:- {project?.spot?.district}</span>
+                </div>
               </div>
 
-              <div className="table-cell prop-no">
-                <span
-                  className="formatting"
-                  style={{
-                    fontSize: "10px",
-                  }}
-                >
-                  મિલ્કત ક્રમાંક
-                </span>
-              </div>
+              {/* Table Header using Divs */}
 
-              <div className="table-cell description">
-                <span
-                  className="formatting"
-                  style={{
-                    fontSize: "10px",
-                  }}
-                >
-                  મિલ્કતનું વર્ણન
-                </span>
-              </div>
+              <div className="table-row table-header-row">
+                <div className="table-cell s-no">
+                  <span
+                    className="formatting"
+                    style={{
+                      fontSize: "10px",
+                    }}
+                  >
+                    અનું ક્રમાંક
+                  </span>
+                </div>
 
-              <div className="table-cell owner">
-                <span
-                  className="formatting"
-                  style={{
-                    fontSize: "10px",
-                  }}
-                >
-                  માલિકનું નામ
-                </span>
-              </div>
+                <div className="table-cell area-name">
+                  <span
+                    className="formatting"
+                    style={{
+                      fontSize: "10px",
+                    }}
+                  >
+                    વિસ્તારનું નામ
+                  </span>
+                </div>
 
-              <div className="table-cell old-prop-no">
-                <span
-                  className="formatting"
-                  style={{
-                    fontSize: "10px",
-                  }}
-                >
-                  જુનો મિ.નં.
-                </span>
-              </div>
+                <div className="table-cell prop-no">
+                  <span
+                    className="formatting"
+                    style={{
+                      fontSize: "10px",
+                    }}
+                  >
+                    મિલ્કત ક્રમાંક
+                  </span>
+                </div>
 
-              <div className="table-cell mobile">
-                <span
-                  className="formatting"
-                  style={{
-                    fontSize: "10px",
-                  }}
-                >
-                  મોબાઈલ નંબર
-                </span>
-              </div>
+                <div className="table-cell description">
+                  <span
+                    className="formatting"
+                    style={{
+                      fontSize: "10px",
+                    }}
+                  >
+                    મિલ્કતનું વર્ણન
+                  </span>
+                </div>
 
-              <div className="table-cell valuation">
-                <span
-                  className="formatting"
-                  style={{
-                    fontSize: "10px",
-                  }}
-                >
-                  મિલ્કતની
-                  <br />
-                  કિંમત
-                </span>
-              </div>
+                <div className="table-cell owner">
+                  <span
+                    className="formatting"
+                    style={{
+                      fontSize: "10px",
+                    }}
+                  >
+                    માલિકનું નામ
+                  </span>
+                </div>
 
-              <div className="table-cell tax">
-                <span
-                  className="formatting"
-                  style={{
-                    fontSize: "10px",
-                  }}
-                >
-                  આકારેલ વેરાની રકમ
-                </span>
-              </div>
+                <div className="table-cell old-prop-no">
+                  <span
+                    className="formatting"
+                    style={{
+                      fontSize: "10px",
+                    }}
+                  >
+                    જુનો મિ.નં.
+                  </span>
+                </div>
 
-              <div className="table-cell prop-name">
-                <span
-                  className="formatting"
-                  style={{
-                    fontSize: "10px",
-                  }}
-                >
-                  મિલ્કત પર લખેલ
-                  <br />
-                  નામ
-                </span>
-              </div>
+                <div className="table-cell mobile">
+                  <span
+                    className="formatting"
+                    style={{
+                      fontSize: "10px",
+                    }}
+                  >
+                    મોબાઈલ નંબર
+                  </span>
+                </div>
 
-              {/* <div className="table-cell type">
+                <div className="table-cell valuation">
+                  <span
+                    className="formatting"
+                    style={{
+                      fontSize: "10px",
+                    }}
+                  >
+                    મિલ્કતની
+                    <br />
+                    કિંમત
+                  </span>
+                </div>
+
+                <div className="table-cell tax">
+                  <span
+                    className="formatting"
+                    style={{
+                      fontSize: "10px",
+                    }}
+                  >
+                    આકારેલ વેરાની રકમ
+                  </span>
+                </div>
+
+                <div className="table-cell prop-name">
+                  <span
+                    className="formatting"
+                    style={{
+                      fontSize: "10px",
+                    }}
+                  >
+                    મિલ્કત પર લખેલ
+                    <br />
+                    નામ
+                  </span>
+                </div>
+
+                {/* <div className="table-cell type">
                 <span className="formatting"> મકાન ટાઈપ </span>
               </div> */}
 
-              <div className="table-cell facility">
-                <div className="facility-inner">
-                  <div className="facility-title">
-                    <span className="formatting"> અન્ય સુવિધા </span>
-                  </div>
-
-                  <div
-                    className="facility-sub-row"
-                    style={{ borderTop: "1px solid black" }}
-                  >
-                    <div className="table-cell">
-                      <span className="formatting">નળ</span>
+                <div className="table-cell facility">
+                  <div className="facility-inner">
+                    <div className="facility-title">
+                      <span className="formatting"> અન્ય સુવિધા </span>
                     </div>
 
-                    <div className="table-cell">
-                      <span className="formatting">શોચાલય</span>
+                    <div
+                      className="facility-sub-row"
+                      style={{ borderTop: "1px solid black" }}
+                    >
+                      <div className="table-cell">
+                        <span className="formatting">નળ</span>
+                      </div>
+
+                      <div className="table-cell">
+                        <span className="formatting">શોચાલય</span>
+                      </div>
                     </div>
                   </div>
+                </div>
+
+                <div
+                  className="table-cell remarks"
+                  style={{
+                    fontSize: "10px",
+                  }}
+                >
+                  નોંધ / રીમાર્કસ
+                </div>
+              </div>
+
+              <div className="table-row table-header-row">
+                <div className="table-cell s-no">
+                  <span className="formatting">1</span>
+                </div>
+
+                <div className="table-cell area-name">
+                  <span className="formatting">2</span>
+                </div>
+
+                <div className="table-cell prop-no">
+                  <span className="formatting">3</span>
+                </div>
+
+                <div className="table-cell description">
+                  <span className="formatting">4</span>
+                </div>
+
+                <div className="table-cell owner">
+                  <span className="formatting">5</span>
+                </div>
+
+                <div className="table-cell old-prop-no">
+                  <span className="formatting">6</span>
+                </div>
+
+                <div className="table-cell mobile">
+                  <span className="formatting">7</span>
+                </div>
+
+                <div className="table-cell valuation">
+                  <span className="formatting">8</span>
+                </div>
+
+                <div className="table-cell tax">
+                  <span className="formatting">9</span>
+                </div>
+
+                <div className="table-cell prop-name">
+                  <span className="formatting">10</span>
+                </div>
+
+                {/* <div className="table-cell type">
+                <span className="formatting">11</span>
+              </div> */}
+
+                <div className="table-cell" style={{ width: "3%" }}>
+                  <span className="formatting">11</span>
+                </div>
+
+                <div className="table-cell" style={{ width: "3%" }}>
+                  <span className="formatting">12</span>
+                </div>
+
+                <div className="table-cell remarks">
+                  <span className="formatting">13</span>
+                </div>
+
+                {/* <div className="table-cell action">
+                <span className="formatting">14</span>
+              </div> */}
+              </div>
+
+              {/* Table Rows using Divs */}
+
+              <div className="table-row">
+                <div
+                  className="table-cell s-no"
+                  style={{ textAlign: "center" }}
+                >
+                  <span className="formatting">{record[0]}</span>
+                </div>
+
+                <div className="table-cell area-name">
+                  <span className="formatting">{record[1]}</span>
+                </div>
+
+                <div className="table-cell prop-no">
+                  <span className="formatting">{record[2]}</span>
+                </div>
+
+                <div className="table-cell description">
+                  <span className="formatting">{record[16]}</span>
+                </div>
+
+                <div className="table-cell owner">
+                  <span className="formatting">{record[3]}</span>
+                </div>
+
+                <div className="table-cell old-prop-no">
+                  <span className="formatting">{record[5]}</span>
+                </div>
+
+                <div className="table-cell mobile">
+                  <span className="formatting">{record[6]}</span>
+                </div>
+
+                <div className="table-cell valuation">
+                  <span className="formatting">{record[19]}</span>
+                </div>
+
+                <div className="table-cell tax">
+                  <span className="formatting">{record[20]}</span>
+                </div>
+
+                <div className="table-cell prop-name">
+                  <span className="formatting">{record[7]}</span>
+                </div>
+
+                {/* <div className="table-cell type">
+                  <span className="formatting">{record[7]}</span>
+                </div> */}
+
+                <div className="table-cell tap">
+                  <span className="formatting">{record[12]}</span>
+                </div>
+
+                <div className="table-cell toilet">
+                  <span className="formatting">{record[13]}</span>
+                </div>
+
+                <div className="table-cell remarks">
+                  <span className="formatting">{record[14]}</span>
                 </div>
               </div>
 
               <div
-                className="table-cell remarks"
                 style={{
-                  fontSize: "10px",
+                  display: "flex",
+                  justifyContent: "space-evenly",
+                  padding: "10px",
+                  marginTop: "20px",
+                  gap: "10px",
                 }}
               >
-                નોંધ / રીમાર્કસ
+                {JSON.parse(record[26] || "[]")?.map((fileId, idx) => {
+                  const uniqueDelayIndex = pageIndex * 3 + idx;
+
+                  return (
+                    <div
+                      key={idx}
+                      style={{ width: "30%", textAlign: "center" }}
+                    >
+                      {fileId ? (
+                        <DelayedImage
+                          fileId={fileId}
+                          delayIndex={uniqueDelayIndex}
+                        />
+                      ) : (
+                        <h2 style={{ fontSize: "14px", color: "#666" }}>
+                          No Image
+                        </h2>
+                      )}
+
+                      {/* <div key={idx} style={{ width: "30%", textAlign: "center" }}>
+                    {fileId ? (
+                      <img
+                        src={getDriveImageUrl(fileId)}
+                        alt={`Drive Image ${idx}`}
+                        style={{
+                          width: "100%",
+                          height: "auto",
+                          borderRadius: "8px",
+                          border: "1px solid #ddd",
+                        }}
+                        crossOrigin="anonymous" // PDF generation ke liye zaroori hai
+                        onError={(e) => {
+                          // e.target.style.display = "none"; // Agar image load na ho toh hide kar de
+                          console.error("Image failed to load for ID:", fileId);
+                        }}
+                      />
+                    ) : (
+                      <h2 style={{ fontSize: "14px", color: "#666" }}>
+                        No Image
+                      </h2>
+                    )}
+                  </div> */}
+                    </div>
+                  );
+                })}
               </div>
             </div>
-
-            <div className="table-row table-header-row">
-              <div className="table-cell s-no">
-                <span className="formatting">1</span>
-              </div>
-
-              <div className="table-cell area-name">
-                <span className="formatting">2</span>
-              </div>
-
-              <div className="table-cell prop-no">
-                <span className="formatting">3</span>
-              </div>
-
-              <div className="table-cell description">
-                <span className="formatting">4</span>
-              </div>
-
-              <div className="table-cell owner">
-                <span className="formatting">5</span>
-              </div>
-
-              <div className="table-cell old-prop-no">
-                <span className="formatting">6</span>
-              </div>
-
-              <div className="table-cell mobile">
-                <span className="formatting">7</span>
-              </div>
-
-              <div className="table-cell valuation">
-                <span className="formatting">8</span>
-              </div>
-
-              <div className="table-cell tax">
-                <span className="formatting">9</span>
-              </div>
-
-              <div className="table-cell prop-name">
-                <span className="formatting">10</span>
-              </div>
-
-              {/* <div className="table-cell type">
-                <span className="formatting">11</span>
-              </div> */}
-
-              <div className="table-cell" style={{ width: "3%" }}>
-                <span className="formatting">11</span>
-              </div>
-
-              <div className="table-cell" style={{ width: "3%" }}>
-                <span className="formatting">12</span>
-              </div>
-
-              <div className="table-cell remarks">
-                <span className="formatting">13</span>
-              </div>
-
-              {/* <div className="table-cell action">
-                <span className="formatting">14</span>
-              </div> */}
-            </div>
-
-            {/* Table Rows using Divs */}
-
-            <div className="table-row">
-              <div className="table-cell s-no" style={{ textAlign: "center" }}>
-                <span className="formatting">{record[0]}</span>
-              </div>
-
-              <div className="table-cell area-name">
-                <span className="formatting">{record[1]}</span>
-              </div>
-
-              <div className="table-cell prop-no">
-                <span className="formatting">{record[2]}</span>
-              </div>
-
-              <div className="table-cell description">
-                <span className="formatting">{record[16]}</span>
-              </div>
-
-              <div className="table-cell owner">
-                <span className="formatting">{record[3]}</span>
-              </div>
-
-              <div className="table-cell old-prop-no">
-                <span className="formatting">{record[5]}</span>
-              </div>
-
-              <div className="table-cell mobile">
-                <span className="formatting">{record[6]}</span>
-              </div>
-
-              <div className="table-cell valuation">
-                <span className="formatting">{record[19]}</span>
-              </div>
-
-              <div className="table-cell tax">
-                <span className="formatting">{record[20]}</span>
-              </div>
-
-              <div className="table-cell prop-name">
-                <span className="formatting">{record[7]}</span>
-              </div>
-
-              {/* <div className="table-cell type">
-                  <span className="formatting">{record[7]}</span>
-                </div> */}
-
-              <div className="table-cell tap">
-                <span className="formatting">{record[12]}</span>
-              </div>
-
-              <div className="table-cell toilet">
-                <span className="formatting">{record[13]}</span>
-              </div>
-
-              <div className="table-cell remarks">
-                <span className="formatting">{record[14]}</span>
-              </div>
-            </div>
-
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-evenly",
-                padding: "10px",
-                marginTop: "20px",
-                gap: "10px",
-              }}
-            >
-              {JSON.parse(record[26] || [])?.map((fileId, idx) => (
-                <div key={idx} style={{ width: "30%", textAlign: "center" }}>
-                  {fileId ? (
-                    <img
-                      src={getDriveImageUrl(fileId)}
-                      alt={`Drive Image ${idx}`}
-                      style={{
-                        width: "100%",
-                        height: "auto",
-                        borderRadius: "8px",
-                        border: "1px solid #ddd",
-                      }}
-                      crossOrigin="anonymous" // PDF generation ke liye zaroori hai
-                      onError={(e) => {
-                        // e.target.style.display = "none"; // Agar image load na ho toh hide kar de
-                        console.error("Image failed to load for ID:", fileId);
-                      }}
-                    />
-                  ) : (
-                    <h2 style={{ fontSize: "14px", color: "#666" }}>
-                      No Image
-                    </h2>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* This is the visible, on-screen part */}

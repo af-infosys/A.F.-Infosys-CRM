@@ -13,14 +13,11 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 import TaxIndex from "../../components/conver/TaxIndex";
-// import PublicBenefit from "../../components/conver/PublicBenefit";
-// import PanchayatBenefit from "../../components/conver/PanchayatBenefit";
 
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
-import TaxIndexRaw from "../../components/conver/TaxIndexRaw";
 
-const TaxRegister = () => {
+const ManglaRegister = () => {
   const [records, setRecords] = useState([]);
 
   const [loading, setLoading] = useState(true);
@@ -1101,40 +1098,25 @@ const TaxRegister = () => {
               <div
                 key={id}
                 id={id}
-                className={`report-page legal-landscape-dimensions ${project?.other?.status === "completed" && "cover-bg"}`}
+                className="report-page legal-landscape-dimensions cover-bg"
                 style={{
                   paddingLeft: "80px",
                   paddingRight: "50px",
                   maxHeight: "800px",
                 }}
               >
-                {project?.other?.status === "completed" ? (
-                  <TaxIndex
-                    part={item.bundle}
-                    project={project}
-                    totalHoouse={records?.length}
-                    taxes={taxes}
-                    title={item?.name} // Pass the dynamic title (Residential/Commercial)
-                    commercial={item.commercial}
-                    totalNormalBundles={item.totalNormalBundles || ""}
-                    coverProperties={item.coverProperties}
-                    pageFrom={item.pageFrom}
-                    pageTo={item.pageTo}
-                  />
-                ) : (
-                  <TaxIndexRaw
-                    part={item.bundle}
-                    project={project}
-                    totalHoouse={records?.length}
-                    taxes={taxes}
-                    title={item?.name} // Pass the dynamic title (Residential/Commercial)
-                    commercial={item.commercial}
-                    totalNormalBundles={item.totalNormalBundles || ""}
-                    coverProperties={item.coverProperties}
-                    pageFrom={item.pageFrom}
-                    pageTo={item.pageTo}
-                  />
-                )}
+                <TaxIndex
+                  part={item.bundle}
+                  project={project}
+                  totalHoouse={records?.length}
+                  taxes={taxes}
+                  title={item?.name} // Pass the dynamic title (Residential/Commercial)
+                  commercial={item.commercial}
+                  totalNormalBundles={item.totalNormalBundles || ""}
+                  coverProperties={item.coverProperties}
+                  pageFrom={item.pageFrom}
+                  pageTo={item.pageTo}
+                />
               </div>
             );
           }
@@ -2747,4 +2729,4 @@ const TaxRegister = () => {
   );
 };
 
-export default TaxRegister;
+export default ManglaRegister;

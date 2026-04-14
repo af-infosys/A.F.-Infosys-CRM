@@ -55,6 +55,7 @@ import TharavSet from "../features/orderValuation/TharavSet";
 import CancledProjects from "../features/projects/CancledProjects";
 import UpdateStatus from "../features/projects/Status";
 import OwnerAdmin from "../layouts/OwnerAdmin";
+import ManglaRegister from "../features/survay/ManglaReport";
 
 export default function AppRoutes() {
   const { user } = useAuth();
@@ -177,6 +178,24 @@ export default function AppRoutes() {
 
           <Route
             path="taxRegister/:projectId"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <TaxRegister />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="manglaRegister/:projectId"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <ManglaRegister />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="vasulatRegister/:projectId"
             element={
               <ProtectedRoute allowedRoles={["owner"]}>
                 <TaxRegister />

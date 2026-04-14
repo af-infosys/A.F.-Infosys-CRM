@@ -18,14 +18,16 @@ const quicklinks = [
     path: "/survay/akarniImgReport",
   },
   { id: 4, label: "3. Vera Register (9D)", path: "/survay/taxRegister" },
+  { id: 5, label: "4. Magla Register", path: "/survay/manglaRegister" },
+  { id: 6, label: "5. Vasulat Register", path: "/survay/vasulatRegister" },
   {
-    id: 5,
-    label: "4. Index Report (પાનોત્રી બુક)",
+    id: 7,
+    label: "6. Index Report (પાનોત્રી બુક)",
     path: "/survay/indexReport",
   },
-  { id: 6, label: "5. Tarij Report", path: "/survay/tarij" },
-  { id: 7, label: "6. Analysis Report", path: "/survay/analysis" },
-  { id: 8, label: "Bill / Quotation", path: "/survay/bill" },
+  { id: 8, label: "7. Tarij Report", path: "/survay/tarij" },
+  { id: 9, label: "8. Analysis Report", path: "/survay/analysis" },
+  { id: 10, label: "Bill / Quotation", path: "/survay/bill" },
 ];
 
 const Akarni = () => {
