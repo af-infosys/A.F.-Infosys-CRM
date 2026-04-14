@@ -244,7 +244,7 @@ export const addSheetRecord = async (req, res) => {
       "",
       "",
 
-      JSON.stringify([img1, img2, img3]), // Column 25
+      `[${img1 || ""}, ${img2 || ""}, ${img3 || ""}]`, // Column 25
     ];
 
     // 5. Append the row to the Google Sheet
