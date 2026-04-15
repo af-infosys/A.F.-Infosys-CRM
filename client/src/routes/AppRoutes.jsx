@@ -56,6 +56,7 @@ import CancledProjects from "../features/projects/CancledProjects";
 import UpdateStatus from "../features/projects/Status";
 import OwnerAdmin from "../layouts/OwnerAdmin";
 import ManglaRegister from "../features/survay/ManglaReport";
+import VasulatRegister from "../features/survay/VasulatReport";
 
 export default function AppRoutes() {
   const { user } = useAuth();
@@ -198,7 +199,7 @@ export default function AppRoutes() {
             path="vasulatRegister/:projectId"
             element={
               <ProtectedRoute allowedRoles={["owner"]}>
-                <TaxRegister />
+                <VasulatRegister />
               </ProtectedRoute>
             }
           />
