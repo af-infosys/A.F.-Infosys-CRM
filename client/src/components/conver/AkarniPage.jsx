@@ -29,7 +29,7 @@ const AkarniPage = ({
           પાના નં. {toGujaratiNumber(pageIndex + 1)}
         </span>
 
-        <h1 className="heading" style={{ marginTop: "50px" }}>
+        <h1 className="heading" style={{ marginTop: "60px" }}>
           પંચાયત હિસાબ નમુનો નંબર - ૮ (આકારણી રજીસ્ટર
           {isCommercial === true
             ? " - કોમર્શિયલ મિલકત"
@@ -105,7 +105,7 @@ const AkarniPage = ({
             <th
               className=""
               rowSpan={2}
-              style={{ ...headerStyle, fontSize: "14px" }}
+              style={{ ...headerStyle, fontSize: "14px", minWidth: "150px" }}
             >
               <span className="formatting">કબ્જેદારનું નામ</span>
             </th>

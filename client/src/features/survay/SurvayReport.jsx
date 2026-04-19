@@ -302,11 +302,8 @@ const SurvayReport = () => {
       }
     });
 
-    commercialIndexes.push(finalRenderPages?.length);
-    commercialIndexes.push(finalRenderPages?.length + 1);
-
     const generatePDF = async (pageIndexes, fileName) => {
-      const totalPages = pageIndexes.length;
+      const totalPages = pageIndexes.length + 2;
       let totalDuration = 0;
 
       const pdf = new jsPDF("landscape", "mm", "legal");
@@ -446,13 +443,13 @@ const SurvayReport = () => {
         isGenerating: true,
         isCancelled: false,
         completedPages: 0,
-        totalPages: allIndexes.length,
+        totalPages: allIndexes.length + 2,
         percentage: 0,
         timeRemaining: null,
       });
 
       await generatePDF(
-        allIndexes + 2,
+        allIndexes,
         `2. આકારણી રજીસ્ટર - ${project?.spot?.gaam}.pdf`,
       );
 
@@ -1148,7 +1145,7 @@ const SurvayReport = () => {
                   </div>
 
                   {Array.from({ length: 2 })?.map((_, index) => {
-                    const id = `report-page-${index}`;
+                    const id = `report-page-${finalRenderPages.length + index}`;
 
                     return (
                       <div
@@ -1211,7 +1208,7 @@ const SurvayReport = () => {
                   </div>
 
                   {Array.from({ length: 2 })?.map((_, index) => {
-                    const id = `report-page-${index}`;
+                    const id = `report-page-${finalRenderPages.length + index}`;
 
                     return (
                       <div
