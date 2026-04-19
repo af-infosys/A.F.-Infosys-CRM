@@ -17,7 +17,7 @@ const TharavPage1 = ({ project }) => {
       }}
     >
       {/* -------------------- 1. Main Title -------------------- */}
-      <header className="text-center pb-6">
+      <header className="text-center pb-2">
         <h1 className="text-3xl font-extrabold text-gray-800 tracking-wider">
           {project?.spot?.gaam || "................"} ગ્રામપંચાયત આકારણી કમિટિની
           રચના
@@ -100,7 +100,7 @@ const TharavPage1 = ({ project }) => {
                     {toGujaratiNumber(index + 1)}
                   </span>
                 </td>
-                <td style={{ minWidth: "500px", height: "38px" }}>
+                <td style={{ minWidth: "500px", height: "50px" }}>
                   <span className="formatting">{comity?.name || ""}</span>
                 </td>
                 <td style={{ minWidth: "230px" }}>
@@ -118,7 +118,7 @@ const TharavPage1 = ({ project }) => {
       </div>
 
       {/* Public Notice Section */}
-      <div style={{ marginTop: "40px" }}>
+      <div style={{ marginTop: "20px" }}>
         <h4 style={{ textAlign: "center", textDecoration: "underline" }}>
           <b>જાહેર પ્રસિધ્ધિ કર્યા તારીખ</b>
         </h4>

@@ -18,6 +18,7 @@ import TharavPage2 from "../../components/conver/TharavPage2";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import toGujaratiNumber from "../../components/toGujaratiNumber";
+import AkarniPageBlank from "../../components/conver/AkarniPageBlank";
 
 const commercialCategories = [
   "દુકાન",
@@ -290,7 +291,7 @@ const SurvayReport = () => {
       console.log(item.commercial, item.type, idx);
       if (mode === "res") {
         if (!item.commercial) {
-          commercialIndexes.push(idx);
+          residentialIndexes.push(idx);
         }
       }
 
@@ -300,6 +301,9 @@ const SurvayReport = () => {
         }
       }
     });
+
+    commercialIndexes.push(finalRenderPages?.length);
+    commercialIndexes.push(finalRenderPages?.length + 1);
 
     const generatePDF = async (pageIndexes, fileName) => {
       const totalPages = pageIndexes.length;
@@ -448,7 +452,7 @@ const SurvayReport = () => {
       });
 
       await generatePDF(
-        allIndexes,
+        allIndexes + 2,
         `2. આકારણી રજીસ્ટર - ${project?.spot?.gaam}.pdf`,
       );
 
@@ -1115,6 +1119,132 @@ const SurvayReport = () => {
                 )}
               </div>
             );
+          }
+
+          if (!project?.details?.seperatecommercial) {
+            if (idx === finalRenderPages.length - 2) {
+              return (
+                <>
+                  <div
+                    key={idx}
+                    id={id}
+                    className="report-page legal-landscape-dimensions"
+                    style={{
+                      paddingLeft: "60px",
+                      paddingRight: "20px",
+                      maxHeight: "800px",
+                    }}
+                  >
+                    <AkarniPage
+                      project={project}
+                      pageIndex={item.pageIndex}
+                      pageRecords={item.pageRecords}
+                      totalHoouse={records?.length}
+                      current={idx + 1}
+                      totalPages={finalRenderPages?.length}
+                      count={count}
+                      isCommercial={item?.isCommercial}
+                    />
+                  </div>
+
+                  {Array.from({ length: 2 })?.map((_, index) => {
+                    const id = `report-page-${index}`;
+
+                    return (
+                      <div
+                        key={index}
+                        id={id}
+                        className="report-page legal-landscape-dimensions"
+                        style={{
+                          paddingLeft: "60px",
+                          paddingRight: "20px",
+                          maxHeight: "800px",
+                        }}
+                      >
+                        <AkarniPageBlank
+                          project={project}
+                          pageIndex={
+                            finalRenderPages[finalRenderPages?.length - 2]
+                              ?.pageIndex +
+                            index +
+                            1
+                          }
+                          pageRecords={PROPERTIES_PER_PAGE}
+                          totalHoouse={records?.length}
+                          current={finalRenderPages.length + index + 1}
+                          totalPages={finalRenderPages?.length}
+                          count={count}
+                          isCommercial={false}
+                        />
+                      </div>
+                    );
+                  })}
+                </>
+              );
+            }
+          }
+
+          if (project?.details?.seperatecommercial === true) {
+            if (idx === finalRenderPages.length - 1) {
+              return (
+                <>
+                  <div
+                    key={idx}
+                    id={id}
+                    className="report-page legal-landscape-dimensions"
+                    style={{
+                      paddingLeft: "60px",
+                      paddingRight: "20px",
+                      maxHeight: "800px",
+                    }}
+                  >
+                    <AkarniPage
+                      project={project}
+                      pageIndex={item.pageIndex}
+                      pageRecords={item.pageRecords}
+                      totalHoouse={records?.length}
+                      current={idx + 1}
+                      totalPages={finalRenderPages?.length}
+                      count={count}
+                      isCommercial={item?.isCommercial}
+                    />
+                  </div>
+
+                  {Array.from({ length: 2 })?.map((_, index) => {
+                    const id = `report-page-${index}`;
+
+                    return (
+                      <div
+                        key={index}
+                        id={id}
+                        className="report-page legal-landscape-dimensions"
+                        style={{
+                          paddingLeft: "60px",
+                          paddingRight: "20px",
+                          maxHeight: "800px",
+                        }}
+                      >
+                        <AkarniPageBlank
+                          project={project}
+                          pageIndex={
+                            finalRenderPages[finalRenderPages?.length - 2]
+                              ?.pageIndex +
+                            index +
+                            1
+                          }
+                          pageRecords={PROPERTIES_PER_PAGE}
+                          totalHoouse={records?.length}
+                          current={finalRenderPages.length + index + 1}
+                          totalPages={finalRenderPages?.length}
+                          count={count}
+                          isCommercial={false}
+                        />
+                      </div>
+                    );
+                  })}
+                </>
+              );
+            }
           }
 
           return (
