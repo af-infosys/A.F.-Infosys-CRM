@@ -20,7 +20,7 @@ const TharavPage1 = ({ project }) => {
       <header className="text-center pb-2">
         <h1 className="text-3xl font-extrabold text-gray-800 tracking-wider">
           {project?.spot?.gaam || "................"} ગ્રામપંચાયત આકારણી કમિટિની
-          રચના
+          રચના - વર્ષ {project?.details?.akaraniYear || ""}
         </h1>
       </header>
 
