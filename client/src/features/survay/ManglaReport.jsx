@@ -642,7 +642,9 @@ const ManglaRegister = () => {
     const getNum = (val) => Number(val) || 0;
 
     // 1. Titles & Location Info
-    const titleRow1 = ["પંચાયતના હિસાબનો નમૂનો ક્રમાંક ૪૨ (કરવેરા રજીસ્ટર)"];
+    const titleRow1 = [
+      "પંચાયતના હિસાબનો નમૂનો ક્રમાંક ૯(ડી) - કરવેરા માંગણાં રજીસ્ટર",
+    ];
     const titleRow2 = [
       `${project?.details?.taxYear || "૨૦૨૫/૨૬"}ના વર્ષ માટેના આકારેલા વેરાનું મંગણાંનું નોંધપત્રક`,
     ];
@@ -1064,11 +1066,12 @@ const ManglaRegister = () => {
                     style={{ marginTop: "35px", fontWeight: "600" }}
                   >
                     <b style={{ fontWeight: "500" }}>
-                      પંચાયતના હિસાબનો નમૂનો ક્રમાંક ૪૨ (કરવેરા રજીસ્ટર)
+                      પંચાયતના હિસાબનો નમૂનો ક્રમાંક ૯(ડી) - કરવેરા માંગણાં
+                      રજીસ્ટર
                     </b>
                     <br />
                     {project?.details?.taxYear || "૨૦૨૫/૨૬"}ના વર્ષ માટેના
-                    આકારેલા વેરાનું મંગણાંનું નોંધપત્રક
+                    આકારેલા વેરાનું માંગણાંનું નોંધપત્રક
                   </h1>
 
                   <div
@@ -1102,7 +1105,11 @@ const ManglaRegister = () => {
                       <th
                         className="th"
                         rowSpan="3"
-                        style={{ minWidth: "60px", verticalAlign: "top" }}
+                        style={{
+                          minWidth: "40px",
+                          maxWidth: "40px",
+                          verticalAlign: "top",
+                        }}
                       >
                         <span className="formatting">
                           સંપત્તિ (એસ્ટેટનું) નામ
@@ -1305,7 +1312,7 @@ const ManglaRegister = () => {
                                   Number(
                                     JSON.parse(record[23] || "{}")?.normal_water
                                       ?.prev || " ",
-                                  ),
+                                  ) || " ",
                               )}
                             </span>
                           </td>
@@ -1314,8 +1321,10 @@ const ManglaRegister = () => {
                           <td className="td" style={{ textAlign: "right" }}>
                             <span className="formatting">
                               {toGujaratiNumber(
-                                JSON.parse(record[23] || "{}")?.special_water
-                                  ?.prev || " ",
+                                Number(
+                                  JSON.parse(record[23] || "{}")?.special_water
+                                    ?.prev || " ",
+                                ) || " ",
                               )}
                             </span>
                           </td>
@@ -1324,7 +1333,9 @@ const ManglaRegister = () => {
                             <span className="formatting">
                               {toGujaratiNumber(
                                 JSON.parse(record[21] || "{}")?.special_water
-                                  ?.curr || " ",
+                                  ?.curr ||
+                                  " " ||
+                                  " ",
                               )}
                             </span>
                           </td>
@@ -1339,7 +1350,7 @@ const ManglaRegister = () => {
                                   Number(
                                     JSON.parse(record[23] || "{}")
                                       ?.special_water?.prev || " ",
-                                  ),
+                                  ) || " ",
                               )}
                             </span>
                           </td>

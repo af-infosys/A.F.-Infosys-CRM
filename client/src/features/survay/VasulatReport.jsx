@@ -17,6 +17,8 @@ import TaxIndexRaw2 from "../../components/conver/TaxIndexRaw2";
 
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
+import TaxIndexRaw3 from "../../components/conver/TaxIndexRaw3";
+import TaxIndex3 from "../../components/conver/TaxIndex3";
 
 const VasulatRegister = () => {
   const [records, setRecords] = useState([]);
@@ -642,7 +644,9 @@ const VasulatRegister = () => {
     const getNum = (val) => Number(val) || 0;
 
     // 1. Titles & Location Info
-    const titleRow1 = ["પંચાયતના હિસાબનો નમૂનો ક્રમાંક ૪૨ (કરવેરા રજીસ્ટર)"];
+    const titleRow1 = [
+      "પંચાયતના હિસાબનો નમૂનો ક્રમાંક ૯(ડી) - કરવેરા વસુલાત રજીસ્ટર",
+    ];
     const titleRow2 = [
       `${project?.details?.taxYear || "૨૦૨૫/૨૬"}ના વર્ષ માટેના આકારેલા વેરાનું વસુલાતનું નોંધપત્રક`,
     ];
@@ -1055,7 +1059,7 @@ const VasulatRegister = () => {
                 }}
               >
                 {project?.other?.status === "completed" ? (
-                  <TaxIndex2
+                  <TaxIndex3
                     part={item.bundle}
                     project={project}
                     totalHoouse={records?.length}
@@ -1068,7 +1072,7 @@ const VasulatRegister = () => {
                     pageTo={item.pageTo}
                   />
                 ) : (
-                  <TaxIndexRaw2
+                  <TaxIndexRaw3
                     part={item.bundle}
                     project={project}
                     totalHoouse={records?.length}
@@ -1121,7 +1125,8 @@ const VasulatRegister = () => {
                     style={{ marginTop: "35px", fontWeight: "600" }}
                   >
                     <b style={{ fontWeight: "500" }}>
-                      પંચાયતના હિસાબનો નમૂનો ક્રમાંક ૪૨ (કરવેરા રજીસ્ટર)
+                      પંચાયતના હિસાબનો નમૂનો ક્રમાંક ૯(ડી) - કરવેરા વસુલાત
+                      રજીસ્ટર
                     </b>
                     <br />
                     {project?.details?.taxYear || "૨૦૨૫/૨૬"}ના વર્ષ માટેના
@@ -1376,7 +1381,7 @@ const VasulatRegister = () => {
                                   Number(
                                     JSON.parse(record[24] || "{}")?.vasulat
                                       ?.currtax || " ",
-                                  ),
+                                  ) || " ",
                               ) || " "}
                             </span>
                           </td>
@@ -1410,7 +1415,7 @@ const VasulatRegister = () => {
                                   Number(
                                     JSON.parse(record[23] || "{}")?.normal_water
                                       ?.vasulat || " ",
-                                  ),
+                                  ) || " ",
                               )}
                             </span>
                           </td>
@@ -1444,7 +1449,7 @@ const VasulatRegister = () => {
                                   Number(
                                     JSON.parse(record[23] || "{}")
                                       ?.special_water?.vasulat || " ",
-                                  ),
+                                  ) || " ",
                               )}
                             </span>
                           </td>
@@ -1478,7 +1483,7 @@ const VasulatRegister = () => {
                                   Number(
                                     JSON.parse(record[23] || "{}")?.light
                                       ?.vasulat || " ",
-                                  ),
+                                  ) || " ",
                               )}
                             </span>
                           </td>
@@ -1512,8 +1517,8 @@ const VasulatRegister = () => {
                                   Number(
                                     JSON.parse(record[23] || "{}")?.cleaning
                                       ?.vasulat || " ",
-                                  ),
-                              )}
+                                  ) || " ",
+                              ) || " "}
                             </span>
                           </td>
 
@@ -1560,7 +1565,7 @@ const VasulatRegister = () => {
                                   Number(
                                     JSON.parse(record[23] || "{}")?.cleaning
                                       ?.vasulat || " ",
-                                  ),
+                                  ) || " ",
                               )}
                             </span>
                           </td>
@@ -1844,7 +1849,7 @@ const VasulatRegister = () => {
                             <td className="td" style={{ textAlign: "right" }}>
                               <span className="formatting">
                                 {toGujaratiNumber(
-                                  vasulatForCategory + currForCategory,
+                                  vasulatForCategory + currForCategory || " ",
                                 )}
                               </span>
                             </td>
@@ -1857,14 +1862,14 @@ const VasulatRegister = () => {
                           {/* પા.બા */}
                           <td className="td" style={{ textAlign: "right" }}>
                             <span className="formatting">
-                              {toGujaratiNumber(vasulatForCategory)}
+                              {toGujaratiNumber(vasulatForCategory || " ")}
                             </span>
                           </td>
 
                           {/* ચાલુ */}
                           <td className="td" style={{ textAlign: "right" }}>
                             <span className="formatting">
-                              {toGujaratiNumber(currForCategory)}
+                              {toGujaratiNumber(currForCategory || " ")}
                             </span>
                           </td>
 
@@ -1872,7 +1877,7 @@ const VasulatRegister = () => {
                           <td className="td" style={{ textAlign: "right" }}>
                             <span className="formatting">
                               {toGujaratiNumber(
-                                vasulatForCategory + currForCategory,
+                                vasulatForCategory + currForCategory || " ",
                               )}
                             </span>
                           </td>
@@ -1983,7 +1988,7 @@ const VasulatRegister = () => {
                           <td className="td" style={{ textAlign: "right" }}>
                             <span className="formatting">
                               {toGujaratiNumber(
-                                prevForCategory + currForCategory,
+                                prevForCategory + currForCategory || " ",
                               )}
                             </span>
                           </td>

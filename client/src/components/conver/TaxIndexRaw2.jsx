@@ -182,7 +182,7 @@ const TaxIndexRaw2 = ({
             paddingInline: "40px",
           }}
         >
-          ગામના નમુના નંબર ૪૨ કરવેરા રજીસ્ટર {title ? `- ${title}` : ""}
+          ગામના નમુના નંબર ૯(ડી) - કરવેરા માંગણાં રજીસ્ટર
         </h1>
         <h2
           className="text-2xl font-semibold text-gray-700"
