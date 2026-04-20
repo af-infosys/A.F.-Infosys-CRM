@@ -448,8 +448,8 @@ const TaxIndex2 = ({
           position: "absolute",
           bottom: "-230px",
           left: "357px",
-          fontSize: "25px",
-          fontWeight: "600",
+          fontSize: "27px",
+          fontWeight: "700",
           color: "black",
         }}
       >
@@ -461,8 +461,8 @@ const TaxIndex2 = ({
           position: "absolute",
           bottom: "-230px",
           left: "740px",
-          fontSize: "25px",
-          fontWeight: "600",
+          fontSize: "27px",
+          fontWeight: "700",
           color: "black",
         }}
       >
@@ -474,8 +474,8 @@ const TaxIndex2 = ({
           position: "absolute",
           bottom: "-290px",
           left: "483px",
-          fontSize: "25px",
-          fontWeight: "600",
+          fontSize: "27px",
+          fontWeight: "700",
           color: "black",
         }}
       >
@@ -487,8 +487,8 @@ const TaxIndex2 = ({
           position: "absolute",
           bottom: "-290px",
           left: "745px",
-          fontSize: "25px",
-          fontWeight: "600",
+          fontSize: "27px",
+          fontWeight: "700",
           color: "black",
         }}
       >
@@ -502,8 +502,8 @@ const TaxIndex2 = ({
           position: "absolute",
           bottom: "-350px",
           left: "90px",
-          fontSize: "25px",
-          fontWeight: "600",
+          fontSize: "27px",
+          fontWeight: "700",
           color: "black",
         }}
       >
@@ -515,8 +515,8 @@ const TaxIndex2 = ({
           position: "absolute",
           bottom: "-387px",
           left: "320px",
-          fontSize: "25px",
-          fontWeight: "600",
+          fontSize: "27px",
+          fontWeight: "700",
           color: "black",
         }}
       >
@@ -528,8 +528,8 @@ const TaxIndex2 = ({
           position: "absolute",
           bottom: "-420px",
           left: "155px",
-          fontSize: "25px",
-          fontWeight: "600",
+          fontSize: "27px",
+          fontWeight: "700",
           color: "black",
         }}
       >
@@ -541,8 +541,8 @@ const TaxIndex2 = ({
           position: "absolute",
           bottom: "-462px",
           left: "290px",
-          fontSize: "25px",
-          fontWeight: "600",
+          fontSize: "27px",
+          fontWeight: "700",
           color: "black",
         }}
       >

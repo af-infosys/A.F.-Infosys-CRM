@@ -303,9 +303,9 @@ const AkarniIndex = ({
           position: "absolute",
           bottom: "-250px",
           left: "65px",
-          fontSize: "25px",
-          fontWeight: "400",
-          color: "blueviolet",
+          fontSize: "27px",
+          fontWeight: "700",
+          color: "black",
         }}
       >
         {part}
@@ -316,9 +316,9 @@ const AkarniIndex = ({
           position: "absolute",
           bottom: "-302px",
           left: "305px",
-          fontSize: "25px",
-          fontWeight: "400",
-          color: "blueviolet",
+          fontSize: "27px",
+          fontWeight: "700",
+          color: "black",
         }}
       >
         {coverProperties}
@@ -329,9 +329,9 @@ const AkarniIndex = ({
           position: "absolute",
           bottom: "-355px",
           left: "135px",
-          fontSize: "25px",
-          fontWeight: "400",
-          color: "blueviolet",
+          fontSize: "27px",
+          fontWeight: "700",
+          color: "black",
         }}
       >
         {`${pageFrom} થી ${pageTo}`}
@@ -342,9 +342,9 @@ const AkarniIndex = ({
           position: "absolute",
           bottom: "-407px",
           left: "270px",
-          fontSize: "25px",
-          fontWeight: "400",
-          color: "blueviolet",
+          fontSize: "27px",
+          fontWeight: "700",
+          color: "black",
         }}
       >
         {totalHoouse}
