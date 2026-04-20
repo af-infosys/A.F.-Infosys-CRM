@@ -182,7 +182,7 @@ const AkarniPageBlank = ({
         </thead>
 
         <tbody>
-          {Array.from({ length: pageRecords - 2 })?.map((record, index) => (
+          {Array.from({ length: pageRecords })?.map((record, index) => (
             <tr
               key={index}
               style={{

@@ -24,9 +24,9 @@ const TharavPage2 = ({ project }) => {
       style={{
         position: "relative",
         border: "10px double #6a6a6a",
-        marginTop: "120px",
+        marginTop: "140px",
         padding: "10px",
-        paddingBottom: "25px",
+        paddingBottom: "0px",
       }}
     >
       {/* -------------------- 1. Main Title -------------------- */}
@@ -74,8 +74,8 @@ const TharavPage2 = ({ project }) => {
           justifyContent: "end",
           fontSize: "18px",
 
-          marginTop: "50px",
-          marginBottom: "10px",
+          marginTop: "60px",
+          marginBottom: "5px",
           paddingRight: "50px",
         }}
       >
@@ -99,7 +99,7 @@ const TharavPage2 = ({ project }) => {
             </b>
           </span>
 
-          <span style={{ marginTop: "120px", fontSize: "14px" }}>
+          <span style={{ marginTop: "140px", fontSize: "14px" }}>
             {project?.details?.gaam || "....."} ગ્રામ પંચાયત કચેરી{" "}
           </span>
 
@@ -117,7 +117,7 @@ const TharavPage2 = ({ project }) => {
       <p
         style={{
           position: "absolute",
-          bottom: "15px",
+          bottom: "-45px",
           right: "10px",
           fontSize: "12px",
         }}
