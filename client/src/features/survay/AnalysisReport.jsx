@@ -655,10 +655,16 @@ const AnalyticsReport = () => {
                     <div
                       key={m.id}
                       className="flex items-center p-4 border rounded-xl shadow-sm"
+                      style={{
+                        borderWidth: "2px",
+                        borderColor: "black",
+                      }}
                     >
                       <img src={m.icon} className="w-12 h-12 mr-4" alt="icon" />
                       <div>
-                        <p className="text-gray-600">{m.description}</p>
+                        <p className="text-gray-600 text-xl font-bold">
+                          {m.description}
+                        </p>
                         <p className="text-2xl font-bold text-blue-600">
                           કુલ સંખ્યા: {m.count}
                         </p>
@@ -886,7 +892,7 @@ const AnalyticsReport = () => {
                   >
                     {/* Pie Chart */}
                     <div className="flex flex-col items-center">
-                      <h3 className="text-xl font-semibold">
+                      <h3 className="text-xl font-bold">
                         1. મિલ્કત પ્રકારનું વિતરણ -{" "}
                         {reportData?.metrics[0]?.count || "0"}
                       </h3>
@@ -913,7 +919,7 @@ const AnalyticsReport = () => {
                     </div>
 
                     <div className="flex flex-col items-center">
-                      <h3 className="text-xl font-semibold">
+                      <h3 className="text-xl font-bold">
                         2. કુલ રહેણાંક વાળા મકાનો -{" "}
                         {reportData?.metrics[1]?.count || "0"}
                       </h3>
@@ -941,7 +947,7 @@ const AnalyticsReport = () => {
                   </div>
 
                   <div className="flex flex-col items-center">
-                    <h3 className="text-xl font-semibold">
+                    <h3 className="text-xl font-bold">
                       3. સરકારી મિલકત - {reportData?.metrics[8]?.count || "0"}
                     </h3>
                     <PieChart width={500} height={350}>
@@ -968,7 +974,7 @@ const AnalyticsReport = () => {
 
                   {/* Bar Chart */}
                   <div className="flex flex-col items-center">
-                    <h3 className="text-xl font-semibold mb-4">
+                    <h3 className="text-xl font-bold mb-4">
                       4. સુવિધાઓનું વિશ્લેષણ
                     </h3>
                     <BarChart

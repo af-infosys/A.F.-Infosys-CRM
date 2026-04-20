@@ -97,7 +97,7 @@ const IndexIndex = ({ part, nop, project, totalHoouse }) => {
             marginTop: "20px",
           }}
         >
-          Index Report - (પાનોત્રી બુક)
+          Index Book - (પાનોત્રી બુક)
         </h1>
         <h2 className="text-2xl font-semibold mt-4 text-gray-700">
           સને :- {project?.details?.taxYear || "2025/26"}
