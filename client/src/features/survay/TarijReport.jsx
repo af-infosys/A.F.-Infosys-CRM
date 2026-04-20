@@ -56,7 +56,7 @@ function isCommercialProperty(row) {
 const calculateTotal = (data = []) => {
   return {
     houseTax: {
-      curr: data.reduce((s, i) => s + Number(i[19] || 0), 0),
+      curr: data.reduce((s, i) => s + Number(i[20] || 0), 0),
       prev: 0,
     },
     waterTax: {

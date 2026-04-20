@@ -5,7 +5,10 @@ const TarijFormat = ({ project, total, length, loading, error, name }) => {
   console.log("Tarij", total);
   return (
     <div id="pdf-content-wrapper">
-      <h1 className="text-xl font-bold text-center mb-0 text-gray-800">
+      <h1
+        className="text-xl font-bold text-center mb-0 text-gray-800"
+        style={{ paddingTop: "30px" }}
+      >
         કુલ મંગણાં તથા વસુલાતનો રિપોર્ટ (તારીજ) {name && ` - ${name}`}
         <br />
         સને {project?.details?.akaraniYear || ""}
@@ -33,7 +36,7 @@ const TarijFormat = ({ project, total, length, loading, error, name }) => {
                   color: "#000",
                 }}
               >
-                <span className="formatting">વેરાઓનું નામ</span>
+                <span className="formatting">વેરાઓના નામ</span>
               </th>
 
               <th
@@ -148,9 +151,6 @@ const TarijFormat = ({ project, total, length, loading, error, name }) => {
           </thead>
 
           <tbody className="tbody">
-            {/* {records.map((record, index) => ( */}
-            {/* <> */}
-
             {total?.houseTax ? (
               <>
                 <tr>
@@ -160,7 +160,12 @@ const TarijFormat = ({ project, total, length, loading, error, name }) => {
                   <td className="td">
                     <span className="formatting">ઘર વેરો</span>
                   </td>
-                  <td className="td">
+                  <td
+                    className="td"
+                    style={{
+                      minWidth: "70px",
+                    }}
+                  >
                     <span className="formatting">
                       {toGujaratiNumber(total?.houseTax?.prev || " ", 1)}
                     </span>
@@ -180,37 +185,47 @@ const TarijFormat = ({ project, total, length, loading, error, name }) => {
                     </span>
                   </td>
 
-                  <td className="td">
-                    <span className="formatting">
-                      {toGujaratiNumber(total?.houseTax?.prev || " ", 1)}
-                    </span>
+                  <td
+                    className="td"
+                    style={{
+                      minWidth: "70px",
+                    }}
+                  >
+                    <span className="formatting"></span>
                   </td>
-                  <td className="td">
-                    <span className="formatting">
-                      {toGujaratiNumber(total?.houseTax?.curr || " ", 1)}
-                    </span>
+                  <td
+                    className="td"
+                    style={{
+                      minWidth: "70px",
+                    }}
+                  >
+                    <span className="formatting"></span>
                   </td>
-                  <td className="td">
-                    <span className="formatting">
-                      {toGujaratiNumber(
-                        (total?.houseTax?.prev || 0) +
-                          (total?.houseTax?.curr || 0),
-                        1,
-                      )}
-                    </span>
-                  </td>
-
-                  <td className="td">
-                    <span className="formatting"> </span>
-                  </td>
-                  <td className="td">
-                    <span className="formatting"> </span>
-                  </td>
-                  <td className="td">
-                    <span className="formatting"> </span>
+                  <td
+                    className="td"
+                    style={{
+                      minWidth: "70px",
+                    }}
+                  >
+                    <span className="formatting"></span>
                   </td>
 
                   <td className="td">
+                    <span className="formatting"> </span>
+                  </td>
+                  <td className="td">
+                    <span className="formatting"> </span>
+                  </td>
+                  <td className="td">
+                    <span className="formatting"> </span>
+                  </td>
+
+                  <td
+                    className="td"
+                    style={{
+                      minWidth: "70px",
+                    }}
+                  >
                     <span className="formatting">
                       {toGujaratiNumber(total?.houseTax?.prev || " ", 1)}
                     </span>
@@ -264,23 +279,13 @@ const TarijFormat = ({ project, total, length, loading, error, name }) => {
                   </td>
 
                   <td className="td">
-                    <span className="formatting">
-                      {toGujaratiNumber(total?.waterTax?.prev || " ", 1)}
-                    </span>
+                    <span className="formatting"></span>
                   </td>
                   <td className="td">
-                    <span className="formatting">
-                      {toGujaratiNumber(total?.waterTax?.curr || " ", 1)}
-                    </span>
+                    <span className="formatting"></span>
                   </td>
                   <td className="td">
-                    <span className="formatting">
-                      {toGujaratiNumber(
-                        (total?.waterTax?.prev || 0) +
-                          (total?.waterTax?.curr || 0),
-                        1,
-                      )}
-                    </span>
+                    <span className="formatting"></span>
                   </td>
 
                   <td className="td">
@@ -347,23 +352,13 @@ const TarijFormat = ({ project, total, length, loading, error, name }) => {
                   </td>
 
                   <td className="td">
-                    <span className="formatting">
-                      {toGujaratiNumber(total?.specialTax?.prev || " ", 1)}
-                    </span>
+                    <span className="formatting"></span>
                   </td>
                   <td className="td">
-                    <span className="formatting">
-                      {toGujaratiNumber(total?.specialTax?.curr || " ", 1)}
-                    </span>
+                    <span className="formatting"></span>
                   </td>
                   <td className="td">
-                    <span className="formatting">
-                      {toGujaratiNumber(
-                        (total?.specialTax?.prev || 0) +
-                          (total?.specialTax?.curr || 0),
-                        1,
-                      )}
-                    </span>
+                    <span className="formatting"></span>
                   </td>
 
                   <td className="td">
@@ -430,23 +425,13 @@ const TarijFormat = ({ project, total, length, loading, error, name }) => {
                   </td>
 
                   <td className="td">
-                    <span className="formatting">
-                      {toGujaratiNumber(total?.lightTax?.prev || " ", 1)}
-                    </span>
+                    <span className="formatting"></span>
                   </td>
                   <td className="td">
-                    <span className="formatting">
-                      {toGujaratiNumber(total?.lightTax?.curr || " ", 1)}
-                    </span>
+                    <span className="formatting"></span>
                   </td>
                   <td className="td">
-                    <span className="formatting">
-                      {toGujaratiNumber(
-                        (total?.lightTax?.prev || 0) +
-                          (total?.lightTax?.curr || 0),
-                        1,
-                      )}
-                    </span>
+                    <span className="formatting"></span>
                   </td>
 
                   <td className="td">
@@ -513,23 +498,13 @@ const TarijFormat = ({ project, total, length, loading, error, name }) => {
                   </td>
 
                   <td className="td">
-                    <span className="formatting">
-                      {toGujaratiNumber(total?.cleanTax?.prev || " ", 1)}
-                    </span>
+                    <span className="formatting"></span>
                   </td>
                   <td className="td">
-                    <span className="formatting">
-                      {toGujaratiNumber(total?.cleanTax?.curr || " ", 1)}
-                    </span>
+                    <span className="formatting"></span>
                   </td>
                   <td className="td">
-                    <span className="formatting">
-                      {toGujaratiNumber(
-                        (total?.cleanTax?.prev || 0) +
-                          (total?.cleanTax?.curr || 0),
-                        1,
-                      )}
-                    </span>
+                    <span className="formatting"></span>
                   </td>
 
                   <td className="td">
@@ -579,31 +554,31 @@ const TarijFormat = ({ project, total, length, loading, error, name }) => {
                   </td>
 
                   <td className="td">
-                    <span className="formatting">
+                    <span className="formatting" style={{ fontWeight: "700" }}>
                       {toGujaratiNumber(
                         total?.houseTax?.prev +
                           total?.waterTax?.prev +
                           total?.specialTax?.prev +
                           total?.lightTax?.prev +
-                          total?.cleanTax?.prev || 0,
+                          total?.cleanTax?.prev || "",
                         1,
                       )}
                     </span>
                   </td>
                   <td className="td">
-                    <span className="formatting">
+                    <span className="formatting" style={{ fontWeight: "700" }}>
                       {toGujaratiNumber(
                         total?.houseTax?.curr +
                           total?.waterTax?.curr +
                           total?.specialTax?.curr +
                           total?.lightTax?.curr +
-                          total?.cleanTax?.curr || 0,
+                          total?.cleanTax?.curr || "",
                         1,
                       )}
                     </span>
                   </td>
                   <td className="td">
-                    <span className="formatting">
+                    <span className="formatting" style={{ fontWeight: "700" }}>
                       {toGujaratiNumber(
                         total?.houseTax?.curr +
                           total?.waterTax?.curr +
@@ -614,38 +589,73 @@ const TarijFormat = ({ project, total, length, loading, error, name }) => {
                           total?.waterTax?.prev +
                           total?.specialTax?.prev +
                           total?.lightTax?.prev +
-                          total?.cleanTax?.prev || 0,
+                          total?.cleanTax?.prev || "",
                         1,
                       )}
                     </span>
                   </td>
 
                   <td className="td">
-                    <span className="formatting">
+                    <span
+                      className="formatting"
+                      style={{ fontWeight: "700" }}
+                    ></span>
+                  </td>
+                  <td className="td">
+                    <span
+                      className="formatting"
+                      style={{ fontWeight: "700" }}
+                    ></span>
+                  </td>
+                  <td className="td">
+                    <span
+                      className="formatting"
+                      style={{ fontWeight: "700" }}
+                    ></span>
+                  </td>
+
+                  <td className="td">
+                    <span className="formatting" style={{ fontWeight: "700" }}>
+                      {" "}
+                    </span>
+                  </td>
+                  <td className="td">
+                    <span className="formatting" style={{ fontWeight: "700" }}>
+                      {" "}
+                    </span>
+                  </td>
+                  <td className="td">
+                    <span className="formatting" style={{ fontWeight: "700" }}>
+                      {" "}
+                    </span>
+                  </td>
+
+                  <td className="td">
+                    <span className="formatting" style={{ fontWeight: "700" }}>
                       {toGujaratiNumber(
                         total?.houseTax?.prev +
                           total?.waterTax?.prev +
                           total?.specialTax?.prev +
                           total?.lightTax?.prev +
-                          total?.cleanTax?.prev || 0,
+                          total?.cleanTax?.prev || "",
                         1,
                       )}
                     </span>
                   </td>
                   <td className="td">
-                    <span className="formatting">
+                    <span className="formatting" style={{ fontWeight: "700" }}>
                       {toGujaratiNumber(
                         total?.houseTax?.curr +
                           total?.waterTax?.curr +
                           total?.specialTax?.curr +
                           total?.lightTax?.curr +
-                          total?.cleanTax?.curr || 0,
+                          total?.cleanTax?.curr || "",
                         1,
                       )}
                     </span>
                   </td>
                   <td className="td">
-                    <span className="formatting">
+                    <span className="formatting" style={{ fontWeight: "700" }}>
                       {toGujaratiNumber(
                         total?.houseTax?.curr +
                           total?.waterTax?.curr +
@@ -656,66 +666,16 @@ const TarijFormat = ({ project, total, length, loading, error, name }) => {
                           total?.waterTax?.prev +
                           total?.specialTax?.prev +
                           total?.lightTax?.prev +
-                          total?.cleanTax?.prev || 0,
+                          total?.cleanTax?.prev || "",
                         1,
                       )}
                     </span>
                   </td>
 
                   <td className="td">
-                    <span className="formatting"> </span>
-                  </td>
-                  <td className="td">
-                    <span className="formatting"> </span>
-                  </td>
-                  <td className="td">
-                    <span className="formatting"> </span>
-                  </td>
-
-                  <td className="td">
-                    <span className="formatting">
-                      {toGujaratiNumber(
-                        total?.houseTax?.prev +
-                          total?.waterTax?.prev +
-                          total?.specialTax?.prev +
-                          total?.lightTax?.prev +
-                          total?.cleanTax?.prev || 0,
-                        1,
-                      )}
+                    <span className="formatting" style={{ fontWeight: "700" }}>
+                      {" "}
                     </span>
-                  </td>
-                  <td className="td">
-                    <span className="formatting">
-                      {toGujaratiNumber(
-                        total?.houseTax?.curr +
-                          total?.waterTax?.curr +
-                          total?.specialTax?.curr +
-                          total?.lightTax?.curr +
-                          total?.cleanTax?.curr || 0,
-                        1,
-                      )}
-                    </span>
-                  </td>
-                  <td className="td">
-                    <span className="formatting">
-                      {toGujaratiNumber(
-                        total?.houseTax?.curr +
-                          total?.waterTax?.curr +
-                          total?.specialTax?.curr +
-                          total?.lightTax?.curr +
-                          total?.cleanTax?.curr +
-                          total?.houseTax?.prev +
-                          total?.waterTax?.prev +
-                          total?.specialTax?.prev +
-                          total?.lightTax?.prev +
-                          total?.cleanTax?.prev || 0,
-                        1,
-                      )}
-                    </span>
-                  </td>
-
-                  <td className="td">
-                    <span className="formatting"> </span>
                   </td>
                 </tr>
               </>
@@ -757,7 +717,7 @@ const TarijFormat = ({ project, total, length, loading, error, name }) => {
           display: "flex",
           justifyContent: "end",
           paddingRight: "120px",
-          marginTop: "170px",
+          marginTop: "145px",
         }}
       >
         <div
