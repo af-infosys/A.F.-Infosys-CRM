@@ -30,16 +30,23 @@ const TarijChart = ({ project, total, totalResidence, name }) => {
   console.log("Tarij", total);
 
   return (
-    <div id="pdf-content-wrapper">
+    <div id="pdf-content-wrapper" className="watermark">
       <h1
         className="text-xl font-bold text-center mb-0 text-gray-800"
-        style={{ paddingTop: "30px" }}
+        style={{ paddingTop: "80px" }}
       >
         ચાર્ટ તારીજ કુલ માંગણાં નો રિપોર્ટ (તારીજ) {name && ` - ${name}`} સને{" "}
-        {project?.details?.akaraniYear || ""}
+        {project?.details?.taxYear || ""}
       </h1>
 
-      <div className="location-info-visible" style={{ paddingInline: "50px" }}>
+      <div
+        className="location-info-visible"
+        style={{
+          paddingInline: "200px",
+          marginTop: "10px",
+          marginBottom: "10px",
+        }}
+      >
         <h3>ગામ: {project?.spot?.gaam}</h3>
 
         <h3>તાલુકો: {project?.spot?.taluka}</h3>
@@ -47,7 +54,7 @@ const TarijChart = ({ project, total, totalResidence, name }) => {
         <h3>જિલ્લો: {project?.spot?.district}</h3>
       </div>
 
-      <div style={{ display: "flex", gap: "30px", justifyContent: "center" }}>
+      <div style={{ display: "flex", justifyContent: "center" }}>
         <div
           style={{
             display: "flex",
@@ -91,7 +98,10 @@ const TarijChart = ({ project, total, totalResidence, name }) => {
           </BarChart>
         </div>
 
-        <div className="flex flex-col items-center">
+        <div
+          className="flex flex-col items-center"
+          style={{ marginLeft: "50px" }}
+        >
           {/* <h3 className="text-xl font-bold mb-4"></h3> */}
           <BarChart
             width={800}
@@ -147,9 +157,9 @@ const TarijChart = ({ project, total, totalResidence, name }) => {
           gap: "100px",
           justifyContent: "center",
           maxHeight: "70px",
-          paddingLeft: "320px",
+          paddingLeft: "310px",
 
-          marginTop: "20px",
+          marginTop: "5px",
         }}
       >
         <img src={houseTax} style={{ width: "50px" }} />

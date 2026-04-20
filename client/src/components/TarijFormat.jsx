@@ -3,14 +3,14 @@ import toGujaratiNumber from "./toGujaratiNumber";
 
 const TarijFormat = ({ project, total, length, loading, error, name }) => {
   return (
-    <div id="pdf-content-wrapper">
+    <div id="pdf-content-wrapper" className="watermark">
       <h1
         className="text-xl font-bold text-center mb-0 text-gray-800"
         style={{ paddingTop: "30px" }}
       >
         કુલ મંગણાં તથા વસુલાતનો રિપોર્ટ (તારીજ) {name && ` - ${name}`}
         <br />
-        સને {project?.details?.akaraniYear || ""}
+        સને {project?.details?.taxYear || ""}
       </h1>
 
       <div className="location-info-visible" style={{ paddingInline: "50px" }}>
