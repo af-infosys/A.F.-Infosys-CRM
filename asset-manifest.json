@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.45defa99.css",
-    "main.js": "/static/js/main.4d643e2e.js",
+    "main.js": "/static/js/main.7a970c57.js",
     "static/js/977.87a37736.chunk.js": "/static/js/977.87a37736.chunk.js",
     "static/js/455.4f2c4757.chunk.js": "/static/js/455.4f2c4757.chunk.js",
     "static/js/453.57b2eab3.chunk.js": "/static/js/453.57b2eab3.chunk.js",
@@ -15,6 +15,9 @@
     "static/media/meeting-letter.png": "/static/media/meeting-letter.13630fbc3ee23abf3d84.png",
     "static/media/Government.png": "/static/media/Government.66ba0643d9f45d5f9dd2.png",
     "static/media/bg.png": "/static/media/bg.e11b062113c19ad9c846.png",
+    "static/media/houseTax.png": "/static/media/houseTax.a1e19d00cc7fbc70cf8d.png",
+    "static/media/waterTax.png": "/static/media/waterTax.7ae5201d02b1b2ca8606.png",
+    "static/media/cleanTax.png": "/static/media/cleanTax.3aabeda015566e3fc1ab.png",
     "static/media/circle.png": "/static/media/circle.c71fd130eef3e57d60ba.png",
     "static/media/logo.png": "/static/media/logo.65093e0a1514f8a465c0.png",
     "static/media/KachaMakan.png": "/static/media/KachaMakan.48d30bd246c3006b6119.png",
@@ -23,6 +26,7 @@
     "static/media/Areas.png": "/static/media/Areas.11538e4fab1951582468.png",
     "static/media/bottom.svg": "/static/media/bottom.9508f54178bd780dfbe2.svg",
     "static/media/wale.png": "/static/media/wale.e2fa4b02db583a508589.png",
+    "static/media/lightTax.png": "/static/media/lightTax.9ccb560d2e3e798426a8.png",
     "static/media/Religious.png": "/static/media/Religious.ba09ed283ed76baaddf0.png",
     "static/media/Multiple.png": "/static/media/Multiple.8f061b84ce4eb21acd51.png",
     "static/media/wale2.png": "/static/media/wale2.c6a9edfeef92ca61322a.png",
@@ -68,13 +72,13 @@
     "static/media/House.png": "/static/media/House.640d0b1e39b36fd2550c.png",
     "index.html": "/index.html",
     "main.45defa99.css.map": "/static/css/main.45defa99.css.map",
-    "main.4d643e2e.js.map": "/static/js/main.4d643e2e.js.map",
+    "main.7a970c57.js.map": "/static/js/main.7a970c57.js.map",
     "977.87a37736.chunk.js.map": "/static/js/977.87a37736.chunk.js.map",
     "455.4f2c4757.chunk.js.map": "/static/js/455.4f2c4757.chunk.js.map",
     "453.57b2eab3.chunk.js.map": "/static/js/453.57b2eab3.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.45defa99.css",
-    "static/js/main.4d643e2e.js"
+    "static/js/main.7a970c57.js"
   ]
 }

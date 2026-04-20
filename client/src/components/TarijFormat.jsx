@@ -2,7 +2,6 @@ import React from "react";
 import toGujaratiNumber from "./toGujaratiNumber";
 
 const TarijFormat = ({ project, total, length, loading, error, name }) => {
-  console.log("Tarij", total);
   return (
     <div id="pdf-content-wrapper">
       <h1

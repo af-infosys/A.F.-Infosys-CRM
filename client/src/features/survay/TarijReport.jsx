@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import TarijFormat from "../../components/TarijFormat";
+import TarijChart from "../../components/TarijChart";
 
 const commercialCategories = [
   "દુકાન",
@@ -194,6 +195,7 @@ const TarijReport = () => {
       await addSectionToPDF(pdf, "pdf-total", true);
     } else {
       await addSectionToPDF(pdf, "pdf-single");
+      await addSectionToPDF(pdf, "pdf-chart", true);
     }
 
     pdf.save("5. Tarij_Report.pdf");
@@ -227,7 +229,11 @@ const TarijReport = () => {
 
       <div
         id="pdf-report-container"
-        className="bg-white"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "30px",
+        }}
         // style={{ width: "1300px", padding: "20px", paddingLeft: "70px" }}
       >
         {project?.details?.seperatecommercial ? (
@@ -239,6 +245,7 @@ const TarijReport = () => {
                 padding: "20px",
                 paddingLeft: "60px",
                 paddingTop: "80px",
+                background: "#fff",
               }}
             >
               <TarijFormat
@@ -256,6 +263,7 @@ const TarijReport = () => {
                 padding: "20px",
                 paddingLeft: "60px",
                 paddingTop: "80px",
+                background: "#fff",
               }}
             >
               <TarijFormat
@@ -273,6 +281,7 @@ const TarijReport = () => {
                 padding: "20px",
                 paddingLeft: "60px",
                 paddingTop: "80px",
+                background: "#fff",
               }}
             >
               <TarijFormat
@@ -284,22 +293,43 @@ const TarijReport = () => {
             </div>
           </>
         ) : (
-          <div
-            id="pdf-single"
-            style={{
-              width: "1300px",
-              padding: "20px",
-              paddingLeft: "60px",
-              paddingTop: "80px",
-            }}
-          >
-            <TarijFormat
-              project={project}
-              total={totalAll}
-              length={records.length}
-              name=""
-            />
-          </div>
+          <>
+            <div
+              id="pdf-single"
+              style={{
+                width: "1300px",
+                padding: "20px",
+                paddingLeft: "60px",
+                paddingTop: "80px",
+                background: "#fff",
+              }}
+            >
+              <TarijFormat
+                project={project}
+                total={totalAll}
+                length={records.length}
+                name=""
+              />
+            </div>
+
+            <div
+              id="pdf-chart"
+              style={{
+                width: "1300px",
+                padding: "20px",
+                paddingLeft: "60px",
+                paddingTop: "80px",
+                background: "#fff",
+              }}
+            >
+              <TarijChart
+                project={project}
+                total={totalNormal}
+                length={normalRecords.length}
+                totalResidence={records?.length}
+              />
+            </div>
+          </>
         )}
       </div>
     </div>
