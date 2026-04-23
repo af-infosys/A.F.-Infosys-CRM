@@ -80,7 +80,7 @@ export const getBillDetails = async (req, res) => {
       gaam: spot?.gaam,
       taluka: spot?.taluka,
       district: spot?.district,
-      year: details?.akaraniYear,
+      year: details?.taxYear,
 
       invoiceNo: details?.invoiceNo,
       description: details?.description,

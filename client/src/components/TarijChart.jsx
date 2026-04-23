@@ -1,9 +1,4 @@
-import React from "react";
-import toGujaratiNumber from "./toGujaratiNumber";
-
 import {
-  PieChart,
-  Pie,
   Cell,
   BarChart,
   Bar,
@@ -11,8 +6,6 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
-  ResponsiveContainer,
   LabelList,
 } from "recharts"; // ગ્રાફ માટે
 
@@ -221,6 +214,9 @@ const TarijChart = ({ project, total, totalResidence, name }) => {
             fontWeight: "700",
             minWidth: "50px",
             textAlign: "center",
+
+            paddingTop: 0,
+            paddingBottom: "10px",
           }}
         >
           A
@@ -233,6 +229,9 @@ const TarijChart = ({ project, total, totalResidence, name }) => {
             fontWeight: "700",
             minWidth: "50px",
             textAlign: "center",
+
+            paddingTop: 0,
+            paddingBottom: "10px",
           }}
         >
           B
@@ -245,6 +244,9 @@ const TarijChart = ({ project, total, totalResidence, name }) => {
             fontWeight: "700",
             minWidth: "50px",
             textAlign: "center",
+
+            paddingTop: 0,
+            paddingBottom: "10px",
           }}
         >
           C
@@ -257,6 +259,9 @@ const TarijChart = ({ project, total, totalResidence, name }) => {
             fontWeight: "700",
             minWidth: "50px",
             textAlign: "center",
+
+            paddingTop: 0,
+            paddingBottom: "10px",
           }}
         >
           D
@@ -269,6 +274,9 @@ const TarijChart = ({ project, total, totalResidence, name }) => {
             fontWeight: "700",
             minWidth: "50px",
             textAlign: "center",
+
+            paddingTop: 0,
+            paddingBottom: "10px",
           }}
         >
           E
@@ -281,6 +289,9 @@ const TarijChart = ({ project, total, totalResidence, name }) => {
             fontWeight: "700",
             minWidth: "50px",
             textAlign: "center",
+
+            paddingTop: 0,
+            paddingBottom: "10px",
           }}
         >
           F

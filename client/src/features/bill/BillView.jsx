@@ -37,7 +37,6 @@ function BillView() {
     year: "",
     taluka: "",
     district: "",
-    year: "",
 
     invoiceNo: 0,
     date: "",
@@ -530,7 +529,8 @@ function BillView() {
                       <b className="text-red-700">{billData.invoiceNo}</b>
                     </span>
                     <span>
-                      Date <b className="text-gray-500">{billData.year}</b>
+                      Date : ...................................
+                      {/* <b className="text-gray-500">{billData.year}</b> */}
                     </span>
                   </div>
                   <div className="flex justify-between mt-2">
@@ -1160,13 +1160,28 @@ function BillView() {
                     paddingInline: "20px",
                   }}
                 >
+                  <div className="w-full flex justify-center">
+                    <span
+                      className="text-xs text-center"
+                      style={{
+                        marginTop: "7px",
+                        fontSize: "14px",
+                        textAlign: "center",
+                      }}
+                    >
+                      આ કામ અંગેનો ચેક <b>( એ. એફ. ઇન્ફોસીસ )</b> નામનો લખવા
+                      વિનંતી.
+                    </span>
+                  </div>
+                  <br />
                   <div className="flex justify-between">
                     <span>
                       Invois No.{" "}
                       <b className="text-red-700">{billData.invoiceNo}</b>
                     </span>
                     <span>
-                      Date <b className="text-gray-500">{billData.year}</b>
+                      Date : ...................................
+                      {/* <b className="text-gray-500">{billData.year}</b> */}
                     </span>
                   </div>
                   <div className="flex justify-between mt-2">

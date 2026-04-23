@@ -659,9 +659,12 @@ const TharavSet = () => {
                     {details?.comity?.map((comity, index) => (
                       <tr key={index}>
                         <td>{toGujaratiNumber(index + 1)}</td>
-                        <td>{comity?.name || "________"}</td>
-                        <td>{comity?.designation || "______"}</td>
-                        <td>__________________</td>
+                        <td>
+                          {comity?.name ||
+                            "________________________________________"}
+                        </td>
+                        <td>{comity?.designation || "__________________"}</td>
+                        <td>____________________</td>
                       </tr>
                     ))}
                     {!details?.comity && (
@@ -1392,18 +1395,25 @@ const TharavSet = () => {
                 >
                   <span>
                     બેઠક નં.{" "}
-                    <b>{Number(details?.meetingNumber) || "........"}</b>
+                    <b>
+                      {toGujaratiNumber(Number(details?.meetingNumber)) ||
+                        "........"}
+                    </b>
                   </span>
 
                   <span>
                     ઠરાવ નં.{" "}
-                    <b>{Number(details?.resolutionNumber) || "........"}</b>
+                    <b>
+                      {toGujaratiNumber(Number(details?.resolutionNumber)) ||
+                        "........"}
+                    </b>
                   </span>
 
                   <span>
                     તારીખ :-{" "}
                     <b>
-                      {formatDate(details?.workOrderDate) || ".../.../......"}
+                      {formatDate(details?.workOrderDate) ||
+                        ".................."}
                     </b>
                   </span>
                 </div>
@@ -1435,18 +1445,23 @@ const TharavSet = () => {
                   }}
                 >
                   સવિનય સાથ જણાવવાનું કે, ગુજરાત પંચાયત ધારાની–૧૯૯૩ કલમ નં.ર૦૦
-                  મુજબ ગ્રામ પંચાયતએ દર ૪ ચાર વર્ષે રિ – આકારણી સર્વે કરવાની
-                  ફરજીયાત હોય ગ્રા.પં. આકારણી ઠરાવ આધારે બેઠકમાં મંજુર કરેલ છે.
-                  તેમજ અત્રેની ગ્રામ પંચાયતની તારીખની બેઠકના ઠરાવ નં{" "}
-                  <b>{details?.resolutionNumber || "........."}</b> થી મિલ્કત
-                  આકારણી ગામની તમામ મિલ્કતોને ઘેર–ઘેર જઈને સ્થળ તપાસ કરી મિલ્કત
-                  આકારણી સર્વેની કામગીરી કરવા માટે એ.એફ.ઈન્ફોસીસ – સાવરકુંડલાને
-                  આ કામગીરી (જોબવર્ક) મજુરી થી ૧ – ઘર મકાન મિલ્કત દિઠ રૂ।
+                  મુજબ{" "}
+                  <span style={{ whiteSpace: "nowrap" }}>ગ્રામ પંચાયતએ </span>{" "}
+                  દર ૪ ચાર વર્ષે રિ – આકારણી સર્વે કરવાની ફરજીયાત હોય ગ્રા.પં.
+                  આકારણી ઠરાવ આધારે બેઠકમાં મંજુર કરેલ છે. તેમજ અત્રેની ગ્રામ
+                  પંચાયતની તારીખની બેઠકના ઠરાવ નં.{" "}
+                  <b>
+                    {toGujaratiNumber(details?.resolutionNumber) || "........."}
+                  </b>{" "}
+                  થી મિલ્કત આકારણી ગામની તમામ મિલ્કતોને ઘેર–ઘેર જઈને સ્થળ તપાસ
+                  કરી મિલ્કત આકારણી સર્વેની કામગીરી કરવા માટે એ.એફ.ઈન્ફોસીસ –
+                  સાવરકુંડલાને આ કામગીરી (જોબવર્ક) મજુરી થી ૧ – ઘર મકાન મિલ્કત
+                  દિઠ રૂ।.
                   <b style={{ textDecoration: "underline" }}>
-                    {details?.surveyHouseRate || "......."}
+                    {toGujaratiNumber(details?.surveyHouseRate) || "......."}
                   </b>
                   {"/- "}
-                  શબ્દોમાં{" "}
+                  શબ્દોમાં{", "}
                   <b
                     style={{
                       textDecoration: "underline",
@@ -1472,9 +1487,11 @@ const TharavSet = () => {
                   <b>
                     {formatDate(details?.workOrderDate) || ".../.../......"}
                   </b>{" "}
-                  થી બેઠકના ઠરાવ નં{" "}
-                  <b>{details?.resolutionNumber || "........."}</b> થી મંજુર
-                  કરેલ છે.
+                  થી બેઠકના ઠરાવ નં.{" "}
+                  <b>
+                    {toGujaratiNumber(details?.resolutionNumber) || "........."}
+                  </b>{" "}
+                  થી મંજુર કરેલ છે.
                 </p>
 
                 <p
@@ -2040,7 +2057,7 @@ const TharavSet = () => {
                   width: "100%",
                   paddingInline: "5px",
 
-                  marginTop: "20px",
+                  marginTop: "40px",
                 }}
               >
                 <div
@@ -2055,7 +2072,13 @@ const TharavSet = () => {
                     <b>{Number(details?.meetingNumber2) || "............"}</b>
                   </h3>
 
-                  <h3 style={{ fontSize: "16px", textWrap: "nowrap" }}>
+                  <h3
+                    style={{
+                      fontSize: "16px",
+                      textWrap: "nowrap",
+                      marginTop: "20px",
+                    }}
+                  >
                     ઠરાવ નં.{" "}
                     <b>
                       {Number(details?.resolutionNumber2) || "............"}
@@ -2126,17 +2149,22 @@ const TharavSet = () => {
                   textIndent: "20mm",
                   fontSize: "16px",
                   textAlign: "justify",
+                  lineHeight: "1.4",
                 }}
               >
                 આથી ઠરાવવામાં આવે છે કે, આપણા ગામે કરવેરાની નવી આકારણી ગુજરાત
-                પંચાયત અધિનિયમ ૧૯૯૩ કાયદાની કલમ ર૦૦ મુજબ ગ્રામ પંચાયતની બેઠક નં{" "}
-                <b>{Number(details?.meetingNumber2) || "............"}</b> તા{" "}
-                <b>
-                  {formatDate(details?.date2) ||
-                    "......./......../................"}
-                </b>{" "}
-                ના ઠરાવ નં{" "}
-                <b>{Number(details?.resolutionNumber2) || "............"}</b> થી
+                પંચાયત અધિનિયમ ૧૯૯૩ કાયદાની
+                <span style={{ lineHeight: "3" }}>
+                  કલમ ર૦૦ મુજબ ગ્રામ પંચાયતની બેઠક નં{" "}
+                  <b>{Number(details?.meetingNumber2) || "............"}</b> તા{" "}
+                  <b>
+                    {formatDate(details?.date2) ||
+                      "......./......../................"}
+                  </b>{" "}
+                  ના ઠરાવ નં{" "}
+                  <b>{Number(details?.resolutionNumber2) || "............"}</b>{" "}
+                  થી{" "}
+                </span>{" "}
                 ગામે મકાન કર, સામાન્ય પાણી કર, દિવાબતી કર, ખાસ પાણી કર, ગ્રામ
                 સફાઈ કર ની આકારણી કરી નમુના નં. ૮ રજીસ્ટર આકારણી કમિટી ધ્વારા
                 કરવામાં આવેલ છે જે રજીસ્ટર ગ્રામ પંચાયત કચેરીએ રજાના દિવસો સિવાય
@@ -2154,8 +2182,8 @@ const TharavSet = () => {
                 }}
               >
                 મુદત બહાર આવેલા તકકરાર વાંધા સુચનો ધ્યાને લેવામાં આવશે નહિ અને
-                નાણાકિય વર્ષ ૨૦ {details?.taxYear} થી {details?.taxYear} પંચાયત
-                વેરા અમલ થશે જે આકરણી કમિટીએ મંજુર કરેલ છે.
+                નાણાકિય વર્ષ {details?.taxYear || ""} પંચાયત વેરા અમલ થશે જે
+                આકરણી કમિટીએ મંજુર કરેલ છે.
               </p>
 
               <p
@@ -2193,9 +2221,13 @@ const TharavSet = () => {
                     {details?.comity?.map((comity, index) => (
                       <tr key={index}>
                         <td>{index + 1}</td>
-                        <td>{comity?.name || "________"}</td>
-                        <td>{comity?.designation || "______"}</td>
-                        <td> </td>
+                        <td style={{ minWidth: "300px" }}>
+                          {comity?.name || ""}
+                        </td>
+                        <td style={{ minWidth: "180px" }}>
+                          {comity?.designation || ""}
+                        </td>
+                        <td style={{ minWidth: "150px" }}> </td>
                       </tr>
                     ))}
                     {!details?.comity && (
