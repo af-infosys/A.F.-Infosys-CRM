@@ -84,6 +84,9 @@ const IndexIndex = ({ part, nop, project, totalHoouse }) => {
 
       {/* -------------------- 2. Main Title -------------------- */}
       <div className="text-center mt-10 mb-2">
+        <h2 className="text-2xl font-semibold mt-4 text-gray-700">
+          ગામનો નમુના નંબર ૯/ડી - કરવેરા રજીસ્ટર
+        </h2>
         <h1
           className="text-4xl font-extrabold text-blue-900  border-blue-900 p-4 inline-block"
           style={{
@@ -97,7 +100,7 @@ const IndexIndex = ({ part, nop, project, totalHoouse }) => {
             marginTop: "20px",
           }}
         >
-          Index Book - (પાનોત્રી બુક)
+          Index Book - પાનોત્રી બુક
         </h1>
         <h2 className="text-2xl font-semibold mt-4 text-gray-700">
           સને :- {project?.details?.taxYear || "2025/26"}

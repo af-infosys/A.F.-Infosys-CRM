@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.45defa99.css",
-    "main.js": "/static/js/main.bcd3adc3.js",
+    "main.js": "/static/js/main.ea1a6434.js",
     "static/js/977.87a37736.chunk.js": "/static/js/977.87a37736.chunk.js",
     "static/js/455.4f2c4757.chunk.js": "/static/js/455.4f2c4757.chunk.js",
     "static/js/453.57b2eab3.chunk.js": "/static/js/453.57b2eab3.chunk.js",
@@ -15,7 +15,6 @@
     "static/media/meeting-letter.png": "/static/media/meeting-letter.13630fbc3ee23abf3d84.png",
     "static/media/Government.png": "/static/media/Government.66ba0643d9f45d5f9dd2.png",
     "static/media/bg.png": "/static/media/bg.e11b062113c19ad9c846.png",
-    "static/media/houseTax.png": "/static/media/houseTax.a1e19d00cc7fbc70cf8d.png",
     "static/media/waterTax.png": "/static/media/waterTax.7ae5201d02b1b2ca8606.png",
     "static/media/cleanTax.png": "/static/media/cleanTax.3aabeda015566e3fc1ab.png",
     "static/media/circle.png": "/static/media/circle.c71fd130eef3e57d60ba.png",
@@ -72,13 +71,13 @@
     "static/media/House.png": "/static/media/House.640d0b1e39b36fd2550c.png",
     "index.html": "/index.html",
     "main.45defa99.css.map": "/static/css/main.45defa99.css.map",
-    "main.bcd3adc3.js.map": "/static/js/main.bcd3adc3.js.map",
+    "main.ea1a6434.js.map": "/static/js/main.ea1a6434.js.map",
     "977.87a37736.chunk.js.map": "/static/js/977.87a37736.chunk.js.map",
     "455.4f2c4757.chunk.js.map": "/static/js/455.4f2c4757.chunk.js.map",
     "453.57b2eab3.chunk.js.map": "/static/js/453.57b2eab3.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.45defa99.css",
-    "static/js/main.bcd3adc3.js"
+    "static/js/main.ea1a6434.js"
   ]
 }
