@@ -1029,7 +1029,6 @@ export const calculateValuation = async (req, res) => {
         otherTax.light = { curr: otherTaxdata[2][4] || "0" };
         otherTax.cleaning = { curr: otherTaxdata[3][4] || "0" };
       } else if (
-        propertyCategory === "ધાર્મિક સ્થળ" ||
         propertyCategory === "સરકારી મિલ્ક્ત" ||
         propertyCategory === "બેંક - સરકારી" ||
         propertyCategory === "પ્લોટ સરકારી - કોમનપ્લોટ" ||
@@ -1045,6 +1044,14 @@ export const calculateValuation = async (req, res) => {
 
         otherTax.light = { curr: otherTaxdata[2][5] || "0" };
         otherTax.cleaning = { curr: otherTaxdata[3][5] || "0" };
+      } else if (propertyCategory === "ધાર્મિક સ્થળ") {
+        propertyPrice = 0;
+        tax = 0;
+
+        otherTax.normal_water = { curr: 0 };
+        otherTax.special_water = { curr: 0 };
+        otherTax.light = { curr: 0 };
+        otherTax.cleaning = { curr: 0 };
       }
 
       // ---- Collect updates ----

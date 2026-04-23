@@ -35,7 +35,7 @@ const TarijChart = ({ project, total, totalResidence, name }) => {
         className="text-xl font-bold text-center mb-0 text-gray-800"
         style={{ paddingTop: "80px" }}
       >
-        ચાર્ટ તારીજ કુલ માંગણાં નો રિપોર્ટ (તારીજ) {name && ` - ${name}`} સને{" "}
+        ચાર્ટ તારીજ કુલ માંગણાં નો રિપોર્ટ (તારીજ) {name && ` - ${name}`} સને
         {project?.details?.taxYear || ""}
       </h1>
 
@@ -60,8 +60,9 @@ const TarijChart = ({ project, total, totalResidence, name }) => {
             display: "flex",
             flexDirection: "column",
             gap: "20px",
-            justifyContent: "center",
+            justifyContent: "flex-end",
             maxWidth: "50px",
+            paddingBottom: "30px",
           }}
         >
           <img src={House1} style={{ width: "100%" }} />
@@ -128,6 +129,15 @@ const TarijChart = ({ project, total, totalResidence, name }) => {
                 name: `સફાઈ વેરો`,
                 count: total?.cleanTax?.curr || 0,
               },
+              {
+                name: `કુલ વેરો`,
+                count:
+                  total?.houseTax?.curr +
+                    total?.waterTax?.curr +
+                    total?.specialTax?.curr +
+                    total?.lightTax?.curr +
+                    total?.cleanTax?.curr || 0,
+              },
             ]}
           >
             <CartesianGrid strokeDasharray="3 3" />
@@ -137,9 +147,10 @@ const TarijChart = ({ project, total, totalResidence, name }) => {
             <Bar dataKey="count" barSize={60}>
               <Cell fill="#2ECC71" />
               <Cell fill="#E74C3C" />
-              <Cell fill="#9B59B6" />
               <Cell fill="#F39C12" />
-              <Cell fill="#3498DB" />
+              <Cell fill="#9B59B6" />
+              <Cell fill="#FCD34D" />
+              <Cell fill="#3B82F6" />
 
               <LabelList
                 dataKey="count"
@@ -154,10 +165,11 @@ const TarijChart = ({ project, total, totalResidence, name }) => {
       <div
         style={{
           display: "flex",
-          gap: "100px",
+          gap: "72px",
           justifyContent: "center",
           maxHeight: "70px",
-          paddingLeft: "310px",
+          paddingLeft: "340px",
+          paddingRight: "0px",
 
           marginTop: "5px",
         }}
@@ -167,6 +179,112 @@ const TarijChart = ({ project, total, totalResidence, name }) => {
         <img src={specialTax} style={{ width: "50px" }} />
         <img src={lightTax} style={{ width: "50px" }} />
         <img src={cleanTax} style={{ width: "50px" }} />
+
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            fontSize: "12px",
+            lineHeight: "15px",
+            paddingLeft: "15px",
+          }}
+        >
+          <span>ઘર વેરો</span>
+
+          <span>સામાન્ય પાણી વેરો</span>
+
+          <span>ખાસ પાણી વેરો</span>
+
+          <span>લાઈટ વેરો</span>
+
+          <span>સફાઈ વેરો</span>
+        </div>
+      </div>
+
+      <div
+        style={{
+          display: "flex",
+          gap: "72px",
+          justifyContent: "center",
+          maxHeight: "70px",
+          paddingLeft: "310px",
+          paddingRight: "0px",
+
+          marginTop: "15px",
+        }}
+      >
+        <span
+          style={{
+            border: "1px solid black",
+            padding: "5px 10px",
+            fontSize: "12px",
+            fontWeight: "700",
+            minWidth: "50px",
+            textAlign: "center",
+          }}
+        >
+          A
+        </span>
+        <span
+          style={{
+            border: "1px solid black",
+            padding: "5px 10px",
+            fontSize: "12px",
+            fontWeight: "700",
+            minWidth: "50px",
+            textAlign: "center",
+          }}
+        >
+          B
+        </span>
+        <span
+          style={{
+            border: "1px solid black",
+            padding: "5px 10px",
+            fontSize: "12px",
+            fontWeight: "700",
+            minWidth: "50px",
+            textAlign: "center",
+          }}
+        >
+          C
+        </span>
+        <span
+          style={{
+            border: "1px solid black",
+            padding: "5px 10px",
+            fontSize: "12px",
+            fontWeight: "700",
+            minWidth: "50px",
+            textAlign: "center",
+          }}
+        >
+          D
+        </span>
+        <span
+          style={{
+            border: "1px solid black",
+            padding: "5px 10px",
+            fontSize: "12px",
+            fontWeight: "700",
+            minWidth: "50px",
+            textAlign: "center",
+          }}
+        >
+          E
+        </span>{" "}
+        <span
+          style={{
+            border: "1px solid black",
+            padding: "5px 10px",
+            fontSize: "12px",
+            fontWeight: "700",
+            minWidth: "50px",
+            textAlign: "center",
+          }}
+        >
+          F
+        </span>
       </div>
     </div>
   );
