@@ -231,7 +231,7 @@ const AkarniPageImage = ({
                 <div
                   style={{
                     width: "200px",
-                    maxHeight: "120px",
+                    maxHeight: "100px",
                     textAlign: "center",
                   }}
                 >

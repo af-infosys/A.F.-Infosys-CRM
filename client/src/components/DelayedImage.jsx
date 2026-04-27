@@ -44,6 +44,7 @@ const DelayedImage = ({ fileId, delayIndex }) => {
       style={{
         width: "100%",
         height: "auto",
+        maxHeight: "100px",
         borderRadius: "8px",
         border: "1px solid #ddd",
       }}
