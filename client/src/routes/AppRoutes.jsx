@@ -42,7 +42,7 @@ import AnalyticsReport from "../features/survay/AnalysisReport";
 import TaxRegister from "../features/survay/TaxRegister";
 import TarijReport from "../features/survay/TarijReport";
 import SurvayFormImage from "../features/survay/SurvayFormImage";
-import SurvayReportImage from "../features/survay/SurvayReportImage";
+import SurvayReportImage2 from "../features/survay/SurvayReportImage2";
 import AkarniExcelEdit from "../components/excel/AkarniExcelEdit";
 import BillWork from "../features/staff/BillWork";
 import NotFound from "../components/NotFound";
@@ -165,7 +165,7 @@ export default function AppRoutes() {
             path="akarniImgReport/:projectId"
             element={
               <ProtectedRoute allowedRoles={["owner"]}>
-                <SurvayReportImage />
+                <SurvayReportImage2 />
               </ProtectedRoute>
             }
           />

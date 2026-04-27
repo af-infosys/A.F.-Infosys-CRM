@@ -16,7 +16,7 @@ const DelayedImage = ({ fileId, delayIndex }) => {
 
     const timer = setTimeout(() => {
       setImgSrc(url);
-    }, delayIndex * 1000);
+    }, delayIndex * 200);
 
     return () => clearTimeout(timer);
   }, [fileId, delayIndex]);
@@ -24,7 +24,7 @@ const DelayedImage = ({ fileId, delayIndex }) => {
   if (hasError) {
     return (
       <div style={{ fontSize: "12px", color: "red", padding: "10px" }}>
-        Image Error {imgSrc}
+        Image Error
       </div>
     );
   }
