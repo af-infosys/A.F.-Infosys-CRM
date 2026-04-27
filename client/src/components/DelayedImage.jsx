@@ -16,7 +16,7 @@ const DelayedImage = ({ fileId, delayIndex }) => {
 
     const timer = setTimeout(() => {
       setImgSrc(url);
-    }, delayIndex * 2000);
+    }, delayIndex * 1000);
 
     return () => clearTimeout(timer);
   }, [fileId, delayIndex]);
