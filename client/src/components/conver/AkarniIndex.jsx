@@ -308,7 +308,7 @@ const AkarniIndex = ({
           color: "black",
         }}
       >
-        {part}
+        {toGujaratiNumber(part)}
       </b>
 
       <b
@@ -321,7 +321,7 @@ const AkarniIndex = ({
           color: "black",
         }}
       >
-        {coverProperties}
+        {toGujaratiNumber(coverProperties)}
       </b>
 
       <b
@@ -334,7 +334,7 @@ const AkarniIndex = ({
           color: "black",
         }}
       >
-        {`${pageFrom} થી ${pageTo}`}
+        {toGujaratiNumber(`${pageFrom} થી ${pageTo}`)}
       </b>
 
       <b
@@ -347,7 +347,7 @@ const AkarniIndex = ({
           color: "black",
         }}
       >
-        {totalHoouse}
+        {toGujaratiNumber(totalHoouse)}
       </b>
 
       <p

@@ -205,6 +205,8 @@ const SurvayReportImage = () => {
         style={{ position: "relative", left: "0px" }}
       >
         {records.map((record, pageIndex) => {
+          if (pageIndex !== 0) return null;
+
           return (
             <div
               key={pageIndex}
@@ -545,10 +547,19 @@ const SurvayReportImage = () => {
                       style={{ width: "30%", textAlign: "center" }}
                     >
                       {fileId ? (
-                        <DelayedImage
-                          fileId={fileId}
-                          delayIndex={uniqueDelayIndex}
-                        />
+                        <>
+                          <img
+                            id="drive-img4"
+                            src="https://lh3.googleusercontent.com/u/0/d/1eJ-kNiecTuPXv4CSWZOmx3_K1m1BvUWk"
+                            crossorigin="anonymous"
+                            width="200"
+                            alt="Drive 4"
+                          />
+                          <DelayedImage
+                            fileId={fileId}
+                            delayIndex={uniqueDelayIndex}
+                          />
+                        </>
                       ) : (
                         <h2 style={{ fontSize: "14px", color: "#666" }}>
                           No Image
