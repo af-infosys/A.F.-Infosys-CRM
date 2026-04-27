@@ -228,7 +228,13 @@ const AkarniPageImage = ({
                 <span className="formatting">{record[3]}</span>
               </td>{" "}
               <td className="" style={cellStyle}>
-                <div style={{ width: "200px", textAlign: "center" }}>
+                <div
+                  style={{
+                    width: "200px",
+                    maxHeight: "120px",
+                    textAlign: "center",
+                  }}
+                >
                   <DelayedImage
                     fileId={JSON.parse(record[26] || "[]")[0] || null}
                     delayIndex={index + 1}

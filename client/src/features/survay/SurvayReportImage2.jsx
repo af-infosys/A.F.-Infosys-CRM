@@ -611,7 +611,7 @@ const SurvayReportImage2 = () => {
       setLoading(false);
     }
   }; // --- LOGIC STARTS HERE ---
-  const PROPERTIES_PER_PAGE = 5;
+  const PROPERTIES_PER_PAGE = 4;
   const BUNDLE_SIZE = 100;
 
   const finalRenderPages = buildFinalPages(
