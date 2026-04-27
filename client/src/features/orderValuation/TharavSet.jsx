@@ -392,7 +392,13 @@ const TharavSet = () => {
                     <b>{Number(details?.meetingNumber) || "............"}</b>
                   </h3>
 
-                  <h3 style={{ fontSize: "14px", textWrap: "nowrap" }}>
+                  <h3
+                    style={{
+                      fontSize: "14px",
+                      textWrap: "nowrap",
+                      marginTop: "10px",
+                    }}
+                  >
                     ઠરાવ નં.{" "}
                     <b>{Number(details?.resolutionNumber) || "............"}</b>
                   </h3>
@@ -407,7 +413,7 @@ const TharavSet = () => {
                   ગ્રામ પંચાયત બેઠક તારીખ :–{" "}
                   <b>
                     {formatDate(details?.meetingDate) ||
-                      "......./......../................"}
+                      ".........../............/..................."}
                   </b>
                 </h3>
 
@@ -584,22 +590,24 @@ const TharavSet = () => {
                 <b>
                   સામાન્ય પાણી વેરો રૂ।.
                   {toGujaratiNumber(taxes[0]?.values?.residence) || "0"}
-                </b>{" "}
+                </b>
+                {"/- "}
                 લેખે તથા{" "}
                 <b>
                   દિવાબતિ (લાઈટ વેરો) રૂ।.
                   {toGujaratiNumber(taxes[2]?.values?.residence) || "0"}
                 </b>{" "}
-                લેખે તેમજ{" "}
+                લેખે તેમજ{"/- "}
                 <b>
                   સફાઈ વેરો રૂ।.
                   {toGujaratiNumber(taxes[3]?.values?.residence) || "0"}
                 </b>
-                ,{" "}
+                ,{"/- "}
                 <b>
                   ખાસ પાણી વેરો નળ વેરો રૂ।.
                   {toGujaratiNumber(taxes[1]?.values?.residence) || "0"}{" "}
-                </b>{" "}
+                </b>
+                {"/- "}
                 વાર્ષિક લેખે આકાર નકિક કરવામાં છે તેમજ કિંમત અને વેરો બેસાડવાનો
                 નિર્ણય કરેલ છે.
               </p>
@@ -705,9 +713,9 @@ const TharavSet = () => {
                 આવે છે અને આ અંગેનો ખર્ચ ગ્રામ પંચાયતના સ્વભંડોળ માંથી કરવાનો
                 રહેશે.
               </p>
-              <p> દરખાસ્ત મુકનાર </p>
-              <p> ટેકો આપનાર </p>
-              <p> ઠરાવ સર્વાનુમતે મંજુર</p>
+              <p style={{ marginTop: "10px" }}> દરખાસ્ત મુકનાર </p>
+              <p style={{ marginTop: "10px" }}> ટેકો આપનાર </p>
+              <p style={{ marginTop: "10px" }}> ઠરાવ સર્વાનુમતે મંજુર </p>
               <p
                 style={{
                   display: "flex",
@@ -716,11 +724,11 @@ const TharavSet = () => {
                 }}
               >
                 <b>અસલ ઉપરથી નકલ</b>
-                <span style={{ whiteSpace: "nowrap" }}>
+                <span style={{ whiteSpace: "nowrap", marginTop: "10px" }}>
                   તારીખ :–{" "}
                   <b>
                     {formatDate(details?.meetingDate) ||
-                      "......./......../................"}
+                      ".........../............/..................."}
                   </b>
                 </span>
               </p>
@@ -964,7 +972,7 @@ const TharavSet = () => {
                   ગ્રામ પંચાયત બેઠકની તારીખ{" "}
                   <b>
                     {formatDate(details?.meetingDate) ||
-                      "......./......../................"}
+                      ".........../............/..................."}
                   </b>{" "}
                   અને બેઠક નં. {details?.resolutionNumber || "........."} ઠરાવ
                   નં. {details?.meetingNumber || "........."} ના આધારે બન્ને
@@ -2095,7 +2103,7 @@ const TharavSet = () => {
                   તારીખ :–{" "}
                   <b>
                     {formatDate(details?.date2) ||
-                      "......./......../................"}
+                      ".........../............/..................."}
                   </b>
                 </h3>
 
@@ -2159,7 +2167,7 @@ const TharavSet = () => {
                   <b>{Number(details?.meetingNumber2) || "............"}</b> તા{" "}
                   <b>
                     {formatDate(details?.date2) ||
-                      "......./......../................"}
+                      ".........../............/..................."}
                   </b>{" "}
                   ના ઠરાવ નં{" "}
                   <b>{Number(details?.resolutionNumber2) || "............"}</b>{" "}

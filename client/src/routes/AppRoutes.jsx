@@ -57,6 +57,8 @@ import UpdateStatus from "../features/projects/Status";
 import OwnerAdmin from "../layouts/OwnerAdmin";
 import ManglaRegister from "../features/survay/ManglaReport";
 import VasulatRegister from "../features/survay/VasulatReport";
+import TaxEntryFrom from "../components/excel/TaxEntryFrom";
+import TaxEntry from "../features/survay/TaxEntry";
 
 export default function AppRoutes() {
   const { user } = useAuth();
@@ -182,6 +184,24 @@ export default function AppRoutes() {
             element={
               <ProtectedRoute allowedRoles={["owner"]}>
                 <TaxRegister />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="taxform/:projectId"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <TaxEntry />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="taxform/:projectId/:mId"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <TaxEntryFrom />
               </ProtectedRoute>
             }
           />

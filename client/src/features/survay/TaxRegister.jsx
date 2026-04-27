@@ -8,7 +8,7 @@ import apiPath from "../../isProduction";
 import jsPDF from "jspdf";
 
 import html2canvas from "html2canvas";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -21,6 +21,8 @@ import { saveAs } from "file-saver";
 import TaxIndexRaw from "../../components/conver/TaxIndexRaw";
 
 const TaxRegister = () => {
+  const navigate = useNavigate();
+
   const [records, setRecords] = useState([]);
 
   const [loading, setLoading] = useState(true);
@@ -1067,6 +1069,13 @@ const TaxRegister = () => {
           </div>
         </div>
       )}
+      <br /> <br />
+      <button
+        onClick={() => navigate(`/survay/taxform/${projectId}`)}
+        className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      >
+        Tax Entry Form
+      </button>
       <br /> <br />
       <button
         onClick={calculateValue}
