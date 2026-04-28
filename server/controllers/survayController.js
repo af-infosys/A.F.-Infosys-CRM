@@ -375,9 +375,7 @@ export const syncSheetRecord = async (req, res) => {
         "",
         "",
 
-        img1 || "",
-        img2 || "",
-        img3 || "",
+        `["${img1 || ""}", "${img2 || ""}", "${img3 || ""}"]`,
       ]);
     }
 
@@ -714,7 +712,7 @@ export const editSheetRecord = async (req, res) => {
 
     // Handle Image Links (Columns 25-27 / Indices 24-26)
     // img1 (25th Column) -> Index 24
-    updatedRow[26] = JSON.stringify([img1, img2, img3]) || [];
+    updatedRow[26] = `["${img1 || ""}", "${img2 || ""}", "${img3 || ""}"]`;
 
     // --- API ERROR FIX ---
     // CRITICAL: Ensure the array length does not exceed 27 elements (indices 0-26).
@@ -723,6 +721,161 @@ export const editSheetRecord = async (req, res) => {
       updatedRow.length = 28;
     }
     // --- END API ERROR FIX ---
+
+    // Update the sheet row
+    await googleSheets.spreadsheets.values.update({
+      spreadsheetId: SPREADSHEET_ID,
+      range: `${workId}_Main!A${rowNumber}:AA${rowNumber}`,
+      valueInputOption: "RAW",
+      requestBody: {
+        values: [updatedRow],
+      },
+    });
+
+    res.status(200).json({
+      message: "Record updated successfully!",
+      updatedRow,
+    });
+  } catch (error) {
+    console.error("Error updating record:", error.message);
+    res.status(500).json({
+      message: "Failed to update record",
+      error: error.message,
+    });
+  }
+};
+
+export const editTaxRecord = async (req, res) => {
+  const workId = req.body.workId;
+
+  try {
+    const client = await auth.getClient();
+    const googleSheets = google.sheets({ version: "v4", auth: client });
+
+    // Fetch current records to find the row number.
+    const response = await googleSheets.spreadsheets.values.get({
+      spreadsheetId: SPREADSHEET_ID,
+      range: `${workId}_Main!A4:AA`,
+    });
+
+    const records = response.data.values || [];
+    const { id } = req.params;
+
+    const rowIndex = records.findIndex(
+      (record) => Number(record[0]) === Number(id),
+    );
+
+    if (rowIndex === -1) {
+      return res.status(404).json({ message: "Record not found" });
+    }
+
+    const rowNumber = rowIndex + 4; // Adjust for A4 start
+
+    const existingRow = records[rowIndex];
+
+    const { formData, taxes, receiptDetails } = req.body;
+
+    const updatedRow = [...existingRow];
+
+    updatedRow[20] = taxes[0]?.demand?.chalu || 0;
+    updatedRow[22] = taxes[0]?.demand?.pb || 0;
+
+    const otherTax = JSON.parse(existingRow[21] || "{}");
+    const otherTaxPrev = JSON.parse(existingRow[23] || "{}");
+
+    updatedRow[21] = JSON.stringify({
+      ...otherTax,
+      normal_water: {
+        curr: taxes[1]?.demand?.chalu || 0,
+        vasulat: taxes[1]?.recovery?.chalu || 0,
+      },
+      special_water: {
+        curr: taxes[2]?.demand?.chalu || 0,
+        vasulat: taxes[2]?.recovery?.chalu || 0,
+      },
+      light: {
+        curr: taxes[3]?.demand?.chalu || 0,
+        vasulat: taxes[3]?.recovery?.chalu || 0,
+      },
+      cleaning: {
+        curr: taxes[4]?.demand?.chalu || 0,
+        vasulat: taxes[4]?.recovery?.chalu || 0,
+      },
+    });
+
+    updatedRow[23] = JSON.stringify({
+      ...otherTaxPrev,
+      normal_water: {
+        prev: taxes[1]?.demand?.pb || 0,
+        vasulat: taxes[1]?.recovery?.pb || 0,
+      },
+      special_water: {
+        prev: taxes[2]?.demand?.pb || 0,
+        vasulat: taxes[2]?.recovery?.pb || 0,
+      },
+      light: {
+        prev: taxes[3]?.demand?.pb || 0,
+        vasulat: taxes[3]?.recovery?.pb || 0,
+      },
+      cleaning: {
+        prev: taxes[4]?.demand?.pb || 0,
+        vasulat: taxes[4]?.recovery?.pb || 0,
+      },
+    });
+
+    const otherDetails = JSON.parse(existingRow[24] || "{}");
+
+    updatedRow[24] = JSON.stringify({
+      ...otherDetails,
+
+      vasulat: {
+        prevtax: taxes[0]?.recovery?.pb || 0,
+        currtax: taxes[0]?.recovery?.chalu || 0,
+      },
+
+      receipt:
+        typeof receiptDetails === "string"
+          ? JSON.parse(receiptDetails)
+          : receiptDetails || {},
+
+      freez: true,
+    });
+
+    //  {
+    //   id: "house",
+    //   name: "ઘર વેરો",
+    //   demand: { pb: 0, chalu: 0 },
+    //   recovery: { pb: 0, chalu: 0 },
+    //   advance: { last: 0, chalu: 0 },
+    // },
+    // {
+    //   id: "water_gen",
+    //   name: "સામાન્ય પાણી વેરો",
+    //   demand: { pb: 0, chalu: 0 },
+    //   recovery: { pb: 0, chalu: 0 },
+    //   advance: { last: 0, chalu: 0 },
+    // },
+    // {
+    //   id: "water_spl",
+    //   name: "ખાસ પાણી વેરો",
+    //   demand: { pb: 0, chalu: 0 },
+    //   recovery: { pb: 0, chalu: 0 },
+    //   advance: { last: 0, chalu: 0 },
+    // },
+    // {
+    //   id: "light",
+    //   name: "લાઇટ વેરો",
+    //   demand: { pb: 0, chalu: 0 },
+    //   recovery: { pb: 0, chalu: 0 },
+    //   advance: { last: 0, chalu: 0 },
+    // },
+    // {
+    //   id: "cleaning",
+    //   name: "સફાઈ વેરો",
+    //   demand: { pb: 0, chalu: 0 },
+    //   recovery: { pb: 0, chalu: 0 },
+    //   advance: { last: 0, chalu: 0 },
+    // },
 
     // Update the sheet row
     await googleSheets.spreadsheets.values.update({
@@ -794,6 +947,10 @@ export const calculateValuation = async (req, res) => {
     // 2. Loop through rows and calculate
     let updates = [];
     records.forEach((row, rowIndex) => {
+      if (JSON.parse(row[24] || "{}")?.freez === true) {
+        return;
+      } // Skip manuall edited taxes row
+
       const propertyCategory = row[8] || ""; // index 7
       const jsonData = row[15] ? JSON.parse(row[15]) : []; // index 14
 
@@ -1160,8 +1317,6 @@ export const insertRecord = async (req, res) => {
       "",
 
       img1,
-      img2,
-      img3,
     ];
 
     // Step 1: Fetch existing records

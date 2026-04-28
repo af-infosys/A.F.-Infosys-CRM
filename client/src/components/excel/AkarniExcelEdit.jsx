@@ -208,36 +208,37 @@ const AkarniExcelEdit = () => {
     mobile: { label: "મોબાઈલ નંબર", width: "w-[8%]", type: "tel", colIndex: 6 },
     propName: { label: "મિલ્કત પર લખેલ નામ", width: "w-[10%]", colIndex: 7 },
     description: { label: "મિલ્કતનું વર્ણન", width: "w-[16%]", colIndex: 16 },
-    valuation: {
-      label: "મિલ્કતની કિંમત",
-      width: "w-[8%]",
-      type: "text",
-      colIndex: 19,
-    },
-    tax: {
-      label: "ધર વેરો",
-      width: "w-[8%]",
-      type: "text",
-      colIndex: 20,
-    },
-    preTax: {
-      label: "ધર વેરો (પાછલી બાકી)",
-      width: "w-[9%]",
-      type: "text",
-      colIndex: 22,
-    },
-    otherTax: {
-      label: "અન્ય વેરા",
-      width: "w-[280px]",
-      type: "text",
-      colIndex: 21,
-    },
-    preOtherTax: {
-      label: "અન્ય વેરા (પાછલી બાકી)",
-      width: "w-[280px]",
-      type: "text",
-      colIndex: 23,
-    },
+
+    // valuation: {
+    //   label: "મિલ્કતની કિંમત",
+    //   width: "w-[8%]",
+    //   type: "text",
+    //   colIndex: 19,
+    // },
+    // tax: {
+    //   label: "ધર વેરો",
+    //   width: "w-[8%]",
+    //   type: "text",
+    //   colIndex: 20,
+    // },
+    // preTax: {
+    //   label: "ધર વેરો (પાછલી બાકી)",
+    //   width: "w-[9%]",
+    //   type: "text",
+    //   colIndex: 22,
+    // },
+    // otherTax: {
+    //   label: "અન્ય વેરા",
+    //   width: "w-[280px]",
+    //   type: "text",
+    //   colIndex: 21,
+    // },
+    // preOtherTax: {
+    //   label: "અન્ય વેરા (પાછલી બાકી)",
+    //   width: "w-[280px]",
+    //   type: "text",
+    //   colIndex: 23,
+    // },
 
     tap: { label: "નળ", width: "w-[3%]", type: "number", colIndex: 12 }, // Yes/No or 1/0
     toilet: { label: "શોચાલય", width: "w-[3%]", type: "text", colIndex: 13 }, // Yes/No or 1/0

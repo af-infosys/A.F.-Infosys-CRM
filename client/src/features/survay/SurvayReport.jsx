@@ -1174,7 +1174,7 @@ const SurvayReport = () => {
                 <AkarniPageBlank
                   project={project}
                   pageIndex={item?.pageIndex}
-                  pageRecords={PROPERTIES_PER_PAGE}
+                  pageRecords={PROPERTIES_PER_PAGE - 2}
                   totalHoouse={records?.length}
                   current={finalRenderPages.length + idx + 1}
                   totalPages={finalRenderPages?.length}

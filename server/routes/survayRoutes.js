@@ -3,6 +3,7 @@ import {
   addArea,
   addSheetRecord,
   editSheetRecord,
+  editTaxRecord,
   deleteSheetRecord,
   EditArea,
   getAllAreas,
@@ -28,6 +29,8 @@ survayRoutes.put("/excel", excelEdit);
 
 survayRoutes.put("/areas/:id", EditArea);
 survayRoutes.delete("/areas/:id", DeleteArea);
+
+survayRoutes.put("/tax/:id", editTaxRecord);
 
 // General routes for / (records)
 survayRoutes.post("/add", addSheetRecord);
