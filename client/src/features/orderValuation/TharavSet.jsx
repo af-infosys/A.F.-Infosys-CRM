@@ -389,7 +389,10 @@ const TharavSet = () => {
                 >
                   <h3 style={{ fontSize: "14px", textWrap: "nowrap" }}>
                     બેઠક નં.{" "}
-                    <b>{Number(details?.meetingNumber) || "............"}</b>
+                    <b>
+                      {toGujaratiNumber(details?.meetingNumber) ||
+                        "............"}
+                    </b>
                   </h3>
 
                   <h3
@@ -400,7 +403,10 @@ const TharavSet = () => {
                     }}
                   >
                     ઠરાવ નં.{" "}
-                    <b>{Number(details?.resolutionNumber) || "............"}</b>
+                    <b>
+                      {toGujaratiNumber(details?.resolutionNumber) ||
+                        "............"}
+                    </b>
                   </h3>
                 </div>
 
@@ -888,7 +894,8 @@ const TharavSet = () => {
                   <span>
                     તારીખ :-{" "}
                     <b>
-                      {formatDate(details?.workOrderDate) || ".../.../......"}
+                      {formatDate(details?.workOrderDate) ||
+                        "............................"}
                     </b>
                   </span>
                 </div>
@@ -1404,15 +1411,14 @@ const TharavSet = () => {
                   <span>
                     બેઠક નં.{" "}
                     <b>
-                      {toGujaratiNumber(Number(details?.meetingNumber)) ||
-                        "........"}
+                      {toGujaratiNumber(details?.meetingNumber) || "........"}
                     </b>
                   </span>
 
                   <span>
                     ઠરાવ નં.{" "}
                     <b>
-                      {toGujaratiNumber(Number(details?.resolutionNumber)) ||
+                      {toGujaratiNumber(details?.resolutionNumber) ||
                         "........"}
                     </b>
                   </span>
@@ -1492,8 +1498,9 @@ const TharavSet = () => {
                   સદરહુ આકારણી સર્વેની કામગીરી કોમ્પ્યુટરાઈઝડ આકારણી રજીસ્ટર
                   તેમજ કરવેરા રજીસ્ટર બનાવી (જોબવર્ક) મજુરી થી કરી આપવાનું રહેશે
                   અત્રેની ગ્રામ પંચાયત તારીખ :–{" "}
-                  <b>
-                    {formatDate(details?.workOrderDate) || ".../.../......"}
+                  <b style={{ lineHeight: "2.1" }}>
+                    {formatDate(details?.workOrderDate) ||
+                      "............................"}
                   </b>{" "}
                   થી બેઠકના ઠરાવ નં.{" "}
                   <b>
@@ -1769,18 +1776,24 @@ const TharavSet = () => {
                 >
                   <span>
                     બેઠક નં.{" "}
-                    <b>{Number(details?.meetingNumber) || "........"}</b>
+                    <b>
+                      {toGujaratiNumber(details?.meetingNumber) || "........"}
+                    </b>
                   </span>
 
                   <span>
                     ઠરાવ નં.{" "}
-                    <b>{Number(details?.resolutionNumber) || "........"}</b>
+                    <b>
+                      {toGujaratiNumber(details?.resolutionNumber) ||
+                        "........"}
+                    </b>
                   </span>
 
                   <span>
                     તારીખ :-{" "}
                     <b>
-                      {formatDate(details?.jaheratDate) || ".../.../......"}
+                      {formatDate(details?.jaheratDate) ||
+                        "............................"}
                     </b>
                   </span>
                 </div>
