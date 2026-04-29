@@ -1105,9 +1105,17 @@ const ManglaRegister = () => {
                       <th
                         className="th"
                         rowSpan="3"
+                        style={{ maxWidth: "45px", verticalAlign: "top" }}
+                      >
+                        <span className="formatting">ખાતા નંબર</span>
+                      </th>
+
+                      <th
+                        className="th"
+                        rowSpan="3"
                         style={{
-                          minWidth: "40px",
-                          maxWidth: "40px",
+                          minWidth: "90px",
+                          maxWidth: "90px",
                           verticalAlign: "top",
                         }}
                       >
@@ -1126,7 +1134,7 @@ const ManglaRegister = () => {
 
                       <th
                         className="th"
-                        colSpan="16"
+                        colSpan="18"
                         style={{ maxWidth: "60px" }}
                       >
                         <span className="formatting">માંગણું</span>
@@ -1176,20 +1184,20 @@ const ManglaRegister = () => {
 
                       <th
                         className="th"
-                        rowSpan="2"
+                        colSpan="3"
                         style={{ maxWidth: "60px" }}
                       >
                         <span
                           className="formatting"
                           style={{ textWrap: "wrap" }}
                         >
-                          કુલ સરવાળો
+                          કુલ એકંદર
                         </span>
                       </th>
                     </tr>
 
                     <tr>
-                      {Array.from({ length: 5 }).map((_, index) => (
+                      {Array.from({ length: 6 }).map((_, index) => (
                         <>
                           <th className="th">
                             <span className="formatting">પા.બા</span>
@@ -1208,7 +1216,7 @@ const ManglaRegister = () => {
                     {/* Index Start */}
                     <tr>
                       {/* 1 to 18 th for index */}
-                      {Array.from({ length: 19 }).map((_, index) => (
+                      {Array.from({ length: 22 }).map((_, index) => (
                         <th
                           className="text-xs font-medium text-gray-500 uppercase tracking-wider"
                           style={{
@@ -1238,6 +1246,14 @@ const ManglaRegister = () => {
                           >
                             <span className="formatting">
                               {toGujaratiNumber(record[0])}
+                            </span>
+                          </th>
+
+                          <th
+                            style={{ textAlign: "right", verticalAlign: "top" }}
+                          >
+                            <span className="formatting">
+                              {toGujaratiNumber(record[2])}
                             </span>
                           </th>
 
@@ -1424,6 +1440,54 @@ const ManglaRegister = () => {
                           </td>
 
                           {/* કુલ એકંદર */}
+                          <td className="td" style={{ textAlign: "right" }}>
+                            <span className="formatting">
+                              {toGujaratiNumber(
+                                Number(record[22] || " ") +
+                                  Number(
+                                    JSON.parse(record[23] || "{}")?.normal_water
+                                      ?.prev || " ",
+                                  ) +
+                                  Number(
+                                    JSON.parse(record[23] || "{}")
+                                      ?.special_water?.prev || " ",
+                                  ) +
+                                  Number(
+                                    JSON.parse(record[23] || "{}")?.light
+                                      ?.prev || " ",
+                                  ) +
+                                  Number(
+                                    JSON.parse(record[23] || "{}")?.cleaning
+                                      ?.prev || " ",
+                                  ),
+                              )}
+                            </span>
+                          </td>
+
+                          <td className="td" style={{ textAlign: "right" }}>
+                            <span className="formatting">
+                              {toGujaratiNumber(
+                                Number(record[20] || " ") +
+                                  Number(
+                                    JSON.parse(record[21] || "{}")?.normal_water
+                                      ?.curr || " ",
+                                  ) +
+                                  Number(
+                                    JSON.parse(record[21] || "{}")
+                                      ?.special_water?.curr || " ",
+                                  ) +
+                                  Number(
+                                    JSON.parse(record[21] || "{}")?.light
+                                      ?.curr || " ",
+                                  ) +
+                                  Number(
+                                    JSON.parse(record[21] || "{}")?.cleaning
+                                      ?.curr || " ",
+                                  ),
+                              )}
+                            </span>
+                          </td>
+
                           <td className="td" style={{ textAlign: "right" }}>
                             <span className="formatting">
                               {toGujaratiNumber(

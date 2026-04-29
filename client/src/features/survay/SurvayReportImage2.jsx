@@ -1052,6 +1052,7 @@ const SurvayReportImage2 = () => {
                     pageFrom={item.pageFrom}
                     pageTo={item.pageTo}
                     totalNormalBundles={item.totalNormalBundles || 0}
+                    photograph={true}
                   />
                 ) : (
                   <AkarniIndexRaw
@@ -1065,6 +1066,7 @@ const SurvayReportImage2 = () => {
                     pageFrom={item.pageFrom}
                     pageTo={item.pageTo}
                     totalNormalBundles={item.totalNormalBundles || 0}
+                    photograph={true}
                   />
                 )}
               </div>

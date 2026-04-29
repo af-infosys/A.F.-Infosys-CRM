@@ -36,7 +36,7 @@ const TharavPage2 = ({ project }) => {
         </h1>
       </header>
 
-      <p style={{ fontSize: "19px", textIndent: "100px" }}>
+      <p style={{ fontSize: "19px", textIndent: "100px", lineHeight: "2" }}>
         સદરહુ મોજે <span>{project?.spot?.gaam || "................"}</span>{" "}
         તાલુકો <span>{project?.spot?.taluka || "..............."}</span>{" "}
         જિલ્લાની <span>{project?.spot?.district || "..............."}</span> સને
@@ -45,7 +45,7 @@ const TharavPage2 = ({ project }) => {
         રચના તારીખ{" "}
         <span>{dummy?.committeeDate || ".............................."}</span>{" "}
         ઠરાવ નં <span>{dummy?.resolutionNo || ".............."}</span> થી
-        કરવામાં આવી. આકારણી કમિટી રચના બાદ ઘરે ઘરે ફરીને આકારણીની પ્રાથમિક યાદિ
+        કરવામાં આવી આકારણી કમિટી રચના બાદ ઘરે ઘરે ફરીને આકારણીની પ્રાથમિક યાદિ
         તૈયાર કરીને તારીખ{" "}
         <span>{dummy?.noticeDate || ".............................."}</span> ના
         રોજ ગ્રામ પંચાયતના નોટીસ બોર્ડ તથા જાહેર સ્થળોએ પ્રસિધ્ધિ કરી વાંધા
@@ -60,7 +60,7 @@ const TharavPage2 = ({ project }) => {
         કરવા આખરી પ્રમાણીત કરવામાં આવે છે.
       </p>
 
-      <p style={{ fontSize: "19px", textIndent: "100px" }}>
+      <p style={{ fontSize: "19px", textIndent: "100px", lineHeight: "2" }}>
         સદરહુ આકારણી યાદિ મુજબના મિલ્કતના ક્રમ નં{" "}
         <span>{dummy?.propertyFrom || ".............."}</span> થી ક્રમ નં{" "}
         <span>{dummy?.propertyTo || ".............."}</span> સુધીના ટેક્સ પાત્ર
@@ -80,7 +80,7 @@ const TharavPage2 = ({ project }) => {
           justifyContent: "end",
           fontSize: "18px",
 
-          marginTop: "60px",
+          marginTop: "30px",
           marginBottom: "5px",
           paddingRight: "50px",
         }}
@@ -101,7 +101,7 @@ const TharavPage2 = ({ project }) => {
                 marginTop: "2px",
               }}
             >
-              {project?.details?.sarpanchName || "......................."}
+              {project?.details?.sarpanchName || " "}
             </b>
           </span>
 

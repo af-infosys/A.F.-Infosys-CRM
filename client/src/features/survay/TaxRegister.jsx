@@ -1231,7 +1231,7 @@ const TaxRegister = () => {
                       <th
                         className="th"
                         rowSpan="2"
-                        style={{ maxWidth: "90px" }}
+                        style={{ maxWidth: "60px" }}
                       >
                         <span className="formatting">ખાતેદારનું નામ</span>
                       </th>
@@ -1419,7 +1419,7 @@ const TaxRegister = () => {
                               )}
                             </span>
                           </td>
- 
+
                           {/* [{ "curr": 20, "prev": 0 }, { "curr": 0, "prev": 0 }, { "curr": 0, "prev": 0 }] */}
                           {/* સામાન્ય પાણી વેરો */}
                           <td className="td" style={{ textAlign: "right" }}>

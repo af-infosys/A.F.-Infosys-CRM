@@ -33,6 +33,8 @@ const AkarniIndexRaw = ({
   coverProperties,
   pageFrom,
   pageTo,
+
+  photograph = false,
 }) => {
   return (
     <div
@@ -116,7 +118,7 @@ const AkarniIndexRaw = ({
             paddingInline: "40px",
           }}
         >
-          ગામના નમુના નંબર (૮) આકારણી રજીસ્ટર {title ? `- ${title}` : ""}
+          ગામના નમુના નંબર (૮) {photograph ? ` ફોટોગ્રાફ ` : ""} આકારણી રજીસ્ટર
         </h1>
         <h2
           className="font-semibold text-gray-700"

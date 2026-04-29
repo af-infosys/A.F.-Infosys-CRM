@@ -31,7 +31,7 @@ const AkarniPageImage = ({
         </span>
 
         <h1 className="heading" style={{ marginTop: "60px" }}>
-          પંચાયત હિસાબ નમુનો નંબર - ૮ (આકારણી રજીસ્ટર
+          પંચાયત હિસાબ નમુનો નંબર - ૮ (ફોટોગ્રાફ આકારણી રજીસ્ટર
           {isCommercial === true
             ? " - કોમર્શિયલ મિલકત"
             : isCommercial === false
@@ -108,7 +108,7 @@ const AkarniPageImage = ({
               rowSpan={2}
               style={{ ...headerStyle, fontSize: "14px", minWidth: "150px" }}
             >
-              <span className="formatting">કબ્જેદારનું નામ</span>
+              <span className="formatting">ફોટોગ્રાફ</span>
             </th>
             <th
               className=""
