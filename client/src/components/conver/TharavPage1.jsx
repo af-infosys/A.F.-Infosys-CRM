@@ -84,7 +84,7 @@ const TharavPage1 = ({ project }) => {
               </th>
               <th>
                 <span className="formatting" style={{ textAlign: "center" }}>
-                  આકારણી કમિટિનો હોદ્દો
+                  સહી
                 </span>
               </th>
             </tr>
@@ -100,7 +100,7 @@ const TharavPage1 = ({ project }) => {
                 <td style={{ minWidth: "500px", height: "50px" }}>
                   <span className="formatting">{comity?.name || ""}</span>
                 </td>
-                <td style={{ minWidth: "230px" }}>
+                <td style={{ minWidth: "150px" }}>
                   <span className="formatting">
                     {comity?.designation || ""}
                   </span>
@@ -120,14 +120,14 @@ const TharavPage1 = ({ project }) => {
           <b>જાહેર પ્રસિધ્ધિ કર્યા તારીખ</b>
         </h4>
 
-        <div style={{ textAlign: "center", marginTop: "10px" }}>
+        <div style={{ textAlign: "center", marginTop: "25px" }}>
           તારીખ ............................................. થી તારીખ
           ............................................. સુધી (30) દિવસની મુદત
         </div>
       </div>
 
       {/* Final Implementation Section */}
-      <div style={{ marginTop: "20px" }}>
+      <div style={{ marginTop: "12px" }}>
         <h4 style={{ textAlign: "center", textDecoration: "underline" }}>
           <b>આખરી અમલવારીની તારીખ</b>
         </h4>
@@ -135,7 +135,7 @@ const TharavPage1 = ({ project }) => {
           style={{
             display: "flex",
             justifyContent: "center",
-            marginTop: "10px",
+            marginTop: "20px",
             gap: "50px",
           }}
         >
@@ -148,7 +148,7 @@ const TharavPage1 = ({ project }) => {
 
         <div
           style={{
-            marginTop: "10px",
+            marginTop: "25px",
             display: "flex",
             justifyContent: "center",
           }}
