@@ -1182,6 +1182,25 @@ const OrderValuationForm = () => {
                 />
               </div>
 
+              <br />
+
+              <div className="flex flex-col">
+                <label
+                  htmlFor="date2"
+                  className="text-sm font-medium text-gray-700 mb-1"
+                >
+                  - પ્રમાણપત્ર તારીખ
+                </label>
+                <input
+                  type="date"
+                  id="date2"
+                  name="date2"
+                  value={details?.certificateDate || ""}
+                  onChange={handleChangeDetails}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
               {/* Water Details */}
 
               <div className="flex flex-col">

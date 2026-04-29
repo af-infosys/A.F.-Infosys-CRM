@@ -2424,23 +2424,32 @@ const TharavSet = () => {
                   gap: "3px",
                   padding: "8px",
 
-                  marginTop: "20px",
+                  marginTop: `${margins?.letterE}px`,
 
                   borderRadius: "10px",
                   background: "#ffffffff",
                 }}
               >
+                <span
+                  style={{
+                    textAlign: "right",
+                  }}
+                >
+                  તારીખ :-{" "}
+                  {details?.certificateDate || "....../......./............."}
+                </span>
+
                 <h2
                   style={{
                     fontSize: "18px",
                     width: "100%",
                     maxWidth: "fit-content",
-
                     textAlign: "center",
+
                     border: "1px solid #000",
                     borderRadius: "5px",
 
-                    marginTop: `${margins?.letterE}px`,
+                    marginTop: "0px",
                     marginBottom: "8px",
                     paddingBottom: "3px",
 

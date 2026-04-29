@@ -1534,14 +1534,14 @@ const ManglaRegister = () => {
                   })}
 
                   <tr>
-                    <td colSpan="19" style={{ minHeight: "20px" }}>
+                    <td colSpan="22" style={{ minHeight: "20px" }}>
                       {"-"}
                     </td>
                   </tr>
 
                   <tr>
                     <th
-                      colSpan="3"
+                      colSpan="4"
                       style={{
                         textAlign: "center",
                         color: "#000",
@@ -1637,21 +1637,6 @@ const ManglaRegister = () => {
                             }
                           },
                           0,
-                        );
-                      }
-
-                      if (categoryIndex === 5) {
-                        return (
-                          <React.Fragment key={categoryIndex}>
-                            {/* કુલ */}
-                            <td className="td" style={{ textAlign: "right" }}>
-                              <span className="formatting">
-                                {toGujaratiNumber(
-                                  prevForCategory + currForCategory,
-                                )}
-                              </span>
-                            </td>
-                          </React.Fragment>
                         );
                       }
 
