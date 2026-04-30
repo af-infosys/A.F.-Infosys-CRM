@@ -768,9 +768,15 @@ const IndexReport = () => {
                               colSpan="6"
                               className="text-center font-bold"
                               id="pdff"
-                              style={{ textWrap: "wrap" }}
+                              style={{ textWrap: "wrap", padding: "0" }}
                             >
-                              <span className="formatting">
+                              <span
+                                className="formatting"
+                                style={{
+                                  fontSize: "18px",
+                                  padding: "0",
+                                }}
+                              >
                                 {row.key === "vowels" ? "અ" : row.key}
                               </span>
                             </td>
