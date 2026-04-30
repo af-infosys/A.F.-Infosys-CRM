@@ -56,94 +56,6 @@ const IndexReport = () => {
   const getGujaratiInitial = (name) => {
     if (!name) return "";
     const firstChar = name.charAt(0);
-    // const alphabetMap = {
-    //   અ: ["અ", "આ", "ઇ", "ઈ", "ઉ", "ઊ", "ઋ", "એ", "ઐ", "ઓ", "ઔ"],
-    //   ક: ["ક", "કા", "કી", "કુ", "કૂ", "કૃ", "કે", "કૈ", "કો", "કૌ", "ખ"], // Added ખ here since it is not being detected correctly
-    //   ગ: ["ગ", "ગા", "ગી", "ગુ", "ગૂ", "ગૃ", "ગે", "ગૈ", "ગો", "ગૌ", "ઘ"], // Added ઘ here since it is not being detected correctly
-    //   ચ: ["ચ", "ચા", "ચી", "ચુ", "ચૂ", "ચૃ", "ચે", "ચૈ", "ચો", "ચૌ", "છ"], // Added છ here since it is not being detected correctly
-    //   જ: ["જ", "જા", "જી", "જુ", "જૂ", "જૃ", "જે", "જૈ", "જો", "જૌ", "ઝ"], // Added ઝ here since it is not being detected correctly
-    //   ટ: [
-    //     "ટ",
-    //     "ટા",
-    //     "ટી",
-    //     "ટુ",
-    //     "ટૂ",
-    //     "ટૃ",
-    //     "ટે",
-    //     "ટૈ",
-    //     "ટો",
-    //     "ટૌ",
-    //     "ઠ",
-    //     "ડ",
-    //     "ઢ",
-    //   ], // Added ઠ, ડ, ઢ here since it is not being detected correctly
-    //   ણ: ["ણ", "ણા", "ણી", "ણુ", "ણૂ", "ણૃ", "ણે", "ણૈ", "ણો", "ણૌ"],
-    //   ત: [
-    //     "ત",
-    //     "તા",
-    //     "તી",
-    //     "તુ",
-    //     "તૂ",
-    //     "તૃ",
-    //     "તે",
-    //     "તૈ",
-    //     "તો",
-    //     "તૌ",
-    //     "થ",
-    //     "દ",
-    //     "ધ",
-    //   ], // Added થ, દ, ધ here since it is not being detected correctly
-    //   ન: ["ન", "ના", "ની", "નુ", "નૂ", "નૃ", "ને", "નૈ", "નો", "નૌ"],
-    //   પ: ["પ", "પા", "પી", "પુ", "પૂ", "પૃ", "પે", "પૈ", "પો", "પૌ", "ફ"], // Added ફ here since it is not being detected correctly
-    //   બ: ["બ", "બા", "બી", "બુ", "બૂ", "બૃ", "બે", "બૈ", "બો", "બૌ", "ભ"], // Added ભ here since it is not being detected correctly
-    //   મ: ["મ", "મા", "મી", "મુ", "મૂ", "મૃ", "મે", "મૈ", "મો", "મૌ"],
-    //   ય: ["ય", "યા", "યી", "યુ", "યૂ", "યૃ", "યે", "યૈ", "યો", "યૌ"],
-    //   ર: ["ર", "રા", "રી", "રુ", "રૂ", "રૃ", "રે", "રૈ", "રો", "રૌ"],
-    //   લ: ["લ", "લા", "લી", "લુ", "લૂ", "લૃ", "લે", "લૈ", "લો", "લૌ"],
-    //   વ: ["વ", "વા", "વી", "વુ", "વૂ", "વૃ", "વે", "વૈ", "વો", "વૌ"],
-    //   શ: ["શ", "શા", "શી", "શુ", "શૂ", "શૃ", "શે", "શૈ", "શો", "શૌ", "ષ", "સ"], // Added ષ, સ here since it is not being detected correctly
-    //   હ: ["હ", "હા", "હી", "હુ", "હૂ", "હૃ", "હે", "હૈ", "હો", "હૌ"],
-    //   ળ: ["ળ", "ળા", "ળી", "ળુ", "ળૂ", "ળૃ", "ળે", "ળૈ", "ળો", "ળૌ"],
-    //   ક્ષ: [
-    //     "ક્ષ",
-    //     "ક્ષા",
-    //     "ક્ષિ",
-    //     "ક્ષી",
-    //     "ક્ષુ",
-    //     "ક્ષૂ",
-    //     "ક્ષૃ",
-    //     "ક્ષે",
-    //     "ક્ષૈ",
-    //     "ક્ષો",
-    //     "ક્ષૌ",
-    //   ],
-    //   જ્ઞ: [
-    //     "જ્ઞ",
-    //     "જ્ઞા",
-    //     "જ્ઞિ",
-    //     "જ્ઞી",
-    //     "જ્ઞુ",
-    //     "જ્ઞૂ",
-    //     "જ્ઞૃ",
-    //     "જ્ઞે",
-    //     "જ્ઞૈ",
-    //     "જ્ઞો",
-    //     "જ્ઞૌ",
-    //   ],
-    //   ત્ર: [
-    //     "ત્ર",
-    //     "ત્રા",
-    //     "ત્રિ",
-    //     "ત્રી",
-    //     "ત્રુ",
-    //     "ત્રૂ",
-    //     "ત્રૃ",
-    //     "ત્રે",
-    //     "ત્રૈ",
-    //     "ત્રો",
-    //     "ત્રૌ",
-    //   ],
-    // };
 
     const consonants = [
       "ક",
@@ -893,12 +805,16 @@ const IndexReport = () => {
                             </td>
                             <td id="pdff" style={{ textWrap: "wrap" }}>
                               <span className="formatting">
-                                {Math.ceil(Number(row.data[0]) / 7) || 0}
+                                {Math.ceil(Number(row.data[0]) / 6) || 0}
                               </span>
                             </td>
                             <td
                               id="pdff"
-                              style={{ textWrap: "wrap", maxWidth: "70px" }}
+                              style={{
+                                textWrap: "wrap",
+                                maxWidth: "70px",
+                                minWidth: "40px",
+                              }}
                             >
                               <span className="formatting">
                                 {row.data[5] || ""}
@@ -1061,11 +977,11 @@ const IndexReport = () => {
                           className="px-1 py-2 whitespace-normal text-sm text-gray-500"
                           style={{ padding: "3px 8px" }}
                         >
-                          {Math.ceil(data[0] / 15)}
+                          {Math.ceil(Number(data[0]) / 6)}
                         </td>
                         <td
                           className="px-1 py-2 whitespace-normal text-sm text-gray-500"
-                          style={{ padding: "3px 8px" }}
+                          style={{ padding: "3px 8px", minWidth: "40px" }}
                         >
                           {data[6] || ""}
                         </td>

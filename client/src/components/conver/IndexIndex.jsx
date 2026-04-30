@@ -83,8 +83,8 @@ const IndexIndex = ({ part, nop, project, totalHoouse }) => {
       </header>
 
       {/* -------------------- 2. Main Title -------------------- */}
-      <div className="text-center mt-10 mb-2">
-        <h2 className="text-2xl font-semibold mt-4 text-gray-700">
+      <div className="text-center mt-2 mb-2">
+        <h2 className="text-2xl font-semibold mt-4 text-gray-700 mb-4">
           ગામનો નમુના નંબર ૯/ડી - કરવેરા રજીસ્ટર
         </h2>
         <h1
@@ -102,7 +102,7 @@ const IndexIndex = ({ part, nop, project, totalHoouse }) => {
         >
           Index Book - પાનોત્રી બુક
         </h1>
-        <h2 className="text-2xl font-semibold mt-4 text-gray-700">
+        <h2 className="text-2xl font-semibold mt-2 text-gray-700">
           સને :- {project?.details?.taxYear || "2025/26"}
         </h2>
       </div>
