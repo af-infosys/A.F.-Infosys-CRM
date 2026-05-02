@@ -3,12 +3,30 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../config/AuthContext";
 import apiPath from "../../isProduction.js";
 
+import {
+  FilePlus,
+  Edit,
+  X,
+  CornerDownRight,
+  CornerUpLeft,
+  Search,
+  List,
+  Power,
+  Save,
+  RefreshCcw,
+} from "lucide-react";
+
 // import "./SurvayForm.scss";
 import { toast } from "react-toastify";
 import axios from "axios";
 
 const InputCell = ({ name, value, onChange, isYellow = false }) => (
-  <td className="border border-gray-300 p-0 min-w-[70px]">
+  <td
+    className="border border-gray-300 p-0 min-w-[70px]"
+    style={{
+      maxWidth: "70px",
+    }}
+  >
     <input
       type="number"
       name={name}
@@ -98,6 +116,7 @@ const TaxEntryForm = () => {
     updatedTaxes[index][section][field] = Number(value);
 
     setTaxes(updatedTaxes);
+    setIsSaved(false);
   };
 
   const handleReceiptChange = (e) => {
@@ -109,12 +128,10 @@ const TaxEntryForm = () => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchProject();
-  }, []);
-
   // 1. STATE INITIALIZATION - Check Local Storage for non-edit mode
   const [formData, setFormData] = useState({});
+  const [query, setQuery] = useState("");
+  const [isSaved, setIsSaved] = useState(true);
 
   const [formLoading, setFormLoading] = useState(false);
   const [formError, setFormError] = useState(null);
@@ -141,147 +158,147 @@ const TaxEntryForm = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchRecordForEdit = async () => {
-      setFormLoading(true);
-      setFormError(null);
+  const fetchRecordForEdit = async () => {
+    setFormLoading(true);
+    setFormError(null);
 
-      try {
-        const response = await fetch(
-          `${await apiPath()}/api/sheet/${mId}?workId=${projectId}`,
-        );
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const result = await response.json();
-
-        const record = result.data;
-
-        if (record) {
-          // Populate formData
-          setFormData({
-            serialNumber: record[0] || "",
-            areaName: record[1] || "",
-            propertyNumber: record[2] || "",
-            ownerName: record[3] || "",
-            houseCategory: record[8] || "",
-          });
-
-          setTaxes([
-            {
-              id: "house",
-              name: "ઘર વેરો",
-              demand: {
-                pb: Number(record[22] || 0),
-                chalu: Number(record[20] || 0),
-              },
-              recovery: {
-                pb: Number(
-                  JSON.parse(record[24] || "{}")?.vasulat?.prevtax || 0,
-                ),
-                chalu: Number(
-                  JSON.parse(record[24] || "{}")?.vasulat?.currtax || 0,
-                ),
-              },
-              advance: { last: 0, chalu: 0 },
-            },
-
-            {
-              id: "water_gen",
-              name: "સામાન્ય પાણી વેરો",
-              demand: {
-                pb: Number(
-                  JSON.parse(record[23] || "{}")?.normal_water?.prev || 0,
-                ),
-                chalu: Number(
-                  JSON.parse(record[21] || "{}")?.normal_water?.curr || 0,
-                ),
-              },
-              recovery: {
-                pb: Number(
-                  JSON.parse(record[23] || "{}")?.normal_water?.vasulat || 0,
-                ),
-                chalu: Number(
-                  JSON.parse(record[21] || "{}")?.normal_water?.vasulat || 0,
-                ),
-              },
-              advance: { last: 0, chalu: 0 },
-            },
-
-            {
-              id: "water_spl",
-              name: "ખાસ પાણી વેરો",
-              demand: {
-                pb: Number(
-                  JSON.parse(record[23] || "{}")?.special_water?.prev || 0,
-                ),
-                chalu: Number(
-                  JSON.parse(record[21] || "{}")?.special_water?.curr || 0,
-                ),
-              },
-              recovery: {
-                pb: Number(
-                  JSON.parse(record[23] || "{}")?.special_water?.vasulat || 0,
-                ),
-                chalu: Number(
-                  JSON.parse(record[21] || "{}")?.special_water?.vasulat || 0,
-                ),
-              },
-              advance: { last: 0, chalu: 0 },
-            },
-
-            {
-              id: "light",
-              name: "લાઇટ વેરો",
-              demand: {
-                pb: Number(JSON.parse(record[23] || "{}")?.light?.prev || 0),
-                chalu: Number(JSON.parse(record[21] || "{}")?.light?.curr || 0),
-              },
-              recovery: {
-                pb: Number(JSON.parse(record[23] || "{}")?.light?.vasulat || 0),
-                chalu: Number(
-                  JSON.parse(record[21] || "{}")?.light?.vasulat || 0,
-                ),
-              },
-              advance: { last: 0, chalu: 0 },
-            },
-            {
-              id: "cleaning",
-              name: "સફાઈ વેરો",
-              demand: {
-                pb: Number(JSON.parse(record[23] || "{}")?.cleaning?.prev || 0),
-                chalu: Number(
-                  JSON.parse(record[21] || "{}")?.cleaning?.curr || 0,
-                ),
-              },
-              recovery: {
-                pb: Number(
-                  JSON.parse(record[23] || "{}")?.cleaning?.vasulat || 0,
-                ),
-                chalu: Number(
-                  JSON.parse(record[21] || "{}")?.cleaning?.vasulat || 0,
-                ),
-              },
-              advance: { last: 0, chalu: 0 },
-            },
-          ]);
-
-          setReceiptDetails({
-            pNo: JSON.parse(record[24] || "{}")?.receipt?.pNo || "",
-            date: JSON.parse(record[24] || "{}")?.receipt?.date || "",
-            amount: JSON.parse(record[24] || "{}")?.receipt?.amount || "",
-          });
-        } else {
-          setFormError("રેકોર્ડ મળ્યો નથી.");
-        }
-      } catch (err) {
-        console.error("Error fetching record for edit:", err);
-        setFormError("રેકોર્ડ લાવવામાં નિષ્ફળ.");
-      } finally {
-        setFormLoading(false);
+    try {
+      const response = await fetch(
+        `${await apiPath()}/api/sheet/${mId}?workId=${projectId}`,
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
-    };
+      const result = await response.json();
 
+      const record = result.data;
+
+      if (record) {
+        // Populate formData
+        setFormData({
+          serialNumber: record[0] || "",
+          areaName: record[1] || "",
+          propertyNumber: record[2] || "",
+          ownerName: record[3] || "",
+          houseCategory: record[8] || "",
+        });
+        setQuery(Number(record[0]));
+
+        setTaxes([
+          {
+            id: "house",
+            name: "ઘર વેરો",
+            demand: {
+              pb: Number(record[22] || 0),
+              chalu: Number(record[20] || 0),
+            },
+            recovery: {
+              pb: Number(JSON.parse(record[24] || "{}")?.vasulat?.prevtax || 0),
+              chalu: Number(
+                JSON.parse(record[24] || "{}")?.vasulat?.currtax || 0,
+              ),
+            },
+            advance: { last: 0, chalu: 0 },
+          },
+
+          {
+            id: "water_gen",
+            name: "સામાન્ય પાણી વેરો",
+            demand: {
+              pb: Number(
+                JSON.parse(record[23] || "{}")?.normal_water?.prev || 0,
+              ),
+              chalu: Number(
+                JSON.parse(record[21] || "{}")?.normal_water?.curr || 0,
+              ),
+            },
+            recovery: {
+              pb: Number(
+                JSON.parse(record[23] || "{}")?.normal_water?.vasulat || 0,
+              ),
+              chalu: Number(
+                JSON.parse(record[21] || "{}")?.normal_water?.vasulat || 0,
+              ),
+            },
+            advance: { last: 0, chalu: 0 },
+          },
+
+          {
+            id: "water_spl",
+            name: "ખાસ પાણી વેરો",
+            demand: {
+              pb: Number(
+                JSON.parse(record[23] || "{}")?.special_water?.prev || 0,
+              ),
+              chalu: Number(
+                JSON.parse(record[21] || "{}")?.special_water?.curr || 0,
+              ),
+            },
+            recovery: {
+              pb: Number(
+                JSON.parse(record[23] || "{}")?.special_water?.vasulat || 0,
+              ),
+              chalu: Number(
+                JSON.parse(record[21] || "{}")?.special_water?.vasulat || 0,
+              ),
+            },
+            advance: { last: 0, chalu: 0 },
+          },
+
+          {
+            id: "light",
+            name: "લાઇટ વેરો",
+            demand: {
+              pb: Number(JSON.parse(record[23] || "{}")?.light?.prev || 0),
+              chalu: Number(JSON.parse(record[21] || "{}")?.light?.curr || 0),
+            },
+            recovery: {
+              pb: Number(JSON.parse(record[23] || "{}")?.light?.vasulat || 0),
+              chalu: Number(
+                JSON.parse(record[21] || "{}")?.light?.vasulat || 0,
+              ),
+            },
+            advance: { last: 0, chalu: 0 },
+          },
+          {
+            id: "cleaning",
+            name: "સફાઈ વેરો",
+            demand: {
+              pb: Number(JSON.parse(record[23] || "{}")?.cleaning?.prev || 0),
+              chalu: Number(
+                JSON.parse(record[21] || "{}")?.cleaning?.curr || 0,
+              ),
+            },
+            recovery: {
+              pb: Number(
+                JSON.parse(record[23] || "{}")?.cleaning?.vasulat || 0,
+              ),
+              chalu: Number(
+                JSON.parse(record[21] || "{}")?.cleaning?.vasulat || 0,
+              ),
+            },
+            advance: { last: 0, chalu: 0 },
+          },
+        ]);
+
+        setReceiptDetails({
+          pNo: JSON.parse(record[24] || "{}")?.receipt?.pNo || "",
+          date: JSON.parse(record[24] || "{}")?.receipt?.date || "",
+          amount: JSON.parse(record[24] || "{}")?.receipt?.amount || "",
+        });
+      } else {
+        setFormError("રેકોર્ડ મળ્યો નથી.");
+      }
+    } catch (err) {
+      console.error("Error fetching record for edit:", err);
+      setFormError("રેકોર્ડ લાવવામાં નિષ્ફળ.");
+    } finally {
+      setFormLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProject();
     fetchRecordForEdit();
   }, [projectId]);
 
@@ -314,8 +331,9 @@ const TaxEntryForm = () => {
 
       if (response.ok) {
         console.log("Success:", result.message);
+        setIsSaved(true);
         alert(`Entry Saved ✅`);
-        navigate(`/survay/taxform/${projectId}`);
+        // navigate(`/survay/taxform/${projectId}`);
       } else {
         console.error("Error submitting form:", result.message);
         setFormError(`ફોર્મ અપડેટ કરવામાં ભૂલ: ${result.message}`);
@@ -357,17 +375,44 @@ const TaxEntryForm = () => {
             </div>
 
             {/* Header Inputs - Responsive Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-4 text-sm items-center">
+            <div
+              className="gap-4 text-sm items-center"
+              style={{ display: "flex", flexWrap: "wrap" }}
+            >
               <div className="md:col-span-2 md:text-right font-medium text-gray-700">
                 ખાતા નંબર
               </div>
-              <div className="md:col-span-2">
+              <div
+                className="md:col-span-2"
+                style={{ display: "flex", gap: "10px" }}
+              >
                 <input
-                  type="text"
+                  type="number"
                   name="serialNumber"
-                  value={formData?.serialNumber || ""}
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
                   className="w-full border border-gray-300 rounded px-3 py-1.5 focus:ring-2 focus:ring-blue-500 outline-none"
+                  style={{
+                    width: "70px",
+                  }}
                 />
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setFormData({});
+                    window.location.href = `/survay/taxform/${projectId}/${query}`;
+                  }}
+                  style={{
+                    width: "50px",
+                    background: "#9e4fff",
+                    borderRadius: "5px",
+                    display: "grid",
+                    placeItems: "center",
+                  }}
+                >
+                  <Search size={20} className="text-white" />
+                </button>
               </div>
 
               <div className="md:col-span-2 md:text-right font-medium text-gray-700">
@@ -391,13 +436,22 @@ const TaxEntryForm = () => {
                   name="propertyNumber"
                   value={formData?.propertyNumber || ""}
                   className="w-full border border-gray-300 bg-yellow-50 rounded px-3 py-1.5 focus:ring-2 focus:ring-blue-500 outline-none"
+                  style={{
+                    width: "70px",
+                  }}
                 />
               </div>
             </div>
 
             {/* Responsive Table Wrapper */}
-            <div className="overflow-x-auto rounded border border-gray-300 shadow-sm">
-              <table className="w-full min-w-[900px] border-collapse text-sm">
+            <div
+              className="overflow-x-auto rounded border shadow-sm"
+              style={{ maxWidth: "fit-content" }}
+            >
+              <table
+                className="border-collapse text-sm"
+                style={{ maxWidth: "fit-content" }}
+              >
                 <thead>
                   <tr className="text-center font-semibold bg-gray-100 text-gray-700">
                     <th className="border border-gray-300 p-2" rowSpan="2">
@@ -412,7 +466,7 @@ const TaxEntryForm = () => {
                     <th className="border border-gray-300 p-2" colSpan="3">
                       બાકી
                     </th>
-                    <th className="border border-gray-300 p-2 text-xs leading-tight">
+                    {/* <th className="border border-gray-300 p-2 text-xs leading-tight">
                       ગઈ સાલના
                       <br />
                       જમા
@@ -421,7 +475,7 @@ const TaxEntryForm = () => {
                       ચાલુસાલના
                       <br />
                       જમા
-                    </th>
+                    </th> */}
                   </tr>
                   <tr className="text-center font-medium bg-gray-50 text-gray-600 text-xs">
                     <th className="border border-gray-300 py-1 px-2">
@@ -439,14 +493,17 @@ const TaxEntryForm = () => {
                     </th>
                     <th className="border border-gray-300 py-1 px-2">ચાલુ</th>
                     <th className="border border-gray-300 py-1 px-2">કુલ</th>
-                    <th className="border border-gray-300"></th>
-                    <th className="border border-gray-300"></th>
+                    {/* <th className="border border-gray-300"></th>
+                    <th className="border border-gray-300"></th> */}
                   </tr>
                 </thead>
                 <tbody>
                   {taxes.map((tax, index) => (
                     <tr key={tax.id} className="hover:bg-gray-50">
-                      <td className="border border-gray-300 px-3 py-2 font-medium bg-gray-50 text-gray-700 whitespace-nowrap">
+                      <td
+                        className="border border-gray-300 px-3 py-2 font-medium bg-gray-50 text-gray-700 whitespace-nowrap"
+                        style={{ width: "70px" }}
+                      >
                         {tax.name}
                       </td>
 
@@ -529,7 +586,7 @@ const TaxEntryForm = () => {
                       />
 
                       {/* ADVANCE */}
-                      <InputCell
+                      {/* <InputCell
                         name="advance.last"
                         value={tax.advance.last}
                         onChange={(e) =>
@@ -552,7 +609,7 @@ const TaxEntryForm = () => {
                             e.target.value,
                           )
                         }
-                      />
+                      /> */}
                     </tr>
                   ))}
 
@@ -592,8 +649,8 @@ const TaxEntryForm = () => {
                       isYellow
                     />
 
-                    <InputCell value={totalTax.advance.last} isYellow />
-                    <InputCell value={totalTax.advance.chalu} isYellow />
+                    {/* <InputCell value={totalTax.advance.last} isYellow />
+                    <InputCell value={totalTax.advance.chalu} isYellow /> */}
                   </tr>
                 </tbody>
               </table>
@@ -625,6 +682,7 @@ const TaxEntryForm = () => {
                     value={receiptDetails.pNo}
                     onChange={handleReceiptChange}
                     className="w-full border border-gray-300 rounded px-1 py-1 text-center outline-none focus:ring-2 focus:ring-blue-400"
+                    style={{ maxWidth: "70px" }}
                   />
                   <input
                     type="date"
@@ -642,19 +700,112 @@ const TaxEntryForm = () => {
                   />
                 </div>
               </div>
+
+              <div className="flex justify-start gap-2">
+                <button
+                  type="submit"
+                  disabled={formLoading}
+                  className={`px-8 py-2 rounded-lg text-white font-bold text-lg shadow-md transition-colors 
+                ${formLoading ? "bg-gray-400 cursor-not-allowed" : "bg-green-600 hover:bg-green-700 active:bg-green-800"}`}
+                  style={{
+                    fontSize: "14px",
+                    padding: "5px 15px",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <Save size={20} className="text-white" />
+                  {formLoading ? "Updating..." : "Update"}
+                </button>
+
+                <button
+                  type="button"
+                  disabled={formLoading || mId <= 1}
+                  className={`px-8 py-2 rounded-lg text-white font-bold text-lg shadow-md transition-colors 
+                ${formLoading ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700 active:bg-blue-800"}`}
+                  style={{
+                    fontSize: "14px",
+                    padding: "5px 15px",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                  onClick={() => {
+                    if (mId > 1)
+                      if (!isSaved) {
+                        if (
+                          window.confirm(
+                            "Entry is Not Saved! Are you sure to go Back?",
+                          ) === true
+                        )
+                          window.location.href = `/survay/taxform/${projectId}/${Number(mId) - 1}`;
+                      } else
+                        window.location.href = `/survay/taxform/${projectId}/${Number(mId) - 1}`;
+                  }}
+                >
+                  <CornerUpLeft size={20} className="text-white-500" />
+                  Prev
+                </button>
+
+                <button
+                  type="button"
+                  disabled={formLoading}
+                  className={`px-8 py-2 rounded-lg text-white font-bold text-lg shadow-md transition-colors 
+                ${formLoading ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700 active:bg-blue-800"}`}
+                  style={{
+                    fontSize: "14px",
+                    padding: "5px 15px",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                  onClick={() => {
+                    if (!isSaved) {
+                      if (
+                        window.confirm(
+                          "Entry is Not Saved! Are you sure to go Next?",
+                        ) === true
+                      )
+                        window.location.href = `/survay/taxform/${projectId}/${Number(mId) + 1}`;
+                    } else
+                      window.location.href = `/survay/taxform/${projectId}/${Number(mId) + 1}`;
+                  }}
+                >
+                  <CornerDownRight size={20} className="text-white-500" />
+                  Next
+                </button>
+
+                <button
+                  type="button"
+                  disabled={formLoading}
+                  className={`px-8 py-2 rounded-lg text-white font-bold text-lg shadow-md transition-colors 
+                ${formLoading ? "bg-gray-400 cursor-not-allowed" : "bg-red-600 hover:bg-red-700 active:bg-red-800"}`}
+                  style={{
+                    fontSize: "14px",
+                    padding: "5px 15px",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                  onClick={() => {
+                    if (!isSaved) {
+                      if (
+                        window.confirm(
+                          "Entry is Not Saved! Are you sure to Cancle the Form?",
+                        ) === true
+                      )
+                        window.location.href = `/survay/taxform/${projectId}`;
+                    } else
+                      window.location.href = `/survay/taxform/${projectId}`;
+                  }}
+                >
+                  <X size={20} className="text-white-500" />
+                  Cancle
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-
-        <div className="flex justify-end">
-          <button
-            type="submit"
-            disabled={formLoading}
-            className={`px-8 py-3 rounded-lg text-white font-bold text-lg shadow-md transition-colors 
-                ${formLoading ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700 active:bg-blue-800"}`}
-          >
-            {formLoading ? "Updating..." : "Update Record"}
-          </button>
         </div>
       </form>
     </div>
