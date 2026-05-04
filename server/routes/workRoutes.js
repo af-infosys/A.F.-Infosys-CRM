@@ -15,11 +15,14 @@ import {
   getAllBillWork,
   getBillWorkDetail,
   updateWorkStatus,
+  getExtesionWork,
 } from "../controllers/workController.js";
 
 const userRoutes = express.Router();
 
 userRoutes.get("/", authenticateToken, authorizeRoles("owner"), getAllWork);
+
+userRoutes.get("/extension", getExtesionWork);
 
 userRoutes.get(
   "/bill",

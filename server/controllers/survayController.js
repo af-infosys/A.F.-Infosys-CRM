@@ -777,6 +777,8 @@ export const editTaxRecord = async (req, res) => {
 
     const updatedRow = [...existingRow];
 
+    updatedRow[5] = formData?.oldNumber || "";
+
     updatedRow[20] = taxes[0]?.demand?.chalu || 0;
     updatedRow[22] = taxes[0]?.demand?.pb || 0;
 

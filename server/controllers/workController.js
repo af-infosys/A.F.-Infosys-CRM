@@ -157,6 +157,42 @@ export const getAllWork = async (req, res) => {
   }
 };
 
+export const getExtesionWork = async (req, res) => {
+  try {
+    const result = await sheet.read(process.env.GOOGLE_SHEET_ID, "Index");
+
+    const workEntries = (await result)
+      ?.filter(
+        (item) =>
+          JSON.parse(item[3] || {})?.loginId &&
+          JSON.parse(item[3] || {})?.password,
+      )
+      ?.map((item) => {
+        return {
+          _id: item[0],
+          sheetId: item[0],
+          spot: JSON.parse(item[1] || {}),
+
+          loginId: JSON.parse(item[3] || {})?.loginId,
+          password: JSON.parse(item[3] || {})?.password,
+          createdAt: item[6],
+          updatedAt: item[7],
+        };
+      });
+
+    res.status(200).json({
+      message: "Work entries fetched successfully!",
+      data: workEntries,
+    });
+  } catch (error) {
+    console.error("Error fetching work entries:", error);
+    res.status(500).json({
+      message: "Failed to fetch work entries.",
+      error: error.message,
+    });
+  }
+};
+
 export const getAllBillWork = async (req, res) => {
   try {
     const dataId = process.env.WORK_SHEET_ID;

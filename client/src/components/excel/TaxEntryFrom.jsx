@@ -179,6 +179,7 @@ const TaxEntryForm = () => {
           serialNumber: record[0] || "",
           areaName: record[1] || "",
           propertyNumber: record[2] || "",
+          oldNumber: record[5] || "",
           ownerName: record[3] || "",
           houseCategory: record[8] || "",
         });
@@ -435,6 +436,27 @@ const TaxEntryForm = () => {
                   type="text"
                   name="propertyNumber"
                   value={formData?.propertyNumber || ""}
+                  className="w-full border border-gray-300 bg-yellow-50 rounded px-3 py-1.5 focus:ring-2 focus:ring-blue-500 outline-none"
+                  style={{
+                    width: "70px",
+                  }}
+                />
+              </div>
+
+              <div className="md:col-span-1 md:text-right font-medium text-gray-700">
+                જૂનો મિ. નં.
+              </div>
+              <div className="md:col-span-2">
+                <input
+                  type="text"
+                  name="oldNumber"
+                  value={formData?.oldNumber || ""}
+                  onChange={(e) => {
+                    setFormData({
+                      ...formData,
+                      oldNumber: Number(e.target.value),
+                    });
+                  }}
                   className="w-full border border-gray-300 bg-yellow-50 rounded px-3 py-1.5 focus:ring-2 focus:ring-blue-500 outline-none"
                   style={{
                     width: "70px",

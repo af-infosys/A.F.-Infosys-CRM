@@ -11,7 +11,7 @@ const generateToken = (user) => {
       work: user?.work,
     },
     process.env.JWT_SECRET,
-    { expiresIn: "365d" }
+    { expiresIn: "365d" },
   );
 };
 
@@ -75,6 +75,7 @@ export const registerUser = async (req, res) => {
 export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log(email, password);
 
     const user = await User.findOne({ email });
     if (!user) return res.status(404).json({ message: "User not found" });

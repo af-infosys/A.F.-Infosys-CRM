@@ -1239,6 +1239,14 @@ const TaxRegister = () => {
                       <th
                         className="th"
                         rowSpan="2"
+                        style={{ maxWidth: "45px" }}
+                      >
+                        <span className="formatting"> જૂનો મિ. નં. </span>
+                      </th>
+
+                      <th
+                        className="th"
+                        rowSpan="2"
                         style={{ minWidth: "70px", maxWidth: "70px" }}
                       >
                         <span className="formatting">પહોચ નંબર તારીખ રકમ</span>
@@ -1329,7 +1337,7 @@ const TaxRegister = () => {
                     {/* Index Start */}
                     <tr>
                       {/* 1 to 18 th for index */}
-                      {Array.from({ length: 25 }).map((_, index) => (
+                      {Array.from({ length: 26 }).map((_, index) => (
                         <th
                           className="text-xs font-medium text-gray-500 uppercase tracking-wider"
                           style={{
@@ -1374,6 +1382,15 @@ const TaxRegister = () => {
                             <span className="formatting">{record[1]}</span>
                           </th>
 
+                          <th rowSpan="3" style={{ verticalAlign: "top" }}>
+                            <span
+                              className="formatting"
+                              style={{ verticalAlign: "top" }}
+                            >
+                              {record[3]}
+                            </span>
+                          </th>
+
                           <th
                             rowSpan="3"
                             // style={{ maxWidth: "150px" }}
@@ -1383,7 +1400,7 @@ const TaxRegister = () => {
                               className="formatting"
                               style={{ verticalAlign: "top" }}
                             >
-                              {record[3]}
+                              {toGujaratiNumber(record[5])}
                             </span>
                           </th>
 
