@@ -165,7 +165,11 @@ export const getExtesionWork = async (req, res) => {
       ?.filter(
         (item) =>
           JSON.parse(item[3] || {})?.loginId &&
-          JSON.parse(item[3] || {})?.password,
+          JSON.parse(item[3] || {})?.password &&
+          JSON.parse(item[2] || {})?.date &&
+          JSON.parse(item[2] || {})?.resolutionNumber &&
+          JSON.parse(item[2] || {})?.extYear &&
+          JSON.parse(item[2] || {})?.extPanchayat,
       )
       ?.map((item) => {
         return {
@@ -175,8 +179,11 @@ export const getExtesionWork = async (req, res) => {
 
           loginId: JSON.parse(item[3] || {})?.loginId,
           password: JSON.parse(item[3] || {})?.password,
-          createdAt: item[6],
-          updatedAt: item[7],
+
+          date: JSON.parse(item[2] || {})?.date,
+          resolutionNumber: JSON.parse(item[2] || {})?.resolutionNumber,
+          extYear: JSON.parse(item[2] || {})?.extYear,
+          extPanchayat: JSON.parse(item[2] || {})?.extPanchayat,
         };
       });
 

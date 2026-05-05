@@ -133,7 +133,7 @@ const UpdateStatus = () => {
   }
 
   // Determine if the status should be locked based on the original DB value
-  const isStatusLocked = ["completed", "cancelled"].includes(initialStatus);
+  // const isStatusLocked = ["completed", "cancelled"].includes(initialStatus);
 
   return (
     <div className="max-w-2xl mx-auto my-10 p-6 sm:p-8 bg-white rounded-xl shadow-lg border border-gray-100">
@@ -185,11 +185,6 @@ const UpdateStatus = () => {
             <label className="block text-sm font-semibold text-gray-700">
               Status
             </label>
-            {isStatusLocked && (
-              <span className="text-xs font-semibold text-red-500 bg-red-50 px-2 py-1 rounded">
-                🔒 Locked
-              </span>
-            )}
           </div>
 
           <div className="flex flex-wrap gap-3">
@@ -230,7 +225,7 @@ const UpdateStatus = () => {
                     isSelected
                       ? colors.selectedBg
                       : "bg-white border-gray-200 hover:bg-gray-50"
-                  } ${isStatusLocked ? "opacity-60 cursor-not-allowed" : "cursor-pointer"}`}
+                  } cursor-pointer`}
                 >
                   <input
                     type="radio"
@@ -238,10 +233,7 @@ const UpdateStatus = () => {
                     value={statusOption}
                     checked={isSelected}
                     onChange={handleUpdate}
-                    disabled={isStatusLocked}
-                    className={`w-4 h-4 bg-gray-100 border-gray-300 focus:ring-2 ${colors.text} ${colors.ring} ${
-                      isStatusLocked ? "cursor-not-allowed" : "cursor-pointer"
-                    }`}
+                    className={`w-4 h-4 bg-gray-100 border-gray-300 focus:ring-2 ${colors.text} ${colors.ring} cursor-pointer`}
                   />
                   <span
                     className={`ml-2.5 text-sm font-semibold capitalize transition-colors ${
@@ -256,12 +248,6 @@ const UpdateStatus = () => {
               );
             })}
           </div>
-          {isStatusLocked && (
-            <p className="text-xs text-gray-500 mt-2">
-              આ પ્રોજેક્ટ પૂર્ણ અથવા રદ થઈ ગયો હોવાથી તમે સ્થિતિ બદલી શકતા નથી.
-              (Status cannot be changed once completed or cancelled).
-            </p>
-          )}
         </div>
 
         {/* Remarks Field */}

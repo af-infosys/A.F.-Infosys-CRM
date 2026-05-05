@@ -560,7 +560,7 @@ const OrderValuationForm = () => {
                 htmlFor="date"
                 className="text-sm font-medium text-gray-700 mb-1"
               >
-                6. તારીખ
+                <b>6. તારીખ (ઠરાવ તારીખ - Extension) *</b>
               </label>
               <input
                 type="date"
@@ -1035,7 +1035,7 @@ const OrderValuationForm = () => {
                   htmlFor="resolutionNumber"
                   className="text-sm font-medium text-gray-700 mb-1"
                 >
-                  4. ઠરાવ નં. સામાન્ય બેઠકના ગ્રામ પંચાયતનો
+                  <b>4. ઠરાવ નં. સામાન્ય બેઠકના ગ્રામ પંચાયતનો (Extension) *</b>
                 </label>
                 <input
                   type="text"
@@ -1547,6 +1547,51 @@ const OrderValuationForm = () => {
             >
               + Add Commitee Member
             </button>
+          </section>
+
+          <section style={{ display: "flex", gap: "20px" }}>
+            <h2 style={{ fontWeight: "800" }}>Extension : </h2>
+
+            <div>
+              <label
+                htmlFor="extYear"
+                className="block text-sm font-semibold text-gray-700 mb-1"
+              >
+                મૂલ્યાંકન વર્ષ
+              </label>
+              <input
+                value={details?.extYear || ""}
+                onChange={handleChangeDetails}
+                type="text"
+                id="extYear"
+                name="extYear"
+                list="update-suggestions"
+                placeholder="2026-27"
+                className="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                style={{ maxWidth: "100px" }}
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="extPanchayat"
+                className="block text-sm font-semibold text-gray-700 mb-1"
+              >
+                સર્વે / સીટી સર્વે પંચાયત
+              </label>
+              <input
+                value={details?.extPanchayat || ""}
+                onChange={handleChangeDetails}
+                type="text"
+                id="extPanchayat"
+                name="extPanchayat"
+                list="update-suggestions"
+                placeholder="Type or select an update..."
+                className="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+              />
+            </div>
+
+            <hr />
           </section>
 
           <div className="flex justify-end gap-4 mt-6">
