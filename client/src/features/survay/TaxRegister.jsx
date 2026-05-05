@@ -2065,7 +2065,7 @@ const TaxRegister = () => {
 
                   <tr>
                     <th
-                      colSpan="5"
+                      colSpan="6"
                       rowSpan="3"
                       style={{
                         textAlign: "center",
