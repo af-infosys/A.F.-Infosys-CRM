@@ -1591,6 +1591,46 @@ const OrderValuationForm = () => {
               />
             </div>
 
+            <div>
+              <label
+                htmlFor="loginId"
+                className="block text-sm font-semibold text-gray-700 mb-1"
+              >
+                Login ID
+              </label>
+              <input
+                value={details?.loginId || ""}
+                onChange={handleChangeDetails}
+                type="text"
+                id="loginId"
+                name="loginId"
+                list="update-suggestions"
+                placeholder="2026-27"
+                className="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                style={{ maxWidth: "200px" }}
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="password"
+                className="block text-sm font-semibold text-gray-700 mb-1"
+              >
+                Paswsword
+              </label>
+              <input
+                value={details?.password || ""}
+                onChange={handleChangeDetails}
+                type="text"
+                id="password"
+                name="password"
+                list="update-suggestions"
+                placeholder="Type or select an update..."
+                className="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                style={{ maxWidth: "200px" }}
+              />
+            </div>
+
             <hr />
           </section>
 

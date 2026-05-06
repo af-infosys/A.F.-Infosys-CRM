@@ -164,8 +164,8 @@ export const getExtesionWork = async (req, res) => {
     const workEntries = (await result)
       ?.filter(
         (item) =>
-          JSON.parse(item[3] || {})?.loginId &&
-          JSON.parse(item[3] || {})?.password &&
+          JSON.parse(item[2] || {})?.loginId &&
+          JSON.parse(item[2] || {})?.password &&
           JSON.parse(item[2] || {})?.date &&
           JSON.parse(item[2] || {})?.resolutionNumber &&
           JSON.parse(item[2] || {})?.extYear &&
@@ -177,8 +177,8 @@ export const getExtesionWork = async (req, res) => {
           sheetId: item[0],
           spot: JSON.parse(item[1] || {}),
 
-          loginId: JSON.parse(item[3] || {})?.loginId,
-          password: JSON.parse(item[3] || {})?.password,
+          loginId: JSON.parse(item[2] || {})?.loginId,
+          password: JSON.parse(item[2] || {})?.password,
 
           date: JSON.parse(item[2] || {})?.date,
           resolutionNumber: JSON.parse(item[2] || {})?.resolutionNumber,
