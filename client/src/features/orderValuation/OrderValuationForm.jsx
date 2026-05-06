@@ -1586,7 +1586,7 @@ const OrderValuationForm = () => {
                 id="extPanchayat"
                 name="extPanchayat"
                 list="update-suggestions"
-                placeholder="Type or select an update..."
+                placeholder="સર્વે / સીટી સર્વે પંચાયત"
                 className="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
               />
             </div>
@@ -1605,7 +1605,7 @@ const OrderValuationForm = () => {
                 id="loginId"
                 name="loginId"
                 list="update-suggestions"
-                placeholder="2026-27"
+                placeholder="Portal Login ID"
                 className="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                 style={{ maxWidth: "200px" }}
               />
@@ -1625,7 +1625,7 @@ const OrderValuationForm = () => {
                 id="password"
                 name="password"
                 list="update-suggestions"
-                placeholder="Type or select an update..."
+                placeholder="Portal Password"
                 className="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                 style={{ maxWidth: "200px" }}
               />
