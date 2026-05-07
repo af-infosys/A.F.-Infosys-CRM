@@ -1605,7 +1605,7 @@ const ManglaRegister = () => {
 
                   <tr>
                     <th
-                      colSpan="4"
+                      colSpan="5"
                       style={{
                         textAlign: "center",
                         color: "#000",

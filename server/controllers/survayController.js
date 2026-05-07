@@ -989,9 +989,7 @@ export const calculateValuation = async (req, res) => {
                   total *
                   Number(valuationData[0][2])) /
                 100;
-            }
-
-            if (
+            } else if (
               room.type === "પાકા" &&
               room.roomHallShopGodown === "રૂમ" &&
               Number(room.slabRooms || 0) === 0
@@ -1004,18 +1002,17 @@ export const calculateValuation = async (req, res) => {
 
               propertyPrice += Number(valuationData[1][1]) * total;
               tax += Number(valuationData[1][3]) * total;
-            }
-
-            if (room.type === "પાકા" && room.roomHallShopGodown === "રૂમ") {
+            } else if (
+              room.type === "પાકા" &&
+              room.roomHallShopGodown === "રૂમ"
+            ) {
               let total = 0;
 
               total += Number(room.slabRooms);
 
               propertyPrice += Number(valuationData[2][1]) * total;
               tax += Number(valuationData[2][3]) * total;
-            }
-
-            if (
+            } else if (
               room.type === "પાકા" &&
               room.roomHallShopGodown === "હોલ મોટો"
             ) {
@@ -1032,10 +1029,7 @@ export const calculateValuation = async (req, res) => {
                   total *
                   Number(valuationData[12][2])) /
                 100;
-            }
-
-            // Duakn
-            if (room.roomHallShopGodown === "દુકાન નાની") {
+            } else if (room.roomHallShopGodown === "દુકાન નાની") {
               let total = 0;
 
               total += Number(room.slabRooms);
@@ -1063,9 +1057,7 @@ export const calculateValuation = async (req, res) => {
                   total *
                   Number(valuationData[8][2])) /
                 100;
-            }
-
-            if (
+            } else if (
               room.type === "પાકા" ||
               room.roomHallShopGodown === "ગોડાઉન નાનું"
             ) {
