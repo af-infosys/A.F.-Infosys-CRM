@@ -1088,7 +1088,7 @@ const ManglaRegister = () => {
 
                 {/* Table Header using Divs */}
                 <table
-                  className="report-table"
+                  className="report-table tax-register-table"
                   id="pdff"
                   style={{ background: "transparent" }}
                 >
@@ -1127,7 +1127,7 @@ const ManglaRegister = () => {
                       <th
                         className="th"
                         rowSpan="3"
-                        style={{ maxWidth: "60px", verticalAlign: "top" }}
+                        style={{ maxWidth: "120px", verticalAlign: "top" }}
                       >
                         <span className="formatting">ખાતેદારનું નામ</span>
                       </th>
@@ -1145,7 +1145,7 @@ const ManglaRegister = () => {
                       <th
                         className="th"
                         colSpan="3"
-                        style={{ minWidth: "130px" }}
+                        style={{ minWidth: "100px" }}
                       >
                         <span className="formatting">ઘર વેરો</span>
                       </th>
@@ -1153,7 +1153,7 @@ const ManglaRegister = () => {
                       <th
                         className="th"
                         colSpan="3"
-                        style={{ minWidth: "130px" }}
+                        style={{ minWidth: "100px" }}
                       >
                         <span className="formatting">સામાન્ય પાણી વેરો</span>
                       </th>
@@ -1161,7 +1161,7 @@ const ManglaRegister = () => {
                       <th
                         className="th"
                         colSpan="3"
-                        style={{ minWidth: "130px" }}
+                        style={{ minWidth: "100px" }}
                       >
                         <span className="formatting">ખાસ પાણી નળ વેરો</span>
                       </th>
@@ -1169,7 +1169,7 @@ const ManglaRegister = () => {
                       <th
                         className="th"
                         colSpan="3"
-                        style={{ minWidth: "130px" }}
+                        style={{ minWidth: "100px" }}
                       >
                         <span className="formatting">દિવાબતી લાઈટ વેરો</span>
                       </th>
@@ -1177,7 +1177,7 @@ const ManglaRegister = () => {
                       <th
                         className="th"
                         colSpan="3"
-                        style={{ minWidth: "130px" }}
+                        style={{ minWidth: "100px" }}
                       >
                         <span className="formatting">સફાઈ વેરો</span>
                       </th>
@@ -1242,7 +1242,11 @@ const ManglaRegister = () => {
                       <tbody>
                         <tr key={index}>
                           <td
-                            style={{ textAlign: "right", verticalAlign: "top" }}
+                            style={{
+                              textAlign: "right",
+                              verticalAlign: "top",
+                              paddingTop: "5px",
+                            }}
                           >
                             <span className="formatting">
                               {toGujaratiNumber(record[0])}
@@ -1250,7 +1254,11 @@ const ManglaRegister = () => {
                           </td>
 
                           <td
-                            style={{ textAlign: "right", verticalAlign: "top" }}
+                            style={{
+                              textAlign: "right",
+                              verticalAlign: "top",
+                              paddingTop: "5px",
+                            }}
                           >
                             <span className="formatting">
                               {toGujaratiNumber(record[2])}
@@ -1263,7 +1271,11 @@ const ManglaRegister = () => {
 
                           <td
                             // style={{ maxWidth: "150px" }}
-                            style={{ verticalAlign: "top", maxWidth: "200px" }}
+                            style={{
+                              verticalAlign: "top",
+                              maxWidth: "220px",
+                              paddingTop: "5px",
+                            }}
                           >
                             <span
                               className="formatting"
@@ -1274,7 +1286,10 @@ const ManglaRegister = () => {
                           </td>
 
                           {/* ઘર વેરો */}
-                          <td className="td" style={{ textAlign: "right" }}>
+                          <td
+                            className="td"
+                            style={{ textAlign: "right", minWidth: "60px" }}
+                          >
                             <span className="formatting">
                               {toGujaratiNumber(Number(record[22]) || " ")}
                             </span>
@@ -1300,7 +1315,10 @@ const ManglaRegister = () => {
 
                           {/* [{ "curr": 20, "prev": 0 }, { "curr": 0, "prev": 0 }, { "curr": 0, "prev": 0 }] */}
                           {/* સામાન્ય પાણી વેરો */}
-                          <td className="td" style={{ textAlign: "right" }}>
+                          <td
+                            className="td"
+                            style={{ textAlign: "right", minWidth: "60px" }}
+                          >
                             <span className="formatting">
                               {toGujaratiNumber(
                                 Number(
@@ -1338,7 +1356,10 @@ const ManglaRegister = () => {
                           </td>
 
                           {/* ખાસ પાણી નળ વેરો */}
-                          <td className="td" style={{ textAlign: "right" }}>
+                          <td
+                            className="td"
+                            style={{ textAlign: "right", minWidth: "60px" }}
+                          >
                             <span className="formatting">
                               {toGujaratiNumber(
                                 Number(
@@ -1376,7 +1397,10 @@ const ManglaRegister = () => {
                           </td>
 
                           {/* દિવાબતી લાઈટ વેરો */}
-                          <td className="td" style={{ textAlign: "right" }}>
+                          <td
+                            className="td"
+                            style={{ textAlign: "right", minWidth: "60px" }}
+                          >
                             <span className="formatting">
                               {toGujaratiNumber(
                                 Number(
@@ -1412,7 +1436,10 @@ const ManglaRegister = () => {
                           </td>
 
                           {/* સફાઈ વેરો */}
-                          <td className="td" style={{ textAlign: "right" }}>
+                          <td
+                            className="td"
+                            style={{ textAlign: "right", minWidth: "60px" }}
+                          >
                             <span className="formatting">
                               {toGujaratiNumber(
                                 Number(
@@ -1450,7 +1477,10 @@ const ManglaRegister = () => {
                           </td>
 
                           {/* કુલ એકંદર */}
-                          <td className="td" style={{ textAlign: "right" }}>
+                          <td
+                            className="td"
+                            style={{ textAlign: "right", minWidth: "60px" }}
+                          >
                             <span className="formatting">
                               {toGujaratiNumber(
                                 Number(record[22] || " ") +

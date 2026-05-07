@@ -1366,6 +1366,7 @@ const TaxRegister = () => {
                               textAlign: "right",
                               verticalAlign: "top",
                               maxWidth: "30px",
+                              paddingTop: "5px",
                             }}
                           >
                             <span className="formatting">
@@ -1379,6 +1380,7 @@ const TaxRegister = () => {
                               textAlign: "right",
                               verticalAlign: "top",
                               maxWidth: "30px",
+                              paddingTop: "5px",
                             }}
                           >
                             <span className="formatting">
@@ -1386,7 +1388,10 @@ const TaxRegister = () => {
                             </span>
                           </td>
 
-                          <td rowSpan="3" style={{ verticalAlign: "top" }}>
+                          <td
+                            rowSpan="3"
+                            style={{ verticalAlign: "top", paddingTop: "5px" }}
+                          >
                             <span className="formatting">{record[1]}</span>
                           </td>
 
@@ -1394,13 +1399,17 @@ const TaxRegister = () => {
                             rowSpan="3"
                             style={{
                               verticalAlign: "top",
-
                               maxWidth: "200px",
+                              paddingTop: "5px",
                             }}
                           >
                             <span
                               className="formatting"
-                              style={{ verticalAlign: "top", maxWidth: "30px" }}
+                              style={{
+                                verticalAlign: "top",
+                                maxWidth: "30px",
+                                paddingTop: "5px",
+                              }}
                             >
                               {record[3]}
                             </span>
@@ -1409,17 +1418,20 @@ const TaxRegister = () => {
                           <td
                             rowSpan="3"
                             // style={{ maxWidth: "150px" }}
-                            style={{ verticalAlign: "top" }}
+                            style={{ verticalAlign: "top", paddingTop: "5px" }}
                           >
                             <span
                               className="formatting"
-                              style={{ verticalAlign: "top" }}
+                              style={{
+                                verticalAlign: "top",
+                                paddingTop: "5px",
+                              }}
                             >
                               {toGujaratiNumber(record[5])}
                             </span>
                           </td>
 
-                          <td style={{ minWidth: "120px" }}>
+                          <td style={{ minWidth: "100px", maxWidth: "100px" }}>
                             <span className="formatting">{""}</span>
                           </td>
 
@@ -1428,7 +1440,10 @@ const TaxRegister = () => {
                           </th>
 
                           {/* ઘર વેરો */}
-                          <td className="td" style={{ textAlign: "right" }}>
+                          <td
+                            className="td"
+                            style={{ textAlign: "right", minWidth: "60px" }}
+                          >
                             <span className="formatting">
                               {toGujaratiNumber(Number(record[22]) || "")}
                             </span>
@@ -1454,7 +1469,10 @@ const TaxRegister = () => {
 
                           {/* [{ "curr": 20, "prev": 0 }, { "curr": 0, "prev": 0 }, { "curr": 0, "prev": 0 }] */}
                           {/* સામાન્ય પાણી વેરો */}
-                          <td className="td" style={{ textAlign: "right" }}>
+                          <td
+                            className="td"
+                            style={{ textAlign: "right", minWidth: "60px" }}
+                          >
                             <span className="formatting">
                               {toGujaratiNumber(
                                 JSON.parse(record[23] || "{}")?.normal_water
@@ -1488,7 +1506,10 @@ const TaxRegister = () => {
                           </td>
 
                           {/* ખાસ પાણી નળ વેરો */}
-                          <td className="td" style={{ textAlign: "right" }}>
+                          <td
+                            className="td"
+                            style={{ textAlign: "right", minWidth: "60px" }}
+                          >
                             <span className="formatting">
                               {toGujaratiNumber(
                                 JSON.parse(record[23] || "{}")?.special_water
@@ -1522,7 +1543,10 @@ const TaxRegister = () => {
                           </td>
 
                           {/* દિવાબતી લાઈટ વેરો */}
-                          <td className="td" style={{ textAlign: "right" }}>
+                          <td
+                            className="td"
+                            style={{ textAlign: "right", minWidth: "60px" }}
+                          >
                             <span className="formatting">
                               {toGujaratiNumber(
                                 JSON.parse(record[23] || "{}")?.light?.prev ||
@@ -1556,11 +1580,16 @@ const TaxRegister = () => {
                           </td>
 
                           {/* સફાઈ વેરો */}
-                          <td className="td" style={{ textAlign: "right" }}>
+                          <td
+                            className="td"
+                            style={{ textAlign: "right", minWidth: "60px" }}
+                          >
                             <span className="formatting">
                               {toGujaratiNumber(
-                                JSON.parse(record[23] || "{}")?.cleaning
-                                  ?.prev || " ",
+                                Number(
+                                  JSON.parse(record[23] || "{}")?.cleaning
+                                    ?.prev,
+                                ) || " ",
                               )}
                             </span>
                           </td>
@@ -1568,8 +1597,10 @@ const TaxRegister = () => {
                           <td className="td" style={{ textAlign: "right" }}>
                             <span className="formatting">
                               {toGujaratiNumber(
-                                JSON.parse(record[21] || "{}")?.cleaning
-                                  ?.curr || " ",
+                                Number(
+                                  JSON.parse(record[21] || "{}")?.cleaning
+                                    ?.curr,
+                                ) || " ",
                               )}
                             </span>
                           </td>
@@ -1590,91 +1621,100 @@ const TaxRegister = () => {
                           </td>
 
                           {/* કુલ એકંદર */}
-                          <td className="td" style={{ textAlign: "right" }}>
+                          <td
+                            className="td"
+                            style={{ textAlign: "right", minWidth: "60px" }}
+                          >
                             <span className="formatting">
                               {toGujaratiNumber(
-                                Number(record[22] || " ") +
-                                  Number(
-                                    JSON.parse(record[23] || "{}")?.normal_water
-                                      ?.prev || " ",
-                                  ) +
-                                  Number(
-                                    JSON.parse(record[23] || "{}")
-                                      ?.special_water?.prev || " ",
-                                  ) +
-                                  Number(
-                                    JSON.parse(record[23] || "{}")?.light
-                                      ?.prev || " ",
-                                  ) +
-                                  Number(
-                                    JSON.parse(record[23] || "{}")?.cleaning
-                                      ?.prev || " ",
-                                  ),
-                              )}
-                            </span>
-                          </td>
-
-                          <td className="td" style={{ textAlign: "right" }}>
-                            <span className="formatting">
-                              {toGujaratiNumber(
-                                Number(record[20] || " ") +
-                                  Number(
-                                    JSON.parse(record[21] || "{}")?.normal_water
-                                      ?.curr || " ",
-                                  ) +
-                                  Number(
-                                    JSON.parse(record[21] || "{}")
-                                      ?.special_water?.curr || " ",
-                                  ) +
-                                  Number(
-                                    JSON.parse(record[21] || "{}")?.light
-                                      ?.curr || " ",
-                                  ) +
-                                  Number(
-                                    JSON.parse(record[21] || "{}")?.cleaning
-                                      ?.curr || " ",
-                                  ),
-                              )}
-                            </span>
-                          </td>
-
-                          <td className="td" style={{ textAlign: "right" }}>
-                            <span className="formatting">
-                              {toGujaratiNumber(
-                                Number(record[20] || " ") +
+                                Number(
                                   Number(record[22] || " ") +
-                                  Number(
-                                    JSON.parse(record[21] || "{}")?.normal_water
-                                      ?.curr || " ",
-                                  ) +
-                                  Number(
-                                    JSON.parse(record[21] || "{}")
-                                      ?.special_water?.curr || " ",
-                                  ) +
-                                  Number(
-                                    JSON.parse(record[21] || "{}")?.light
-                                      ?.curr || " ",
-                                  ) +
-                                  Number(
-                                    JSON.parse(record[21] || "{}")?.cleaning
-                                      ?.curr || " ",
-                                  ) +
-                                  Number(
-                                    JSON.parse(record[23] || "{}")?.normal_water
-                                      ?.prev || " ",
-                                  ) +
-                                  Number(
-                                    JSON.parse(record[23] || "{}")
-                                      ?.special_water?.prev || " ",
-                                  ) +
-                                  Number(
-                                    JSON.parse(record[23] || "{}")?.light
-                                      ?.prev || " ",
-                                  ) +
-                                  Number(
-                                    JSON.parse(record[23] || "{}")?.cleaning
-                                      ?.prev || " ",
-                                  ),
+                                    Number(
+                                      JSON.parse(record[23] || "{}")
+                                        ?.normal_water?.prev || " ",
+                                    ) +
+                                    Number(
+                                      JSON.parse(record[23] || "{}")
+                                        ?.special_water?.prev || " ",
+                                    ) +
+                                    Number(
+                                      JSON.parse(record[23] || "{}")?.light
+                                        ?.prev || " ",
+                                    ) +
+                                    Number(
+                                      JSON.parse(record[23] || "{}")?.cleaning
+                                        ?.prev || " ",
+                                    ),
+                                ) || " ",
+                              )}
+                            </span>
+                          </td>
+
+                          <td className="td" style={{ textAlign: "right" }}>
+                            <span className="formatting">
+                              {toGujaratiNumber(
+                                Number(
+                                  Number(record[20] || " ") +
+                                    Number(
+                                      JSON.parse(record[21] || "{}")
+                                        ?.normal_water?.curr || " ",
+                                    ) +
+                                    Number(
+                                      JSON.parse(record[21] || "{}")
+                                        ?.special_water?.curr || " ",
+                                    ) +
+                                    Number(
+                                      JSON.parse(record[21] || "{}")?.light
+                                        ?.curr || " ",
+                                    ) +
+                                    Number(
+                                      JSON.parse(record[21] || "{}")?.cleaning
+                                        ?.curr || " ",
+                                    ),
+                                ) || "",
+                              )}
+                            </span>
+                          </td>
+
+                          <td className="td" style={{ textAlign: "right" }}>
+                            <span className="formatting">
+                              {toGujaratiNumber(
+                                Number(
+                                  Number(record[20] || " ") +
+                                    Number(record[22] || " ") +
+                                    Number(
+                                      JSON.parse(record[21] || "{}")
+                                        ?.normal_water?.curr || " ",
+                                    ) +
+                                    Number(
+                                      JSON.parse(record[21] || "{}")
+                                        ?.special_water?.curr || " ",
+                                    ) +
+                                    Number(
+                                      JSON.parse(record[21] || "{}")?.light
+                                        ?.curr || " ",
+                                    ) +
+                                    Number(
+                                      JSON.parse(record[21] || "{}")?.cleaning
+                                        ?.curr || " ",
+                                    ) +
+                                    Number(
+                                      JSON.parse(record[23] || "{}")
+                                        ?.normal_water?.prev || " ",
+                                    ) +
+                                    Number(
+                                      JSON.parse(record[23] || "{}")
+                                        ?.special_water?.prev || " ",
+                                    ) +
+                                    Number(
+                                      JSON.parse(record[23] || "{}")?.light
+                                        ?.prev || " ",
+                                    ) +
+                                    Number(
+                                      JSON.parse(record[23] || "{}")?.cleaning
+                                        ?.prev || " ",
+                                    ),
+                                ) || "",
                               )}
                             </span>
                           </td>
