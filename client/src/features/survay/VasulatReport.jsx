@@ -1147,7 +1147,7 @@ const VasulatRegister = () => {
 
                 {/* Table Header using Divs */}
                 <table
-                  className="report-table"
+                  className="report-table tax-register-table"
                   id="pdff"
                   style={{ background: "transparent" }}
                 >
@@ -1310,7 +1310,7 @@ const VasulatRegister = () => {
                         <tr key={index}>
                           <td
                             style={{
-                              textAlign: "right",
+                              textAlign: "center",
                               verticalAlign: "top",
                               maxWidth: "40px",
                             }}
@@ -1334,7 +1334,7 @@ const VasulatRegister = () => {
 
                           <td
                             className="td"
-                            style={{ textAlign: "right", minWidth: "40px" }}
+                            style={{ textAlign: "center", minWidth: "40px" }}
                           >
                             <span className="formatting"></span>
                           </td>
