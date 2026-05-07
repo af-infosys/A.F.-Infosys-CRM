@@ -398,7 +398,7 @@ const TaxRegister = () => {
     }
 
     // 2️⃣ Room details based ("દુકાન")
-    if (row[14]) {
+    if (row[15]) {
       try {
         const floors = JSON.parse(row[15]);
 

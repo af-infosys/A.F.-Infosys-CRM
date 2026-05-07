@@ -388,7 +388,7 @@ const VasulatRegister = () => {
   );
 
   function isCommercialProperty(row) {
-    const category = row[7] ? row[7].trim() : "";
+    const category = row[8] ? row[8].trim() : "";
 
     // 1️⃣ Category based
     if (commercialCategories.includes(category)) {
@@ -396,9 +396,9 @@ const VasulatRegister = () => {
     }
 
     // 2️⃣ Room details based ("દુકાન")
-    if (row[14]) {
+    if (row[15]) {
       try {
-        const floors = JSON.parse(row[14]);
+        const floors = JSON.parse(row[15]);
 
         return floors.some(
           (floor) =>
