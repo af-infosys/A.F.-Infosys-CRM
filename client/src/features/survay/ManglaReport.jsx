@@ -376,7 +376,7 @@ const ManglaRegister = () => {
   // Paginate records into chunks of 6
   // --- CONFIGURATION ---
 
-  const PROPERTIES_PER_PAGE = 18;
+  const PROPERTIES_PER_PAGE = 15;
   const BUNDLE_SIZE = 100;
 
   const finalRenderPages = buildFinalPages(
