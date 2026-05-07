@@ -1224,7 +1224,7 @@ const ManglaRegister = () => {
                     {/* Index Start */}
                     <tr>
                       {/* 1 to 18 th for index */}
-                      {Array.from({ length: 22 }).map((_, index) => (
+                      {Array.from({ length: 23 }).map((_, index) => (
                         <th
                           className="text-xs font-medium text-gray-500 uppercase tracking-wider"
                           style={{
