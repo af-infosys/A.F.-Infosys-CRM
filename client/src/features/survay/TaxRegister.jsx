@@ -1198,7 +1198,7 @@ const TaxRegister = () => {
 
                 {/* Table Header using Divs */}
                 <table
-                  className="report-table"
+                  className="report-table tax-register-table"
                   id="pdff"
                   style={{ background: "transparent" }}
                 >
@@ -1360,38 +1360,53 @@ const TaxRegister = () => {
                     return (
                       <tbody>
                         <tr key={index}>
-                          <th
+                          <td
                             rowSpan="3"
-                            style={{ textAlign: "right", verticalAlign: "top" }}
+                            style={{
+                              textAlign: "right",
+                              verticalAlign: "top",
+                              maxWidth: "30px",
+                            }}
                           >
                             <span className="formatting">
                               {toGujaratiNumber(record[0])}
                             </span>
-                          </th>
+                          </td>
 
-                          <th
+                          <td
                             rowSpan="3"
-                            style={{ textAlign: "right", verticalAlign: "top" }}
+                            style={{
+                              textAlign: "right",
+                              verticalAlign: "top",
+                              maxWidth: "30px",
+                            }}
                           >
                             <span className="formatting">
                               {toGujaratiNumber(record[2])}
                             </span>
-                          </th>
+                          </td>
 
-                          <th rowSpan="3" style={{ verticalAlign: "top" }}>
+                          <td rowSpan="3" style={{ verticalAlign: "top" }}>
                             <span className="formatting">{record[1]}</span>
-                          </th>
+                          </td>
 
-                          <th rowSpan="3" style={{ verticalAlign: "top" }}>
+                          <td
+                            rowSpan="3"
+                            style={{
+                              verticalAlign: "top",
+
+                              maxWidth: "200px",
+                            }}
+                          >
                             <span
                               className="formatting"
-                              style={{ verticalAlign: "top" }}
+                              style={{ verticalAlign: "top", maxWidth: "30px" }}
                             >
                               {record[3]}
                             </span>
-                          </th>
+                          </td>
 
-                          <th
+                          <td
                             rowSpan="3"
                             // style={{ maxWidth: "150px" }}
                             style={{ verticalAlign: "top" }}
@@ -1402,26 +1417,26 @@ const TaxRegister = () => {
                             >
                               {toGujaratiNumber(record[5])}
                             </span>
-                          </th>
-
-                          <th>
-                            <span className="formatting">{""}</span>
-                          </th>
-
-                          <td className="td">
-                            <span className="formatting">માંગણું</span>
                           </td>
+
+                          <td style={{ minWidth: "120px" }}>
+                            <span className="formatting">{""}</span>
+                          </td>
+
+                          <th className="td">
+                            <span className="formatting">માંગણું</span>
+                          </th>
 
                           {/* ઘર વેરો */}
                           <td className="td" style={{ textAlign: "right" }}>
                             <span className="formatting">
-                              {toGujaratiNumber(record[22] || "")}
+                              {toGujaratiNumber(Number(record[22]) || "")}
                             </span>
                           </td>
                           <td className="td" style={{ textAlign: "right" }}>
                             <span className="formatting">
                               {/* {JSON.parse(record[24] || "{}")?.[0]?.curr || ' '} */}
-                              {toGujaratiNumber(record[20] || "")}
+                              {toGujaratiNumber(Number(record[20]) || "")}
                             </span>
                           </td>
                           <td className="td" style={{ textAlign: "right" }}>
@@ -1673,9 +1688,9 @@ const TaxRegister = () => {
                             <span className="formatting">{""}</span>
                           </th>
 
-                          <td className="td">
+                          <th className="td">
                             <span className="formatting">વસુલાત</span>
-                          </td>
+                          </th>
 
                           {/* ઘર વેરો */}
                           <td className="td" style={{ textAlign: "right" }}>
@@ -1866,9 +1881,9 @@ const TaxRegister = () => {
                             <span className="formatting">{""}</span>
                           </th>
 
-                          <td className="td">
+                          <th className="td">
                             <span className="formatting">બાકી</span>
-                          </td>
+                          </th>
 
                           {/* ઘર વેરો */}
                           <td className="td" style={{ textAlign: "right" }}>
@@ -2064,7 +2079,7 @@ const TaxRegister = () => {
                   </tr>
 
                   <tr>
-                    <th
+                    <td
                       colSpan="6"
                       rowSpan="3"
                       style={{
@@ -2074,10 +2089,10 @@ const TaxRegister = () => {
                       }}
                     >
                       પાનાનું કુલ
-                    </th>
-                    <td className="td">
-                      <span className="formatting">માંગણું</span>
                     </td>
+                    <th className="td">
+                      <span className="formatting">માંગણું</span>
+                    </th>
                     {Array.from({ length: 6 }).map((_, categoryIndex) => {
                       let prevForCategory = 0;
 
@@ -2204,9 +2219,9 @@ const TaxRegister = () => {
                   </tr>
 
                   <tr>
-                    <td className="td">
+                    <th className="td">
                       <span className="formatting">વસુલાત</span>
-                    </td>
+                    </th>
 
                     {Array.from({ length: 6 }).map((_, categoryIndex) => {
                       const recordColumnIndex = 21 + categoryIndex;
@@ -2276,9 +2291,9 @@ const TaxRegister = () => {
 
                   {/* Outstanding Row: બાકી */}
                   <tr>
-                    <td className="td">
+                    <th className="td">
                       <span className="formatting">બાકી</span>
-                    </td>
+                    </th>
                     {Array.from({ length: 6 }).map((_, categoryIndex) => {
                       const recordColumnIndex = 21 + categoryIndex;
                       const totalForCategory = item.pageRecords.reduce(

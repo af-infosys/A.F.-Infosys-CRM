@@ -73,3 +73,14 @@ td.record {
   position: relative;
   transform: translateY(-7px);
 }
+
+.tax-register-table {
+  th {
+    font-size: 15px !important;
+    font-weight: 700 !important;
+  }
+  td {
+    font-size: 17px !important;
+    font-weight: 700;
+  }
+}
