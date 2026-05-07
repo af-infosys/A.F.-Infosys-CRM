@@ -1134,6 +1134,14 @@ const ManglaRegister = () => {
 
                       <th
                         className="th"
+                        rowSpan="3"
+                        style={{ maxWidth: "45px" }}
+                      >
+                        <span className="formatting"> જૂનો મિ.નં. </span>
+                      </th>
+
+                      <th
+                        className="th"
                         colSpan="18"
                         style={{ maxWidth: "60px" }}
                       >
@@ -1282,6 +1290,22 @@ const ManglaRegister = () => {
                               style={{ textWrap: "wrap" }}
                             >
                               {record[3]}
+                            </span>
+                          </td>
+
+                          <td
+                            rowSpan="3"
+                            // style={{ maxWidth: "150px" }}
+                            style={{ verticalAlign: "top", paddingTop: "5px" }}
+                          >
+                            <span
+                              className="formatting"
+                              style={{
+                                verticalAlign: "top",
+                                paddingTop: "5px",
+                              }}
+                            >
+                              {toGujaratiNumber(record[5])}
                             </span>
                           </td>
 

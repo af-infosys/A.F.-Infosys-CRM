@@ -1241,7 +1241,7 @@ const TaxRegister = () => {
                         rowSpan="2"
                         style={{ maxWidth: "45px" }}
                       >
-                        <span className="formatting"> જૂનો મિ. નં. </span>
+                        <span className="formatting"> જૂનો મિ.નં. </span>
                       </th>
 
                       <th
