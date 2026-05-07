@@ -1064,6 +1064,42 @@ export const calculateValuation = async (req, res) => {
                   Number(valuationData[8][2])) /
                 100;
             }
+
+            if (
+              room.type === "પાકા" ||
+              room.roomHallShopGodown === "ગોડાઉન નાનું"
+            ) {
+              let total = 0;
+
+              total += Number(room.slabRooms);
+              total += Number(room.tinRooms);
+              total += Number(room.woodenRooms);
+              total += Number(room.tileRooms);
+
+              propertyPrice += Number(valuationData[9][1]) * total;
+              tax +=
+                (Number(valuationData[9][1]) *
+                  total *
+                  Number(valuationData[9][2])) /
+                100;
+            } else if (
+              room.type === "પાકા" ||
+              room.roomHallShopGodown === "ગોડાઉન મોટું"
+            ) {
+              let total = 0;
+
+              total += Number(room.slabRooms);
+              total += Number(room.tinRooms);
+              total += Number(room.woodenRooms);
+              total += Number(room.tileRooms);
+
+              propertyPrice += Number(valuationData[10][1]) * total;
+              tax +=
+                (Number(valuationData[10][1]) *
+                  total *
+                  Number(valuationData[10][2])) /
+                100;
+            }
           });
         });
 
@@ -1098,6 +1134,42 @@ export const calculateValuation = async (req, res) => {
                 (Number(valuationData[8][1]) *
                   total *
                   Number(valuationData[8][2])) /
+                100;
+            }
+
+            if (
+              room.type === "પાકા" ||
+              room.roomHallShopGodown === "ગોડાઉન નાનું"
+            ) {
+              let total = 0;
+
+              total += Number(room.slabRooms);
+              total += Number(room.tinRooms);
+              total += Number(room.woodenRooms);
+              total += Number(room.tileRooms);
+
+              propertyPrice += Number(valuationData[9][1]) * total;
+              tax +=
+                (Number(valuationData[9][1]) *
+                  total *
+                  Number(valuationData[9][2])) /
+                100;
+            } else if (
+              room.type === "પાકા" ||
+              room.roomHallShopGodown === "ગોડાઉન મોટું"
+            ) {
+              let total = 0;
+
+              total += Number(room.slabRooms);
+              total += Number(room.tinRooms);
+              total += Number(room.woodenRooms);
+              total += Number(room.tileRooms);
+
+              propertyPrice += Number(valuationData[10][1]) * total;
+              tax +=
+                (Number(valuationData[10][1]) *
+                  total *
+                  Number(valuationData[10][2])) /
                 100;
             }
           });
