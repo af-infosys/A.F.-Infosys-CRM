@@ -279,7 +279,7 @@ const ManglaRegister = () => {
 
     if (!finalState.isCancelled) {
       // 3. Finalize and Save PDF ONLY if not cancelled
-      pdf.save("3. Tax_Register.pdf");
+      pdf.save("3. Tax_Register_Mangla.pdf");
       window.alert("PDF successfully saved.");
     } else {
       window.alert("PDF save operation skipped due to cancellation.");

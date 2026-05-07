@@ -607,11 +607,11 @@ const AnalyticsReport = () => {
 
   const rahenankPieData = [
     {
-      name: `કાચા મકાનો ${reportData?.metrics[2]?.count}`,
+      name: `પાકા મકાનો ${reportData?.metrics[2]?.count}`,
       value: reportData?.metrics[2]?.count,
     },
     {
-      name: `પાકા મકાનો ${reportData?.metrics[3]?.count}`,
+      name: `કાચા મકાનો ${reportData?.metrics[3]?.count}`,
       value: reportData?.metrics[3]?.count,
     },
   ];
