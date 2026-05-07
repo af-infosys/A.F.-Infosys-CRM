@@ -378,7 +378,7 @@ const VasulatRegister = () => {
   // Paginate records into chunks of 6
   // --- CONFIGURATION ---
 
-  const PROPERTIES_PER_PAGE = 18;
+  const PROPERTIES_PER_PAGE = 13;
   const BUNDLE_SIZE = 100;
 
   const finalRenderPages = buildFinalPages(
