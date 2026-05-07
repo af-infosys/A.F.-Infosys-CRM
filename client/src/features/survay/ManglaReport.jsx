@@ -1251,7 +1251,7 @@ const ManglaRegister = () => {
                         <tr key={index}>
                           <td
                             style={{
-                              textAlign: "right",
+                              textAlign: "center",
                               verticalAlign: "top",
                               paddingTop: "5px",
                             }}
@@ -1263,7 +1263,7 @@ const ManglaRegister = () => {
 
                           <td
                             style={{
-                              textAlign: "right",
+                              textAlign: "center",
                               verticalAlign: "top",
                               paddingTop: "5px",
                             }}

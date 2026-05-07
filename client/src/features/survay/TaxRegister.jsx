@@ -1363,7 +1363,7 @@ const TaxRegister = () => {
                           <td
                             rowSpan="3"
                             style={{
-                              textAlign: "right",
+                              textAlign: "center",
                               verticalAlign: "top",
                               maxWidth: "30px",
                               paddingTop: "5px",
@@ -1377,7 +1377,7 @@ const TaxRegister = () => {
                           <td
                             rowSpan="3"
                             style={{
-                              textAlign: "right",
+                              textAlign: "center",
                               verticalAlign: "top",
                               maxWidth: "30px",
                               paddingTop: "5px",

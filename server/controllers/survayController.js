@@ -1122,6 +1122,23 @@ export const calculateValuation = async (req, res) => {
                   total *
                   Number(valuationData[9][2])) /
                 100;
+            } else if (
+              room.type === "પાકા" ||
+              room.roomHallShopGodown === "ગોડાઉન મોટું"
+            ) {
+              let total = 0;
+
+              total += Number(room.slabRooms);
+              total += Number(room.tinRooms);
+              total += Number(room.woodenRooms);
+              total += Number(room.tileRooms);
+
+              propertyPrice += Number(valuationData[10][1]) * total;
+              tax +=
+                (Number(valuationData[10][1]) *
+                  total *
+                  Number(valuationData[10][2])) /
+                100;
             }
           });
         });
