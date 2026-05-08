@@ -59,6 +59,7 @@ import ManglaRegister from "../features/survay/ManglaReport";
 import VasulatRegister from "../features/survay/VasulatReport";
 import TaxEntryFrom from "../components/excel/TaxEntryFrom";
 import TaxEntry from "../features/survay/TaxEntry";
+import KachaReport from "../features/survay/KachaReport";
 
 export default function AppRoutes() {
   const { user } = useAuth();
@@ -238,6 +239,15 @@ export default function AppRoutes() {
             element={
               <ProtectedRoute allowedRoles={["owner"]}>
                 <AnalyticsReport />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="kacha/:projectId"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <KachaReport />
               </ProtectedRoute>
             }
           />

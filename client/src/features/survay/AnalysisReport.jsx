@@ -784,7 +784,7 @@ const AnalyticsReport = () => {
                         color: "#000",
                       }}
                     >
-                      Page - B
+                      Page - C
                     </span>
                   </h1>{" "}
                   <div
@@ -946,7 +946,7 @@ const AnalyticsReport = () => {
                         color: "#000",
                       }}
                     >
-                      Page - C
+                      Page - D
                     </span>
                   </h1>{" "}
                   <div
@@ -1126,7 +1126,7 @@ const AnalyticsReport = () => {
           onClick={generatePDF}
           className="mt-8 bg-green-600 text-white px-8 py-3 rounded-full font-bold shadow-lg hover:bg-green-700"
         >
-          Download 3-Page Report (PDF)
+          Download Analysis Report (PDF)
         </button>
       </div>
     </>

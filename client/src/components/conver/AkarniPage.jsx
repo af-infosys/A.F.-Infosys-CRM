@@ -10,6 +10,7 @@ const AkarniPage = ({
   current,
   count,
   isCommercial,
+  kacha = false,
 }) => {
   return (
     <div
@@ -26,7 +27,8 @@ const AkarniPage = ({
             transform: "translate(-3px, 65px)",
           }}
         >
-          પાના નં. {toGujaratiNumber(pageIndex + 1)}
+          પાના નં.{" "}
+          {kacha ? `B${pageIndex + 1}` : toGujaratiNumber(pageIndex + 1)}
         </span>
 
         <h1 className="heading" style={{ marginTop: "60px" }}>

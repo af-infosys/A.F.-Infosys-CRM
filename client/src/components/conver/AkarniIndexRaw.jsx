@@ -7,7 +7,7 @@ import WaleImage2 from "../../assets/wale2.png";
 // import IconImage from "../../assets/cover/akarni-i/icon.png";
 // import Icon2Image from "../../assets/cover/akarni-ii/icon.png";
 
-import toGujaratiNumber from "../toGujaratiNumber";
+// import toGujaratiNumber from "../toGujaratiNumber";
 
 import "./AkarniIndex.scss";
 
@@ -238,7 +238,7 @@ const AkarniIndexRaw = ({
               <label style={{ maxWidth: "fit-content", fontSize: "21px" }}>
                 ભાગ :-
                 <b style={{ paddingInline: "5px", marginLeft: "2px" }}>
-                  {toGujaratiNumber(part)}
+                  {part}
                 </b>
               </label>
             </div>
@@ -247,7 +247,7 @@ const AkarniIndexRaw = ({
               <label style={{ maxWidth: "fit-content", fontSize: "21px" }}>
                 આ રજીસ્ટર ના ઘરની સંખ્યા :-
                 <b style={{ paddingInline: "5px", marginLeft: "2px" }}>
-                  {toGujaratiNumber(coverProperties)}
+                  {coverProperties}
                 </b>
               </label>
             </div>
@@ -256,7 +256,7 @@ const AkarniIndexRaw = ({
               <label style={{ maxWidth: "fit-content", fontSize: "21px" }}>
                 પાના નંબર :-
                 <b style={{ paddingInline: "5px", marginLeft: "2px" }}>
-                  {`${toGujaratiNumber(pageFrom)} થી ${toGujaratiNumber(pageTo)}`}
+                  {`${pageFrom} થી ${pageTo}`}
                 </b>
               </label>
             </div>
@@ -265,7 +265,7 @@ const AkarniIndexRaw = ({
               <label style={{ maxWidth: "fit-content", fontSize: "21px" }}>
                 ગામના કુલ ઘરની સંખ્યા :-
                 <b style={{ paddingInline: "5px", marginLeft: "2px" }}>
-                  {toGujaratiNumber(totalHoouse)}
+                  {totalHoouse}
                 </b>
               </label>
             </div>

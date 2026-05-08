@@ -81,9 +81,9 @@ const SurvayReport = () => {
     let toilets = 0;
 
     records.forEach((record) => {
-      phoneNumbers += Number(record[5] || 0) > 0 ? 1 : 0;
-      tapConnections += Number(record[11] || 0);
-      toilets += Number(record[12] || 0);
+      phoneNumbers += Number(record[6] || 0) > 0 ? 1 : 0;
+      tapConnections += Number(record[12] || 0);
+      toilets += Number(record[13] || 0);
     });
 
     setCount({

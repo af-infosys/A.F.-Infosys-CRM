@@ -7,7 +7,7 @@ import ContentImage from "../../assets/cover/akarni-i/content.png";
 import IconImage from "../../assets/cover/akarni-i/icon.png";
 import Icon2Image from "../../assets/cover/akarni-ii/icon.png";
 
-import toGujaratiNumber from "../toGujaratiNumber";
+// import toGujaratiNumber from "../toGujaratiNumber";
 
 import "./AkarniIndex.scss";
 
@@ -310,7 +310,7 @@ const AkarniIndex = ({
           color: "black",
         }}
       >
-        {toGujaratiNumber(part)}
+        {part}
       </b>
 
       <b
@@ -323,7 +323,7 @@ const AkarniIndex = ({
           color: "black",
         }}
       >
-        {toGujaratiNumber(coverProperties)}
+        {coverProperties}
       </b>
 
       <b
@@ -336,7 +336,7 @@ const AkarniIndex = ({
           color: "black",
         }}
       >
-        {toGujaratiNumber(`${pageFrom} થી ${pageTo}`)}
+        {`${pageFrom} થી ${pageTo}`}
       </b>
 
       <b
@@ -349,7 +349,7 @@ const AkarniIndex = ({
           color: "black",
         }}
       >
-        {toGujaratiNumber(totalHoouse)}
+        {totalHoouse}
       </b>
 
       <p
