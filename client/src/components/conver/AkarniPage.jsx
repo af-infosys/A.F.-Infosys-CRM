@@ -24,19 +24,28 @@ const AkarniPage = ({
             position: "relative",
             color: "black",
             fontSize: "16px",
-            transform: "translate(-3px, 65px)",
+            transform: "translate(-3px, 70px)",
           }}
         >
           પાના નં.{" "}
-          {kacha ? `B${pageIndex + 1}` : toGujaratiNumber(pageIndex + 1)}
+          {kacha ? `B-${pageIndex + 1}` : toGujaratiNumber(pageIndex + 1)}
         </span>
 
-        <h1 className="heading" style={{ marginTop: "60px" }}>
-          પંચાયત હિસાબ નમુનો નંબર - ૮ (આકારણી રજીસ્ટર
+        <h1
+          className="heading"
+          style={{
+            marginTop: "50px",
+            textDecoration: `${kacha ? "underline" : "none"}`,
+            maxWidth: "fit-content",
+            textAlign: "center",
+            marginInline: "auto",
+          }}
+        >
+          કાચા મકાનોની ફક્ત યાદી, પંચાયત હિસાબ નમુનો નંબર - ૮ (આકારણી રજીસ્ટર
           {isCommercial === true
-            ? " - કોમર્શિયલ મિલકત"
+            ? " - કોમર્શિયલ મિલ્કત"
             : isCommercial === false
-              ? " - રહેણાંક મિલકત"
+              ? " - રહેણાંક મિલ્કત"
               : ""}
           )
         </h1>
@@ -74,7 +83,9 @@ const AkarniPage = ({
           {/* Main Headers with RowSpan/ColSpan */}
           <tr>
             <th className="" rowSpan={2} style={headerStyle}>
-              <span className="formatting">અનુંક્રમાંક</span>
+              <span className="formatting">
+                {kacha ? "ક્રમ નં." : "અનુંક્રમાંક"}
+              </span>
             </th>
             <th
               className=""
@@ -95,7 +106,9 @@ const AkarniPage = ({
               rowSpan={2}
               style={{ ...headerStyle, fontSize: "14px" }}
             >
-              <span className="formatting">મિલ્કતનું વર્ણન</span>
+              <span className="formatting">
+                {kacha ? "કાચા મકાનનું" : "મિલ્કતનું"} વર્ણન
+              </span>
             </th>
             <th
               className=""

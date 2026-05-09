@@ -1204,7 +1204,6 @@ const SurvayReport = () => {
                 current={idx + 1}
                 totalPages={finalRenderPages?.length}
                 count={count}
-                isCommercial={item?.isCommercial}
               />
             </div>
           );

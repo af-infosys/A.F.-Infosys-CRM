@@ -43,9 +43,14 @@ const KachaReport = () => {
       }
       const result = await response.json();
       setRecords(
-        result?.data?.filter((data) => {
-          return data[16].includes("કાચા");
-        }),
+        result?.data
+          ?.filter((data) => {
+            return data[16].includes("કાચા");
+          })
+          ?.map((data, index) => {
+            data[0] = index + 1;
+            return data;
+          }),
       );
     } catch (err) {
       console.error("Error fetching records:", err);

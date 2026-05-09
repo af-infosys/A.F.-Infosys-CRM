@@ -7,8 +7,6 @@ const DelayedImage = ({ fileId, delayIndex }) => {
   useEffect(() => {
     if (!fileId) return;
 
-    // અહીં $ લગાવેલો છે, અને Google Drive ની Thumbnail API વાપરી છે
-    // જે પીડીએફ અને રેટ લિમિટ (429) માટે સૌથી બેસ્ટ છે.
     // const url = `https://drive.google.com/thumbnail?id=${fileId}&sz=w800`;
     const url = `https://lh3.googleusercontent.com/u/0/d/${fileId}`;
     // const url = `https://drive.google.com/uc?export=view&id=${fileId}`;
