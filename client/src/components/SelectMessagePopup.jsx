@@ -40,7 +40,7 @@ const SelectMessagePopup = ({ isOpen, onClose, onSelect }) => {
     } catch (e) {
       console.error("Error fetching messages:", e);
       setError(
-        "Failed to load messages. Please check your network and server connection."
+        "Failed to load messages. Please check your network and server connection.",
       );
     } finally {
       setIsLoading(false);

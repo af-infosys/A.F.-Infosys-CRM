@@ -39,7 +39,7 @@ const App = () => {
     } catch (e) {
       console.error("Error fetching messages:", e);
       setError(
-        "Failed to load messages. Please check your network and server connection."
+        "Failed to load messages. Please check your network and server connection.",
       );
     } finally {
       setIsLoading(false);
@@ -72,7 +72,7 @@ const App = () => {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(formData),
-          }
+          },
         );
         if (!response.ok) {
           throw new Error("Failed to update message.");
@@ -138,7 +138,7 @@ const App = () => {
         `${await apiPath()}/api/messages/${deleteCandidateId}`,
         {
           method: "DELETE",
-        }
+        },
       );
       if (!response.ok) {
         throw new Error("Failed to delete message.");
@@ -238,14 +238,22 @@ const App = () => {
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Show unique ID field only in edit mode and make it read-only */}
 
-            <div>
+            <div
+              style={{
+                marginTop: "60px",
+              }}
+            >
               <label
                 htmlFor="title"
                 className="block text-sm font-medium text-gray-700"
+                style={{
+                  position: "relative",
+                  transform: "translateY(-40px)",
+                }}
               >
-                Title (e.g., 'Welcome Message')
+                Title (e.g., '1. Welcome Message')
               </label>
-              <input
+              <inputimageLink
                 type="text"
                 id="title"
                 name="title"
@@ -256,6 +264,7 @@ const App = () => {
                 placeholder="A unique title for the message"
               />
             </div>
+
             <div>
               <label
                 htmlFor="text"
@@ -353,8 +362,8 @@ const App = () => {
               {isLoading
                 ? "Saving..."
                 : editingId
-                ? "Update Message"
-                : "Add Message"}
+                  ? "Update Message"
+                  : "Add Message"}
             </button>
             {editingId && (
               <button

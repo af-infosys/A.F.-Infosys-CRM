@@ -110,6 +110,7 @@ const ContactListReport = () => {
 
   const sendMessageToWhatsApp = async (msg) => {
     console.log(msg);
+
     // const msg = {
     //   audioLink: "",
     //   documentLink: "",
@@ -123,6 +124,7 @@ const ContactListReport = () => {
     //   uniqueId: "423450",
     //   videoLink: "",
     // };
+
     if (selectedRecords.length === 0) {
       setSendingStatus("Please select at least one record to send a message.");
       return;
@@ -136,6 +138,7 @@ const ContactListReport = () => {
     selectedRecords.forEach((id) => {
       initialStatuses[id] = "sending";
     });
+
     setMessageStatuses(initialStatuses);
 
     for (const recordId of selectedRecords) {
@@ -145,27 +148,47 @@ const ContactListReport = () => {
       const number = String(record[4]).trim();
       const formattedNumber = number.length === 10 ? `91${number}` : number;
 
+      // send message with msg.text and (msg.imageLink || msg.videoLink || msg.audioLink || msg.documentLink)
+      // window.alert(
+      //   `https://wa.me/${formattedNumber}?text=${encodeURIComponent(
+      //     msg.text,
+      //   )}${msg.imageLink && `&image=${msg.imageLink}`}${
+      //     msg.videoLink && `&video=${msg.videoLink}`
+      //   }${msg.audioLink && `&audio=${msg.audioLink}`}${
+      //     msg.documentLink && `&document=${msg.documentLink}`
+      //   }`,
+      // );
+      window.open(
+        `https://wa.me/${formattedNumber}?text=${encodeURIComponent(
+          msg.text,
+        )}${msg.imageLink && `&image=${msg.imageLink}`}${
+          msg.videoLink && `&video=${msg.videoLink}`
+        }${msg.audioLink && `&audio=${msg.audioLink}`}${
+          msg.documentLink && `&document=${msg.documentLink}`
+        }`,
+      );
+
       try {
-        const response = await fetch(`${await apiPath()}/send-message`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-          body: JSON.stringify({
-            number: formattedNumber,
+        // const response = await fetch(`${await apiPath()}/send-message`, {
+        //   method: "POST",
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //     Authorization: `Bearer ${localStorage.getItem("token")}`,
+        //   },
+        //   body: JSON.stringify({
+        //     number: formattedNumber,
 
-            imageUrl: msg.imageLink,
-            videoUrl: msg.videoLink,
-            text: msg.text,
-            audioUrl: msg.audioLink,
-            docUrl: msg.documentLink,
-          }),
-        });
+        //     imageUrl: msg.imageLink,
+        //     videoUrl: msg.videoLink,
+        //     text: msg.text,
+        //     audioUrl: msg.audioLink,
+        //     docUrl: msg.documentLink,
+        //   }),
+        // });
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        // if (!response.ok) {
+        //   throw new Error(`HTTP error! status: ${response.status}`);
+        // }
 
         setMessageStatuses((prevStatuses) => ({
           ...prevStatuses,
@@ -472,7 +495,7 @@ const ContactListReport = () => {
                 </>
               ) : null}
 
-              <button
+              {/* <button
                 onClick={() => setIsSelectionMode(!isSelectionMode)}
                 className="add-btn flex items-center gap-2"
                 style={{
@@ -497,7 +520,7 @@ const ContactListReport = () => {
                     style={{ width: "20px", height: "20px" }}
                   />
                 )}
-              </button>
+              </button> */}
             </div>
           )}
         </div>
@@ -833,7 +856,10 @@ const ContactListReport = () => {
                         }
                         onClick={() => {
                           if (user.role === "owner")
-                            navigate(`/customers/history/${record[0]}`);
+                            window.open(
+                              `/customers/history/${record[0]}`,
+                              "_blank",
+                            );
                         }}
                       >
                         {record[2]}
@@ -867,22 +893,43 @@ const ContactListReport = () => {
                             {record[3]?.trim()}
                           </a>
                         )}
-                      </td>{" "}
+                      </td>
                       {/* Whatsaap No. */}
                       <td
                         className="record whitespace-normal text-sm text-gray-500"
                         style={
                           isSelectionMode && selectedRecords.includes(record[0])
                             ? { background: selectedColor }
-                            : null
+                            : {
+                                display: "flex",
+                                flexWrap: "nowrap",
+                                gap: "10px",
+                                border: "none",
+                              }
                         }
                       >
                         <a
                           href={`https://wa.me/91${record[4]?.trim()}`}
                           className="text-blue-600 hover:underline"
+                          target="_blank"
                         >
                           {record[4]?.trim()}
                         </a>
+
+                        <button
+                          onClick={() => {
+                            setSelectedRecords([record[0]]);
+                            setIsPopupOpen(true);
+                          }}
+                          style={{
+                            color: "white",
+                            background: "#21bf63",
+                            padding: "5px 8px",
+                          }}
+                        >
+                          Send
+                        </button>
+
                         {isSelectionMode && getStatusDisplay(record[0])}
                       </td>
                       {/* Category Customer  */}
