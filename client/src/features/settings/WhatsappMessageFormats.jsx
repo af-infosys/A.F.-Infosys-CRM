@@ -253,7 +253,7 @@ const App = () => {
               >
                 Title (e.g., '1. Welcome Message')
               </label>
-              <inputimageLink
+              <input
                 type="text"
                 id="title"
                 name="title"
