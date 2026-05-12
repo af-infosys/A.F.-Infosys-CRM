@@ -11,6 +11,7 @@ const TaxManage = () => {
 
   const [taxes, setTaxes] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [details, setDetails] = useState({});
 
   // const base = [
   //   { id: 20, name: "કીમત પ્રમાણે" },
@@ -28,20 +29,31 @@ const TaxManage = () => {
     { name: "ખા.પાણી વેરો", format: "rs", values: {} },
     { name: "લાઈટ વેરો", format: "rs", values: {} },
     { name: "સફાઈ વેરો", format: "rs", values: {} },
-    { name: "ગટર વેરો", format: "rs", values: {} },
-    { name: "નોટીસ", format: "rs", values: {} },
-    { name: "એડવાન્સ", format: "rs", values: {} },
-    { name: "અન્ય", format: "rs", values: {} },
     { name: "તાલુકા પં. કર", format: "pr", values: {} },
-    { name: "અન્ય૩", format: "rs", values: {} },
-    { name: "અન્ય૪", format: "rs", values: {} },
-    { name: "અન્ય૫", format: "rs", values: {} },
+    { name: "જિલ્લા પં. કર", format: "pr", values: {} },
+    { name: "અન્ય", format: "rs", values: {} },
+    // { name: "ગટર વેરો", format: "rs", values: {} },
+    // { name: "નોટીસ", format: "rs", values: {} },
+    // { name: "એડવાન્સ", format: "rs", values: {} },
+    // { name: "અન્ય૩", format: "rs", values: {} },
+    // { name: "અન્ય૪", format: "rs", values: {} },
+    // { name: "અન્ય૫", format: "rs", values: {} },
   ];
 
   // Function to fetch data based on projectId
   const fetchData = async () => {
     setLoading(true);
     try {
+      const response = await axios.get(
+        `${await apiPath()}/api/valuation/${projectId}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        },
+      );
+
       let fetchedData = await axios.get(
         `${await apiPath()}/api/valuation/tax/${projectId}`,
         {
@@ -54,6 +66,11 @@ const TaxManage = () => {
 
       fetchedData = fetchedData?.data?.taxes;
       console.log(fetchedData);
+
+      const data = response.data;
+      console.log(data);
+
+      setDetails(data.details?.specialAndGeneralWaterTax || false);
 
       if (fetchedData && fetchedData.length > 0) {
         setTaxes(fetchedData);
@@ -216,6 +233,15 @@ const TaxManage = () => {
                           }
                           className="w-full p-2 border border-gray-300 rounded-md"
                           style={{ minWidth: "100px" }}
+                          disabled={
+                            tax.name === "સા.પાણી વેરો" &&
+                            details === "ખાસ પાણી નળ વેરો"
+                              ? true
+                              : tax.name === "ખા.પાણી વેરો" &&
+                                  details === "સામાન્ય પાણી વેરો"
+                                ? true
+                                : false
+                          }
                         />
                       </td>
                       <td>
@@ -231,6 +257,15 @@ const TaxManage = () => {
                           }
                           className="w-full p-2 border border-gray-300 rounded-md"
                           style={{ minWidth: "100px" }}
+                          disabled={
+                            tax.name === "સા.પાણી વેરો" &&
+                            details === "ખાસ પાણી નળ વેરો"
+                              ? true
+                              : tax.name === "ખા.પાણી વેરો" &&
+                                  details === "સામાન્ય પાણી વેરો"
+                                ? true
+                                : false
+                          }
                         />
                       </td>
                       <td>
@@ -242,6 +277,15 @@ const TaxManage = () => {
                           }
                           className="w-full p-2 border border-gray-300 rounded-md"
                           style={{ minWidth: "100px" }}
+                          disabled={
+                            tax.name === "સા.પાણી વેરો" &&
+                            details === "ખાસ પાણી નળ વેરો"
+                              ? true
+                              : tax.name === "ખા.પાણી વેરો" &&
+                                  details === "સામાન્ય પાણી વેરો"
+                                ? true
+                                : false
+                          }
                         />
                       </td>
                       <td>
@@ -257,6 +301,15 @@ const TaxManage = () => {
                           }
                           className="w-full p-2 border border-gray-300 rounded-md"
                           style={{ minWidth: "100px" }}
+                          disabled={
+                            tax.name === "સા.પાણી વેરો" &&
+                            details === "ખાસ પાણી નળ વેરો"
+                              ? true
+                              : tax.name === "ખા.પાણી વેરો" &&
+                                  details === "સામાન્ય પાણી વેરો"
+                                ? true
+                                : false
+                          }
                         />
                       </td>
                     </tr>

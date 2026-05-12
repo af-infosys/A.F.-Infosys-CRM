@@ -53,7 +53,16 @@ const OrderValuationForm = () => {
 
     seperatecommercial: false,
 
-    comity: [{ name: "", designation: "" }],
+    pvtplot: true,
+    govplot: true,
+
+    comity: [
+      { name: "", designation: "અધ્યક્ષ સરપંચશ્રી " },
+      { name: "", designation: "ઉપ સરપંચ " },
+      { name: "", designation: "સભ્ય" },
+      { name: "", designation: "સભ્ય" },
+      { name: "", designation: "સભ્ય સચીવ " },
+    ],
 
     notes: [],
   });
@@ -237,7 +246,15 @@ const OrderValuationForm = () => {
       const data = response.data;
       console.log(data);
 
-      setDetails(data.details || details);
+      setDetails({
+        ...(data.details || details),
+        comity: [
+          ...(data.details?.comity || [
+            { name: "", designation: "અધ્યક્ષ સરપંચશ્રી" },
+            { name: "", designation: "ઉપ સરપંચ" },
+          ]),
+        ],
+      });
       setValuation(
         Array.isArray(data?.valuation) && data?.valuation.length
           ? data.valuation
@@ -413,6 +430,100 @@ const OrderValuationForm = () => {
           </p>
         </header>
 
+        <section
+          style={{
+            display: "flex",
+            gap: "20px",
+            flexWrap: "wrap",
+            marginBottom: "20px",
+          }}
+        >
+          <h2 style={{ fontWeight: "800", whiteSpace: "nowrap" }}>
+            Extension :
+          </h2>
+
+          <div>
+            <label
+              htmlFor="extYear"
+              className="block text-sm font-semibold text-gray-700 mb-1"
+            >
+              મૂલ્યાંકન વર્ષ
+            </label>
+            <input
+              value={details?.extYear || ""}
+              onChange={handleChangeDetails}
+              type="text"
+              id="extYear"
+              name="extYear"
+              list="update-suggestions"
+              placeholder="2026-27"
+              className="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+              style={{ maxWidth: "100px" }}
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="extPanchayat"
+              className="block text-sm font-semibold text-gray-700 mb-1"
+            >
+              સર્વે / સીટી સર્વે પંચાયત
+            </label>
+            <input
+              value={details?.extPanchayat || ""}
+              onChange={handleChangeDetails}
+              type="text"
+              id="extPanchayat"
+              name="extPanchayat"
+              list="update-suggestions"
+              placeholder="સર્વે / સીટી સર્વે પંચાયત"
+              className="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="loginId"
+              className="block text-sm font-semibold text-gray-700 mb-1"
+            >
+              Login ID
+            </label>
+            <input
+              value={details?.loginId || ""}
+              onChange={handleChangeDetails}
+              type="text"
+              id="loginId"
+              name="loginId"
+              list="update-suggestions"
+              placeholder="Portal Login ID"
+              className="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+              style={{ maxWidth: "200px" }}
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="password"
+              className="block text-sm font-semibold text-gray-700 mb-1"
+            >
+              Paswsword
+            </label>
+            <input
+              value={details?.password || ""}
+              onChange={handleChangeDetails}
+              type="text"
+              id="password"
+              name="password"
+              list="update-suggestions"
+              placeholder="Portal Password"
+              className="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+              style={{ maxWidth: "200px" }}
+            />
+          </div>
+
+          <hr />
+        </section>
+
         {/* Input Fields Section */}
         <section className="bg-white p-6 rounded-lg shadow-inner mb-8 border border-gray-200">
           <h2 className="text-xl font-bold text-gray-800 mb-4">
@@ -566,9 +677,10 @@ const OrderValuationForm = () => {
                 type="date"
                 id="date"
                 name="date"
-                value={details.date}
+                value={details.date || new Date().toISOString().split("T")[0]}
                 onChange={handleChangeDetails}
                 className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                required
               />
             </div>
             <div className="flex flex-col">
@@ -1044,6 +1156,7 @@ const OrderValuationForm = () => {
                   value={details.resolutionNumber}
                   onChange={handleChangeDetails}
                   className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                  required
                 />
               </div>
 
@@ -1252,7 +1365,10 @@ const OrderValuationForm = () => {
 
             <br />
 
-            <div className="flex gap-3 mb-4 mt-2">
+            <div
+              className="flex gap-3 mb-4 mt-2"
+              style={{ userSelect: "none" }}
+            >
               <h3>11. Plot : </h3>
 
               <label
@@ -1272,7 +1388,7 @@ const OrderValuationForm = () => {
                     pvtplot: e.target.checked,
                   }));
                 }}
-                checked={details.pvtplot || true}
+                checked={details.pvtplot}
               />
 
               <label
@@ -1292,7 +1408,7 @@ const OrderValuationForm = () => {
                     govplot: e.target.checked,
                   }));
                 }}
-                checked={details.govplot || true}
+                checked={details.govplot}
               />
             </div>
 
@@ -1517,11 +1633,27 @@ const OrderValuationForm = () => {
                     <td>
                       <input
                         type="text"
+                        name="designations"
+                        list="designations"
                         value={comity?.designation}
                         onChange={(e) =>
                           handleChange(index, "designation", e.target.value)
                         }
                       />
+                      <datalist id="designations">
+                        <option
+                          key="સચીવ શ્રી તલાટી કમ મંત્રી"
+                          value="સચીવ શ્રી તલાટી કમ મંત્રી"
+                        />
+                        <option
+                          key="અધ્યક્ષ સરપંચશ્રી"
+                          value="અધ્યક્ષ સરપંચશ્રી"
+                        />
+                        <option key="સરપંચ" value="સરપંચ" />
+                        <option key="ઉપ સરપંચ" value="ઉપ સરપંચ" />
+                        <option key="સભ્ય" value="સભ્ય" />
+                        <option key="સભ્ય સચીવ" value="સભ્ય સચીવ" />
+                      </datalist>
                     </td>
 
                     <td>
@@ -1547,91 +1679,6 @@ const OrderValuationForm = () => {
             >
               + Add Commitee Member
             </button>
-          </section>
-
-          <section style={{ display: "flex", gap: "20px" }}>
-            <h2 style={{ fontWeight: "800" }}>Extension : </h2>
-
-            <div>
-              <label
-                htmlFor="extYear"
-                className="block text-sm font-semibold text-gray-700 mb-1"
-              >
-                મૂલ્યાંકન વર્ષ
-              </label>
-              <input
-                value={details?.extYear || ""}
-                onChange={handleChangeDetails}
-                type="text"
-                id="extYear"
-                name="extYear"
-                list="update-suggestions"
-                placeholder="2026-27"
-                className="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
-                style={{ maxWidth: "100px" }}
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="extPanchayat"
-                className="block text-sm font-semibold text-gray-700 mb-1"
-              >
-                સર્વે / સીટી સર્વે પંચાયત
-              </label>
-              <input
-                value={details?.extPanchayat || ""}
-                onChange={handleChangeDetails}
-                type="text"
-                id="extPanchayat"
-                name="extPanchayat"
-                list="update-suggestions"
-                placeholder="સર્વે / સીટી સર્વે પંચાયત"
-                className="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="loginId"
-                className="block text-sm font-semibold text-gray-700 mb-1"
-              >
-                Login ID
-              </label>
-              <input
-                value={details?.loginId || ""}
-                onChange={handleChangeDetails}
-                type="text"
-                id="loginId"
-                name="loginId"
-                list="update-suggestions"
-                placeholder="Portal Login ID"
-                className="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
-                style={{ maxWidth: "200px" }}
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-semibold text-gray-700 mb-1"
-              >
-                Paswsword
-              </label>
-              <input
-                value={details?.password || ""}
-                onChange={handleChangeDetails}
-                type="text"
-                id="password"
-                name="password"
-                list="update-suggestions"
-                placeholder="Portal Password"
-                className="w-full px-4 py-2.5 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
-                style={{ maxWidth: "200px" }}
-              />
-            </div>
-
-            <hr />
           </section>
 
           <div className="flex justify-end gap-4 mt-6">
