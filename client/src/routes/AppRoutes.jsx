@@ -60,6 +60,7 @@ import VasulatRegister from "../features/survay/VasulatReport";
 import TaxEntryFrom from "../components/excel/TaxEntryFrom";
 import TaxEntry from "../features/survay/TaxEntry";
 import KachaReport from "../features/survay/KachaReport";
+import SendTempMessage from "../features/contactList/SendTempMessage";
 
 export default function AppRoutes() {
   const { user } = useAuth();
@@ -263,6 +264,10 @@ export default function AppRoutes() {
 
           <Route path="dailyReport" element={<DailyWordReport />} />
           <Route path="expenseReport" element={<SurvayorExpense />} />
+        </Route>
+
+        <Route path="/whatsapp">
+          <Route path="temp" element={<SendTempMessage />} />
         </Route>
 
         {/* Order Valuation Routes Start */}

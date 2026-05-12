@@ -149,15 +149,6 @@ const ContactListReport = () => {
       const formattedNumber = number.length === 10 ? `91${number}` : number;
 
       // send message with msg.text and (msg.imageLink || msg.videoLink || msg.audioLink || msg.documentLink)
-      // window.alert(
-      //   `https://wa.me/${formattedNumber}?text=${encodeURIComponent(
-      //     msg.text,
-      //   )}${msg.imageLink && `&image=${msg.imageLink}`}${
-      //     msg.videoLink && `&video=${msg.videoLink}`
-      //   }${msg.audioLink && `&audio=${msg.audioLink}`}${
-      //     msg.documentLink && `&document=${msg.documentLink}`
-      //   }`,
-      // );
       window.open(
         `https://wa.me/${formattedNumber}?text=${encodeURIComponent(
           msg.text,

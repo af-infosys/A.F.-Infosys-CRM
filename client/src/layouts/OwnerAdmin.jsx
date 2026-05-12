@@ -184,9 +184,33 @@ const OwnerAdmin = () => {
             bgColor="bg-purple-500"
             onClick={() => handleNavigation("/meeting/manage")}
           />
+
+          <QuickLinkCard
+            title="Whatsapp Messages"
+            icon={Mail}
+            bgColor="bg-green-500"
+            onClick={() => handleNavigation("/whatsapp/temp")}
+          />
         </CategorySection>
 
         {/* 3. Staff Management Category */}
+        <CategorySection title="Staff & Personnel">
+          <QuickLinkCard
+            title="Manage Staff"
+            count={users?.length || 0}
+            icon={Users}
+            bgColor="bg-cyan-500"
+            onClick={() => handleNavigation("/staff/manage")}
+          />
+          <QuickLinkCard
+            title="Add Staff"
+            icon={UserPlus}
+            bgColor="bg-teal-500"
+            onClick={() => handleNavigation("/staff/add")}
+          />
+        </CategorySection>
+
+        {/* 4. Staff Management Category */}
         <CategorySection title="Staff & Personnel">
           <QuickLinkCard
             title="Manage Staff"
