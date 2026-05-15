@@ -61,6 +61,10 @@ import TaxEntryFrom from "../components/excel/TaxEntryFrom";
 import TaxEntry from "../features/survay/TaxEntry";
 import KachaReport from "../features/survay/KachaReport";
 import SendTempMessage from "../features/contactList/SendTempMessage";
+import AddService from "../features/services/AddService";
+import AddAkarni from "../features/projects/AddAkarni";
+import ManageAkarni from "../features/projects/ManageAkarni";
+import ManageService from "../features/services/ManageService";
 
 export default function AppRoutes() {
   const { user } = useAuth();
@@ -294,6 +298,18 @@ export default function AppRoutes() {
           {/* <Route path="expense" element={<ExpenseReport />} /> */}
         </Route>
         {/* Accounts Routes End */}
+
+        <Route path="/services">
+          <Route path="new" element={<AddService />} />
+          <Route path="add">
+            <Route path="akarni" element={<AddAkarni />} />
+          </Route>
+
+          <Route path="manage">
+            <Route index element={<ManageService />} />
+            <Route path="akarni" element={<ManageAkarni />} />
+          </Route>
+        </Route>
 
         {/* Projects Routes Start */}
         <Route path="projects">

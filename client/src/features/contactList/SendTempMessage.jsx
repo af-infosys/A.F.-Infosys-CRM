@@ -66,6 +66,17 @@ const SendTempMessage = () => {
     );
   }
 
+  function onCopy({ text }) {
+    navigator.clipboard.writeText(text).then(
+      () => {
+        alert(`copied to clipboard!  \n ${text}`);
+      },
+      (err) => {
+        console.error("Failed to copy text: ", err);
+      },
+    );
+  }
+
   return (
     <div className="bg-white rounded-lg p-6 w-full relative">
       <h2 className="text-xl font-semibold text-gray-700 mb-4">
@@ -97,6 +108,14 @@ const SendTempMessage = () => {
                   <p className="text-sm text-gray-500">
                     Created At: {msg.formattedDate} - {msg.formattedTime}
                   </p>
+                  <button
+                    onClick={() => {
+                      onCopy(msg); // Pass selected format up
+                    }}
+                    className="px-3 py-1 text-sm rounded-md bg-blue-500 text-white hover:bg-blue-600 transition-colors"
+                  >
+                    Copy
+                  </button>
                 </div>
                 <button
                   onClick={() => {

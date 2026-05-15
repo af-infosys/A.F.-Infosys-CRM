@@ -115,14 +115,28 @@ const OwnerAdmin = () => {
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-7xl mx-auto">
         <header className="mb-8">
-          <h1 className="text-3xl font-extrabold text-gray-900">
-            DASHBOARD - Owner
-          </h1>
+          <h1 className="text-3xl font-extrabold text-gray-900">DASHBOARD</h1>
           <p className="text-gray-500 mt-1">A.F. Infosys - Smart Management</p>
         </header>
 
         {/* 1. Orders Category */}
         <CategorySection title="Orders & Projects">
+          <QuickLinkCard
+            title="Create Order"
+            // count={"8"}
+            icon={ClipboardList}
+            bgColor="bg-blue-500"
+            onClick={() => handleNavigation("/services/new")}
+          />
+
+          <QuickLinkCard
+            title="Manage Order"
+            // count={"8"}
+            icon={ClipboardList}
+            bgColor="bg-blue-500"
+            onClick={() => handleNavigation("/services/manage")}
+          />
+
           <QuickLinkCard
             title="All Orders"
             count={projects?.length || 0}
@@ -194,23 +208,6 @@ const OwnerAdmin = () => {
         </CategorySection>
 
         {/* 3. Staff Management Category */}
-        <CategorySection title="Staff & Personnel">
-          <QuickLinkCard
-            title="Manage Staff"
-            count={users?.length || 0}
-            icon={Users}
-            bgColor="bg-cyan-500"
-            onClick={() => handleNavigation("/staff/manage")}
-          />
-          <QuickLinkCard
-            title="Add Staff"
-            icon={UserPlus}
-            bgColor="bg-teal-500"
-            onClick={() => handleNavigation("/staff/add")}
-          />
-        </CategorySection>
-
-        {/* 4. Staff Management Category */}
         <CategorySection title="Staff & Personnel">
           <QuickLinkCard
             title="Manage Staff"
