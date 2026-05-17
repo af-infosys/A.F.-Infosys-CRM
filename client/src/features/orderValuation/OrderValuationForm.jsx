@@ -588,16 +588,65 @@ const OrderValuationForm = () => {
               >
                 ફોટા વાળી આકારણી
               </label>
-              <input
-                type="checkbox"
-                id="imageAkarni"
-                name="imageAkarni"
-                checked={details.imageAkarni || false}
-                onChange={(e) =>
-                  setDetails({ ...details, imageAkarni: e.target.checked })
-                }
-                className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-2 focus:ring-blue-500 transition-all duration-200"
-              />
+              <div>
+                <div className="flex flex-col gap-3">
+                  <div className="flex flex-wrap gap-4">
+                    {/* No */}
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="radio"
+                        name="imageAkarni"
+                        value="0"
+                        checked={details.imageAkarni === "0"}
+                        onChange={(e) =>
+                          setDetails({
+                            ...details,
+                            imageAkarni: e.target.value,
+                          })
+                        }
+                        className="w-5 h-5 text-blue-600 focus:ring-2 focus:ring-blue-500"
+                      />
+                      <span>નહીં</span>
+                    </label>
+
+                    {/* 1 Image */}
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="radio"
+                        name="imageAkarni"
+                        value="1"
+                        checked={details.imageAkarni === "1"}
+                        onChange={(e) =>
+                          setDetails({
+                            ...details,
+                            imageAkarni: e.target.value,
+                          })
+                        }
+                        className="w-5 h-5 text-blue-600 focus:ring-2 focus:ring-blue-500"
+                      />
+                      <span>1 Image</span>
+                    </label>
+
+                    {/* 2 Images */}
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="radio"
+                        name="imageAkarni"
+                        value="2"
+                        checked={details.imageAkarni === "2"}
+                        onChange={(e) =>
+                          setDetails({
+                            ...details,
+                            imageAkarni: e.target.value,
+                          })
+                        }
+                        className="w-5 h-5 text-blue-600 focus:ring-2 focus:ring-blue-500"
+                      />
+                      <span>2 Images</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div className="flex flex-col">
@@ -1299,15 +1348,15 @@ const OrderValuationForm = () => {
 
               <div className="flex flex-col">
                 <label
-                  htmlFor="date2"
+                  htmlFor="certificateDate"
                   className="text-sm font-medium text-gray-700 mb-1"
                 >
                   - પ્રમાણપત્ર તારીખ
                 </label>
                 <input
                   type="date"
-                  id="date2"
-                  name="date2"
+                  id="certificateDate"
+                  name="certificateDate"
                   value={details?.certificateDate || ""}
                   onChange={handleChangeDetails}
                   className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"

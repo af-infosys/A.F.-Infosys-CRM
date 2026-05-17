@@ -27,7 +27,7 @@ const commercialCategories = [
 
 /* ---------- helper ---------- */
 function isCommercialProperty(row) {
-  const category = row[7] ? row[7].trim() : "";
+  const category = row[8] ? row[8].trim() : "";
 
   // 1️⃣ Category based
   if (commercialCategories.includes(category)) {
@@ -35,9 +35,9 @@ function isCommercialProperty(row) {
   }
 
   // 2️⃣ Room details based ("દુકાન")
-  if (row[14]) {
+  if (row[15]) {
     try {
-      const floors = JSON.parse(row[14]);
+      const floors = JSON.parse(row[15]);
 
       return floors.some(
         (floor) =>
@@ -58,7 +58,7 @@ const calculateTotal = (data = []) => {
   return {
     houseTax: {
       curr: data.reduce((s, i) => s + Number(i[20] || 0), 0),
-      prev: 0,
+      prev: data.reduce((s, i) => s + Number(i[22] || 0), 0),
     },
     waterTax: {
       curr: data.reduce(
@@ -193,8 +193,13 @@ const TarijReport = () => {
       await addSectionToPDF(pdf, "pdf-normal");
       await addSectionToPDF(pdf, "pdf-commercial", true);
       await addSectionToPDF(pdf, "pdf-total", true);
+
+      await addSectionToPDF(pdf, "pdf-res-chart", true);
+      await addSectionToPDF(pdf, "pdf-com-chart", true);
+      await addSectionToPDF(pdf, "pdf-chart", true);
     } else {
       await addSectionToPDF(pdf, "pdf-single");
+
       await addSectionToPDF(pdf, "pdf-chart", true);
     }
 
@@ -288,6 +293,63 @@ const TarijReport = () => {
                 project={project}
                 total={totalAll}
                 length={records.length}
+                name="કુલ"
+              />
+            </div>
+
+            <div
+              id="pdf-res-chart"
+              style={{
+                width: "1300px",
+                padding: "20px",
+                paddingLeft: "60px",
+                paddingTop: "80px",
+                background: "#fff",
+              }}
+            >
+              <TarijChart
+                project={project}
+                total={totalNormal}
+                length={normalRecords.length}
+                totalResidence={normalRecords?.length}
+                name="રહેણાંક મિલકત"
+              />
+            </div>
+
+            <div
+              id="pdf-com-chart"
+              style={{
+                width: "1300px",
+                padding: "20px",
+                paddingLeft: "60px",
+                paddingTop: "80px",
+                background: "#fff",
+              }}
+            >
+              <TarijChart
+                project={project}
+                total={totalCommercial}
+                length={commercialRecords.length}
+                totalResidence={commercialRecords?.length}
+                name="કોમર્શિયલ મિલકત"
+              />
+            </div>
+
+            <div
+              id="pdf-chart"
+              style={{
+                width: "1300px",
+                padding: "20px",
+                paddingLeft: "60px",
+                paddingTop: "80px",
+                background: "#fff",
+              }}
+            >
+              <TarijChart
+                project={project}
+                total={totalAll}
+                length={records.length}
+                totalResidence={records?.length}
                 name="કુલ"
               />
             </div>

@@ -193,6 +193,7 @@ export default function ManageAkarni() {
                     ))}
                   </tr>
                 </thead>
+
                 <tbody className="text-gray-600 text-sm">
                   {filteredData.length > 0 ? (
                     filteredData.map((item, index) => (
