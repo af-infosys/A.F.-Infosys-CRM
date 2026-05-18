@@ -823,7 +823,7 @@ const IndexReport = () => {
                               }}
                             >
                               <span className="formatting">
-                                {row.data[5] || ""}
+                                {row.data[6] || ""}
                               </span>
                             </td>
                           </tr>

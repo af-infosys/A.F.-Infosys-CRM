@@ -293,7 +293,7 @@ const TarijReport = () => {
                 project={project}
                 total={totalAll}
                 length={records.length}
-                name="રહેણાંક મિલકત તથા કોમર્શિયલ મિલકત"
+                name="રહેણાંક મિલકત તથા કોમર્શિયલ મિલકત બન્ને"
               />
             </div>
 
@@ -332,7 +332,7 @@ const TarijReport = () => {
                 length={commercialRecords.length}
                 totalResidence={commercialRecords?.length}
                 name={
-                  "ચાર્ટ તારીજ ૯/ડિ કુલ માંગણાં નો રહેણાંક તથા કોમર્શિયલ મિલકતનો રિપોર્ટ"
+                  "ચાર્ટ તારીજ ૯/ડિ કુલ માંગણાં નો કોમર્શિયલ મિલકતનો રિપોર્ટ"
                 }
               />
             </div>
