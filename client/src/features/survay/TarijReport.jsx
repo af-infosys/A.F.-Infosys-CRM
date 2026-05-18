@@ -293,7 +293,7 @@ const TarijReport = () => {
                 project={project}
                 total={totalAll}
                 length={records.length}
-                name="કુલ"
+                name="રહેણાંક મિલકત તથા કોમર્શિયલ મિલકત"
               />
             </div>
 
@@ -312,7 +312,7 @@ const TarijReport = () => {
                 total={totalNormal}
                 length={normalRecords.length}
                 totalResidence={normalRecords?.length}
-                name="રહેણાંક મિલકત"
+                name={"ચાર્ટ તારીજ ૯/ડિ કુલ માંગણાં નો રહેણાંક મિલકતનો રિપોર્ટ"}
               />
             </div>
 
@@ -331,7 +331,9 @@ const TarijReport = () => {
                 total={totalCommercial}
                 length={commercialRecords.length}
                 totalResidence={commercialRecords?.length}
-                name="કોમર્શિયલ મિલકત"
+                name={
+                  "ચાર્ટ તારીજ ૯/ડિ કુલ માંગણાં નો રહેણાંક તથા કોમર્શિયલ મિલકતનો રિપોર્ટ"
+                }
               />
             </div>
 
@@ -350,7 +352,9 @@ const TarijReport = () => {
                 total={totalAll}
                 length={records.length}
                 totalResidence={records?.length}
-                name="કુલ"
+                name={
+                  "ચાર્ટ તારીજ ૯/ડિ કુલ માંગણાં નો રહેણાંક તથા કોમર્શિયલ (બન્નેનો રિપોર્ટ)"
+                }
               />
             </div>
           </>
@@ -389,6 +393,7 @@ const TarijReport = () => {
                 total={totalNormal}
                 length={normalRecords.length}
                 totalResidence={records?.length}
+                name={"ચાર્ટ તારીજ કુલ માંગણાં નો રિપોર્ટ (તારીજ)"}
               />
             </div>
           </>

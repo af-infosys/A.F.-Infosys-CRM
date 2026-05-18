@@ -28,8 +28,7 @@ const TarijChart = ({ project, total, totalResidence, name }) => {
         className="text-xl font-bold text-center mb-0 text-gray-800"
         style={{ paddingTop: "80px" }}
       >
-        ચાર્ટ તારીજ કુલ માંગણાં નો રિપોર્ટ (તારીજ) {name && ` - ${name}`} સને
-        {project?.details?.taxYear || ""}
+        {name} | સને {project?.details?.taxYear || ""}
       </h1>
 
       <div
