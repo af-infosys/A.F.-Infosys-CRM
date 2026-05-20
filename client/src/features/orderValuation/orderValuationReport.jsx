@@ -1630,7 +1630,7 @@ const OrderValuationReport = () => {
                       </td>
                       <td style={{ padding: "0px", textAlign: "center" }}>
                         <span id="format">
-                          <b>{formatDate(details?.date)}</b>
+                          <b>{formatDate(details?.workOrderDate)}</b>
                         </span>
                       </td>
                       {/* <td style={{ padding: "0px", textAlign: "center" }}>
@@ -1649,7 +1649,7 @@ const OrderValuationReport = () => {
                       </td>
                       <td style={{ padding: "2px 10px", textAlign: "center" }}>
                         <span id="format">
-                          <b>{formatDate(details?.date)}</b>
+                          <b>{formatDate(details?.jaheratDate)}</b>
                         </span>
                       </td>
                     </tr>
@@ -1665,7 +1665,7 @@ const OrderValuationReport = () => {
                       </td>
                       <td style={{ padding: "0px", textAlign: "center" }}>
                         <span id="format">
-                          <b>{formatDate(details?.date)}</b>
+                          <b>{formatDate(details?.akaraniStartDate)}</b>
                         </span>
                       </td>
                     </tr>
@@ -1679,7 +1679,7 @@ const OrderValuationReport = () => {
                       </td>
                       <td style={{ padding: "0px", textAlign: "center" }}>
                         <span id="format">
-                          <b>{formatDate(details?.date)}</b>
+                          <b>{formatDate(details?.akaraniEndDate)}</b>
                         </span>
                       </td>
                     </tr>
@@ -1695,7 +1695,7 @@ const OrderValuationReport = () => {
                       </td>
                       <td style={{ padding: "0px", textAlign: "center" }}>
                         <span id="format">
-                          <b>{formatDate(details?.date)}</b>
+                          <b>{formatDate(details?.submitionDate)}</b>
                         </span>
                       </td>
                     </tr>
@@ -1711,7 +1711,7 @@ const OrderValuationReport = () => {
                       </td>
                       <td style={{ padding: "0px", textAlign: "center" }}>
                         <span id="format">
-                          <b>{formatDate(details?.date)}</b>
+                          <b>{formatDate(details?.updationDate)}</b>
                         </span>
                       </td>
                     </tr>
@@ -1727,7 +1727,7 @@ const OrderValuationReport = () => {
                       </td>
                       <td style={{ padding: "0px", textAlign: "center" }}>
                         <span id="format">
-                          <b>{formatDate(details?.date)}</b>
+                          <b>{formatDate(details?.entryDate)}</b>
                         </span>
                       </td>
                     </tr>

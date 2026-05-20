@@ -287,7 +287,7 @@ const TharavSet = () => {
     const month = String(dateObj.getMonth() + 1).padStart(2, "0");
     const year = dateObj.getFullYear();
 
-    return `${day}/${month}/${year}`;
+    return `${toGujaratiNumber(day)}/${toGujaratiNumber(month)}/${toGujaratiNumber(year)}`;
   }
 
   return (
@@ -628,7 +628,7 @@ const TharavSet = () => {
                 ત્યાર બાદ{" "}
                 <b style={{ whiteSpace: "nowrap" }}>
                   તા.૧/૪/ર૦
-                  {`${details?.taxYear?.charAt(5) || "-"}${details?.taxYear?.charAt(6) || "-"}`}
+                  {`${toGujaratiNumber(details?.taxYear?.charAt(5)) || "-"}${toGujaratiNumber(details?.taxYear?.charAt(6)) || "-"}`}
                 </b>{" "}
                 થી નાણાકિય વર્ષ મુજબ આકારણી દરે લાગુ થશે તે પ્રમાણે સર્વાનુમતે /
                 બહુમતીથી ઠરાવવામાં આવવા માં આવ્યું.{" "}
@@ -2089,8 +2089,7 @@ const TharavSet = () => {
                   }}
                 >
                   <h3 style={{ fontSize: "16px", textWrap: "nowrap" }}>
-                    બેઠક નં.{" "}
-                    <b>{Number(details?.meetingNumber2) || "............"}</b>
+                    બેઠક નં. <b>{details?.meetingNumber2 || "............"}</b>
                   </h3>
 
                   <h3
@@ -2101,9 +2100,7 @@ const TharavSet = () => {
                     }}
                   >
                     ઠરાવ નં.{" "}
-                    <b>
-                      {Number(details?.resolutionNumber2) || "............"}
-                    </b>
+                    <b>{details?.resolutionNumber2 || "............"}</b>
                   </h3>
                 </div>
 
@@ -2177,14 +2174,13 @@ const TharavSet = () => {
                 પંચાયત અધિનિયમ ૧૯૯૩ કાયદાની
                 <span style={{ lineHeight: "3" }}>
                   કલમ ર૦૦ મુજબ ગ્રામ પંચાયતની બેઠક નં{" "}
-                  <b>{Number(details?.meetingNumber2) || "............"}</b> તા{" "}
+                  <b>{details?.meetingNumber2 || "............"}</b> તા{" "}
                   <b>
                     {formatDate(details?.date2) ||
                       ".........../............/..................."}
                   </b>{" "}
                   ના ઠરાવ નં{" "}
-                  <b>{Number(details?.resolutionNumber2) || "............"}</b>{" "}
-                  થી{" "}
+                  <b>{details?.resolutionNumber2 || "............"}</b> થી{" "}
                 </span>{" "}
                 ગામે મકાન કર, સામાન્ય પાણી કર, દિવાબતી કર, ખાસ પાણી કર, ગ્રામ
                 સફાઈ કર ની આકારણી કરી નમુના નં. ૮ રજીસ્ટર આકારણી કમિટી ધ્વારા
@@ -2436,7 +2432,8 @@ const TharavSet = () => {
                   }}
                 >
                   તારીખ :-{" "}
-                  {details?.certificateDate || "....../......./............."}
+                  {formatDate(details?.certificateDate) ||
+                    "....../......./............."}
                 </span>
 
                 <h2

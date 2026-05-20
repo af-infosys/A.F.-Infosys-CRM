@@ -1435,7 +1435,7 @@ const TaxRegister = () => {
                             <span className="formatting">{""}</span>
                           </td>
 
-                          <th className="td">
+                          <th className="td" style={{ minWidth: "100px" }}>
                             <span className="formatting">માંગણું</span>
                           </th>
 

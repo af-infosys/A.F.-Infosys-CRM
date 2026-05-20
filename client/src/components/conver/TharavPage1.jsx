@@ -7,6 +7,19 @@ const TharavPage1 = ({ project }) => {
 
   console.log("Tharav Committe", project);
 
+  function formatDate(dateString) {
+    if (!dateString) return "";
+    const dateObj = new Date(dateString);
+
+    if (isNaN(dateObj)) return "";
+
+    const day = String(dateObj.getDate()).padStart(2, "0");
+    const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+    const year = dateObj.getFullYear();
+
+    return `${toGujaratiNumber(day)}/${toGujaratiNumber(month)}/${toGujaratiNumber(year)}`;
+  }
+
   return (
     <div
       style={{
@@ -49,9 +62,16 @@ const TharavPage1 = ({ project }) => {
           gap: "50px",
         }}
       >
-        <div>સામાન્ય બેઠક તા. ........................................... </div>
-        <div>ઠરાવ નં. __________</div>
-        <div>સામાન્ય બેઠક નં. __________</div>
+        <div>
+          સામાન્ય બેઠક તા. {formatDate(project?.details.meetingDate) || ""}{" "}
+        </div>
+        <div>
+          ઠરાવ નં. {toGujaratiNumber(project?.details?.resolutionNumber) || ""}
+        </div>
+        <div>
+          સામાન્ય બેઠક નં.{" "}
+          {toGujaratiNumber(project?.details?.meetingNumber) || ""}
+        </div>
       </div>
 
       {/* Table */}
@@ -122,8 +142,18 @@ const TharavPage1 = ({ project }) => {
         </h4>
 
         <div style={{ textAlign: "center", marginTop: "25px" }}>
-          તારીખ ............................................. થી તારીખ
-          ............................................. સુધી (30) દિવસની મુદત
+          તારીખ{" "}
+          {formatDate(project?.details?.date2) ||
+            ".................................."}{" "}
+          થી તારીખ{" "}
+          {(() => {
+            const date = new Date(project?.details?.date2) || false;
+            if (date === false) return "..................................";
+            date?.setDate(date.getDate() + 30);
+
+            return formatDate(date);
+          })()}{" "}
+          સુધી (30) દિવસની મુદત
         </div>
       </div>
 
