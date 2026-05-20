@@ -1205,6 +1205,7 @@ const SurvayReport = () => {
                 totalPages={finalRenderPages?.length}
                 count={count}
                 kacha={false}
+                isCommercial={item.commercial}
               />
             </div>
           );
