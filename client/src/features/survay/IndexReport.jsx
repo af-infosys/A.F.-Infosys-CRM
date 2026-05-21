@@ -465,26 +465,180 @@ const IndexReport = () => {
   };
 
   // 2. બંડલ અને કવર પેજ સાથે ફાઈનલ લિસ્ટ બનાવો
+  // const buildFinalPages = (allPages) => {
+  //   const final = [];
+  //   const totalBundles = Math.ceil(allPages.length / BUNDLE_SIZE);
+
+  //   for (let b = 1; b <= totalBundles; b++) {
+  //     // કવર પેજ (Index)
+  //     final.push({ type: "cover", bundle: b });
+
+  //     // મુખ્ય ડેટા પેજીસ
+  //     const start = (b - 1) * BUNDLE_SIZE;
+  //     const end = start + BUNDLE_SIZE;
+  //     allPages.slice(start, end).forEach((pageRecords, idx) => {
+  //       final.push({
+  //         type: "data-page",
+  //         bundle: b,
+  //         actualPageIndex: start + idx,
+  //         records: pageRecords,
+  //       });
+  //     });
+  //   }
+  //   return final;
+  // };
+
+  const commercialCategories = [
+    "દુકાન",
+    "પ્રાઈવેટ - સંસ્થાઓ",
+    "કારખાના - ઇન્ડસ્ટ્રીજ",
+    "ટ્રસ્ટ મિલ્કત / NGO",
+    "મંડળી - સેવા સહકારી મંડળી",
+    "બેંક - સરકારી",
+    "બેંક - અર્ધ સરકારી બેંક",
+    "બેંક - પ્રાઇટ બેંક",
+    "કોમ્પપ્લેક્ષ",
+    "હિરાના કારખાના નાના",
+    "હિરાના કારખાના મોટા",
+    "મોબાઈલ ટાવર",
+    "પેટ્રોલ પંપ, ગેસ પંપ",
+  ];
+
+  function isCommercialProperty(row) {
+    const category = row[8] ? row[8].trim() : "";
+
+    // 1️⃣ Category based
+    if (commercialCategories.includes(category)) {
+      return true;
+    }
+
+    // 2️⃣ Room details based ("દુકાન")
+    if (row[15]) {
+      try {
+        const floors = JSON.parse(row[15]);
+
+        return floors.some(
+          (floor) =>
+            Array.isArray(floor.roomDetails) &&
+            floor.roomDetails.some((room) =>
+              room?.roomHallShopGodown?.includes("દુકાન"),
+            ),
+        );
+      } catch {
+        return false;
+      }
+    }
+
+    return false;
+  }
+
   const buildFinalPages = (allPages) => {
     const final = [];
-    const totalBundles = Math.ceil(allPages.length / BUNDLE_SIZE);
 
-    for (let b = 1; b <= totalBundles; b++) {
-      // કવર પેજ (Index)
-      final.push({ type: "cover", bundle: b });
+    const isSeparate = project?.details?.seperatecommercial === true;
 
-      // મુખ્ય ડેટા પેજીસ
-      const start = (b - 1) * BUNDLE_SIZE;
-      const end = start + BUNDLE_SIZE;
-      allPages.slice(start, end).forEach((pageRecords, idx) => {
+    // Helper
+    const isCommercialPage = (pageRecords) => {
+      return pageRecords?.some((record) => isCommercialProperty(record));
+    };
+
+    if (isSeparate) {
+      // ==========================================
+      // SEPARATE MODE
+      // ==========================================
+
+      const residentialPages = allPages.filter(
+        (page) => !isCommercialPage(page),
+      );
+
+      const commercialPages = allPages.filter((page) => isCommercialPage(page));
+
+      let currentBundle = 1;
+
+      // ---------- RESIDENTIAL ----------
+      const totalResidentialBundles = Math.ceil(
+        residentialPages.length / BUNDLE_SIZE,
+      );
+
+      for (let b = 1; b <= totalResidentialBundles; b++) {
         final.push({
-          type: "data-page",
-          bundle: b,
-          actualPageIndex: start + idx,
-          records: pageRecords,
+          type: "cover",
+          bundle: currentBundle,
+          name: "રહેણાંક મિલકત",
+          commercial: false,
         });
-      });
+
+        const start = (b - 1) * BUNDLE_SIZE;
+        const end = start + BUNDLE_SIZE;
+
+        residentialPages.slice(start, end).forEach((pageRecords, idx) => {
+          final.push({
+            type: "data-page",
+            bundle: currentBundle,
+            actualPageIndex: start + idx,
+            records: pageRecords,
+            isCommercial: false,
+          });
+        });
+
+        currentBundle++;
+      }
+
+      // ---------- COMMERCIAL ----------
+      const totalCommercialBundles = Math.ceil(
+        commercialPages.length / BUNDLE_SIZE,
+      );
+
+      for (let b = 1; b <= totalCommercialBundles; b++) {
+        final.push({
+          type: "cover",
+          bundle: currentBundle,
+          name: "કોમર્શિયલ મિલકત",
+          commercial: true,
+        });
+
+        const start = (b - 1) * BUNDLE_SIZE;
+        const end = start + BUNDLE_SIZE;
+
+        commercialPages.slice(start, end).forEach((pageRecords, idx) => {
+          final.push({
+            type: "data-page",
+            bundle: currentBundle,
+            actualPageIndex: start + idx,
+            records: pageRecords,
+            isCommercial: true,
+          });
+        });
+
+        currentBundle++;
+      }
+    } else {
+      // ==========================================
+      // NORMAL MODE
+      // ==========================================
+
+      const totalBundles = Math.ceil(allPages.length / BUNDLE_SIZE);
+
+      for (let b = 1; b <= totalBundles; b++) {
+        final.push({
+          type: "cover",
+          bundle: b,
+        });
+
+        const start = (b - 1) * BUNDLE_SIZE;
+        const end = start + BUNDLE_SIZE;
+
+        allPages.slice(start, end).forEach((pageRecords, idx) => {
+          final.push({
+            type: "data-page",
+            bundle: b,
+            actualPageIndex: start + idx,
+            records: pageRecords,
+          });
+        });
+      }
     }
+
     return final;
   };
 

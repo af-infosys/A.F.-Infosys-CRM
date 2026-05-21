@@ -1180,8 +1180,13 @@ const TaxRegister = () => {
                   </span>
 
                   <h1 className="heading" style={{ marginTop: "35px" }}>
-                    ગામનો નમુના નંબર ૯ ડી - કરવેરા રજીસ્ટર - સને{" "}
-                    {project?.details?.taxYear || "૨૦૨૫/૨૬"}
+                    ગામનો નમુના નંબર ૯ડી કરવેરા રજીસ્ટર{" "}
+                    {item.isCommercial === true
+                      ? " - કોમર્શિયલ મિલ્કત"
+                      : item.isCommercial === false
+                        ? " - રહેણાંક મિલ્કત"
+                        : ""}{" "}
+                    | સને {project?.details?.taxYear || "૨૦૨૫/૨૬"}
                   </h1>
 
                   <div
@@ -1435,7 +1440,7 @@ const TaxRegister = () => {
                             <span className="formatting">{""}</span>
                           </td>
 
-                          <th className="td" style={{ minWidth: "100px" }}>
+                          <th className="td" style={{ textWrap: "nowrap" }}>
                             <span className="formatting">માંગણું</span>
                           </th>
 
@@ -1444,18 +1449,27 @@ const TaxRegister = () => {
                             className="td"
                             style={{ textAlign: "right", minWidth: "60px" }}
                           >
-                            <span className="formatting">
+                            <span
+                              className="formatting"
+                              style={{ textWrap: "nowrap" }}
+                            >
                               {toGujaratiNumber(Number(record[22]) || "")}
                             </span>
                           </td>
                           <td className="td" style={{ textAlign: "right" }}>
-                            <span className="formatting">
+                            <span
+                              className="formatting"
+                              style={{ textWrap: "nowrap" }}
+                            >
                               {/* {JSON.parse(record[24] || "{}")?.[0]?.curr || ' '} */}
                               {toGujaratiNumber(Number(record[20]) || "")}
                             </span>
                           </td>
                           <td className="td" style={{ textAlign: "right" }}>
-                            <span className="formatting">
+                            <span
+                              className="formatting"
+                              style={{ textWrap: "nowrap" }}
+                            >
                               {/* {(JSON.parse(record[23] || "{}")?.[0]?.curr ||
                                 0) +
                                 (JSON.parse(record[23] || "{}")?.[0]?.prev ||
@@ -1473,7 +1487,10 @@ const TaxRegister = () => {
                             className="td"
                             style={{ textAlign: "right", minWidth: "60px" }}
                           >
-                            <span className="formatting">
+                            <span
+                              className="formatting"
+                              style={{ textWrap: "nowrap" }}
+                            >
                               {toGujaratiNumber(
                                 JSON.parse(record[23] || "{}")?.normal_water
                                   ?.prev || " ",
@@ -1482,7 +1499,10 @@ const TaxRegister = () => {
                           </td>
 
                           <td className="td" style={{ textAlign: "right" }}>
-                            <span className="formatting">
+                            <span
+                              className="formatting"
+                              style={{ textWrap: "nowrap" }}
+                            >
                               {toGujaratiNumber(
                                 JSON.parse(record[21] || "{}")?.normal_water
                                   ?.curr || " ",
@@ -1491,7 +1511,10 @@ const TaxRegister = () => {
                           </td>
 
                           <td className="td" style={{ textAlign: "right" }}>
-                            <span className="formatting">
+                            <span
+                              className="formatting"
+                              style={{ textWrap: "nowrap" }}
+                            >
                               {toGujaratiNumber(
                                 Number(
                                   JSON.parse(record[21] || "{}")?.normal_water
@@ -1510,7 +1533,10 @@ const TaxRegister = () => {
                             className="td"
                             style={{ textAlign: "right", minWidth: "60px" }}
                           >
-                            <span className="formatting">
+                            <span
+                              className="formatting"
+                              style={{ textWrap: "nowrap" }}
+                            >
                               {toGujaratiNumber(
                                 JSON.parse(record[23] || "{}")?.special_water
                                   ?.prev || " ",
@@ -1519,7 +1545,10 @@ const TaxRegister = () => {
                           </td>
 
                           <td className="td" style={{ textAlign: "right" }}>
-                            <span className="formatting">
+                            <span
+                              className="formatting"
+                              style={{ textWrap: "nowrap" }}
+                            >
                               {toGujaratiNumber(
                                 JSON.parse(record[21] || "{}")?.special_water
                                   ?.curr || " ",
@@ -1528,7 +1557,10 @@ const TaxRegister = () => {
                           </td>
 
                           <td className="td" style={{ textAlign: "right" }}>
-                            <span className="formatting">
+                            <span
+                              className="formatting"
+                              style={{ textWrap: "nowrap" }}
+                            >
                               {toGujaratiNumber(
                                 Number(
                                   JSON.parse(record[21] || "{}")?.special_water
@@ -1547,7 +1579,10 @@ const TaxRegister = () => {
                             className="td"
                             style={{ textAlign: "right", minWidth: "60px" }}
                           >
-                            <span className="formatting">
+                            <span
+                              className="formatting"
+                              style={{ textWrap: "nowrap" }}
+                            >
                               {toGujaratiNumber(
                                 JSON.parse(record[23] || "{}")?.light?.prev ||
                                   " ",
@@ -1556,7 +1591,10 @@ const TaxRegister = () => {
                           </td>
 
                           <td className="td" style={{ textAlign: "right" }}>
-                            <span className="formatting">
+                            <span
+                              className="formatting"
+                              style={{ textWrap: "nowrap" }}
+                            >
                               {toGujaratiNumber(
                                 JSON.parse(record[21] || "{}")?.light?.curr ||
                                   " ",
@@ -1565,7 +1603,10 @@ const TaxRegister = () => {
                           </td>
 
                           <td className="td" style={{ textAlign: "right" }}>
-                            <span className="formatting">
+                            <span
+                              className="formatting"
+                              style={{ textWrap: "nowrap" }}
+                            >
                               {toGujaratiNumber(
                                 Number(
                                   JSON.parse(record[21] || "{}")?.light?.curr ||
@@ -1584,7 +1625,10 @@ const TaxRegister = () => {
                             className="td"
                             style={{ textAlign: "right", minWidth: "60px" }}
                           >
-                            <span className="formatting">
+                            <span
+                              className="formatting"
+                              style={{ textWrap: "nowrap" }}
+                            >
                               {toGujaratiNumber(
                                 Number(
                                   JSON.parse(record[23] || "{}")?.cleaning
@@ -1595,7 +1639,10 @@ const TaxRegister = () => {
                           </td>
 
                           <td className="td" style={{ textAlign: "right" }}>
-                            <span className="formatting">
+                            <span
+                              className="formatting"
+                              style={{ textWrap: "nowrap" }}
+                            >
                               {toGujaratiNumber(
                                 Number(
                                   JSON.parse(record[21] || "{}")?.cleaning
@@ -1606,7 +1653,10 @@ const TaxRegister = () => {
                           </td>
 
                           <td className="td" style={{ textAlign: "right" }}>
-                            <span className="formatting">
+                            <span
+                              className="formatting"
+                              style={{ textWrap: "nowrap" }}
+                            >
                               {toGujaratiNumber(
                                 Number(
                                   JSON.parse(record[21] || "{}")?.cleaning
@@ -1625,7 +1675,10 @@ const TaxRegister = () => {
                             className="td"
                             style={{ textAlign: "right", minWidth: "60px" }}
                           >
-                            <span className="formatting">
+                            <span
+                              className="formatting"
+                              style={{ textWrap: "nowrap" }}
+                            >
                               {toGujaratiNumber(
                                 Number(
                                   Number(record[22] || " ") +
@@ -1651,7 +1704,10 @@ const TaxRegister = () => {
                           </td>
 
                           <td className="td" style={{ textAlign: "right" }}>
-                            <span className="formatting">
+                            <span
+                              className="formatting"
+                              style={{ textWrap: "nowrap" }}
+                            >
                               {toGujaratiNumber(
                                 Number(
                                   Number(record[20] || " ") +
@@ -1677,7 +1733,10 @@ const TaxRegister = () => {
                           </td>
 
                           <td className="td" style={{ textAlign: "right" }}>
-                            <span className="formatting">
+                            <span
+                              className="formatting"
+                              style={{ textWrap: "nowrap" }}
+                            >
                               {toGujaratiNumber(
                                 Number(
                                   Number(record[20] || " ") +
@@ -1729,7 +1788,12 @@ const TaxRegister = () => {
                           </th>
 
                           <th className="td">
-                            <span className="formatting">વસુલાત</span>
+                            <span
+                              className="formatting"
+                              style={{ textWrap: "nowrap" }}
+                            >
+                              વસુલાત
+                            </span>
                           </th>
 
                           {/* ઘર વેરો */}
@@ -1922,7 +1986,12 @@ const TaxRegister = () => {
                           </th>
 
                           <th className="td">
-                            <span className="formatting">બાકી</span>
+                            <span
+                              className="formatting"
+                              style={{ textWrap: "nowrap" }}
+                            >
+                              બાકી
+                            </span>
                           </th>
 
                           {/* ઘર વેરો */}
