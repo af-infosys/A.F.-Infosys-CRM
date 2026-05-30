@@ -189,7 +189,7 @@ export default function AddAkarni() {
             </div>
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-1">
-                5. તાલુકો <span className="text-red-500">*</span>
+                3. તાલુકો <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
@@ -202,7 +202,7 @@ export default function AddAkarni() {
             </div>
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-1">
-                6. જીલ્લો <span className="text-red-500">*</span>
+                4. જીલ્લો <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
@@ -219,7 +219,7 @@ export default function AddAkarni() {
             <div className="mt-4 border-t border-gray-100 pt-4 md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-1">
-                  3. ગ્રાહક તલાટીનું નામ
+                  5. ગ્રાહક તલાટીનું નામ
                 </label>
                 <input
                   type="text"
@@ -232,7 +232,7 @@ export default function AddAkarni() {
               </div>
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-1">
-                  4. મોબાઈલ નંબર (તલાટી)
+                  6. મોબાઈલ નંબર (તલાટી)
                 </label>
                 <input
                   type="tel"
