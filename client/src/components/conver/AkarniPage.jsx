@@ -273,7 +273,7 @@ const AkarniPage = ({
               </td>
               <td className="" style={cellStyle}>
                 <span className="formatting">
-                  {toGujaratiNumber(Number(record[12] || 0))}
+                  {toGujaratiNumber(Number(record[13] || 0))}
                   <br />
                   {Number(record[13] || 0) !== 0 ? "હા" : "ના"}
                 </span>
