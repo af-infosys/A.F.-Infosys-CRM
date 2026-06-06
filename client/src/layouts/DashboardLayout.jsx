@@ -142,6 +142,21 @@ export default function DashboardLayout() {
                       </NavLink>
                     )}
 
+                    {user.role === "owner" && (
+                      <NavLink
+                        to={`/customers/add`}
+                        className={({ isActive }) => (isActive ? "active" : "")}
+                        onClick={() => setIsSidebarOpen(false)}
+                      >
+                        <img
+                          src={CustomerAddIcon}
+                          alt="Customer List"
+                          style={{ width: "20px" }}
+                        />
+                        1.2 Add
+                      </NavLink>
+                    )}
+
                     {(user.role === "owner" ||
                       user.role === "telecaller" ||
                       user.role === "monitor") && (

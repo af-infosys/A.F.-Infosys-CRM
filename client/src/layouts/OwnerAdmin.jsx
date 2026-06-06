@@ -193,6 +193,13 @@ const OwnerAdmin = () => {
         {/* 2. Communications Category */}
         <CategorySection title="Communications">
           <QuickLinkCard
+            title="Add Customer"
+            icon={UserPlus}
+            bgColor="bg-teal-500"
+            onClick={() => handleNavigation("/customers/add")}
+          />
+
+          <QuickLinkCard
             title="Meeting & Arji Letters"
             icon={Mail}
             bgColor="bg-purple-500"
