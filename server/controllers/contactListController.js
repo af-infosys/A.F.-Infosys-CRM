@@ -452,7 +452,7 @@ export const deleteSheetRecord = async (req, res) => {
     const { id } = req.params;
 
     const rowIndex = records.findIndex(
-      (record) => Number(record[0]) === Number(id),
+      (record) => record[0].toString() === id.toString(),
     );
 
     if (rowIndex === -1) {
