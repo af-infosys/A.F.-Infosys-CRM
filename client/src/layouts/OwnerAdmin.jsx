@@ -8,6 +8,8 @@ import {
   Mail,
   Users,
   UserPlus,
+  ExternalLink,
+  Share2,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import apiPath from "../isProduction";
@@ -55,6 +57,17 @@ const OwnerAdmin = () => {
   const [loading, setLoading] = useState(false);
   const [projects, setProjects] = useState([]);
   const [users, setUsers] = useState([]);
+
+  const apps = [
+    {
+      name: "Survey App (Online)",
+      url: "https://survay-form-app.netlify.app/",
+    },
+    {
+      name: "Biller App",
+      url: "https://af-biller.netlify.app/",
+    },
+  ];
 
   const fetchProjects = async () => {
     try {
@@ -111,6 +124,23 @@ const OwnerAdmin = () => {
     fetchUsers();
   }, []);
 
+  const handleShare = async (app) => {
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: app.name,
+          text: `${app.name}`,
+          url: app.url,
+        });
+      } else {
+        await navigator.clipboard.writeText(app.url);
+        alert(`${app.name} link copied`);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-7xl mx-auto">
@@ -145,7 +175,7 @@ const OwnerAdmin = () => {
             onClick={() => handleNavigation("/staff/work")}
           />
           <QuickLinkCard
-            title="Final Orders (Deals)"
+            title="1. Final Orders (Deals)"
             count={
               projects?.filter((project) => {
                 return !project?.other?.status;
@@ -156,7 +186,7 @@ const OwnerAdmin = () => {
             onClick={() => handleNavigation("/projects/first")}
           />
           <QuickLinkCard
-            title="Current Orders"
+            title="2. Current Orders"
             count={
               projects?.filter((project) => {
                 return project?.other?.status === "working";
@@ -167,7 +197,7 @@ const OwnerAdmin = () => {
             onClick={() => handleNavigation("/projects/current")}
           />
           <QuickLinkCard
-            title="Completed Orders"
+            title="3. Completed Orders"
             count={
               projects?.filter((project) => {
                 return project?.other?.status === "completed";
@@ -178,7 +208,7 @@ const OwnerAdmin = () => {
             onClick={() => handleNavigation("/projects/final")}
           />
           <QuickLinkCard
-            title="Canceled Orders"
+            title="4. Canceled Orders"
             count={
               projects?.filter((project) => {
                 return project?.other?.status === "cancelled";
@@ -230,6 +260,86 @@ const OwnerAdmin = () => {
             onClick={() => handleNavigation("/staff/add")}
           />
         </CategorySection>
+
+        <div className="w-full flex flex-col">
+          <h3 className="text-lg font-bold text-gray-800 mb-4 border-b pb-2">
+            Other Platforms
+          </h3>
+
+          <div className="gap-4 flex">
+            {apps.map((app) => (
+              <div
+                key={app.id}
+                className="
+              group
+              rounded-2xl
+              border border-slate-200
+              bg-white/80
+              backdrop-blur-sm
+              p-5
+              shadow-sm
+              transition-all
+              duration-300
+              hover:shadow-lg
+              hover:-translate-y-1
+            "
+              >
+                <div className="flex items-start justify-between">
+                  <div>
+                    <h3 className="font-semibold text-slate-900 text-lg">
+                      {app.name}
+                    </h3>
+
+                    <p className="text-sm text-slate-500 mt-1">
+                      {app.subtitle}
+                    </p>
+                  </div>
+
+                  <div className="h-10 w-10 rounded-xl bg-slate-100 flex items-center justify-center">
+                    🚀
+                  </div>
+                </div>
+
+                <div className="mt-5 flex gap-3">
+                  <a
+                    href={app.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="
+                  flex-1
+                  flex items-center justify-center gap-2
+                  rounded-xl
+                  bg-slate-900
+                  px-4 py-3
+                  text-white
+                  font-medium
+                  transition
+                  hover:bg-slate-800
+                "
+                  >
+                    Open
+                    <ExternalLink size={16} />
+                  </a>
+
+                  <button
+                    onClick={() => handleShare(app)}
+                    className="
+                  px-4 py-3
+                  rounded-xl
+                  border border-slate-200
+                  bg-white
+                  transition
+                  hover:bg-slate-50
+                  flex items-center justify-center
+                "
+                  >
+                    <Share2 size={18} />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

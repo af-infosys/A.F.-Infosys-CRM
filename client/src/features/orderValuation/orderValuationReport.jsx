@@ -348,7 +348,9 @@ const OrderValuationReport = () => {
                       {details?.imageAkarni ? (
                         <span style={{ marginTop: "-2px" }}>
                           ફોટા વાળી આકારણી{": "}
-                          <b>{details?.imageAkarni ? "હા" : "ના"}</b>
+                          <b>
+                            {Number(details?.imageAkarni) !== 0 ? "હા" : "ના"}
+                          </b>
                         </span>
                       ) : null}
                     </span>
@@ -523,7 +525,7 @@ const OrderValuationReport = () => {
                   </b>
                 </h2>
 
-                {details?.s2Name !== "" && details?.s2Number !== "" ? (
+                {details?.s2Name !== "" && (
                   <h2
                     style={{
                       fontSize: "15px",
@@ -534,22 +536,22 @@ const OrderValuationReport = () => {
                       {details?.s2Name || ""}, {details?.s2Number || ""}
                     </b>
                   </h2>
-                ) : (
-                  ""
                 )}
 
-                <h2
-                  style={{
-                    fontSize: "15px",
-                  }}
-                >
-                  સાથે રહેનાર વ્યકિતનું પુરૂ નામ તથા મો.નં.{" "}
-                  <b>
-                    {details?.assistantName || ""}
-                    {", "}
-                    {details?.assistantNumber || ""}
-                  </b>
-                </h2>
+                {details?.assistantName && (
+                  <h2
+                    style={{
+                      fontSize: "15px",
+                    }}
+                  >
+                    સાથે રહેનાર વ્યકિતનું પુરૂ નામ તથા મો.નં.{" "}
+                    <b>
+                      {details?.assistantName || ""}
+                      {", "}
+                      {details?.assistantNumber || ""}
+                    </b>
+                  </h2>
+                )}
                 <h2
                   style={{
                     fontSize: "15px",
