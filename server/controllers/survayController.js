@@ -54,6 +54,7 @@ function buildPropertyDescription(formData) {
           const woodenRoomsNum = Number(room.woodenRooms);
           const tileRoomsNum = Number(room.tileRooms);
           const roomType = room.type; // પાકા / કાચા / પ્લોટ
+          const other = room.description;
 
           // રૂમના ભાગોને સ્ટોર કરવા માટે ટેમ્પરરી એરે
           const roomParts = [];
@@ -62,7 +63,7 @@ function buildPropertyDescription(formData) {
             roomParts.push(
               `${roomType} સ્લેબવાળા ${
                 room.roomHallShopGodown
-              }-${convertToArabicToGujaratiNumerals(slabRoomsNum)}`,
+              }-${convertToArabicToGujaratiNumerals(slabRoomsNum)} (${other})`,
             );
           }
 
@@ -70,21 +71,21 @@ function buildPropertyDescription(formData) {
             roomParts.push(
               `${roomType} પતરાવાળી ${
                 room.roomHallShopGodown
-              }-${convertToArabicToGujaratiNumerals(tinRoomsNum)}`,
+              }-${convertToArabicToGujaratiNumerals(tinRoomsNum)} (${other})`,
             );
           }
           if (woodenRoomsNum > 0) {
             roomParts.push(
               `${roomType} પીઢીયાવાળી ${
                 room.roomHallShopGodown
-              }-${convertToArabicToGujaratiNumerals(woodenRoomsNum)}`,
+              }-${convertToArabicToGujaratiNumerals(woodenRoomsNum)} (${other})`,
             );
           }
           if (tileRoomsNum > 0) {
             roomParts.push(
               `${roomType} નળિયાવાળી ${
                 room.roomHallShopGodown
-              }-${convertToArabicToGujaratiNumerals(tileRoomsNum)}`,
+              }-${convertToArabicToGujaratiNumerals(tileRoomsNum)} (${other})`,
             );
           }
 
