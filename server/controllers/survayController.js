@@ -966,12 +966,13 @@ export const calculateValuation = async (req, res) => {
       let otherTax = {};
 
       // calculate property price based on category
-      if (
-        propertyCategory === "પ્લોટ (ફરતી દિવાલ) ખાનગી" ||
-        propertyCategory === "પ્લોટ ખાનગી - ખુલ્લી જગ્યા"
-      ) {
+      if (propertyCategory === "પ્લોટ ખાનગી - ખુલ્લી જગ્યા") {
         propertyPrice = valuationData[14][1];
         tax = valuationData[14][3];
+      }
+      if (propertyCategory === "પ્લોટ (ફરતી દિવાલ) ખાનગી") {
+        propertyPrice = valuationData[15][1];
+        tax = valuationData[15][3];
       }
 
       if (propertyCategory === "રહેણાંક - મકાન") {

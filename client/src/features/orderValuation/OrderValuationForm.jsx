@@ -161,6 +161,12 @@ const OrderValuationForm = () => {
       tax: 0,
     },
     {
+      name: "પ્લોટ ફરતી દિવાલ (માલિકી)",
+      price: 0,
+      per: 0,
+      tax: 0,
+    },
+    {
       name: "હિરાના કારખાના નાના",
       price: 0,
       per: 0,
