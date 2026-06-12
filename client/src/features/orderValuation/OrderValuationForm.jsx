@@ -53,8 +53,8 @@ const OrderValuationForm = () => {
 
     seperatecommercial: false,
 
-    pvtplot: true,
-    govplot: true,
+    pvtplot: false,
+    govplot: false,
 
     comity: [
       { name: "", designation: "અધ્યક્ષ સરપંચશ્રી " },

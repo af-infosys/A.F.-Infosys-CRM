@@ -63,7 +63,7 @@ function buildPropertyDescription(formData) {
             roomParts.push(
               `${roomType} સ્લેબવાળા ${
                 room.roomHallShopGodown
-              }-${convertToArabicToGujaratiNumerals(slabRoomsNum)} (${other})`,
+              }-${convertToArabicToGujaratiNumerals(slabRoomsNum)}${other ? ` (${other})` : ""}`,
             );
           }
 
@@ -71,21 +71,21 @@ function buildPropertyDescription(formData) {
             roomParts.push(
               `${roomType} પતરાવાળી ${
                 room.roomHallShopGodown
-              }-${convertToArabicToGujaratiNumerals(tinRoomsNum)} (${other})`,
+              }-${convertToArabicToGujaratiNumerals(tinRoomsNum)} ${other ? ` (${other})` : ""}`,
             );
           }
           if (woodenRoomsNum > 0) {
             roomParts.push(
               `${roomType} પીઢીયાવાળી ${
                 room.roomHallShopGodown
-              }-${convertToArabicToGujaratiNumerals(woodenRoomsNum)} (${other})`,
+              }-${convertToArabicToGujaratiNumerals(woodenRoomsNum)} ${other ? ` (${other})` : ""}`,
             );
           }
           if (tileRoomsNum > 0) {
             roomParts.push(
               `${roomType} નળિયાવાળી ${
                 room.roomHallShopGodown
-              }-${convertToArabicToGujaratiNumerals(tileRoomsNum)} (${other})`,
+              }-${convertToArabicToGujaratiNumerals(tileRoomsNum)} ${other ? ` (${other})` : ""}`,
             );
           }
 
