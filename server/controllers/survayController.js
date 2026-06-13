@@ -49,10 +49,10 @@ function buildPropertyDescription(formData) {
       if (floor.roomDetails && floor.roomDetails.length > 0) {
         floor.roomDetails.forEach((room) => {
           // ખાતરી કરો કે સંખ્યાઓ યોગ્ય રીતે રૂપાંતરિત થાય છે
-          const slabRoomsNum = Number(room.slabRooms);
-          const tinRoomsNum = Number(room.tinRooms);
-          const woodenRoomsNum = Number(room.woodenRooms);
-          const tileRoomsNum = Number(room.tileRooms);
+          const slabRoomsNum = Number(room.slabRooms || 0);
+          const tinRoomsNum = Number(room.tinRooms || 0);
+          const woodenRoomsNum = Number(room.woodenRooms || 0);
+          const tileRoomsNum = Number(room.tileRooms || 0);
           const roomType = room.type; // પાકા / કાચા / પ્લોટ
           const other = room.description;
 
@@ -62,30 +62,52 @@ function buildPropertyDescription(formData) {
           if (slabRoomsNum > 0) {
             roomParts.push(
               `${roomType} સ્લેબવાળા ${
-                room.roomHallShopGodown
-              }-${convertToArabicToGujaratiNumerals(slabRoomsNum)}${other ? ` (${other})` : ""}`,
+                room.roomHallShopGodown === "other"
+                  ? other
+                  : room.roomHallShopGodown
+              }-${convertToArabicToGujaratiNumerals(slabRoomsNum)}${other && room.roomHallShopGodown !== "other" ? ` ${other}` : ""}`,
             );
           }
 
           if (tinRoomsNum > 0) {
             roomParts.push(
               `${roomType} પતરાવાળી ${
-                room.roomHallShopGodown
-              }-${convertToArabicToGujaratiNumerals(tinRoomsNum)} ${other ? ` (${other})` : ""}`,
+                room.roomHallShopGodown === "other"
+                  ? other
+                  : room.roomHallShopGodown
+              }-${convertToArabicToGujaratiNumerals(tinRoomsNum)}${other && room.roomHallShopGodown !== "other" ? ` ${other}` : ""}`,
             );
           }
           if (woodenRoomsNum > 0) {
             roomParts.push(
               `${roomType} પીઢીયાવાળી ${
-                room.roomHallShopGodown
-              }-${convertToArabicToGujaratiNumerals(woodenRoomsNum)} ${other ? ` (${other})` : ""}`,
+                room.roomHallShopGodown === "other"
+                  ? other
+                  : room.roomHallShopGodown
+              }-${convertToArabicToGujaratiNumerals(woodenRoomsNum)}${other && room.roomHallShopGodown !== "other" ? ` ${other}` : ""}`,
             );
           }
           if (tileRoomsNum > 0) {
             roomParts.push(
               `${roomType} નળિયાવાળી ${
-                room.roomHallShopGodown
-              }-${convertToArabicToGujaratiNumerals(tileRoomsNum)} ${other ? ` (${other})` : ""}`,
+                room.roomHallShopGodown === "other"
+                  ? other
+                  : room.roomHallShopGodown
+              }-${convertToArabicToGujaratiNumerals(tileRoomsNum)}${other && room.roomHallShopGodown !== "other" ? ` ${other}` : ""}`,
+            );
+          }
+          if (
+            slabRoomsNum === 0 &&
+            tinRoomsNum === 0 &&
+            woodenRoomsNum === 0 &&
+            tileRoomsNum === 0
+          ) {
+            roomParts.push(
+              `${roomType ? roomType : ""} ${
+                room.roomHallShopGodown === "other"
+                  ? other
+                  : room.roomHallShopGodown
+              }${other && room.roomHallShopGodown !== "other" ? ` ${other}` : ""}`,
             );
           }
 
