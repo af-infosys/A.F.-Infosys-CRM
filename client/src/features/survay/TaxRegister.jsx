@@ -21,6 +21,22 @@ import { saveAs } from "file-saver";
 import TaxIndexRaw from "../../components/conver/TaxIndexRaw";
 
 const TaxRegister = () => {
+  const [count, setCount] = useState(5);
+  const scrollToPage = () => {
+    const element = document.getElementById(`report-page-${count}`);
+
+    if (element) {
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  };
+
+  useEffect(() => {
+    scrollToPage();
+  }, [count, setCount]);
+
   const navigate = useNavigate();
 
   const [records, setRecords] = useState([]);
@@ -259,6 +275,8 @@ const TaxRegister = () => {
           percentage: percentage,
           timeRemaining: timeRemaining,
         }));
+
+        setCount(completedPages - 1);
       } catch (error) {
         console.error("Error generating PDF page:", error);
         break;
@@ -1012,7 +1030,7 @@ const TaxRegister = () => {
       {pdfProgress.isGenerating && (
         // Progress Modal/Overlay
         <div className="fixed inset-0 bg-gray-800 bg-opacity-80 flex items-center justify-center z-50 p-4">
-          <div className="p-2 rounded-xl shadow-2xl w-full max-w-sm">
+          <div className="p-2 rounded-xl shadow-2xl w-full max-w-sm bg-white">
             <h3 className="text-xl font-bold mb-2 text-center text-gray-800">
               {pdfProgress.isCancelled
                 ? "❌ Canceled"
@@ -1099,10 +1117,6 @@ const TaxRegister = () => {
         // style={{ position: "absolute", left: "-9999px" }}
       >
         {finalRenderPages.map((item, idx) => {
-          {
-            /* const pageTotals = calculatePageTotals(pageRecords); */
-          }
-
           const id = `report-page-${idx}`;
 
           if (item.type === "cover") {
@@ -1179,7 +1193,7 @@ const TaxRegister = () => {
                     પાના નં. {toGujaratiNumber(item.pageIndex + 1)}
                   </span>
 
-                  <h1 className="heading" style={{ marginTop: "35px" }}>
+                  <h1 className="heading" style={{ marginTop: "32px" }}>
                     ગામનો નમુના નંબર ૯ડી કરવેરા રજીસ્ટર{" "}
                     {item.isCommercial === true
                       ? " - કોમર્શિયલ મિલ્કત"
@@ -1191,7 +1205,11 @@ const TaxRegister = () => {
 
                   <div
                     className="location-info"
-                    style={{ fontSize: "19px", paddingInline: "50px" }}
+                    style={{
+                      fontSize: "16px",
+                      paddingInline: "50px",
+                      marginTop: "-10px",
+                    }}
                   >
                     <span>ગામ:- {project?.spot?.gaam}</span>
 
@@ -1214,7 +1232,12 @@ const TaxRegister = () => {
                         rowSpan="2"
                         style={{ maxWidth: "45px" }}
                       >
-                        <span className="formatting">ખાતાનો નંબર</span>
+                        <span
+                          className="formatting"
+                          style={{ fontSize: "12px" }}
+                        >
+                          ખાતાનો નંબર
+                        </span>
                       </th>
 
                       <th
@@ -1222,7 +1245,13 @@ const TaxRegister = () => {
                         rowSpan="2"
                         style={{ maxWidth: "45px" }}
                       >
-                        <span className="formatting">પ્રોપર્ટી નંબર</span>
+                        <span
+                          className="formatting"
+                          style={{ fontSize: "12px" }}
+                        >
+                          {" "}
+                          પ્રોપર્ટી નંબર
+                        </span>
                       </th>
 
                       <th
@@ -1318,7 +1347,12 @@ const TaxRegister = () => {
                         style={{ maxWidth: "40px" }}
                         rowSpan="2"
                       >
-                        <span className="formatting">ગઈ સાલના જાદે</span>
+                        <span
+                          className="formatting"
+                          style={{ fontSize: "12px" }}
+                        >
+                          ગઈ સાલના જાદે
+                        </span>
                       </th>
                     </tr>
 
@@ -1364,7 +1398,7 @@ const TaxRegister = () => {
                   {item.pageRecords.map((record, index) => {
                     return (
                       <tbody>
-                        <tr key={index}>
+                        <tr key={index} style={{ maxHeight: "3px" }}>
                           <td
                             rowSpan="3"
                             style={{
@@ -1782,12 +1816,12 @@ const TaxRegister = () => {
                           <td className="td" rowSpan={3}></td>
                         </tr>
 
-                        <tr>
+                        <tr style={{ maxHeight: "3px" }}>
                           <th>
                             <span className="formatting">{""}</span>
                           </th>
 
-                          <th className="td">
+                          <th className="td" style={{ maxHeight: "4x" }}>
                             <span
                               className="formatting"
                               style={{ textWrap: "nowrap" }}
@@ -2182,9 +2216,7 @@ const TaxRegister = () => {
                   })}
 
                   <tr>
-                    <td colSpan="25" style={{ minHeight: "20px" }}>
-                      {"-"}
-                    </td>
+                    <td colSpan="25" style={{ maxHeight: "4px" }}></td>
                   </tr>
 
                   <tr>
@@ -2295,7 +2327,7 @@ const TaxRegister = () => {
                         <React.Fragment key={categoryIndex}>
                           <td className="td" style={{ textAlign: "right" }}>
                             <span className="formatting">
-                              {toGujaratiNumber(prevForCategory)}
+                              {toGujaratiNumber(prevForCategory, 1) || ""}
                             </span>
                           </td>
 
@@ -2475,7 +2507,7 @@ const TaxRegister = () => {
         })}
       </div>
       {/* This is the visible, on-screen part */}
-      <div className="visible-report-container">
+      {/* <div className="visible-report-container">
         <h1 className="text-xl font-bold text-center mb-0 text-gray-800">
           ગામનો નમુના નંબર ૯ ડી - કરવેરા રજીસ્ટર - સન ૨૦૨૫/૨૬
         </h1>
@@ -2562,9 +2594,9 @@ const TaxRegister = () => {
                 ))}
               </tr>
 
-              {/* Index Start */}
+               
               <tr>
-                {/* 1 to 18 th for index */}
+               
                 {Array.from({ length: 25 }).map((_, index) => (
                   <th
                     className="text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -2579,7 +2611,7 @@ const TaxRegister = () => {
                   </th>
                 ))}
               </tr>
-              {/* Index End */}
+ 
             </thead>
 
             <tbody className="tbody">
@@ -2608,12 +2640,10 @@ const TaxRegister = () => {
 
                     <td className="td">માંગણું</td>
 
-                    {/* ઘર વેરો */}
                     <td className="td">
                       {JSON.parse(record[21] || "{}")?.[0]?.prev || " "}
                     </td>
 
-                    {/* [{ "curr": 20, "prev": 0 }, { "curr": 0, "prev": 0 }, { "curr": 0, "prev": 0 }] */}
 
                     <td className="td">
                       {JSON.parse(record[21] || "{}")?.[0]?.curr || " "}
@@ -2624,7 +2654,6 @@ const TaxRegister = () => {
                         (JSON.parse(record[21] || "{}")?.[0]?.prev || "")}
                     </td>
 
-                    {/* સામાન્ય પાણી વેરો */}
                     <td className="td">
                       {JSON.parse(record[22] || "{}")?.[0]?.prev || " "}
                     </td>
@@ -2638,7 +2667,6 @@ const TaxRegister = () => {
                         (JSON.parse(record[22] || "{}")?.[0]?.prev || "")}
                     </td>
 
-                    {/* ખાસ પાણી નળ વેરો */}
                     <td className="td">
                       {JSON.parse(record[23] || "{}")?.[0]?.prev || " "}
                     </td>
@@ -2652,7 +2680,6 @@ const TaxRegister = () => {
                         (JSON.parse(record[23] || "{}")?.[0]?.prev || "")}
                     </td>
 
-                    {/* દિવાબતી લાઈટ વેરો */}
                     <td className="td">
                       {JSON.parse(record[24] || "{}")?.[0]?.prev || " "}
                     </td>
@@ -2666,7 +2693,6 @@ const TaxRegister = () => {
                         (JSON.parse(record[24] || "{}")?.[0]?.prev || "")}
                     </td>
 
-                    {/* સફાઈ વેરો */}
                     <td className="td">
                       {JSON.parse(record[25] || "{}")?.[0]?.prev || " "}
                     </td>
@@ -2680,7 +2706,6 @@ const TaxRegister = () => {
                         (JSON.parse(record[25] || "{}")?.[0]?.prev || "")}
                     </td>
 
-                    {/* કુલ એકંદર */}
                     <td className="td">
                       {JSON.parse(record[26] || "{}")?.[0]?.prev || " "}
                     </td>
@@ -2694,14 +2719,11 @@ const TaxRegister = () => {
                         (JSON.parse(record[26] || "{}")?.[0]?.prev || "")}
                     </td>
 
-                    {/* ગઈ સાલના જાદે */}
-                    {/* <td className="td"></td> */}
                   </tr>
 
                   <tr>
                     <td className="td">વસુલાત</td>
 
-                    {/* ઘર વેરો */}
                     <td className="td">
                       {JSON.parse(record[21] || "{}")?.[1]?.prev || " "}
                     </td>
@@ -2715,7 +2737,6 @@ const TaxRegister = () => {
                         (JSON.parse(record[21] || "{}")?.[1]?.prev || "")}
                     </td>
 
-                    {/* સામાન્ય પાણી વેરો */}
                     <td className="td">
                       {JSON.parse(record[22] || "{}")?.[1]?.prev || " "}
                     </td>
@@ -2729,7 +2750,7 @@ const TaxRegister = () => {
                         (JSON.parse(record[22] || "{}")?.[1]?.prev || "")}
                     </td>
 
-                    {/* ખાસ પાણી નળ વેરો */}
+
                     <td className="td">
                       {JSON.parse(record[23] || "{}")?.[1]?.prev || " "}
                     </td>
@@ -2743,7 +2764,7 @@ const TaxRegister = () => {
                         (JSON.parse(record[23] || "{}")?.[1]?.prev || "")}
                     </td>
 
-                    {/* દિવાબતી લાઈટ વેરો */}
+
                     <td className="td">
                       {JSON.parse(record[24] || "{}")?.[1]?.prev || " "}
                     </td>
@@ -2757,7 +2778,7 @@ const TaxRegister = () => {
                         (JSON.parse(record[24] || "{}")?.[1]?.prev || "")}
                     </td>
 
-                    {/* સફાઈ વેરો */}
+
                     <td className="td">
                       {JSON.parse(record[25] || "{}")?.[1]?.prev || " "}
                     </td>
@@ -2770,8 +2791,7 @@ const TaxRegister = () => {
                       {(JSON.parse(record[25] || "{}")?.[1]?.curr || " ") +
                         (JSON.parse(record[25] || "{}")?.[1]?.prev || "")}
                     </td>
-
-                    {/* કુલ એકંદર */}
+ 
                     <td className="td">
                       {JSON.parse(record[26] || "{}")?.[1]?.prev || " "}
                     </td>
@@ -2784,15 +2804,12 @@ const TaxRegister = () => {
                       {(JSON.parse(record[26] || "{}")?.[1]?.curr || " ") +
                         (JSON.parse(record[26] || "{}")?.[1]?.prev || "")}
                     </td>
-
-                    {/* ગઈ સાલના જાદે */}
-                    {/* <td className="td"></td> */}
+ 
                   </tr>
 
                   <tr>
                     <td className="td">બાકી</td>
-
-                    {/* ઘર વેરો */}
+ 
                     <td className="td">
                       {JSON.parse(record[21] || "{}")?.[2]?.prev || " "}
                     </td>
@@ -2805,8 +2822,7 @@ const TaxRegister = () => {
                       {(JSON.parse(record[21] || "{}")?.[2]?.curr || " ") +
                         (JSON.parse(record[21] || "{}")?.[2]?.prev || "")}
                     </td>
-
-                    {/* સામાન્ય પાણી વેરો */}
+ 
                     <td className="td">
                       {JSON.parse(record[22] || "{}")?.[2]?.prev || " "}
                     </td>
@@ -2819,8 +2835,7 @@ const TaxRegister = () => {
                       {(JSON.parse(record[22] || "{}")?.[2]?.curr || " ") +
                         (JSON.parse(record[22] || "{}")?.[2]?.prev || "")}
                     </td>
-
-                    {/* ખાસ પાણી નળ વેરો */}
+ 
                     <td className="td">
                       {JSON.parse(record[23] || "{}")?.[2]?.prev || " "}
                     </td>
@@ -2833,8 +2848,7 @@ const TaxRegister = () => {
                       {(JSON.parse(record[23] || "{}")?.[2]?.curr || " ") +
                         (JSON.parse(record[23] || "{}")?.[2]?.prev || "")}
                     </td>
-
-                    {/* દિવાબતી લાઈટ વેરો */}
+ 
                     <td className="td">
                       {JSON.parse(record[24] || "{}")?.[2]?.prev || " "}
                     </td>
@@ -2847,8 +2861,7 @@ const TaxRegister = () => {
                       {(JSON.parse(record[24] || "{}")?.[2]?.curr || " ") +
                         (JSON.parse(record[24] || "{}")?.[2]?.prev || "")}
                     </td>
-
-                    {/* સફાઈ વેરો */}
+ 
                     <td className="td">
                       {JSON.parse(record[25] || "{}")?.[2]?.prev || " "}
                     </td>
@@ -2861,8 +2874,7 @@ const TaxRegister = () => {
                       {(JSON.parse(record[25] || "{}")?.[2]?.curr || " ") +
                         (JSON.parse(record[25] || "{}")?.[2]?.prev || "")}
                     </td>
-
-                    {/* કુલ એકંદર */}
+ 
                     <td className="td">
                       {JSON.parse(record[26] || "{}")?.[2]?.prev || " "}
                     </td>
@@ -2875,9 +2887,7 @@ const TaxRegister = () => {
                       {(JSON.parse(record[26] || "{}")?.[2]?.curr || " ") +
                         (JSON.parse(record[26] || "{}")?.[2]?.prev || "")}
                     </td>
-
-                    {/* ગઈ સાલના જાદે */}
-                    {/* <td className="td"></td> */}
+ 
                   </tr>
                 </>
               ))}
@@ -2892,7 +2902,7 @@ const TaxRegister = () => {
             </tbody>
           </table>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
