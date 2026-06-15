@@ -264,8 +264,8 @@ const Page3 = ({ data }) => {
             <tr>
               {[
                 "ક્રમ",
-                "તલાટી કમ મંત્રીશ્રીન ં નામ",
-                "સેજાના ગામન",
+                "તલાટી કમ મંત્રીશ્રીનું નામ",
+                "સેજાના ગામનું",
                 "ચાર્જના ગામો",
                 "મોબાઈલ નંબર",
               ].map((h, i) => (
@@ -398,9 +398,7 @@ const Page3 = ({ data }) => {
       </div> */}
 
       {/* FOOTER */}
-      <div style={{ textAlign: "center", marginTop: "12mm" }}>
-        (પાનાં નં.-૩)
-      </div>
+      <div style={{ textAlign: "center", marginTop: "1mm" }}>(પાનાં નં.-૩)</div>
     </div>
   );
 };
