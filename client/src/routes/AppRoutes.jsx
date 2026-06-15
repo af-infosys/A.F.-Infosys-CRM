@@ -66,6 +66,7 @@ import AddAkarni from "../features/projects/AddAkarni";
 import ManageAkarni from "../features/projects/ManageAkarni";
 import ManageService from "../features/services/ManageService";
 import AddCustomer from "../features/contactList/AddCustomer";
+import ListApplication from "../features/meetings/ListApplication";
 
 export default function AppRoutes() {
   const { user } = useAuth();
@@ -291,6 +292,7 @@ export default function AppRoutes() {
           <Route path="manage" element={<ManageCertificate />} />
           <Route path="arji/:id" element={<ArjiLetter />} />
           <Route path="certificate/:id" element={<Certificate />} />
+          <Route path="list/:id" element={<ListApplication />} />
         </Route>
         {/* Meeting Routes End */}
 

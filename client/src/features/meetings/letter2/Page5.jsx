@@ -1,0 +1,404 @@
+import LOGOpng from "../../../assets/logo.png";
+import toGujaratiNumber from "../../../components/toGujaratiNumber";
+
+const Page5 = ({ data }) => {
+  const structure = [
+    {
+      gram_panchayat: "અભરામપરા",
+      name: "શામજીભાઈ પીઠાભાઈ બગડા",
+      mobile: "૯૩૧૬૮૧૯૯૧૦",
+    },
+    {
+      gram_panchayat: "અમૃતવેલ",
+      name: "ગજરાબેન પ્રતાપભાઈ ખુમાણ",
+      mobile: "૯૮૭૯૮૬૦૧૩૧",
+    },
+    {
+      gram_panchayat: "આંબરડી",
+      name: "પ્રેમજીભાઈ લાખાભાઈ બગડા",
+      mobile: "૯૪૨૭૮૦૬૬૪૩",
+    },
+    {
+      gram_panchayat: "આકોલડા",
+      name: "રાયબાઈબેન દડુભાઈ ખુમાણ",
+      mobile: "૯૬૬૨૬૪૩૬૩૦",
+    },
+    {
+      gram_panchayat: "આદસંગ",
+      name: "ચંદ્રાબેન લખુભાઈ ચાંદુ",
+      mobile: "૮૩૪૭૫૨૪૭૫૯",
+    },
+    {
+      gram_panchayat: "ઓળીયા",
+      name: "અંજુબેન પ્રકાશભાઈ બગડા",
+      mobile: "૮૧૨૮૨૬૮૩૬૯",
+    },
+    {
+      gram_panchayat: "કરજાળા",
+      name: "દયાબેન કરમશીભાઈ કાથરોટીયા",
+      mobile: "૯૯૧૩૧૫૨૩૧૯",
+    },
+    {
+      gram_panchayat: "કૃષ્ણગઢ",
+      name: "હર્ષદભાઈ કનુભાઈ મુંજપરા",
+      mobile: "૯૪૨૯૧૮૪૬૫૨",
+    },
+    {
+      gram_panchayat: "કેરાળા",
+      name: "કાળુભાઈ પહુંભાઈ જેબલિયા (ઉપસરપંચ, ઈ.ચા)",
+      mobile: "૯૯૨૫૯૭૭૫૨૬",
+    },
+    {
+      gram_panchayat: "ખડકાળા",
+      name: "ચંદ્રાબેન ભગવાનભાઈ ખુમાણ",
+      mobile: "૭૦૪૬૩૬૪૬૨૭",
+    },
+    {
+      gram_panchayat: "ખડસલી",
+      name: "શિલ્પાબેન ચેતનભાઈ માલાણી",
+      mobile: "૯૩૨૭૭૦૧૦૩૯",
+    },
+    {
+      gram_panchayat: "ખાલપર",
+      name: "ભાવેશભાઈ પ્રાગજીભાઈ શિરોયા",
+      mobile: "૯૫૮૬૫૧૧૧૮૨",
+    },
+    {
+      gram_panchayat: "ખોડીયાણા",
+      name: "કાનજીભાઈ ભાયાભાઈ બગડા",
+      mobile: "૯૦૨૩૪૪૧૩૦૫",
+    },
+    {
+      gram_panchayat: "ગોરડકા",
+      name: "માધવભાઈ જહાભાઈ લાડુમોર",
+      mobile: "૯૭૨૩૫૩૦૫૨૪",
+    },
+    {
+      gram_panchayat: "ઘજડી",
+      name: "ભાવનાબેન ભરતભાઈ ધડુક",
+      mobile: "૯૮૭૯૮૧૯૭૧૨",
+    },
+    {
+      gram_panchayat: "ઘાંણલા",
+      name: "જયાબેન કાળુભાઈ કાતરીયા",
+      mobile: "૯૫૮૬૧૮૬૬૧૩",
+    },
+    {
+      gram_panchayat: "ઘોબા",
+      name: "ઈલાબેન પ્રતાપભાઈ પટગીર",
+      mobile: "૯૯૭૯૯૫૫૨૨૨",
+    },
+    {
+      gram_panchayat: "ચરખડીયા",
+      name: "મોનીકાબેન હિરેનભાઈ કાછડિયા",
+      mobile: "૯૯૦૯૩૬૯૯૭૫",
+    },
+    {
+      gram_panchayat: "ચીખલી",
+      name: "અમિતાબેન ભીખુભાઈ વાઘમશી",
+      mobile: "૯૯૦૯૪૭૧૧૨૫",
+    },
+    {
+      gram_panchayat: "જાંબુડા",
+      name: "ઘુસાભાઈ કાનાભાઈ વાણીયા",
+      mobile: "૯૯૭૮૦૪૮૨૧૦",
+    },
+    {
+      gram_panchayat: "જાબાળ",
+      name: "જયદીપભાઈ પ્રતાપભાઈ ખુમાણ",
+      mobile: "૯૭૧૪૪૧૯૧૧૯",
+    },
+    {
+      gram_panchayat: "જીરા",
+      name: "દક્ષાબેન ધર્મેશભાઈ ચોડવડિયા",
+      mobile: "૯૮૭૯૭૨૧૭૩૫",
+    },
+    {
+      gram_panchayat: "જુના સાવર",
+      name: "કલ્પેશભાઈ પ્રવિણભાઈ કાનાણી",
+      mobile: "૯૨૬૫૯૬૪૦૦૫",
+    },
+    {
+      gram_panchayat: "જેજાદ",
+      name: "ગીતાબેન બાબુભાઈ વાઘેલા",
+      mobile: "૯૮૭૯૩૮૯૨૧૨",
+    },
+    {
+      gram_panchayat: "ઠવી",
+      name: "દેવજીભાઈ લાલજીભાઈ કાછડિયા",
+      mobile: "૯૯૨૫૯૬૬૫૦૧",
+    },
+    {
+      gram_panchayat: "ડેડકડી",
+      name: "શીતલબેન નિલેશભાઈ ઘેવરીયા",
+      mobile: "૭૬૯૮૬૨૦૭૯૦",
+    },
+    {
+      gram_panchayat: "દાઘીયા",
+      name: "ગીતાબેન પ્રદિપભાઈ ભાલાળા",
+      mobile: "૭૯૯૦૮૯૩૭૦૭",
+    },
+  ];
+
+  return (
+    <div
+      id="letter-page"
+      style={{
+        width: "794px",
+        height: "1123px",
+        padding: "8mm",
+        boxSizing: "border-box",
+        fontFamily: "Noto Serif Gujarati, serif",
+        fontSize: "13.5pt",
+        lineHeight: "1.6",
+
+        position: "relative",
+        zIndex: 1,
+      }}
+      className="bg-white"
+    >
+      <div className="watermark-logo-arji"></div>
+
+      <div className="flex justify-between items-center mb-4 w-full">
+        <div className="flex flex-col items-end w-full">
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "start",
+            }}
+          >
+            <h3 className="text-base font-grey-700">
+              Shahid Kalva - <span>93764 43146</span>
+            </h3>
+            <h3 className="text-base font-grey-700">
+              Sarfaraz Kalva - <span>99247 82732</span>
+            </h3>
+            <h3 className="text-base font-grey-700">
+              E-Mail :-{" "}
+              <span className="underline">af.infosys146@gmail.com</span>
+            </h3>
+            <h3 className="text-base font-grey-700">
+              Website :- <span className="underline">afinfosys.com</span>
+            </h3>
+          </div>
+        </div>
+      </div>
+
+      <div id="title">
+        <div>
+          <h2 className="text-5xl text-center font-extrabold mt-4">
+            {/* A.F. Infosys */}
+          </h2>
+
+          <p className="trans">
+            ગ્રામપંચાયત રેવન્યુ(જમાબંધી) વાર્ષીક હિસાબ, આકાણીસર્વે, કરવેરા
+            રજીસ્ટર, રોજમેળ, ગ્રામસુવિધા પોર્ટલ તથા ઓનલાઈન / ઓફલાઈન તમામ
+            પ્રકારની ડેટાએન્ટ્રી અને પ્રિન્ટીંગ, વેબસાઈટ, સોફ્ટવેર, કોમ્પ્યુટર
+            કામ માટે મળો
+          </p>
+
+          <p className="address trans">
+            બીજામાળે, સેન્ટ્રલપોઈન્ટ કોમ્પ્લેક્ષ, જુનાબસસ્ટેન્ડ સામે -
+            સાવરકુંડલા જિ.અમરેલી. સૌરાષ્ટ્ર (પશ્વિમગુજરાત)
+          </p>
+        </div>
+
+        <img src={LOGOpng} alt="Logo" />
+      </div>
+
+      {/* TABLE */}
+      <div
+        style={{
+          marginBottom: "5mm",
+          marginTop: "15px",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <table
+          style={{
+            // width: "100%",
+            maxWidth: "fit-content",
+            borderCollapse: "collapse",
+          }}
+        >
+          <thead>
+            <tr>
+              <th
+                colSpan="5"
+                style={{
+                  border: "1px solid black",
+                  padding: "4px",
+
+                  paddingRight: "8px",
+                  paddingLeft: "8px",
+
+                  textAlign: "center",
+                  fontWeight: "bold",
+                  fontSize: "14px",
+                }}
+              >
+                <span className="formatting">
+                  તાલુકા પંચાયત કચેરી - સાવરકુંડલા તા.૦૧/૦૪/૨૦૨૫ની સ્થિતિએ સરપંચ
+                  / વહીવટદાર યાદી
+                </span>
+              </th>
+            </tr>
+
+            <tr>
+              {[
+                "ક્રમ",
+                "સરપંચશ્રીનું પુરુ નામ",
+                "ગ્રામ-પંચાયત",
+                "મોબાઇલ નંબર",
+                "રીમાર્કસ",
+              ].map((h, i) => (
+                <th
+                  key={i}
+                  style={{
+                    whiteSpace: "nowrap",
+
+                    border: "1px solid black",
+                    padding: "4px",
+
+                    paddingRight: "8px",
+                    paddingLeft: "8px",
+
+                    textAlign: "center",
+                    fontWeight: "bold",
+                    fontSize: "14px",
+                    maxWidth:
+                      i === 4
+                        ? "100px"
+                        : i === 2
+                          ? "45px"
+                          : i === 1
+                            ? "70px"
+                            : "",
+                  }}
+                >
+                  <span className="formatting">{h}</span>
+                </th>
+              ))}
+            </tr>
+          </thead>
+
+          <tbody>
+            {structure?.map((row, index) => (
+              <tr key={index}>
+                <td style={cellStyle}>
+                  <span className="formatting">
+                    {toGujaratiNumber(index + 1)}
+                  </span>
+                </td>
+                <td style={cellStyle}>
+                  <span className="formatting">{row?.name || ""}</span>
+                </td>
+                <td style={cellStyle}>
+                  <span className="formatting">
+                    {row?.gram_panchayat || ""}
+                  </span>
+                </td>
+                <td style={cellStyle}>
+                  <span className="formatting">{row?.mobile || ""}</span>
+                </td>
+                <td style={{ ...cellStyle, minWidth: "80px" }}></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* NOTE */}
+      {/* <p
+        style={{
+          marginBottom: "5mm",
+          textAlign: "justify",
+          textIndent: "15mm",
+        }}
+      >
+        ઉપરોક્ત યાદી મુજબ જુદી/જુદી તાલુકા પંચાયત કચેરી માં અમારી કંપની એ. એફ.
+        ઈન્ફોસીસ ધ્વારા તલાટી કમ મંત્રી મીટીંગમાં ખાસ પ્રકારનું પ્રેજન્ટેશન આપેલ
+        છે જે આપ સાહેબ ને વિદીત થાય.
+      </p> */}
+
+      {/* <div
+        style={{ textAlign: "right", marginTop: "5mm", paddingRight: "10mm" }}
+      >
+        <p>લી. આપનો વિશ્વાસુ</p>
+        <p style={{ fontWeight: "bold" }}>
+          {data.karmchariName || "__________"}
+        </p>
+        <p>({data.designation || "A. F. Infosys"})</p>  
+      </div> */}
+
+      {/* Footer Section */}
+      {/* <div
+        className="w-full mt-2"
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          marginTop: "40px",
+        }}
+      >
+        <span
+          style={{
+            position: "relative",
+            transform: "translate(50px, -100px)",
+          }}
+          id="circle"
+        ></span>
+        <h2
+          className="text-right pr-12 mt-4 mb-8 text-xl font-semibold"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            marginTop: "-10px",
+          }}
+          id="sikko"
+        >
+          A. F. Infosys
+          <p
+            style={{
+              fontSize: "14px",
+              letterSpacing: "2.3px",
+              marginTop: "-7px",
+            }}
+          >
+            Savar Kundla
+          </p>
+        </h2>
+      </div> */}
+
+      {/* ATTACHMENT */}
+      {/* <div style={{ marginTop: "12mm" }}>
+        <p style={{ fontWeight: "bold", textDecoration: "underline" }}>
+          બિડાણ ::-
+        </p>
+        <p>
+          તાલુકા વિકાસ અધિકારીએ આપેલ પ્રમાણ પત્ર ત્થા તા.પં. કચેરીમાં
+          પ્રેજન્ટેશન બતાવેલ અંગેની યાદી
+        </p>
+      </div> */}
+
+      {/* FOOTER */}
+      <div style={{ textAlign: "center", marginTop: "12mm" }}>
+        (પાનાં નં.-૩)
+      </div>
+    </div>
+  );
+};
+
+const cellStyle = {
+  border: "1px solid black",
+  padding: "2px",
+
+  paddingRight: "8px",
+  paddingLeft: "8px",
+
+  textAlign: "center",
+  fontSize: "15px",
+};
+
+export default Page5;
