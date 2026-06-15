@@ -287,20 +287,20 @@ const Page5 = ({ data }) => {
           <tbody>
             {structure?.map((row, index) => (
               <tr key={index}>
-                <td style={cellStyle}>
+                <td style={{ ...cellStyle, textAlign: "left" }}>
                   <span className="formatting">
                     {toGujaratiNumber(index + 1)}
                   </span>
                 </td>
-                <td style={cellStyle}>
+                <td style={{ ...cellStyle, textAlign: "left" }}>
                   <span className="formatting">{row?.name || ""}</span>
                 </td>
-                <td style={cellStyle}>
+                <td style={{ ...cellStyle, textAlign: "left" }}>
                   <span className="formatting">
                     {row?.gram_panchayat || ""}
                   </span>
                 </td>
-                <td style={cellStyle}>
+                <td style={{ ...cellStyle, textAlign: "left" }}>
                   <span className="formatting">{row?.mobile || ""}</span>
                 </td>
                 <td style={{ ...cellStyle, minWidth: "80px" }}></td>

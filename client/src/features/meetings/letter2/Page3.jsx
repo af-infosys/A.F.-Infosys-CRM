@@ -300,18 +300,18 @@ const Page3 = ({ data }) => {
           <tbody>
             {structure.map((row, index) => (
               <tr key={index}>
-                <td style={cellStyle}>
+                <td style={{ ...cellStyle, textAlign: "left" }}>
                   <span className="formatting">
                     {toGujaratiNumber(index + 1)}
                   </span>
                 </td>
-                <td style={cellStyle}>
+                <td style={{ ...cellStyle, textAlign: "left" }}>
                   <span className="formatting">{row?.name || ""}</span>
                 </td>
-                <td style={cellStyle}>
+                <td style={{ ...cellStyle, textAlign: "left" }}>
                   <span className="formatting">{row?.village || ""}</span>
                 </td>
-                <td style={cellStyle}>
+                <td style={{ ...cellStyle, textAlign: "left" }}>
                   <span className="formatting">{row?.charge || ""}</span>
                 </td>
                 <td style={{ ...cellStyle, maxWidth: "80px" }}>

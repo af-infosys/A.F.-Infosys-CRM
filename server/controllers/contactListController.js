@@ -3,10 +3,10 @@ dotenv.config();
 
 import { google } from "googleapis";
 
-// --- Google Sheets Configuration ---
-const SPREADSHEET_ID = process.env.CRM_SPREADSHEET_ID;
+// --- Google Sheets Configuration ---SPREADSHEET_ID = process.SPREADSHEET_ID;
 // શીટનું નામ તમારી Google Sheet માંના વાસ્તવિક નામ સાથે સુનિશ્ચિત કરો.
 // જો તમારી શીટનું નામ "PropertyData" હોય તો તેને આ રીતે રાખો, અન્યથા તેને બદલો.
+const SPREADSHEET_ID = process.env.CRM_SPREADSHEET_ID;
 const DATA_SHEET = "ContactList";
 
 let credentials;
@@ -65,16 +65,6 @@ export const addSheetRecord = async (req, res) => {
 
       sarpanchName,
       sarpanchMobile,
-
-      // whatBusiness,
-      // workVillage,
-      // clientAnswer,
-      // numberOfHouses,
-      // price,
-      // estimatedBill,
-      // budget,
-      // dateOfCall,
-      // meetingDate,
 
       telecaller,
       isInterested,
@@ -135,8 +125,6 @@ export const addSheetRecord = async (req, res) => {
       JSON.stringify({ sarpanchName, sarpanchMobile }),
     ];
 
-    console.log(callHistory);
-
     // 5. Append the row to the Google Sheet
     const response = await googleSheets.spreadsheets.values.append({
       spreadsheetId: SPREADSHEET_ID,
@@ -163,6 +151,125 @@ export const addSheetRecord = async (req, res) => {
     } else {
       res.status(500).json({
         message: "Failed to add record to Google Sheet.",
+        error: error.message,
+      });
+    }
+  }
+};
+
+export const addBulkSheetRecords = async (req, res) => {
+  try {
+    // 1. Get the authenticated client
+    const client = await auth.getClient();
+
+    // 2. Get the Google Sheets API instance
+    const googleSheets = google.sheets({ version: "v4", auth: client });
+
+    // 3. Extract the array of records from the request body
+    const { records } = req.body;
+
+    // Validate that records exist and is an array
+    if (!records || !Array.isArray(records) || records.length === 0) {
+      return res
+        .status(400)
+        .json({ message: "No records provided for bulk upload." });
+    }
+
+    // Unique ID Generator Function
+    function generateUniqueID() {
+      const timestamp = Date.now().toString(36);
+      const randomStr = Math.random().toString(36).substring(2, 10);
+      return timestamp + randomStr;
+    }
+
+    // Helper function: Kisi bhi type ke data ko safe string me convert aur trim karne ke liye
+    const safeString = (value) => {
+      if (value === null || value === undefined || value === "") return "";
+      return String(value).trim();
+    };
+
+    // 4. Map the array of objects into a 2D array (Array of Arrays) for Google Sheets
+    const valuesToAppend = records.map((record) => {
+      const {
+        serialNumber,
+        customerFullName,
+        mobileNo,
+        whatsaapNo,
+        category,
+        village,
+        villageOfCharge,
+        taluko,
+        jilla,
+        callHistory,
+        listCreated,
+        listReceived,
+        sarpanchName,
+        sarpanchMobile,
+        telecaller,
+        isInterested,
+      } = record;
+
+      return [
+        generateUniqueID(),
+        safeString(serialNumber),
+        safeString(customerFullName),
+
+        safeString(mobileNo), // Ye ab crash nahi karega chahe number ho ya blank
+        safeString(mobileNo),
+        safeString(category),
+        safeString(village),
+        safeString(villageOfCharge),
+        safeString(taluko),
+        safeString(jilla),
+
+        JSON.stringify(callHistory || []),
+
+        safeString(listCreated),
+        safeString(listReceived),
+
+        JSON.stringify(telecaller || {}),
+
+        "", // Sended Messages
+        "", // Recieved Messages
+
+        isInterested || false,
+
+        "",
+        "",
+        "",
+
+        JSON.stringify({
+          sarpanchName: safeString(sarpanchName),
+          sarpanchMobile: safeString(sarpanchMobile),
+        }),
+      ];
+    });
+
+    // 5. Append the 2D array to the Google Sheet in ONE single call
+    const response = await googleSheets.spreadsheets.values.append({
+      spreadsheetId: SPREADSHEET_ID, // Use your env variable
+      range: `${DATA_SHEET}!A5`, // Use your env variable
+      valueInputOption: "RAW",
+      resource: {
+        values: valuesToAppend, // Passing the complete 2D array here
+      },
+    });
+
+    // 6. Send a success response
+    res.status(200).json({
+      message: `${records.length} records successfully added in bulk!`,
+      data: response.data,
+    });
+  } catch (error) {
+    // 7. Handle errors
+    console.error("Error bulk adding records to Google Sheet:", error.message);
+    if (error.code === 401 || error.code === 403) {
+      res.status(401).json({
+        message: "Authentication or permission error with Google Sheets API.",
+      });
+    } else {
+      res.status(500).json({
+        message: "Failed to bulk add records to Google Sheet.",
         error: error.message,
       });
     }
@@ -235,7 +342,7 @@ export const getRecord = async (req, res) => {
 
 //     // Fetch current records
 //     const response = await googleSheets.spreadsheets.values.get({
-//       spreadsheetId: SPREADSHEET_ID,
+//SPREADSHEET_ID,
 //       range: `${DATA_SHEET}!A5:ZZ`,
 //     });
 
@@ -307,7 +414,7 @@ export const getRecord = async (req, res) => {
 
 //     // Update the sheet row
 //     await googleSheets.spreadsheets.values.update({
-//       spreadsheetId: SPREADSHEET_ID,
+//SPREADSHEET_ID,
 //       range: `${DATA_SHEET}!A${rowNumber}:ZZ${rowNumber}`,
 //       valueInputOption: "USER_ENTERED",
 //       requestBody: {

@@ -67,6 +67,7 @@ import ManageAkarni from "../features/projects/ManageAkarni";
 import ManageService from "../features/services/ManageService";
 import AddCustomer from "../features/contactList/AddCustomer";
 import ListApplication from "../features/meetings/ListApplication";
+import BulkRecords from "../features/contactList/BulkRecords";
 
 export default function AppRoutes() {
   const { user } = useAuth();
@@ -110,7 +111,9 @@ export default function AppRoutes() {
 
         <Route path="/customers/form" element={<ContactListForm />} />
         <Route path="/customers/add" element={<AddCustomer />} />
+        <Route path="/customers/bulk" element={<BulkRecords />} />
         <Route path="/customers/form/:id" element={<ContactListForm />} />
+
         <Route path="/customers/add-call/:id" element={<AddCall />} />
         <Route
           path="/customers/overview"

@@ -105,7 +105,7 @@ const Page1 = ({ data }) => {
       {/* Recipient block */}
       <div style={{ marginBottom: "6mm" }}>
         <p>
-          પ્રતિ <br />
+          પ્રતિ, <br />
           શ્રી તાલુકા વિકાસ અધિકારી સાહેબ,
         </p>
         <p>તાલુકા પંચાયત કચેરી, {data.taluka || "____________"}</p>

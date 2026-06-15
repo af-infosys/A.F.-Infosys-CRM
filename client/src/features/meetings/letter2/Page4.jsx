@@ -194,18 +194,18 @@ const Page4 = ({ data }) => {
           <tbody>
             {structure.map((row, index) => (
               <tr key={index + 26}>
-                <td style={cellStyle}>
+                <td style={{ ...cellStyle, textAlign: "left" }}>
                   <span className="formatting">
                     {toGujaratiNumber(index + 26)}
                   </span>
                 </td>
-                <td style={cellStyle}>
+                <td style={{ ...cellStyle, textAlign: "left" }}>
                   <span className="formatting">{row?.name || ""}</span>
                 </td>
-                <td style={cellStyle}>
+                <td style={{ ...cellStyle, textAlign: "left" }}>
                   <span className="formatting">{row?.village || ""}</span>
                 </td>
-                <td style={cellStyle}>
+                <td style={{ ...cellStyle, textAlign: "left" }}>
                   <span className="formatting">{row?.charge || ""}</span>
                 </td>
                 <td style={{ ...cellStyle, maxWidth: "90px" }}>

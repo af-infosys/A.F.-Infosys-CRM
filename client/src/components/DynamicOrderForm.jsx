@@ -151,6 +151,7 @@ export default function DynamicOrderForm({
         />
       </div>
     ),
+
     category: (
       <div className="form-field">
         <label htmlFor="category" className="form-label block mb-1">
