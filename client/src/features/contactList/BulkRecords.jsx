@@ -21,6 +21,11 @@ const BulkRecords = () => {
   const [previewData, setPreviewData] = useState([]);
   const [isUploaded, setIsUploaded] = useState(false);
   const [globalError, setGlobalError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState({
+    current: 0,
+    total: 0,
+  });
   const fileInputRef = useRef(null);
 
   // 1. Download Starter Template File
@@ -36,7 +41,7 @@ const BulkRecords = () => {
     let isValid = true;
     let errors = [];
 
-    // 1. Serial Number Validation: Only English Digits (Sequence doesn't matter)
+    // 1. Serial Number Validation
     const serial = row["અનું ક્રમાંક"];
     if (
       serial !== undefined &&
@@ -50,7 +55,7 @@ const BulkRecords = () => {
       }
     }
 
-    // 2. Category Validation: Strictly "TCM" or "SARPANCH" (Case Sensitive)
+    // 2. Category Validation
     const category = row["કેટેગરી"];
     if (
       category !== undefined &&
@@ -64,7 +69,7 @@ const BulkRecords = () => {
       }
     }
 
-    // 3. Mobile Number Validation: Multiple allowed, ONLY English digits, comma, and space
+    // 3. Mobile Number Validation
     const mobile = row["મોબાઈલ નંબર"];
     if (
       mobile !== undefined &&
@@ -73,12 +78,10 @@ const BulkRecords = () => {
     ) {
       const mobileStr = mobile.toString().trim();
 
-      // Check for strictly English digits, commas, and spaces
       if (!/^[\d,\s]+$/.test(mobileStr)) {
         isValid = false;
         errors.push("Invalid Mobile (Only English digits allowed)");
       } else {
-        // Check if every individual number entered is exactly 10 digits
         const numbersList = mobileStr
           .split(",")
           .map((n) => n.trim())
@@ -93,19 +96,15 @@ const BulkRecords = () => {
       }
     }
 
-    // 4. Date Validation: Strictly YYYY-MM-DD
+    // 4. Date Validation
     const dateField = row["કમ્પની ને મળેલ તારીખ"];
-
     if (
       dateField !== undefined &&
       dateField !== null &&
       dateField.toString().trim() !== ""
     ) {
-      const dateStr = dateField.toString().trim();
-
-      // MM-DD-YYYY (month/day can be 1 or 2 digits)
+      const dateStr = dateField.toString().trim(); // MM-DD-YYYY (month/day can be 1 or 2 digits)
       const dateRegex = /^(0?[1-9]|1[0-2])-(0?[1-9]|[12][0-9]|3[01])-\d{4}$/;
-
       if (!dateRegex.test(dateStr)) {
         isValid = false;
         errors.push(
@@ -128,13 +127,10 @@ const BulkRecords = () => {
     reader.onload = (evt) => {
       try {
         const bstr = evt.target.result;
-
-        // Removed cellDates: true so we can get exactly what the user typed for strict Date matching
         const workbook = XLSX.read(bstr, { type: "binary" });
         const worksheetName = workbook.SheetNames[0];
         const worksheet = workbook.Sheets[worksheetName];
 
-        // raw: false converts excel cells exactly to string as displayed in the excel sheet
         const rawData = XLSX.utils.sheet_to_json(worksheet, {
           defval: "",
           raw: false,
@@ -145,7 +141,6 @@ const BulkRecords = () => {
           return;
         }
 
-        // Validate Headers
         const fileHeaders = Object.keys(rawData[0]);
         const isValidFormat = EXPECTED_HEADERS.every((header) =>
           fileHeaders.includes(header),
@@ -159,7 +154,6 @@ const BulkRecords = () => {
           return;
         }
 
-        // Validate each row based on our rules
         const validatedData = rawData.map((row) => validateRow(row));
         setPreviewData(validatedData);
         setIsUploaded(true);
@@ -173,7 +167,10 @@ const BulkRecords = () => {
     reader.readAsBinaryString(file);
   };
 
-  // 4. Handle Bulk Submission (Sending to Server)
+  // Helper function to handle delay/pause between chunks
+  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  // 4. Handle Chunked Bulk Submission with Pause and Animation
   const handleBulkSubmit = async () => {
     const validPayload = previewData
       .filter((row) => row.__isValid)
@@ -190,28 +187,84 @@ const BulkRecords = () => {
         telecaller: { id: user?.id, name: user?.name, time: new Date() },
       }));
 
-    console.log("Payload ready:", validPayload);
+    if (validPayload.length === 0) {
+      alert("Upload karne ke liye koi valid record nahi mila!");
+      return;
+    }
+
+    setLoading(true);
+    setUploadProgress({ current: 0, total: validPayload.length });
+
+    const CHUNK_SIZE = 50; // Ek baar me 50 records jayenge
+    const PAUSE_TIME = 2500; // 2.5 seconds ka break chunks ke beech me
+    const baseUrl = await apiPath();
 
     try {
-      const response = await fetch(`${await apiPath()}/api/contactList/bulk`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ records: validPayload }),
-      });
+      for (let i = 0; i < validPayload.length; i += CHUNK_SIZE) {
+        const chunk = validPayload.slice(i, i + CHUNK_SIZE);
+        const currentCount = Math.min(i + CHUNK_SIZE, validPayload.length);
 
-      const result = await response.json();
-      alert(result.message);
+        // Update progress state for current chunk
+        setUploadProgress({
+          current: currentCount,
+          total: validPayload.length,
+        });
 
+        // API request for current chunk
+        const response = await fetch(`${baseUrl}/api/contactList/bulk`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ records: chunk }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`Failed to upload batch starting at record ${i + 1}`);
+        }
+
+        // Agar aur chunks bache hain, toh next chunk bhejni se pehle delay karo
+        if (i + CHUNK_SIZE < validPayload.length) {
+          await delay(PAUSE_TIME);
+        }
+      }
+
+      alert(`${validPayload.length} records successfully uploaded in batches!`);
       setPreviewData([]);
       setIsUploaded(false);
       if (fileInputRef.current) fileInputRef.current.value = "";
     } catch (error) {
-      console.error("Upload failed", error);
+      console.error("Batch upload failed", error);
+      alert(`Upload ke dauran error aayi: ${error.message}`);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="p-6 max-w-7xl mx-auto font-sans text-gray-800">
+    <div className="p-6 max-w-7xl mx-auto font-sans text-gray-800 relative">
+      {/* Loading Overlay Animation */}
+      {loading && (
+        <div className="fixed inset-0 bg-gray-900/50 backdrop-blur-sm z-50 flex flex-col justify-center items-center text-white">
+          <div className="bg-white text-gray-900 p-6 rounded-xl shadow-xl max-w-sm w-full mx-4 flex flex-col items-center">
+            {/* Custom CSS Spinner */}
+            <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-100 border-t-blue-600 mb-4"></div>
+            <h3 className="text-lg font-semibold mb-1">Uploading Records...</h3>
+            <p className="text-sm text-gray-500 mb-4">
+              Processing {uploadProgress.current} of {uploadProgress.total}{" "}
+              leads
+            </p>
+            {/* Progress Bar */}
+            <div className="w-full bg-gray-100 rounded-full h-2">
+              <div
+                className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                style={{
+                  width: `${(uploadProgress.current / uploadProgress.total) * 100}%`,
+                }}
+              ></div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="mb-8 border-b pb-4 flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">
@@ -224,7 +277,8 @@ const BulkRecords = () => {
         </div>
         <button
           onClick={downloadTemplate}
-          className="bg-gray-900 text-white px-4 py-2 rounded-md shadow-sm hover:bg-gray-800 transition-colors text-sm font-medium"
+          disabled={loading}
+          className="bg-gray-900 text-white px-4 py-2 rounded-md shadow-sm hover:bg-gray-800 transition-colors text-sm font-medium disabled:opacity-50"
         >
           Download Starter File
         </button>
@@ -245,7 +299,8 @@ const BulkRecords = () => {
           accept=".xlsx, .xls"
           ref={fileInputRef}
           onChange={handleFileUpload}
-          className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition-all cursor-pointer border border-gray-200 rounded-md p-1"
+          disabled={loading}
+          className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition-all cursor-pointer border border-gray-200 rounded-md p-1 disabled:opacity-50"
         />
       </div>
 
@@ -315,7 +370,8 @@ const BulkRecords = () => {
           <div className="flex justify-end">
             <button
               onClick={handleBulkSubmit}
-              className="bg-blue-600 text-white px-6 py-2.5 rounded-md shadow-md hover:bg-blue-700 transition-colors font-medium"
+              disabled={loading}
+              className="bg-blue-600 text-white px-6 py-2.5 rounded-md shadow-md hover:bg-blue-700 transition-colors font-medium disabled:opacity-50"
             >
               Upload Valid Records to Server
             </button>
