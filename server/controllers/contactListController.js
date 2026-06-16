@@ -188,6 +188,21 @@ export const addBulkSheetRecords = async (req, res) => {
       return String(value).trim();
     };
 
+    function normalizeDate(dateStr) {
+      if (!dateStr) return dateStr;
+
+      const parts = dateStr.toString().trim().split("-");
+
+      if (parts.length !== 3) return dateStr;
+
+      let [month, day, year] = parts;
+
+      month = month.padStart(2, "0");
+      day = day.padStart(2, "0");
+
+      return `${year}-${month}-${day}`;
+    }
+
     // 4. Map the array of objects into a 2D array (Array of Arrays) for Google Sheets
     const valuesToAppend = records.map((record) => {
       const {
@@ -224,8 +239,8 @@ export const addBulkSheetRecords = async (req, res) => {
 
         JSON.stringify(callHistory || []),
 
-        safeString(listCreated),
-        safeString(listReceived),
+        normalizeDate(listCreated),
+        normalizeDate(listReceived),
 
         JSON.stringify(telecaller || {}),
 
