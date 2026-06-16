@@ -95,17 +95,22 @@ const BulkRecords = () => {
 
     // 4. Date Validation: Strictly YYYY-MM-DD
     const dateField = row["કમ્પની ને મળેલ તારીખ"];
+
     if (
       dateField !== undefined &&
       dateField !== null &&
       dateField.toString().trim() !== ""
     ) {
       const dateStr = dateField.toString().trim();
-      // Regex expects exactly 4 digits - 2 digits - 2 digits
-      const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+
+      // MM-DD-YYYY (month/day can be 1 or 2 digits)
+      const dateRegex = /^(0?[1-9]|1[0-2])-(0?[1-9]|[12][0-9]|3[01])-\d{4}$/;
+
       if (!dateRegex.test(dateStr)) {
         isValid = false;
-        errors.push("Invalid Date (Must be strictly YYYY-MM-DD)");
+        errors.push(
+          "Invalid Date (Must be MM-DD-YYYY, e.g. 2-10-2026 or 02-10-2026)",
+        );
       }
     }
 
