@@ -1,9 +1,9 @@
 import React from "react";
 import LogoImage from "../../assets/logo.png";
 
-import ContentImage from "../../assets/cover/9d-i/content.png";
-import IconImage from "../../assets/cover/9d-i/icon.png";
-import Icon2Image from "../../assets/cover/9d-ii/icon.png";
+// import ContentImage from "../../assets/cover/9d-i/content.png";
+// import IconImage from "../../assets/cover/9d-i/icon.png";
+// import Icon2Image from "../../assets/cover/9d-ii/icon.png";
 
 // import toGujaratiNumber from "../toGujaratiNumber";
 

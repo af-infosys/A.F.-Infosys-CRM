@@ -1,21 +1,21 @@
 import React from "react";
-import LogoImage from "../../assets/logo.png";
+// import LogoImage from "../../assets/logo.png";
 
 import ContentImage from "../../assets/cover/9d-i/content.png";
 import IconImage from "../../assets/cover/9d-i/icon.png";
 import Icon2Image from "../../assets/cover/9d-ii/icon.png";
 
-import toGujaratiNumber from "../toGujaratiNumber";
+// import toGujaratiNumber from "../toGujaratiNumber";
 
 // Utility component for the main text blocks
-const TextBlock = ({ children }) => (
-  <p
-    className="text-m text-gray-800 leading-relaxed mt-2"
-    style={{ fontSize: "19px" }}
-  >
-    {children}
-  </p>
-);
+// const TextBlock = ({ children }) => (
+//   <p
+//     className="text-m text-gray-800 leading-relaxed mt-2"
+//     style={{ fontSize: "19px" }}
+//   >
+//     {children}
+//   </p>
+// );
 
 const TaxIndex = ({
   part,

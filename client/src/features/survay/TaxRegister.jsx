@@ -13,8 +13,6 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 import TaxIndex from "../../components/conver/TaxIndex";
-// import PublicBenefit from "../../components/conver/PublicBenefit";
-// import PanchayatBenefit from "../../components/conver/PanchayatBenefit";
 
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
@@ -186,12 +184,14 @@ const TaxRegister = () => {
     }));
   };
 
+  const CHUNK_SIZE = 5;
+
+  const [chunkStart, setChunkStart] = useState(0);
+
   const handleDownloadPDF = async () => {
     const totalPages = finalRenderPages.length;
-    // const totalPages = Math.ceil(records.length / PROPERTIES_PER_PAGE) + 3;
-    // const totalPages = 5;
 
-    let totalDuration = 0; // Cumulative time taken (ms)
+    let totalDuration = 0;
 
     const startTime = window.performance.now();
 
@@ -199,16 +199,50 @@ const TaxRegister = () => {
       isGenerating: true,
       isCancelled: false,
       completedPages: 0,
-      totalPages: totalPages,
+      totalPages,
       percentage: 0,
       timeRemaining: null,
     });
 
-    // jsPDF is now treated as a global variable
+    // Start with first chunk
+    setChunkStart(0);
+
+    // Wait React render
+    await new Promise((resolve) => setTimeout(resolve, 150));
+
     const pdf = new jsPDF("landscape", "mm", "legal");
 
+    let currentChunkStart = 0;
+
     for (let i = 0; i < totalPages; i++) {
-      // Helper to reliably get the latest state (for checking the isCancelled flag)
+      const completedPages = i + 1;
+      // setCount(completedPages - 2 || 0);
+
+      // -------------------------
+      // Change Chunk if needed
+      // -------------------------
+
+      const requiredChunkStart = Math.floor(i / CHUNK_SIZE) * CHUNK_SIZE;
+
+      if (requiredChunkStart !== currentChunkStart) {
+        currentChunkStart = requiredChunkStart;
+
+        setChunkStart(requiredChunkStart);
+
+        console.log(
+          `Loading chunk ${requiredChunkStart} -> ${
+            requiredChunkStart + CHUNK_SIZE - 1
+          }`,
+        );
+
+        // Wait React DOM update
+        await new Promise((resolve) => setTimeout(resolve, 2800));
+      }
+
+      // -------------------------
+      // Cancellation Check
+      // -------------------------
+
       const currentState = await new Promise((resolve) => {
         setPdfProgress((prev) => {
           resolve(prev);
@@ -217,16 +251,22 @@ const TaxRegister = () => {
       });
 
       if (currentState.isCancelled) {
-        console.log("PDF generation cancelled by user.");
-        break; // Exit the loop immediately
+        console.log("PDF generation cancelled.");
+
+        break;
       }
 
-      const pageStart = window.performance.now(); // Start timer for the current page
+      // -------------------------
+      // Capture Page
+      // -------------------------
+
+      const pageStart = window.performance.now();
 
       const pageElement = document.getElementById(`report-page-${i}`);
 
       if (!pageElement) {
-        console.error(`Page element with ID 'report-page-${i}' not found.`);
+        console.error(`Page ${i} not found`);
+
         continue;
       }
 
@@ -235,78 +275,212 @@ const TaxRegister = () => {
       }
 
       try {
-        // html2canvas is now treated as a global variable
         const canvas = await html2canvas(pageElement, {
           scale: 2,
-          logging: false, // Set to false to reduce console clutter
+          logging: false,
           useCORS: true,
           allowTaint: true,
         });
 
-        const imgData = canvas.toDataURL("image/jpeg", 1.0);
+        const imgData = canvas.toDataURL("image/jpeg", 1);
+
         const imgWidth = 355.6;
+
         const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
         pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight);
 
         const pageEnd = window.performance.now();
-        const pageDuration = pageEnd - pageStart; // Time taken for this page (ms)
+
+        const pageDuration = pageEnd - pageStart;
+
         totalDuration += pageDuration;
 
-        const completedPages = i + 1;
         const percentage = Math.round((completedPages / totalPages) * 100);
 
         let timeRemaining = null;
 
         if (completedPages >= 2) {
-          const averageTimePerPage = totalDuration / completedPages;
+          const avg = totalDuration / completedPages;
+
           const pagesRemaining = totalPages - completedPages;
 
           timeRemaining = Math.max(
             0,
-            Math.round((averageTimePerPage * pagesRemaining) / 1000),
+            Math.round((avg * pagesRemaining) / 1000),
           );
         }
 
-        // 2. Update Progress State with ETA
         setPdfProgress((prev) => ({
           ...prev,
-          completedPages: completedPages,
-          percentage: percentage,
-          timeRemaining: timeRemaining,
-        }));
 
-        setCount(completedPages - 1);
+          completedPages,
+
+          percentage,
+
+          timeRemaining,
+        }));
       } catch (error) {
-        console.error("Error generating PDF page:", error);
+        console.error("Error generating page:", error);
+
         break;
       }
     }
 
-    // ⭐ CANCELLATION CHECK 2: Final state update based on whether it was cancelled or completed
+    // Restore all pages
+
+    setChunkStart(null);
+
+    // Final State
+
     const finalState = await new Promise((resolve) => {
       setPdfProgress((prev) => {
         resolve(prev);
-        // Determine final state message
+
         return {
           ...prev,
-          isGenerating: false, // Stop loading spinner
+
+          isGenerating: false,
+
           isCancelled: prev.isCancelled,
-          // If cancelled, keep the current percentage; otherwise, set to 100%
+
           percentage: prev.isCancelled ? prev.percentage : 100,
-          timeRemaining: null, // Clear ETA display
+
+          timeRemaining: null,
         };
       });
     });
 
     if (!finalState.isCancelled) {
-      // 3. Finalize and Save PDF ONLY if not cancelled
       pdf.save("3. Tax_Register.pdf");
+
       window.alert("PDF successfully saved.");
     } else {
-      window.alert("PDF save operation skipped due to cancellation.");
+      window.alert("PDF save cancelled.");
     }
   };
+
+  // const handleDownloadPDF = async () => {
+  //   const totalPages = finalRenderPages.length;
+  //   // const totalPages = Math.ceil(records.length / PROPERTIES_PER_PAGE) + 3;
+  //   // const totalPages = 5;
+
+  //   let totalDuration = 0; // Cumulative time taken (ms)
+
+  //   const startTime = window.performance.now();
+
+  //   setPdfProgress({
+  //     isGenerating: true,
+  //     isCancelled: false,
+  //     completedPages: 0,
+  //     totalPages: totalPages,
+  //     percentage: 0,
+  //     timeRemaining: null,
+  //   });
+
+  //   // jsPDF is now treated as a global variable
+  //   const pdf = new jsPDF("landscape", "mm", "legal");
+
+  //   for (let i = 0; i < totalPages; i++) {
+  //     // Helper to reliably get the latest state (for checking the isCancelled flag)
+  //     const currentState = await new Promise((resolve) => {
+  //       setPdfProgress((prev) => {
+  //         resolve(prev);
+  //         return prev;
+  //       });
+  //     });
+
+  //     if (currentState.isCancelled) {
+  //       console.log("PDF generation cancelled by user.");
+  //       break; // Exit the loop immediately
+  //     }
+
+  //     const pageStart = window.performance.now(); // Start timer for the current page
+
+  //     const pageElement = document.getElementById(`report-page-${i}`);
+
+  //     if (!pageElement) {
+  //       console.error(`Page element with ID 'report-page-${i}' not found.`);
+  //       continue;
+  //     }
+
+  //     if (i > 0) {
+  //       pdf.addPage();
+  //     }
+
+  //     try {
+  //       // html2canvas is now treated as a global variable
+  //       const canvas = await html2canvas(pageElement, {
+  //         scale: 2,
+  //         logging: false, // Set to false to reduce console clutter
+  //         useCORS: true,
+  //         allowTaint: true,
+  //       });
+
+  //       const imgData = canvas.toDataURL("image/jpeg", 1.0);
+  //       const imgWidth = 355.6;
+  //       const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+  //       pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight);
+
+  //       const pageEnd = window.performance.now();
+  //       const pageDuration = pageEnd - pageStart; // Time taken for this page (ms)
+  //       totalDuration += pageDuration;
+
+  //       const completedPages = i + 1;
+  //       const percentage = Math.round((completedPages / totalPages) * 100);
+
+  //       let timeRemaining = null;
+
+  //       if (completedPages >= 2) {
+  //         const averageTimePerPage = totalDuration / completedPages;
+  //         const pagesRemaining = totalPages - completedPages;
+
+  //         timeRemaining = Math.max(
+  //           0,
+  //           Math.round((averageTimePerPage * pagesRemaining) / 1000),
+  //         );
+  //       }
+
+  //       // 2. Update Progress State with ETA
+  //       setPdfProgress((prev) => ({
+  //         ...prev,
+  //         completedPages: completedPages,
+  //         percentage: percentage,
+  //         timeRemaining: timeRemaining,
+  //       }));
+
+  //       setCount(completedPages - 1);
+  //     } catch (error) {
+  //       console.error("Error generating PDF page:", error);
+  //       break;
+  //     }
+  //   }
+
+  //   // ⭐ CANCELLATION CHECK 2: Final state update based on whether it was cancelled or completed
+  //   const finalState = await new Promise((resolve) => {
+  //     setPdfProgress((prev) => {
+  //       resolve(prev);
+  //       // Determine final state message
+  //       return {
+  //         ...prev,
+  //         isGenerating: false, // Stop loading spinner
+  //         isCancelled: prev.isCancelled,
+  //         // If cancelled, keep the current percentage; otherwise, set to 100%
+  //         percentage: prev.isCancelled ? prev.percentage : 100,
+  //         timeRemaining: null, // Clear ETA display
+  //       };
+  //     });
+  //   });
+
+  //   if (!finalState.isCancelled) {
+  //     // 3. Finalize and Save PDF ONLY if not cancelled
+  //     pdf.save("3. Tax_Register.pdf");
+  //     window.alert("PDF successfully saved.");
+  //   } else {
+  //     window.alert("PDF save operation skipped due to cancellation.");
+  //   }
+  // };
 
   // const handleDownloadPDF = async () => {
   //   const pdf = new jsPDF("landscape", "mm", "legal");
@@ -1117,6 +1291,13 @@ const TaxRegister = () => {
         // style={{ position: "absolute", left: "-9999px" }}
       >
         {finalRenderPages.map((item, idx) => {
+          if (
+            pdfProgress.isGenerating &&
+            (idx < chunkStart || idx >= chunkStart + CHUNK_SIZE)
+          ) {
+            return null;
+          }
+
           const id = `report-page-${idx}`;
 
           if (item.type === "cover") {
@@ -1186,7 +1367,7 @@ const TaxRegister = () => {
                     className="page-number"
                     style={{
                       fontSize: "20px",
-                      transform: "translate(80px, 45px)",
+                      transform: "translate(80px, 42px)",
                       color: "#000",
                     }}
                   >
@@ -1206,9 +1387,9 @@ const TaxRegister = () => {
                   <div
                     className="location-info"
                     style={{
-                      fontSize: "16px",
+                      fontSize: "18px",
                       paddingInline: "50px",
-                      marginTop: "-10px",
+                      marginTop: "5px",
                     }}
                   >
                     <span>ગામ:- {project?.spot?.gaam}</span>
