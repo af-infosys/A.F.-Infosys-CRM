@@ -11,10 +11,6 @@ const MeetingsTable = ({ data, onEdit, onDelete }) => {
     navigate(`/meeting/certificate/${id}`);
   };
 
-  const onView3 = (id) => {
-    navigate(`/meeting/list/${id}`);
-  };
-
   return (
     <table className="w-full border">
       <thead className="bg-gray-200">
@@ -52,12 +48,12 @@ const MeetingsTable = ({ data, onEdit, onDelete }) => {
               >
                 Certificate
               </button>
-              <button
+              {/* <button
                 onClick={() => onView3(m.id)}
                 className="px-2 py-1 bg-blue-500 text-white rounded"
               >
                 List
-              </button>
+              </button> */}
               <button
                 onClick={() => onEdit(m)}
                 className="px-2 py-1 bg-yellow-400 rounded"

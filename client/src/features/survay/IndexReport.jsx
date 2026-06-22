@@ -210,8 +210,7 @@ const IndexReport = () => {
       timeRemaining: null,
     });
 
-    // 1. ફેરફાર: "landscape" ને બદલે "p" (portrait) અને "legal" ને બદલે "a4" કરો
-    const pdf = new jsPDF("p", "mm", "a4");
+    const pdf = new jsPDF("p", "mm", "legal");
 
     for (let i = 0; i < totalPages; i++) {
       const currentState = await new Promise((resolve) => {
@@ -246,22 +245,15 @@ const IndexReport = () => {
         const imgData = canvas.toDataURL("image/jpeg", 1.0);
 
         // 2. ફેરફાર: A4 સાઈઝ મુજબ પહોળાઈ અને ઊંચાઈ સેટ કરો
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = pdf.internal.pageSize.getHeight();
+        // const pdfWidth = pdf.internal.pageSize.getWidth();
+        // const pdfHeight = pdf.internal.pageSize.getHeight();
 
-        // થોડી માર્જિન રાખવી હોય તો (દા.ત. 5mm બંને બાજુ)
-        const margin = 5;
-        const imgWidth = pdfWidth - margin * 2;
+        const imgWidth = 215.6;
         const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-        // જો ઈમેજની ઊંચાઈ પેજ કરતા વધી જતી હોય તો તેને પેજમાં ફિટ કરો
-        const finalImgHeight =
-          imgHeight > pdfHeight - margin * 2
-            ? pdfHeight - margin * 2
-            : imgHeight;
-
         // 3. ફેરફાર: ઈમેજને પેજ પર સેન્ટર કરવા માટે (x, y) કોર્ડિનેટ્સ સેટ કરો
-        pdf.addImage(imgData, "JPEG", margin, margin, imgWidth, finalImgHeight);
+
+        pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight);
 
         const pageEnd = window.performance.now();
         totalDuration += pageEnd - pageStart;
@@ -430,7 +422,7 @@ const IndexReport = () => {
   //   return final;
   // }
 
-  const PROPERTIES_PER_PAGE = 28; // એક પેજ પર કેટલી લાઇન બતાવવી
+  const PROPERTIES_PER_PAGE = 36; // એક પેજ પર કેટલી લાઇન બતાવવી
   const BUNDLE_SIZE = 100; // કેટલા પેજ પછી કવર પેજ મૂકવું
 
   // 1. પહેલા ગ્રુપિંગના આધારે પેજીસ તૈયાર કરો
@@ -738,7 +730,7 @@ const IndexReport = () => {
       {/* Hidden container for PDF generation */}
       <div
         className="pdf-report-container"
-        style={{ background: "#fff" }}
+        style={{ display: "flex", flexDirection: "column", gap: "20px" }}
         // style={{ position: "absolute", left: "-9999px", maxWidth: "900px" }}
       >
         {finalRenderPages.map((item, idx) => {
@@ -753,8 +745,14 @@ const IndexReport = () => {
                 style={{
                   // paddingLeft: "65px",
                   // paddingRight: "50px",
-                  maxWidth: "800px",
-                  // maxHeight: "800px",
+
+                  maxWidth: "216mm",
+
+                  height: "auto",
+                  minHeight: "356mm",
+                  maxHeight: "356mm",
+
+                  background: "#fff",
                 }}
               >
                 <IndexIndex
@@ -770,17 +768,26 @@ const IndexReport = () => {
           return (
             <div
               style={{
-                minHeight: "100%",
                 position: "relative",
                 // background: "red",
+                background: "#fff",
+
+                maxWidth: "216mm",
+
+                height: "auto",
+                minHeight: "356mm",
+                maxHeight: "356mm",
+                boxSizing: "border-box",
               }}
             >
               <div
                 key={idx}
                 id={pageId}
-                className="report-page legal-landscape-dimensions watermark"
+                className="report-page watermark"
                 style={{
                   width: "100%",
+                  height: "100%",
+
                   position: "relative",
                   background: "transparent",
                   paddingLeft: "90px",
@@ -793,7 +800,7 @@ const IndexReport = () => {
                 >
                   <h1
                     className="heading"
-                    style={{ fontSize: "16px", paddingTop: "25px" }}
+                    style={{ fontSize: "16px", paddingTop: "5px" }}
                   >
                     Index Book - (પાનોત્રી બુક) ક, ખ, ગ, પ્રમાણે <br /> ગામનો
                     નમુના નંબર ૯/ડી - કરવેરા રજીસ્ટર
@@ -824,168 +831,169 @@ const IndexReport = () => {
                     <span>જિલ્લો:- {district}</span>
                   </div>
                 </div>
-
-                {/* Table Header using Divs */}
+                {/* Table Header using Divs
                 <div
                   className="table-container"
                   style={{
                     maxWidth: "100%",
-                    height: "auto",
-                    overflow: "hidden",
-                    // paddingLeft: "30px",
+                    minHeight: "100%",
+                    overflow: "visible",
                     paddingTop: 0,
                   }}
-                >
-                  <table className="divide-y" style={{ maxWidth: "100%" }}>
-                    <thead className="sticky top-0 z-10">
-                      <tr>
-                        <th
-                          className="px-2 py-3 text-xm text-center font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
-                          style={{
-                            color: "#000",
-                            fontSize: "15px",
-                            minWidth: "40px",
-                            maxWidth: "40px",
-                          }}
-                          id="pdff"
+                > */}
+                <table className="divide-y" style={{ maxWidth: "100%" }}>
+                  <thead>
+                    <tr>
+                      <th
+                        className="px-2 py-3 text-xm text-center font-medium text-gray-500 uppercase tracking-wider"
+                        style={{
+                          color: "#000",
+                          fontSize: "15px",
+                          minWidth: "40px",
+                          maxWidth: "40px",
+                        }}
+                        id="pdff"
+                      >
+                        <span
+                          className="formatting"
+                          style={{ textAlign: "center" }}
                         >
-                          <span
-                            className="formatting"
-                            style={{ textAlign: "center" }}
+                          ક્રમ
+                        </span>
+                      </th>
+                      <th
+                        className="px-2 py-3 text-xm text-center font-medium text-gray-500 uppercase tracking-wider"
+                        style={{
+                          color: "#000",
+                          fontSize: "15px",
+                          maxWidth: "50px",
+                        }}
+                        id="pdff"
+                      >
+                        <span className="formatting">મિલ્ક્ત નંબર </span>
+                      </th>
+                      <th
+                        className="px-2 py-3 text-xm text-center font-medium text-gray-500 uppercase tracking-wider"
+                        style={{
+                          color: "#000",
+                          fontSize: "15px",
+                          minWidth: "150px",
+                        }}
+                        id="pdff"
+                      >
+                        <span className="formatting">માલિકનું નામ </span>
+                      </th>
+                      <th
+                        className="px-2 py-3 text-xm text-center font-medium text-gray-500 uppercase tracking-wider"
+                        style={{
+                          color: "#000",
+                          fontSize: "15px",
+                          // minWidth: "150px",
+                        }}
+                        id="pdff"
+                      >
+                        <span className="formatting">વિસ્તારનું નામ </span>
+                      </th>
+                      <th
+                        className="px-2 py-3 text-xm text-center font-medium text-gray-500 uppercase tracking-wider"
+                        style={{
+                          color: "#000",
+                          fontSize: "15px",
+                          maxWidth: "35px",
+                        }}
+                        id="pdff"
+                      >
+                        <span className="formatting">પાના નંબર </span>
+                      </th>
+                      <th
+                        className="px-2 py-3 text-xm text-center font-medium text-gray-500 uppercase tracking-wider"
+                        style={{
+                          color: "#000",
+                          fontSize: "15px",
+                          // maxWidth: "25px",
+                        }}
+                        id="pdff"
+                      >
+                        <span className="formatting">મોબાઈલ નંબર </span>
+                      </th>
+                    </tr>
+                  </thead>
+                  {/* Table Rows */}
+                  <tbody>
+                    {item?.records?.map((row, rIdx) =>
+                      row.type === "header" ? (
+                        <tr key={rIdx}>
+                          <td
+                            colSpan="6"
+                            className="text-center font-bold"
+                            id="pdff"
+                            style={{ textWrap: "wrap", padding: "0" }}
                           >
-                            ક્રમ
-                          </span>
-                        </th>
-                        <th
-                          className="px-2 py-3 text-xm text-center font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
-                          style={{
-                            color: "#000",
-                            fontSize: "15px",
-                            maxWidth: "50px",
-                          }}
-                          id="pdff"
-                        >
-                          <span className="formatting">મિલ્ક્ત નંબર </span>
-                        </th>
-                        <th
-                          className="px-2 py-3 text-xm text-center font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
-                          style={{
-                            color: "#000",
-                            fontSize: "15px",
-                            minWidth: "150px",
-                          }}
-                          id="pdff"
-                        >
-                          <span className="formatting">માલિકનું નામ </span>
-                        </th>
-                        <th
-                          className="px-2 py-3 text-xm text-center font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
-                          style={{
-                            color: "#000",
-                            fontSize: "15px",
-                            // minWidth: "150px",
-                          }}
-                          id="pdff"
-                        >
-                          <span className="formatting">વિસ્તારનું નામ </span>
-                        </th>
-                        <th
-                          className="px-2 py-3 text-xm text-center font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
-                          style={{
-                            color: "#000",
-                            fontSize: "15px",
-                            maxWidth: "35px",
-                          }}
-                          id="pdff"
-                        >
-                          <span className="formatting">પાના નંબર </span>
-                        </th>
-                        <th
-                          className="px-2 py-3 text-xm text-center font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
-                          style={{
-                            color: "#000",
-                            fontSize: "15px",
-                            maxWidth: "15px",
-                          }}
-                          id="pdff"
-                        >
-                          <span className="formatting">મોબાઈલ નંબર </span>
-                        </th>
-                      </tr>
-                    </thead>
-                    {/* Table Rows */}
-                    <tbody>
-                      {item?.records?.map((row, rIdx) =>
-                        row.type === "header" ? (
-                          <tr key={rIdx}>
-                            <td
-                              colSpan="6"
-                              className="text-center font-bold"
-                              id="pdff"
-                              style={{ textWrap: "wrap", padding: "0" }}
-                            >
-                              <span
-                                className="formatting"
-                                style={{
-                                  fontSize: "18px",
-                                  padding: "0",
-                                }}
-                              >
-                                {row.key === "vowels" ? "અ" : row.key}
-                              </span>
-                            </td>
-                          </tr>
-                        ) : (
-                          <tr key={rIdx}>
-                            <td
-                              id="pdff"
-                              style={{ textWrap: "wrap", textAlign: "center" }}
-                            >
-                              <span className="formatting">
-                                {row.data[0] || ""}
-                              </span>
-                            </td>
-                            <td
-                              id="pdff"
-                              style={{ textWrap: "wrap", textAlign: "center" }}
-                            >
-                              <span className="formatting">
-                                {row.data[2] || ""}
-                              </span>
-                            </td>
-                            <td id="pdff" style={{ textWrap: "wrap" }}>
-                              <span className="formatting">
-                                {row.data[3] || ""}
-                              </span>
-                            </td>
-                            <td id="pdff" style={{ textWrap: "wrap" }}>
-                              <span className="formatting">
-                                {row.data[1] || ""}
-                              </span>
-                            </td>
-                            <td id="pdff" style={{ textWrap: "wrap" }}>
-                              <span className="formatting">
-                                {Math.ceil(Number(row.data[0]) / 6) || 0}
-                              </span>
-                            </td>
-                            <td
-                              id="pdff"
+                            <span
+                              className="formatting"
                               style={{
-                                textWrap: "wrap",
-                                maxWidth: "70px",
-                                minWidth: "40px",
+                                fontSize: "18px",
+                                padding: "0",
                               }}
                             >
-                              <span className="formatting">
-                                {row.data[6] || ""}
-                              </span>
-                            </td>
-                          </tr>
-                        ),
-                      )}
-                    </tbody>
-                  </table>
-                </div>
+                              {row.key === "vowels" ? "અ" : row.key}
+                            </span>
+                          </td>
+                        </tr>
+                      ) : (
+                        <tr key={rIdx}>
+                          <td
+                            id="pdff"
+                            style={{ textWrap: "wrap", textAlign: "center" }}
+                          >
+                            <span className="formatting">
+                              {row.data[0] || ""}
+                            </span>
+                          </td>
+                          <td
+                            id="pdff"
+                            style={{ textWrap: "wrap", textAlign: "center" }}
+                          >
+                            <span className="formatting">
+                              {row.data[2] || ""}
+                            </span>
+                          </td>
+                          <td id="pdff" style={{ textWrap: "wrap" }}>
+                            <span className="formatting">
+                              {row.data[3] || ""}
+                            </span>
+                          </td>
+                          <td
+                            id="pdff"
+                            style={{ textWrap: "wrap", minWidth: "150px" }}
+                          >
+                            <span className="formatting">
+                              {row.data[1] || ""}
+                            </span>
+                          </td>
+                          <td id="pdff" style={{ textWrap: "wrap" }}>
+                            <span className="formatting">
+                              {Math.ceil(Number(row.data[0]) / 6) || 0}
+                            </span>
+                          </td>
+                          <td
+                            id="pdff"
+                            style={{
+                              textWrap: "wrap",
+                              maxWidth: "80px",
+                              minWidth: "40px",
+                            }}
+                          >
+                            <span className="formatting">
+                              {row.data[6] || ""}
+                            </span>
+                          </td>
+                        </tr>
+                      ),
+                    )}
+                  </tbody>
+                </table>
+                {/* </div> */}
               </div>
             </div>
           );
@@ -1025,10 +1033,10 @@ const IndexReport = () => {
         {records.length > 0 ? (
           <div className="table-container rounded-lg shadow-md border border-gray-200 overflow-y-auto">
             <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50 sticky top-0 z-10">
+              <thead className="bg-gray-50">
                 <tr>
                   <th
-                    className="px-2 py-3 text-xm text-center font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
+                    className="px-2 py-3 text-xm text-center font-medium text-gray-500 uppercase tracking-wider"
                     style={{
                       color: "white",
                       background: background,
@@ -1039,7 +1047,7 @@ const IndexReport = () => {
                     ક્રમ નંબર
                   </th>
                   <th
-                    className="px-2 py-3 text-xm text-center font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
+                    className="px-2 py-3 text-xm text-center font-medium text-gray-500 uppercase tracking-wider"
                     style={{
                       color: "white",
                       background: background,
@@ -1050,7 +1058,7 @@ const IndexReport = () => {
                     મિલ્ક્ત નંબર
                   </th>
                   <th
-                    className="px-2 py-3 text-xm text-center font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
+                    className="px-2 py-3 text-xm text-center font-medium text-gray-500 uppercase tracking-wider"
                     style={{
                       color: "white",
                       background: background,
@@ -1061,7 +1069,7 @@ const IndexReport = () => {
                     માલિકનું નામ
                   </th>
                   <th
-                    className="px-2 py-3 text-xm text-center font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
+                    className="px-2 py-3 text-xm text-center font-medium text-gray-500 uppercase tracking-wider"
                     style={{
                       color: "white",
                       background: background,
@@ -1072,7 +1080,7 @@ const IndexReport = () => {
                     વિસ્તારનું નામ
                   </th>
                   <th
-                    className="px-2 py-3 text-xm text-center font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
+                    className="px-2 py-3 text-xm text-center font-medium text-gray-500 uppercase tracking-wider"
                     style={{
                       color: "white",
                       background: background,
@@ -1083,7 +1091,7 @@ const IndexReport = () => {
                     પાના નંબર
                   </th>
                   <th
-                    className="px-2 py-3 text-xm text-center font-medium text-gray-500 uppercase tracking-wider sticky top-0 z-10"
+                    className="px-2 py-3 text-xm text-center font-medium text-gray-500 uppercase tracking-wider"
                     style={{
                       color: "white",
                       background: background,

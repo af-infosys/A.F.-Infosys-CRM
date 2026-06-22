@@ -68,6 +68,8 @@ import ManageService from "../features/services/ManageService";
 import AddCustomer from "../features/contactList/AddCustomer";
 import ListApplication from "../features/meetings/ListApplication";
 import BulkRecords from "../features/contactList/BulkRecords";
+import ManageCertificate2 from "../features/meetings/ManageCertificate2";
+import ArjiLetter2 from "../features/meetings/ArjiLetter2";
 
 export default function AppRoutes() {
   const { user } = useAuth();
@@ -295,9 +297,14 @@ export default function AppRoutes() {
           <Route path="manage" element={<ManageCertificate />} />
           <Route path="arji/:id" element={<ArjiLetter />} />
           <Route path="certificate/:id" element={<Certificate />} />
-          <Route path="list/:id" element={<ListApplication />} />
         </Route>
         {/* Meeting Routes End */}
+
+        <Route path="yaadi">
+          <Route path="manage" element={<ManageCertificate2 />} />
+          <Route path="arji/:id" element={<ArjiLetter2 />} />
+          <Route path="list/:id" element={<ListApplication />} />
+        </Route>
 
         {/* Accounts Routes Start */}
         <Route path="accounts">

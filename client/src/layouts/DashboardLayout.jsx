@@ -476,7 +476,7 @@ export default function DashboardLayout() {
                     setOpenMenu(openMenu === "/meeting" ? null : "/meeting")
                   }
                 >
-                  Meeting Letter
+                  Arji/Certificate
                 </div>
 
                 {openMenu === "/meeting" && (
@@ -486,10 +486,22 @@ export default function DashboardLayout() {
                       className={({ isActive }) => (isActive ? "active" : "")}
                       onClick={() => setIsSidebarOpen(false)}
                     >
-                      Arji/Certificate
+                      Meeting Letter
                     </NavLink>
                   </div>
                 )}
+
+                {/* {openMenu === "/yaadi" && ( */}
+                <div className="sub-links">
+                  <NavLink
+                    to={`/yaadi/manage`}
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                    onClick={() => setIsSidebarOpen(false)}
+                  >
+                    Yaadi Arji
+                  </NavLink>
+                </div>
+                {/* )} */}
               </div>
             )}
 

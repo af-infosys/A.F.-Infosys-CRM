@@ -25,7 +25,7 @@ const AkarniPageBlank = ({
             transform: "translate(-3px, 65px)",
           }}
         >
-          પાના નં. {toGujaratiNumber(pageIndex + 1)}
+          પાના નં. ____
         </span>
 
         <h1 className="heading" style={{ marginTop: "50px" }}>
