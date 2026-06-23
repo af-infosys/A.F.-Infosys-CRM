@@ -58,10 +58,10 @@ const OrderValuationForm = () => {
 
     comity: [
       { name: "", designation: "અધ્યક્ષ સરપંચશ્રી " },
-      { name: "", designation: "ઉપ સરપંચ " },
-      { name: "", designation: "સભ્ય" },
-      { name: "", designation: "સભ્ય" },
-      { name: "", designation: "સભ્ય સચીવ " },
+      { name: "", designation: "સભ્ય - આકરણી કમિટી" },
+      { name: "", designation: "સભ્ય - આકરણી કમિટી" },
+      { name: "", designation: "સભ્ય - આકરણી કમિટી" },
+      { name: "", designation: "સચીવ શ્રી તલાટી કમ મંત્રી " },
     ],
 
     notes: [],

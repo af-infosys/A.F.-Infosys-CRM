@@ -38,7 +38,7 @@ const TharavPage1 = ({ project }) => {
         </h1>
       </header>
 
-      <h2 style={{ textAlign: "center", fontWeight: "bold" }}>
+      <h2 style={{ textAlign: "center", fontWeight: "bold", fontSize: "23px" }}>
         તા. {project?.spot?.taluka || "......"}, જિ.{" "}
         {project?.spot?.district || "....."}
       </h2>
@@ -57,7 +57,7 @@ const TharavPage1 = ({ project }) => {
         style={{
           display: "flex",
           justifyContent: "center",
-          marginTop: "20px",
+          marginTop: "10px",
           paddingInline: "200px",
           gap: "50px",
         }}
@@ -143,8 +143,7 @@ const TharavPage1 = ({ project }) => {
 
         <div style={{ textAlign: "center", marginTop: "25px" }}>
           તારીખ{" "}
-          {formatDate(project?.details?.date2) ||
-            ".................................."}{" "}
+          {formatDate(project?.details?.date2) || "..........................."}{" "}
           થી તારીખ{" "}
           {(() => {
             const date = new Date(project?.details?.date2) || false;
@@ -170,9 +169,7 @@ const TharavPage1 = ({ project }) => {
             gap: "50px",
           }}
         >
-          <div>
-            સામાન્ય બેઠક તા. .............................................{" "}
-          </div>
+          <div>સામાન્ય બેઠક તા. ................................ </div>
           <div>ઠરાવ નં. __________</div>
           <div>સામાન્ય બેઠક નં. __________</div>
         </div>
@@ -184,7 +181,7 @@ const TharavPage1 = ({ project }) => {
             justifyContent: "center",
           }}
         >
-          અમલવારી કરવાની તા. .............................................
+          અમલવારી કરવાની તા. .................................
         </div>
       </div>
 
