@@ -422,7 +422,7 @@ const IndexReport = () => {
   //   return final;
   // }
 
-  const PROPERTIES_PER_PAGE = 36; // એક પેજ પર કેટલી લાઇન બતાવવી
+  const PROPERTIES_PER_PAGE = 33; // એક પેજ પર કેટલી લાઇન બતાવવી
   const BUNDLE_SIZE = 100; // કેટલા પેજ પછી કવર પેજ મૂકવું
 
   // 1. પહેલા ગ્રુપિંગના આધારે પેજીસ તૈયાર કરો
@@ -791,6 +791,7 @@ const IndexReport = () => {
                   position: "relative",
                   background: "transparent",
                   paddingLeft: "90px",
+                  paddingRight: "20px",
                 }}
               >
                 {/* Headers and Page Count */}
@@ -808,6 +809,7 @@ const IndexReport = () => {
                   <h2 className="subheading">
                     સને {project?.details?.taxYear || "૨૦૨૫/૨૬"}
                   </h2>
+
                   <span
                     className="page-numberN"
                     style={{
@@ -816,6 +818,7 @@ const IndexReport = () => {
                   >
                     પાના નં. {toGujaratiNumber(item.actualPageIndex + 1)}
                   </span>
+
                   <div
                     className="location-info"
                     style={{
@@ -831,16 +834,7 @@ const IndexReport = () => {
                     <span>જિલ્લો:- {district}</span>
                   </div>
                 </div>
-                {/* Table Header using Divs
-                <div
-                  className="table-container"
-                  style={{
-                    maxWidth: "100%",
-                    minHeight: "100%",
-                    overflow: "visible",
-                    paddingTop: 0,
-                  }}
-                > */}
+
                 <table className="divide-y" style={{ maxWidth: "100%" }}>
                   <thead>
                     <tr>
@@ -934,6 +928,7 @@ const IndexReport = () => {
                               style={{
                                 fontSize: "18px",
                                 padding: "0",
+                                paddingTop: "5px",
                               }}
                             >
                               {row.key === "vowels" ? "અ" : row.key}
@@ -944,44 +939,77 @@ const IndexReport = () => {
                         <tr key={rIdx}>
                           <td
                             id="pdff"
-                            style={{ textWrap: "wrap", textAlign: "center" }}
+                            style={{
+                              textWrap: "wrap",
+                              textAlign: "center",
+                              paddingTop: "5px",
+                            }}
                           >
                             <span className="formatting">
                               {row.data[0] || ""}
                             </span>
                           </td>
+
                           <td
                             id="pdff"
-                            style={{ textWrap: "wrap", textAlign: "center" }}
+                            style={{
+                              textWrap: "wrap",
+                              textAlign: "center",
+
+                              paddingTop: "5px",
+                            }}
                           >
                             <span className="formatting">
                               {row.data[2] || ""}
                             </span>
                           </td>
-                          <td id="pdff" style={{ textWrap: "wrap" }}>
+
+                          <td
+                            id="pdff"
+                            style={{
+                              textWrap: "wrap",
+
+                              paddingTop: "5px",
+                            }}
+                          >
                             <span className="formatting">
                               {row.data[3] || ""}
                             </span>
                           </td>
+
                           <td
                             id="pdff"
-                            style={{ textWrap: "wrap", minWidth: "150px" }}
+                            style={{
+                              textWrap: "wrap",
+                              minWidth: "150px",
+
+                              paddingTop: "5px",
+                            }}
                           >
                             <span className="formatting">
                               {row.data[1] || ""}
                             </span>
                           </td>
-                          <td id="pdff" style={{ textWrap: "wrap" }}>
+
+                          <td
+                            id="pdff"
+                            style={{
+                              textWrap: "wrap",
+                              paddingTop: "5px",
+                            }}
+                          >
                             <span className="formatting">
                               {Math.ceil(Number(row.data[0]) / 6) || 0}
                             </span>
                           </td>
+
                           <td
                             id="pdff"
                             style={{
                               textWrap: "wrap",
                               maxWidth: "80px",
                               minWidth: "40px",
+                              paddingTop: "5px",
                             }}
                           >
                             <span className="formatting">
