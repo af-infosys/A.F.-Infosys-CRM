@@ -333,8 +333,6 @@ const AnalyticsReport = () => {
 
     const TotalAreaCount = societies?.length;
 
-    const AreaWiseCount = TotalAreaCount; // fix
-
     const counts = records.reduce((acc, record) => {
       const name = record[3];
       acc[name] = (acc[name] || 0) + 1;
@@ -345,10 +343,10 @@ const AnalyticsReport = () => {
     const UniqueCount = Object.values(counts).filter((c) => c === 1).length;
 
     // count not null on 5th index
-    const usePhoneCount = records.filter((record) => record[5] !== "").length;
+    const usePhoneCount = records.filter((record) => record[6] !== "").length;
 
     const bpCount = records.filter((record) =>
-      record[13]?.includes("બી.પ."),
+      record[14]?.includes("બી.પ."),
     )?.length;
 
     setReportData((prev) => {
