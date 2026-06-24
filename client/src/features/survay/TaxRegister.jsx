@@ -17,6 +17,7 @@ import TaxIndex from "../../components/conver/TaxIndex";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import TaxIndexRaw from "../../components/conver/TaxIndexRaw";
+import Blank9D from "../../components/Blank9D";
 
 const TaxRegister = () => {
   const [count, setCount] = useState(5);
@@ -690,6 +691,14 @@ const TaxRegister = () => {
         currentBundle++;
       }
 
+      final.push({
+        type: "blank",
+        isCommercial: false,
+      });
+      final.push({
+        type: "blank",
+        isCommercial: false,
+      });
       // ---------- COMMERCIAL ----------
       if (commercialPages.length > 0) {
         const totalCommBundles = Math.ceil(
@@ -740,6 +749,15 @@ const TaxRegister = () => {
           currentBundle++;
         }
       }
+
+      final.push({
+        type: "blank",
+        isCommercial: true,
+      });
+      final.push({
+        type: "blank",
+        isCommercial: true,
+      });
     } else {
       // ==========================================
       // MIXED MODE
@@ -784,6 +802,14 @@ const TaxRegister = () => {
           globalPageNumber++;
         });
       }
+
+      final.push({
+        type: "blank",
+      });
+
+      final.push({
+        type: "blank",
+      });
     }
 
     return final;
@@ -1254,7 +1280,7 @@ const TaxRegister = () => {
             <button
               onClick={handleCancel}
               className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition duration-150 disabled:bg-red-400"
-              disabled={pdfProgress.isCancelled} // Disable if already signaled to cancel
+              disabled={pdfProgress.isCancelled}
             >
               {pdfProgress.isCancelled ? "Cancelling..." : "Cancel Generation"}
             </button>
@@ -1286,10 +1312,7 @@ const TaxRegister = () => {
       )}
       <br />
       <br />
-      <div
-        className="pdf-report-container"
-        // style={{ position: "absolute", left: "-9999px" }}
-      >
+      <div className="pdf-report-container">
         {finalRenderPages.map((item, idx) => {
           if (
             pdfProgress.isGenerating &&
@@ -1341,6 +1364,10 @@ const TaxRegister = () => {
                 )}
               </div>
             );
+          }
+
+          if (item.type === "blank") {
+            return <Blank9D item={item} project={project} id={id} />;
           }
 
           return (

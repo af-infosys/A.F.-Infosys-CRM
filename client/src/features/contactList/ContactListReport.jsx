@@ -11,6 +11,8 @@ import CheckIcon from "../../assets/icon/check.png";
 import SelectIcon from "../../assets/icon/select.png";
 import SearchTerm from "../../components/SearchTerm";
 
+import * as XLSX from "xlsx";
+
 const ContactListReport = () => {
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -328,6 +330,118 @@ const ContactListReport = () => {
     }
   };
 
+  const handleDownloadExcel = () => {
+    // 1. Title Row
+    const excelData = [
+      ["customers contact list - lead"], // Sirf ek Title
+      [], // Ek khali row thodi spacing ke liye
+    ];
+
+    // 2. Table Headers (Aapke UI ke hisaab se)
+    const headers = [
+      "અનું ક્રમાંક",
+      "કસ્ટમર / ગ્રાહકનું પુરૂ નામ",
+      "મોબાઈલ નંબર",
+      "વોટસેઅપ નબંર",
+      "કેટેગરી",
+      "ગામ",
+      "ચાર્જ નું ગામ",
+      "તાલુકો",
+      "જિલ્લો",
+      "કયુ કામ વસ્તુ માટે ફોન કરેલ",
+      "કયા ગામનું કામ કરવાનું છે",
+      "ગ્રાહકે શું જવાબ આપ્યો",
+      "ઘર/ ખાતા ગામના કેટલા છે",
+      "ભાવ ઘર ખાતા દીઠ",
+      "અંદાજીત બીલ રકમ રૂ",
+      "કસ્ટમરને કેટલા પૈસા સુધી પોસાય",
+      "ફોન કર્યા તારીખ",
+      "મીટીંગ તારીખ",
+      "Reminder Date",
+      "ઑફીસમા યાદી બનાવેલ તારીખ",
+      "કમ્પની ને મળેલ તારીખ",
+      "Updated by",
+    ];
+    excelData.push(headers);
+
+    // Date format karne ke liye helper function
+    const formatDate = (date) => {
+      if (!date) return " ";
+      const d = new Date(date);
+      const day = d.getDate();
+      const month = d.toLocaleString("en-US", { month: "short" });
+      const year = d.getFullYear();
+      return `${day} ${month}, ${year}`;
+    };
+
+    // 3. JSON Data ko Array Rows me convert karna
+    filteredRecords.forEach((record) => {
+      // JSON strings ko parse karna (same jaise aapne table me kiya hai)
+      let callHistory = record[10] || [{}];
+      if (typeof callHistory === "string") {
+        try {
+          callHistory = JSON.parse(callHistory);
+        } catch (e) {
+          callHistory = [{}];
+        }
+      }
+      const lastCall = callHistory[callHistory.length - 1] || {};
+
+      let survayorData = record[13];
+      if (typeof survayorData === "string") {
+        try {
+          survayorData = JSON.parse(survayorData);
+        } catch (e) {
+          survayorData = null;
+        }
+      }
+
+      // Har row ka data map karna
+      const rowData = [
+        record[1] || "", // અનું ક્રમાંક
+        record[2] || "", // Customer Name
+        record[3] || "", // Mobile No
+        record[4] || "", // WhatsApp No
+        record[5] || "", // Category
+        record[6] || "", // Village
+        record[7] || "", // Charge Village
+        record[8] || "", // Taluka
+        record[9] || "", // District
+        lastCall.whatBusiness || "",
+        lastCall.workVillage || "",
+        lastCall.clientAnswer || "",
+        lastCall.numberOfHouses || "",
+        lastCall.price || "",
+        lastCall.estimatedBill || "",
+        lastCall.budget || "",
+        formatDate(lastCall.dateOfCall),
+        formatDate(lastCall.meetingDate),
+        formatDate(lastCall.reminderDate),
+        formatDate(record[11]), // Entry Date
+        formatDate(record[12]), // Company Received Date
+        survayorData?.name
+          ? `${survayorData.name} (${formatDate(survayorData.time)})`
+          : "Unknown", // Updated By
+      ];
+
+      excelData.push(rowData);
+    });
+
+    // 4. Excel sheet aur workbook banani hai
+    const worksheet = XLSX.utils.aoa_to_sheet(excelData);
+
+    // Title ko center/merge karne ke liye (A-V columns tak)
+    worksheet["!merges"] = [
+      { s: { r: 0, c: 0 }, e: { r: 0, c: headers.length - 1 } },
+    ];
+
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Lead Data");
+
+    // 5. File Download trigger karna
+    XLSX.writeFile(workbook, "customers_contact_list_lead.xlsx");
+  };
+
   return (
     <>
       {/* Selected Message Preview */}
@@ -390,9 +504,10 @@ const ContactListReport = () => {
             )}{" "}
           </div>
         )}
+
         <div
           className="flex justify-between items-center gap-1 mb-4 flex-wrap"
-          style={{ userSelect: "none" }}
+          style={{ userSelect: "none", width: "100%" }}
         >
           <button
             className="add-btn"
@@ -401,6 +516,14 @@ const ContactListReport = () => {
           >
             Add New Customer Record
           </button>
+
+          <button
+            onClick={handleDownloadExcel}
+            className="bg-green-600 text-white px-4 py-2 rounded"
+          >
+            Download Excel
+          </button>
+
           {(user?.role === "owner" || user?.role === "telecaller") && (
             <div
               style={
