@@ -213,6 +213,7 @@ const Blank9D = ({ item, id, project }) => {
                     rowSpan="3"
                     style={{
                       verticalAlign: "top",
+                      minWidth: "150px",
                       maxWidth: "200px",
                       paddingTop: "5px",
                     }}
@@ -245,27 +246,36 @@ const Blank9D = ({ item, id, project }) => {
                     <span className="formatting">{""}</span>
                   </td>
 
-                  <th className="td" style={{ textWrap: "nowrap" }}>
+                  <th
+                    className="td"
+                    style={{ textWrap: "nowrap", maxWidth: "40px" }}
+                  >
                     <span className="formatting">માંગણું</span>
                   </th>
 
                   {/* ઘર વેરો */}
                   <td
                     className="td"
-                    style={{ textAlign: "right", minWidth: "60px" }}
+                    style={{ textAlign: "right", minWidth: "40px" }}
                   >
                     <span
                       className="formatting"
                       style={{ textWrap: "nowrap" }}
                     ></span>
                   </td>
-                  <td className="td" style={{ textAlign: "right" }}>
+                  <td
+                    className="td"
+                    style={{ textAlign: "right", minWidth: "40px" }}
+                  >
                     <span
                       className="formatting"
                       style={{ textWrap: "nowrap" }}
                     ></span>
                   </td>
-                  <td className="td" style={{ textAlign: "right" }}>
+                  <td
+                    className="td"
+                    style={{ textAlign: "right", minWidth: "40px" }}
+                  >
                     <span
                       className="formatting"
                       style={{ textWrap: "nowrap" }}
@@ -274,7 +284,7 @@ const Blank9D = ({ item, id, project }) => {
 
                   <td
                     className="td"
-                    style={{ textAlign: "right", minWidth: "60px" }}
+                    style={{ textAlign: "right", minWidth: "40px" }}
                   >
                     <span
                       className="formatting"
@@ -282,14 +292,20 @@ const Blank9D = ({ item, id, project }) => {
                     ></span>
                   </td>
 
-                  <td className="td" style={{ textAlign: "right" }}>
+                  <td
+                    className="td"
+                    style={{ textAlign: "right", minWidth: "40px" }}
+                  >
                     <span
                       className="formatting"
                       style={{ textWrap: "nowrap" }}
                     ></span>
                   </td>
 
-                  <td className="td" style={{ textAlign: "right" }}>
+                  <td
+                    className="td"
+                    style={{ textAlign: "right", minWidth: "40px" }}
+                  >
                     <span
                       className="formatting"
                       style={{ textWrap: "nowrap" }}
@@ -299,7 +315,7 @@ const Blank9D = ({ item, id, project }) => {
                   {/* ખાસ પાણી નળ વેરો */}
                   <td
                     className="td"
-                    style={{ textAlign: "right", minWidth: "60px" }}
+                    style={{ textAlign: "right", minWidth: "40px" }}
                   >
                     <span
                       className="formatting"
@@ -307,14 +323,20 @@ const Blank9D = ({ item, id, project }) => {
                     ></span>
                   </td>
 
-                  <td className="td" style={{ textAlign: "right" }}>
+                  <td
+                    className="td"
+                    style={{ textAlign: "right", minWidth: "40px" }}
+                  >
                     <span
                       className="formatting"
                       style={{ textWrap: "nowrap" }}
                     ></span>
                   </td>
 
-                  <td className="td" style={{ textAlign: "right" }}>
+                  <td
+                    className="td"
+                    style={{ textAlign: "right", minWidth: "40px" }}
+                  >
                     <span
                       className="formatting"
                       style={{ textWrap: "nowrap" }}
@@ -324,7 +346,7 @@ const Blank9D = ({ item, id, project }) => {
                   {/* દિવાબતી લાઈટ વેરો */}
                   <td
                     className="td"
-                    style={{ textAlign: "right", minWidth: "60px" }}
+                    style={{ textAlign: "right", minWidth: "40px" }}
                   >
                     <span
                       className="formatting"
@@ -332,14 +354,20 @@ const Blank9D = ({ item, id, project }) => {
                     ></span>
                   </td>
 
-                  <td className="td" style={{ textAlign: "right" }}>
+                  <td
+                    className="td"
+                    style={{ textAlign: "right", minWidth: "40px" }}
+                  >
                     <span
                       className="formatting"
                       style={{ textWrap: "nowrap" }}
                     ></span>
                   </td>
 
-                  <td className="td" style={{ textAlign: "right" }}>
+                  <td
+                    className="td"
+                    style={{ textAlign: "right", minWidth: "40px" }}
+                  >
                     <span
                       className="formatting"
                       style={{ textWrap: "nowrap" }}
@@ -349,7 +377,7 @@ const Blank9D = ({ item, id, project }) => {
                   {/* સફાઈ વેરો */}
                   <td
                     className="td"
-                    style={{ textAlign: "right", minWidth: "60px" }}
+                    style={{ textAlign: "right", minWidth: "40px" }}
                   >
                     <span
                       className="formatting"
@@ -357,14 +385,20 @@ const Blank9D = ({ item, id, project }) => {
                     ></span>
                   </td>
 
-                  <td className="td" style={{ textAlign: "right" }}>
+                  <td
+                    className="td"
+                    style={{ textAlign: "right", minWidth: "40px" }}
+                  >
                     <span
                       className="formatting"
                       style={{ textWrap: "nowrap" }}
                     ></span>
                   </td>
 
-                  <td className="td" style={{ textAlign: "right" }}>
+                  <td
+                    className="td"
+                    style={{ textAlign: "right", minWidth: "40px" }}
+                  >
                     <span
                       className="formatting"
                       style={{ textWrap: "nowrap" }}
@@ -374,7 +408,7 @@ const Blank9D = ({ item, id, project }) => {
                   {/* કુલ એકંદર */}
                   <td
                     className="td"
-                    style={{ textAlign: "right", minWidth: "60px" }}
+                    style={{ textAlign: "right", minWidth: "40px" }}
                   >
                     <span
                       className="formatting"
@@ -382,14 +416,20 @@ const Blank9D = ({ item, id, project }) => {
                     ></span>
                   </td>
 
-                  <td className="td" style={{ textAlign: "right" }}>
+                  <td
+                    className="td"
+                    style={{ textAlign: "right", minWidth: "40px" }}
+                  >
                     <span
                       className="formatting"
                       style={{ textWrap: "nowrap" }}
                     ></span>
                   </td>
 
-                  <td className="td" style={{ textAlign: "right" }}>
+                  <td
+                    className="td"
+                    style={{ textAlign: "right", minWidth: "40px" }}
+                  >
                     <span
                       className="formatting"
                       style={{ textWrap: "nowrap" }}

@@ -13,11 +13,11 @@ const RecordsReport = () => {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const result = await response.json();
-      setRecords(result.data);
+      setRecords(result.data || []);
     } catch (err) {
       console.error("Error fetching records:", err);
       setError(
-        "Error Fetching Records! Try Again Later. OR Contact the Admin."
+        "Error Fetching Records! Try Again Later. OR Contact the Admin.",
       );
     } finally {
       setLoading(false);
@@ -28,27 +28,65 @@ const RecordsReport = () => {
     fetchRecords();
   }, []);
 
-  // ✅ Calculate unique counts
-  const uniqueVillages = new Set(records.map((r) => r[6])).size;
+  // ✅ Aggregation Logic for Counts
+  const districtStats = {};
+  const talukaStats = {};
+  const villageStats = {};
+
+  records.forEach((r) => {
+    // Array indices based on your base code: 6: Village, 8: Taluka, 9: District
+    const village = r[6] || "N/A";
+    const taluka = r[8] || "N/A";
+    const district = r[9] || "N/A";
+
+    // 1. Village Level Aggregation
+    const vKey = `${district}_${taluka}_${village}`;
+    if (!villageStats[vKey]) {
+      villageStats[vKey] = { district, taluka, village, customers: 0 };
+    }
+    villageStats[vKey].customers += 1;
+
+    // 2. Taluka Level Aggregation
+    const tKey = `${district}_${taluka}`;
+    if (!talukaStats[tKey]) {
+      talukaStats[tKey] = {
+        district,
+        taluka,
+        villages: new Set(),
+        customers: 0,
+      };
+    }
+    talukaStats[tKey].villages.add(village);
+    talukaStats[tKey].customers += 1;
+
+    // 3. District Level Aggregation
+    const dKey = district;
+    if (!districtStats[dKey]) {
+      districtStats[dKey] = {
+        district,
+        talukas: new Set(),
+        villages: new Set(),
+        customers: 0,
+      };
+    }
+    districtStats[dKey].talukas.add(taluka);
+    districtStats[dKey].villages.add(`${taluka}_${village}`); // unique village per taluka
+    districtStats[dKey].customers += 1;
+  });
+
+  // Convert grouped objects into arrays for rendering
+  const districtRecords = Object.values(districtStats);
+  const talukaRecords = Object.values(talukaStats);
+  const villageRecords = Object.values(villageStats);
+
+  // ✅ Calculate overall unique counts for top cards
+  const uniqueVillages = new Set(records.map((r) => `${r[8]}_${r[6]}`)).size;
   const uniqueTalukos = new Set(records.map((r) => r[8])).size;
   const uniqueJillos = new Set(records.map((r) => r[9])).size;
   const totalCustomers = records.length;
 
-  // unique records by village
-  const uniqueVillageRecords = Array.from(
-    new Map(records.map((r) => [r[6], r])).values()
-  );
-
-  const uniqueTalukaRecords = Array.from(
-    new Map(records.map((r) => [r[8], r])).values()
-  );
-
-  const uniqueJillaRecords = Array.from(
-    new Map(records.map((r) => [r[9], r])).values()
-  );
-
-  if (loading) return <p className="text-center p-4">Loading...</p>;
-  if (error) return <p className="text-red-500 text-center p-4">{error}</p>;
+  if (loading) return <p className="text-center p-4"> Loading... </p>;
+  if (error) return <p className="text-red-500 text-center p-4"> {error} </p>;
 
   const background = "#007bff";
 
@@ -77,63 +115,53 @@ const RecordsReport = () => {
         </div>
       </div>
 
-      {/* Records Table */}
+      {/* Table 1: કુલ જિલ્લાઓના ગામ ની સંખ્યા */}
       <div className="overflow-x-auto">
-        <table className="min-w-full border border-gray-300 rounded-xl">
+        <table
+          className="border border-gray-300 rounded-xl"
+          style={{ maxWidth: "fit-content" }}
+        >
           <thead className="bg-gray-200">
             <tr>
               <th
-                colSpan="3"
+                colSpan="5"
                 className="px-2 py-1 border text-center text-white"
                 style={{
-                  background: background,
+                  background,
+                  color: "#000",
                   fontSize: "1rem",
-                  padding: "2px 4px",
+                  padding: "4px",
                 }}
               >
-                ગામડાઓ
+                કુલ જિલ્લાઓના ગામ ની સંખ્યા
               </th>
             </tr>
-
             <tr>
-              <th
-                className="px-2 py-1 border text-center text-white"
-                style={{
-                  background: background,
-                  fontSize: "1rem",
-                  padding: "2px 4px",
-                }}
-              >
-                ગામ
-              </th>
-              <th
-                className="px-2 py-1 border text-center text-white"
-                style={{
-                  background: background,
-                  fontSize: "1rem",
-                  padding: "2px 4px",
-                }}
-              >
-                તાલુકા
-              </th>
-              <th
-                className="px-2 py-1 border text-center text-white"
-                style={{
-                  background: background,
-                  fontSize: "1rem",
-                  padding: "2px 4px",
-                }}
-              >
-                જિલ્લા
-              </th>
+              {[
+                "ક્રમ",
+                "જિલ્લાઓ",
+                "તાલુકા સંખ્યા",
+                "ગામની સંખ્યા",
+                "કસ્ટમરની સંખ્યા",
+              ].map((head, i) => (
+                <th
+                  key={i}
+                  className="px-2 py-1 border text-center text-white"
+                  style={{ background, color: "#000" }}
+                >
+                  {head}
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody>
-            {uniqueVillageRecords.map((record, index) => (
+            {districtRecords.map((record, index) => (
               <tr key={index} className="text-center hover:bg-gray-50">
-                <td className="px-2 py-1 border">{record[6]}</td>
-                <td className="px-2 py-1 border">{record[8]}</td>
-                <td className="px-2 py-1 border">{record[9]}</td>
+                <td className="px-2 py-1 border">{index + 1}</td>
+                <td className="px-2 py-1 border">{record.district}</td>
+                <td className="px-2 py-1 border">{record.talukas.size}</td>
+                <td className="px-2 py-1 border">{record.villages.size}</td>
+                <td className="px-2 py-1 border">{record.customers}</td>
               </tr>
             ))}
           </tbody>
@@ -144,52 +172,53 @@ const RecordsReport = () => {
       <hr />
       <br />
 
-      {/* Records Table */}
+      {/* Table 2: કુલ તાલુકાના ગામ ની સંખ્યા */}
       <div className="overflow-x-auto">
-        <table className="min-w-full border border-gray-300 rounded-xl">
+        <table
+          className="border border-gray-300 rounded-xl"
+          style={{ maxWidth: "fit-content" }}
+        >
           <thead className="bg-gray-200">
             <tr>
               <th
-                colSpan="2"
+                colSpan="5"
                 className="px-2 py-1 border text-center text-white"
                 style={{
-                  background: background,
+                  background,
+                  color: "#000",
                   fontSize: "1rem",
-                  padding: "2px 4px",
+                  padding: "4px",
                 }}
               >
-                તાલુકાઓ
+                કુલ તાલુકાના ગામ ની સંખ્યા
               </th>
             </tr>
-
             <tr>
-              <th
-                className="px-2 py-1 border text-center text-white"
-                style={{
-                  background: background,
-                  fontSize: "1rem",
-                  padding: "2px 4px",
-                }}
-              >
-                તાલુકા
-              </th>
-              <th
-                className="px-2 py-1 border text-center text-white"
-                style={{
-                  background: background,
-                  fontSize: "1rem",
-                  padding: "2px 4px",
-                }}
-              >
-                જિલ્લા
-              </th>
+              {[
+                "ક્રમ",
+                "જિલ્લાનું નામ",
+                "તાલુકાનું નામ",
+                "ગામની સંખ્યા",
+                "કસ્ટમરની સંખ્યા",
+              ].map((head, i) => (
+                <th
+                  key={i}
+                  className="px-2 py-1 border text-center text-white"
+                  style={{ background, color: "#000" }}
+                >
+                  {head}
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody>
-            {uniqueTalukaRecords.map((record, index) => (
+            {talukaRecords.map((record, index) => (
               <tr key={index} className="text-center hover:bg-gray-50">
-                <td className="px-2 py-1 border">{record[8]}</td>
-                <td className="px-2 py-1 border">{record[9]}</td>
+                <td className="px-2 py-1 border">{index + 1}</td>
+                <td className="px-2 py-1 border">{record.district}</td>
+                <td className="px-2 py-1 border">{record.taluka}</td>
+                <td className="px-2 py-1 border">{record.villages.size}</td>
+                <td className="px-2 py-1 border">{record.customers}</td>
               </tr>
             ))}
           </tbody>
@@ -200,27 +229,53 @@ const RecordsReport = () => {
       <hr />
       <br />
 
-      {/* Records Table */}
+      {/* Table 3: કુલ ગામ ની સંખ્યા */}
       <div className="overflow-x-auto">
-        <table className="min-w-full border border-gray-300 rounded-xl">
+        <table
+          className="border border-gray-300 rounded-xl"
+          style={{ maxWidth: "fit-content" }}
+        >
           <thead className="bg-gray-200">
             <tr>
               <th
+                colSpan="5"
                 className="px-2 py-1 border text-center text-white"
                 style={{
-                  background: background,
+                  background,
+                  color: "#000",
                   fontSize: "1rem",
-                  padding: "2px 4px",
+                  padding: "4px",
                 }}
               >
-                જિલ્લા
+                કુલ ગામ ની સંખ્યા
               </th>
+            </tr>
+            <tr>
+              {[
+                "ક્રમ",
+                "જિલ્લાનું નામ",
+                "તાલુકાનું નામ",
+                "ગામનું નામ",
+                "કસ્ટમરની સંખ્યા",
+              ].map((head, i) => (
+                <th
+                  key={i}
+                  className="px-2 py-1 border text-center text-white"
+                  style={{ background, color: "#000" }}
+                >
+                  {head}
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody>
-            {uniqueJillaRecords.map((record, index) => (
+            {villageRecords.map((record, index) => (
               <tr key={index} className="text-center hover:bg-gray-50">
-                <td className="px-2 py-1 border">{record[9]}</td>
+                <td className="px-2 py-1 border">{index + 1}</td>
+                <td className="px-2 py-1 border">{record.district}</td>
+                <td className="px-2 py-1 border">{record.taluka}</td>
+                <td className="px-2 py-1 border">{record.village}</td>
+                <td className="px-2 py-1 border">{record.customers}</td>
               </tr>
             ))}
           </tbody>

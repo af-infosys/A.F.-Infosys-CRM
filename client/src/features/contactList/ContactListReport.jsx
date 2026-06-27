@@ -282,25 +282,74 @@ const ContactListReport = () => {
 
   const { user } = useAuth();
 
-  const [searchTerm, setSearchTerm] = useState("");
+  // Filtered records
+  // const filteredRecords = records.filter((record) => {
+  //   const fullName = record[2]?.toLowerCase() || "";
+  //   const phone = record[3]?.toString() || "";
+  //   const whatsapp = record[4]?.toString() || "";
 
-  const handleSearch = (term) => {
-    console.log("Searching for:", term);
+  //   return (
+  //     fullName.includes(searchTerm.toLowerCase()) ||
+  //     phone.includes(searchTerm) ||
+  //     whatsapp.includes(searchTerm)
+  //   );
+  // });
 
-    setSearchTerm(term);
+  // 1. Initialize State from localStorage
+  const [filters, setFilters] = useState(() => {
+    try {
+      const savedFilters = localStorage.getItem("myAppFilters");
+      if (savedFilters) {
+        return JSON.parse(savedFilters); // Purane filters load karo
+      }
+    } catch (error) {
+      console.error("Error reading localStorage", error);
+    }
+    // Agar kuch na mile toh default empty state do
+    return { text: "", district: "", taluka: "", village: "" };
+  });
+
+  // 2. Save to localStorage whenever 'filters' state changes
+  useEffect(() => {
+    localStorage.setItem("myAppFilters", JSON.stringify(filters));
+  }, [filters]);
+
+  // Extract Unique values (Same as before)
+  const uniqueDistricts = [
+    ...new Set(records.map((r) => r[9]).filter(Boolean)),
+  ].sort();
+  const uniqueTalukas = [
+    ...new Set(records.map((r) => r[8]).filter(Boolean)),
+  ].sort();
+  const uniqueVillages = [
+    ...new Set(records.map((r) => r[6]).filter(Boolean)),
+  ].sort();
+
+  const handleSearch = (newFilters) => {
+    setFilters(newFilters);
   };
 
-  // Filtered records
+  // Filtered records logic (Same as before)
   const filteredRecords = records.filter((record) => {
+    // ... [Aapka purana filter logic yahan rahega] ...
     const fullName = record[2]?.toLowerCase() || "";
     const phone = record[3]?.toString() || "";
     const whatsapp = record[4]?.toString() || "";
+    const village = record[6] || "";
+    const taluka = record[8] || "";
+    const district = record[9] || "";
 
-    return (
-      fullName.includes(searchTerm.toLowerCase()) ||
-      phone.includes(searchTerm) ||
-      whatsapp.includes(searchTerm)
-    );
+    const searchText = filters.text.toLowerCase();
+    const matchesText =
+      !searchText ||
+      fullName.includes(searchText) ||
+      phone.includes(searchText) ||
+      whatsapp.includes(searchText);
+    const matchesDistrict = !filters.district || district === filters.district;
+    const matchesTaluka = !filters.taluka || taluka === filters.taluka;
+    const matchesVillage = !filters.village || village === filters.village;
+
+    return matchesText && matchesDistrict && matchesTaluka && matchesVillage;
   });
 
   useEffect(() => {
@@ -640,7 +689,13 @@ const ContactListReport = () => {
         </div>
 
         {/* Search Section Start */}
-        <SearchTerm onSearch={handleSearch} />
+        <SearchTerm
+          onSearch={handleSearch}
+          currentFilters={filters}
+          uniqueDistricts={uniqueDistricts}
+          uniqueTalukas={uniqueTalukas}
+          uniqueVillages={uniqueVillages}
+        />
         {/* Search Section End */}
 
         {error ? (
