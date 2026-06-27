@@ -295,26 +295,26 @@ const ContactListReport = () => {
   //   );
   // });
 
-  // 1. Initialize State from localStorage
+  // 1. Update State to include category
   const [filters, setFilters] = useState(() => {
     try {
       const savedFilters = localStorage.getItem("myAppFilters");
       if (savedFilters) {
-        return JSON.parse(savedFilters); // Purane filters load karo
+        return JSON.parse(savedFilters);
       }
     } catch (error) {
       console.error("Error reading localStorage", error);
     }
-    // Agar kuch na mile toh default empty state do
-    return { text: "", district: "", taluka: "", village: "" };
+    // Add category field here
+    return { text: "", district: "", taluka: "", village: "", category: "" };
   });
 
-  // 2. Save to localStorage whenever 'filters' state changes
+  // 2. Save to localStorage
   useEffect(() => {
     localStorage.setItem("myAppFilters", JSON.stringify(filters));
   }, [filters]);
 
-  // Extract Unique values (Same as before)
+  // Extract Unique values
   const uniqueDistricts = [
     ...new Set(records.map((r) => r[9]).filter(Boolean)),
   ].sort();
@@ -329,12 +329,12 @@ const ContactListReport = () => {
     setFilters(newFilters);
   };
 
-  // Filtered records logic (Same as before)
+  // 3. Update filteredRecords logic to check Category (record[5])
   const filteredRecords = records.filter((record) => {
-    // ... [Aapka purana filter logic yahan rahega] ...
     const fullName = record[2]?.toLowerCase() || "";
     const phone = record[3]?.toString() || "";
     const whatsapp = record[4]?.toString() || "";
+    const category = record[5] || ""; // Category value
     const village = record[6] || "";
     const taluka = record[8] || "";
     const district = record[9] || "";
@@ -345,11 +345,21 @@ const ContactListReport = () => {
       fullName.includes(searchText) ||
       phone.includes(searchText) ||
       whatsapp.includes(searchText);
+
+    // Check all dropdowns
     const matchesDistrict = !filters.district || district === filters.district;
     const matchesTaluka = !filters.taluka || taluka === filters.taluka;
     const matchesVillage = !filters.village || village === filters.village;
+    const matchesCategory = !filters.category || category === filters.category; // Check category match
 
-    return matchesText && matchesDistrict && matchesTaluka && matchesVillage;
+    // Return true only if ALL active filters match
+    return (
+      matchesText &&
+      matchesDistrict &&
+      matchesTaluka &&
+      matchesVillage &&
+      matchesCategory
+    );
   });
 
   useEffect(() => {

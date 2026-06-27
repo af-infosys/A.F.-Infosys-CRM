@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "../Report.scss";
 import apiPath from "../../isProduction";
 import { useAuth } from "../../config/AuthContext";
+import SearchTerm from "../../components/SearchTerm";
 
 const ContactListReportOverview = () => {
   const [records, setRecords] = useState([]);
@@ -65,6 +66,73 @@ const ContactListReportOverview = () => {
 
   const background = "#007bff";
 
+  // 1. Update State to include category
+  const [filters, setFilters] = useState(() => {
+    try {
+      const savedFilters = localStorage.getItem("myAppFilters");
+      if (savedFilters) {
+        return JSON.parse(savedFilters);
+      }
+    } catch (error) {
+      console.error("Error reading localStorage", error);
+    }
+    // Add category field here
+    return { text: "", district: "", taluka: "", village: "", category: "" };
+  });
+
+  // 2. Save to localStorage
+  useEffect(() => {
+    localStorage.setItem("myAppFilters", JSON.stringify(filters));
+  }, [filters]);
+
+  // Extract Unique values
+  const uniqueDistricts = [
+    ...new Set(records.map((r) => r[9]).filter(Boolean)),
+  ].sort();
+  const uniqueTalukas = [
+    ...new Set(records.map((r) => r[8]).filter(Boolean)),
+  ].sort();
+  const uniqueVillages = [
+    ...new Set(records.map((r) => r[6]).filter(Boolean)),
+  ].sort();
+
+  const handleSearch = (newFilters) => {
+    setFilters(newFilters);
+  };
+
+  // 3. Update filteredRecords logic to check Category (record[5])
+  const filteredRecords = records.filter((record) => {
+    const fullName = record[2]?.toLowerCase() || "";
+    const phone = record[3]?.toString() || "";
+    const whatsapp = record[4]?.toString() || "";
+    const category = record[5] || ""; // Category value
+    const village = record[6] || "";
+    const taluka = record[8] || "";
+    const district = record[9] || "";
+
+    const searchText = filters.text.toLowerCase();
+    const matchesText =
+      !searchText ||
+      fullName.includes(searchText) ||
+      phone.includes(searchText) ||
+      whatsapp.includes(searchText);
+
+    // Check all dropdowns
+    const matchesDistrict = !filters.district || district === filters.district;
+    const matchesTaluka = !filters.taluka || taluka === filters.taluka;
+    const matchesVillage = !filters.village || village === filters.village;
+    const matchesCategory = !filters.category || category === filters.category; // Check category match
+
+    // Return true only if ALL active filters match
+    return (
+      matchesText &&
+      matchesDistrict &&
+      matchesTaluka &&
+      matchesVillage &&
+      matchesCategory
+    );
+  });
+
   return (
     <div className="container mx-auto p-2 sm:p-6 lg:p-8">
       <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">
@@ -74,6 +142,16 @@ const ContactListReportOverview = () => {
       <h2 className="text-xl text-center mb-8 text-gray-600">
         by - A.F. Infosys
       </h2>
+
+      {/* Search Section Start */}
+      <SearchTerm
+        onSearch={handleSearch}
+        currentFilters={filters}
+        uniqueDistricts={uniqueDistricts}
+        uniqueTalukas={uniqueTalukas}
+        uniqueVillages={uniqueVillages}
+      />
+      {/* Search Section End */}
 
       <div className="flex justify-between items-center gap-2">
         <button
@@ -206,7 +284,7 @@ const ContactListReportOverview = () => {
             {/* Index End */}
 
             <tbody className="bg-white divide-y divide-gray-200">
-              {records.map((record, index) => {
+              {filteredRecords?.map((record, index) => {
                 let survayorData = record[13];
 
                 if (typeof survayorData === "string") {

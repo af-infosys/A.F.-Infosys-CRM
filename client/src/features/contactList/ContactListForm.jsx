@@ -315,15 +315,20 @@ const ContactListForm = () => {
 
             isInterested: record[16] === "TRUE" ? true : false,
 
-            sarpanchName: JSON.parse(record[20])?.sarpanchName || "",
-            sarpanchMobile: JSON.parse(record[20])?.sarpanchMobile || "",
+            sarpanchName: JSON.parse(record[20] || "{}")?.sarpanchName || "",
+            sarpanchMobile:
+              JSON.parse(record[20] || "{}")?.sarpanchMobile || "",
 
-            telecaller: { id: user?.id, name: user?.name, time: new Date() },
+            telecaller: {
+              id: user?.id || "",
+              name: user?.name || "",
+              time: new Date() || "",
+            },
           });
 
           if (record[10]) {
             try {
-              const parsedFloors = JSON.parse(record[10]);
+              const parsedFloors = JSON.parse(record[10] || []);
               setCallHistory(parsedFloors);
             } catch (jsonError) {
               console.error("Error parsing floors JSON:", jsonError);
