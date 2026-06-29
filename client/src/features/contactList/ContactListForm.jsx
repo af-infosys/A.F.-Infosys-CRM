@@ -505,7 +505,7 @@ const ContactListForm = () => {
         <div className="text-center text-red-600 text-lg mb-4">{formError}</div>
       )}
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} style={{ paddingBottom: "80px" }}>
         <div className="form-field" style={{ display: "flex", gap: ".5rem" }}>
           <label
             htmlFor="isInterested"
@@ -903,7 +903,6 @@ const ContactListForm = () => {
                         value={call?.whatBusiness}
                         onChange={(e) => handleCallHistoryChange(index, e)}
                         disabled={isEditMode && formLoading}
-                        required
                       />
                     </div>
 
@@ -1168,6 +1167,12 @@ const ContactListForm = () => {
           type="submit"
           className="submit-button"
           disabled={isEditMode && formLoading}
+          style={{
+            position: "fixed",
+            bottom: "40px",
+            width: "90%",
+            maxWidth: "90vw",
+          }}
         >
           {isEditMode ? "Update" : "Submit"}
         </button>

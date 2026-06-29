@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "../Report.scss";
 import apiPath from "../../isProduction";
@@ -27,6 +27,16 @@ const ContactListReport = () => {
 
   const navigate = useNavigate();
 
+  const tableRef = useRef(null);
+
+  const handleScroll = (e) => {
+    const scrollTop = e.target.scrollTop;
+    const scrollLeft = e.target.scrollLeft;
+
+    localStorage.setItem("scrollTopA", scrollTop);
+    localStorage.setItem("scrollLeftA", scrollLeft);
+  };
+
   const fetchRecords = async () => {
     try {
       const response = await fetch(`${await apiPath()}/api/contactList`);
@@ -35,6 +45,18 @@ const ContactListReport = () => {
       }
       const result = await response.json();
       setRecords(result.data);
+
+      setTimeout(() => {
+        const savedScrollTop = localStorage.getItem("scrollTopA");
+        const savedScrollLeft = localStorage.getItem("scrollLeftA");
+
+        if (tableRef.current && savedScrollTop) {
+          tableRef.current.scrollTop = Number(savedScrollTop);
+        }
+        if (tableRef.current && savedScrollLeft) {
+          tableRef.current.scrollLeft = Number(savedScrollLeft);
+        }
+      }, 900);
     } catch (err) {
       console.error("Error fetching records:", err);
       setError(
@@ -718,6 +740,8 @@ const ContactListReport = () => {
           </div>
         ) : (
           <div
+            ref={tableRef}
+            onScroll={handleScroll}
             className={`table-container rounded-lg shadow-md border border-gray-200 overflow-y-auto ${
               isSelectionMode ? "max-h-[75vh]" : "max-h-[82vh]"
             }`}

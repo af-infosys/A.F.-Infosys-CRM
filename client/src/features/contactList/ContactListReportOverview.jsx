@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "../Report.scss";
 import apiPath from "../../isProduction";
@@ -9,6 +9,16 @@ const ContactListReportOverview = () => {
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const tableRef = useRef(null);
+
+  const handleScroll = (e) => {
+    const scrollTop = e.target.scrollTop;
+    const scrollLeft = e.target.scrollLeft;
+
+    localStorage.setItem("scrollTopB", scrollTop);
+    localStorage.setItem("scrollLeftB", scrollLeft);
+  };
 
   const { user } = useAuth();
 
@@ -22,6 +32,18 @@ const ContactListReportOverview = () => {
       }
       const result = await response.json();
       setRecords(result.data);
+
+      setTimeout(() => {
+        const savedScrollTop = localStorage.getItem("scrollTopB");
+        const savedScrollLeft = localStorage.getItem("scrollLeftB");
+
+        if (tableRef.current && savedScrollTop) {
+          tableRef.current.scrollTop = Number(savedScrollTop);
+        }
+        if (tableRef.current && savedScrollLeft) {
+          tableRef.current.scrollLeft = Number(savedScrollLeft);
+        }
+      }, 900);
     } catch (err) {
       console.error("Error fetching records:", err);
       setError(
@@ -180,9 +202,14 @@ const ContactListReportOverview = () => {
           Loading Data...
         </div>
       ) : (
-        <div className="table-container rounded-lg shadow-md border border-gray-200">
+        <div
+          ref={tableRef}
+          onScroll={handleScroll}
+          className="table-container rounded-lg shadow-md border border-gray-200"
+          style={{ maxHeight: "90vh", overflow: "auto" }}
+        >
           <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+            <thead className="bg-gray-50 sticky top-0 z-10">
               <tr>
                 <th
                   className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-lg"
@@ -259,29 +286,31 @@ const ContactListReportOverview = () => {
                   </th>
                 )}
               </tr>
-            </thead>
 
-            {/* Index Start */}
-            <tr>
-              {/* 1 to 18 th for index */}
-              {Array.from({
-                length:
-                  user.role === "owner" || user.role === "telecaller" ? 11 : 10,
-              }).map((_, index) => (
-                <th
-                  className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  style={{
-                    textAlign: "center",
-                    color: "blue",
-                    background: background,
-                  }}
-                  key={index}
-                >
-                  {index + 1}
-                </th>
-              ))}
-            </tr>
-            {/* Index End */}
+              {/* Index Start */}
+              <tr>
+                {/* 1 to 18 th for index */}
+                {Array.from({
+                  length:
+                    user.role === "owner" || user.role === "telecaller"
+                      ? 11
+                      : 10,
+                }).map((_, index) => (
+                  <th
+                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    style={{
+                      textAlign: "center",
+                      color: "blue",
+                      background: background,
+                    }}
+                    key={index}
+                  >
+                    {index + 1}
+                  </th>
+                ))}
+              </tr>
+              {/* Index End */}
+            </thead>
 
             <tbody className="bg-white divide-y divide-gray-200">
               {filteredRecords?.map((record, index) => {

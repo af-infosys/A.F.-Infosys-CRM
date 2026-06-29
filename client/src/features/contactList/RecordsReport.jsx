@@ -115,64 +115,7 @@ const RecordsReport = () => {
         </div>
       </div>
 
-      {/* Table 1: કુલ જિલ્લાઓના ગામ ની સંખ્યા */}
-      <div className="overflow-x-auto">
-        <table
-          className="border border-gray-300 rounded-xl"
-          style={{ maxWidth: "fit-content" }}
-        >
-          <thead className="bg-gray-200">
-            <tr>
-              <th
-                colSpan="5"
-                className="px-2 py-1 border text-center text-white"
-                style={{
-                  background,
-                  color: "#000",
-                  fontSize: "1rem",
-                  padding: "4px",
-                }}
-              >
-                કુલ જિલ્લાઓના ગામ ની સંખ્યા
-              </th>
-            </tr>
-            <tr>
-              {[
-                "ક્રમ",
-                "જિલ્લાઓ",
-                "તાલુકા સંખ્યા",
-                "ગામની સંખ્યા",
-                "કસ્ટમરની સંખ્યા",
-              ].map((head, i) => (
-                <th
-                  key={i}
-                  className="px-2 py-1 border text-center text-white"
-                  style={{ background, color: "#000" }}
-                >
-                  {head}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {districtRecords.map((record, index) => (
-              <tr key={index} className="text-center hover:bg-gray-50">
-                <td className="px-2 py-1 border">{index + 1}</td>
-                <td className="px-2 py-1 border">{record.district}</td>
-                <td className="px-2 py-1 border">{record.talukas.size}</td>
-                <td className="px-2 py-1 border">{record.villages.size}</td>
-                <td className="px-2 py-1 border">{record.customers}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      <br />
-      <hr />
-      <br />
-
-      {/* Table 2: કુલ તાલુકાના ગામ ની સંખ્યા */}
+      {/* Table 1: કુલ તાલુકાના ગામ ની સંખ્યા */}
       <div className="overflow-x-auto">
         <table
           className="border border-gray-300 rounded-xl"
@@ -217,6 +160,63 @@ const RecordsReport = () => {
                 <td className="px-2 py-1 border">{index + 1}</td>
                 <td className="px-2 py-1 border">{record.district}</td>
                 <td className="px-2 py-1 border">{record.taluka}</td>
+                <td className="px-2 py-1 border">{record.villages.size}</td>
+                <td className="px-2 py-1 border">{record.customers}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <br />
+      <hr />
+      <br />
+
+      {/* Table 2: કુલ જિલ્લાઓના ગામ ની સંખ્યા */}
+      <div className="overflow-x-auto">
+        <table
+          className="border border-gray-300 rounded-xl"
+          style={{ maxWidth: "fit-content" }}
+        >
+          <thead className="bg-gray-200">
+            <tr>
+              <th
+                colSpan="5"
+                className="px-2 py-1 border text-center text-white"
+                style={{
+                  background,
+                  color: "#000",
+                  fontSize: "1rem",
+                  padding: "4px",
+                }}
+              >
+                કુલ જિલ્લાઓના ગામ ની સંખ્યા
+              </th>
+            </tr>
+            <tr>
+              {[
+                "ક્રમ",
+                "જિલ્લાઓ",
+                "તાલુકા સંખ્યા",
+                "ગામની સંખ્યા",
+                "કસ્ટમરની સંખ્યા",
+              ].map((head, i) => (
+                <th
+                  key={i}
+                  className="px-2 py-1 border text-center text-white"
+                  style={{ background, color: "#000" }}
+                >
+                  {head}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {districtRecords.map((record, index) => (
+              <tr key={index} className="text-center hover:bg-gray-50">
+                <td className="px-2 py-1 border">{index + 1}</td>
+                <td className="px-2 py-1 border">{record.district}</td>
+                <td className="px-2 py-1 border">{record.talukas.size}</td>
                 <td className="px-2 py-1 border">{record.villages.size}</td>
                 <td className="px-2 py-1 border">{record.customers}</td>
               </tr>
