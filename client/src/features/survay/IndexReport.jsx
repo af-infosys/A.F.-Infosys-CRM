@@ -422,7 +422,7 @@ const IndexReport = () => {
   //   return final;
   // }
 
-  const PROPERTIES_PER_PAGE = 33; // એક પેજ પર કેટલી લાઇન બતાવવી
+  const [PROPERTIES_PER_PAGE, SetPropertiesPerPage] = useState(33); // એક પેજ પર કેટલી લાઇન બતાવવી
   const BUNDLE_SIZE = 100; // કેટલા પેજ પછી કવર પેજ મૂકવું
 
   // 1. પહેલા ગ્રુપિંગના આધારે પેજીસ તૈયાર કરો
@@ -726,6 +726,50 @@ const IndexReport = () => {
 
       <br />
       <br />
+
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "end",
+          alignItems: "center",
+          gap: "20px",
+
+          position: "sticky",
+          top: "20px",
+          marginBottom: "30px",
+          width: "100%",
+        }}
+      >
+        <button
+          onClick={() => SetPropertiesPerPage(PROPERTIES_PER_PAGE - 1)}
+          style={{
+            padding: "10px 20px",
+            background: "blue",
+            color: "white",
+            borderRadius: "5px",
+            fontSize: "20px",
+            fontWeight: "900",
+          }}
+        >
+          -
+        </button>
+
+        <h3>{PROPERTIES_PER_PAGE}</h3>
+
+        <button
+          onClick={() => SetPropertiesPerPage(PROPERTIES_PER_PAGE + 1)}
+          style={{
+            padding: "10px 20px",
+            background: "blue",
+            color: "white",
+            borderRadius: "5px",
+            fontSize: "20px",
+            fontWeight: "900",
+          }}
+        >
+          +
+        </button>
+      </div>
 
       {/* Hidden container for PDF generation */}
       <div
