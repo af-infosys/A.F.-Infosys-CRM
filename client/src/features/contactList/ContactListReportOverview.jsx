@@ -325,8 +325,26 @@ const ContactListReportOverview = () => {
                   }
                 }
 
+                let callHistory = JSON.parse(record[10] || "[]") || [];
+
+                let status = "remaining";
+
+                if (
+                  callHistory.length > 0 &&
+                  callHistory[0]?.clientAnswer !== ""
+                ) {
+                  status = "completed";
+                }
+
+                if (
+                  callHistory.length > 0 &&
+                  callHistory[callHistory.length - 1]?.reminderDate !== ""
+                ) {
+                  status = "reminder";
+                }
+
                 return (
-                  <tr key={index}>
+                  <tr key={index} className={status}>
                     {/* અહીં Google Sheet માંથી આવતા ડેટાને કૉલમમાં મેપ કરો */}
                     {/* અનું કૂમાંક (serialNumber) */}
                     <td className="record whitespace-nowrap text-sm font-medium text-gray-900">

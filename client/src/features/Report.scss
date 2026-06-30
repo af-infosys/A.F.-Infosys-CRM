@@ -84,3 +84,11 @@ td.record {
     font-weight: 700;
   }
 }
+
+tr.completed {
+  background-color: lightgreen !important;
+}
+
+tr.reminder {
+  background-color: orange !important;
+}
