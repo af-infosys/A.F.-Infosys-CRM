@@ -317,7 +317,7 @@ const ContactListReport = () => {
   //   );
   // });
 
-  // 1. Update State to include category
+  // 1. Update State to include new call history filters
   const [filters, setFilters] = useState(() => {
     try {
       const savedFilters = localStorage.getItem("myAppFilters");
@@ -327,16 +327,26 @@ const ContactListReport = () => {
     } catch (error) {
       console.error("Error reading localStorage", error);
     }
-    // Add category field here
-    return { text: "", district: "", taluka: "", village: "", category: "" };
+    return {
+      text: "",
+      district: "",
+      taluka: "",
+      village: "",
+      category: "",
+      interested: false,
+      startDate: "",
+      endDate: "",
+      callDirection: "both",
+      hasFollowUp: false,
+    };
   });
 
-  // 2. Save to localStorage
+  // 2. Save to localStorage (Remains the same)
   useEffect(() => {
     localStorage.setItem("myAppFilters", JSON.stringify(filters));
   }, [filters]);
 
-  // Extract Unique values
+  // Extract Unique values (Remains the same)
   const uniqueDistricts = [
     ...new Set(records.map((r) => r[9]).filter(Boolean)),
   ].sort();
@@ -351,36 +361,93 @@ const ContactListReport = () => {
     setFilters(newFilters);
   };
 
-  // 3. Update filteredRecords logic to check Category (record[5])
+  // 3. Update filteredRecords logic to include Call History parsing
   const filteredRecords = records.filter((record) => {
     const fullName = record[2]?.toLowerCase() || "";
     const phone = record[3]?.toString() || "";
     const whatsapp = record[4]?.toString() || "";
-    const category = record[5] || ""; // Category value
+    const category = record[5] || "";
     const village = record[6] || "";
     const taluka = record[8] || "";
     const district = record[9] || "";
+    const isInterested = record[16] || "";
 
+    // Parse Call History safely
+    const callHistoryStr = record[10] || "[]";
+    let callHistory = [];
+    try {
+      callHistory = JSON.parse(callHistoryStr);
+    } catch (e) {
+      console.error("Error parsing call history", e);
+      callHistory = [];
+    }
+
+    // --- Basic Text & Dropdown Checks ---
     const searchText = filters.text.toLowerCase();
     const matchesText =
       !searchText ||
       fullName.includes(searchText) ||
       phone.includes(searchText) ||
       whatsapp.includes(searchText);
-
-    // Check all dropdowns
     const matchesDistrict = !filters.district || district === filters.district;
     const matchesTaluka = !filters.taluka || taluka === filters.taluka;
     const matchesVillage = !filters.village || village === filters.village;
-    const matchesCategory = !filters.category || category === filters.category; // Check category match
+    const matchesCategory = !filters.category || category === filters.category;
+    const matchesInterested = !filters.interested || isInterested === "TRUE";
 
-    // Return true only if ALL active filters match
+    // --- New Call History Checks ---
+
+    // 1. Date Range & Valid Call (clientAnswer !== "")
+    let matchesDateRange = true;
+    if (filters.startDate || filters.endDate) {
+      // 'some' checks if AT LEAST ONE call matches our criteria
+      matchesDateRange = callHistory.some((call) => {
+        // Track karne ke liye ki calls hue hai ya nahi
+        if (!call.clientAnswer || call.clientAnswer.trim() === "") return false;
+
+        const callDate = call.dateOfCall; // Format: "YYYY-MM-DD"
+        if (!callDate) return false;
+
+        let isAfterStart = true;
+        let isBeforeEnd = true;
+
+        if (filters.startDate) isAfterStart = callDate >= filters.startDate;
+        if (filters.endDate) isBeforeEnd = callDate <= filters.endDate;
+
+        return isAfterStart && isBeforeEnd;
+      });
+    }
+
+    // 2. Call Direction (incoming: true/false)
+    let matchesDirection = true;
+    if (filters.callDirection === "incoming") {
+      matchesDirection = callHistory.some((call) => call.incoming === true);
+    } else if (filters.callDirection === "outgoing") {
+      matchesDirection = callHistory.some((call) => call.incoming === false);
+    }
+
+    // 3. Follow-up on LAST Call Only
+    let matchesFollowUp = true;
+    if (filters.hasFollowUp) {
+      if (callHistory.length > 0) {
+        const lastCall = callHistory[callHistory.length - 1];
+        matchesFollowUp =
+          lastCall.reminderDate && lastCall.reminderDate.trim() !== "";
+      } else {
+        matchesFollowUp = false; // No calls exist, so no follow-up
+      }
+    }
+
     return (
       matchesText &&
       matchesDistrict &&
       matchesTaluka &&
       matchesVillage &&
-      matchesCategory
+      matchesCategory &&
+      matchesInterested &&
+      matchesDateRange &&
+      matchesDirection &&
+      matchesFollowUp
     );
   });
 

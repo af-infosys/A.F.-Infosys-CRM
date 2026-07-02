@@ -10,6 +10,11 @@ import handleShareCall from "./handleShareCall";
 import OutGoing from "../../assets/icon/outgoing-call.png";
 import Incoming from "../../assets/icon/incoming-call.png";
 
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(relativeTime);
+
 const ContactListForm = () => {
   const { user } = useAuth();
 
@@ -442,7 +447,7 @@ const ContactListForm = () => {
         price: "",
         estimatedBill: "",
         budget: "",
-        dateOfCall: "",
+        dateOfCall: dayjs().format("YYYY-MM-DD") || "",
         meetingDate: "",
         reminderDate: "",
 

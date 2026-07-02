@@ -44,7 +44,7 @@ const AddCall = () => {
   const [callHistory, setCallHistory] = useState([]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const fetchRecords = async () => {
+  const fetchRecord = async () => {
     try {
       const response = await fetch(`${await apiPath()}/api/contactList/${id}`);
       if (!response.ok) {
@@ -77,6 +77,8 @@ const AddCall = () => {
           // budget: record[16] || "",
           // dateOfCall: record[17] || "",
           // meetingDate: record[18] || "",
+
+          isInterested: record[16] === "TRUE" ? true : false,
 
           telecaller: { id: user?.id, name: user?.name, time: new Date() },
         });
@@ -111,7 +113,7 @@ const AddCall = () => {
       console.error("Error fetching records:", err);
 
       setError(
-        "Error Fetching Records! Try Again Later. OR Contact the Admin."
+        "Error Fetching Records! Try Again Later. OR Contact the Admin.",
       );
       // navigate("/customers/report");
     } finally {
@@ -121,7 +123,7 @@ const AddCall = () => {
 
   useEffect(() => {
     // if (!id) navigate("/customers/report");
-    fetchRecords();
+    fetchRecord();
   }, []);
 
   const handleChange = async (e) => {
@@ -220,6 +222,14 @@ const AddCall = () => {
   useEffect(() => {
     fetchIndex();
   }, []);
+
+  const handleCheckboxChange = (e) => {
+    const { name, checked } = e.target;
+    setData((prevData) => ({
+      ...prevData,
+      [name]: checked,
+    }));
+  };
 
   console.log(services, answers);
 
@@ -375,6 +385,36 @@ const AddCall = () => {
       <hr />
       <br />
 
+      <div className="form-field" style={{ display: "flex", gap: ".5rem" }}>
+        <label
+          htmlFor="isInterested"
+          className="form-label"
+          style={{ userSelect: "none" }}
+        >
+          રસ ધરાવે છે ? (Interested Customer?){" "}
+          <span
+            style={{
+              fontSize: "1.3rem",
+              color: `${data.isInterested ? "blue" : "orange"}`,
+            }}
+          >
+            '{data.isInterested ? "હા" : "ના"}'
+          </span>
+        </label>
+        <input
+          type="checkbox"
+          id="isInterested"
+          name="isInterested"
+          className="form-checkbox"
+          checked={data.isInterested}
+          onChange={handleCheckboxChange}
+          disabled={loading}
+        />
+      </div>
+
+      <hr />
+      <br />
+
       <div className="form-field">
         <label htmlFor="whatBusiness" className="form-label">
           A{") "} {/* What business did you call for?  */}
@@ -388,6 +428,7 @@ const AddCall = () => {
           className="form-input"
           value={newCall.whatBusiness}
           onChange={handleChange}
+          disabled={loading}
         />
 
         <datalist id="service-options">
@@ -410,7 +451,13 @@ const AddCall = () => {
           value={newCall.workVillage}
           onChange={handleChange}
           style={{ maxWidth: "200px" }}
+          disabled={loading}
+          list="work-village"
         />
+
+        <datalist id="work-village">
+          <option key={data?.village} value={data?.village} />
+        </datalist>
       </div>
 
       <div className="form-field">
@@ -427,6 +474,8 @@ const AddCall = () => {
           className="form-input"
           value={newCall.clientAnswer}
           onChange={handleChange}
+          required
+          disabled={loading}
         />
 
         <datalist id="answer-option">
