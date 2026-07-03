@@ -179,7 +179,7 @@ const Page11 = ({ data }) => {
       </div>
 
       {/* Footer */}
-      <div style={{ textAlign: "center", marginTop: "38mm" }}>
+      <div style={{ textAlign: "center", marginTop: "30mm" }}>
         (પાનાં નં.-૨)
       </div>
     </div>

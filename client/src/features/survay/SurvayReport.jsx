@@ -741,17 +741,13 @@ const SurvayReport = () => {
         final.push({
           type: "blank",
           name: "register",
-          pageIndex: globalPageNumber - 1,
+          isCommercial: false,
         });
-        globalPageNumber++;
         final.push({
           type: "blank",
           name: "register",
-          pageIndex: globalPageNumber - 1,
+          isCommercial: false,
         });
-        globalPageNumber++;
-
-        final.push({ type: "tharav", name: "certificate" });
       }
 
       // ---------- COMMERCIAL ----------
@@ -809,15 +805,15 @@ const SurvayReport = () => {
         final.push({
           type: "blank",
           name: "register",
-          pageIndex: globalPageNumber - 1,
+          isCommercial: true,
         });
-        globalPageNumber++;
         final.push({
           type: "blank",
           name: "register",
-          pageIndex: globalPageNumber - 1,
+          isCommercial: true,
         });
-        globalPageNumber++;
+
+        final.push({ type: "tharav", name: "certificate" });
       }
     } else {
       // ==========================================
@@ -875,15 +871,11 @@ const SurvayReport = () => {
         final.push({
           type: "blank",
           name: "register",
-          pageIndex: globalPageNumber - 1,
         });
-        globalPageNumber++;
         final.push({
           type: "blank",
           name: "register",
-          pageIndex: globalPageNumber - 1,
         });
-        globalPageNumber++;
 
         final.push({ type: "tharav", name: "certificate" });
       }
@@ -1212,7 +1204,7 @@ const SurvayReport = () => {
         })}
       </div>
 
-      <div className="visible-report-container">
+      {/* <div className="visible-report-container">
         <h1 className="text-xl font-bold text-center mb-0 text-gray-800">
           પંચાયત હિસાબ નમુનો નંબર - ૮ (આકારણી રજીસ્ટર)
         </h1>
@@ -1243,9 +1235,7 @@ const SurvayReport = () => {
                 <th className="th" rowSpan="2" style={{ minWidth: "250px" }}>
                   મિલ્કતનું વર્ણન
                 </th>
-                {/* <th className="th" rowSpan="2" style={{ minWidth: "70px" }}>
-                  બી.પ.
-                </th> */}
+                
                 <th className="th" rowSpan="2" style={{ minWidth: "170px" }}>
                   માલિકનું નામ
                 </th>
@@ -1298,15 +1288,13 @@ const SurvayReport = () => {
                   <td className="td">
                     {record[16]} {record[7] && `, '${record[7]}'`}{" "}
                   </td>
-                  {/* <td className="td">
-                    {record[13]?.includes("બી.પ.") ? "બી.પ." : ""}
-                  </td> */}
+                   
                   <td className="td">{record[3]}</td>
                   <td className="td">{record[5]}</td>
                   <td className="td">{record[6]}</td>
                   <td className="td">{record[19]}</td>
                   <td className="td">{record[20]}</td>
-                  {/* <td className="td">{record[6]}</td> */}
+            
                   <td className="td">{record[12]}</td>
                   <td className="td">{record[13]}</td>
                   <td className="td">{record[14]}</td>
@@ -1323,7 +1311,7 @@ const SurvayReport = () => {
             </tbody>
           </table>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

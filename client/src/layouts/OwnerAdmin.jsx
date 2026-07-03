@@ -168,6 +168,13 @@ const OwnerAdmin = () => {
           />
 
           <QuickLinkCard
+            title="View Status"
+            icon={ClipboardList}
+            bgColor="bg-blue-500"
+            onClick={() => handleNavigation("/projects/update")}
+          />
+
+          <QuickLinkCard
             title="All Orders"
             count={projects?.length || 0}
             icon={ClipboardList}

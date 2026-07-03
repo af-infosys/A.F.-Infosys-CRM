@@ -9,6 +9,7 @@ const AkarniPageBlank = ({
   totalPages,
   current,
   count,
+  isCommercial,
 }) => {
   return (
     <div
@@ -29,7 +30,13 @@ const AkarniPageBlank = ({
         </span>
 
         <h1 className="heading" style={{ marginTop: "50px" }}>
-          પંચાયત હિસાબ નમુનો નંબર - ૮ (આકારણી રજીસ્ટર)
+          પંચાયત હિસાબ નમુનો નંબર - ૮ (આકારણી રજીસ્ટર
+          {isCommercial === true
+            ? " - કોમર્શિયલ મિલ્કત"
+            : isCommercial === false
+              ? " - રહેણાંક મિલ્કત"
+              : ""}
+          )
         </h1>
 
         <h2 className="subheading">

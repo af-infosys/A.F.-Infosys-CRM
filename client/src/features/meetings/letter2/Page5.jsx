@@ -383,7 +383,9 @@ const Page5 = ({ data }) => {
       </div> */}
 
       {/* FOOTER */}
-      <div style={{ textAlign: "center", marginTop: "1mm" }}>(પાનાં નં.-૫)</div>
+      <div style={{ textAlign: "center", marginTop: "-4mm" }}>
+        (પાનાં નં.-૫)
+      </div>
     </div>
   );
 };

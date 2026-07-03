@@ -70,6 +70,7 @@ import ListApplication from "../features/meetings/ListApplication";
 import BulkRecords from "../features/contactList/BulkRecords";
 import ManageCertificate2 from "../features/meetings/ManageCertificate2";
 import ArjiLetter2 from "../features/meetings/ArjiLetter2";
+import ManageStatus from "../features/projects/ManageStatus";
 
 export default function AppRoutes() {
   const { user } = useAuth();
@@ -360,6 +361,15 @@ export default function AppRoutes() {
             element={
               <ProtectedRoute allowedRoles={["owner"]}>
                 <CancledProjects />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="update"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <ManageStatus />
               </ProtectedRoute>
             }
           />

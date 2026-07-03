@@ -453,11 +453,20 @@ export const updateWorkStatus = async (req, res) => {
     const { id } = req.params; // The sheetId from the URL parameter
     const newStatus = req.body; // Updated data from body
 
+    const project = await sheet.findById(
+      process.env.GOOGLE_SHEET_ID,
+      "Index",
+      id,
+    );
+
+    project[3] = JSON.stringify(newStatus?.other || {});
+
     // Find and update the work entry by sheetId
-    const updatedWork = await Work.findOneAndUpdate(
-      { _id: id }, // Find by the sheetId from URL params
-      { other: newStatus.other || {} }, // Update only the spot object
-      { new: true }, // Return the updated document
+    const updatedWork = await sheet.update(
+      process.env.GOOGLE_SHEET_ID,
+      "Index",
+      id,
+      project,
     );
 
     console.log(updatedWork);

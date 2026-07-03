@@ -198,7 +198,7 @@ const Page1 = ({ data }) => {
       </div> */}
 
       {/* Footer */}
-      <div style={{ textAlign: "center", marginTop: "45mm" }}>
+      <div style={{ textAlign: "center", marginTop: "30mm" }}>
         (પાનાં નં.-૧)
       </div>
     </div>
