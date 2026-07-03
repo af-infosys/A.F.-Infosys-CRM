@@ -4,7 +4,7 @@ const MeetingsTable2 = ({ data, onEdit, onDelete }) => {
   const navigate = useNavigate();
 
   const onView = (id) => {
-    navigate(`/meeting/list/${id}`);
+    navigate(`/yaadi/list/${id}`);
   };
 
   return (
@@ -31,7 +31,10 @@ const MeetingsTable2 = ({ data, onEdit, onDelete }) => {
             <td className="border p-2">{m.karmchariName}</td>
             <td className="border p-2">{m.designation}</td>
             <td className="border p-2">{m.mobileNumber}</td>
-            <td className="border p-2 space-x-2">
+            <td
+              className="border p-2 space-x-2"
+              style={{ whiteSpace: "nowrap" }}
+            >
               <button
                 onClick={() => onView(m.id)}
                 className="px-2 py-1 bg-blue-500 text-white rounded"

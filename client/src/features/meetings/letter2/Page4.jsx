@@ -71,6 +71,74 @@ const Page4 = ({ data }) => {
     },
   ];
 
+  const structure2 = [
+    {
+      gram_panchayat: "અભરામપરા",
+      name: "શામજીભાઈ પીઠાભાઈ બગડા",
+      mobile: "૯૩૧૬૮૧૯૯૧૦",
+    },
+    {
+      gram_panchayat: "અમૃતવેલ",
+      name: "ગજરાબેન પ્રતાપભાઈ ખુમાણ",
+      mobile: "૯૮૭૯૮૬૦૧૩૧",
+    },
+    {
+      gram_panchayat: "આંબરડી",
+      name: "પ્રેમજીભાઈ લાખાભાઈ બગડા",
+      mobile: "૯૪૨૭૮૦૬૬૪૩",
+    },
+    {
+      gram_panchayat: "આકોલડા",
+      name: "રાયબાઈબેન દડુભાઈ ખુમાણ",
+      mobile: "૯૬૬૨૬૪૩૬૩૦",
+    },
+    {
+      gram_panchayat: "આદસંગ",
+      name: "ચંદ્રાબેન લખુભાઈ ચાંદુ",
+      mobile: "૮૩૪૭૫૨૪૭૫૯",
+    },
+    {
+      gram_panchayat: "ઓળીયા",
+      name: "અંજુબેન પ્રકાશભાઈ બગડા",
+      mobile: "૮૧૨૮૨૬૮૩૬૯",
+    },
+    {
+      gram_panchayat: "કરજાળા",
+      name: "દયાબેન કરમશીભાઈ કાથરોટીયા",
+      mobile: "૯૯૧૩૧૫૨૩૧૯",
+    },
+    {
+      gram_panchayat: "કૃષ્ણગઢ",
+      name: "હર્ષદભાઈ કનુભાઈ મુંજપરા",
+      mobile: "૯૪૨૯૧૮૪૬૫૨",
+    },
+    {
+      gram_panchayat: "કેરાળા",
+      name: "કાળુભાઈ પહુંભાઈ જેબલિયા (ઉપસરપંચ, ઈ.ચા)",
+      mobile: "૯૯૨૫૯૭૭૫૨૬",
+    },
+    {
+      gram_panchayat: "ખડકાળા",
+      name: "ચંદ્રાબેન ભગવાનભાઈ ખુમાણ",
+      mobile: "૭૦૪૬૩૬૪૬૨૭",
+    },
+    {
+      gram_panchayat: "ખડસલી",
+      name: "શિલ્પાબેન ચેતનભાઈ માલાણી",
+      mobile: "૯૩૨૭૭૦૧૦૩૯",
+    },
+    {
+      gram_panchayat: "ખાલપર",
+      name: "ભાવેશભાઈ પ્રાગજીભાઈ શિરોયા",
+      mobile: "૯૫૮૬૫૧૧૧૮૨",
+    },
+    {
+      gram_panchayat: "ખોડીયાણા",
+      name: "કાનજીભાઈ ભાયાભાઈ બગડા",
+      mobile: "૯૦૨૩૪૪૧૩૦૫",
+    },
+  ];
+
   return (
     <div
       id="letter-page"
@@ -219,82 +287,111 @@ const Page4 = ({ data }) => {
         </table>
       </div>
 
-      {/* NOTE */}
-      {/* <p
+      {/* TABLE */}
+      <div
         style={{
           marginBottom: "5mm",
-          textAlign: "justify",
-          textIndent: "15mm",
-        }}
-      >
-        ઉપરોક્ત યાદી મુજબ જુદી/જુદી તાલુકા પંચાયત કચેરી માં અમારી કંપની એ. એફ.
-        ઈન્ફોસીસ ધ્વારા તલાટી કમ મંત્રી મીટીંગમાં ખાસ પ્રકારનું પ્રેજન્ટેશન આપેલ
-        છે જે આપ સાહેબ ને વિદીત થાય.
-      </p> */}
-
-      {/* <div
-        style={{ textAlign: "right", marginTop: "5mm", paddingRight: "10mm" }}
-      >
-        <p>લી. આપનો વિશ્વાસુ</p>
-        <p style={{ fontWeight: "bold" }}>
-          {data.karmchariName || "__________"}
-        </p>
-        <p>({data.designation || "A. F. Infosys"})</p>  
-      </div> */}
-
-      {/* Footer Section */}
-      {/* <div
-        className="w-full mt-2"
-        style={{
+          marginTop: "15px",
           display: "flex",
-          justifyContent: "space-between",
-          marginTop: "40px",
+          justifyContent: "center",
         }}
       >
-        <span
+        <table
           style={{
-            position: "relative",
-            transform: "translate(50px, -100px)",
+            // width: "100%",
+            maxWidth: "fit-content",
+            borderCollapse: "collapse",
           }}
-          id="circle"
-        ></span>
-        <h2
-          className="text-right pr-12 mt-4 mb-8 text-xl font-semibold"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            marginTop: "-10px",
-          }}
-          id="sikko"
         >
-          A. F. Infosys
-          <p
-            style={{
-              fontSize: "14px",
-              letterSpacing: "2.3px",
-              marginTop: "-7px",
-            }}
-          >
-            Savar Kundla
-          </p>
-        </h2>
-      </div> */}
+          <thead>
+            <tr>
+              <th
+                colSpan="5"
+                style={{
+                  border: "1px solid black",
+                  padding: "4px",
 
-      {/* ATTACHMENT */}
-      {/* <div style={{ marginTop: "12mm" }}>
-        <p style={{ fontWeight: "bold", textDecoration: "underline" }}>
-          બિડાણ ::-
-        </p>
-        <p>
-          તાલુકા વિકાસ અધિકારીએ આપેલ પ્રમાણ પત્ર ત્થા તા.પં. કચેરીમાં
-          પ્રેજન્ટેશન બતાવેલ અંગેની યાદી
-        </p>
-      </div> */}
+                  paddingRight: "8px",
+                  paddingLeft: "8px",
+
+                  textAlign: "center",
+                  fontWeight: "bold",
+                  fontSize: "14px",
+                }}
+              >
+                <span className="formatting">
+                  તાલુકા પંચાયત કચેરી - સાવરકુંડલા તા.૦૧/૦૪/૨૦૨૫ની સ્થિતિએ સરપંચ
+                  / વહીવટદાર યાદી
+                </span>
+              </th>
+            </tr>
+
+            <tr>
+              {[
+                "ક્રમ",
+                "સરપંચશ્રીનું પુરુ નામ",
+                "ગ્રામ-પંચાયત",
+                "મોબાઇલ નંબર",
+                "રીમાર્કસ",
+              ].map((h, i) => (
+                <th
+                  key={i}
+                  style={{
+                    whiteSpace: "nowrap",
+
+                    border: "1px solid black",
+                    padding: "4px",
+
+                    paddingRight: "8px",
+                    paddingLeft: "8px",
+
+                    textAlign: "center",
+                    fontWeight: "bold",
+                    fontSize: "14px",
+                    maxWidth:
+                      i === 4
+                        ? "100px"
+                        : i === 2
+                          ? "45px"
+                          : i === 1
+                            ? "70px"
+                            : "",
+                  }}
+                >
+                  <span className="formatting">{h}</span>
+                </th>
+              ))}
+            </tr>
+          </thead>
+
+          <tbody>
+            {structure2?.map((row, index) => (
+              <tr key={index}>
+                <td style={{ ...cellStyle, textAlign: "left" }}>
+                  <span className="formatting">
+                    {toGujaratiNumber(index + 1)}
+                  </span>
+                </td>
+                <td style={{ ...cellStyle, textAlign: "left" }}>
+                  <span className="formatting">{row?.name || ""}</span>
+                </td>
+                <td style={{ ...cellStyle, textAlign: "left" }}>
+                  <span className="formatting">
+                    {row?.gram_panchayat || ""}
+                  </span>
+                </td>
+                <td style={{ ...cellStyle, textAlign: "left" }}>
+                  <span className="formatting">{row?.mobile || ""}</span>
+                </td>
+                <td style={{ ...cellStyle, minWidth: "80px" }}></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       {/* FOOTER */}
-      <div style={{ textAlign: "center", marginTop: "118mm" }}>
-        (પાનાં નં.-૪)
-      </div>
+      <div style={{ textAlign: "center", marginTop: "3mm" }}>(પાનાં નં.-૪)</div>
     </div>
   );
 };

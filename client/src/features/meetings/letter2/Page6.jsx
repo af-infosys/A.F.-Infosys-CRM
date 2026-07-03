@@ -4,71 +4,6 @@ import toGujaratiNumber from "../../../components/toGujaratiNumber";
 const Page6 = ({ data }) => {
   const structure = [
     {
-      gram_panchayat: "દેતડ઼",
-      name: "ભાવનાબેન જયંતીભાઈ ગોઠડીયા",
-      mobile: "૯૬૩૮૪૫૭૧૫૯",
-    },
-    {
-      gram_panchayat: "દોલતી",
-      name: "ચતુરાબેન કાળાભાઈ વાઘમશી",
-      mobile: "૯૯૭૯૩૭૭૯૧૧",
-    },
-    {
-      gram_panchayat: "નાના ઝીંઝુડા",
-      name: "ભરતભાઈ લલ્લુભાઈ સુદાણી",
-      mobile: "૯૮૨૫૪૭૩૨૮૧",
-    },
-    {
-      gram_panchayat: "નાના ભમોદ્રા",
-      name: "ભરતભાઈ બાબુભાઈ કથીરીયા",
-      mobile: "૯૪૨૬૪૫૬૯૭૩",
-    },
-    {
-      gram_panchayat: "નાની વડાળ",
-      name: "લાભુબેન રણછોડભાઈ પુભડીયા",
-      mobile: "૬૩૫૪૭૭૧૩૨૦",
-    },
-    {
-      gram_panchayat: "નેસડી",
-      name: "કરશનભાઈ નાનજીભાઈ વઘાસીયા",
-      mobile: "૯૯૭૪૫૩૭૫૩૦",
-    },
-    {
-      gram_panchayat: "પીઠવડી",
-      name: "ભૌતિકભાઈ મનસુખભાઈ સુહાગીયા",
-      mobile: "૯૭૩૭૮૫૯૧૯૩",
-    },
-    {
-      gram_panchayat: "પીયાવા",
-      name: "શીવરાજભાઈ જીલુંભાઈ મૈત્રા",
-      mobile: "૯૮૭૯૮૯૮૭૯૮",
-    },
-    {
-      gram_panchayat: "ફાચરીયા",
-      name: "રંજનબેન અરવિંદભાઈ રામાણી",
-      mobile: "૯૯૯૮૯૫૦૧૧૬",
-    },
-    {
-      gram_panchayat: "ફીફાદ",
-      name: "રેખાબેન દિપકભાઈ રાણપરીયા",
-      mobile: "૯૬૩૮૦૧૪૩૫૮",
-    },
-    {
-      gram_panchayat: "બગોયા",
-      name: "યાસ્મીનબેન મન્સૂરશા શેખ",
-      mobile: "૯૯૨૫૧૮૫૦૯૮",
-    },
-    {
-      gram_panchayat: "બોરાળા",
-      name: "કંચનબેન અતુલભાઈ રાદડીયા",
-      mobile: "૭૨૮૪૮૮૨૮૧૮",
-    },
-    {
-      gram_panchayat: "ભમર",
-      name: "મોદબાઈબેન બચુભાઈ ભૂકણ",
-      mobile: "૯૭૭૩૧૦૯૦૭૨",
-    },
-    {
       gram_panchayat: "ભોકરવા",
       name: "ધૃતિબેન દાનુભાઈ મોરી",
       mobile: "૯૯૦૪૭૮૫૬૨૧",
@@ -132,6 +67,56 @@ const Page6 = ({ data }) => {
       gram_panchayat: "વણોટ",
       name: "જિગ્નેશભાઈ નાગભાઈ કાછડ",
       mobile: "૯૬૬૨૯૧૯૧૮૩",
+    },
+    {
+      gram_panchayat: "વાંશીયાળી",
+      name: "ગજેરા વિમાળાબેન રમેશભાઈ",
+      mobile: "૯૯૧૩૬૫૫૮૬૧",
+    },
+    {
+      gram_panchayat: "વિજપડી",
+      name: "ભરતભાઈ ભીખુભાઈ ગીગૈયા",
+      mobile: "૯૮૭૯૪૧૯૧૫૪",
+    },
+    {
+      gram_panchayat: "વિજયાનગર",
+      name: "ઘનશ્યામભાઈ કેશવલાલ બલર",
+      mobile: "૯૫૮૪૫૭૧૪૦૦",
+    },
+    {
+      gram_panchayat: "શેલણા",
+      name: "મહેશભાઈ આણંદુભાઈ જેબલીયા",
+      mobile: "૯૪૨૮૪૦૮૬૦૦",
+    },
+    {
+      gram_panchayat: "સાકરપરા",
+      name: "ભનુભાઈ પોપટભાઈ પાઘડાળ",
+      mobile: "૯૯૦૯૭૮૩૭૩૪",
+    },
+    {
+      gram_panchayat: "સેંજળ",
+      name: "નરેશભાઈ ભરતભાઈ ખુમાણ",
+      mobile: "૯૭૧૪૧૪૫૬૫૬",
+    },
+    {
+      gram_panchayat: "હાડીડા",
+      name: "નજકુભાઈ બદરુંભાઈ ખુમાણ",
+      mobile: "૯૫૧૦૮૫૫૨૫૫",
+    },
+    {
+      gram_panchayat: "હાથસણી",
+      name: "નિતાબેન સંજયભાઈ ગોહિલ",
+      mobile: "૮૧૪૦૨૮૪૮૬૭",
+    },
+    {
+      gram_panchayat: "હિપયવડલી",
+      name: "દક્ષાબેન પ્રેશભાઈ કંટારિયા",
+      mobile: "૭૬૨૧૦૧૪૯૦૯",
+    },
+    {
+      gram_panchayat: "પીપરડી",
+      name: "સાંમતભાઈ સાંઢસુર",
+      mobile: "૮૭૮૦૬૩૨૭૭૯",
     },
   ];
 
@@ -284,7 +269,7 @@ const Page6 = ({ data }) => {
               <tr key={index}>
                 <td style={{ ...cellStyle, textAlign: "left" }}>
                   <span className="formatting">
-                    {toGujaratiNumber(index + 28)}
+                    {toGujaratiNumber(index + 41)}
                   </span>
                 </td>
                 <td style={{ ...cellStyle, textAlign: "left" }}>

@@ -480,28 +480,28 @@ export default function DashboardLayout() {
                 </div>
 
                 {openMenu === "/meeting" && (
-                  <div className="sub-links">
-                    <NavLink
-                      to={`/meeting/manage`}
-                      className={({ isActive }) => (isActive ? "active" : "")}
-                      onClick={() => setIsSidebarOpen(false)}
-                    >
-                      Meeting Letter
-                    </NavLink>
-                  </div>
-                )}
+                  <>
+                    <div className="sub-links">
+                      <NavLink
+                        to={`/meeting/manage`}
+                        className={({ isActive }) => (isActive ? "active" : "")}
+                        onClick={() => setIsSidebarOpen(false)}
+                      >
+                        Meeting Letter
+                      </NavLink>
+                    </div>
 
-                {/* {openMenu === "/yaadi" && ( */}
-                <div className="sub-links">
-                  <NavLink
-                    to={`/yaadi/manage`}
-                    className={({ isActive }) => (isActive ? "active" : "")}
-                    onClick={() => setIsSidebarOpen(false)}
-                  >
-                    Yaadi Arji
-                  </NavLink>
-                </div>
-                {/* )} */}
+                    <div className="sub-links">
+                      <NavLink
+                        to={`/yaadi/manage`}
+                        className={({ isActive }) => (isActive ? "active" : "")}
+                        onClick={() => setIsSidebarOpen(false)}
+                      >
+                        Yaadi Arji
+                      </NavLink>
+                    </div>
+                  </>
+                )}
               </div>
             )}
 

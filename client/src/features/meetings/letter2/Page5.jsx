@@ -4,71 +4,6 @@ import toGujaratiNumber from "../../../components/toGujaratiNumber";
 const Page5 = ({ data }) => {
   const structure = [
     {
-      gram_panchayat: "અભરામપરા",
-      name: "શામજીભાઈ પીઠાભાઈ બગડા",
-      mobile: "૯૩૧૬૮૧૯૯૧૦",
-    },
-    {
-      gram_panchayat: "અમૃતવેલ",
-      name: "ગજરાબેન પ્રતાપભાઈ ખુમાણ",
-      mobile: "૯૮૭૯૮૬૦૧૩૧",
-    },
-    {
-      gram_panchayat: "આંબરડી",
-      name: "પ્રેમજીભાઈ લાખાભાઈ બગડા",
-      mobile: "૯૪૨૭૮૦૬૬૪૩",
-    },
-    {
-      gram_panchayat: "આકોલડા",
-      name: "રાયબાઈબેન દડુભાઈ ખુમાણ",
-      mobile: "૯૬૬૨૬૪૩૬૩૦",
-    },
-    {
-      gram_panchayat: "આદસંગ",
-      name: "ચંદ્રાબેન લખુભાઈ ચાંદુ",
-      mobile: "૮૩૪૭૫૨૪૭૫૯",
-    },
-    {
-      gram_panchayat: "ઓળીયા",
-      name: "અંજુબેન પ્રકાશભાઈ બગડા",
-      mobile: "૮૧૨૮૨૬૮૩૬૯",
-    },
-    {
-      gram_panchayat: "કરજાળા",
-      name: "દયાબેન કરમશીભાઈ કાથરોટીયા",
-      mobile: "૯૯૧૩૧૫૨૩૧૯",
-    },
-    {
-      gram_panchayat: "કૃષ્ણગઢ",
-      name: "હર્ષદભાઈ કનુભાઈ મુંજપરા",
-      mobile: "૯૪૨૯૧૮૪૬૫૨",
-    },
-    {
-      gram_panchayat: "કેરાળા",
-      name: "કાળુભાઈ પહુંભાઈ જેબલિયા (ઉપસરપંચ, ઈ.ચા)",
-      mobile: "૯૯૨૫૯૭૭૫૨૬",
-    },
-    {
-      gram_panchayat: "ખડકાળા",
-      name: "ચંદ્રાબેન ભગવાનભાઈ ખુમાણ",
-      mobile: "૭૦૪૬૩૬૪૬૨૭",
-    },
-    {
-      gram_panchayat: "ખડસલી",
-      name: "શિલ્પાબેન ચેતનભાઈ માલાણી",
-      mobile: "૯૩૨૭૭૦૧૦૩૯",
-    },
-    {
-      gram_panchayat: "ખાલપર",
-      name: "ભાવેશભાઈ પ્રાગજીભાઈ શિરોયા",
-      mobile: "૯૫૮૬૫૧૧૧૮૨",
-    },
-    {
-      gram_panchayat: "ખોડીયાણા",
-      name: "કાનજીભાઈ ભાયાભાઈ બગડા",
-      mobile: "૯૦૨૩૪૪૧૩૦૫",
-    },
-    {
       gram_panchayat: "ગોરડકા",
       name: "માધવભાઈ જહાભાઈ લાડુમોર",
       mobile: "૯૭૨૩૫૩૦૫૨૪",
@@ -137,6 +72,71 @@ const Page5 = ({ data }) => {
       gram_panchayat: "દાઘીયા",
       name: "ગીતાબેન પ્રદિપભાઈ ભાલાળા",
       mobile: "૭૯૯૦૮૯૩૭૦૭",
+    },
+    {
+      gram_panchayat: "દેતડ઼",
+      name: "ભાવનાબેન જયંતીભાઈ ગોઠડીયા",
+      mobile: "૯૬૩૮૪૫૭૧૫૯",
+    },
+    {
+      gram_panchayat: "દોલતી",
+      name: "ચતુરાબેન કાળાભાઈ વાઘમશી",
+      mobile: "૯૯૭૯૩૭૭૯૧૧",
+    },
+    {
+      gram_panchayat: "નાના ઝીંઝુડા",
+      name: "ભરતભાઈ લલ્લુભાઈ સુદાણી",
+      mobile: "૯૮૨૫૪૭૩૨૮૧",
+    },
+    {
+      gram_panchayat: "નાના ભમોદ્રા",
+      name: "ભરતભાઈ બાબુભાઈ કથીરીયા",
+      mobile: "૯૪૨૬૪૫૬૯૭૩",
+    },
+    {
+      gram_panchayat: "નાની વડાળ",
+      name: "લાભુબેન રણછોડભાઈ પુભડીયા",
+      mobile: "૬૩૫૪૭૭૧૩૨૦",
+    },
+    {
+      gram_panchayat: "નેસડી",
+      name: "કરશનભાઈ નાનજીભાઈ વઘાસીયા",
+      mobile: "૯૯૭૪૫૩૭૫૩૦",
+    },
+    {
+      gram_panchayat: "પીઠવડી",
+      name: "ભૌતિકભાઈ મનસુખભાઈ સુહાગીયા",
+      mobile: "૯૭૩૭૮૫૯૧૯૩",
+    },
+    {
+      gram_panchayat: "પીયાવા",
+      name: "શીવરાજભાઈ જીલુંભાઈ મૈત્રા",
+      mobile: "૯૮૭૯૮૯૮૭૯૮",
+    },
+    {
+      gram_panchayat: "ફાચરીયા",
+      name: "રંજનબેન અરવિંદભાઈ રામાણી",
+      mobile: "૯૯૯૮૯૫૦૧૧૬",
+    },
+    {
+      gram_panchayat: "ફીફાદ",
+      name: "રેખાબેન દિપકભાઈ રાણપરીયા",
+      mobile: "૯૬૩૮૦૧૪૩૫૮",
+    },
+    {
+      gram_panchayat: "બગોયા",
+      name: "યાસ્મીનબેન મન્સૂરશા શેખ",
+      mobile: "૯૯૨૫૧૮૫૦૯૮",
+    },
+    {
+      gram_panchayat: "બોરાળા",
+      name: "કંચનબેન અતુલભાઈ રાદડીયા",
+      mobile: "૭૨૮૪૮૮૨૮૧૮",
+    },
+    {
+      gram_panchayat: "ભમર",
+      name: "મોદબાઈબેન બચુભાઈ ભૂકણ",
+      mobile: "૯૭૭૩૧૦૯૦૭૨",
     },
   ];
 
@@ -289,7 +289,7 @@ const Page5 = ({ data }) => {
               <tr key={index}>
                 <td style={{ ...cellStyle, textAlign: "left" }}>
                   <span className="formatting">
-                    {toGujaratiNumber(index + 1)}
+                    {toGujaratiNumber(index + 14)}
                   </span>
                 </td>
                 <td style={{ ...cellStyle, textAlign: "left" }}>

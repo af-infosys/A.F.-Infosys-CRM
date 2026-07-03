@@ -1,5 +1,4 @@
 import React from "react";
-import MeetingsTable from "../../components/meeting/MeetingsTable";
 import MeetingModal from "../../components/meeting/MeetingModal";
 import {
   createMeeting,
@@ -7,6 +6,7 @@ import {
   fetchMeetings,
   updateMeeting,
 } from "./meetingsApi2";
+import MeetingsTable2 from "../../components/meeting/MeetingsTable2";
 
 const ManageCertificate2 = () => {
   // Arji & Certificate
@@ -50,7 +50,7 @@ const ManageCertificate2 = () => {
         </button>
       </div>
 
-      <MeetingsTable
+      <MeetingsTable2
         data={meetings}
         onEdit={(m) => {
           setEditData(m);
