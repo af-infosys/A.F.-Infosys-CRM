@@ -102,8 +102,8 @@ const Page11 = ({ data }) => {
           યાદિ અમારા ઈ – મેલ ઉપર મોકલવા આપ સાહેબશ્રીના સહયોગની અપેક્ષા છે.
         </p>
 
-        <p style={{ paddingLeft: "20px", marginTop: "10px", fontSize: "20px" }}>
-          આભારસહ......... અમારી ઈ - મેલ આઈડી નિચે મુજબ છે.
+        <p style={{ marginTop: "10px", fontSize: "20px" }}>
+          આભાર સહ......... અમારી ઈ - મેલ આઈડી નિચે મુજબ છે.
           <br />
           <a
             href="mailto:af.infosys146@gmail.com"

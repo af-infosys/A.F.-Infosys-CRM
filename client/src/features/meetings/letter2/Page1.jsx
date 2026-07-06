@@ -157,46 +157,6 @@ const Page1 = ({ data }) => {
         </p>
       </div>
 
-      {/* Footer Section */}
-      {/* <div
-        className="w-full"
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          marginTop: "70px",
-        }}
-      >
-        <span
-          style={{
-            position: "relative",
-            transform: "translate(50px, -40px)",
-          }}
-          id="circle"
-        >
-          આભાર
-        </span>
-        <h2
-          className="text-right pr-12 mt-4 mb-8 text-xl font-semibold"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            marginTop: "-10px",
-          }}
-          id="sikko"
-        >
-          A. F. Infosys
-          <p
-            style={{
-              fontSize: "14px",
-              letterSpacing: "2.3px",
-              marginTop: "-7px",
-            }}
-          >
-            Savar Kundla
-          </p>
-        </h2>
-      </div> */}
-
       {/* Footer */}
       <div style={{ textAlign: "center", marginTop: "30mm" }}>
         (પાનાં નં.-૧)

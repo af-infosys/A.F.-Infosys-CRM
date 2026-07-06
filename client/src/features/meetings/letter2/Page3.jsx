@@ -153,6 +153,30 @@ const Page3 = ({ data }) => {
       charge: "જાંબુડા",
       mobile: "9737728858",
     },
+    {
+      name: "શ્રી મહેશભાઈ એ કામલીયા",
+      village: "જાબાળ",
+      charge: "ઘાણલા",
+      mobile: "9106161725",
+    },
+    {
+      name: "શ્રી આકાશકુમાર બી.વાળા",
+      village: "દેતડ",
+      charge: "હાથસણી",
+      mobile: "9033484668",
+    },
+    {
+      name: "સુશ્રી યાત્રીબેન એમ.આચાર્ય",
+      village: "મેરીયાણા",
+      charge: "ગોરડકા",
+      mobile: "9773023277",
+    },
+    {
+      name: "સુશ્રી ધૃતિબેન વી દુધાત",
+      village: "ખડકાળા-બોરાળા",
+      charge: "",
+      mobile: "7621952219",
+    },
   ];
 
   return (
@@ -172,56 +196,6 @@ const Page3 = ({ data }) => {
       }}
       className="bg-white"
     >
-      <div className="watermark-logo-arji"></div>
-
-      <div className="flex justify-between items-center mb-4 w-full">
-        <div className="flex flex-col items-end w-full">
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "start",
-            }}
-          >
-            <h3 className="text-base font-grey-700">
-              Shahid Kalva - <span>93764 43146</span>
-            </h3>
-            <h3 className="text-base font-grey-700">
-              Sarfaraz Kalva - <span>99247 82732</span>
-            </h3>
-            <h3 className="text-base font-grey-700">
-              E-Mail :-{" "}
-              <span className="underline">af.infosys146@gmail.com</span>
-            </h3>
-            <h3 className="text-base font-grey-700">
-              Website :- <span className="underline">afinfosys.com</span>
-            </h3>
-          </div>
-        </div>
-      </div>
-
-      <div id="title">
-        <div>
-          <h2 className="text-5xl text-center font-extrabold mt-4">
-            {/* A.F. Infosys */}
-          </h2>
-
-          <p className="trans">
-            ગ્રામપંચાયત રેવન્યુ(જમાબંધી) વાર્ષીક હિસાબ, આકાણીસર્વે, કરવેરા
-            રજીસ્ટર, રોજમેળ, ગ્રામસુવિધા પોર્ટલ તથા ઓનલાઈન / ઓફલાઈન તમામ
-            પ્રકારની ડેટાએન્ટ્રી અને પ્રિન્ટીંગ, વેબસાઈટ, સોફ્ટવેર, કોમ્પ્યુટર
-            કામ માટે મળો
-          </p>
-
-          <p className="address trans">
-            બીજામાળે, સેન્ટ્રલપોઈન્ટ કોમ્પ્લેક્ષ, જુનાબસસ્ટેન્ડ સામે -
-            સાવરકુંડલા જિ.અમરેલી. સૌરાષ્ટ્ર (પશ્વિમગુજરાત)
-          </p>
-        </div>
-
-        <img src={LOGOpng} alt="Logo" />
-      </div>
-
       {/* TABLE */}
       <div
         style={{
