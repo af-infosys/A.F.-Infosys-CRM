@@ -392,6 +392,8 @@ const ContactListReportOverview = () => {
                   }
                 }
 
+                let interested = false;
+
                 let callHistory = JSON.parse(record[10] || "[]") || [];
 
                 let status = "remaining";
@@ -410,6 +412,10 @@ const ContactListReportOverview = () => {
                   status = "reminder";
                 }
 
+                if (record[16] === "TRUE") {
+                  interested = true;
+                }
+
                 return (
                   <tr key={index} className={status}>
                     {/* અહીં Google Sheet માંથી આવતા ડેટાને કૉલમમાં મેપ કરો */}
@@ -424,7 +430,23 @@ const ContactListReportOverview = () => {
                         if (user.role === "owner")
                           navigate(`/customers/history/${record[0]}`);
                       }}
+                      style={{
+                        color: `${interested ? "green" : null}`,
+                        fontWidht: `${interested ? "bold" : "normal"}`,
+                      }}
+                      title={`${interested ? "Interested" : null}`}
                     >
+                      {interested ? (
+                        <>
+                          <span
+                            className="text-green-600"
+                            style={{ fontSize: "20px" }}
+                          >
+                            {" "}
+                            *{" "}
+                          </span>
+                        </>
+                      ) : null}
                       {record[2]}
                     </td>{" "}
                     {/* Mobile No. <br /> */}

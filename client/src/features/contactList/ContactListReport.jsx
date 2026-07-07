@@ -13,6 +13,15 @@ import SearchTerm from "../../components/SearchTerm";
 
 import * as XLSX from "xlsx";
 
+function formatDate(date) {
+  if (!date) return " ";
+  const d = new Date(date);
+  const day = d.getDate();
+  const month = d.toLocaleString("en-US", { month: "short" });
+  const year = d.getFullYear();
+  return `${day} ${month}, ${year}`;
+}
+
 const ContactListReport = () => {
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -1072,7 +1081,7 @@ const ContactListReport = () => {
                     }
                   }
 
-                  let callHistory = record[10] || [{}];
+                  let callHistory = JSON.parse(record[10] || "[]") || [];
 
                   if (typeof callHistory === "string") {
                     try {
@@ -1083,17 +1092,30 @@ const ContactListReport = () => {
                     }
                   }
 
-                  function formatDate(date) {
-                    if (!date) return " ";
-                    const d = new Date(date);
-                    const day = d.getDate();
-                    const month = d.toLocaleString("en-US", { month: "short" });
-                    const year = d.getFullYear();
-                    return `${day} ${month}, ${year}`;
+                  let interested = false;
+
+                  let status = "remaining";
+
+                  if (
+                    callHistory.length > 0 &&
+                    callHistory[0]?.clientAnswer !== ""
+                  ) {
+                    status = "completed";
+                  }
+
+                  if (
+                    callHistory.length > 0 &&
+                    callHistory[callHistory.length - 1]?.reminderDate !== ""
+                  ) {
+                    status = "reminder";
+                  }
+
+                  if (record[16] === "TRUE") {
+                    interested = true;
                   }
 
                   return (
-                    <tr key={index}>
+                    <tr key={index} className={status}>
                       {isSelectionMode && (
                         <td className="record whitespace-nowrap text-sm font-medium text-gray-900 text-center">
                           <input
@@ -1131,7 +1153,23 @@ const ContactListReport = () => {
                               "_blank",
                             );
                         }}
+                        style={{
+                          color: `${interested ? "green" : null}`,
+                          fontWidht: `${interested ? "bold" : "normal"}`,
+                        }}
+                        title={`${interested ? "Interested" : null}`}
                       >
+                        {interested ? (
+                          <>
+                            <span
+                              className="text-green-600"
+                              style={{ fontSize: "20px" }}
+                            >
+                              {" "}
+                              *{" "}
+                            </span>
+                          </>
+                        ) : null}
                         {record[2]}
                       </td>{" "}
                       {/* Mobile No.  */}

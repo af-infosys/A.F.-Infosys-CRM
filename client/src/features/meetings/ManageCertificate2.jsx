@@ -1,5 +1,4 @@
 import React from "react";
-import MeetingModal from "../../components/meeting/MeetingModal";
 import {
   createMeeting,
   deleteMeeting,
@@ -7,6 +6,7 @@ import {
   updateMeeting,
 } from "./meetingsApi2";
 import MeetingsTable2 from "../../components/meeting/MeetingsTable2";
+import MeetingModal2 from "../../components/meeting/MeetingModal2";
 
 const ManageCertificate2 = () => {
   // Arji & Certificate
@@ -59,7 +59,7 @@ const ManageCertificate2 = () => {
         onDelete={handleDelete}
       />
 
-      <MeetingModal
+      <MeetingModal2
         isOpen={modalOpen}
         onClose={() => {
           setModalOpen(false);
