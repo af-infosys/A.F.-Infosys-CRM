@@ -356,15 +356,38 @@ const ContactListReport = () => {
   }, [filters]);
 
   // Extract Unique values (Remains the same)
+  // --- Cascading Dropdown Logic ---
+
+  // 1. Districts are always all available districts
   const uniqueDistricts = [
     ...new Set(records.map((r) => r[9]).filter(Boolean)),
   ].sort();
+
+  // 2. Filter Talukas based on selected District
+  const recordsForTalukas = filters.district
+    ? records.filter((r) => r[9] === filters.district) // record[9] is District
+    : records;
   const uniqueTalukas = [
-    ...new Set(records.map((r) => r[8]).filter(Boolean)),
+    ...new Set(recordsForTalukas.map((r) => r[8]).filter(Boolean)),
   ].sort();
+
+  // 3. Filter Villages based on selected District AND selected Taluka
+  let recordsForVillages = records;
+  if (filters.district) {
+    recordsForVillages = recordsForVillages.filter(
+      (r) => r[9] === filters.district,
+    );
+  }
+  if (filters.taluka) {
+    recordsForVillages = recordsForVillages.filter(
+      (r) => r[8] === filters.taluka,
+    );
+  }
   const uniqueVillages = [
-    ...new Set(records.map((r) => r[6]).filter(Boolean)),
+    ...new Set(recordsForVillages.map((r) => r[6]).filter(Boolean)),
   ].sort();
+
+  // --- End of Cascading Logic ---
 
   const handleSearch = (newFilters) => {
     setFilters(newFilters);

@@ -100,7 +100,7 @@ const SearchTerm = ({
     );
   };
 
-  // --- NEW: Date Formatting and Quick Selection Logic ---
+  // --- Date Formatting and Quick Selection Logic ---
   const formatDateForInput = (date) => {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -111,7 +111,7 @@ const SearchTerm = ({
   const handleQuickDate = (rangeType) => {
     const today = new Date();
     let newStart = "";
-    let newEnd = formatDateForInput(today); // All these ranges typically end on "today"
+    let newEnd = formatDateForInput(today);
 
     if (rangeType === "today") {
       newStart = newEnd;
@@ -143,7 +143,6 @@ const SearchTerm = ({
       hasFollowUp,
     );
   };
-  // -----------------------------------------------------
 
   return (
     <div className="w-full flex flex-col items-center mb-6 space-y-4">
@@ -189,15 +188,19 @@ const SearchTerm = ({
 
       {/* 2. Dropdown Filters (Location & Category) */}
       <div className="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+        {/* District Dropdown */}
         <select
           value={district}
           onChange={(e) => {
-            setDistrict(e.target.value);
+            const newDistrict = e.target.value;
+            setDistrict(newDistrict);
+            setTaluka("");
+            setVillage("");
             triggerSearch(
               text,
-              e.target.value,
-              taluka,
-              village,
+              newDistrict,
+              "",
+              "",
               category,
               interested,
               startDate,
@@ -206,7 +209,9 @@ const SearchTerm = ({
               hasFollowUp,
             );
           }}
-          className="border rounded-lg px-3 py-2 text-sm shadow-sm focus:ring-blue-400 focus:outline-none bg-white"
+          className={`border rounded-lg px-3 py-2 text-sm shadow-sm focus:ring-blue-400 focus:outline-none transition-colors ${
+            district ? "bg-yellow-100 border-yellow-400" : "bg-white"
+          }`}
         >
           <option value="">બધા જિલ્લા (All Districts)</option>
           {uniqueDistricts.map((d, i) => (
@@ -215,15 +220,19 @@ const SearchTerm = ({
             </option>
           ))}
         </select>
+
+        {/* Taluka Dropdown */}
         <select
           value={taluka}
           onChange={(e) => {
-            setTaluka(e.target.value);
+            const newTaluka = e.target.value;
+            setTaluka(newTaluka);
+            setVillage("");
             triggerSearch(
               text,
               district,
-              e.target.value,
-              village,
+              newTaluka,
+              "",
               category,
               interested,
               startDate,
@@ -232,7 +241,9 @@ const SearchTerm = ({
               hasFollowUp,
             );
           }}
-          className="border rounded-lg px-3 py-2 text-sm shadow-sm focus:ring-blue-400 focus:outline-none bg-white"
+          className={`border rounded-lg px-3 py-2 text-sm shadow-sm focus:ring-blue-400 focus:outline-none transition-colors ${
+            taluka ? "bg-yellow-100 border-yellow-400" : "bg-white"
+          }`}
         >
           <option value="">બધા તાલુકા (All Talukas)</option>
           {uniqueTalukas.map((t, i) => (
@@ -241,6 +252,8 @@ const SearchTerm = ({
             </option>
           ))}
         </select>
+
+        {/* Village Dropdown */}
         <select
           value={village}
           onChange={(e) => {
@@ -258,7 +271,9 @@ const SearchTerm = ({
               hasFollowUp,
             );
           }}
-          className="border rounded-lg px-3 py-2 text-sm shadow-sm focus:ring-blue-400 focus:outline-none bg-white"
+          className={`border rounded-lg px-3 py-2 text-sm shadow-sm focus:ring-blue-400 focus:outline-none transition-colors ${
+            village ? "bg-yellow-100 border-yellow-400" : "bg-white"
+          }`}
         >
           <option value="">બધા ગામ (All Villages)</option>
           {uniqueVillages.map((v, i) => (
@@ -267,6 +282,7 @@ const SearchTerm = ({
             </option>
           ))}
         </select>
+
         <select
           value={category}
           onChange={(e) => {
@@ -284,7 +300,9 @@ const SearchTerm = ({
               hasFollowUp,
             );
           }}
-          className="border rounded-lg px-3 py-2 text-sm shadow-sm focus:ring-blue-400 focus:outline-none bg-white"
+          className={`border rounded-lg px-3 py-2 text-sm shadow-sm focus:ring-blue-400 focus:outline-none transition-colors ${
+            category ? "bg-yellow-100 border-yellow-400" : "bg-white"
+          }`}
         >
           <option value="">બધી કેટેગરી (All Categories)</option>
           {customerCategory.map((cat, i) => (
@@ -297,7 +315,7 @@ const SearchTerm = ({
 
       {/* 3. Call History Filters */}
       <div className="w-full max-w-4xl bg-gray-50 p-3 rounded-lg border flex flex-col space-y-3">
-        {/* NEW: Quick Date Action Buttons */}
+        {/* Quick Date Action Buttons */}
         <div className="flex flex-wrap items-center gap-2">
           <span className="text-xs text-gray-500 font-medium mr-1">
             Quick Dates:
@@ -352,7 +370,10 @@ const SearchTerm = ({
                   hasFollowUp,
                 );
               }}
-              className="border rounded-lg px-3 py-1.5 text-sm shadow-sm focus:ring-blue-400 focus:outline-none bg-white"
+              // Added yellow highlight here as well for better UX!
+              className={`border rounded-lg px-3 py-1.5 text-sm shadow-sm focus:ring-blue-400 focus:outline-none transition-colors ${
+                startDate ? "bg-yellow-100 border-yellow-400" : "bg-white"
+              }`}
             />
           </div>
 
@@ -376,7 +397,10 @@ const SearchTerm = ({
                   hasFollowUp,
                 );
               }}
-              className="border rounded-lg px-3 py-1.5 text-sm shadow-sm focus:ring-blue-400 focus:outline-none bg-white"
+              // Added yellow highlight here as well!
+              className={`border rounded-lg px-3 py-1.5 text-sm shadow-sm focus:ring-blue-400 focus:outline-none transition-colors ${
+                endDate ? "bg-yellow-100 border-yellow-400" : "bg-white"
+              }`}
             />
           </div>
 
@@ -399,7 +423,11 @@ const SearchTerm = ({
                   hasFollowUp,
                 );
               }}
-              className="border rounded-lg px-3 py-1.5 text-sm shadow-sm focus:ring-blue-400 focus:outline-none bg-white"
+              className={`border rounded-lg px-3 py-1.5 text-sm shadow-sm focus:ring-blue-400 focus:outline-none transition-colors ${
+                callDirection !== "both"
+                  ? "bg-yellow-100 border-yellow-400"
+                  : "bg-white"
+              }`}
             >
               <option value="both">Both (Incoming & Outgoing)</option>
               <option value="incoming">Incoming Only</option>
@@ -412,7 +440,6 @@ const SearchTerm = ({
       {/* 4. Checkbox Filters & Main Clear Button */}
       <div className="w-full max-w-4xl flex justify-between items-center px-2 flex-wrap gap-2">
         <div className="flex flex-wrap gap-4">
-          {/* Interested Checkbox */}
           <label className="flex items-center space-x-2 cursor-pointer">
             <input
               type="checkbox"
@@ -439,7 +466,6 @@ const SearchTerm = ({
             </span>
           </label>
 
-          {/* Follow-up Checkbox */}
           <label className="flex items-center space-x-2 cursor-pointer">
             <input
               type="checkbox"
@@ -467,7 +493,6 @@ const SearchTerm = ({
           </label>
         </div>
 
-        {/* Global Clear All Button */}
         {(district ||
           taluka ||
           village ||
