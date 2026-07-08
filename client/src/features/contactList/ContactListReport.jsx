@@ -1092,7 +1092,7 @@ const ContactListReport = () => {
               </thead>
 
               <tbody className="bg-white divide-y divide-gray-200">
-                {filteredRecords.map((record, index) => {
+                {filteredRecords?.map((record, index) => {
                   let survayorData = record[13];
 
                   if (typeof survayorData === "string") {

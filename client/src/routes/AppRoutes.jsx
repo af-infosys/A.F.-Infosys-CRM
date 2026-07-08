@@ -71,6 +71,7 @@ import BulkRecords from "../features/contactList/BulkRecords";
 import ManageCertificate2 from "../features/meetings/ManageCertificate2";
 import ArjiLetter2 from "../features/meetings/ArjiLetter2";
 import ManageStatus from "../features/projects/ManageStatus";
+import Analytics from "../features/contactList/Analytics";
 
 export default function AppRoutes() {
   const { user } = useAuth();
@@ -123,6 +124,9 @@ export default function AppRoutes() {
           element={<ContactListReportOverview />}
         />
         <Route path="/customers/report" element={<ContactListReport />} />
+
+        <Route path="/customers/analytics" element={<Analytics />} />
+
         <Route path="/customers/summary" element={<SummaryReport />} />
         <Route path="/customers/invalids" element={<InvalidNumbers />} />
         <Route path="/customers/reminders" element={<RemindersReport />} />

@@ -175,23 +175,6 @@ export default function DashboardLayout() {
                       user.role === "telecaller" ||
                       user.role === "monitor") && (
                       <NavLink
-                        to={"/customers/report"}
-                        className={({ isActive }) => (isActive ? "active" : "")}
-                        onClick={() => setIsSidebarOpen(false)}
-                      >
-                        <img
-                          src={CustomerReportIcon}
-                          alt="Customer List"
-                          style={{ width: "20px" }}
-                        />
-                        2. Report
-                      </NavLink>
-                    )}
-
-                    {(user.role === "owner" ||
-                      user.role === "telecaller" ||
-                      user.role === "monitor") && (
-                      <NavLink
                         to={`/customers/overview`}
                         className={({ isActive }) => (isActive ? "active" : "")}
                         onClick={() => setIsSidebarOpen(false)}
@@ -201,11 +184,43 @@ export default function DashboardLayout() {
                           alt="Customer List"
                           style={{ width: "20px" }}
                         />
-                        3. Overview
+                        2. Overview
                       </NavLink>
                     )}
 
-                    {(user.role === "owner" || user.role === "telecaller") && (
+                    {(user.role === "owner" ||
+                      user.role === "telecaller" ||
+                      user.role === "monitor") && (
+                      <NavLink
+                        to={"/customers/report"}
+                        className={({ isActive }) => (isActive ? "active" : "")}
+                        onClick={() => setIsSidebarOpen(false)}
+                      >
+                        <img
+                          src={CustomerReportIcon}
+                          alt="Customer List"
+                          style={{ width: "20px" }}
+                        />
+                        3. Report
+                      </NavLink>
+                    )}
+
+                    {user.role === "owner" && (
+                      <NavLink
+                        to={"/customers/analytics"}
+                        className={({ isActive }) => (isActive ? "active" : "")}
+                        onClick={() => setIsSidebarOpen(false)}
+                      >
+                        <img
+                          src={TotalReportIcon}
+                          alt="Customer List"
+                          style={{ width: "20px" }}
+                        />
+                        4. Analytics
+                      </NavLink>
+                    )}
+
+                    {/* {(user.role === "owner" || user.role === "telecaller") && (
                       <NavLink
                         to={"/customers/reminders"}
                         className={({ isActive }) => (isActive ? "active" : "")}
@@ -218,7 +233,7 @@ export default function DashboardLayout() {
                         />
                         4. Reminders
                       </NavLink>
-                    )}
+                    )} */}
 
                     {user.role === "owner" && (
                       <NavLink
