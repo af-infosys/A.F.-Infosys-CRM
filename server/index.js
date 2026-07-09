@@ -42,6 +42,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/leads", inquiryRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/work", workRoutes);
+app.use("/api/workde", workdeRoutes);
+
 app.use("/api/messages", MessagesRoutes);
 app.use("/api/valuation", valuationRoutes);
 app.use("/api/images", driveRoutes);
@@ -434,6 +436,7 @@ app.get("/get-all-sheet-data", async (req, res) => {
 // Reciept Automation Script End
 
 app.use("/api/sheet", survayRoutes);
+app.use("/api/dataentry", dataentryRoutes);
 app.use("/api/contactList", ContactListRoutes);
 
 import connectWhatsAPP, {
@@ -441,6 +444,8 @@ import connectWhatsAPP, {
   sendMessageToWhatsApp,
 } from "./config/whatsapp.js";
 import MessagesRoutes from "./routes/waFromatRoutes.js";
+import dataentryRoutes from "./routes/dataentryRoutes.js";
+import workdeRoutes from "./routes/workdeRoutes.js";
 
 // import { sendMessageToWhatsApp } from "./controllers/sendController.js";
 

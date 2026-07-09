@@ -181,6 +181,19 @@ const OwnerAdmin = () => {
             bgColor="bg-blue-500"
             onClick={() => handleNavigation("/staff/work")}
           />
+
+          <QuickLinkCard
+            title="Data Entry"
+            count={
+              projects?.filter((project) => {
+                return !project?.other?.status;
+              })?.length || 0
+            }
+            icon={CheckCircle}
+            bgColor="bg-indigo-500"
+            onClick={() => handleNavigation("/dataentry")}
+          />
+
           <QuickLinkCard
             title="1. Final Orders (Deals)"
             count={

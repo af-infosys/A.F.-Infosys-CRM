@@ -58,6 +58,19 @@ export const getDetails = async (req, res) => {
   }
 };
 
+function formatDate(dateString) {
+  if (!dateString) return "";
+  const dateObj = new Date(dateString);
+
+  if (isNaN(dateObj)) return "";
+
+  const day = String(dateObj.getDate()).padStart(2, "0");
+  const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+  const year = dateObj.getFullYear();
+
+  return `${day}/${month}/${year}`;
+}
+
 export const getBillDetails = async (req, res) => {
   try {
     // const works = await Work.findOne({ _id: req.params.id });
@@ -85,7 +98,7 @@ export const getBillDetails = async (req, res) => {
       invoiceNo: details?.invoiceNo,
       description: details?.description,
       price: details?.price,
-      date: details?.date,
+      date: formatDate(details?.date),
       houseCount,
     };
 

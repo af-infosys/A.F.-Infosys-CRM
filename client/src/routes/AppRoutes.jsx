@@ -72,6 +72,11 @@ import ManageCertificate2 from "../features/meetings/ManageCertificate2";
 import ArjiLetter2 from "../features/meetings/ArjiLetter2";
 import ManageStatus from "../features/projects/ManageStatus";
 import Analytics from "../features/contactList/Analytics";
+import DataEntryProjects from "../features/projects/DataEntryProjects";
+
+import SurvayReport2 from "../features/dataentry/SurvayReport";
+import BillViewDE from "../features/bill/BillDE";
+import DataEntry from "../features/projects/DataEntry";
 
 export default function AppRoutes() {
   const { user } = useAuth();
@@ -157,6 +162,129 @@ export default function AppRoutes() {
             </ProtectedRoute>
           }
         />
+
+        <Route path="/dataentry">
+          <Route index element={<DataEntryProjects />} />
+
+          <Route path="manage/:projectId" element={<DataEntry />} />
+
+          <Route
+            path="akarniReport/:projectId"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <SurvayReport2 />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="insert/:projectId"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <SurvayInsertForm />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* <Route
+            path="akarniImgReport/:projectId"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <SurvayReportImage2 />
+              </ProtectedRoute>
+            }
+          /> */}
+
+          <Route
+            path="indexReport/:projectId"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <IndexReport />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="taxRegister/:projectId"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <TaxRegister />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="taxform/:projectId"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <TaxEntry />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="taxform/:projectId/:mId"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <TaxEntryFrom />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="manglaRegister/:projectId"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <ManglaRegister />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="vasulatRegister/:projectId"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <VasulatRegister />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="tarij/:projectId"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <TarijReport />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="analysis/:projectId"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <AnalyticsReport />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="kacha/:projectId"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <KachaReport />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="bill/:projectId"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <BillViewDE />
+              </ProtectedRoute>
+            }
+          />
+        </Route>
 
         <Route path="/survay">
           <Route index element={<AkarniProjects />} />

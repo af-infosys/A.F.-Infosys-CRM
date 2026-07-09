@@ -36,7 +36,7 @@ const commercialCategories = [
   "પેટ્રોલ પંપ, ગેસ પંપ",
 ];
 
-const SurvayReport = () => {
+const SurvayReport2 = () => {
   const navigation = useNavigate();
   const [records, setRecords] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -1316,7 +1316,7 @@ const SurvayReport = () => {
   );
 };
 
-export default SurvayReport;
+export default SurvayReport2;
 
 // import React from "react";
 // import {
