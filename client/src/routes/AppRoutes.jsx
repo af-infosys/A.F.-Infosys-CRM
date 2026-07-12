@@ -75,8 +75,12 @@ import Analytics from "../features/contactList/Analytics";
 import DataEntryProjects from "../features/projects/DataEntryProjects";
 
 import SurvayReport2 from "../features/dataentry/SurvayReport";
+import TaxRegister2 from "../features/dataentry/TaxRegister";
+
 import BillViewDE from "../features/bill/BillDE";
 import DataEntry from "../features/projects/DataEntry";
+import IncomeCategories from "../features/accounts/income/IncomeCategories";
+import IndexReport2 from "../features/dataentry/IndexReport";
 
 export default function AppRoutes() {
   const { user } = useAuth();
@@ -199,7 +203,7 @@ export default function AppRoutes() {
             path="indexReport/:projectId"
             element={
               <ProtectedRoute allowedRoles={["owner"]}>
-                <IndexReport />
+                <IndexReport2 />
               </ProtectedRoute>
             }
           />
@@ -208,7 +212,7 @@ export default function AppRoutes() {
             path="taxRegister/:projectId"
             element={
               <ProtectedRoute allowedRoles={["owner"]}>
-                <TaxRegister />
+                <TaxRegister2 />
               </ProtectedRoute>
             }
           />
@@ -442,6 +446,7 @@ export default function AppRoutes() {
         {/* Accounts Routes Start */}
         <Route path="accounts">
           <Route path="income" element={<IncomeReport />} />
+          <Route path="income-category" element={<IncomeCategories />} />
           {/* <Route path="expense" element={<ExpenseReport />} /> */}
         </Route>
         {/* Accounts Routes End */}

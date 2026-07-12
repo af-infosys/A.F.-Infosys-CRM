@@ -281,6 +281,10 @@ const SurvayReport2 = () => {
   //   }
   // };
 
+  const CHUNK_SIZE = 5;
+
+  const [chunkStart, setChunkStart] = useState(0);
+
   const handleDownloadPDF = async (mode) => {
     const isSeparate = project?.details?.seperatecommercial === true;
 
@@ -305,10 +309,38 @@ const SurvayReport2 = () => {
     const generatePDF = async (pageIndexes, fileName) => {
       const totalPages = pageIndexes.length;
       let totalDuration = 0;
+      let currentChunkStart = null; // Track current loaded chunk
 
       const pdf = new jsPDF("landscape", "mm", "legal");
 
       for (let i = 0; i < totalPages; i++) {
+        const pageIndex = pageIndexes[i];
+
+        // -------------------------
+        // Change Chunk if needed
+        // -------------------------
+        // Ensure CHUNK_SIZE is defined in your component's scope
+        const requiredChunkStart =
+          Math.floor(pageIndex / CHUNK_SIZE) * CHUNK_SIZE;
+
+        if (requiredChunkStart !== currentChunkStart) {
+          currentChunkStart = requiredChunkStart;
+          setChunkStart(requiredChunkStart);
+
+          console.log(
+            `Loading chunk ${requiredChunkStart} -> ${
+              requiredChunkStart + CHUNK_SIZE - 1
+            }`,
+          );
+
+          // Wait for React DOM update: shorter delay for the first load, longer for subsequent chunks
+          const delay = i === 0 ? 150 : 2800;
+          await new Promise((resolve) => setTimeout(resolve, delay));
+        }
+
+        // -------------------------
+        // Cancellation Check
+        // -------------------------
         const currentState = await new Promise((resolve) => {
           setPdfProgress((prev) => {
             resolve(prev);
@@ -321,7 +353,9 @@ const SurvayReport2 = () => {
           break;
         }
 
-        const pageIndex = pageIndexes[i];
+        // -------------------------
+        // Capture Page
+        // -------------------------
         const pageStart = window.performance.now();
         const pageElement = document.getElementById(`report-page-${pageIndex}`);
 
@@ -381,6 +415,7 @@ const SurvayReport2 = () => {
         }
       }
 
+      // Final State for this specific PDF run
       const finalState = await new Promise((resolve) => {
         setPdfProgress((prev) => {
           resolve(prev);
@@ -396,66 +431,260 @@ const SurvayReport2 = () => {
 
       if (!finalState.isCancelled) {
         pdf.save(fileName);
+        return true; // Success indicator
       }
+      return false; // Cancelled or failed
     };
 
-    if (isSeparate) {
-      // Residential PDF
-      if (residentialIndexes.length > 0) {
+    try {
+      if (isSeparate) {
+        // Residential PDF
+        if (residentialIndexes.length > 0) {
+          setPdfProgress({
+            isGenerating: true,
+            isCancelled: false,
+            completedPages: 0,
+            totalPages: residentialIndexes.length,
+            percentage: 0,
+            timeRemaining: null,
+          });
+
+          const resSuccess = await generatePDF(
+            residentialIndexes,
+            `આકારણી રજીસ્ટર - ${project?.spot?.gaam} (Residential).pdf`,
+          );
+
+          if (!resSuccess) return; // Stop if cancelled during residential
+        }
+
+        // Commercial PDF
+        if (commercialIndexes.length > 0) {
+          setPdfProgress({
+            isGenerating: true,
+            isCancelled: false,
+            completedPages: 0,
+            totalPages: commercialIndexes.length,
+            percentage: 0,
+            timeRemaining: null,
+          });
+
+          const comSuccess = await generatePDF(
+            commercialIndexes,
+            `આકારણી રજીસ્ટર - ${project?.spot?.gaam} (Commercial).pdf`,
+          );
+
+          if (!comSuccess) return; // Stop if cancelled during commercial
+        }
+
+        window.alert("Residential & Commercial PDFs generated successfully.");
+      } else {
+        // Default single PDF
+        const allIndexes = finalRenderPages.map((_, idx) => idx);
+
         setPdfProgress({
           isGenerating: true,
           isCancelled: false,
           completedPages: 0,
-          totalPages: residentialIndexes.length,
+          totalPages: allIndexes.length, // Fixed: removed the + 2 to match actual pages accurately
           percentage: 0,
           timeRemaining: null,
         });
 
-        await generatePDF(
-          residentialIndexes,
-          `Residential - આકારણી રજીસ્ટર - ${project?.spot?.gaam}.pdf`,
+        const success = await generatePDF(
+          allIndexes,
+          `2. આકારણી રજીસ્ટર - ${project?.spot?.gaam}.pdf`,
         );
+
+        if (success) {
+          window.alert("PDF successfully saved.");
+        } else {
+          window.alert("PDF save cancelled.");
+        }
       }
-
-      // Commercial PDF
-      if (commercialIndexes.length > 0) {
-        setPdfProgress({
-          isGenerating: true,
-          isCancelled: false,
-          completedPages: 0,
-          totalPages: commercialIndexes.length,
-          percentage: 0,
-          timeRemaining: null,
-        });
-
-        await generatePDF(
-          commercialIndexes,
-          `Commercial - આકારણી રજીસ્ટર - ${project?.spot?.gaam}.pdf`,
-        );
-      }
-
-      window.alert("Residential & Commercial PDFs generated successfully.");
-    } else {
-      // Default single PDF
-      const allIndexes = finalRenderPages.map((_, idx) => idx);
-
-      setPdfProgress({
-        isGenerating: true,
-        isCancelled: false,
-        completedPages: 0,
-        totalPages: allIndexes.length + 2,
-        percentage: 0,
-        timeRemaining: null,
-      });
-
-      await generatePDF(
-        allIndexes,
-        `2. આકારણી રજીસ્ટર - ${project?.spot?.gaam}.pdf`,
-      );
-
-      window.alert("PDF successfully saved.");
+    } finally {
+      // -------------------------
+      // Restore DOM state
+      // -------------------------
+      // Ensures the component renders all elements properly after generation completes or cancels
+      setChunkStart(null);
     }
   };
+
+  // const handleDownloadPDF = async (mode) => {
+  //   const isSeparate = project?.details?.seperatecommercial === true;
+
+  //   const residentialIndexes = [];
+  //   const commercialIndexes = [];
+
+  //   finalRenderPages.forEach((item, idx) => {
+  //     console.log(item.commercial, item.type, idx);
+  //     if (mode === "res") {
+  //       if (!item.commercial) {
+  //         residentialIndexes.push(idx);
+  //       }
+  //     }
+
+  //     if (mode === "com") {
+  //       if (item.commercial) {
+  //         commercialIndexes.push(idx);
+  //       }
+  //     }
+  //   });
+
+  //   const generatePDF = async (pageIndexes, fileName) => {
+  //     const totalPages = pageIndexes.length;
+  //     let totalDuration = 0;
+
+  //     const pdf = new jsPDF("landscape", "mm", "legal");
+
+  //     for (let i = 0; i < totalPages; i++) {
+  //       const currentState = await new Promise((resolve) => {
+  //         setPdfProgress((prev) => {
+  //           resolve(prev);
+  //           return prev;
+  //         });
+  //       });
+
+  //       if (currentState.isCancelled) {
+  //         console.log("PDF generation cancelled by user.");
+  //         break;
+  //       }
+
+  //       const pageIndex = pageIndexes[i];
+  //       const pageStart = window.performance.now();
+  //       const pageElement = document.getElementById(`report-page-${pageIndex}`);
+
+  //       if (!pageElement) {
+  //         console.error(
+  //           `Page element with ID 'report-page-${pageIndex}' not found.`,
+  //         );
+  //         continue;
+  //       }
+
+  //       if (i > 0) {
+  //         pdf.addPage();
+  //       }
+
+  //       try {
+  //         const canvas = await html2canvas(pageElement, {
+  //           scale: 2,
+  //           logging: false,
+  //           useCORS: true,
+  //           allowTaint: true,
+  //         });
+
+  //         const imgData = canvas.toDataURL("image/jpeg", 1.0);
+  //         const imgWidth = 355.6;
+  //         const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+  //         pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight);
+
+  //         const pageEnd = window.performance.now();
+  //         const pageDuration = pageEnd - pageStart;
+  //         totalDuration += pageDuration;
+
+  //         const completedPages = i + 1;
+  //         const percentage = Math.round((completedPages / totalPages) * 100);
+
+  //         let timeRemaining = null;
+
+  //         if (completedPages >= 2) {
+  //           const avgTime = totalDuration / completedPages;
+  //           const remaining = totalPages - completedPages;
+  //           timeRemaining = Math.max(
+  //             0,
+  //             Math.round((avgTime * remaining) / 1000),
+  //           );
+  //         }
+
+  //         setPdfProgress((prev) => ({
+  //           ...prev,
+  //           completedPages,
+  //           totalPages,
+  //           percentage,
+  //           timeRemaining,
+  //         }));
+  //       } catch (error) {
+  //         console.error("Error generating PDF page:", error);
+  //         break;
+  //       }
+  //     }
+
+  //     const finalState = await new Promise((resolve) => {
+  //       setPdfProgress((prev) => {
+  //         resolve(prev);
+  //         return {
+  //           ...prev,
+  //           isGenerating: false,
+  //           isCancelled: prev.isCancelled,
+  //           percentage: prev.isCancelled ? prev.percentage : 100,
+  //           timeRemaining: null,
+  //         };
+  //       });
+  //     });
+
+  //     if (!finalState.isCancelled) {
+  //       pdf.save(fileName);
+  //     }
+  //   };
+
+  //   if (isSeparate) {
+  //     // Residential PDF
+  //     if (residentialIndexes.length > 0) {
+  //       setPdfProgress({
+  //         isGenerating: true,
+  //         isCancelled: false,
+  //         completedPages: 0,
+  //         totalPages: residentialIndexes.length,
+  //         percentage: 0,
+  //         timeRemaining: null,
+  //       });
+
+  //       await generatePDF(
+  //         residentialIndexes,
+  //         `Residential - આકારણી રજીસ્ટર - ${project?.spot?.gaam}.pdf`,
+  //       );
+  //     }
+
+  //     // Commercial PDF
+  //     if (commercialIndexes.length > 0) {
+  //       setPdfProgress({
+  //         isGenerating: true,
+  //         isCancelled: false,
+  //         completedPages: 0,
+  //         totalPages: commercialIndexes.length,
+  //         percentage: 0,
+  //         timeRemaining: null,
+  //       });
+
+  //       await generatePDF(
+  //         commercialIndexes,
+  //         `Commercial - આકારણી રજીસ્ટર - ${project?.spot?.gaam}.pdf`,
+  //       );
+  //     }
+
+  //     window.alert("Residential & Commercial PDFs generated successfully.");
+  //   } else {
+  //     // Default single PDF
+  //     const allIndexes = finalRenderPages.map((_, idx) => idx);
+
+  //     setPdfProgress({
+  //       isGenerating: true,
+  //       isCancelled: false,
+  //       completedPages: 0,
+  //       totalPages: allIndexes.length + 2,
+  //       percentage: 0,
+  //       timeRemaining: null,
+  //     });
+
+  //     await generatePDF(
+  //       allIndexes,
+  //       `2. આકારણી રજીસ્ટર - ${project?.spot?.gaam}.pdf`,
+  //     );
+
+  //     window.alert("PDF successfully saved.");
+  //   }
+  // };
 
   const handleDownloadExcel = () => {
     const locationRow = [
@@ -699,30 +928,25 @@ const SurvayReport2 = () => {
         const pageFrom = globalPageNumber;
         const pageTo = globalPageNumber + pagesForThisBundle.length - 1;
 
-        final.push({
-          type: "cover",
-          bundle: currentBundle,
-          name: "રહેણાંક મિલકત",
-          commercial: false,
+        if (pagesForThisBundle.length > 0) {
+          final.push({
+            type: "cover",
+            bundle: currentBundle,
+            name: "રહેણાંક મિલકત",
+            commercial: false,
 
-          section: "residential",
-          part: b,
-          totalParts: totalNormalBundles,
+            section: "residential",
+            part: b,
+            totalParts: totalNormalBundles,
 
-          // 👇 NEW
-          coverProperties,
-          pageFrom,
-          pageTo,
-        });
-
-        if (currentBundle === 1 && isRaw) {
-          final.push({ type: "benefit", name: "panchayat" });
-          final.push({ type: "benefit", name: "public" });
-
-          final.push({ type: "tharav", name: "committee" });
+            // 👇 NEW
+            coverProperties,
+            pageFrom,
+            pageTo,
+          });
         }
 
-        pagesForThisBundle.forEach((pageRecs) => {
+        pagesForThisBundle?.forEach((pageRecs) => {
           final.push({
             type: "page",
             bundle: currentBundle,
@@ -734,20 +958,22 @@ const SurvayReport2 = () => {
           globalPageNumber++;
         });
 
-        currentBundle++;
+        if (pagesForThisBundle.length > 1) currentBundle++;
       }
 
-      if (isRaw) {
-        final.push({
-          type: "blank",
-          name: "register",
-          isCommercial: false,
-        });
-        final.push({
-          type: "blank",
-          name: "register",
-          isCommercial: false,
-        });
+      if (normalPages?.length > 0) {
+        if (isRaw) {
+          final.push({
+            type: "blank",
+            name: "register",
+            isCommercial: false,
+          });
+          final.push({
+            type: "blank",
+            name: "register",
+            isCommercial: false,
+          });
+        }
       }
 
       // ---------- COMMERCIAL ----------
@@ -813,7 +1039,7 @@ const SurvayReport2 = () => {
           isCommercial: true,
         });
 
-        final.push({ type: "tharav", name: "certificate" });
+        // final.push({ type: "tharav", name: "certificate" });
       }
     } else {
       // ==========================================
@@ -1068,6 +1294,13 @@ const SurvayReport2 = () => {
           }) */}
       <div className="pdf-report-container">
         {finalRenderPages?.map((item, idx) => {
+          if (
+            pdfProgress.isGenerating &&
+            (idx < chunkStart || idx >= chunkStart + CHUNK_SIZE)
+          ) {
+            return null;
+          }
+
           const id = `report-page-${idx}`;
 
           if (item.type === "cover") {

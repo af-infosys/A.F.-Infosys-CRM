@@ -51,6 +51,8 @@ app.use("/api/bill-data", BillRoutes);
 app.use("/api/meetings", MeetingsRoutes);
 app.use("/api/yaadi", YaadiRoutes);
 
+app.use("/api/account/income-category", IncomeCategoryRoutes);
+
 // Reciept Automation Script Start
 async function fetchDataFromSheet(sheetId, recordId) {
   const range = `A${recordId + 1}:AZ${recordId + 1}`;
@@ -446,6 +448,7 @@ import connectWhatsAPP, {
 import MessagesRoutes from "./routes/waFromatRoutes.js";
 import dataentryRoutes from "./routes/dataentryRoutes.js";
 import workdeRoutes from "./routes/workdeRoutes.js";
+import IncomeCategoryRoutes from "./modules/income-category/incomeCategory.routes.js";
 
 // import { sendMessageToWhatsApp } from "./controllers/sendController.js";
 

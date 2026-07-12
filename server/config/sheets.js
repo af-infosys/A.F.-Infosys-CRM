@@ -1,0 +1,128 @@
+export const SheetsConfig = {
+  Income: {
+    sheetName: "Income",
+    columns: [
+      "_id",
+      "date",
+      "title",
+      "amount",
+      "category_id",
+      "customer_id",
+      "payment_method_id",
+      "account_id",
+      "reference_number",
+      "description",
+      "received_by",
+      "attachment",
+      "status",
+      "created_at",
+      "updated_at",
+    ],
+    primaryKey: "_id",
+  },
+
+  Expense: {
+    sheetName: "Expense",
+    columns: [
+      "_id",
+      "date",
+      "title",
+      "amount",
+      "category_id",
+      "payment_method_id",
+      "account_id",
+      "reference_number",
+      "description",
+      "paid_by",
+      "receipt",
+      "status",
+      "created_at",
+      "updated_at",
+    ],
+    primaryKey: "_id",
+  },
+
+  Transfer: {
+    sheetName: "Transfer",
+    columns: [
+      "_id",
+      "date",
+      "from_account_id",
+      "to_account_id",
+      "amount",
+      "description",
+      "attachment",
+      "transferred_by",
+      "created_at",
+      "updated_at",
+    ],
+    primaryKey: "_id",
+  },
+
+  Budget: {
+    sheetName: "Budget",
+    columns: [
+      "_id",
+      "category_id",
+      "period_start",
+      "period_end",
+      "budget_amount",
+      "warning_percentage",
+      "status",
+    ],
+    primaryKey: "_id",
+  },
+
+  Goal: {
+    sheetName: "Goal",
+    columns: [
+      "_id",
+      "title",
+      "goal_type",
+      "target_amount",
+      "current_amount",
+      "start_date",
+      "end_date",
+      "description",
+      "status",
+    ],
+    primaryKey: "_id",
+  },
+
+  IncomeCategory: {
+    sheetName: "IncomeCategory",
+    columns: ["_id", "name", "icon", "color", "status"],
+    primaryKey: "_id",
+  },
+
+  ExpenseCategory: {
+    sheetName: "ExpenseCategory",
+    columns: ["_id", "name", "icon", "color", "budget_limit", "status"],
+    primaryKey: "_id",
+  },
+
+  PaymentMethod: {
+    sheetName: "PaymentMethod",
+    columns: ["_id", "name", "status"],
+    primaryKey: "_id",
+  },
+  Accounts: {
+    sheetName: "Accounts",
+    columns: [
+      "_id",
+      "name",
+      "account_type",
+      "bank_name",
+      "account_holder_name",
+      "account_number",
+      "ifsc_code",
+      "opening_balance",
+      "available_balance",
+      "is_default",
+      "status",
+      "created_at",
+      "updated_at",
+    ],
+    primaryKey: "_id",
+  },
+};

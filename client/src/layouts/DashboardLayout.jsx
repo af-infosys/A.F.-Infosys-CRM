@@ -572,15 +572,15 @@ export default function DashboardLayout() {
                       Expense
                     </NavLink>
 
-                    {/* {user.role === "owner" && (
+                    {user.role === "owner" && (
                       <NavLink
-                        to={"/customers/summary"}
+                        to={"/accounts/income-category"}
                         className={({ isActive }) => (isActive ? "active" : "")}
                         onClick={() => setIsSidebarOpen(false)}
                       >
-                        Summary
+                        Income Category
                       </NavLink>
-                    )} */}
+                    )}
                   </div>
                 )}
               </div>

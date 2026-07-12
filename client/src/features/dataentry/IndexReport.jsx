@@ -11,8 +11,11 @@ import toGujaratiNumber from "../../components/toGujaratiNumber";
 import IndexIndex from "../../components/conver/IndexIndex";
 
 // The main component for the analytics report
-const IndexReport = () => {
+const IndexReport2 = () => {
   // Use state to manage all the report data
+
+  const [firstMid, setFirstMid] = useState(0);
+
   const [records, setRecords] = useState([]);
   const [societies, setSocieties] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -161,6 +164,8 @@ const IndexReport = () => {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const result = await response.json();
+      setFirstMid(Number(result.data[0][0]));
+
       const sortedRecords = [...result.data].sort((a, b) => {
         const nameA = a[3]?.toString().toLowerCase() || "";
         const nameB = b[3]?.toString().toLowerCase() || "";
@@ -1043,7 +1048,9 @@ const IndexReport = () => {
                             }}
                           >
                             <span className="formatting">
-                              {Math.ceil(Number(row.data[0]) / 6) || 0}
+                              {Math.ceil(
+                                (Number(row.data[0]) - firstMid + 1) / 6,
+                              ) || 0}
                             </span>
                           </td>
 
@@ -1217,7 +1224,7 @@ const IndexReport = () => {
                           className="px-1 py-2 whitespace-normal text-sm text-gray-500"
                           style={{ padding: "3px 8px" }}
                         >
-                          {Math.ceil(Number(data[0]) / 6)}
+                          {Math.ceil(Number(data[0] - firstMid) / 6)}
                         </td>
                         <td
                           className="px-1 py-2 whitespace-normal text-sm text-gray-500"
@@ -1249,4 +1256,4 @@ const IndexReport = () => {
   );
 };
 
-export default IndexReport;
+export default IndexReport2;

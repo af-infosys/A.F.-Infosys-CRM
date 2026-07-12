@@ -19,7 +19,7 @@ import { saveAs } from "file-saver";
 import TaxIndexRaw from "../../components/conver/TaxIndexRaw";
 import Blank9D from "../../components/Blank9D";
 
-const TaxRegister = () => {
+const TaxRegister2 = () => {
   const [count, setCount] = useState(5);
   const scrollToPage = () => {
     const element = document.getElementById(`report-page-${count}`);
@@ -661,23 +661,25 @@ const TaxRegister = () => {
         const pageFrom = globalPageNumber;
         const pageTo = globalPageNumber + pagesForThisBundle.length - 1;
 
-        final.push({
-          type: "cover",
-          bundle: currentBundle,
-          name: "રહેણાંક મિલકત",
-          commercial: false,
-          totalRecords: normalRecords.length,
-          section: "residential",
-          part: b,
-          totalParts: totalNormalBundles,
+        if (pagesForThisBundle.length > 0) {
+          final.push({
+            type: "cover",
+            bundle: currentBundle,
+            name: "રહેણાંક મિલકત",
+            commercial: false,
+            totalRecords: normalRecords.length,
+            section: "residential",
+            part: b,
+            totalParts: totalNormalBundles,
 
-          // 👇 NEW
-          coverProperties,
-          pageFrom,
-          pageTo,
-        });
+            // 👇 NEW
+            coverProperties,
+            pageFrom,
+            pageTo,
+          });
+        }
 
-        pagesForThisBundle.forEach((pageRecs) => {
+        pagesForThisBundle?.forEach((pageRecs) => {
           final.push({
             type: "page",
             bundle: currentBundle,
@@ -688,17 +690,20 @@ const TaxRegister = () => {
           globalPageNumber++;
         });
 
-        currentBundle++;
+        if (pagesForThisBundle.length > 0) currentBundle++;
       }
 
-      final.push({
-        type: "blank",
-        isCommercial: false,
-      });
-      final.push({
-        type: "blank",
-        isCommercial: false,
-      });
+      if (normalPages?.length > 0) {
+        final.push({
+          type: "blank",
+          isCommercial: false,
+        });
+        final.push({
+          type: "blank",
+          isCommercial: false,
+        });
+      }
+
       // ---------- COMMERCIAL ----------
       if (commercialPages.length > 0) {
         const totalCommBundles = Math.ceil(
@@ -3115,4 +3120,4 @@ const TaxRegister = () => {
   );
 };
 
-export default TaxRegister;
+export default TaxRegister2;
