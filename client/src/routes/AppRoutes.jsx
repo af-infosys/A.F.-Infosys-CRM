@@ -81,6 +81,7 @@ import BillViewDE from "../features/bill/BillDE";
 import DataEntry from "../features/projects/DataEntry";
 import IncomeCategories from "../features/accounts/income/IncomeCategories";
 import IndexReport2 from "../features/dataentry/IndexReport";
+import TarijReport2 from "../features/dataentry/TarijReport";
 
 export default function AppRoutes() {
   const { user } = useAuth();
@@ -181,20 +182,11 @@ export default function AppRoutes() {
             }
           />
 
-          <Route
+          {/* <Route
             path="insert/:projectId"
             element={
               <ProtectedRoute allowedRoles={["owner"]}>
                 <SurvayInsertForm />
-              </ProtectedRoute>
-            }
-          />
-
-          {/* <Route
-            path="akarniImgReport/:projectId"
-            element={
-              <ProtectedRoute allowedRoles={["owner"]}>
-                <SurvayReportImage2 />
               </ProtectedRoute>
             }
           /> */}
@@ -217,65 +209,29 @@ export default function AppRoutes() {
             }
           />
 
-          <Route
+          {/* <Route
             path="taxform/:projectId"
             element={
               <ProtectedRoute allowedRoles={["owner"]}>
                 <TaxEntry />
               </ProtectedRoute>
             }
-          />
+          /> */}
 
-          <Route
+          {/* <Route
             path="taxform/:projectId/:mId"
             element={
               <ProtectedRoute allowedRoles={["owner"]}>
                 <TaxEntryFrom />
               </ProtectedRoute>
             }
-          />
-
-          <Route
-            path="manglaRegister/:projectId"
-            element={
-              <ProtectedRoute allowedRoles={["owner"]}>
-                <ManglaRegister />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="vasulatRegister/:projectId"
-            element={
-              <ProtectedRoute allowedRoles={["owner"]}>
-                <VasulatRegister />
-              </ProtectedRoute>
-            }
-          />
+          /> */}
 
           <Route
             path="tarij/:projectId"
             element={
               <ProtectedRoute allowedRoles={["owner"]}>
-                <TarijReport />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="analysis/:projectId"
-            element={
-              <ProtectedRoute allowedRoles={["owner"]}>
-                <AnalyticsReport />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="kacha/:projectId"
-            element={
-              <ProtectedRoute allowedRoles={["owner"]}>
-                <KachaReport />
+                <TarijReport2 />
               </ProtectedRoute>
             }
           />

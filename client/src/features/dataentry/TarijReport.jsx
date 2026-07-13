@@ -122,7 +122,7 @@ const calculateTotal = (data = []) => {
   };
 };
 
-const TarijReport = () => {
+const TarijReport2 = () => {
   const { projectId } = useParams();
 
   const [records, setRecords] = useState([]);
@@ -190,17 +190,19 @@ const TarijReport = () => {
     const pdf = new jsPDF("l", "pt", [912, 1500]);
 
     if (project?.details?.seperatecommercial) {
-      await addSectionToPDF(pdf, "pdf-normal");
-      await addSectionToPDF(pdf, "pdf-commercial", true);
-      await addSectionToPDF(pdf, "pdf-total", true);
+      if (normalRecords.length > 0) await addSectionToPDF(pdf, "pdf-normal");
+      if (commercialRecords.length > 0)
+        await addSectionToPDF(pdf, "pdf-commercial", normalRecords.length > 0);
+      if (normalRecords.length > 0 && commercialRecords.length > 0)
+        await addSectionToPDF(pdf, "pdf-total", true);
 
-      await addSectionToPDF(pdf, "pdf-res-chart", true);
-      await addSectionToPDF(pdf, "pdf-com-chart", true);
-      await addSectionToPDF(pdf, "pdf-chart", true);
+      // await addSectionToPDF(pdf, "pdf-res-chart", true);
+      // await addSectionToPDF(pdf, "pdf-com-chart", true);
+      // await addSectionToPDF(pdf, "pdf-chart", true);
     } else {
       await addSectionToPDF(pdf, "pdf-single");
 
-      await addSectionToPDF(pdf, "pdf-chart", true);
+      // await addSectionToPDF(pdf, "pdf-chart", true);
     }
 
     pdf.save("5. Tarij_Report.pdf");
@@ -243,61 +245,67 @@ const TarijReport = () => {
       >
         {project?.details?.seperatecommercial ? (
           <>
-            <div
-              id="pdf-normal"
-              style={{
-                width: "1300px",
-                padding: "20px",
-                paddingLeft: "60px",
-                paddingTop: "80px",
-                background: "#fff",
-              }}
-            >
-              <TarijFormat
-                project={project}
-                total={totalNormal}
-                length={normalRecords.length}
-                name="રહેણાંક મિલકત"
-              />
-            </div>
+            {normalRecords.length > 0 && (
+              <div
+                id="pdf-normal"
+                style={{
+                  width: "1300px",
+                  padding: "20px",
+                  paddingLeft: "60px",
+                  paddingTop: "80px",
+                  background: "#fff",
+                }}
+              >
+                <TarijFormat
+                  project={project}
+                  total={totalNormal}
+                  length={normalRecords.length}
+                  name="રહેણાંક મિલકત"
+                />
+              </div>
+            )}
 
-            <div
-              id="pdf-commercial"
-              style={{
-                width: "1300px",
-                padding: "20px",
-                paddingLeft: "60px",
-                paddingTop: "80px",
-                background: "#fff",
-              }}
-            >
-              <TarijFormat
-                project={project}
-                total={totalCommercial}
-                length={commercialRecords.length}
-                name="કોમર્શિયલ મિલકત"
-              />
-            </div>
+            {commercialRecords.length > 0 && (
+              <div
+                id="pdf-commercial"
+                style={{
+                  width: "1300px",
+                  padding: "20px",
+                  paddingLeft: "60px",
+                  paddingTop: "80px",
+                  background: "#fff",
+                }}
+              >
+                <TarijFormat
+                  project={project}
+                  total={totalCommercial}
+                  length={commercialRecords.length}
+                  name="કોમર્શિયલ મિલકત"
+                />
+              </div>
+            )}
 
-            <div
-              id="pdf-total"
-              style={{
-                width: "1300px",
-                padding: "20px",
-                paddingLeft: "60px",
-                paddingTop: "80px",
-                background: "#fff",
-              }}
-            >
-              <TarijFormat
-                project={project}
-                total={totalAll}
-                length={records.length}
-                name="રહેણાંક મિલકત તથા કોમર્શિયલ મિલકત બન્ને"
-              />
-            </div>
+            {normalRecords.length > 0 && commercialRecords.length > 0 && (
+              <div
+                id="pdf-total"
+                style={{
+                  width: "1300px",
+                  padding: "20px",
+                  paddingLeft: "60px",
+                  paddingTop: "80px",
+                  background: "#fff",
+                }}
+              >
+                <TarijFormat
+                  project={project}
+                  total={totalAll}
+                  length={records.length}
+                  name="રહેણાંક મિલકત તથા કોમર્શિયલ મિલકત બન્ને"
+                />
+              </div>
+            )}
 
-            <div
+            {/* <div
               id="pdf-res-chart"
               style={{
                 width: "1300px",
@@ -356,7 +364,7 @@ const TarijReport = () => {
                   "ચાર્ટ તારીજ ૯/ડિ કુલ માંગણાં નો રહેણાંક તથા કોમર્શિયલ (બન્નેનો રિપોર્ટ)"
                 }
               />
-            </div>
+            </div> */}
           </>
         ) : (
           <>
@@ -378,7 +386,7 @@ const TarijReport = () => {
               />
             </div>
 
-            <div
+            {/* <div
               id="pdf-chart"
               style={{
                 width: "1300px",
@@ -395,7 +403,7 @@ const TarijReport = () => {
                 totalResidence={records?.length}
                 name={"ચાર્ટ તારીજ કુલ માંગણાં નો રિપોર્ટ (તારીજ)"}
               />
-            </div>
+            </div> */}
           </>
         )}
       </div>
@@ -403,4 +411,4 @@ const TarijReport = () => {
   );
 };
 
-export default TarijReport;
+export default TarijReport2;

@@ -56,6 +56,7 @@ const OwnerAdmin = () => {
 
   const [loading, setLoading] = useState(false);
   const [projects, setProjects] = useState([]);
+  const [de_projects, setDeProjects] = useState([]);
   const [users, setUsers] = useState([]);
 
   const apps = [
@@ -82,6 +83,14 @@ const OwnerAdmin = () => {
 
       console.log(data);
       setProjects(data?.data?.data || []);
+
+      const data_de = await axios.get(`${await apiPath()}/api/workde`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      setDeProjects(data_de?.data?.data || []);
     } catch (error) {
       console.error("Error fetching projects:", error);
     } finally {
@@ -184,11 +193,7 @@ const OwnerAdmin = () => {
 
           <QuickLinkCard
             title="Data Entry"
-            count={
-              projects?.filter((project) => {
-                return !project?.other?.status;
-              })?.length || 0
-            }
+            count={de_projects?.length || 0}
             icon={CheckCircle}
             bgColor="bg-indigo-500"
             onClick={() => handleNavigation("/dataentry")}

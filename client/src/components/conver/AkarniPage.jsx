@@ -233,7 +233,7 @@ const AkarniPage = ({
                   {toGujaratiNumber(record[2])}
                 </span>
               </td>
-              <td className="" style={cellStyle}>
+              <td className="" style={{ ...cellStyle, minWidth: "200px" }}>
                 <span className="formatting">
                   {record[16]}
                   {record[7] && `, ${record[7]}`}
