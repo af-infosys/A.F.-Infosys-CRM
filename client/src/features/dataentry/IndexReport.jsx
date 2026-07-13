@@ -427,7 +427,7 @@ const IndexReport2 = () => {
   //   return final;
   // }
 
-  const [PROPERTIES_PER_PAGE, SetPropertiesPerPage] = useState(33); // એક પેજ પર કેટલી લાઇન બતાવવી
+  const [PROPERTIES_PER_PAGE, SetPropertiesPerPage] = useState(26); // એક પેજ પર કેટલી લાઇન બતાવવી
   const BUNDLE_SIZE = 100; // કેટલા પેજ પછી કવર પેજ મૂકવું
 
   // 1. પહેલા ગ્રુપિંગના આધારે પેજીસ તૈયાર કરો
@@ -1021,7 +1021,10 @@ const IndexReport2 = () => {
                               paddingTop: "5px",
                             }}
                           >
-                            <span className="formatting">
+                            <span
+                              className="formatting"
+                              style={{ fontSize: "12.4px" }}
+                            >
                               {row.data[3] || ""}
                             </span>
                           </td>
@@ -1033,6 +1036,7 @@ const IndexReport2 = () => {
                               minWidth: "150px",
 
                               paddingTop: "5px",
+                              fontSize: "12.4px",
                             }}
                           >
                             <span className="formatting">
@@ -1080,7 +1084,7 @@ const IndexReport2 = () => {
       </div>
 
       {/* This is the visible, on-screen part */}
-      <div
+      {/* <div
         id="report-content"
         className="w-full max-w-5xl rounded-xl shadow-lg p-6 sm:p-10 mb-8"
       >
@@ -1094,8 +1098,7 @@ const IndexReport2 = () => {
           </h2>
           <hr className="border-t-2 border-dashed border-gray-300 mx-auto w-full" />
         </header>
-
-        {/* Village details section */}
+ 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center text-gray-700 mb-8">
           <span className="p-3 rounded-lg shadow-sm">
             ગામ : <b className="font-semibold text-blue-800">{village}</b>
@@ -1107,8 +1110,7 @@ const IndexReport2 = () => {
             જીલ્લો : <b className="font-semibold text-blue-800">{district}</b>
           </span>
         </div>
-
-        {/* Main analytics grid */}
+ 
         {records.length > 0 ? (
           <div className="table-container rounded-lg shadow-md border border-gray-200 overflow-y-auto">
             <table className="min-w-full divide-y divide-gray-200">
@@ -1244,7 +1246,7 @@ const IndexReport2 = () => {
             કોઈ રેકોર્ડ મળ્યો નથી.
           </div>
         )}
-      </div>
+      </div> */}
 
       <button
         onClick={handleDownloadPDF}
