@@ -1033,7 +1033,7 @@ const IndexReport2 = () => {
                             id="pdff"
                             style={{
                               textWrap: "wrap",
-                              minWidth: "150px",
+                              minWidth: "200px",
 
                               paddingTop: "5px",
                               fontSize: "12.4px",

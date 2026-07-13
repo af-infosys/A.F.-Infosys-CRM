@@ -967,11 +967,13 @@ const SurvayReport2 = () => {
             type: "blank",
             name: "register",
             isCommercial: false,
+            commercial: false,
           });
           final.push({
             type: "blank",
             name: "register",
             isCommercial: false,
+            commercial: false,
           });
         }
       }
@@ -1032,11 +1034,13 @@ const SurvayReport2 = () => {
           type: "blank",
           name: "register",
           isCommercial: true,
+          commercial: true,
         });
         final.push({
           type: "blank",
           name: "register",
           isCommercial: true,
+          commercial: true,
         });
 
         // final.push({ type: "tharav", name: "certificate" });

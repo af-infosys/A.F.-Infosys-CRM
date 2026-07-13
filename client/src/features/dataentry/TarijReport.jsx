@@ -6,8 +6,9 @@ import html2canvas from "html2canvas";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
-import TarijFormat from "../../components/TarijFormat";
-import TarijChart from "../../components/TarijChart";
+// import TarijFormat from "../../components/TarijFormat";
+// import TarijChart from "../../components/TarijChart";
+import TarijFormat2 from "../../components/TarijFormat2";
 
 const commercialCategories = [
   "દુકાન",
@@ -256,7 +257,7 @@ const TarijReport2 = () => {
                   background: "#fff",
                 }}
               >
-                <TarijFormat
+                <TarijFormat2
                   project={project}
                   total={totalNormal}
                   length={normalRecords.length}
@@ -276,7 +277,7 @@ const TarijReport2 = () => {
                   background: "#fff",
                 }}
               >
-                <TarijFormat
+                <TarijFormat2
                   project={project}
                   total={totalCommercial}
                   length={commercialRecords.length}
@@ -296,7 +297,7 @@ const TarijReport2 = () => {
                   background: "#fff",
                 }}
               >
-                <TarijFormat
+                <TarijFormat2
                   project={project}
                   total={totalAll}
                   length={records.length}
@@ -378,7 +379,7 @@ const TarijReport2 = () => {
                 background: "#fff",
               }}
             >
-              <TarijFormat
+              <TarijFormat2
                 project={project}
                 total={totalAll}
                 length={records.length}
