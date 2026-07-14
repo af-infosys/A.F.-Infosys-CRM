@@ -314,7 +314,7 @@ const AkarniIndex = ({
         }}
       >
         {part} |{" "}
-        <span style={{ fontWeight: "400", color: "#5f5b8e" }}>ક્રમ:</span>{" "}
+        <span style={{ fontWeight: "400", color: "#5f5b8e" }}>ક્રમ નં.</span>{" "}
         {`${fromStart} થી ${toEnd} સુધી`}
       </b>
 
