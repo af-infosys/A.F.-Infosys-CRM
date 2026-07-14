@@ -7,7 +7,8 @@ import { connectDB } from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import inquiryRoutes from "./routes/inquiryRoutes.js";
 import workRoutes from "./routes/workRoutes.js";
-import valuationRoutes from ".//routes/orderValuationRoutes.js";
+import valuationRoutes from "./routes/orderValuationRoutes.js";
+import valuationDeRoutes from "./routes/orderValuationDeRoutes.js";
 import driveRoutes from "./routes/driveRoutes.js";
 import BillRoutes from "./routes/billRoutes.js";
 import MeetingsRoutes from "./routes/meetingRoutes.js";
@@ -46,6 +47,7 @@ app.use("/api/workde", workdeRoutes);
 
 app.use("/api/messages", MessagesRoutes);
 app.use("/api/valuation", valuationRoutes);
+app.use("/api/valuationde", valuationDeRoutes);
 app.use("/api/images", driveRoutes);
 app.use("/api/bill-data", BillRoutes);
 app.use("/api/meetings", MeetingsRoutes);

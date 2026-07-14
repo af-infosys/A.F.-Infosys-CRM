@@ -47,7 +47,7 @@ const TaxRegister2 = () => {
   const fetchRecords = async () => {
     try {
       const response = await fetch(
-        `${await apiPath()}/api/sheet?workId=${projectId}`,
+        `${await apiPath()}/api/dataentry?workId=${projectId}`,
         {
           method: "GET",
           headers: {
@@ -80,7 +80,7 @@ const TaxRegister2 = () => {
     try {
       setLoading(true);
       const data = await axios.get(
-        `${await apiPath()}/api/work/project/${projectId}`,
+        `${await apiPath()}/api/workde/project/${projectId}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -105,7 +105,7 @@ const TaxRegister2 = () => {
       toast.info("Calucating Values...");
 
       const data = await axios.put(
-        `${await apiPath()}/api/sheet/ordervaluation/${projectId}`,
+        `${await apiPath()}/api/dataentry/ordervaluation/${projectId}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -130,7 +130,7 @@ const TaxRegister2 = () => {
     setLoading(true);
     try {
       let fetchedData = await axios.get(
-        `${await apiPath()}/api/valuation/tax/${projectId}`,
+        `${await apiPath()}/api/valuationde/tax/${projectId}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -140,7 +140,6 @@ const TaxRegister2 = () => {
       );
 
       fetchedData = fetchedData?.data?.taxes;
-      console.log(fetchedData);
 
       if (fetchedData && fetchedData.length > 0) {
         setTaxes(fetchedData);
@@ -672,6 +671,12 @@ const TaxRegister2 = () => {
             part: b,
             totalParts: totalNormalBundles,
 
+            fromStart: pagesForThisBundle[0][0][0],
+            toEnd:
+              pagesForThisBundle[pagesForThisBundle.length - 1][
+                pagesForThisBundle[pagesForThisBundle.length - 1].length - 1
+              ][0],
+
             // 👇 NEW
             coverProperties,
             pageFrom,
@@ -734,6 +739,12 @@ const TaxRegister2 = () => {
             totalParts: totalCommBundles,
             totalNormalBundles: totalNormalBundles,
 
+            fromStart: pagesForThisBundle[0][0][0],
+            toEnd:
+              pagesForThisBundle[pagesForThisBundle.length - 1][
+                pagesForThisBundle[pagesForThisBundle.length - 1].length - 1
+              ][0],
+
             // 👇 NEW
             coverProperties,
             pageFrom,
@@ -790,6 +801,12 @@ const TaxRegister2 = () => {
           name: "",
           part: bundle,
           totalParts: totalBundles,
+
+          fromStart: pagesForThisBundle[0][0][0],
+          toEnd:
+            pagesForThisBundle[pagesForThisBundle.length - 1][
+              pagesForThisBundle[pagesForThisBundle.length - 1].length - 1
+            ][0],
 
           // 👇 NEW
           coverProperties,
@@ -1352,6 +1369,8 @@ const TaxRegister2 = () => {
                     coverProperties={item.coverProperties}
                     pageFrom={item.pageFrom}
                     pageTo={item.pageTo}
+                    fromStart={item.fromStart}
+                    toEnd={item.toEnd}
                   />
                 ) : (
                   <TaxIndexRaw
@@ -1365,6 +1384,8 @@ const TaxRegister2 = () => {
                     coverProperties={item.coverProperties}
                     pageFrom={item.pageFrom}
                     pageTo={item.pageTo}
+                    fromStart={item.fromStart}
+                    toEnd={item.toEnd}
                   />
                 )}
               </div>

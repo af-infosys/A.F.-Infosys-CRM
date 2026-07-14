@@ -832,6 +832,12 @@ const SurvayReport = () => {
           part: b,
           totalParts: totalNormalBundles,
 
+          fromStart: pagesForThisBundle[0][0][0],
+          toEnd:
+            pagesForThisBundle[pagesForThisBundle.length - 1][
+              pagesForThisBundle[pagesForThisBundle.length - 1].length - 1
+            ][0],
+
           // 👇 NEW
           coverProperties,
           pageFrom,
@@ -903,6 +909,12 @@ const SurvayReport = () => {
             part: b,
             totalParts: totalCommBundles,
 
+            fromStart: pagesForThisBundle[0][0][0],
+            toEnd:
+              pagesForThisBundle[pagesForThisBundle.length - 1][
+                pagesForThisBundle[pagesForThisBundle.length - 1].length - 1
+              ][0],
+
             // 👇 NEW
             coverProperties,
             pageFrom,
@@ -965,6 +977,12 @@ const SurvayReport = () => {
           name: "",
           part: bundle,
           totalParts: totalBundles,
+
+          fromStart: pagesForThisBundle[0][0][0],
+          toEnd:
+            pagesForThisBundle[pagesForThisBundle.length - 1][
+              pagesForThisBundle[pagesForThisBundle.length - 1].length - 1
+            ][0],
 
           // 👇 NEW
           coverProperties,
@@ -1216,6 +1234,8 @@ const SurvayReport = () => {
                     pageFrom={item.pageFrom}
                     pageTo={item.pageTo}
                     totalNormalBundles={item.totalNormalBundles || 0}
+                    fromStart={item.fromStart}
+                    toEnd={item.toEnd}
                   />
                 ) : (
                   <AkarniIndexRaw
@@ -1229,6 +1249,8 @@ const SurvayReport = () => {
                     pageFrom={item.pageFrom}
                     pageTo={item.pageTo}
                     totalNormalBundles={item.totalNormalBundles || 0}
+                    fromStart={item.fromStart}
+                    toEnd={item.toEnd}
                   />
                 )}
               </div>

@@ -53,7 +53,7 @@ const SurvayReport2 = () => {
   const fetchRecords = async () => {
     try {
       const response = await fetch(
-        `${await apiPath()}/api/sheet?workId=${projectId}`,
+        `${await apiPath()}/api/dataentry?workId=${projectId}`,
         {
           method: "GET",
           headers: {
@@ -100,7 +100,7 @@ const SurvayReport2 = () => {
     try {
       setLoading(true);
       const data = await axios.get(
-        `${await apiPath()}/api/work/project/${projectId}`,
+        `${await apiPath()}/api/workde/project/${projectId}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -123,7 +123,7 @@ const SurvayReport2 = () => {
       setLoading(true);
       toast.info("Calucating Values...");
       const data = await axios.put(
-        `${await apiPath()}/api/sheet/ordervaluation/${projectId}`,
+        `${await apiPath()}/api/dataentry/ordervaluation/${projectId}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -939,12 +939,20 @@ const SurvayReport2 = () => {
             part: b,
             totalParts: totalNormalBundles,
 
+            fromStart: pagesForThisBundle[0][0][0],
+            toEnd:
+              pagesForThisBundle[pagesForThisBundle.length - 1][
+                pagesForThisBundle[pagesForThisBundle.length - 1].length - 1
+              ][0],
+
             // 👇 NEW
             coverProperties,
             pageFrom,
             pageTo,
           });
         }
+
+        console.log(pagesForThisBundle, "pagesForThisBundle");
 
         pagesForThisBundle?.forEach((pageRecs) => {
           final.push({
@@ -1008,11 +1016,19 @@ const SurvayReport2 = () => {
             part: b,
             totalParts: totalCommBundles,
 
+            fromStart: pagesForThisBundle[0][0][0],
+            toEnd:
+              pagesForThisBundle[pagesForThisBundle.length - 1][
+                pagesForThisBundle[pagesForThisBundle.length - 1].length - 1
+              ][0],
+
             // 👇 NEW
             coverProperties,
             pageFrom,
             pageTo,
           });
+
+          console.log("pagesForThisBundle2", pagesForThisBundle);
 
           pagesForThisBundle.forEach((pageRecs) => {
             final.push({
@@ -1072,6 +1088,12 @@ const SurvayReport2 = () => {
           name: "",
           part: bundle,
           totalParts: totalBundles,
+
+          fromStart: pagesForThisBundle[0][0][0],
+          toEnd:
+            pagesForThisBundle[pagesForThisBundle.length - 1][
+              pagesForThisBundle[pagesForThisBundle.length - 1].length - 1
+            ][0],
 
           // 👇 NEW
           coverProperties,
@@ -1331,6 +1353,8 @@ const SurvayReport2 = () => {
                     pageFrom={item.pageFrom}
                     pageTo={item.pageTo}
                     totalNormalBundles={item.totalNormalBundles || 0}
+                    fromStart={item.fromStart}
+                    toEnd={item.toEnd}
                   />
                 ) : (
                   <AkarniIndexRaw
@@ -1344,6 +1368,8 @@ const SurvayReport2 = () => {
                     pageFrom={item.pageFrom}
                     pageTo={item.pageTo}
                     totalNormalBundles={item.totalNormalBundles || 0}
+                    fromStart={item.fromStart}
+                    toEnd={item.toEnd}
                   />
                 )}
               </div>

@@ -15,11 +15,7 @@ export const getDetails = async (req, res) => {
     const workId = req.params.id;
     console.log("Work ID: ", req.params.id);
 
-    const work = await sheet.findById(
-      process.env.GOOGLE_SHEET_ID,
-      "Index",
-      workId,
-    );
+    const work = await sheet.findById(SPREADSHEET_ID, "Index", workId);
     if (!work) return res.status(404).json({ error: "Work not found" });
 
     // const response = await sheets.spreadsheets.values.get({
@@ -80,11 +76,7 @@ export const getBillDetails = async (req, res) => {
 
     const houseCount = await getHouseCount(workId);
 
-    const work = await sheet.findById(
-      process.env.GOOGLE_SHEET_ID,
-      "Index",
-      workId,
-    );
+    const work = await sheet.findById(SPREADSHEET_ID, "Index", workId);
 
     const spot = JSON.parse(work[1]);
     const details = JSON.parse(work[2]);
@@ -117,7 +109,7 @@ export const updateBillDetails = async (req, res) => {
 
     const { invoiceNo, description, price, date } = req.body;
 
-    const work = await sheet.findById(process.env.GOOGLE_SHEET_ID, "Index", id);
+    const work = await sheet.findById(SPREADSHEET_ID, "Index", id);
 
     work[2] = JSON.stringify({
       ...JSON.parse(work[2] || {}),
@@ -127,12 +119,7 @@ export const updateBillDetails = async (req, res) => {
       date,
     });
 
-    const updatedWork = await sheet.update(
-      process.env.GOOGLE_SHEET_ID,
-      "Index",
-      id,
-      work,
-    );
+    const updatedWork = await sheet.update(SPREADSHEET_ID, "Index", id, work);
 
     const houseCount = await getHouseCount(id);
 
@@ -185,11 +172,7 @@ export const getImageMode = async (req, res) => {
       console.log(workID);
 
       if (workID) {
-        const isImage = await sheet.findById(
-          process.env.GOOGLE_SHEET_ID,
-          "Index",
-          workID,
-        );
+        const isImage = await sheet.findById(SPREADSHEET_ID, "Index", workID);
 
         res.status(200).json({
           message: "Image Akarni!",
@@ -214,11 +197,7 @@ export const getImageMode = async (req, res) => {
 export const addDetails = async (req, res) => {
   try {
     // const works = await Work.findOne({ _id: req.params.id });
-    const works = await sheet.findById(
-      process.env.GOOGLE_SHEET_ID,
-      "Index",
-      req.params.id,
-    );
+    const works = await sheet.findById(SPREADSHEET_ID, "Index", req.params.id);
 
     if (!works) return res.status(404).json({ error: "Work not found" });
 
@@ -256,7 +235,7 @@ export const addDetails = async (req, res) => {
     }
 
     const updatedWork = await sheet.update(
-      process.env.GOOGLE_SHEET_ID,
+      SPREADSHEET_ID,
       "Index",
       req.params.id,
       works,
@@ -274,11 +253,7 @@ export const addDetails = async (req, res) => {
 
 export const getTaxes = async (req, res) => {
   try {
-    const works = await sheet.findById(
-      process.env.GOOGLE_SHEET_ID,
-      "Index",
-      req.params.id,
-    );
+    const works = await sheet.findById(SPREADSHEET_ID, "Index", req.params.id);
 
     if (!works) return res.status(404).json({ error: "Work not found" });
 
@@ -313,11 +288,7 @@ export const getTaxes = async (req, res) => {
 // Add/update Taxes
 export const addTaxes = async (req, res) => {
   try {
-    const works = await sheet.findById(
-      process.env.GOOGLE_SHEET_ID,
-      "Index",
-      req.params.id,
-    );
+    const works = await sheet.findById(SPREADSHEET_ID, "Index", req.params.id);
 
     if (!works) return res.status(404).json({ error: "Work not found" });
 
@@ -345,7 +316,7 @@ export const addTaxes = async (req, res) => {
     }
 
     const updatedWork = await sheet.update(
-      process.env.GOOGLE_SHEET_ID,
+      SPREADSHEET_ID,
       "Index",
       req.params.id,
       works,

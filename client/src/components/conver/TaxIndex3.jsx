@@ -29,6 +29,9 @@ const TaxIndex3 = ({
   coverProperties,
   pageFrom,
   pageTo,
+
+  fromStart = 0,
+  toEnd = 0,
 }) => {
   // Houses
   // const housesPerBundle = nop * 100;
@@ -507,7 +510,9 @@ const TaxIndex3 = ({
           color: "black",
         }}
       >
-        {part}
+        {part} |{" "}
+        <span style={{ fontWeight: "400", color: "#5f5b8e" }}>ક્રમ:</span>{" "}
+        {`${fromStart} થી ${toEnd} સુધી`}
       </b>
 
       <b

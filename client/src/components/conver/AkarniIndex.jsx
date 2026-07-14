@@ -34,6 +34,9 @@ const AkarniIndex = ({
   pageFrom,
   pageTo,
   photograph = false,
+
+  fromStart = 0,
+  toEnd = 0,
 }) => {
   return (
     <div
@@ -310,7 +313,9 @@ const AkarniIndex = ({
           color: "black",
         }}
       >
-        {part}
+        {part} |{" "}
+        <span style={{ fontWeight: "400", color: "#5f5b8e" }}>ક્રમ:</span>{" "}
+        {`${fromStart} થી ${toEnd} સુધી`}
       </b>
 
       <b

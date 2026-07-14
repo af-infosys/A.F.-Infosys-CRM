@@ -38,7 +38,7 @@ const IndexReport2 = () => {
   const fetchProject = async () => {
     try {
       const data = await axios.get(
-        `${await apiPath()}/api/work/project/${projectId}`,
+        `${await apiPath()}/api/workde/project/${projectId}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -152,7 +152,7 @@ const IndexReport2 = () => {
     setIsLoading(true);
     try {
       const response = await fetch(
-        `${await apiPath()}/api/sheet?workId=${projectId}`,
+        `${await apiPath()}/api/dataentry?workId=${projectId}`,
         {
           method: "GET",
           headers: {

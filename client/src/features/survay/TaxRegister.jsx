@@ -671,6 +671,12 @@ const TaxRegister = () => {
           part: b,
           totalParts: totalNormalBundles,
 
+          fromStart: pagesForThisBundle[0][0][0],
+          toEnd:
+            pagesForThisBundle[pagesForThisBundle.length - 1][
+              pagesForThisBundle[pagesForThisBundle.length - 1].length - 1
+            ][0],
+
           // 👇 NEW
           coverProperties,
           pageFrom,
@@ -729,6 +735,12 @@ const TaxRegister = () => {
             totalParts: totalCommBundles,
             totalNormalBundles: totalNormalBundles,
 
+            fromStart: pagesForThisBundle[0][0][0],
+            toEnd:
+              pagesForThisBundle[pagesForThisBundle.length - 1][
+                pagesForThisBundle[pagesForThisBundle.length - 1].length - 1
+              ][0],
+
             // 👇 NEW
             coverProperties,
             pageFrom,
@@ -785,6 +797,12 @@ const TaxRegister = () => {
           name: "",
           part: bundle,
           totalParts: totalBundles,
+
+          fromStart: pagesForThisBundle[0][0][0],
+          toEnd:
+            pagesForThisBundle[pagesForThisBundle.length - 1][
+              pagesForThisBundle[pagesForThisBundle.length - 1].length - 1
+            ][0],
 
           // 👇 NEW
           coverProperties,
@@ -1347,6 +1365,8 @@ const TaxRegister = () => {
                     coverProperties={item.coverProperties}
                     pageFrom={item.pageFrom}
                     pageTo={item.pageTo}
+                    fromStart={item.fromStart}
+                    toEnd={item.toEnd}
                   />
                 ) : (
                   <TaxIndexRaw
@@ -1360,6 +1380,8 @@ const TaxRegister = () => {
                     coverProperties={item.coverProperties}
                     pageFrom={item.pageFrom}
                     pageTo={item.pageTo}
+                    fromStart={item.fromStart}
+                    toEnd={item.toEnd}
                   />
                 )}
               </div>
