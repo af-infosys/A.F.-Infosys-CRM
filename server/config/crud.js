@@ -167,38 +167,42 @@ export class GoogleSheetService {
   }
 
   async update(spreadsheetId, entity, id, values) {
-    await this.init();
+    try {
+      await this.init();
 
-    const range = `${entity}!A1:Z9999`;
+      const range = `${entity}!A1:Z9999`;
 
-    // get all rows
-    const res = await this.sheets.spreadsheets.values.get({
-      spreadsheetId,
-      range,
-    });
+      // get all rows
+      const res = await this.sheets.spreadsheets.values.get({
+        spreadsheetId,
+        range,
+      });
 
-    const records = res.data.values || [];
+      const records = res.data.values || [];
 
-    // find row by ID (column A)
-    const rowIndex = records.findIndex((row) => row[0] === id);
+      // find row by ID (column A)
+      const rowIndex = records.findIndex((row) => row[0] === id);
 
-    if (rowIndex === -1) {
-      throw new Error("Record not found");
+      if (rowIndex === -1) {
+        throw new Error("Record not found");
+      }
+
+      // Google sheet rows start from 1
+      const rowNumber = rowIndex + 1;
+
+      const updateRange = `${entity}!A${rowNumber}`;
+
+      return this.sheets.spreadsheets.values.update({
+        spreadsheetId,
+        range: updateRange,
+        valueInputOption: "USER_ENTERED",
+        requestBody: {
+          values: [values],
+        },
+      });
+    } catch (err) {
+      console.log("Error while updating", err);
     }
-
-    // Google sheet rows start from 1
-    const rowNumber = rowIndex + 1;
-
-    const updateRange = `${entity}!A${rowNumber}`;
-
-    return this.sheets.spreadsheets.values.update({
-      spreadsheetId,
-      range: updateRange,
-      valueInputOption: "USER_ENTERED",
-      requestBody: {
-        values: [values],
-      },
-    });
   }
 
   async deleteRow(spreadsheetId, entity, id) {

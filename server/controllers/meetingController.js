@@ -158,20 +158,6 @@ export const updateMeetingById = async (req, res) => {
       });
     }
 
-    const rowIndex = await findRowIndexById(
-      sheetService,
-      ENTITY,
-      sheetService.sheetId,
-      id,
-    );
-
-    if (!rowIndex) {
-      return res.status(404).json({
-        success: false,
-        message: "Meeting not found",
-      });
-    }
-
     const values = [
       id,
       taluka,
@@ -183,7 +169,7 @@ export const updateMeetingById = async (req, res) => {
       mobileNumber,
     ];
 
-    await sheetService.update(sheetService.sheetId, ENTITY, rowIndex, values);
+    await sheetService.update(sheetService.sheetId, ENTITY, id, values);
 
     res.json({
       success: true,
@@ -209,21 +195,21 @@ export const deleteMeetingById = async (req, res) => {
       });
     }
 
-    const rowIndex = await findRowIndexById(
-      sheetService,
-      ENTITY,
-      sheetService.sheetId,
-      id,
-    );
+    // const rowIndex = await findRowIndexById(
+    //   sheetService,
+    //   ENTITY,
+    //   sheetService.sheetId,
+    //   id,
+    // );
 
-    if (!rowIndex) {
-      return res.status(404).json({
-        success: false,
-        message: "Meeting not found",
-      });
-    }
+    // if (!rowIndex) {
+    //   return res.status(404).json({
+    //     success: false,
+    //     message: "Meeting not found",
+    //   });
+    // }
 
-    await sheetService.deleteRow(ENTITY, rowIndex);
+    await sheetService.deleteRow(sheetService.sheetId, ENTITY, id);
 
     res.json({
       success: true,

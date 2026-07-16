@@ -2,11 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import { fetchMeetingById } from "./meetingsApi2";
 
 import Page1 from "./letter2/Page1";
 import Page2 from "./letter2/Page2";
 import Page3 from "./letter2/Page3";
-import { fetchMeetingById } from "./meetingsApi";
 import Page4 from "./letter2/Page4";
 import Page5 from "./letter2/Page5";
 import Page6 from "./letter2/Page6";
@@ -30,6 +30,7 @@ const ListApplication = () => {
   useEffect(() => {
     const loadMeeting = async () => {
       const res = await fetchMeetingById(id);
+      console.log(res);
       setMeeting(res.data);
     };
 

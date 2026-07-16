@@ -27,7 +27,7 @@ const MeetingsTable2 = ({ data, onEdit, onDelete }) => {
             <td className="border p-2">{m.taluka}</td>
             <td className="border p-2">{m.district}</td>
             <td className="border p-2">{m.date}</td>
-            <td className="border p-2">{m.sarpanchEmail}</td>
+            <td className="border p-2">{m.officeEmail}</td>
             <td className="border p-2">{m.karmchariName}</td>
             <td className="border p-2">{m.designation}</td>
             <td className="border p-2">{m.mobileNumber}</td>

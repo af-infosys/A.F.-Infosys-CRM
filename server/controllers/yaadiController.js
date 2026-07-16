@@ -13,7 +13,7 @@ export const createMeeting = async (req, res) => {
       taluka,
       district,
       date,
-      sarpanchEmail,
+      officeEmail,
       karmchariName,
       designation,
       mobileNumber,
@@ -26,7 +26,7 @@ export const createMeeting = async (req, res) => {
       taluka,
       district,
       date,
-      sarpanchEmail,
+      officeEmail,
       karmchariName,
       designation,
       mobileNumber,
@@ -61,7 +61,7 @@ export const getMeetings = async (req, res) => {
       taluka: row[1],
       district: row[2],
       date: row[3],
-      sarpanchEmail: row[4],
+      officeEmail: row[4],
       karmchariName: row[5],
       designation: row[6],
       mobileNumber: row[7],
@@ -97,7 +97,7 @@ export const getMeetingById = async (req, res) => {
           taluka: rows[i][1],
           district: rows[i][2],
           date: rows[i][3],
-          sarpanchEmail: rows[i][4],
+          officeEmail: rows[i][4],
           karmchariName: rows[i][5],
           designation: rows[i][6],
           mobileNumber: rows[i][7],
@@ -145,7 +145,7 @@ export const updateMeetingById = async (req, res) => {
       taluka,
       district,
       date,
-      sarpanchEmail,
+      officeEmail,
       karmchariName,
       designation,
       mobileNumber,
@@ -158,32 +158,18 @@ export const updateMeetingById = async (req, res) => {
       });
     }
 
-    const rowIndex = await findRowIndexById(
-      sheetService,
-      ENTITY,
-      sheetService.sheetId,
-      id,
-    );
-
-    if (!rowIndex) {
-      return res.status(404).json({
-        success: false,
-        message: "Meeting not found",
-      });
-    }
-
     const values = [
       id,
       taluka,
       district,
       date,
-      sarpanchEmail,
+      officeEmail,
       karmchariName,
       designation,
       mobileNumber,
     ];
 
-    await sheetService.update(sheetService.sheetId, ENTITY, rowIndex, values);
+    await sheetService.update(sheetService.sheetId, ENTITY, id, values);
 
     res.json({
       success: true,
@@ -209,21 +195,21 @@ export const deleteMeetingById = async (req, res) => {
       });
     }
 
-    const rowIndex = await findRowIndexById(
-      sheetService,
-      ENTITY,
-      sheetService.sheetId,
-      id,
-    );
+    // const rowIndex = await findRowIndexById(
+    //   sheetService,
+    //   ENTITY,
+    //   sheetService.sheetId,
+    //   id,
+    // );
 
-    if (!rowIndex) {
-      return res.status(404).json({
-        success: false,
-        message: "Meeting not found",
-      });
-    }
+    // if (!rowIndex) {
+    //   return res.status(404).json({
+    //     success: false,
+    //     message: "Meeting not found",
+    //   });
+    // }
 
-    await sheetService.deleteRow(ENTITY, rowIndex);
+    await sheetService.deleteRow(sheetService.sheetId, ENTITY, id);
 
     res.json({
       success: true,
