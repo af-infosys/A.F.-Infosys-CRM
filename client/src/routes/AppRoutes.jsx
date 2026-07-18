@@ -82,6 +82,7 @@ import DataEntry from "../features/projects/DataEntry";
 import IncomeCategories from "../features/accounts/income/IncomeCategories";
 import IndexReport2 from "../features/dataentry/IndexReport";
 import TarijReport2 from "../features/dataentry/TarijReport";
+import SurveyBulkUpload from "../features/survay/SurveyBulkUpload";
 
 export default function AppRoutes() {
   const { user } = useAuth();
@@ -248,7 +249,10 @@ export default function AppRoutes() {
 
         <Route path="/survay">
           <Route index element={<AkarniProjects />} />
+
           <Route path="manage/:projectId" element={<Akarni />} />
+
+          <Route path="bulk/:projectId" element={<SurveyBulkUpload />} />
 
           <Route
             path="akarniReport/:projectId"

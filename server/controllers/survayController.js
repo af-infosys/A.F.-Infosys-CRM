@@ -305,6 +305,168 @@ export const addSheetRecord = async (req, res) => {
   }
 };
 
+function toEnglishNumber(value) {
+  const englishDigits = {
+    "૦": "0",
+    "૧": "1",
+    "૨": "2",
+    "૩": "3",
+    "૪": "4",
+    "૫": "5",
+    "૬": "6",
+    "૭": "7",
+    "૮": "8",
+    "૯": "9",
+  };
+
+  const result = String(value)
+    .split("")
+    .map((char) => englishDigits[char] ?? char)
+    .join("");
+
+  return typeof value === "number" ? Number(result) : result;
+}
+
+export const bulkSheetRecord = async (req, res) => {
+  try {
+    // 1. Get the authenticated client
+    const client = await auth.getClient();
+
+    // 2. Get the Google Sheets API instance
+    const googleSheets = google.sheets({ version: "v4", auth: client });
+
+    // 3. Extract the array of records from the request body
+    const { records, workId } = req.body;
+    console.log("Bulking Records:", req.body);
+
+    if (!workId) {
+      res.status(400).json({
+        message:
+          "Work Id not Provided! (Please check if user.workId is available on frontend)",
+      });
+      return;
+    }
+
+    // Validate that records exist and is an array
+    if (!records || !Array.isArray(records) || records.length === 0) {
+      return res
+        .status(400)
+        .json({ message: "No records provided for bulk upload." });
+    }
+
+    // Helper function: Kisi bhi type ke data ko safe string me convert aur trim karne ke liye
+    const safeString = (value) => {
+      if (value === null || value === undefined || value === "") return "";
+      return String(value).trim();
+    };
+
+    // 4. Map the array of objects into a 2D array (Array of Arrays) for Google Sheets
+    const valuesToAppend = [];
+
+    for (const record of records) {
+      const {
+        serialNumber,
+        areaSocietyName, // Fixed variable name
+        propertyNumber,
+        ownerName,
+        occupierName,
+        oldPropertyNumber,
+        mobileNumber,
+        propertyName,
+        category,
+        kitech,
+        bathroom,
+        farjo,
+        tapConnections,
+        toilet,
+        remarks,
+        propertyDetails,
+        propertyDescription,
+        astimatedPrice,
+        houseTaxCurrent,
+        houseTaxPrev,
+        otherTaxCurrent, // This is an Object
+        otherTaxPrev, // This is an Object
+        created_at,
+      } = record;
+
+      // Required field check (Relaxed ownerName check if sometimes it can be empty in Excel)
+      // If propertyNumber is missing, it's definitely an invalid row.
+      if (!serialNumber || !propertyNumber) {
+        continue; // skip invalid row
+      }
+
+      valuesToAppend.push([
+        toEnglishNumber(serialNumber || 0),
+        safeString(areaSocietyName), // Fixed: Use correct destructured variable
+        toEnglishNumber(propertyNumber || 0),
+        safeString(ownerName),
+        safeString(occupierName),
+        toEnglishNumber(oldPropertyNumber || 0),
+        safeString(mobileNumber),
+        safeString(propertyName),
+        safeString(category),
+        kitech || 0,
+        bathroom || 0,
+        farjo || 0,
+        tapConnections || 0,
+        toilet || 0,
+        safeString(remarks),
+        JSON.stringify(propertyDetails || []),
+        safeString(propertyDescription),
+        JSON.stringify(created_at || {}),
+        "", // updated at (empty string for now)
+        astimatedPrice || 0,
+        houseTaxCurrent || 0,
+        JSON.stringify(otherTaxCurrent || {}), // Fixed: Stringify object before passing to Sheets API
+        houseTaxPrev || 0,
+        JSON.stringify(otherTaxPrev || {}), // Fixed: Stringify object before passing to Sheets API
+        "",
+        "",
+        '["","",""]',
+      ]);
+    }
+
+    console.log(valuesToAppend);
+
+    // 5. Prevent Google API from throwing 400 if chunk is empty after validation
+    if (valuesToAppend.length === 0) {
+      return res.status(200).json({
+        message: "No valid records to append in this chunk, skipping.",
+      });
+    }
+
+    // 6. Append the 2D array to the Google Sheet in ONE single call
+    const response = await googleSheets.spreadsheets.values.append({
+      spreadsheetId: SPREADSHEET_ID,
+      range: `${workId}_Main!A4`,
+      valueInputOption: "RAW",
+      resource: {
+        values: valuesToAppend,
+      },
+    });
+
+    // 7. Send a success response
+    res.status(200).json({
+      message: `${valuesToAppend.length} records successfully added in bulk!`,
+      data: response.data,
+    });
+  } catch (error) {
+    // 8. Handle errors
+    console.error("Error bulk adding records to Google Sheet:", error.message);
+    if (error.code === 401 || error.code === 403) {
+      res.status(401).json({
+        message: "Authentication or permission error with Google Sheets API.",
+      });
+    } else {
+      res.status(500).json({
+        message: "Failed to bulk add records to Google Sheet.",
+        error: error.message,
+      });
+    }
+  }
+};
+
 export const syncSheetRecord = async (req, res) => {
   const workId = req.body.workId;
 

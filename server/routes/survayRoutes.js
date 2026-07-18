@@ -15,12 +15,14 @@ import {
   syncSheetRecord,
   excelEdit,
   insertRecord,
+  bulkSheetRecord,
 } from "../controllers/survayController.js";
 
 const survayRoutes = express.Router();
 
 // Specific routes for /areas should come BEFORE parameterized routes for the root path
 survayRoutes.get("/areas", getAllAreas); // <-- Move this up!
+
 survayRoutes.post("/areas", addArea);
 survayRoutes.post("/sync", syncSheetRecord);
 survayRoutes.post("/insert", insertRecord);
@@ -34,6 +36,8 @@ survayRoutes.put("/tax/:id", editTaxRecord);
 
 // General routes for / (records)
 survayRoutes.post("/add", addSheetRecord);
+survayRoutes.post("/bulk", bulkSheetRecord);
+
 survayRoutes.get("/", getAllRecords);
 survayRoutes.put("/ordervaluation/:id", calculateValuation);
 survayRoutes.post("/seperatecommercial/:id", seperateCommercialProperties);
