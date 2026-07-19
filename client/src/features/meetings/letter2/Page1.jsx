@@ -96,7 +96,7 @@ const Page1 = ({ data }) => {
         <span>
           એ.એફ.ઇન્ફોસીસ/યાદિ/જા.નં.
           {toGujaratiNumber(
-            Number(2 + (data?.index + 1)?.toString().padStart(3, "0")),
+            Number(1 + (data?.index + 1)?.toString().padStart(3, "0")),
           ) || "-0-"}
           /{/* {toGujaratiNumber(date.getMonth())}/ */}
           {toGujaratiNumber(date.getFullYear())}
@@ -113,7 +113,7 @@ const Page1 = ({ data }) => {
         </p>
         <p>તાલુકા પંચાયત કચેરી, {data.taluka || "____________"}</p>
         <p>જિલ્લો :- {data.district || "____________"}</p>
-        <p>E-Mail Id : - {data.email || "____________"}</p>
+        <p>E-Mail Id : - {data.officeEmail || "____________"}</p>
       </div>
 
       {/* Subject */}

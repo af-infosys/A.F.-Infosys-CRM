@@ -1,5 +1,15 @@
 import { useNavigate } from "react-router-dom";
 
+function formatDate(date) {
+  // dd/mm/yyyy
+
+  const d = new Date(date);
+  const day = d.getDate();
+  const month = d.getMonth() + 1;
+  const year = d.getFullYear();
+  return `${day}/${month}/${year}`;
+}
+
 const MeetingsTable2 = ({ data, onEdit, onDelete }) => {
   const navigate = useNavigate();
 
@@ -26,7 +36,7 @@ const MeetingsTable2 = ({ data, onEdit, onDelete }) => {
           <tr key={m.id}>
             <td className="border p-2">{m.taluka}</td>
             <td className="border p-2">{m.district}</td>
-            <td className="border p-2">{m.date}</td>
+            <td className="border p-2">{formatDate(m.date)}</td>
             <td className="border p-2">{m.officeEmail}</td>
             <td className="border p-2">{m.karmchariName}</td>
             <td className="border p-2">{m.designation}</td>
