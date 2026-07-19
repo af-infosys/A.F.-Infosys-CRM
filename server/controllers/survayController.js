@@ -228,6 +228,7 @@ export const addSheetRecord = async (req, res) => {
       img1,
       img2,
       img3,
+      isNew,
     } = req.body;
 
     // Basic validation: Check if essential fields are present
@@ -257,18 +258,18 @@ export const addSheetRecord = async (req, res) => {
       description, // વર્ણનને rowData માં ઉમેરો
       JSON.stringify(survayor),
 
-      // Column Padding (18-24 / Indices 17-23)
+      // Column Padding (18-24 / Indices 18-24)
       "",
       "",
       "",
       "",
       "",
       "",
-      "",
+      isNew ? "true" : "false",
       "",
 
-      // JSON.stringify([img1 || "", img2 || "", img3|| ""]), // Column 25
-      `["${img1 || ""}", "${img2 || ""}", "${img3 || ""}"]`, // Column 25
+      // JSON.stringify([img1 || "", img2 || "", img3|| ""]), // Column 26
+      `["${img1 || ""}", "${img2 || ""}", "${img3 || ""}"]`, // Column 26
     ];
 
     // 5. Append the row to the Google Sheet
