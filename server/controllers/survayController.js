@@ -853,6 +853,7 @@ export const editSheetRecord = async (req, res) => {
       img1, // Image 1 link (25th Column / Index 24)
       img2, // Image 2 link (26th Column / Index 25)
       img3, // Image 3 link (27th Column / Index 26)
+      isNew,
     } = req.body;
 
     const description = buildPropertyDescription(req.body);
@@ -893,11 +894,14 @@ export const editSheetRecord = async (req, res) => {
     // UNLESS the new request explicitly sends a 'survayor' object.
     const newSurveyorString = survayor
       ? JSON.stringify(survayor)
-      : existingRow[17];
-    updatedRow[17] = newSurveyorString;
+      : existingRow[18];
+    updatedRow[18] = newSurveyorString;
 
     // Handle Image Links (Columns 25-27 / Indices 24-26)
     // img1 (25th Column) -> Index 24
+    updatedRow[24] =
+      isNew === true || isNew === "true" || isNew === "TRUE" ? true : false;
+
     updatedRow[26] = `["${img1 || ""}", "${img2 || ""}", "${img3 || ""}"]`;
 
     // --- API ERROR FIX ---
