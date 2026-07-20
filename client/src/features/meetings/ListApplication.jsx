@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
-import { fetchMeetingById } from "./meetingsApi2";
+import { fetchMeetingById, updateMeeting } from "./meetingsApi2";
 
 import Page1 from "./letter2/Page1";
 import Page2 from "./letter2/Page2";
@@ -36,6 +36,28 @@ const ListApplication = () => {
 
     loadMeeting();
   }, [id]);
+
+  const sendEmail = async () => {
+    setLoading(true);
+    try {
+      const data = meeting;
+      data.sendDate = new Date().toISOString();
+
+      const response = await updateMeeting(data);
+
+      const result = await response.json();
+      console.log(result);
+
+      if (result.success) {
+        setMeeting(data);
+        alert("Email date Saved successfully!");
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const downloadPDF = async () => {
     setLoading(true);
@@ -93,6 +115,15 @@ const ListApplication = () => {
         >
           {loading ? "Downloading..." : "Download PDF"}
         </button>
+
+        {!meeting?.sendDate && (
+          <button
+            onClick={sendEmail}
+            className="px-4 py-2 bg-green-600 text-white rounded ml-2"
+          >
+            {loading ? "Sending..." : "Send Email"}
+          </button>
+        )}
       </div>
 
       <div className="space-y-6">

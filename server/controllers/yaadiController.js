@@ -65,6 +65,7 @@ export const getMeetings = async (req, res) => {
       karmchariName: row[5],
       designation: row[6],
       mobileNumber: row[7],
+      sendDate: row[8],
     }));
 
     res.json({ success: true, data: meetings });
@@ -101,6 +102,7 @@ export const getMeetingById = async (req, res) => {
           karmchariName: rows[i][5],
           designation: rows[i][6],
           mobileNumber: rows[i][7],
+          sendDate: rows[i][8],
           index: i,
         };
 
@@ -149,6 +151,7 @@ export const updateMeetingById = async (req, res) => {
       karmchariName,
       designation,
       mobileNumber,
+      sendDate,
     } = req.body;
 
     if (!id) {
@@ -167,6 +170,7 @@ export const updateMeetingById = async (req, res) => {
       karmchariName,
       designation,
       mobileNumber,
+      sendDate || "", // Add emailSentDate to the values array
     ];
 
     await sheetService.update(sheetService.sheetId, ENTITY, id, values);

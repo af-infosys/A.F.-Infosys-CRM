@@ -28,46 +28,54 @@ const MeetingsTable2 = ({ data, onEdit, onDelete }) => {
           <th className="border p-2">Name</th>
           <th className="border p-2">Designation</th>
           <th className="border p-2">Mobile</th>
+          <th className="border p-2">Send Date</th>
           <th className="border p-2">Actions</th>
         </tr>
       </thead>
       <tbody>
-        {data.map((m) => (
-          <tr key={m.id}>
-            <td className="border p-2">{m.taluka}</td>
-            <td className="border p-2">{m.district}</td>
-            <td className="border p-2">{formatDate(m.date)}</td>
-            <td className="border p-2">{m.officeEmail}</td>
-            <td className="border p-2">{m.karmchariName}</td>
-            <td className="border p-2">{m.designation}</td>
-            <td className="border p-2">{m.mobileNumber}</td>
-            <td
-              className="border p-2 space-x-2"
-              style={{ whiteSpace: "nowrap" }}
-            >
-              <button
-                onClick={() => onView(m.id)}
-                className="px-2 py-1 bg-blue-500 text-white rounded"
+        {data.map((m) => {
+          const date = new Date(m.sendDate || new Date().toISOString());
+          const dateString = m.date
+            ? `${formatDate(m.sendDate)} (${date.getHours}:${date.getMinutes}:${date.getSeconds})`
+            : "";
+          return (
+            <tr key={m.id}>
+              <td className="border p-2">{m.taluka}</td>
+              <td className="border p-2">{m.district}</td>
+              <td className="border p-2">{formatDate(m.date)}</td>
+              <td className="border p-2">{m.officeEmail}</td>
+              <td className="border p-2">{m.karmchariName}</td>
+              <td className="border p-2">{m.designation}</td>
+              <td className="border p-2">{m.mobileNumber}</td>
+              <td className="border p-2">{dateString}</td>
+              <td
+                className="border p-2 space-x-2"
+                style={{ whiteSpace: "nowrap" }}
               >
-                Arji
-              </button>
+                <button
+                  onClick={() => onView(m.id)}
+                  className="px-2 py-1 bg-blue-500 text-white rounded"
+                >
+                  Arji
+                </button>
 
-              <button
-                onClick={() => onEdit(m)}
-                className="px-2 py-1 bg-yellow-400 rounded"
-              >
-                Edit
-              </button>
+                <button
+                  onClick={() => onEdit(m)}
+                  className="px-2 py-1 bg-yellow-400 rounded"
+                >
+                  Edit
+                </button>
 
-              <button
-                onClick={() => onDelete(m.id)}
-                className="px-2 py-1 bg-red-500 text-white rounded"
-              >
-                Delete
-              </button>
-            </td>
-          </tr>
-        ))}
+                <button
+                  onClick={() => onDelete(m.id)}
+                  className="px-2 py-1 bg-red-500 text-white rounded"
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   );
