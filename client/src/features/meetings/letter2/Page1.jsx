@@ -95,10 +95,8 @@ const Page1 = ({ data }) => {
       >
         <span>
           એ.એફ.ઇન્ફોસીસ/યાદિ/જા.નં.
-          {toGujaratiNumber(
-            Number(1 + (data?.index + 1)?.toString().padStart(3, "0")),
-          ) || "-0-"}
-          /{/* {toGujaratiNumber(date.getMonth())}/ */}
+          {toGujaratiNumber(data?.index + 1001) || "-0-"}/
+          {/* {toGujaratiNumber(date.getMonth())}/ */}
           {toGujaratiNumber(date.getFullYear())}
         </span>
 

@@ -4,7 +4,7 @@ const emptyForm = {
   id: "",
   taluka: "",
   district: "",
-  date: "",
+  date: new Date().toISOString().split("T")[0],
   officeEmail: "",
   karmchariName: "",
   designation: "",

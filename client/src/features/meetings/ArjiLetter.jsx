@@ -56,7 +56,7 @@ const ArjiLetter = () => {
       pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight);
     }
 
-    pdf.save(`Meeting_Letter_${meeting?.taluka}.pdf`);
+    pdf.save(`Meeting Letter - ${meeting?.taluka}.pdf`);
 
     setLoading(false);
   };

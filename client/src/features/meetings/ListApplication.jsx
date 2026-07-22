@@ -13,6 +13,16 @@ import Page6 from "./letter2/Page6";
 import Page7 from "./letter2/Page7";
 import Page8 from "./letter2/Page8";
 
+function formatDate(date) {
+  // dd/mm/yyyy
+
+  const d = new Date(date);
+  const day = d.getDate();
+  const month = d.getMonth() + 1;
+  const year = d.getFullYear();
+  return `${day}/${month}/${year}`;
+}
+
 const ListApplication = () => {
   const { id } = useParams();
   const [meeting, setMeeting] = useState(null);
@@ -50,6 +60,29 @@ const ListApplication = () => {
 
       if (result.success) {
         setMeeting(data);
+
+        // 1. Email body ko template literal me define karein
+        const emailBody = `પ્રતિ,                                                                                       તારીખ :- ${formatDate(data.date)}
+
+શ્રી તાલુકા વિકાસ અધિકારી સાહેબ,
+
+તાલુકા પંચાયત કચેરી - ${data.taluka}
+
+જિલ્લો - ${data.district} 
+
+ખાસ અગત્યનું PDF File Download કરી આપશ્રી સાહેબના વંચાણે લેવું`;
+
+        // 2. Subject aur Body ko encode karein
+        const subject = encodeURIComponent("અગત્યની PDF File");
+        const encodedBody = encodeURIComponent(emailBody);
+
+        // 3. mailto link generate karein
+        const mailtoLink = `mailto:${data.officeEmail}?subject=${subject}&body=${encodedBody}`;
+
+        // 4. Automatically Gmail / Default Email Client open karne ke liye
+        window.location.href = mailtoLink;
+        // (Agar naye tab me open karna ho toh: window.open(mailtoLink, '_blank'); use karein)
+
         alert("Email date Saved successfully!");
       }
     } catch (error) {
@@ -98,7 +131,7 @@ const ListApplication = () => {
       pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight);
     }
 
-    pdf.save(`Meeting_Letter_${meeting?.taluka}.pdf`);
+    pdf.save(`Yaadi Arji Letter - ${meeting?.taluka}.pdf`);
 
     setLoading(false);
   };
@@ -116,12 +149,16 @@ const ListApplication = () => {
           {loading ? "Downloading..." : "Download PDF"}
         </button>
 
-        {!meeting?.sendDate && (
+        {meeting?.sendDate === "" ? (
           <button
             onClick={sendEmail}
             className="px-4 py-2 bg-green-600 text-white rounded ml-2"
           >
             {loading ? "Sending..." : "Send Email"}
+          </button>
+        ) : (
+          <button className="px-4 py-2 bg-green-600 text-white rounded ml-2">
+            Sent {formatDate(meeting?.sendDate)}
           </button>
         )}
       </div>

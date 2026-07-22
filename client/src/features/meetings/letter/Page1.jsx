@@ -95,9 +95,7 @@ const Page1 = ({ data }) => {
       >
         <span>
           એ.એફ.ઇન્ફો/નં.
-          {toGujaratiNumber(
-            Number(2 + (data?.index + 1)?.toString().padStart(3, "0")),
-          ) || "-0-"}
+          {toGujaratiNumber(data?.index + 2001) || "-0-"}
           /પ્રેજ/તા.પં/મીટીંગ/
           {toGujaratiNumber(date.getMonth())}/
           {toGujaratiNumber(date.getFullYear())}
