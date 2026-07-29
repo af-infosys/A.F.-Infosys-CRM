@@ -25,35 +25,33 @@ const MeetingsTable2 = ({ data, onEdit, onDelete }) => {
 
       const response = await updateMeeting(finalData);
 
-      const result = await response.json();
-      console.log(result);
+      console.log(response);
 
-      // 1. Email body ko template literal me define karein
+      // 1. Email body
       const emailBody = `પ્રતિ,                                                                                       તારીખ :- ${formatDate(finalData.date)}
 
 શ્રી તાલુકા વિકાસ અધિકારી સાહેબ,
 
 તાલુકા પંચાયત કચેરી - ${finalData.taluka}
 
-જિલ્લો - ${finalData.district} 
+જિલ્લો - ${finalData.district}
 
 ખાસ અગત્યનું PDF File Download કરી આપશ્રી સાહેબના વંચાણે લેવું`;
 
-      // 2. Subject aur Body ko encode karein
+      // 2. Encode Subject & Body
       const subject = encodeURIComponent("અગત્યની PDF File");
-      const encodedBody = encodeURIComponent(emailBody);
+      const body = encodeURIComponent(emailBody);
 
-      // 3. mailto link generate karein
-      const mailtoLink = `mailto:${finalData.officeEmail}?subject=${subject}&body=${encodedBody}`;
+      // 3. Gmail Compose URL
+      const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(finalData.officeEmail)}&su=${subject}&body=${body}`;
 
-      // 4. Automatically Gmail / Default Email Client open karne ke liye
-      window.location.href = mailtoLink;
+      // 4. Open Gmail Compose
+      window.open(gmailLink, "_blank");
       // (Agar naye tab me open karna ho toh: window.open(mailtoLink, '_blank'); use karein)
 
       alert("Email date Saved successfully!");
 
-      // reload
-      window.location.reload();
+      window.location.reload(); // Reload the page to reflect the updated sendDate
     } catch (error) {
       console.error(error);
     } finally {

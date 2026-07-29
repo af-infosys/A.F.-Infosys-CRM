@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.e8a77671.css",
-    "main.js": "/static/js/main.6d8631a8.js",
+    "main.css": "/static/css/main.e6edb5a3.css",
+    "main.js": "/static/js/main.a4a97304.js",
     "static/js/977.a1af68da.chunk.js": "/static/js/977.a1af68da.chunk.js",
     "static/js/455.1395af92.chunk.js": "/static/js/455.1395af92.chunk.js",
     "static/js/453.53e18daf.chunk.js": "/static/js/453.53e18daf.chunk.js",
@@ -23,7 +23,7 @@
     "static/media/3D Ball Rounded.png": "/static/media/3D Ball Rounded.6d354c7f2dbbbce51a69.png",
     "static/media/UnAuthorized.png": "/static/media/UnAuthorized.2e4140c0244196a93e1c.png",
     "static/media/Areas.png": "/static/media/Areas.11538e4fab1951582468.png",
-    "static/media/bottom.svg": "/static/media/bottom.9508f54178bd780dfbe2.svg",
+    "static/media/bottom.svg": "/static/media/bottom.3e2420602a7a7808a143.svg",
     "static/media/wale.png": "/static/media/wale.e2fa4b02db583a508589.png",
     "static/media/lightTax.png": "/static/media/lightTax.9ccb560d2e3e798426a8.png",
     "static/media/Religious.png": "/static/media/Religious.ba09ed283ed76baaddf0.png",
@@ -39,7 +39,7 @@
     "static/media/Watermark-Raw.png": "/static/media/Watermark-Raw.3c235a673f501e51b16f.png",
     "static/media/Watermark.png": "/static/media/Watermark.3c235a673f501e51b16f.png",
     "static/media/search.png": "/static/media/search.17b40541e1ceaa04a220.png",
-    "static/media/Heading.svg": "/static/media/Heading.49de966eac82eb524177.svg",
+    "static/media/Heading.svg": "/static/media/Heading.235be045033bd50e5960.svg",
     "static/media/Glasses Gandhi Ji.png": "/static/media/Glasses Gandhi Ji.99639cabcde2f7c387f1.png",
     "static/media/whatsapp.png": "/static/media/whatsapp.c339ff504121f060e736.png",
     "static/media/manage.png": "/static/media/manage.305d60fe50c399fff61b.png",
@@ -48,7 +48,7 @@
     "static/media/telecaller.png": "/static/media/telecaller.2ed50f5ddaba60548133.png",
     "static/media/check.png": "/static/media/check.f00ed9f207409fe465f1.png",
     "static/media/Total.png": "/static/media/Total.c134310de067dd459257.png",
-    "static/media/corner.svg": "/static/media/corner.5118e37e8a779de1a59f.svg",
+    "static/media/corner.svg": "/static/media/corner.12e9d72cdb914b9a9711.svg",
     "static/media/addemp.png": "/static/media/addemp.2233c75e19f5122ae2cb.png",
     "static/media/accounts.png": "/static/media/accounts.25504df4af75c65a5ec2.png",
     "static/media/incoming-call.png": "/static/media/incoming-call.89fabc5168654e132e2e.png",
@@ -70,14 +70,14 @@
     "static/media/expense.png": "/static/media/expense.e0c59843096bb7a05c4c.png",
     "static/media/House.png": "/static/media/House.640d0b1e39b36fd2550c.png",
     "index.html": "/index.html",
-    "main.e8a77671.css.map": "/static/css/main.e8a77671.css.map",
-    "main.6d8631a8.js.map": "/static/js/main.6d8631a8.js.map",
+    "main.e6edb5a3.css.map": "/static/css/main.e6edb5a3.css.map",
+    "main.a4a97304.js.map": "/static/js/main.a4a97304.js.map",
     "977.a1af68da.chunk.js.map": "/static/js/977.a1af68da.chunk.js.map",
     "455.1395af92.chunk.js.map": "/static/js/455.1395af92.chunk.js.map",
     "453.53e18daf.chunk.js.map": "/static/js/453.53e18daf.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.e8a77671.css",
-    "static/js/main.6d8631a8.js"
+    "static/css/main.e6edb5a3.css",
+    "static/js/main.a4a97304.js"
   ]
 }

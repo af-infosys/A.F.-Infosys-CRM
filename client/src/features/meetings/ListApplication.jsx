@@ -55,14 +55,10 @@ const ListApplication = () => {
 
       const response = await updateMeeting(data);
 
-      const result = await response.json();
-      console.log(result);
+      setMeeting(data);
 
-      if (result.success) {
-        setMeeting(data);
-
-        // 1. Email body ko template literal me define karein
-        const emailBody = `પ્રતિ,                                                                                       તારીખ :- ${formatDate(data.date)}
+      // 1. Email body ko template literal me define karein
+      const emailBody = `પ્રતિ,                                                                                       તારીખ :- ${formatDate(data.date)}
 
 શ્રી તાલુકા વિકાસ અધિકારી સાહેબ,
 
@@ -72,19 +68,17 @@ const ListApplication = () => {
 
 ખાસ અગત્યનું PDF File Download કરી આપશ્રી સાહેબના વંચાણે લેવું`;
 
-        // 2. Subject aur Body ko encode karein
-        const subject = encodeURIComponent("અગત્યની PDF File");
-        const encodedBody = encodeURIComponent(emailBody);
+      // 2. Subject aur Body ko encode karein
+      const subject = encodeURIComponent("અગત્યની PDF File");
+      const encodedBody = encodeURIComponent(emailBody);
 
-        // 3. mailto link generate karein
-        const mailtoLink = `mailto:${data.officeEmail}?subject=${subject}&body=${encodedBody}`;
+      // 3. Gmail Compose URL
+      const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(data.officeEmail)}&su=${subject}&body=${encodedBody}`;
 
-        // 4. Automatically Gmail / Default Email Client open karne ke liye
-        window.location.href = mailtoLink;
-        // (Agar naye tab me open karna ho toh: window.open(mailtoLink, '_blank'); use karein)
+      // 4. Open Gmail Compose
+      window.open(gmailLink, "_blank");
 
-        alert("Email date Saved successfully!");
-      }
+      alert("Email date Saved successfully!");
     } catch (error) {
       console.error(error);
     } finally {
@@ -149,16 +143,16 @@ const ListApplication = () => {
           {loading ? "Downloading..." : "Download PDF"}
         </button>
 
-        {meeting?.sendDate === "" ? (
+        {meeting?.sendDate ? (
+          <button className="px-4 py-2 bg-green-600 text-white rounded ml-2">
+            Sent {formatDate(meeting?.sendDate)}
+          </button>
+        ) : (
           <button
             onClick={sendEmail}
             className="px-4 py-2 bg-green-600 text-white rounded ml-2"
           >
             {loading ? "Sending..." : "Send Email"}
-          </button>
-        ) : (
-          <button className="px-4 py-2 bg-green-600 text-white rounded ml-2">
-            Sent {formatDate(meeting?.sendDate)}
           </button>
         )}
       </div>

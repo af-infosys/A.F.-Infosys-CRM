@@ -12,7 +12,13 @@ const TextBlock = ({ children }) => (
   </p>
 );
 
-const IndexIndex = ({ part, nop, project, totalHoouse }) => {
+const IndexIndex = ({
+  part,
+  nop,
+  project,
+  totalHoouse,
+  commercial = undefined,
+}) => {
   console.log(project);
 
   const housesPerBundle = nop * 100;
@@ -100,7 +106,13 @@ const IndexIndex = ({ part, nop, project, totalHoouse }) => {
             marginTop: "20px",
           }}
         >
-          Index Book - પાનોત્રી બુક
+          Index Book - પાનોત્રી બુક (
+          {commercial === true
+            ? "કોમર્શિયલ"
+            : commercial === false
+              ? "રહેણાંક"
+              : ""}
+          )
         </h1>
         <h2 className="text-2xl font-semibold mt-2 text-gray-700">
           સને :- {project?.details?.taxYear || "2025/26"}
