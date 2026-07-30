@@ -830,11 +830,11 @@ const IndexReport = () => {
                     style={{ fontSize: "16px", paddingTop: "5px" }}
                   >
                     Index Book - (પાનોત્રી બુક) ક, ખ, ગ, પ્રમાણે <br /> ગામનો
-                    નમુના નંબર ૯/ડી - કરવેરા રજીસ્ટર (
+                    નમુના નંબર ૯/ડી - કરવેરા રજીસ્ટર{" "}
                     {item?.isCommercial
-                      ? "કોમર્શિયલ"
+                      ? "(કોમર્શિયલ)"
                       : item?.isCommercial === false
-                        ? "રહેણાંક"
+                        ? "(રહેણાંક)"
                         : ""}
                     )
                   </h1>

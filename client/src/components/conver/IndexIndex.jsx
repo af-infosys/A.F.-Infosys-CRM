@@ -106,13 +106,12 @@ const IndexIndex = ({
             marginTop: "20px",
           }}
         >
-          Index Book - પાનોત્રી બુક (
-          {commercial === true
-            ? "કોમર્શિયલ"
+          Index Book - પાનોત્રી બુક
+          {commercial
+            ? "(કોમર્શિયલ)"
             : commercial === false
-              ? "રહેણાંક"
+              ? "(રહેણાંક)"
               : ""}
-          )
         </h1>
         <h2 className="text-2xl font-semibold mt-2 text-gray-700">
           સને :- {project?.details?.taxYear || "2025/26"}
