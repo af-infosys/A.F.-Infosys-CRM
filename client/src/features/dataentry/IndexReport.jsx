@@ -514,18 +514,18 @@ const IndexReport2 = () => {
       let currentBundle = 1;
 
       // ---------- RESIDENTIAL ----------
-      const totalResidentialBundles =
-        Math.ceil(residentialPagesList.length / BUNDLE_SIZE) || 1;
+      // const totalResidentialBundles =
+      //   Math.ceil(residentialPagesList.length / BUNDLE_SIZE) || 1;
 
-      for (let b = 1; b <= totalResidentialBundles; b++) {
-        const start = (b - 1) * BUNDLE_SIZE;
-        const end = start + BUNDLE_SIZE;
-        const pagesForThisBundle = residentialPagesList.slice(start, end);
+      for (let b = 1; b <= residentialPagesList.length; b++) {
+        // const start = (b - 1) * BUNDLE_SIZE;
+        // const end = start + BUNDLE_SIZE;
+        // const pagesForThisBundle = residentialPagesList.slice(start, end);
 
         const pageFrom = globalPageNumber;
-        const pageTo = globalPageNumber + pagesForThisBundle.length - 1;
+        const pageTo = globalPageNumber + residentialPagesList.length - 1;
 
-        if (pagesForThisBundle.length > 0) {
+        if (residentialPagesList.length > 0) {
           final.push({
             type: "cover",
             bundle: currentBundle,
@@ -536,7 +536,7 @@ const IndexReport2 = () => {
           });
         }
 
-        pagesForThisBundle.forEach((pageRecords) => {
+        residentialPagesList.forEach((pageRecords) => {
           final.push({
             type: "data-page",
             bundle: currentBundle,
@@ -552,31 +552,31 @@ const IndexReport2 = () => {
 
       // ---------- COMMERCIAL ----------
       if (commercialPagesList.length > 0) {
-        const totalCommercialBundles = Math.ceil(
-          commercialPagesList.length / BUNDLE_SIZE,
-        );
+        // const totalCommercialBundles = Math.ceil(
+        //   commercialPagesList.length / BUNDLE_SIZE,
+        // );
 
-        for (let b = 1; b <= totalCommercialBundles; b++) {
-          const start = (b - 1) * BUNDLE_SIZE;
-          const end = start + BUNDLE_SIZE;
-          const pagesForThisBundle = commercialPagesList.slice(start, end);
+        for (let b = 1; b <= commercialPagesList.length; b++) {
+          // const start = (b - 1) * BUNDLE_SIZE;
+          // const end = start + BUNDLE_SIZE;
+          // const pagesForThisBundle = commercialPagesList.slice(start, end);
 
           const pageFrom = globalPageNumber;
-          const pageTo = globalPageNumber + pagesForThisBundle.length - 1;
+          const pageTo = globalPageNumber + commercialPagesList.length - 1;
 
-          if (pagesForThisBundle.length > 0) {
+          if (commercialPagesList.length > 0) {
             final.push({
               type: "cover",
               bundle: currentBundle,
               name: "કોમર્શિયલ મિલકત",
               commercial: true,
-              totalNormalBundles: totalResidentialBundles,
+              totalNormalBundles: residentialPagesList.length,
               pageFrom,
               pageTo,
             });
           }
 
-          pagesForThisBundle.forEach((pageRecords) => {
+          commercialPagesList.forEach((pageRecords) => {
             final.push({
               type: "data-page",
               bundle: currentBundle,
@@ -844,7 +844,6 @@ const IndexReport2 = () => {
                       : item?.isCommercial === false
                         ? "(રહેણાંક)"
                         : ""}
-                    )
                   </h1>
                   <h2 className="subheading">
                     સને {project?.details?.taxYear || "૨૦૨૫/૨૬"}
@@ -856,7 +855,7 @@ const IndexReport2 = () => {
                       fontSize: "20px",
                     }}
                   >
-                    પાના નં. {toGujaratiNumber(item.actualPageIndex + 1)}
+                    પાના નં. {toGujaratiNumber(item?.pageNumber)}
                   </span>
 
                   <div
