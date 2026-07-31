@@ -517,36 +517,36 @@ const IndexReport = () => {
       // const totalResidentialBundles =
       //   Math.ceil(residentialPagesList.length / BUNDLE_SIZE) || 1;
 
-      for (let b = 1; b <= residentialPagesList.length; b++) {
-        // const start = (b - 1) * BUNDLE_SIZE;
-        // const end = start + BUNDLE_SIZE;
-        // const pagesForThisBundle = residentialPagesList.slice(start, end);
+      // for (let b = 1; b <= residentialPagesList.length; b++) {
+      // const start = (b - 1) * BUNDLE_SIZE;
+      // const end = start + BUNDLE_SIZE;
+      // const pagesForThisBundle = residentialPagesList.slice(start, end);
 
-        const pageFrom = globalPageNumber;
-        const pageTo = globalPageNumber + residentialPagesList.length - 1;
+      const pageFrom = globalPageNumber;
+      const pageTo = globalPageNumber + residentialPagesList.length - 1;
 
+      final.push({
+        type: "cover",
+        bundle: currentBundle,
+        name: "રહેણાંક મિલકત",
+        commercial: false,
+        pageFrom,
+        pageTo,
+      });
+
+      residentialPagesList.forEach((pageRecords) => {
         final.push({
-          type: "cover",
+          type: "data-page",
           bundle: currentBundle,
-          name: "રહેણાંક મિલકત",
-          commercial: false,
-          pageFrom,
-          pageTo,
+          pageNumber: globalPageNumber,
+          records: pageRecords,
+          isCommercial: false,
         });
+        globalPageNumber++; // Increment global counter
+      });
 
-        residentialPagesList.forEach((pageRecords) => {
-          final.push({
-            type: "data-page",
-            bundle: currentBundle,
-            pageNumber: globalPageNumber,
-            records: pageRecords,
-            isCommercial: false,
-          });
-          globalPageNumber++; // Increment global counter
-        });
-
-        currentBundle++;
-      }
+      //   currentBundle++;
+      // }
 
       // ---------- COMMERCIAL ----------
       if (commercialPagesList.length > 0) {
@@ -554,37 +554,37 @@ const IndexReport = () => {
         //   commercialPagesList.length / BUNDLE_SIZE,
         // );
 
-        for (let b = 1; b <= commercialPagesList.length; b++) {
-          // const start = (b - 1) * BUNDLE_SIZE;
-          // const end = start + BUNDLE_SIZE;
-          // const pagesForThisBundle = commercialPagesList.slice(start, end);
+        // for (let b = 1; b <= commercialPagesList.length; b++) {
+        // const start = (b - 1) * BUNDLE_SIZE;
+        // const end = start + BUNDLE_SIZE;
+        // const pagesForThisBundle = commercialPagesList.slice(start, end);
 
-          const pageFrom = globalPageNumber;
-          const pageTo = globalPageNumber + commercialPagesList.length - 1;
+        const pageFrom = globalPageNumber;
+        const pageTo = globalPageNumber + commercialPagesList.length - 1;
 
+        final.push({
+          type: "cover",
+          bundle: currentBundle,
+          name: "કોમર્શિયલ મિલકત",
+          commercial: true,
+          totalNormalBundles: residentialPagesList,
+          pageFrom,
+          pageTo,
+        });
+
+        commercialPagesList.forEach((pageRecords) => {
           final.push({
-            type: "cover",
+            type: "data-page",
             bundle: currentBundle,
-            name: "કોમર્શિયલ મિલકત",
-            commercial: true,
-            totalNormalBundles: residentialPagesList,
-            pageFrom,
-            pageTo,
+            pageNumber: globalPageNumber,
+            records: pageRecords,
+            isCommercial: true,
           });
+          globalPageNumber++; // Increment global counter
+        });
 
-          commercialPagesList.forEach((pageRecords) => {
-            final.push({
-              type: "data-page",
-              bundle: currentBundle,
-              pageNumber: globalPageNumber,
-              records: pageRecords,
-              isCommercial: true,
-            });
-            globalPageNumber++; // Increment global counter
-          });
-
-          currentBundle++;
-        }
+        //   currentBundle++;
+        // }
       }
     } else {
       // ==========================================
