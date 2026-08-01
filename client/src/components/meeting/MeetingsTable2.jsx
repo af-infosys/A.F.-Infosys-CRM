@@ -44,9 +44,10 @@ const MeetingsTable2 = ({ data, onEdit, onDelete }) => {
 
       // 3. Gmail Compose URL
       const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(finalData.officeEmail)}&su=${subject}&body=${body}`;
+      const mailtoLink = `mailto:${encodeURIComponent(finalData.officeEmail)}?subject=${subject}&body=${body}`;
 
       // 4. Open Gmail Compose
-      window.open(gmailLink, "_blank");
+      window.open(mailtoLink, "_blank");
       // (Agar naye tab me open karna ho toh: window.open(mailtoLink, '_blank'); use karein)
 
       alert("Email date Saved successfully!");

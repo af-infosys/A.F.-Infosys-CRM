@@ -75,8 +75,10 @@ const ListApplication = () => {
       // 3. Gmail Compose URL
       const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(data.officeEmail)}&su=${subject}&body=${encodedBody}`;
 
+      const mailtoLink = `mailto:${encodeURIComponent(data.officeEmail)}?subject=${subject}&body=${encodedBody}`;
+
       // 4. Open Gmail Compose
-      window.open(gmailLink, "_blank");
+      window.open(mailtoLink, "_blank");
 
       alert("Email date Saved successfully!");
     } catch (error) {
