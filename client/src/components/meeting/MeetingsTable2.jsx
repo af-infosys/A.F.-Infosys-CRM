@@ -84,7 +84,19 @@ const MeetingsTable2 = ({ data, onEdit, onDelete }) => {
         {data.map((m, index) => {
           const date = m.sendDate ? new Date(m.sendDate) : false;
           const dateString = date ? (
-            `${formatDate(m.sendDate)} (${date.getHours()}:${date.getMinutes()})`
+            <>
+              <p className="text-green-600 font-semibold">
+                {`${formatDate(m.sendDate)} (${date.getHours()}:${date.getMinutes()})`}
+              </p>
+              <button
+                onClick={() => {
+                  sendEmail(m);
+                }}
+                className="px-4 py-2 bg-green-600 text-white rounded ml-2"
+              >
+                {loading ? "Sending..." : "Send Again"}
+              </button>
+            </>
           ) : (
             <button
               onClick={() => {
