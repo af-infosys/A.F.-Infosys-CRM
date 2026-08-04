@@ -314,8 +314,24 @@ const AkarniIndex = ({
         }}
       >
         {part} |{" "}
-        <span style={{ fontWeight: "400", color: "#5f5b8e" }}>ક્રમ નં.</span>{" "}
-        {`${fromStart} થી ${toEnd} સુધી`}
+        <span style={{ fontWeight: "400", color: "#4c4884" }}>ક્રમ નં.</span>{" "}
+        {fromStart}{" "}
+        <span style={{ fontWeight: "400", color: "#4c4884" }}>થી</span> {toEnd}{" "}
+        <span style={{ fontWeight: "400", color: "#4c4884" }}>સુધી</span>
+      </b>
+
+      <b
+        style={{
+          position: "absolute",
+          bottom: "-355px",
+          left: "135px",
+          fontSize: "27px",
+          fontWeight: "700",
+          color: "black",
+        }}
+      >
+        {pageFrom}{" "}
+        <span style={{ fontWeight: "600", color: "#4c4884" }}>To</span> {pageTo}
       </b>
 
       <b
@@ -329,19 +345,6 @@ const AkarniIndex = ({
         }}
       >
         {coverProperties}
-      </b>
-
-      <b
-        style={{
-          position: "absolute",
-          bottom: "-355px",
-          left: "135px",
-          fontSize: "27px",
-          fontWeight: "700",
-          color: "black",
-        }}
-      >
-        {`${pageFrom} થી ${pageTo}`}
       </b>
 
       <b

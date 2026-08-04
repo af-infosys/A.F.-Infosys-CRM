@@ -844,26 +844,26 @@ const SurvayReport = () => {
           pageTo,
         });
 
-        if (currentBundle === 1 && isRaw) {
-          final.push({ type: "benefit", name: "panchayat" });
-          final.push({ type: "benefit", name: "public" });
+        // if (currentBundle === 1 && isRaw) {
+        //   final.push({ type: "benefit", name: "panchayat" });
+        //   final.push({ type: "benefit", name: "public" });
 
-          final.push({ type: "tharav", name: "committee" });
-        }
+        //   final.push({ type: "tharav", name: "committee" });
+        // }
 
-        pagesForThisBundle?.forEach((pageRecs) => {
-          final.push({
-            type: "page",
-            bundle: currentBundle,
-            pageIndex: globalPageNumber - 1,
-            pageRecords: pageRecs,
-            isCommercial: false,
-            commercial: false,
-          });
-          globalPageNumber++;
-        });
+        // pagesForThisBundle?.forEach((pageRecs) => {
+        //   final.push({
+        //     type: "page",
+        //     bundle: currentBundle,
+        //     pageIndex: globalPageNumber - 1,
+        //     pageRecords: pageRecs,
+        //     isCommercial: false,
+        //     commercial: false,
+        //   });
+        //   globalPageNumber++;
+        // });
 
-        currentBundle++;
+        // currentBundle++;
       }
 
       if (isRaw) {
@@ -921,20 +921,20 @@ const SurvayReport = () => {
             pageTo,
           });
 
-          pagesForThisBundle.forEach((pageRecs) => {
-            final.push({
-              type: "page",
-              bundle: currentBundle,
-              pageIndex: globalPageNumber - 1,
-              pageRecords: pageRecs,
-              isCommercial: true,
-              commercial: true,
-            });
+          // pagesForThisBundle.forEach((pageRecs) => {
+          //   final.push({
+          //     type: "page",
+          //     bundle: currentBundle,
+          //     pageIndex: globalPageNumber - 1,
+          //     pageRecords: pageRecs,
+          //     isCommercial: true,
+          //     commercial: true,
+          //   });
 
-            globalPageNumber++;
-          });
+          //   globalPageNumber++;
+          // });
 
-          currentBundle++;
+          // currentBundle++;
         }
 
         final.push({

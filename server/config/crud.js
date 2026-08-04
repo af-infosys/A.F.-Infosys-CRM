@@ -132,13 +132,23 @@ export class GoogleSheetService {
   async insert(sheetId, entity, values) {
     console.log("Insert Called");
     await this.init();
-    const range = `${entity}!A2:Z9999`;
+    // const range = `${entity}!A2:Z9999`;
+
+    // return this.sheets.spreadsheets.values.append({
+    //   spreadsheetId: sheetId,
+    //   range,
+    //   valueInputOption: "USER_ENTERED",
+    //   requestBody: { values: [values] },
+    // });
 
     return this.sheets.spreadsheets.values.append({
       spreadsheetId: sheetId,
-      range,
+      range: `${entity}!A:A`,
       valueInputOption: "USER_ENTERED",
-      requestBody: { values: [values] },
+      insertDataOption: "INSERT_ROWS",
+      requestBody: {
+        values: [values],
+      },
     });
   }
 
