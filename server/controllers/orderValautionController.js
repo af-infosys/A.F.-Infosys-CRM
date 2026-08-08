@@ -179,7 +179,7 @@ export const getImageMode = async (req, res) => {
           isImage: JSON.parse(isImage[2] || {})?.imageAkarni || false,
           isPtvPlot: JSON.parse(isImage[2] || {})?.pvtplot || false,
           isGovPlot: JSON.parse(isImage[2] || {})?.govplot || false,
-          isMobile: JSON.parse(isImage[2] || {})?.isMobile || true,
+          isMobile: JSON.parse(isImage[2] || {})?.isMobile || false,
         });
       }
     } else {
