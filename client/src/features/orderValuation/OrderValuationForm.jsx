@@ -55,6 +55,7 @@ const OrderValuationForm = () => {
 
     pvtplot: false,
     govplot: false,
+    showMobile: true,
 
     comity: [
       { name: "", designation: "અધ્યક્ષ સરપંચશ્રી " },
@@ -1464,6 +1465,26 @@ const OrderValuationForm = () => {
                   }));
                 }}
                 checked={details.govplot}
+              />
+
+              <label
+                htmlFor="showMobile"
+                className="text-sm font-medium text-gray-700 mb-1"
+              >
+                Show Mobile
+              </label>
+
+              <input
+                type="checkbox"
+                id="showMobile"
+                value={details.showMobile}
+                onChange={(e) => {
+                  setDetails((prev) => ({
+                    ...prev,
+                    showMobile: e.target.checked,
+                  }));
+                }}
+                checked={details.showMobile}
               />
             </div>
 
