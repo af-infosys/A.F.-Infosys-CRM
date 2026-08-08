@@ -55,7 +55,7 @@ const OrderValuationForm = () => {
 
     pvtplot: false,
     govplot: false,
-    showMobile: true,
+    isMobile: true,
 
     comity: [
       { name: "", designation: "અધ્યક્ષ સરપંચશ્રી " },
@@ -1044,6 +1044,7 @@ const OrderValuationForm = () => {
                           );
                         }}
                         className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 transition-all duration-200"
+                        style={{ minWidth: "150px" }}
                       />
                     </td>
                     <td
@@ -1067,6 +1068,7 @@ const OrderValuationForm = () => {
                           );
                         }}
                         className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 transition-all duration-200"
+                        style={{ minWidth: "150px" }}
                       />
                     </td>
                     <td
@@ -1090,6 +1092,7 @@ const OrderValuationForm = () => {
                           );
                         }}
                         className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 transition-all duration-200"
+                        style={{ minWidth: "150px" }}
                       />
                     </td>
                     <td className="px-4 py-3 text-center whitespace-nowrap">
@@ -1468,7 +1471,7 @@ const OrderValuationForm = () => {
               />
 
               <label
-                htmlFor="showMobile"
+                htmlFor="isMobile"
                 className="text-sm font-medium text-gray-700 mb-1"
               >
                 Show Mobile
@@ -1476,15 +1479,15 @@ const OrderValuationForm = () => {
 
               <input
                 type="checkbox"
-                id="showMobile"
-                value={details.showMobile}
+                id="isMobile"
+                value={details.isMobile}
                 onChange={(e) => {
                   setDetails((prev) => ({
                     ...prev,
-                    showMobile: e.target.checked,
+                    isMobile: e.target.checked,
                   }));
                 }}
-                checked={details.showMobile}
+                checked={details.isMobile}
               />
             </div>
 
