@@ -32,6 +32,9 @@ const TaxIndexRaw = ({
   coverProperties,
   pageFrom,
   pageTo,
+
+  fromStart = 0,
+  toEnd = 0,
 }) => {
   // Houses
   // const housesPerBundle = nop * 100;
@@ -380,23 +383,9 @@ const TaxIndexRaw = ({
                     // borderBottom: "1px solid #000",
                   }}
                 >
-                  {part}
-                </b>
-              </label>
-            </div>
-
-            <div className="flex items-center text-xl font-medium text-gray-700">
-              <label style={{ maxWidth: "fit-content", fontSize: "21px" }}>
-                આ રજીસ્ટર ના ઘરની સંખ્યા :-
-                <b
-                  style={{
-                    // paddingBottom: "1px",
-                    paddingInline: "5px",
-                    marginLeft: "2px",
-                    // borderBottom: "1px solid #000",
-                  }}
-                >
-                  {coverProperties}{" "}
+                  {part} | <span style={{ fontWeight: "500" }}>ક્રમ:</span>{" "}
+                  {fromStart} <span style={{ fontWeight: "500" }}> થી </span>{" "}
+                  {toEnd} <span style={{ fontWeight: "500" }}> સુધી </span>
                 </b>
               </label>
             </div>
@@ -412,7 +401,23 @@ const TaxIndexRaw = ({
                     // borderBottom: "1px solid #000",
                   }}
                 >
-                  {`${pageFrom} થી ${pageTo}`}{" "}
+                  {`${pageFrom} થી ${pageTo}`}
+                </b>
+              </label>
+            </div>
+
+            <div className="flex items-center text-xl font-medium text-gray-700">
+              <label style={{ maxWidth: "fit-content", fontSize: "21px" }}>
+                આ રજીસ્ટર ના ઘરની સંખ્યા :-
+                <b
+                  style={{
+                    // paddingBottom: "1px",
+                    paddingInline: "5px",
+                    marginLeft: "2px",
+                    // borderBottom: "1px solid #000",
+                  }}
+                >
+                  {coverProperties}
                 </b>
               </label>
             </div>
