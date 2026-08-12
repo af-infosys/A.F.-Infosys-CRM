@@ -21,6 +21,8 @@ import Blank9D from "../../components/Blank9D";
 
 const TaxRegister2 = () => {
   const [count, setCount] = useState(5);
+  const [PROPERTIES_PER_PAGE, SetPropertiesPerPage] = useState(6); // એક પેજ પર કેટલી લાઇન બતાવવી
+
   const scrollToPage = () => {
     const element = document.getElementById(`report-page-${count}`);
 
@@ -572,7 +574,6 @@ const TaxRegister2 = () => {
   // Paginate records into chunks of 6
   // --- CONFIGURATION ---
 
-  const PROPERTIES_PER_PAGE = 6;
   const BUNDLE_SIZE = 100;
 
   const finalRenderPages = buildFinalPages(
@@ -1334,6 +1335,52 @@ const TaxRegister2 = () => {
       )}
       <br />
       <br />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "end",
+          alignItems: "center",
+          gap: "20px",
+
+          position: "sticky",
+          top: "20px",
+          marginBottom: "30px",
+          width: "100%",
+          zIndex: "999",
+        }}
+      >
+        <button
+          onClick={() => SetPropertiesPerPage(PROPERTIES_PER_PAGE - 1)}
+          style={{
+            padding: "10px 20px",
+            background: "blue",
+            color: "white",
+            borderRadius: "5px",
+            fontSize: "20px",
+            fontWeight: "900",
+          }}
+        >
+          -
+        </button>
+
+        <h3>{PROPERTIES_PER_PAGE}</h3>
+
+        <button
+          onClick={() => SetPropertiesPerPage(PROPERTIES_PER_PAGE + 1)}
+          style={{
+            padding: "10px 20px",
+            background: "blue",
+            color: "white",
+            borderRadius: "5px",
+            fontSize: "20px",
+            fontWeight: "900",
+          }}
+        >
+          +
+        </button>
+      </div>
+      <br />
+      <br />
       <div className="pdf-report-container">
         {finalRenderPages.map((item, idx) => {
           if (
@@ -1405,8 +1452,8 @@ const TaxRegister2 = () => {
                 width: "1700px",
                 paddingTop: "55px",
 
-                paddingLeft: "65px",
-                paddingRight: "20px",
+                paddingLeft: "45px",
+                paddingRight: "0px",
               }}
             >
               <div
