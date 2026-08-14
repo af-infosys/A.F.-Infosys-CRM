@@ -39,7 +39,9 @@ const MeetingsTable2 = ({ data, onEdit, onDelete }) => {
 ખાસ અગત્યનું PDF File Download કરી આપશ્રી સાહેબના વંચાણે લેવું`;
 
       // 2. Encode Subject & Body
-      const subject = encodeURIComponent("અગત્યની PDF File");
+      const subject = encodeURIComponent(
+        "તલાટી કમ મંત્રી તથા સરપંચશ્રીની યાદિ બાબત",
+      );
       const body = encodeURIComponent(emailBody);
 
       // 3. Gmail Compose URL

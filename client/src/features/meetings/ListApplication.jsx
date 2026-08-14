@@ -69,7 +69,9 @@ const ListApplication = () => {
 ખાસ અગત્યનું PDF File Download કરી આપશ્રી સાહેબના વંચાણે લેવું`;
 
       // 2. Subject aur Body ko encode karein
-      const subject = encodeURIComponent("અગત્યની PDF File");
+      const subject = encodeURIComponent(
+        "તલાટી કમ મંત્રી તથા સરપંચશ્રીની યાદિ બાબત",
+      );
       const encodedBody = encodeURIComponent(emailBody);
 
       // 3. Gmail Compose URL

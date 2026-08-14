@@ -1127,6 +1127,7 @@ const TaxRegister = () => {
 
           position: "sticky",
           top: "20px",
+          right: "20px",
           marginBottom: "30px",
           width: "100%",
           zIndex: "999",
