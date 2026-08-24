@@ -106,16 +106,17 @@ const BulkRecords = () => {
       const dateStr = dateField.toString().trim();
 
       // Accepts:
-      // DD-MM-YYYY or D-M-YYYY
-      // DD-MM-YY or D-M-YY
-      // Examples: 24-08-2026, 24-8-2026, 24-08-26, 24-8-26
+      // DD-MM-YYYY  => 24-08-2026
+      // DD-MM-YY    => 24-08-26
+      // M/D/YY      => 8/24/26
+      // MM/DD/YYYY  => 08/24/2026
       const dateRegex =
-        /^(0?[1-9]|[12][0-9]|3[01])-(0?[1-9]|1[0-2])-(\d{2}|\d{4})$/;
+        /^(?:(0?[1-9]|[12][0-9]|3[01])-(0?[1-9]|1[0-2])-(\d{2}|\d{4})|(0?[1-9]|1[0-2])\/(0?[1-9]|[12][0-9]|3[01])\/(\d{2}|\d{4}))$/;
 
       if (!dateRegex.test(dateStr)) {
         isValid = false;
         errors.push(
-          "Invalid Date (Must be DD-MM-YY or DD-MM-YYYY, e.g. 24-08-26 or 24-08-2026)",
+          "Invalid Date (Must be DD-MM-YY, DD-MM-YYYY, M/D/YY or M/D/YYYY, e.g. 24-08-26, 24-08-2026 or 8/24/26)",
         );
       }
     }
