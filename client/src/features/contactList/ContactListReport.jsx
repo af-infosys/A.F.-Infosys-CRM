@@ -622,6 +622,163 @@ const ContactListReport = () => {
     XLSX.writeFile(workbook, "customers_contact_list_lead.xlsx");
   };
 
+  const handleDownloadGoogleContacts = () => {
+    // Google Contacts ka EXACT official CSV template
+    const headers = [
+      "Name Prefix",
+      "First Name",
+      "Middle Name",
+      "Last Name",
+      "Name Suffix",
+      "Phonetic First Name",
+      "Phonetic Middle Name",
+      "Phonetic Last Name",
+      "Nickname",
+      "File As",
+      "E-mail 1 - Label",
+      "E-mail 1 - Value",
+      "Phone 1 - Label",
+      "Phone 1 - Value",
+      "Address 1 - Label",
+      "Address 1 - Country",
+      "Address 1 - Street",
+      "Address 1 - Extended Address",
+      "Address 1 - City",
+      "Address 1 - Region",
+      "Address 1 - Postal Code",
+      "Address 1 - PO Box",
+      "Organization Name",
+      "Organization Title",
+      "Organization Department",
+      "Birthday",
+      "Event 1 - Label",
+      "Event 1 - Value",
+      "Relation 1 - Label",
+      "Website 1 - Label",
+      "Relation 1 - Value",
+      "Website 1 - Value",
+      "Custom Field 1 - Label",
+      "Custom Field 1 - Value",
+      "Notes",
+      "Labels",
+    ];
+
+    // Phone number ko Google Contacts ke liye standard format me convert karega
+    const formatPhoneNumber = (number) => {
+      if (!number) return "";
+
+      let phone = String(number).trim();
+
+      // Spaces, -, (, ) etc. remove
+      phone = phone.replace(/\D/g, "");
+
+      if (!phone) return "";
+
+      // Already India country code ke saath hai
+      if (phone.startsWith("91") && phone.length === 12) {
+        return `+${phone}`;
+      }
+
+      // Normal Indian 10 digit number
+      if (phone.length === 10) {
+        return `+91${phone}`;
+      }
+
+      // Agar koi other valid format ho toh as-is + ke saath
+      return `+${phone}`;
+    };
+
+    // Excel/JSON data se CSV rows
+    const rows = [];
+
+    // Duplicate WhatsApp numbers avoid karne ke liye
+    const usedNumbers = new Set();
+
+    filteredRecords.forEach((record) => {
+      const customerName = String(record[2] || "").trim();
+
+      const mobileNumber = String(record[3] || "").trim();
+      const whatsappNumber = String(record[4] || "").trim();
+
+      const category = String(record[5] || "").trim();
+      const village = String(record[6] || "").trim();
+      const taluka = String(record[8] || "").trim();
+      const district = String(record[9] || "").trim();
+
+      // ------------------------------------------
+      // PRIMARY NUMBER = WhatsApp Number
+      // ------------------------------------------
+
+      const primaryPhone = formatPhoneNumber(whatsappNumber);
+
+      // WhatsApp number hi nahi hai toh contact skip
+      if (!primaryPhone) return;
+
+      // Same WhatsApp number dobara nahi add karna
+      if (usedNumbers.has(primaryPhone)) {
+        return;
+      }
+
+      usedNumbers.add(primaryPhone);
+
+      // ------------------------------------------
+      // Exact Google Contacts row
+      // ------------------------------------------
+
+      const row = Array(headers.length).fill("");
+
+      // Name
+      // Customer ka pura naam as-is First Name me
+      row[1] = customerName;
+
+      // Primary Phone
+      row[12] = "Mobile";
+      row[13] = primaryPhone;
+
+      // Address
+      // Gaam    -> Street
+      // Taluka  -> City
+      // District -> Region
+      row[14] = "Work";
+      row[16] = village;
+      row[18] = taluka;
+      row[19] = district;
+
+      // Category -> Organization Title / Job Title
+      row[23] = category;
+
+      rows.push(row);
+    });
+
+    // Header + rows
+    const csvData = [headers, ...rows];
+
+    // SheetJS se CSV generate
+    const worksheet = XLSX.utils.aoa_to_sheet(csvData);
+
+    const csv = XLSX.utils.sheet_to_csv(worksheet);
+
+    // UTF-8 BOM
+    // Gujarati names ko Excel/Google Contacts me properly
+    // recognize karne ke liye useful hai.
+    const blob = new Blob(["\uFEFF" + csv], {
+      type: "text/csv;charset=utf-8;",
+    });
+
+    // Download
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "google_contacts.csv";
+
+    document.body.appendChild(link);
+    link.click();
+
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <>
       {/* Selected Message Preview */}
@@ -702,6 +859,12 @@ const ContactListReport = () => {
             className="bg-green-600 text-white px-4 py-2 rounded"
           >
             Download Excel
+          </button>
+          <button
+            onClick={handleDownloadGoogleContacts}
+            className="bg-blue-600 text-white px-4 py-2 rounded"
+          >
+            Download CSV
           </button>
 
           {(user?.role === "owner" || user?.role === "telecaller") && (
