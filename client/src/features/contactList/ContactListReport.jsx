@@ -730,6 +730,8 @@ const ContactListReport = () => {
       // Name
       // Customer ka pura naam as-is First Name me
       row[1] = customerName;
+      row[2] = category + " " + taluka;
+      row[3] = district;
 
       // Primary Phone
       row[12] = "Mobile";
