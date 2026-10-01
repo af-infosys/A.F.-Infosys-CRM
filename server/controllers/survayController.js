@@ -277,9 +277,9 @@ export const addSheetRecord = async (req, res) => {
     const response = await googleSheets.spreadsheets.values.append({
       spreadsheetId: SPREADSHEET_ID,
       range: `${workId}_Main`,
-      valueInputOption: "RAW",
+      valueInputOption: "USER_ENTERED",
       insertDataOption: "INSERT_ROWS",
-      resource: {
+      requestBody: {
         values: [rowData],
       },
     });

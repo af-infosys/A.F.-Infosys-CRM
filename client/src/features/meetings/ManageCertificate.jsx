@@ -51,7 +51,7 @@ const ManageCertificate = () => {
       </div>
 
       <MeetingsTable
-        data={meetings}
+        data={meetings.reverse()}
         onEdit={(m) => {
           setEditData(m);
           setModalOpen(true);
