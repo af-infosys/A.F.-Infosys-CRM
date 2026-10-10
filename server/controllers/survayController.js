@@ -900,10 +900,10 @@ export const editSheetRecord = async (req, res) => {
 
     // Handle Image Links (Columns 25-27 / Indices 24-26)
     // img1 (25th Column) -> Index 24
-    updatedRow[24] =
-      isNew === true || isNew === "true" || isNew === "TRUE" ? true : false;
 
     updatedRow[26] = `["${img1 || ""}", "${img2 || ""}", "${img3 || ""}"]`;
+    updatedRow[27] =
+      isNew === true || isNew === "true" || isNew === "TRUE" ? true : false;
 
     // --- API ERROR FIX ---
     // CRITICAL: Ensure the array length does not exceed 27 elements (indices 0-26).

@@ -527,7 +527,7 @@ function BillViewDE() {
                 >
                   <div className="flex justify-between">
                     <span>
-                      Invois No.{" "}
+                      Invoice No.{" "}
                       <b className="text-red-700">
                         {billData?.invoiceNo || projectId}
                       </b>
@@ -1184,7 +1184,7 @@ function BillViewDE() {
                   <br />
                   <div className="flex justify-between">
                     <span>
-                      Invois No.{" "}
+                      Invoice No.{" "}
                       <b className="text-red-700">
                         {billData?.invoiceNo || projectId}
                       </b>

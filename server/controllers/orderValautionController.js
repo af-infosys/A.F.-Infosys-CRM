@@ -90,7 +90,7 @@ export const getBillDetails = async (req, res) => {
       invoiceNo: details?.invoiceNo,
       description: details?.description,
       price: details?.price,
-      date: formatDate(details?.date),
+      date: details?.date,
       houseCount,
     };
 

@@ -60,6 +60,19 @@ const calculateTotal = (data = []) => {
     houseTax: {
       curr: data.reduce((s, i) => s + Number(i[20] || 0), 0),
       prev: data.reduce((s, i) => s + Number(i[22] || 0), 0),
+
+      vasulat: {
+        curr: data.reduce(
+          (s, i) =>
+            s + Number(JSON.parse(i[24] || "{}")?.vasulat?.currtax || 0),
+          0,
+        ),
+        prev: data.reduce(
+          (s, i) =>
+            s + Number(JSON.parse(i[24] || "{}")?.vasulat?.prevtax || 0),
+          0,
+        ),
+      },
     },
     waterTax: {
       curr: data.reduce(
@@ -72,7 +85,21 @@ const calculateTotal = (data = []) => {
           s + Number(JSON.parse(i[23] || "{}")?.normal_water?.prev || 0),
         0,
       ),
+
+      vasulat: {
+        curr: data.reduce(
+          (s, i) =>
+            s + Number(JSON.parse(i[21] || "{}")?.normal_water?.vasulat || 0),
+          0,
+        ),
+        prev: data.reduce(
+          (s, i) =>
+            s + Number(JSON.parse(i[23] || "{}")?.normal_water?.vasulat || 0),
+          0,
+        ),
+      },
     },
+
     specialTax: {
       curr: data.reduce(
         (s, i) =>
@@ -84,7 +111,21 @@ const calculateTotal = (data = []) => {
           s + Number(JSON.parse(i[23] || "{}")?.special_water?.prev || 0),
         0,
       ),
+
+      vasulat: {
+        curr: data.reduce(
+          (s, i) =>
+            s + Number(JSON.parse(i[21] || "{}")?.special_water?.vasulat || 0),
+          0,
+        ),
+        prev: data.reduce(
+          (s, i) =>
+            s + Number(JSON.parse(i[23] || "{}")?.special_water?.vasulat || 0),
+          0,
+        ),
+      },
     },
+
     lightTax: {
       curr: data.reduce(
         (s, i) => s + Number(JSON.parse(i[21] || "{}")?.light?.curr || 0),
@@ -94,6 +135,17 @@ const calculateTotal = (data = []) => {
         (s, i) => s + Number(JSON.parse(i[23] || "{}")?.light?.prev || 0),
         0,
       ),
+
+      vasulat: {
+        curr: data.reduce(
+          (s, i) => s + Number(JSON.parse(i[21] || "{}")?.light?.vasulat || 0),
+          0,
+        ),
+        prev: data.reduce(
+          (s, i) => s + Number(JSON.parse(i[23] || "{}")?.light?.vasulat || 0),
+          0,
+        ),
+      },
     },
     cleanTax: {
       curr: data.reduce(
@@ -104,7 +156,21 @@ const calculateTotal = (data = []) => {
         (s, i) => s + Number(JSON.parse(i[23] || "{}")?.cleaning?.prev || 0),
         0,
       ),
+
+      vasulat: {
+        curr: data.reduce(
+          (s, i) =>
+            s + Number(JSON.parse(i[21] || "{}")?.cleaning?.vasulat || 0),
+          0,
+        ),
+        prev: data.reduce(
+          (s, i) =>
+            s + Number(JSON.parse(i[23] || "{}")?.cleaning?.vasulat || 0),
+          0,
+        ),
+      },
     },
+
     totalCount: data.length,
     countTax: data.reduce(
       (s, i) =>

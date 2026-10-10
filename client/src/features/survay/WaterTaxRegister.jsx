@@ -19,7 +19,7 @@ import { saveAs } from "file-saver";
 import Blank9D from "../../components/Blank9D";
 import WaterTaxIndexRaw from "../../components/conver/WaterTaxIndexRaw";
 
-const WaterTaxRegister2 = () => {
+const WaterTaxRegister = () => {
   const [count, setCount] = useState(5);
   const [PROPERTIES_PER_PAGE, SetPropertiesPerPage] = useState(5); // એક પેજ પર કેટલી લાઇન બતાવવી
 
@@ -82,7 +82,7 @@ const WaterTaxRegister2 = () => {
     try {
       setLoading(true);
       const data = await axios.get(
-        `${await apiPath()}/api/workde/project/${projectId}`,
+        `${await apiPath()}/api/work/project/${projectId}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -107,7 +107,7 @@ const WaterTaxRegister2 = () => {
       toast.info("Calucating Values...");
 
       const data = await axios.put(
-        `${await apiPath()}/api/dataentry/ordervaluation/${projectId}`,
+        `${await apiPath()}/api/survey/ordervaluation/${projectId}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -132,7 +132,7 @@ const WaterTaxRegister2 = () => {
     setLoading(true);
     try {
       let fetchedData = await axios.get(
-        `${await apiPath()}/api/valuationde/tax/${projectId}`,
+        `${await apiPath()}/api/valuation/tax/${projectId}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -361,174 +361,6 @@ const WaterTaxRegister2 = () => {
       window.alert("PDF save cancelled.");
     }
   };
-
-  // const handleDownloadPDF = async () => {
-  //   const totalPages = finalRenderPages.length;
-  //   // const totalPages = Math.ceil(records.length / PROPERTIES_PER_PAGE) + 3;
-  //   // const totalPages = 5;
-
-  //   let totalDuration = 0; // Cumulative time taken (ms)
-
-  //   const startTime = window.performance.now();
-
-  //   setPdfProgress({
-  //     isGenerating: true,
-  //     isCancelled: false,
-  //     completedPages: 0,
-  //     totalPages: totalPages,
-  //     percentage: 0,
-  //     timeRemaining: null,
-  //   });
-
-  //   // jsPDF is now treated as a global variable
-  //   const pdf = new jsPDF("landscape", "mm", "legal");
-
-  //   for (let i = 0; i < totalPages; i++) {
-  //     // Helper to reliably get the latest state (for checking the isCancelled flag)
-  //     const currentState = await new Promise((resolve) => {
-  //       setPdfProgress((prev) => {
-  //         resolve(prev);
-  //         return prev;
-  //       });
-  //     });
-
-  //     if (currentState.isCancelled) {
-  //       console.log("PDF generation cancelled by user.");
-  //       break; // Exit the loop immediately
-  //     }
-
-  //     const pageStart = window.performance.now(); // Start timer for the current page
-
-  //     const pageElement = document.getElementById(`report-page-${i}`);
-
-  //     if (!pageElement) {
-  //       console.error(`Page element with ID 'report-page-${i}' not found.`);
-  //       continue;
-  //     }
-
-  //     if (i > 0) {
-  //       pdf.addPage();
-  //     }
-
-  //     try {
-  //       // html2canvas is now treated as a global variable
-  //       const canvas = await html2canvas(pageElement, {
-  //         scale: 2,
-  //         logging: false, // Set to false to reduce console clutter
-  //         useCORS: true,
-  //         allowTaint: true,
-  //       });
-
-  //       const imgData = canvas.toDataURL("image/jpeg", 1.0);
-  //       const imgWidth = 355.6;
-  //       const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-  //       pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight);
-
-  //       const pageEnd = window.performance.now();
-  //       const pageDuration = pageEnd - pageStart; // Time taken for this page (ms)
-  //       totalDuration += pageDuration;
-
-  //       const completedPages = i + 1;
-  //       const percentage = Math.round((completedPages / totalPages) * 100);
-
-  //       let timeRemaining = null;
-
-  //       if (completedPages >= 2) {
-  //         const averageTimePerPage = totalDuration / completedPages;
-  //         const pagesRemaining = totalPages - completedPages;
-
-  //         timeRemaining = Math.max(
-  //           0,
-  //           Math.round((averageTimePerPage * pagesRemaining) / 1000),
-  //         );
-  //       }
-
-  //       // 2. Update Progress State with ETA
-  //       setPdfProgress((prev) => ({
-  //         ...prev,
-  //         completedPages: completedPages,
-  //         percentage: percentage,
-  //         timeRemaining: timeRemaining,
-  //       }));
-
-  //       setCount(completedPages - 1);
-  //     } catch (error) {
-  //       console.error("Error generating PDF page:", error);
-  //       break;
-  //     }
-  //   }
-
-  //   // ⭐ CANCELLATION CHECK 2: Final state update based on whether it was cancelled or completed
-  //   const finalState = await new Promise((resolve) => {
-  //     setPdfProgress((prev) => {
-  //       resolve(prev);
-  //       // Determine final state message
-  //       return {
-  //         ...prev,
-  //         isGenerating: false, // Stop loading spinner
-  //         isCancelled: prev.isCancelled,
-  //         // If cancelled, keep the current percentage; otherwise, set to 100%
-  //         percentage: prev.isCancelled ? prev.percentage : 100,
-  //         timeRemaining: null, // Clear ETA display
-  //       };
-  //     });
-  //   });
-
-  //   if (!finalState.isCancelled) {
-  //     // 3. Finalize and Save PDF ONLY if not cancelled
-  //     pdf.save("3. Tax_Register.pdf");
-  //     window.alert("PDF successfully saved.");
-  //   } else {
-  //     window.alert("PDF save operation skipped due to cancellation.");
-  //   }
-  // };
-
-  // const handleDownloadPDF = async () => {
-  //   const pdf = new jsPDF("landscape", "mm", "legal");
-
-  //   const totalPages = Math.ceil(records.length / 15);
-
-  //   for (let i = 0; i < totalPages; i++) {
-  //     const pageElement = document.getElementById(`report-page-${i}`);
-
-  //     if (!pageElement) {
-  //       console.error(`Page element with ID 'report-page-${i}' not found.`);
-
-  //       continue;
-  //     }
-
-  //     // Add a page before adding content, except for the first page
-
-  //     if (i > 0) {
-  //       pdf.addPage();
-  //     }
-
-  //     try {
-  //       const canvas = await html2canvas(pageElement, {
-  //         scale: 2,
-
-  //         logging: true,
-
-  //         useCORS: true,
-
-  //         allowTaint: true,
-  //       });
-
-  //       const imgData = canvas.toDataURL("image/jpeg", 1.0);
-
-  //       // const imgWidth = 355; // Legal landscape width in mm
-  //       const imgWidth = pdf.internal.pageSize.getWidth();
-  //       const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-  //       pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight);
-  //     } catch (error) {
-  //       console.error("Error generating PDF page:", error);
-  //     }
-  //   }
-
-  //   pdf.save("4. Tax_Register.pdf");
-  // };
 
   if (loading) {
     return (
@@ -1966,4 +1798,4 @@ const WaterTaxRegister2 = () => {
   );
 };
 
-export default WaterTaxRegister2;
+export default WaterTaxRegister;

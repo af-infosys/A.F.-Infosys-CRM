@@ -525,12 +525,15 @@ function BillView() {
                 >
                   <div className="flex justify-between">
                     <span>
-                      Invois No.{" "}
+                      Invoice No.{" "}
                       <b className="text-red-700">{billData.invoiceNo}</b>
                     </span>
                     <span>
-                      Date : ...................................
-                      {/* <b className="text-gray-500">{billData.year}</b> */}
+                      Date :{" "}
+                      <b className="text-gray-500">
+                        {billData?.date ||
+                          "..................................."}
+                      </b>
                     </span>
                   </div>
                   <div className="flex justify-between mt-2">
@@ -1176,7 +1179,7 @@ function BillView() {
                   <br />
                   <div className="flex justify-between">
                     <span>
-                      Invois No.{" "}
+                      Invoice No.{" "}
                       <b className="text-red-700">{billData.invoiceNo}</b>
                     </span>
                     <span>

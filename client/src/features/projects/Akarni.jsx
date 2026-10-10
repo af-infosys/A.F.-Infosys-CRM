@@ -18,18 +18,24 @@ const quicklinks = [
     label: "2. Akarni Register (No.8) - With Image",
     path: "/survay/akarniImgReport",
   },
-  { id: 4, label: "3. Vera Register (9D)", path: "/survay/taxRegister" },
-  { id: 5, label: "4. Magla Register", path: "/survay/manglaRegister" },
-  { id: 6, label: "5. Vasulat Register", path: "/survay/vasulatRegister" },
+  { id: 4, label: "3.1. Vera Register (9D)", path: "/survay/taxRegister" },
   {
-    id: 7,
+    id: 5,
+    label: "3.2. Water Tax Register (9D)",
+    path: "/survay/waterTaxRegister",
+  },
+
+  { id: 6, label: "4. Magla Register", path: "/survay/manglaRegister" },
+  { id: 7, label: "5. Vasulat Register", path: "/survay/vasulatRegister" },
+  {
+    id: 8,
     label: "6. Index Report (પાનોત્રી બુક)",
     path: "/survay/indexReport",
   },
-  { id: 8, label: "7. Tarij Report", path: "/survay/tarij" },
-  { id: 9, label: "8. Analysis Report", path: "/survay/analysis" },
-  { id: 10, label: "8. Analysis Kacha Report", path: "/survay/kacha" },
-  { id: 11, label: "Bill / Quotation", path: "/survay/bill" },
+  { id: 9, label: "7. Tarij Report", path: "/survay/tarij" },
+  { id: 10, label: "8. Analysis Report", path: "/survay/analysis" },
+  { id: 11, label: "8. Analysis Kacha Report", path: "/survay/kacha" },
+  { id: 12, label: "Bill / Quotation", path: "/survay/bill" },
 ];
 
 const Akarni = () => {

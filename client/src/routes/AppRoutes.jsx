@@ -84,6 +84,7 @@ import IndexReport2 from "../features/dataentry/IndexReport";
 import TarijReport2 from "../features/dataentry/TarijReport";
 import SurveyBulkUpload from "../features/survay/SurveyBulkUpload";
 import WaterTaxRegister2 from "../features/dataentry/WaterTaxRegister";
+import WaterTaxRegister from "../features/survay/WaterTaxRegister";
 
 export default function AppRoutes() {
   const { user } = useAuth();
@@ -305,6 +306,15 @@ export default function AppRoutes() {
             element={
               <ProtectedRoute allowedRoles={["owner"]}>
                 <TaxRegister />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="waterTaxRegister/:projectId"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <WaterTaxRegister />
               </ProtectedRoute>
             }
           />
