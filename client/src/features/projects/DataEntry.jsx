@@ -21,18 +21,23 @@ const quicklinks = [
   //   label: "2. Akarni Register (No.8) - With Image",
   //   path: "/dataentry/akarniImgReport",
   // },
-  { id: 2, label: "2. Vera Register (9D)", path: "/dataentry/taxRegister" },
+  { id: 2, label: "2. Tax Register (9D)", path: "/dataentry/taxRegister" },
+  {
+    id: 3,
+    label: "2. Water Tax Register (9D)",
+    path: "/dataentry/waterTaxRegister",
+  },
   // { id: 3, label: "4. Magla Register", path: "/dataentry/manglaRegister" },
   // { id: 4, label: "5. Vasulat Register", path: "/dataentry/vasulatRegister" },
   {
-    id: 3,
+    id: 4,
     label: "3. Index Report (પાનોત્રી બુક)",
     path: "/dataentry/indexReport",
   },
-  { id: 4, label: "4. Tarij Report", path: "/dataentry/tarij" },
+  { id: 5, label: "4. Tarij Report", path: "/dataentry/tarij" },
   // { id: 9, label: "8. Analysis Report", path: "/dataentry/analysis" },
   // { id: 10, label: "8. Analysis Kacha Report", path: "/dataentry/kacha" },
-  { id: 5, label: "Bill / Quotation", path: "/dataentry/bill" },
+  { id: 6, label: "Bill / Quotation", path: "/dataentry/bill" },
 ];
 
 const DataEntry = () => {
