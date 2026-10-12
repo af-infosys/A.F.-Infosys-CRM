@@ -16,8 +16,9 @@ import TaxIndex from "../../components/conver/TaxIndex";
 
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
-import Blank9D from "../../components/Blank9D";
+// import Blank9D from "../../components/Blank9D";
 import WaterTaxIndexRaw from "../../components/conver/WaterTaxIndexRaw";
+import WaterBlank9D from "../../components/WaterBlank9D";
 
 const WaterTaxRegister2 = () => {
   const [count, setCount] = useState(5);
@@ -1418,7 +1419,7 @@ const WaterTaxRegister2 = () => {
           }
 
           if (item.type === "blank") {
-            return <Blank9D item={item} project={project} id={id} />;
+            return <WaterBlank9D item={item} project={project} id={id} />;
           }
 
           return (
