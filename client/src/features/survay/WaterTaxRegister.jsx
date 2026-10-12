@@ -1449,7 +1449,7 @@ const WaterTaxRegister = () => {
                                 paddingTop: "5px",
                               }}
                             >
-                              {toGujaratiNumber(record[12])}
+                              {toGujaratiNumber(Number(record[12]) || 0)}
                             </span>
                           </td>
 

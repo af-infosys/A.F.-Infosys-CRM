@@ -85,6 +85,12 @@ import TarijReport2 from "../features/dataentry/TarijReport";
 import SurveyBulkUpload from "../features/survay/SurveyBulkUpload";
 import WaterTaxRegister2 from "../features/dataentry/WaterTaxRegister";
 import WaterTaxRegister from "../features/survay/WaterTaxRegister";
+import WaterTarijReport from "../features/survay/WaterTarijReport";
+import WaterTarijReport2 from "../features/dataentry/WaterTarijReport";
+import WaterBillViewDE from "../features/bill/WaterBillDE";
+import WaterBillView from "../features/bill/WaterBillView";
+import WaterIndexReport from "../features/survay/WaterIndexReport";
+import WaterIndexReport2 from "../features/dataentry/WaterIndexReport";
 
 export default function AppRoutes() {
   const { user } = useAuth();
@@ -202,6 +208,14 @@ export default function AppRoutes() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="waterIndexReport/:projectId"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <WaterIndexReport2 />
+              </ProtectedRoute>
+            }
+          />
 
           <Route
             path="taxRegister/:projectId"
@@ -249,10 +263,28 @@ export default function AppRoutes() {
           />
 
           <Route
+            path="waterTarij/:projectId"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <WaterTarijReport2 />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
             path="bill/:projectId"
             element={
               <ProtectedRoute allowedRoles={["owner"]}>
                 <BillViewDE />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="waterBill/:projectId"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <WaterBillViewDE />
               </ProtectedRoute>
             }
           />
@@ -297,6 +329,14 @@ export default function AppRoutes() {
             element={
               <ProtectedRoute allowedRoles={["owner"]}>
                 <IndexReport />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="waterIndexReport/:projectId"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <WaterIndexReport />
               </ProtectedRoute>
             }
           />
@@ -365,6 +405,15 @@ export default function AppRoutes() {
           />
 
           <Route
+            path="waterTarij/:projectId"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <WaterTarijReport />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
             path="analysis/:projectId"
             element={
               <ProtectedRoute allowedRoles={["owner"]}>
@@ -387,6 +436,14 @@ export default function AppRoutes() {
             element={
               <ProtectedRoute allowedRoles={["owner"]}>
                 <BillView />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="waterBill/:projectId"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <WaterBillView />
               </ProtectedRoute>
             }
           />

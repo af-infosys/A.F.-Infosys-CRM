@@ -390,8 +390,9 @@ const TharavSet = () => {
                   <h3 style={{ fontSize: "14px", textWrap: "nowrap" }}>
                     બેઠક નં.{" "}
                     <b>
-                      {toGujaratiNumber(details?.meetingNumber) ||
-                        "............"}
+                      {Number(details?.meetingNumber)
+                        ? toGujaratiNumber(details?.meetingNumber)
+                        : "............"}
                     </b>
                   </h3>
 
@@ -404,8 +405,9 @@ const TharavSet = () => {
                   >
                     ઠરાવ નં.{" "}
                     <b>
-                      {toGujaratiNumber(details?.resolutionNumber) ||
-                        "............"}
+                      {Number(details?.resolutionNumber)
+                        ? toGujaratiNumber(details?.resolutionNumber)
+                        : "............"}
                     </b>
                   </h3>
                 </div>
@@ -418,8 +420,9 @@ const TharavSet = () => {
                 >
                   ગ્રામ પંચાયત બેઠક તારીખ :–{" "}
                   <b>
-                    {formatDate(details?.meetingDate) ||
-                      ".........../............/..................."}
+                    {details?.meetingDate
+                      ? formatDate(details?.meetingDate)
+                      : ".........../............/..................."}
                   </b>
                 </h3>
 
@@ -1411,15 +1414,18 @@ const TharavSet = () => {
                   <span>
                     બેઠક નં.{" "}
                     <b>
-                      {toGujaratiNumber(details?.meetingNumber) || "........"}
+                      {Number(details?.meetingNumber)
+                        ? toGujaratiNumber(details?.meetingNumber)
+                        : "........"}
                     </b>
                   </span>
 
                   <span>
                     ઠરાવ નં.{" "}
                     <b>
-                      {toGujaratiNumber(details?.resolutionNumber) ||
-                        "........"}
+                      {Number(details?.resolutionNumber)
+                        ? toGujaratiNumber(details?.resolutionNumber)
+                        : "........"}
                     </b>
                   </span>
 
@@ -1465,14 +1471,18 @@ const TharavSet = () => {
                   આકારણી ઠરાવ આધારે બેઠકમાં મંજુર કરેલ છે. તેમજ અત્રેની ગ્રામ
                   પંચાયતની તારીખની બેઠકના ઠરાવ નં.{" "}
                   <b>
-                    {toGujaratiNumber(details?.resolutionNumber) || "........."}
+                    {Number(details?.resolutionNumber)
+                      ? toGujaratiNumber(details?.resolutionNumber)
+                      : "........."}
                   </b>{" "}
                   થી મિલ્કત આકારણી ગામની તમામ મિલ્કતોને ઘેર–ઘેર જઈને સ્થળ તપાસ
                   કરી મિલ્કત આકારણી સર્વેની કામગીરી કરવા માટે એ.એફ.ઈન્ફોસીસ –
                   સાવરકુંડલાને આ કામગીરી (જોબવર્ક) મજુરી થી ૧ – ઘર મકાન મિલ્કત
                   દિઠ રૂ।.
                   <b style={{ textDecoration: "underline" }}>
-                    {toGujaratiNumber(details?.surveyHouseRate) || "......."}
+                    {Number(details?.surveyHouseRate)
+                      ? toGujaratiNumber(details?.surveyHouseRate)
+                      : "......."}
                   </b>
                   {"/- "}
                   શબ્દોમાં{", "}
@@ -1504,7 +1514,9 @@ const TharavSet = () => {
                   </b>{" "}
                   થી બેઠકના ઠરાવ નં.{" "}
                   <b>
-                    {toGujaratiNumber(details?.resolutionNumber) || "........."}
+                    {Number(details?.resolutionNumber)
+                      ? toGujaratiNumber(details?.resolutionNumber)
+                      : "........."}
                   </b>{" "}
                   થી મંજુર કરેલ છે.
                 </p>
@@ -1777,15 +1789,18 @@ const TharavSet = () => {
                   <span>
                     બેઠક નં.{" "}
                     <b>
-                      {toGujaratiNumber(details?.meetingNumber) || "........"}
+                      {Number(details?.meetingNumber)
+                        ? toGujaratiNumber(details?.meetingNumber)
+                        : "........"}
                     </b>
                   </span>
 
                   <span>
                     ઠરાવ નં.{" "}
                     <b>
-                      {toGujaratiNumber(details?.resolutionNumber) ||
-                        "........"}
+                      {Number(details?.resolutionNumber)
+                        ? toGujaratiNumber(details?.resolutionNumber)
+                        : "........"}
                     </b>
                   </span>
 
@@ -2089,7 +2104,12 @@ const TharavSet = () => {
                   }}
                 >
                   <h3 style={{ fontSize: "16px", textWrap: "nowrap" }}>
-                    બેઠક નં. <b>{details?.meetingNumber2 || "............"}</b>
+                    બેઠક નં.{" "}
+                    <b>
+                      {Number(details?.meetingNumber2)
+                        ? toGujaratiNumber(details?.meetingNumber2)
+                        : "............"}
+                    </b>
                   </h3>
 
                   <h3
@@ -2100,7 +2120,11 @@ const TharavSet = () => {
                     }}
                   >
                     ઠરાવ નં.{" "}
-                    <b>{details?.resolutionNumber2 || "............"}</b>
+                    <b>
+                      {Number(details?.resolutionNumber2)
+                        ? toGujaratiNumber(details?.resolutionNumber2)
+                        : "............"}
+                    </b>
                   </h3>
                 </div>
 
@@ -2174,13 +2198,23 @@ const TharavSet = () => {
                 પંચાયત અધિનિયમ ૧૯૯૩ કાયદાની
                 <span style={{ lineHeight: "3" }}>
                   કલમ ર૦૦ મુજબ ગ્રામ પંચાયતની બેઠક નં{" "}
-                  <b>{details?.meetingNumber2 || "............"}</b> તા{" "}
+                  <b>
+                    {Number(details?.meetingNumber2)
+                      ? toGujaratiNumber(details?.meetingNumber2)
+                      : "............"}
+                  </b>{" "}
+                  તા{" "}
                   <b>
                     {formatDate(details?.date2) ||
                       ".........../............/..................."}
                   </b>{" "}
                   ના ઠરાવ નં{" "}
-                  <b>{details?.resolutionNumber2 || "............"}</b> થી{" "}
+                  <b>
+                    {Number(details?.resolutionNumber2)
+                      ? toGujaratiNumber(details?.resolutionNumber2)
+                      : "............"}
+                  </b>{" "}
+                  થી{" "}
                 </span>{" "}
                 ગામે મકાન કર, સામાન્ય પાણી કર, દિવાબતી કર, ખાસ પાણી કર, ગ્રામ
                 સફાઈ કર ની આકારણી કરી નમુના નં. ૮ રજીસ્ટર આકારણી કમિટી ધ્વારા

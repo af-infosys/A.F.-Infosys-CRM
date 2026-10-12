@@ -171,7 +171,7 @@ const TaxIndexRaw = ({
           style={{ marginTop: "-20px", fontSize: "30px" }}
         >
           ગ્રામ્ય જળ અને સ્વચ્છતા સમિતિ વર્ષ :-{" "}
-          {project?.details?.taxYear || "2025/26"}
+          {project?.details?.taxYear || "2025/26"} (માંગણાં રજીસ્ટર)
         </h2>
       </div>
 

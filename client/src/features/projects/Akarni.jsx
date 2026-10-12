@@ -32,10 +32,18 @@ const quicklinks = [
     label: "6. Index Report (પાનોત્રી બુક)",
     path: "/survay/indexReport",
   },
+  {
+    id: 8.5,
+    label: "6.5. Water Index Report (પાનોત્રી બુક)",
+    path: "/survay/waterIndexReport",
+  },
+
   { id: 9, label: "7. Tarij Report", path: "/survay/tarij" },
+  { id: 9.5, label: "7.5. Water Tarij Report", path: "/survay/waterTarij" },
   { id: 10, label: "8. Analysis Report", path: "/survay/analysis" },
   { id: 11, label: "8. Analysis Kacha Report", path: "/survay/kacha" },
   { id: 12, label: "Bill / Quotation", path: "/survay/bill" },
+  { id: 12.5, label: "Water Tax Bill / Quotation", path: "/survay/waterBill" },
 ];
 
 const Akarni = () => {

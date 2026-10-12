@@ -34,10 +34,21 @@ const quicklinks = [
     label: "3. Index Report (પાનોત્રી બુક)",
     path: "/dataentry/indexReport",
   },
+  {
+    id: 4.5,
+    label: "3.5 Water Index Report (પાનોત્રી બુક)",
+    path: "/dataentry/waterIndexReport",
+  },
   { id: 5, label: "4. Tarij Report", path: "/dataentry/tarij" },
+  { id: 5.5, label: "4.5. Water Tarij Report", path: "/dataentry/waterTarij" },
   // { id: 9, label: "8. Analysis Report", path: "/dataentry/analysis" },
   // { id: 10, label: "8. Analysis Kacha Report", path: "/dataentry/kacha" },
   { id: 6, label: "Bill / Quotation", path: "/dataentry/bill" },
+  {
+    id: 6.5,
+    label: "Water Tax Bill / Quotation",
+    path: "/dataentry/waterBill",
+  },
 ];
 
 const DataEntry = () => {
