@@ -899,7 +899,7 @@ const IndexReport = () => {
                         }}
                         id="pdff"
                       >
-                        <span className="formatting">મિલ્ક્ત નંબર </span>
+                        <span className="formatting">કનેકશન નંબર </span>
                       </th>
                       <th
                         className="px-2 py-3 text-xm text-center font-medium text-gray-500 uppercase tracking-wider"

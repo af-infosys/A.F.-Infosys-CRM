@@ -32,7 +32,7 @@ const WaterBlank9D = ({ item, id, project }) => {
           </span>
 
           <h1 className="heading" style={{ marginTop: "32px" }}>
-            ગામનો નમુના નંબર ૯ડી કરવેરા રજીસ્ટર{" "}
+            ગ્રામ્ય જળ અને સ્વચ્છતા સમિતિ - ખાસ પાણી નળ વેરા રજીસ્ટર{" "}
             {item?.isCommercial === true
               ? " - કોમર્શિયલ મિલ્કત"
               : item?.isCommercial === false

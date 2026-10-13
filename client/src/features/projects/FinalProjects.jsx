@@ -150,6 +150,7 @@ const FinalProjects = () => {
             ?.filter((project) => {
               return project?.other?.status === "completed";
             })
+            ?.reverse()
             ?.map((project, index) => (
               <tr key={project?._id}>
                 <td>{index + 1}</td>

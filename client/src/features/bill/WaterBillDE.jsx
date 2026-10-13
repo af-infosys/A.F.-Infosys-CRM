@@ -573,8 +573,8 @@ function WaterBillViewDE() {
                         style={{ textAlign: "center", padding: "7px" }}
                       >
                         <span className="trans">
-                          આકારણી રજીસ્ટર કોમ્પ્યુટરાઇઝડ પ્રિન્ટ જોબ વર્કનું બિલ
-                          સને. {billData?.year}
+                          ખાસ પાણી નળ વેરા રજીસ્ટર કોમ્પ્યુટરાઇઝડ પ્રિન્ટ જોબ
+                          વર્કનું બિલ સને. {billData?.year}
                         </span>
                       </th>
                     </tr>
@@ -614,7 +614,7 @@ function WaterBillViewDE() {
                           textAlign: "center",
                         }}
                       >
-                        <span className="trans">ઘર</span>
+                        <span className="trans">નળ</span>
                       </th>
                       <th
                         className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -681,11 +681,10 @@ function WaterBillViewDE() {
                         }}
                       >
                         <span className="trans">
-                          {billData?.gaam} આકારણી વર્ષ:- {billData.year} નું ગામ
-                          નમુના નં. ૮ આકારણી રજીસ્ટર બનાવી અને ગા.ન.ન.- ૯/ડી
-                          કરવેરા રજીસ્ટર બનાવિ કોમ્પ્યુટરાઈઝડ પ્રિન્ટ સાથે
-                          સ્પાઇરલ બાઈન્ડિંગ સાથે ઓનલાઈન ગ્રામ સુવિધા પોર્ટલમાં
-                          ડેટાએન્ટ્રી સાથે જોબવર્ક/મજુરીથી કમ્પલેટ અદ્યતન બનાવેલ
+                          {billData?.gaam} ગામનું વર્ષ:- {billData.year} નું ખાસ
+                          પાણી નળ વેરા રજીસ્ટર બનાવી કોમ્પ્યુટરાઈઝડ પ્રિન્ટ સાથે
+                          સ્પાઇરલ બાઈન્ડિંગ સાથે ડેટાએન્ટ્રી જોબવર્ક/મજુરીથી
+                          કમ્પલેટ અદ્યતન બનાવેલ
                         </span>
                       </td>
                       <td
@@ -983,7 +982,7 @@ function WaterBillViewDE() {
                       >
                         <span className="trans" style={{ textWrap: "wrap" }}>
                           ભાવ{" "}
-                          <span style={{ textWrap: "nowrap" }}>(ઘર દીઠ)</span>
+                          <span style={{ textWrap: "nowrap" }}>(નળ દીઠ)</span>
                         </span>
                       </th>
                     </tr>
@@ -1023,11 +1022,10 @@ function WaterBillViewDE() {
                         }}
                       >
                         <span className="trans">
-                          {billData?.gaam} આકારણી વર્ષ:- {billData.year} નું ગામ
-                          નમુના નં. ૮ આકારણી રજીસ્ટર બનાવી અને ગા.ન.ન.- ૯/ડી
-                          કરવેરા રજીસ્ટર બનાવિ કોમ્પ્યુટરાઈઝડ પ્રિન્ટ સાથે
-                          સ્પાઇરલ બાઈન્ડિંગ સાથે ઓનલાઈન ગ્રામ સુવિધા પોર્ટલમાં
-                          ડેટાએન્ટ્રી સાથે જોબવર્ક/મજુરીથી કમ્પલેટ અદ્યતન બનાવેલ
+                          {billData?.gaam} ગામનું વર્ષ:- {billData.year} નું ખાસ
+                          પાણી નળ વેરા રજીસ્ટર બનાવી કોમ્પ્યુટરાઈઝડ પ્રિન્ટ સાથે
+                          સ્પાઇરલ બાઈન્ડિંગ સાથે ડેટાએન્ટ્રી જોબવર્ક/મજુરીથી
+                          કમ્પલેટ અદ્યતન બનાવેલ
                         </span>
                       </td>
 
@@ -1267,7 +1265,7 @@ function WaterBillViewDE() {
                           textAlign: "center",
                         }}
                       >
-                        <span className="trans">ઘર</span>
+                        <span className="trans">નળ</span>
                       </th>
                       <th
                         className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -1334,11 +1332,10 @@ function WaterBillViewDE() {
                         }}
                       >
                         <span className="trans">
-                          {billData?.gaam} આકારણી વર્ષ:- {billData.year} નું ગામ
-                          નમુના નં. ૮ આકારણી રજીસ્ટર બનાવી અને ગા.ન.ન.- ૯/ડી
-                          કરવેરા રજીસ્ટર બનાવિ કોમ્પ્યુટરાઈઝડ પ્રિન્ટ સાથે
-                          સ્પાઇરલ બાઈન્ડિંગ સાથે ઓનલાઈન ગ્રામ સુવિધા પોર્ટલમાં
-                          ડેટાએન્ટ્રી સાથે જોબવર્ક/મજુરીથી કમ્પલેટ અદ્યતન બનાવેલ
+                          {billData?.gaam} ગામનું વર્ષ:- {billData.year} નું ખાસ
+                          પાણી નળ વેરા રજીસ્ટર બનાવી કોમ્પ્યુટરાઈઝડ પ્રિન્ટ સાથે
+                          સ્પાઇરલ બાઈન્ડિંગ સાથે ડેટાએન્ટ્રી જોબવર્ક/મજુરીથી
+                          કમ્પલેટ અદ્યતન બનાવેલ
                         </span>
                       </td>
                       <td
@@ -1591,7 +1588,7 @@ function WaterBillViewDE() {
                       >
                         <span className="trans" style={{ textWrap: "wrap" }}>
                           ભાવ{" "}
-                          <span style={{ textWrap: "nowrap" }}>(ઘર દીઠ)</span>
+                          <span style={{ textWrap: "nowrap" }}>(નળ દીઠ)</span>
                         </span>
                       </th>
                     </tr>
@@ -1631,12 +1628,10 @@ function WaterBillViewDE() {
                         }}
                       >
                         <span className="trans">
-                          {billData?.gaam} ગામની મકાન આકારણી સર્વે, વર્ષ:-{" "}
-                          {billData.year} નું ગામ નમુના નં. ૮ આકારણી રજીસ્ટર ઘેર
-                          ઘેર જઇને બનાવી અને ગા.ન.ન.- ૯/ડી કરવેરા રજીસ્ટર બનાવિ
-                          કોમ્પ્યુટરાઈઝડ પ્રિન્ટ સાથે સ્પાઇરલ બાઈન્ડિંગ સાથે
-                          ઓનલાઈન ગ્રામ સુવિધા પોર્ટલમાં ડેટાએન્ટ્રી સાથે
-                          જોબવર્ક/મજુરીથી કમ્પલેટ અદ્યતન બનાવેલ
+                          {billData?.gaam} ગામનું વર્ષ:- {billData.year} નું ખાસ
+                          પાણી નળ વેરા રજીસ્ટર બનાવી કોમ્પ્યુટરાઈઝડ પ્રિન્ટ સાથે
+                          સ્પાઇરલ બાઈન્ડિંગ સાથે ડેટાએન્ટ્રી જોબવર્ક/મજુરીથી
+                          કમ્પલેટ અદ્યતન બનાવેલ
                         </span>
                       </td>
 

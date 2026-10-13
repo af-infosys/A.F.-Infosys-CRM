@@ -353,7 +353,7 @@ const WaterTarijChart = ({
         className="text-xl font-bold text-center mb-0 text-gray-800"
         style={{ paddingTop: "80px" }}
       >
-        {name} | સને {project?.details?.taxYear || ""}
+        ખાસ પાણી નળ વેરા {name} | સને {project?.details?.taxYear || ""}
       </h1>
 
       <div

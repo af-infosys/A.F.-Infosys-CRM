@@ -96,6 +96,7 @@ const CurrentProjects = () => {
             ?.filter((project) => {
               return project?.other?.status === "working";
             })
+            ?.reverse()
             ?.map((project, index) => (
               <tr>
                 <td>{index + 1}</td>

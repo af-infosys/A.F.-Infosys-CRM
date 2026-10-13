@@ -21,7 +21,7 @@ const quicklinks = [
   { id: 4, label: "3.1. Vera Register (9D)", path: "/survay/taxRegister" },
   {
     id: 5,
-    label: "3.2. Water Tax Register (9D)",
+    label: "3.2. Water Tax Register",
     path: "/survay/waterTaxRegister",
   },
 

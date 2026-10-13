@@ -99,6 +99,7 @@ const AkarniProjects = () => {
                 project?.other?.status !== "cancelled"
               );
             })
+            ?.reverse()
             ?.map((project, index) => (
               <tr>
                 <td>{index + 1}</td>

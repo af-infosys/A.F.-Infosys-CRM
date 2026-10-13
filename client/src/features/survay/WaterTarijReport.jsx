@@ -173,6 +173,17 @@ const calculateTotal = (data = []) => {
     },
 
     totalCount: data.length,
+    receiptCount: data.reduce((sum, i) => {
+      const pNo = JSON.parse(i[24] || "{}")?.receipt?.pNo?.trim() || "";
+
+      if (!pNo) return sum;
+
+      // Remove dates (dd-mm-yy or dd/mm/yy)
+      const receipts = pNo.replace(/\b\d{1,2}[-/]\d{1,2}[-/]\d{2,4}\b/g, "");
+
+      return sum + receipts.split("+").filter((r) => r.trim()).length;
+    }, 0),
+
     countTax: data.reduce(
       (s, i) =>
         s +

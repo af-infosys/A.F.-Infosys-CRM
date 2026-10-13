@@ -17,9 +17,10 @@ const WaterTarijFormat = ({
         className="text-xl font-bold text-center mb-0 text-gray-800"
         style={{ paddingTop: "30px" }}
       >
-        કુલ મંગણાં તથા વસુલાતનો રિપોર્ટ (તારીજ) {name && ` - ${name}`}
+        ખાસ પાણી નળ વેરા કુલ મંગણાં તથા વસુલાતનો રિપોર્ટ (તારીજ){" "}
+        {name && ` - ${name}`}
         <br />
-        સને {project?.details?.taxYear || ""}
+        ગ્રામ્ય જળ અને સ્વચ્છતા સમિતિ સને {project?.details?.taxYear || ""}
       </h1>
 
       <div className="location-info-visible" style={{ paddingInline: "50px" }}>
@@ -288,6 +289,8 @@ const WaterTarijFormat = ({
         style={{ paddingInline: "50px", paddingTop: "10px" }}
       >
         <h3>કુલ મિલ્કતની સંખ્યા: {toGujaratiNumber(total?.totalCount)}</h3>
+
+        <h3>કુલ પહોચની સંખ્યા: {toGujaratiNumber(total?.receiptCount)}</h3>
 
         <h3>કુલ નળની સંખ્યા: {toGujaratiNumber(totalTabConn)}</h3>
 

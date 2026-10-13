@@ -98,6 +98,7 @@ const CancledProjects = () => {
             ?.filter((project) => {
               return project?.other?.status === "cancelled";
             })
+            ?.reverse()
             ?.map((project, index) => (
               <tr>
                 <td>{index + 1}</td>
