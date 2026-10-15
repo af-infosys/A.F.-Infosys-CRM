@@ -910,7 +910,7 @@ const IndexReport = () => {
                         }}
                         id="pdff"
                       >
-                        <span className="formatting">માલિકનું નામ </span>
+                        <span className="formatting"> નળ ધારકનું નામ </span>
                       </th>
                       <th
                         className="px-2 py-3 text-xm text-center font-medium text-gray-500 uppercase tracking-wider"

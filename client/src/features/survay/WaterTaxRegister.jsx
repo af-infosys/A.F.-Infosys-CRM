@@ -1119,10 +1119,10 @@ const WaterTaxRegister = () => {
       )}
       <br /> <br />
       <button
-        onClick={() => navigate(`/survay/taxform/${projectId}`)}
+        onClick={() => navigate(`/survay/watertaxform/${projectId}`)}
         className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
       >
-        Tax Entry Form
+        Water Tax Entry Form
       </button>
       <br /> <br />
       <button
@@ -1413,7 +1413,7 @@ const WaterTaxRegister = () => {
                             }}
                           >
                             <span className="formatting">
-                              {toGujaratiNumber(record[0])}
+                              {toGujaratiNumber(Number(record[0] || 0) || "")}
                             </span>
                           </td>
 
@@ -1450,12 +1450,16 @@ const WaterTaxRegister = () => {
                                 paddingTop: "5px",
                               }}
                             >
-                              {toGujaratiNumber(Number(record[12]) || 0)}
+                              {toGujaratiNumber(Number(record[12] || 0) || "")}
                             </span>
                           </td>
 
                           <td style={{ minWidth: "100px", maxWidth: "100px" }}>
-                            <span className="formatting">{""}</span>
+                            <span className="formatting">
+                              {JSON.parse(record[24])?.receipt?.pNo ||
+                                JSON.parse(record[24])?.receipt[0]?.pNo ||
+                                ""}
+                            </span>
                           </td>
 
                           <th className="td" style={{ textWrap: "nowrap" }}>
@@ -1517,7 +1521,21 @@ const WaterTaxRegister = () => {
 
                         <tr style={{ maxHeight: "3px" }}>
                           <th>
-                            <span className="formatting">{""}</span>
+                            <span className="formatting">
+                              {JSON.parse(record[24])
+                                ?.receipt?.date?.replace(/"/g, "")
+                                .trim()
+                                .split("-")
+                                .reverse()
+                                .join("/") ||
+                                JSON.parse(record[24])
+                                  ?.receipt[0]?.date?.replace(/"/g, "")
+                                  .trim()
+                                  .split("-")
+                                  .reverse()
+                                  .join("/") ||
+                                "-"}
+                            </span>
                           </th>
                           <th className="td" style={{ maxHeight: "4x" }}>
                             <span
@@ -1557,7 +1575,11 @@ const WaterTaxRegister = () => {
 
                         <tr>
                           <th>
-                            <span className="formatting">{""}</span>
+                            <span className="formatting">
+                              {JSON.parse(record[24])?.receipt?.amount ||
+                                JSON.parse(record[24])?.receipt[0]?.amount ||
+                                ""}
+                            </span>
                           </th>
                           <th className="td">
                             <span

@@ -91,6 +91,8 @@ import WaterBillViewDE from "../features/bill/WaterBillDE";
 import WaterBillView from "../features/bill/WaterBillView";
 import WaterIndexReport from "../features/survay/WaterIndexReport";
 import WaterIndexReport2 from "../features/dataentry/WaterIndexReport";
+import WaterTaxEntryForm from "../components/excel/WaterTaxEntryFrom";
+import WaterTaxEntry from "../features/survay/WaterTaxEntry";
 
 export default function AppRoutes() {
   const { user } = useAuth();
@@ -367,12 +369,28 @@ export default function AppRoutes() {
               </ProtectedRoute>
             }
           />
-
           <Route
             path="taxform/:projectId/:mId"
             element={
               <ProtectedRoute allowedRoles={["owner"]}>
                 <TaxEntryFrom />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="watertaxform/:projectId"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <WaterTaxEntry />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="watertaxform/:projectId/:mId"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <WaterTaxEntryForm />
               </ProtectedRoute>
             }
           />
