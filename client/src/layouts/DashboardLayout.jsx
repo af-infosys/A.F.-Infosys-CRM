@@ -654,6 +654,20 @@ export default function DashboardLayout() {
                     />
                     Manage
                   </NavLink>
+
+                  <NavLink
+                    to={`/staff/subscription`}
+                    className={({ isActive }) => (isActive ? "active" : "")}
+                    onClick={() => setIsSidebarOpen(false)}
+                  >
+                    <img
+                      src={ManageIcon}
+                      alt="Customer List"
+                      style={{ width: "23px" }}
+                    />
+                    Subscription
+                  </NavLink>
+
                   <NavLink
                     to={`/staff/add`}
                     className={({ isActive }) => (isActive ? "active" : "")}

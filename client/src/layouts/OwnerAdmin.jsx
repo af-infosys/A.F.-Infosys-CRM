@@ -293,6 +293,13 @@ const OwnerAdmin = () => {
             onClick={() => handleNavigation("/staff/manage")}
           />
           <QuickLinkCard
+            title="Manage Subscription"
+            count={users?.length || 0}
+            icon={Users}
+            bgColor="bg-cyan-500"
+            onClick={() => handleNavigation("/staff/subscription")}
+          />
+          <QuickLinkCard
             title="Add Staff"
             icon={UserPlus}
             bgColor="bg-teal-500"

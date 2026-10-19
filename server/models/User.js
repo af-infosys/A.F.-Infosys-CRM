@@ -12,16 +12,17 @@ const userSchema = new mongoose.Schema(
 
     role: {
       type: String,
-      enum: [
-        "owner",
-        "md",
-        "telecaller",
-        "surveyor",
-        "biller",
-        "operator",
-        "accountant",
-        "monitor",
-      ],
+      // enum: [
+      //   "owner",
+      //   "md",
+      //   "telecaller",
+      //   "surveyor",
+      //   "biller",
+      //   "operator",
+      //   "accountant",
+      //   "monitor",
+      //   "sarpanch",
+      // ],
       required: true,
       default: "monitor",
     },
@@ -88,7 +89,7 @@ const userSchema = new mongoose.Schema(
       type: Array,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export default mongoose.model("User", userSchema);

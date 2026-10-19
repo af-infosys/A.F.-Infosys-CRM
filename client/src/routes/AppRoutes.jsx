@@ -93,6 +93,8 @@ import WaterIndexReport from "../features/survay/WaterIndexReport";
 import WaterIndexReport2 from "../features/dataentry/WaterIndexReport";
 import WaterTaxEntryForm from "../components/excel/WaterTaxEntryFrom";
 import WaterTaxEntry from "../features/survay/WaterTaxEntry";
+import Subscription from "../features/staff/Subscription";
+import AddMember from "../features/staff/AddMember";
 
 export default function AppRoutes() {
   const { user } = useAuth();
@@ -587,11 +589,30 @@ export default function AppRoutes() {
           }
         />
 
+        {/* subscription */}
+        <Route
+          path="/staff/subscription"
+          element={
+            <ProtectedRoute allowedRoles={["owner"]}>
+              <Subscription />
+            </ProtectedRoute>
+          }
+        />
+
         <Route
           path="/staff/add"
           element={
             <ProtectedRoute allowedRoles={["owner"]}>
               <AddStaff />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/staff/addmember"
+          element={
+            <ProtectedRoute allowedRoles={["owner"]}>
+              <AddMember />
             </ProtectedRoute>
           }
         />
