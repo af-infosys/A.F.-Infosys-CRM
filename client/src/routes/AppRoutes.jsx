@@ -95,6 +95,7 @@ import WaterTaxEntryForm from "../components/excel/WaterTaxEntryFrom";
 import WaterTaxEntry from "../features/survay/WaterTaxEntry";
 import Subscription from "../features/staff/Subscription";
 import AddMember from "../features/staff/AddMember";
+import BookBillViewDE from "../features/bill/BookBillViewDE";
 
 export default function AppRoutes() {
   const { user } = useAuth();
@@ -292,6 +293,15 @@ export default function AppRoutes() {
               </ProtectedRoute>
             }
           />
+
+          <Route
+            path="bookbill/:projectId"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <BookBillViewDE />
+              </ProtectedRoute>
+            }
+          />
         </Route>
 
         <Route path="/survay">
@@ -371,6 +381,7 @@ export default function AppRoutes() {
               </ProtectedRoute>
             }
           />
+
           <Route
             path="taxform/:projectId/:mId"
             element={

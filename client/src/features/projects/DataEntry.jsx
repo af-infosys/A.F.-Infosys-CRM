@@ -49,6 +49,11 @@ const quicklinks = [
     label: "Water Tax Bill / Quotation",
     path: "/dataentry/waterBill",
   },
+  {
+    id: 6.8,
+    label: "Book Biding Tax Bill / Quotation",
+    path: "/dataentry/bookbill",
+  },
 ];
 
 const DataEntry = () => {
