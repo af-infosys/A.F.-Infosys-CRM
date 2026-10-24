@@ -842,7 +842,8 @@ function BookBillViewDE() {
                         Shahid Kalva - <span>93764 43146</span>
                       </h3>
                       <h3 className="text-base font-grey-700">
-                        Sarfaraz Kalva - <span>99247 82732</span>
+                        Sarfaraz Kalva
+                        {/* - <span>99247 82732</span> */}
                       </h3>
                       <h3 className="text-base font-grey-700">
                         E-Mail :-{" "}
@@ -976,11 +977,14 @@ function BookBillViewDE() {
                       <th
                         className="text-xs font-medium text-gray-500 uppercase tracking-wider"
                         style={{
-                          padding: "3px",
+                          padding: "1px",
                           textAlign: "center",
                         }}
                       >
-                        <span className="trans" style={{ textWrap: "wrap" }}>
+                        <span
+                          className="trans"
+                          style={{ textWrap: "wrap", fontSize: "0.75rem" }}
+                        >
                           ભાવ{" "}
                           <span style={{ textWrap: "nowrap" }}>(પેજ દીઠ)</span>
                         </span>
@@ -1031,8 +1035,9 @@ function BookBillViewDE() {
                       <td
                         className="text-sm text-gray-800 text-center"
                         style={{
-                          padding: "5px",
+                          padding: "1px",
                           textAlign: "center",
+                          fontSize: "1.2rem",
                         }}
                       >
                         <span className="trans">₹{billData?.price}/-</span>
@@ -1580,11 +1585,14 @@ function BookBillViewDE() {
                       <th
                         className="text-xs font-medium text-gray-500 uppercase tracking-wider"
                         style={{
-                          padding: "3px",
+                          padding: "2px",
                           textAlign: "center",
                         }}
                       >
-                        <span className="trans" style={{ textWrap: "wrap" }}>
+                        <span
+                          className="trans"
+                          style={{ textWrap: "wrap", fontSize: "0.75" }}
+                        >
                           ભાવ{" "}
                           <span style={{ textWrap: "nowrap" }}>(પેજ દીઠ)</span>
                         </span>
@@ -1635,8 +1643,9 @@ function BookBillViewDE() {
                       <td
                         className="text-sm text-gray-800 text-center"
                         style={{
-                          padding: "5px",
+                          padding: "2px",
                           textAlign: "center",
+                          fontSize: "1.2rem",
                         }}
                       >
                         <span className="trans">₹{billData?.price}/-</span>
