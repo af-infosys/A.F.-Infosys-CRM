@@ -235,6 +235,7 @@ const AkarniPage = ({
               </td>
               <td className="" style={{ ...cellStyle, minWidth: "200px" }}>
                 <span className="formatting">
+                  {record[8]?.includes("પ્લોટ") ? record[8] : ""}{" "}
                   {record[7] && `${record[7]}`}{" "}
                   {record[16]
                     ? record[17]
