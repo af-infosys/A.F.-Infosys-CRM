@@ -642,7 +642,7 @@ const SurvayReport = () => {
       toGujaratiNumber(record[0] || 0),
       record[1] || "",
       toGujaratiNumber(record[2] || 0),
-      `${record[16] || ""}${record[7] ? `, '${record[7]}'` : ""}`,
+      `${record[7] ? `${record[7]}, ` : ""}${record[16] || ""}`,
       record[8] || "",
       record[3] || "",
       record[4] || "",
