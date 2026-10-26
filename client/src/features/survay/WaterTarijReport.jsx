@@ -174,7 +174,14 @@ const calculateTotal = (data = []) => {
 
     totalCount: data.length,
     receiptCount: data.reduce((sum, i) => {
-      const pNo = JSON.parse(i[24] || "{}")?.receipt?.pNo?.trim() || "";
+      const receipt = JSON.parse(i[24] || "{}")?.receipt || null;
+
+      const pNo = Array.isArray(receipt)
+        ? receipt
+            .map((r) => r?.pNo || "")
+            .filter(Boolean)
+            .join("+")
+        : receipt?.pNo?.trim() || "";
 
       if (!pNo) return sum;
 
