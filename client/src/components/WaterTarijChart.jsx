@@ -446,7 +446,11 @@ const WaterTarijChart = ({
             <Legend wrapperStyle={{ paddingTop: "20px" }} />
 
             {/* 1. કુલ માંગણું (Total Demand) - વાદળી રંગ */}
-            <Bar dataKey="કુલ" fill="#3B82F6" name="કુલ (Total)">
+            <Bar
+              dataKey="કુલ"
+              fill="#3B82F6"
+              name={`કુલ ${taxChartData[0]?.કુલ}`}
+            >
               <LabelList
                 dataKey="કુલ"
                 position="top"
@@ -455,7 +459,11 @@ const WaterTarijChart = ({
             </Bar>
 
             {/* 2. વસુલાત (Recovery) - લીલો રંગ */}
-            <Bar dataKey="વસુલાત" fill="#2ECC71" name="વસુલાત (Recovery)">
+            <Bar
+              dataKey="વસુલાત"
+              fill="#2ECC71"
+              name={`વસુલાત ${taxChartData[0]?.વસુલાત}`}
+            >
               <LabelList
                 dataKey="વસુલાત"
                 position="top"
@@ -464,7 +472,11 @@ const WaterTarijChart = ({
             </Bar>
 
             {/* 3. બાકી (Remaining) - લાલ રંગ */}
-            <Bar dataKey="બાકી" fill="#E74C3C" name="બાકી (Remaining)">
+            <Bar
+              dataKey="બાકી"
+              fill="#E74C3C"
+              name={`બાકી ${taxChartData[0]?.બાકી}`}
+            >
               <LabelList
                 dataKey="બાકી"
                 position="top"

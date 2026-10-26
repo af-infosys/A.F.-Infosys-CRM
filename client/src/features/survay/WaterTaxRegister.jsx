@@ -1324,8 +1324,11 @@ const WaterTaxRegister = () => {
                       </th>
                       <th className="th" style={{ maxWidth: "160px" }}>
                         <span className="formatting">
-                          નળ ધારકનું નામ તથા મોબાઈલ નંબર{" "}
+                          નળ ધારકનું નામ તથા મોબાઈલ નંબર
                         </span>
+                      </th>
+                      <th className="th" style={{ maxWidth: "45px" }}>
+                        <span className="formatting"> જુનો કનેક્શન નંબર </span>
                       </th>
                       <th className="th" style={{ maxWidth: "45px" }}>
                         <span className="formatting"> નળની સંખ્યા </span>
@@ -1334,10 +1337,7 @@ const WaterTaxRegister = () => {
                         className="th"
                         style={{ minWidth: "70px", maxWidth: "70px" }}
                       >
-                        <span className="formatting">
-                          {" "}
-                          પહોચ નં. / તારીખ રકમ{" "}
-                        </span>
+                        <span className="formatting">પહોચ નં. / તારીખ રકમ</span>
                       </th>
                       <th className="th" style={{ maxWidth: "90px" }}>
                         <span className="formatting"> વિગત </span>
@@ -1454,11 +1454,35 @@ const WaterTaxRegister = () => {
                             </span>
                           </td>
 
+                          <td
+                            rowSpan="3"
+                            style={{ verticalAlign: "top", paddingTop: "5px" }}
+                          >
+                            <span
+                              className="formatting"
+                              style={{
+                                verticalAlign: "top",
+                                paddingTop: "5px",
+                              }}
+                            >
+                              {toGujaratiNumber(Number(record[5] || 0) || "")}
+                            </span>
+                          </td>
+
                           <td style={{ minWidth: "100px", maxWidth: "100px" }}>
                             <span className="formatting">
-                              {JSON.parse(record[24])?.receipt?.pNo ||
-                                JSON.parse(record[24])?.receipt[0]?.pNo ||
-                                ""}
+                              {(() => {
+                                const receipt =
+                                  JSON.parse(record[24] || "{}")?.receipt ||
+                                  null;
+
+                                return Array.isArray(receipt)
+                                  ? receipt
+                                      .map((r) => r?.pNo)
+                                      .filter(Boolean)
+                                      .join(", ")
+                                  : receipt?.pNo || "";
+                              })()}
                             </span>
                           </td>
 
@@ -1522,19 +1546,28 @@ const WaterTaxRegister = () => {
                         <tr style={{ maxHeight: "3px" }}>
                           <th>
                             <span className="formatting">
-                              {JSON.parse(record[24])
-                                ?.receipt?.date?.replace(/"/g, "")
-                                .trim()
-                                .split("-")
-                                .reverse()
-                                .join("/") ||
-                                JSON.parse(record[24])
-                                  ?.receipt[0]?.date?.replace(/"/g, "")
-                                  .trim()
-                                  .split("-")
-                                  .reverse()
-                                  .join("/") ||
-                                "-"}
+                              {(() => {
+                                const receipt =
+                                  JSON.parse(record[24] || "{}")?.receipt ||
+                                  null;
+
+                                const formatDate = (date) =>
+                                  date
+                                    ? date
+                                        .replace(/"/g, "")
+                                        .trim()
+                                        .split("-")
+                                        .reverse()
+                                        .join("/")
+                                    : "";
+
+                                return Array.isArray(receipt)
+                                  ? receipt
+                                      .map((r) => formatDate(r?.date))
+                                      .filter(Boolean)
+                                      .join(", ")
+                                  : formatDate(receipt?.date) || "-";
+                              })()}
                             </span>
                           </th>
                           <th className="td" style={{ maxHeight: "4x" }}>
@@ -1576,9 +1609,18 @@ const WaterTaxRegister = () => {
                         <tr>
                           <th>
                             <span className="formatting">
-                              {JSON.parse(record[24])?.receipt?.amount ||
-                                JSON.parse(record[24])?.receipt[0]?.amount ||
-                                ""}
+                              {(() => {
+                                const receipt = JSON.parse(
+                                  record[24] || "{}",
+                                )?._receipt;
+
+                                return Array.isArray(receipt)
+                                  ? receipt
+                                      .map((r) => r?.amount)
+                                      .filter(Boolean)
+                                      .join(", ")
+                                  : receipt?.amount || "";
+                              })()}
                             </span>
                           </th>
                           <th className="td">
@@ -1650,7 +1692,7 @@ const WaterTaxRegister = () => {
                     </tr>
                     <tr>
                       <td
-                        colSpan="6"
+                        colSpan="7"
                         rowSpan="3"
                         style={{
                           textAlign: "center",
