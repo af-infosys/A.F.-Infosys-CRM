@@ -233,8 +233,7 @@ const WaterTaxRegister = () => {
         setChunkStart(requiredChunkStart);
 
         console.log(
-          `Loading chunk ${requiredChunkStart} -> ${
-            requiredChunkStart + CHUNK_SIZE - 1
+          `Loading chunk ${requiredChunkStart} -> ${requiredChunkStart + CHUNK_SIZE - 1
           }`,
         );
 
@@ -512,7 +511,7 @@ const WaterTaxRegister = () => {
             fromStart: pagesForThisBundle[0][0][0],
             toEnd:
               pagesForThisBundle[pagesForThisBundle.length - 1][
-                pagesForThisBundle[pagesForThisBundle.length - 1].length - 1
+              pagesForThisBundle[pagesForThisBundle.length - 1].length - 1
               ][0],
 
             // 👇 NEW
@@ -582,7 +581,7 @@ const WaterTaxRegister = () => {
             fromStart: pagesForThisBundle[0][0][0],
             toEnd:
               pagesForThisBundle[pagesForThisBundle.length - 1][
-                pagesForThisBundle[pagesForThisBundle.length - 1].length - 1
+              pagesForThisBundle[pagesForThisBundle.length - 1].length - 1
               ][0],
 
             // 👇 NEW
@@ -647,7 +646,7 @@ const WaterTaxRegister = () => {
           fromStart: pagesForThisBundle[0][0][0],
           toEnd:
             pagesForThisBundle[pagesForThisBundle.length - 1][
-              pagesForThisBundle[pagesForThisBundle.length - 1].length - 1
+            pagesForThisBundle[pagesForThisBundle.length - 1].length - 1
             ][0],
 
           // 👇 NEW
@@ -693,275 +692,136 @@ const WaterTaxRegister = () => {
 
     const getNum = (val) => Number(val) || 0;
 
-    // 1. Title Row (Ab sabse pehle)
+    // 1. Title Row
     const titleRow = [
       [
-        `ગ્રામ્ય જળ અને સ્વચ્છતા સમિતિ - ખાસ પાણી નળ વેરા રજીસ્ટર વર્ષ ${project?.details?.taxYear || "2026/27"}`,
+        `ગ્રામ્ય જળ અને સ્વચ્છતા સમિતિ - ખાસ પાણી નળ વેરા રજીસ્ટર વર્ષ ${project?.details?.taxYear || "2025/26"
+        }`,
       ],
     ];
 
-    // 2. Location Row (Title ke baad)
+    // 2. Location Row (Distributed in 12 columns)
     const locationRow = [
       [
-        `ગામ:- ${project?.spot?.gaam || ""}`,
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        `તાલુકો:- ${project?.spot?.taluka || ""}`,
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        `જિલ્લો:- ${project?.spot?.district || ""}`,
-        "",
-        "",
-        "",
-        "",
-        "",
+        `ગામ:- ${project?.spot?.gaam || ""}`, "", "", "",
+        `તાલુકો:- ${project?.spot?.taluka || ""}`, "", "", "",
+        `જિલ્લો:- ${project?.spot?.district || ""}`, "", "", "",
       ],
     ];
 
-    // 3. Header Rows
+    // 3. Header Row (12 Columns exactly as per HTML table)
     const headerRow1 = [
-      "ખાતાનો નંબર",
-      "પ્રોપર્ટી નંબર",
-      "એરિયાનું નામ",
-      "ખાતેદારનું નામ",
-      "પહોંચ નંબર તારીખ રકમ",
+      "ક્રમ નંબર",
+      "વિસ્તારનું નામ",
+      "કનેકશન નંબર",
+      "નળ ધારકનું નામ તથા મોબાઈલ નંબર",
+      "જુનો કનેક્શન નંબર",
+      "નળની સંખ્યા",
+      "પહોચ નં. / તારીખ રકમ",
       "વિગત",
-      "ઘર વેરો",
-      "",
-      "",
-      "સામાન્ય પાણી વેરો",
-      "",
-      "",
-      "ખાસ પાણી નળ વેરો",
-      "",
-      "",
-      "દિવાબતી લાઈટ વેરો",
-      "",
-      "",
-      "સફાઈ વેરો",
-      "",
-      "",
-      "કુલ એકંદર",
-      "",
-      "",
-      "ગઈ સાલના જાદે",
+      "પા.બા",
+      "ચાલુ",
+      "કુલ",
+      "નોંધ",
     ];
 
-    const headerRow2 = [
-      "",
-      "",
-      "",
-      "",
-      "",
-      "", // First 6 columns blank
-      "પા.બા",
-      "ચાલુ",
-      "કુલ", // ઘર વેરો
-      "પા.બા",
-      "ચાલુ",
-      "કુલ", // સામાન્ય પાણી વેરો
-      "પા.બા",
-      "ચાલુ",
-      "કુલ", // ખાસ પાણી નળ વેરો
-      "પા.બા",
-      "ચાલુ",
-      "કુલ", // દિવાબતી લાઈટ વેરો
-      "પા.બા",
-      "ચાલુ",
-      "કુલ", // સફાઈ વેરો
-      "પા.બા",
-      "ચાલુ",
-      "કુલ", // કુલ એકંદર
-      "", // ગઈ સાલના જાદે
-    ];
-
-    // Numbering in English digits
-    const headerNumbers = [Array.from({ length: 25 }, (_, i) => i + 1)];
+    // 4. Numbering Row (1 to 12)
+    const headerNumbers = [Array.from({ length: 12 }, (_, i) => i + 1)];
 
     const dataRows = [];
 
-    // Update Merges logic as per Title first
+    // Merges configuration
     const merges = [
-      // Header Merges
-      { s: { r: 0, c: 0 }, e: { r: 0, c: 24 } }, // Title (Now Row 0)
-      { s: { r: 1, c: 0 }, e: { r: 1, c: 8 } }, // ગામ (Now Row 1)
-      { s: { r: 1, c: 9 }, e: { r: 1, c: 18 } }, // તાલુકો
-      { s: { r: 1, c: 19 }, e: { r: 1, c: 24 } }, // જિલ્લો
-
-      // Column spans for Tax Headers (Row 2)
-      { s: { r: 2, c: 6 }, e: { r: 2, c: 8 } },
-      { s: { r: 2, c: 9 }, e: { r: 2, c: 11 } },
-      { s: { r: 2, c: 12 }, e: { r: 2, c: 14 } },
-      { s: { r: 2, c: 15 }, e: { r: 2, c: 17 } },
-      { s: { r: 2, c: 18 }, e: { r: 2, c: 20 } },
-      { s: { r: 2, c: 21 }, e: { r: 2, c: 23 } },
-
-      // Row spans for Base Columns (Row 2 & 3)
-      { s: { r: 2, c: 0 }, e: { r: 3, c: 0 } }, // ખાતાનો નંબર
-      { s: { r: 2, c: 1 }, e: { r: 3, c: 1 } }, // પ્રોપર્ટી નંબર
-      { s: { r: 2, c: 2 }, e: { r: 3, c: 2 } }, // એરિયાનું નામ
-      { s: { r: 2, c: 3 }, e: { r: 3, c: 3 } }, // ખાતેદારનું નામ
-      { s: { r: 2, c: 4 }, e: { r: 3, c: 4 } }, // પહોંચ નંબર
-      { s: { r: 2, c: 5 }, e: { r: 3, c: 5 } }, // વિગત
-      { s: { r: 2, c: 24 }, e: { r: 3, c: 24 } }, // ગઈ સાલના જાદે
+      { s: { r: 0, c: 0 }, e: { r: 0, c: 11 } }, // Title span 12 cols
+      { s: { r: 1, c: 0 }, e: { r: 1, c: 3 } },  // ગામ span
+      { s: { r: 1, c: 4 }, e: { r: 1, c: 7 } },  // તાલુકો span
+      { s: { r: 1, c: 8 }, e: { r: 1, c: 11 } }, // જિલ્લો span
     ];
 
-    let currentRowIndex = 5;
+    // Data starts at row index 4 (0: Title, 1: Location, 2: Header, 3: Numbers)
+    let currentRowIndex = 4;
 
-    // Variables to hold Footer Totals
-    const grandTotals = [
-      Array(25).fill(0), // Demand totals
-      Array(25).fill(0), // Recovery totals
-      Array(25).fill(0), // Balance totals
-    ];
+    // Variables for Grand Totals
+    const grandTotals = {
+      d_pb: 0, d_chalu: 0, d_kul: 0,
+      r_pb: 0, r_chalu: 0, r_kul: 0,
+      b_pb: 0, b_chalu: 0, b_kul: 0,
+    };
 
     records?.forEach((record) => {
       const parsed21 = safeParse(record[21]);
-      const parsed22 = safeParse(record[22]);
       const parsed23 = safeParse(record[23]);
       const parsed24 = safeParse(record[24]);
-      const parsed25 = safeParse(record[25]);
-      const parsed26 = safeParse(record[26]);
 
-      const commonInfo = [
-        record[0] || "", // 0: ખાતાનો નંબર
-        record[2] || "", // 1: પ્રોપર્ટી નંબર
-        record[1] || "", // 2: એરિયાનું નામ
-        record[3] || "", // 3: ખાતેદારનું નામ
-        "", // 4: પહોંચ નંબર (Will remain unmerged and blank)
-      ];
+      // Extract Common Record Info
+      const kram = getNum(record[2]);
+      const area = record[1] || "";
+      const conn = getNum(record[0]);
+      const nameMob = `${record[3] || ""}\n${record[6] || ""}`.trim();
+      const oldConn = getNum(record[5]);
+      const taps = getNum(record[12]);
+      const note = record[14] || "";
 
-      // ====== ROW 1: માંગણું (Demand) ======
-      const r1_ghar_prev = getNum(record[22]);
-      const r1_ghar_curr = getNum(record[20]);
-      const r1_samanya_prev = getNum(parsed23?.normal_water?.prev);
-      const r1_samanya_curr = getNum(parsed21?.normal_water?.curr);
-      const r1_khas_prev = getNum(parsed23?.special_water?.prev);
-      const r1_khas_curr = getNum(parsed21?.special_water?.curr);
-      const r1_light_prev = getNum(parsed23?.light?.prev);
-      const r1_light_curr = getNum(parsed21?.light?.curr);
-      const r1_safai_prev = getNum(parsed23?.cleaning?.prev);
-      const r1_safai_curr = getNum(parsed21?.cleaning?.curr);
+      // Receipt details extraction
+      const receipts = parsed24?.receipt;
+      let pNo = "", dateStr = "", amountStr = "";
 
-      const r1_kul_prev =
-        r1_ghar_prev +
-        r1_samanya_prev +
-        r1_khas_prev +
-        r1_light_prev +
-        r1_safai_prev;
-      const r1_kul_curr =
-        r1_ghar_curr +
-        r1_samanya_curr +
-        r1_khas_curr +
-        r1_light_curr +
-        r1_safai_curr;
+      const formatDate = (date) =>
+        date ? date.replace(/"/g, "").trim().split("-").reverse().join("/") : "";
 
-      const row1 = [
-        ...commonInfo,
-        "માંગણું",
-        r1_ghar_prev,
-        r1_ghar_curr,
-        r1_ghar_prev + r1_ghar_curr,
-        r1_samanya_prev,
-        r1_samanya_curr,
-        r1_samanya_prev + r1_samanya_curr,
-        r1_khas_prev,
-        r1_khas_curr,
-        r1_khas_prev + r1_khas_curr,
-        r1_light_prev,
-        r1_light_curr,
-        r1_light_prev + r1_light_curr,
-        r1_safai_prev,
-        r1_safai_curr,
-        r1_safai_prev + r1_safai_curr,
-        r1_kul_prev,
-        r1_kul_curr,
-        r1_kul_prev + r1_kul_curr,
-        "", // ગઈ સાલના જાદે
-      ];
-
-      // ====== ROW 2: વસુલાત (Recovery) ======
-      const row2 = [
-        "",
-        "",
-        "",
-        "",
-        "",
-        "વસુલાત",
-        getNum(parsed21?.[1]?.prev),
-        getNum(parsed21?.[1]?.curr),
-        getNum(parsed21?.[1]?.prev) + getNum(parsed21?.[1]?.curr),
-        getNum(parsed22?.[1]?.prev),
-        getNum(parsed22?.[1]?.curr),
-        getNum(parsed22?.[1]?.prev) + getNum(parsed22?.[1]?.curr),
-        getNum(parsed23?.[1]?.prev),
-        getNum(parsed23?.[1]?.curr),
-        getNum(parsed23?.[1]?.prev) + getNum(parsed23?.[1]?.curr),
-        getNum(parsed24?.[1]?.prev),
-        getNum(parsed24?.[1]?.curr),
-        getNum(parsed24?.[1]?.prev) + getNum(parsed24?.[1]?.curr),
-        getNum(parsed25?.[1]?.prev),
-        getNum(parsed25?.[1]?.curr),
-        getNum(parsed25?.[1]?.prev) + getNum(parsed25?.[1]?.curr),
-        getNum(parsed26?.[1]?.prev),
-        getNum(parsed26?.[1]?.curr),
-        getNum(parsed26?.[1]?.prev) + getNum(parsed26?.[1]?.curr),
-        "",
-      ];
-
-      // ====== ROW 3: બાકી (Balance) ======
-      const row3 = [
-        "",
-        "",
-        "",
-        "",
-        "",
-        "બાકી",
-        getNum(parsed21?.[1]?.prev),
-        getNum(parsed21?.[1]?.curr),
-        getNum(parsed21?.[1]?.prev) + getNum(parsed21?.[1]?.curr),
-        getNum(parsed22?.[1]?.prev),
-        getNum(parsed22?.[1]?.curr),
-        getNum(parsed22?.[1]?.prev) + getNum(parsed22?.[1]?.curr),
-        getNum(parsed23?.[1]?.prev),
-        getNum(parsed23?.[1]?.curr),
-        getNum(parsed23?.[1]?.prev) + getNum(parsed23?.[1]?.curr),
-        getNum(parsed24?.[1]?.prev),
-        getNum(parsed24?.[1]?.curr),
-        getNum(parsed24?.[1]?.prev) + getNum(parsed24?.[1]?.curr),
-        getNum(parsed25?.[1]?.prev),
-        getNum(parsed25?.[1]?.curr),
-        getNum(parsed25?.[1]?.prev) + getNum(parsed25?.[1]?.curr),
-        getNum(parsed26?.[1]?.prev),
-        getNum(parsed26?.[1]?.curr),
-        getNum(parsed26?.[1]?.prev) + getNum(parsed26?.[1]?.curr),
-        "",
-      ];
-
-      // Summing values into Grand Totals array (cols 6 to 23)
-      for (let i = 6; i <= 23; i++) {
-        grandTotals[0][i] += Number(row1[i]) || 0;
-        grandTotals[1][i] += Number(row2[i]) || 0;
-        grandTotals[2][i] += Number(row3[i]) || 0;
+      if (Array.isArray(receipts)) {
+        pNo = receipts.map((r) => r?.pNo).filter(Boolean).join(", ");
+        dateStr = receipts.map((r) => formatDate(r?.date)).filter(Boolean).join(", ");
+        amountStr = receipts.map((r) => r?.amount).filter(Boolean).join(", ");
+      } else if (receipts) {
+        pNo = receipts?.pNo || "";
+        dateStr = formatDate(receipts?.date);
+        amountStr = receipts?.amount || "";
       }
+
+      // Calculations for Special Water Tax (as per HTML logic)
+      const d_pb = getNum(parsed23?.special_water?.prev);
+      const d_chalu = getNum(parsed21?.special_water?.curr);
+      const d_kul = d_pb + d_chalu;
+
+      const r_pb = getNum(parsed23?.special_water?.vasulat);
+      const r_chalu = getNum(parsed21?.special_water?.vasulat);
+      const r_kul = r_pb + r_chalu;
+
+      const b_pb = d_pb - r_pb;
+      const b_chalu = d_chalu - r_chalu;
+      const b_kul = b_pb + b_chalu;
+
+      // Update Grand Totals
+      grandTotals.d_pb += d_pb;
+      grandTotals.d_chalu += d_chalu;
+      grandTotals.d_kul += d_kul;
+      grandTotals.r_pb += r_pb;
+      grandTotals.r_chalu += r_chalu;
+      grandTotals.r_kul += r_kul;
+      grandTotals.b_pb += b_pb;
+      grandTotals.b_chalu += b_chalu;
+      grandTotals.b_kul += b_kul;
+
+      // ====== ROW 1: માંગણું ======
+      const row1 = [
+        kram, area, conn, nameMob, oldConn, taps, pNo, "માંગણું", d_pb, d_chalu, d_kul, note
+      ];
+
+      // ====== ROW 2: વસુલાત ======
+      const row2 = [
+        "", "", "", "", "", "", dateStr, "વસુલાત", r_pb, r_chalu, r_kul, ""
+      ];
+
+      // ====== ROW 3: બાકી ======
+      const row3 = [
+        "", "", "", "", "", "", amountStr, "બાકી", b_pb, b_chalu, b_kul, ""
+      ];
 
       dataRows.push(row1, row2, row3);
 
-      // Vertical Merges (Removed Index 4 - પહોંચ નંબર)
-      [0, 1, 2, 3, 24].forEach((colIndex) => {
+      // Vertical Merges (spanning 3 rows) for columns: 0, 1, 2, 3, 4, 5, and 11
+      [0, 1, 2, 3, 4, 5, 11].forEach((colIndex) => {
         merges.push({
           s: { r: currentRowIndex, c: colIndex },
           e: { r: currentRowIndex + 2, c: colIndex },
@@ -973,50 +833,37 @@ const WaterTaxRegister = () => {
 
     // ====== FOOTER ROWS (Grand Totals) ======
     const footerRow1 = [
-      "કુલ",
-      "",
-      "",
-      "",
-      "",
-      "માંગણું",
-      ...grandTotals[0].slice(6, 24),
-      "",
+      "પાનાનું કુલ", "", "", "", "", "", "", "માંગણું",
+      grandTotals.d_pb, grandTotals.d_chalu, grandTotals.d_kul, ""
     ];
     const footerRow2 = [
-      "",
-      "",
-      "",
-      "",
-      "",
-      "વસુલાત",
-      ...grandTotals[1].slice(6, 24),
-      "",
+      "", "", "", "", "", "", "", "વસુલાત",
+      grandTotals.r_pb, grandTotals.r_chalu, grandTotals.r_kul, ""
     ];
     const footerRow3 = [
-      "",
-      "",
-      "",
-      "",
-      "",
-      "બાકી",
-      ...grandTotals[2].slice(6, 24),
-      "",
+      "", "", "", "", "", "", "", "બાકી",
+      grandTotals.b_pb, grandTotals.b_chalu, grandTotals.b_kul, ""
     ];
 
     dataRows.push(footerRow1, footerRow2, footerRow3);
 
-    // Merge the first 5 columns of the Footer to show "કુલ" dynamically centered
+    // Merge Footer Text "પાનાનું કુલ" across col 0 to 6
     merges.push({
       s: { r: currentRowIndex, c: 0 },
-      e: { r: currentRowIndex + 2, c: 4 },
+      e: { r: currentRowIndex + 2, c: 6 },
     });
 
-    // Create Data Array
+    // Merge Note block in footer
+    merges.push({
+      s: { r: currentRowIndex, c: 11 },
+      e: { r: currentRowIndex + 2, c: 11 },
+    });
+
+    // Combine all arrays
     const worksheetData = [
-      ...titleRow, // Title first
-      ...locationRow, // Location second
+      ...titleRow,
+      ...locationRow,
       headerRow1,
-      headerRow2,
       ...headerNumbers,
       ...dataRows,
     ];
@@ -1025,7 +872,7 @@ const WaterTaxRegister = () => {
     worksheet["!merges"] = merges;
 
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Karvera Register");
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Water Tax Register");
 
     const excelBuffer = XLSX.write(workbook, {
       bookType: "xlsx",
@@ -1036,7 +883,7 @@ const WaterTaxRegister = () => {
       type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8",
     });
 
-    saveAs(file, "Karvera_Register_9D.xlsx");
+    saveAs(file, "Water_Tax_Register.xlsx");
   };
 
   return (
@@ -1067,9 +914,8 @@ const WaterTaxRegister = () => {
                 : "📄 Generating Report PDF"}
             </h3>
             <p
-              className={`text-sm mb-4 text-center ${
-                pdfProgress.isCancelled ? "text-red-500" : "text-gray-500"
-              }`}
+              className={`text-sm mb-4 text-center ${pdfProgress.isCancelled ? "text-red-500" : "text-gray-500"
+                }`}
             >
               Please wait, this is a CPU-intensive task.
             </p>
@@ -1077,9 +923,8 @@ const WaterTaxRegister = () => {
             {/* Progress Bar */}
             <div className="w-full bg-gray-200 rounded-full h-3 mb-3">
               <div
-                className={`h-3 rounded-full transition-all duration-500 ${
-                  pdfProgress.isCancelled ? "bg-yellow-500" : "bg-green-600"
-                }`}
+                className={`h-3 rounded-full transition-all duration-500 ${pdfProgress.isCancelled ? "bg-yellow-500" : "bg-green-600"
+                  }`}
                 style={{ width: `${pdfProgress.percentage}%` }}
               ></div>
             </div>
@@ -1359,11 +1204,11 @@ const WaterTaxRegister = () => {
                     <tr>
                       {Array.from({ length: 11 }).map((_, index) => (
                         <th
-                          className="text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          className="text-xs font-medium uppercase tracking-wider"
                           style={{
                             textAlign: "center",
                             color: "black",
-                            background: "transparent",
+                            background: "white",
                           }}
                           key={index}
                         >
@@ -1478,9 +1323,9 @@ const WaterTaxRegister = () => {
 
                                 return Array.isArray(receipt)
                                   ? receipt
-                                      .map((r) => r?.pNo)
-                                      .filter(Boolean)
-                                      .join(", ")
+                                    .map((r) => r?.pNo)
+                                    .filter(Boolean)
+                                    .join(", ")
                                   : receipt?.pNo || "";
                               })()}
                             </span>
@@ -1527,10 +1372,10 @@ const WaterTaxRegister = () => {
                                   JSON.parse(record[21] || "{}")?.special_water
                                     ?.curr || " ",
                                 ) +
-                                  Number(
-                                    JSON.parse(record[23] || "{}")
-                                      ?.special_water?.prev || " ",
-                                  ),
+                                Number(
+                                  JSON.parse(record[23] || "{}")
+                                    ?.special_water?.prev || " ",
+                                ),
                               )}
                             </span>
                           </td>
@@ -1544,7 +1389,7 @@ const WaterTaxRegister = () => {
                         </tr>
 
                         <tr style={{ maxHeight: "3px" }}>
-                          <th>
+                          <td style={{ minWidth: "100px", maxWidth: "100px" }}>
                             <span className="formatting">
                               {(() => {
                                 const receipt =
@@ -1554,22 +1399,22 @@ const WaterTaxRegister = () => {
                                 const formatDate = (date) =>
                                   date
                                     ? date
-                                        .replace(/"/g, "")
-                                        .trim()
-                                        .split("-")
-                                        .reverse()
-                                        .join("/")
+                                      .replace(/"/g, "")
+                                      .trim()
+                                      .split("-")
+                                      .reverse()
+                                      .join("/")
                                     : "";
 
                                 return Array.isArray(receipt)
                                   ? receipt
-                                      .map((r) => formatDate(r?.date))
-                                      .filter(Boolean)
-                                      .join(", ")
+                                    .map((r) => formatDate(r?.date))
+                                    .filter(Boolean)
+                                    .join(", ")
                                   : formatDate(receipt?.date) || "-";
                               })()}
                             </span>
-                          </th>
+                          </td>
                           <th className="td" style={{ maxHeight: "4x" }}>
                             <span
                               className="formatting"
@@ -1599,30 +1444,30 @@ const WaterTaxRegister = () => {
                               {toGujaratiNumber(
                                 (JSON.parse(record[23] || "{}")?.special_water
                                   ?.vasulat || " ") +
-                                  (JSON.parse(record[21] || "{}")?.special_water
-                                    ?.vasulat || " "),
+                                (JSON.parse(record[21] || "{}")?.special_water
+                                  ?.vasulat || " "),
                               )}
                             </span>
                           </td>
                         </tr>
 
                         <tr>
-                          <th>
+                          <td style={{ minWidth: "100px", maxWidth: "100px" }}>
                             <span className="formatting">
                               {(() => {
                                 const receipt = JSON.parse(
                                   record[24] || "{}",
-                                )?._receipt;
+                                )?.receipt;
 
                                 return Array.isArray(receipt)
                                   ? receipt
-                                      .map((r) => r?.amount)
-                                      .filter(Boolean)
-                                      .join(", ")
+                                    .map((r) => r?.amount)
+                                    .filter(Boolean)
+                                    .join(", ")
                                   : receipt?.amount || "";
                               })()}
                             </span>
-                          </th>
+                          </td>
                           <th className="td">
                             <span
                               className="formatting"
@@ -1638,10 +1483,10 @@ const WaterTaxRegister = () => {
                                   JSON.parse(record[23] || "{}")?.special_water
                                     ?.prev,
                                 ) -
-                                  Number(
-                                    JSON.parse(record[23] || "{}")
-                                      ?.special_water?.vasulat,
-                                  ) || " ",
+                                Number(
+                                  JSON.parse(record[23] || "{}")
+                                    ?.special_water?.vasulat,
+                                ) || " ",
                               )}
                             </span>
                           </td>
@@ -1652,10 +1497,10 @@ const WaterTaxRegister = () => {
                                   JSON.parse(record[21] || "{}")?.special_water
                                     ?.curr,
                                 ) -
-                                  Number(
-                                    JSON.parse(record[21] || "{}")
-                                      ?.special_water?.vasulat,
-                                  ) || " ",
+                                Number(
+                                  JSON.parse(record[21] || "{}")
+                                    ?.special_water?.vasulat,
+                                ) || " ",
                               )}
                             </span>
                           </td>
@@ -1666,18 +1511,18 @@ const WaterTaxRegister = () => {
                                   JSON.parse(record[23] || "{}")?.special_water
                                     ?.prev,
                                 ) -
-                                  Number(
-                                    JSON.parse(record[23] || "{}")
-                                      ?.special_water?.vasulat,
-                                  ) +
-                                  Number(
-                                    JSON.parse(record[21] || "{}")
-                                      ?.special_water?.curr,
-                                  ) -
-                                  Number(
-                                    JSON.parse(record[21] || "{}")
-                                      ?.special_water?.vasulat,
-                                  ) || " ",
+                                Number(
+                                  JSON.parse(record[23] || "{}")
+                                    ?.special_water?.vasulat,
+                                ) +
+                                Number(
+                                  JSON.parse(record[21] || "{}")
+                                    ?.special_water?.curr,
+                                ) -
+                                Number(
+                                  JSON.parse(record[21] || "{}")
+                                    ?.special_water?.vasulat,
+                                ) || " ",
                               )}
                             </span>
                           </td>
