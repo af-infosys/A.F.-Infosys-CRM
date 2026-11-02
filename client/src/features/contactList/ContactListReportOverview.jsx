@@ -21,7 +21,6 @@ const ContactListReportOverview = () => {
   };
 
   const { user } = useAuth();
-
   const navigate = useNavigate();
 
   const fetchRecords = async () => {
@@ -70,7 +69,6 @@ const ContactListReportOverview = () => {
         },
       });
       setRecords(records.filter((record) => record.id !== id));
-
       fetchRecords();
     } catch (err) {
       console.error("Error deleting record:", err);
@@ -112,27 +110,23 @@ const ContactListReportOverview = () => {
     };
   });
 
-  // 2. Save to localStorage (Remains the same)
+  // 2. Save to localStorage
   useEffect(() => {
     localStorage.setItem("myAppFilters", JSON.stringify(filters));
   }, [filters]);
 
-  // Extract Unique values (Remains the same)
   // --- Cascading Dropdown Logic ---
-  // 1. Districts are always all available districts
   const uniqueDistricts = [
     ...new Set(records.map((r) => r[9]).filter(Boolean)),
   ].sort();
 
-  // 2. Filter Talukas based on selected District
   const recordsForTalukas = filters.district
-    ? records.filter((r) => r[9] === filters.district) // record[9] is District
+    ? records.filter((r) => r[9] === filters.district)
     : records;
   const uniqueTalukas = [
     ...new Set(recordsForTalukas.map((r) => r[8]).filter(Boolean)),
   ].sort();
 
-  // 3. Filter Villages based on selected District AND selected Taluka
   let recordsForVillages = records;
   if (filters.district) {
     recordsForVillages = recordsForVillages.filter(
@@ -164,7 +158,6 @@ const ContactListReportOverview = () => {
     const district = record[9] || "";
     const isInterested = record[16] || "";
 
-    // Parse Call History safely
     const callHistoryStr = record[10] || "[]";
     let callHistory = [];
     try {
@@ -174,7 +167,6 @@ const ContactListReportOverview = () => {
       callHistory = [];
     }
 
-    // --- Basic Text & Dropdown Checks ---
     const searchText = filters.text.toLowerCase();
     const matchesText =
       !searchText ||
@@ -187,17 +179,12 @@ const ContactListReportOverview = () => {
     const matchesCategory = !filters.category || category === filters.category;
     const matchesInterested = !filters.interested || isInterested === "TRUE";
 
-    // --- New Call History Checks ---
-
-    // 1. Date Range & Valid Call (clientAnswer !== "")
     let matchesDateRange = true;
     if (filters.startDate || filters.endDate) {
-      // 'some' checks if AT LEAST ONE call matches our criteria
       matchesDateRange = callHistory.some((call) => {
-        // Track karne ke liye ki calls hue hai ya nahi
         if (!call.clientAnswer || call.clientAnswer.trim() === "") return false;
 
-        const callDate = call.dateOfCall; // Format: "YYYY-MM-DD"
+        const callDate = call.dateOfCall;
         if (!callDate) return false;
 
         let isAfterStart = true;
@@ -210,7 +197,6 @@ const ContactListReportOverview = () => {
       });
     }
 
-    // 2. Call Direction (incoming: true/false)
     let matchesDirection = true;
     if (filters.callDirection === "incoming") {
       matchesDirection = callHistory.some((call) => call.incoming === true);
@@ -218,7 +204,6 @@ const ContactListReportOverview = () => {
       matchesDirection = callHistory.some((call) => call.incoming === false);
     }
 
-    // 3. Follow-up on LAST Call Only
     let matchesFollowUp = true;
     if (filters.hasFollowUp) {
       if (callHistory.length > 0) {
@@ -226,7 +211,7 @@ const ContactListReportOverview = () => {
         matchesFollowUp =
           lastCall.reminderDate && lastCall.reminderDate.trim() !== "";
       } else {
-        matchesFollowUp = false; // No calls exist, so no follow-up
+        matchesFollowUp = false;
       }
     }
 
@@ -242,6 +227,16 @@ const ContactListReportOverview = () => {
       matchesFollowUp
     );
   });
+
+  // Group records by Taluka and Jilla dynamically
+  const groupedRecords = filteredRecords.reduce((acc, record) => {
+    const taluka = record[8] || "અજ્ઞાત તાલુકો";
+    const jilla = record[9] || "અજ્ઞાત જિલ્લો";
+    const key = `${taluka} - ${jilla}`;
+    if (!acc[key]) acc[key] = [];
+    acc[key].push(record);
+    return acc;
+  }, {});
 
   return (
     <div className="container mx-auto p-2 sm:p-6 lg:p-8">
@@ -263,7 +258,7 @@ const ContactListReportOverview = () => {
       />
       {/* Search Section End */}
 
-      <div className="flex justify-between items-center gap-2">
+      <div className="flex justify-between items-center gap-2 mb-4">
         <button
           className="add-btn"
           onClick={() => navigate("/customers/form")}
@@ -293,306 +288,295 @@ const ContactListReportOverview = () => {
         <div
           ref={tableRef}
           onScroll={handleScroll}
-          className="table-container rounded-lg shadow-md border border-gray-200"
-          style={{ maxHeight: "90vh", overflow: "auto" }}
+          className="w-full bg-white rounded-lg shadow-md border border-gray-200 overflow-y-auto"
+          style={{ maxHeight: "80vh" }}
         >
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50 sticky top-0 z-10">
-              <tr>
-                <th
-                  className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-lg"
-                  style={{ color: "blue", background: background }}
-                >
-                  અનું ક્રમાંક
-                </th>
-                <th
-                  className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  style={{
-                    color: "blue",
-                    background: background,
-                    minWidth: "150px",
-                  }}
-                >
-                  કસ્ટમર / ગ્રાહકનું પુરૂ નામ
-                </th>
-                <th
-                  className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  style={{ color: "blue", background: background }}
-                >
-                  મોબાઈલ નંબર
-                </th>
-                <th
-                  className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  style={{ color: "blue", background: background }}
-                >
-                  વોટસેઅપ નબંર
-                </th>
-                <th
-                  className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  style={{ color: "blue", background: background }}
-                >
-                  કેટેગરી
-                </th>
-                <th
-                  className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  style={{ color: "blue", background: background }}
-                >
-                  ગામ
-                </th>
-                <th
-                  className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  style={{ color: "blue", background: background }}
-                >
-                  ચાર્જ નું ગામ
-                </th>
-                <th
-                  className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  style={{ color: "blue", background: background }}
-                >
-                  તાલુકો
-                </th>
-                <th
-                  className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  style={{ color: "blue", background: background }}
-                >
-                  જિલ્લો
-                </th>
+          {Object.entries(groupedRecords).map(
+            ([groupName, groupData], groupIndex) => (
+              <div key={groupIndex} className="mb-8">
+                {/* Heading for Taluka - Jilla */}
+                <div className="sticky top-0 z-20 bg-gray-200 px-4 py-3 shadow border-b border-gray-300">
+                  <h3 className="text-lg font-bold text-gray-800">
+                    {groupName}
+                  </h3>
+                </div>
 
-                <th
-                  className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  style={{ color: "blue", background: background }}
-                >
-                  Updated by
-                </th>
-
-                {(user.role === "owner" || user.role === "telecaller") && (
-                  <th
-                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tr-lg"
-                    style={{ color: "blue", background: background }}
-                  >
-                    Action
-                  </th>
-                )}
-              </tr>
-
-              {/* Index Start */}
-              <tr>
-                {/* 1 to 18 th for index */}
-                {Array.from({
-                  length:
-                    user.role === "owner" || user.role === "telecaller"
-                      ? 11
-                      : 10,
-                }).map((_, index) => (
-                  <th
-                    className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-                    style={{
-                      textAlign: "center",
-                      color: "blue",
-                      background: background,
-                    }}
-                    key={index}
-                  >
-                    {index + 1}
-                  </th>
-                ))}
-              </tr>
-              {/* Index End */}
-            </thead>
-
-            <tbody className="bg-white divide-y divide-gray-200">
-              {filteredRecords?.map((record, index) => {
-                let survayorData = record[13];
-
-                if (typeof survayorData === "string") {
-                  try {
-                    survayorData = JSON.parse(survayorData);
-                  } catch (error) {
-                    console.error("Error parsing survayor data:", error);
-                    survayorData = null;
-                  }
-                }
-
-                let interested = false;
-
-                let callHistory = JSON.parse(record[10] || "[]") || [];
-
-                let status = "remaining";
-
-                if (
-                  callHistory.length > 0 &&
-                  callHistory[0]?.clientAnswer !== ""
-                ) {
-                  status = "completed";
-                }
-
-                if (
-                  callHistory.length > 0 &&
-                  callHistory[callHistory.length - 1]?.reminderDate !== ""
-                ) {
-                  status = "reminder";
-                }
-
-                if (record[16] === "TRUE") {
-                  interested = true;
-                }
-
-                return (
-                  <tr key={index} className={status}>
-                    {/* અહીં Google Sheet માંથી આવતા ડેટાને કૉલમમાં મેપ કરો */}
-                    {/* અનું કૂમાંક (serialNumber) */}
-                    <td className="record whitespace-nowrap text-sm font-medium text-gray-900">
-                      {record[1]}
-                    </td>
-                    {/* Customer Full Name */}
-                    <td
-                      className="record whitespace-normal text-sm text-gray-500"
-                      onClick={() => {
-                        if (user.role === "owner")
-                          navigate(`/customers/history/${record[0]}`);
-                      }}
-                      style={{
-                        color: `${interested ? "green" : null}`,
-                        fontWidht: `${interested ? "bold" : "normal"}`,
-                      }}
-                      title={`${interested ? "Interested" : null}`}
-                    >
-                      {interested ? (
-                        <>
-                          <span
-                            className="text-green-600"
-                            style={{ fontSize: "20px" }}
-                          >
-                            {" "}
-                            *{" "}
-                          </span>
-                        </>
-                      ) : null}
-                      {record[2]}
-                    </td>{" "}
-                    {/* Mobile No. <br /> */}
-                    <td className="record whitespace-nowrap text-sm text-gray-500">
-                      {record[3]?.includes(",") ? (
-                        record[3]?.split(",")?.map((number, index) => (
-                          <>
-                            <a
-                              key={index}
-                              href={`tel:${number?.trim()}`}
-                              className="text-blue-600 hover:underline"
-                            >
-                              {number?.trim()}
-                            </a>{" "}
-                          </>
-                        ))
-                      ) : (
-                        <a
-                          href={`tel:${record[3]?.trim()}`}
-                          className="text-blue-600 hover:underline"
+                <div className="overflow-x-auto">
+                  <table className="min-w-full divide-y divide-gray-200">
+                    <thead className="bg-gray-50 sticky top-12 z-10">
+                      <tr>
+                        <th
+                          className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tl-lg"
+                          style={{ color: "blue", background: background }}
                         >
-                          {record[3]?.trim()}
-                        </a>
-                      )}
-                    </td>{" "}
-                    {/* Whatsaap No.  */}
-                    <td className="record whitespace-normal text-sm text-gray-500">
-                      <a
-                        href={`https://wa.me/91${record[4]?.trim()}`}
-                        className="text-blue-600 hover:underline"
-                      >
-                        {record[4]?.trim()}
-                      </a>
-                    </td>
-                    {/* Category Customer  */}
-                    <td className="record whitespace-normal text-sm text-gray-500">
-                      {record[5]}
-                    </td>{" "}
-                    {/* Village  */}
-                    <td className="record whitespace-normal text-sm text-gray-500">
-                      {record[6]}
-                    </td>
-                    {/* Village of charge  */}
-                    <td className="record whitespace-normal text-sm text-gray-500">
-                      {record[7]}
-                    </td>
-                    {/* Taluko  */}
-                    <td className="record whitespace-normal text-sm text-gray-500">
-                      {record[8]}
-                    </td>
-                    {/* Jilla  */}
-                    <td className="record whitespace-normal text-sm text-gray-500">
-                      {record[9]}
-                    </td>
-                    {/* Action */}
-                    <td className="record whitespace-normal text-sm text-gray-500">
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "column",
-                        }}
-                      >
-                        <p style={{ whiteSpace: "nowrap", fontSize: "13px" }}>
-                          {survayorData?.name || "Unknown"}
-                        </p>
-                        {survayorData?.time && (
-                          <p
-                            style={{
-                              whiteSpace: "nowrap",
-                              fontSize: "10px",
-                              marginTop: "-5px",
-                            }}
+                          અનું ક્રમાંક
+                        </th>
+                        <th
+                          className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          style={{
+                            color: "blue",
+                            background: background,
+                            minWidth: "150px",
+                          }}
+                        >
+                          કસ્ટમર / ગ્રાહકનું પુરૂ નામ
+                        </th>
+                        <th
+                          className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          style={{ color: "blue", background: background }}
+                        >
+                          વોટસેઅપ નબંર
+                        </th>
+                        <th
+                          className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          style={{ color: "blue", background: background }}
+                        >
+                          કેટેગરી
+                        </th>
+                        <th
+                          className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          style={{ color: "blue", background: background }}
+                        >
+                          ગામ
+                        </th>
+                        <th
+                          className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          style={{ color: "blue", background: background }}
+                        >
+                          ચાર્જ નું ગામ
+                        </th>
+
+                        {/* New Call History Columns */}
+                        <th
+                          className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          style={{ color: "blue", background: background }}
+                        >
+                          કૉલ જવાબ ૧
+                        </th>
+                        <th
+                          className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          style={{ color: "blue", background: background }}
+                        >
+                          કૉલ જવાબ ૨
+                        </th>
+                        <th
+                          className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          style={{ color: "blue", background: background }}
+                        >
+                          કૉલ જવાબ ૩ (છેલ્લો)
+                        </th>
+                        {/* Mobile Column Shifted to End */}
+                        <th
+                          className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          style={{ color: "blue", background: background }}
+                        >
+                          મોબાઈલ નંબર
+                        </th>
+                        {(user.role === "owner" ||
+                          user.role === "telecaller") && (
+                          <th
+                            className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider rounded-tr-lg"
+                            style={{ color: "blue", background: background }}
                           >
-                            {formatDate(survayorData?.time)}
-                          </p>
+                            Action
+                          </th>
                         )}
-                      </div>
-                    </td>
-                    {(user.role === "owner" || user.role === "telecaller") && (
-                      <td
-                        className="record whitespace-normal text-sm text-gray-500"
-                        style={{
-                          display: "flex",
-                          gap: ".3rem",
-                          alignItems: "center",
-                          height: "100%",
-                        }}
-                      >
-                        <button
-                          onClick={() =>
-                            navigate(`/customers/add-call/${record[0]}`)
-                          }
-                          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
-                          style={{ whiteSpace: "nowrap", fontSize: "10px" }}
-                        >
-                          Add Call Detail
-                        </button>
+                      </tr>
 
-                        <button
-                          onClick={() =>
-                            navigate(`/customers/form/${record[0]}`)
-                          }
-                          className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-1 px-2 rounded"
-                          style={{ whiteSpace: "nowrap", fontSize: "10px" }}
-                        >
-                          Edit
-                        </button>
-                      </td>
-                    )}
-                  </tr>
-                );
-              })}
+                      {/* Index Start */}
+                      <tr>
+                        {Array.from({
+                          length:
+                            user.role === "owner" || user.role === "telecaller"
+                              ? 11
+                              : 10,
+                        }).map((_, index) => (
+                          <th
+                            className="px-2 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-gray-200"
+                            style={{
+                              textAlign: "center",
+                              color: "blue",
+                              background: background,
+                            }}
+                            key={index}
+                          >
+                            {index + 1}
+                          </th>
+                        ))}
+                      </tr>
+                      {/* Index End */}
+                    </thead>
 
-              {records.length === 0 && !loading && !error && (
-                <tr>
-                  <td
-                    colSpan="11"
-                    className="px-6 py-4 text-center text-gray-500"
-                  >
-                    No Records Found!
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                      {groupData.map((record, index) => {
+                        let survayorData = record[13];
+                        if (typeof survayorData === "string") {
+                          try {
+                            survayorData = JSON.parse(survayorData);
+                          } catch (error) {
+                            survayorData = null;
+                          }
+                        }
+
+                        let interested = record[16] === "TRUE";
+                        let callHistory = JSON.parse(record[10] || "[]") || [];
+
+                        let status = "remaining";
+                        if (
+                          callHistory.length > 0 &&
+                          callHistory[0]?.clientAnswer !== ""
+                        ) {
+                          status = "completed";
+                        }
+                        if (
+                          callHistory.length > 0 &&
+                          callHistory[callHistory.length - 1]?.reminderDate !==
+                            ""
+                        ) {
+                          status = "reminder";
+                        }
+
+                        // Logic for Call Answers (Last 3 calls)
+                        const recentCalls = callHistory.slice(-3);
+                        const ans1 = recentCalls[0]?.clientAnswer || " ";
+                        const ans2 = recentCalls[1]?.clientAnswer || " ";
+                        const ans3 = recentCalls[2]?.clientAnswer || " ";
+
+                        return (
+                          <tr key={index} className={status}>
+                            <td className="record whitespace-nowrap text-sm font-medium text-gray-900">
+                              {record[1]}
+                            </td>
+                            <td
+                              className="record whitespace-normal text-sm text-gray-500 cursor-pointer"
+                              onClick={() => {
+                                if (user.role === "owner")
+                                  navigate(`/customers/history/${record[0]}`);
+                              }}
+                              style={{
+                                color: interested ? "green" : undefined,
+                                fontWeight: interested ? "bold" : "normal",
+                              }}
+                              title={interested ? "Interested" : undefined}
+                            >
+                              {interested && (
+                                <span
+                                  className="text-green-600"
+                                  style={{ fontSize: "20px" }}
+                                >
+                                  {" "}
+                                  *{" "}
+                                </span>
+                              )}
+                              {record[2]}
+                            </td>
+
+                            <td className="record whitespace-normal text-sm text-gray-500">
+                              <a
+                                href={`https://wa.me/91${record[4]?.trim()}`}
+                                className="text-blue-600 hover:underline"
+                              >
+                                {record[4]?.trim()}
+                              </a>
+                            </td>
+
+                            <td className="record whitespace-normal text-sm text-gray-500">
+                              {record[5]}
+                            </td>
+                            <td className="record whitespace-normal text-sm text-gray-500">
+                              {record[6]}
+                            </td>
+                            <td className="record whitespace-normal text-sm text-gray-500">
+                              {record[7]}
+                            </td>
+
+                            {/* Call Answers Render */}
+                            <td className="record whitespace-normal text-sm text-gray-500">
+                              {ans1}
+                            </td>
+                            <td className="record whitespace-normal text-sm text-gray-500">
+                              {ans2}
+                            </td>
+                            <td className="record whitespace-normal text-sm text-gray-500 font-bold">
+                              {ans3}
+                            </td>
+
+                            {/* Mobile Number Moved Here */}
+                            <td className="record whitespace-nowrap text-sm text-gray-500">
+                              {record[3]?.includes(",") ? (
+                                record[3]?.split(",")?.map((number, idx) => (
+                                  <React.Fragment key={idx}>
+                                    <a
+                                      href={`tel:${number?.trim()}`}
+                                      className="text-blue-600 hover:underline"
+                                    >
+                                      {number?.trim()}
+                                    </a>{" "}
+                                  </React.Fragment>
+                                ))
+                              ) : (
+                                <a
+                                  href={`tel:${record[3]?.trim()}`}
+                                  className="text-blue-600 hover:underline"
+                                >
+                                  {record[3]?.trim()}
+                                </a>
+                              )}
+                            </td>
+
+                            {(user.role === "owner" ||
+                              user.role === "telecaller") && (
+                              <td
+                                className="record whitespace-normal text-sm text-gray-500"
+                                style={{
+                                  display: "flex",
+                                  gap: ".3rem",
+                                  alignItems: "center",
+                                  height: "100%",
+                                }}
+                              >
+                                <button
+                                  onClick={() =>
+                                    navigate(`/customers/add-call/${record[0]}`)
+                                  }
+                                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
+                                  style={{
+                                    whiteSpace: "nowrap",
+                                    fontSize: "10px",
+                                  }}
+                                >
+                                  Add Call Detail
+                                </button>
+
+                                <button
+                                  onClick={() =>
+                                    navigate(`/customers/form/${record[0]}`)
+                                  }
+                                  className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-1 px-2 rounded"
+                                  style={{
+                                    whiteSpace: "nowrap",
+                                    fontSize: "10px",
+                                  }}
+                                >
+                                  Edit
+                                </button>
+                              </td>
+                            )}
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            ),
+          )}
+
+          {Object.keys(groupedRecords).length === 0 && !loading && !error && (
+            <div className="px-6 py-4 text-center text-gray-500">
+              No Records Found!
+            </div>
+          )}
         </div>
       )}
     </div>
