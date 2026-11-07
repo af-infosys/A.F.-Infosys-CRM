@@ -203,11 +203,11 @@ const AkarniExcelEdit = () => {
     areaName: { label: "વિસ્તારનું નામ", width: "w-[10%]", colIndex: 1 },
     propNo: { label: "મિલ્કત ક્રમાંક", width: "w-[8%]", colIndex: 2 },
     owner: { label: "માલિકનું નામ", width: "w-[15%]", colIndex: 3 },
-    occupant: { label: "કબ્જેદારનું નામ", width: "w-[15%]", colIndex: 4 },
     oldPropNo: { label: "જુનો મિ.નં.", width: "w-[6%]", colIndex: 5 },
-    mobile: { label: "મોબાઈલ નંબર", width: "w-[8%]", type: "tel", colIndex: 6 },
-    propName: { label: "મિલ્કત પર લખેલ નામ", width: "w-[10%]", colIndex: 7 },
     description: { label: "મિલ્કતનું વર્ણન", width: "w-[16%]", colIndex: 16 },
+    mobile: { label: "મોબાઈલ નંબર", width: "w-[8%]", type: "tel", colIndex: 6 },
+    occupant: { label: "કબ્જેદારનું નામ", width: "w-[15%]", colIndex: 4 },
+    propName: { label: "મિલ્કત પર લખેલ નામ", width: "w-[10%]", colIndex: 7 },
 
     // valuation: {
     //   label: "મિલ્કતની કિંમત",

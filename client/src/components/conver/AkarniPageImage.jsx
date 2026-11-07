@@ -220,8 +220,17 @@ const AkarniPageImage = ({
               </td>
               <td className="" style={cellStyle}>
                 <span className="formatting">
-                  {record[16]}
-                  {record[7] && `, '${record[7]}'`}
+                  {record[8]?.includes("પ્લોટ") ? record[8] : ""}{" "}
+                  {record[7]?.trim()
+                    ? record[8]?.includes("પ્લોટ")
+                      ? `, ${record[7]}`
+                      : `${record[7]}`
+                    : ""}{" "}
+                  {record[16]
+                    ? record[7]?.trim()
+                      ? `, ${record[16]}`
+                      : `${record[16]}`
+                    : ""}
                 </span>
               </td>
               <td className="" style={{ ...cellStyle, minWidth: "200px" }}>
