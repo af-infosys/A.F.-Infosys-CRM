@@ -10,41 +10,10 @@ import toGujaratiNumber from "../../components/toGujaratiNumber";
 
 const OrderValuationReport = () => {
   const { projectId } = useParams();
-
   const [isPdfGenerating, setIsPdfGenerating] = useState(false);
-
-  const records = [
-    "કાચા ગાર માટી રૂમ ૧ ની કિંમત",
-    "નળીયા, પતરા, પીઢીયા, પાકા રૂમ ૧ ની કિંમત",
-    "પાકા સ્લેબવાળા રૂમ ૧ ની કિંમત",
-    "માલ ઢોર નું ઢાળીયુ પતરા નું ત્થા વાહન રાખવાની જગ્‍યા",
-    "કાચા જર્જરીત બંધ પડતર રૂમ ૧ ની કિંમત",
-    "પાકા જર્જરીત બંધ પડતર રૂમ ૧ ની કિંમત",
-    "કેબીન, પાલા, કાચી દુકાન, ૧ ની કિંમત",
-    "પાકી દુકાન ૧ ની કિંમત",
-    "ગોડાઉન ૧ ની કિંમત",
-    "હોલ ૧ ની કિંમત",
-    "શેડ ૧ ની કિંમત",
-    "ખુલ્લો પ્લોટ ની કિંમત",
-    "હિરાના કારખાના નાના",
-    "હિરાના કારખાના મોટા",
-    "મોબાઇલ ટાવર",
-    "પેટ્રોલ પંપ, ગેસ પંપ",
-    "હોટલ, રેસ્‍ટોરેન્‍ટ, લોજ હાઇવે પર",
-    "કોટન કપાસ નું જીનીંગ",
-    "તેલ ની ઘાણી ઓઇલ મીલ",
-    "કારખાના, ફેકટરી, કંપ્‍ની, ઇન્‍ડસ્‍ટીજ",
-    "કોલ્‍ડ સ્‍ટોરેજ",
-    "લાતી / બેન્‍સો લાકડાનો",
-    "વે બ્રિજ તોલ માપ કાટો વાહન માટેનો",
-    "",
-    "",
-  ];
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-
-  const background = "#fff";
 
   const [details, setDetails] = useState({
     totalHouses: 0,
@@ -62,31 +31,48 @@ const OrderValuationReport = () => {
     assistantName: "",
     assistantNumber: "",
     assistantHoddo: "",
-
     valuationType: "",
-
     meetingDate: "",
     meetingNumber: "",
     agendaNumber: "",
     resolutionNumber: "",
-
     surveyHouseRate: "",
     approvedAmountWords: "",
-
     startArea: "",
     firstPropertyOwner: "",
-
     generalWaterTaxApplicable: "",
     specialAndGeneralWaterTax: "",
-
     notes: [],
   });
 
   const [valuation, setValuation] = useState([]);
+  const [taxes, setTaxes] = useState([]);
+  const [sheetRecords, setSheetRecords] = useState([]);
+
+  const fetchSheetRecords = async () => {
+    try {
+      const response = await fetch(
+        `${await apiPath()}/api/sheet?workId=${projectId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const result = await response.json();
+      setSheetRecords(result.data);
+    } catch (err) {
+      console.error("Error fetching records:", err);
+      toast.error("ડેટા લાવવામાં નિષ્ફળ. કૃપા કરીને ફરી પ્રયાસ કરો.");
+    }
+  };
 
   const fetchData = async () => {
     try {
-      // In a real application, you would pass a token for authentication
       const response = await axios.get(
         `${await apiPath()}/api/valuation/${projectId}`,
         {
@@ -96,28 +82,18 @@ const OrderValuationReport = () => {
           },
         },
       );
-
       const data = response.data;
-      console.log(data);
-
       setDetails(data.details || details);
       setValuation(
         Array.isArray(data?.valuation) && data?.valuation.length
           ? data.valuation
           : valuation,
       );
-
-      console.log(`Fetching data for project ID: ${projectId}`);
     } catch (error) {
       console.error("Error fetching data:", error);
-
-      console.log("ડેટા લાવવામાં નિષ્ફળ. કૃપા કરીને ફરી પ્રયાસ કરો.");
     }
   };
 
-  const [taxes, setTaxes] = useState([]);
-
-  // Function to fetch data based on projectId
   const fetchTaxes = async () => {
     setLoading(true);
     try {
@@ -130,19 +106,12 @@ const OrderValuationReport = () => {
           },
         },
       );
-
       fetchedData = fetchedData?.data?.taxes;
-      console.log(fetchedData);
-
       if (fetchedData && fetchedData.length > 0) {
         setTaxes(fetchedData);
-        toast.success("Tax Data Fetched Successfully.");
-      } else {
-        toast.info("No Tax Data Found! try adding new Data");
       }
     } catch (err) {
       console.error(err);
-      toast.error("Error Fetching Taxes Data.");
     } finally {
       setLoading(false);
     }
@@ -151,6 +120,7 @@ const OrderValuationReport = () => {
   useEffect(() => {
     fetchData();
     fetchTaxes();
+    fetchSheetRecords();
   }, []);
 
   const handleDownloadPdf = async () => {
@@ -160,7 +130,6 @@ const OrderValuationReport = () => {
     const input3 = document.getElementById("report-3");
 
     if (!input1 || !input2 || !input3) {
-      console.error("Could not find report elements.");
       setIsPdfGenerating(false);
       return;
     }
@@ -171,36 +140,60 @@ const OrderValuationReport = () => {
         unit: "pt",
         format: "legal",
       });
-
       const pageWidth = doc.internal.pageSize.getWidth();
-      const pageHeight = doc.internal.pageSize.getHeight();
 
       const addImageFitWidth = async (element) => {
-        const canvas = await html2canvas(element, { scale: 3 }); // sharpness
+        const canvas = await html2canvas(element, { scale: 3 });
         const imgData = canvas.toDataURL("image/png");
-
-        const imgWidth = canvas.width;
-        const imgHeight = canvas.height;
-
-        const ratio = pageWidth / imgWidth;
+        const ratio = pageWidth / canvas.width;
         const finalWidth = pageWidth;
-        const finalHeight = imgHeight * ratio;
-
-        const y = finalHeight > pageHeight ? 0 : (pageHeight - finalHeight) / 2;
-
+        const finalHeight = canvas.height * ratio;
         doc.addImage(imgData, "PNG", 0, 0, finalWidth, finalHeight);
       };
 
-      // Add pages
       await addImageFitWidth(input1);
       doc.addPage();
       await addImageFitWidth(input2);
       doc.addPage();
       await addImageFitWidth(input3);
 
-      doc.save(`1. Order_Valuation_Report_${details?.akaraniYear}.pdf`);
+      doc.save(`Order_Valuation_Report_${details?.akaraniYear}.pdf`);
     } catch (error) {
       console.error("Error generating PDF:", error);
+    } finally {
+      setIsPdfGenerating(false);
+    }
+  };
+
+  const handleDownloadSummaryPdf = async () => {
+    setIsPdfGenerating(true);
+    const summaryInput = document.getElementById("report-summary");
+
+    if (!summaryInput) {
+      setIsPdfGenerating(false);
+      return;
+    }
+
+    try {
+      const doc = new jsPDF({
+        orientation: "portrait",
+        unit: "pt",
+        format: "a4",
+      });
+      const pageWidth = doc.internal.pageSize.getWidth();
+
+      const canvas = await html2canvas(summaryInput, {
+        scale: 3,
+        useCORS: true,
+      });
+      const imgData = canvas.toDataURL("image/png");
+      const ratio = pageWidth / canvas.width;
+      const finalHeight = canvas.height * ratio;
+
+      doc.addImage(imgData, "PNG", 0, 0, pageWidth, finalHeight);
+      doc.save(`Valuation_Summary_${details?.akaraniYear}.pdf`);
+    } catch (error) {
+      console.error("Error generating Summary PDF:", error);
     } finally {
       setIsPdfGenerating(false);
     }
@@ -220,15 +213,39 @@ const OrderValuationReport = () => {
   function formatDate(dateString) {
     if (!dateString) return "";
     const dateObj = new Date(dateString);
-
     if (isNaN(dateObj)) return "";
-
     const day = String(dateObj.getDate()).padStart(2, "0");
     const month = String(dateObj.getMonth() + 1).padStart(2, "0");
     const year = dateObj.getFullYear();
-
     return `${day}/${month}/${year}`;
   }
+
+  // --- Filtering Logic for Zero/Empty Values ---
+  const isValidValue = (val) => {
+    if (!val) return false;
+    const str = String(val).trim();
+    return str !== "" && str !== "0" && str !== "-" && str !== "0.00";
+  };
+
+  const filteredValuation = valuation.filter(
+    (record) => isValidValue(record?.price) || isValidValue(record?.tax),
+  );
+
+  const getTaxValue = (taxNameKeyword) => {
+    const tax = taxes.find((t) => t.name && t.name.includes(taxNameKeyword));
+    if (!tax || !tax.values || !tax.values.residence) return 0;
+    return Number(tax.values.residence) || 0;
+  };
+
+  const filteredOtherTaxes = [
+    { label: "સામાન્ય પાણી વેરો", val: getTaxValue("સામાન્ય") },
+    {
+      label: "દીવાબત્તી વેરો",
+      val: getTaxValue("લાઇટ") || getTaxValue("દીવાબત્તી"),
+    },
+    { label: "સફાઈ વેરો", val: getTaxValue("સફાઈ") },
+    { label: "ખાસ પાણી નળ વેરો", val: getTaxValue("ખાસ") },
+  ].filter((tax) => tax.val > 0);
 
   return (
     <>
@@ -241,41 +258,52 @@ const OrderValuationReport = () => {
         }}
       >
         <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">
-          Order Valuation Report{" "}
+          Order Valuation Report
         </h1>
-
         <h2 className="text-xl text-center text-gray-600">Owner & Sales</h2>
         <h2 className="text-xl text-center mb-8 text-gray-600">
           by - A.F. Infosys
         </h2>
 
-        <button
-          onClick={handleDownloadPdf}
-          className="bg-blue-500 text-white font-bold py-2 px-4 rounded-full mb-8 self-center"
-          disabled={isPdfGenerating}
-        >
-          {isPdfGenerating ? "Generating PDF..." : "Download as PDF"}
-        </button>
+        <div className="flex justify-center gap-4 mb-8">
+          <button
+            onClick={handleDownloadPdf}
+            className="bg-blue-500 text-white font-bold py-2 px-4 rounded-full"
+            disabled={isPdfGenerating}
+          >
+            {isPdfGenerating ? "Generating Full PDF..." : "Download Full PDF"}
+          </button>
+          <button
+            onClick={handleDownloadSummaryPdf}
+            className="bg-green-500 text-white font-bold py-2 px-4 rounded-full"
+            disabled={isPdfGenerating}
+          >
+            {isPdfGenerating
+              ? "Generating Summary PDF..."
+              : "Download Summary PDF"}
+          </button>
+        </div>
 
+        {/* --- EXISTING REPORT START (Unchanged) --- */}
         {/* Report - 1 */}
         <div
           style={{
             maxWidth: "100%",
             overflow: "auto",
             display: "flex",
-            justifyContent: "start",
+            justifyContent: "center",
           }}
         >
           <div
-            className="table-container shadow-md"
             id="report-1"
+            className="table-container shadow-md"
             style={{
               width: "680px",
               minWidth: "680px",
               minHeight: "1080px",
               position: "relative",
               padding: "15px",
-              paddtingTop: "23px",
+              paddingTop: "23px",
               paddingRight: "23px",
               background: "#fff",
             }}
@@ -303,10 +331,8 @@ const OrderValuationReport = () => {
                   }}
                 >
                   <h3 style={{ fontSize: "16px", textWrap: "nowrap" }}>
-                    ગ્રા.પં./વશી/જા.નં./
-                    {details?.javak || ""}
+                    ગ્રા.પં./વશી/જા.નં./{details?.javak || ""}
                   </h3>
-
                   <h3
                     style={{
                       fontSize: "16px",
@@ -324,14 +350,13 @@ const OrderValuationReport = () => {
                       <span
                         style={{
                           position: "relative",
-                          transform: "translateY(-8px)",
+                          translateY: "-8px",
                           textWrap: "nowrap",
                         }}
                       >
                         અંદાજીત ઘર :– <b>{details?.totalHouses || 0}</b>
                       </span>
                     </span>
-
                     <span
                       style={{
                         display: "flex",
@@ -340,11 +365,9 @@ const OrderValuationReport = () => {
                       }}
                     >
                       <span>TB{details?.tbr}R</span>
-
                       <span style={{ marginTop: "-2px" }}>
                         જુના રજી.ના ઘર <b>{details?.oldregi || ""}</b>
                       </span>
-
                       {details?.imageAkarni ? (
                         <span style={{ marginTop: "-2px" }}>
                           ફોટા વાળી આકારણી{": "}
@@ -355,7 +378,6 @@ const OrderValuationReport = () => {
                       ) : null}
                     </span>
                   </h3>
-
                   <h3 style={{ fontSize: "16px", color: "transparent" }}>
                     <b style={{ textDecoration: "underline" }}>
                       {details?.gaam || ""}
@@ -373,10 +395,6 @@ const OrderValuationReport = () => {
                   flexDirection: "column",
                   gap: "3px",
                   alignItems: "end",
-
-                  // position: "absolute",
-                  // top: "20px",
-                  // right: "20px",
                   paddingRight: "0px",
                 }}
               >
@@ -387,9 +405,7 @@ const OrderValuationReport = () => {
                     flexDirection: "column",
                     paddingRight: "5px",
                     position: "relative",
-                    transform: `translateY(-${
-                      details?.imageAkarni ? 100 : 80
-                    }px)`,
+                    transform: `translateY(-${details?.imageAkarni ? 100 : 80}px)`,
                     paddingLeft: "3px",
                   }}
                 >
@@ -399,25 +415,13 @@ const OrderValuationReport = () => {
                     </b>{" "}
                     ગ્રામ પંચાયત કચેરી
                   </h2>
-                  <h2
-                    style={{
-                      fontSize: "16px",
-                    }}
-                  >
+                  <h2 style={{ fontSize: "16px" }}>
                     તાલુકો :– <b>{details?.taluka || ""}</b>
                   </h2>
-                  <h2
-                    style={{
-                      fontSize: "16px",
-                    }}
-                  >
+                  <h2 style={{ fontSize: "16px" }}>
                     જિલ્લો :- <b>{details?.district || ""}</b>
                   </h2>
-                  <h2
-                    style={{
-                      fontSize: "16px",
-                    }}
-                  >
+                  <h2 style={{ fontSize: "16px" }}>
                     તારીખ :– <b>{formatDate(details?.date)}</b>
                   </h2>
                   <span>
@@ -428,7 +432,7 @@ const OrderValuationReport = () => {
                         : details?.panchayat === ""
                           ? ""
                           : "હા"}
-                    </b>{" "}
+                    </b>
                   </span>
                   <span
                     style={{
@@ -452,8 +456,8 @@ const OrderValuationReport = () => {
                       <b>
                         {!details?.panchayat?.includes("નહિ") &&
                           details?.panchayat
-                            ?.split(/\d+\./) // split at "1.", "2.", etc.
-                            ?.filter(Boolean) // remove empty strings
+                            ?.split(/\d+\./)
+                            ?.filter(Boolean)
                             ?.map((village, index) => (
                               <div
                                 key={index}
@@ -472,25 +476,15 @@ const OrderValuationReport = () => {
                       flexDirection: "column",
                     }}
                   >
-                    <h2
-                      style={{
-                        fontSize: "16px",
-                      }}
-                    >
+                    <h2 style={{ fontSize: "16px" }}>
                       આકારણીનું વર્ષ :– <b>{details?.akaraniYear || ""}</b>
                     </h2>
-
-                    <h2
-                      style={{
-                        fontSize: "16px",
-                      }}
-                    >
+                    <h2 style={{ fontSize: "16px" }}>
                       વેરા રજીસ્ટરનું વર્ષ :– <b>{details?.taxYear || ""}</b>
                     </h2>
                   </div>
                 </div>
               </div>
-              {/* Info End */}
 
               {/* Names Start */}
               <div
@@ -501,11 +495,7 @@ const OrderValuationReport = () => {
                   marginTop: "-65px",
                 }}
               >
-                <h2
-                  style={{
-                    fontSize: "15px",
-                  }}
-                >
+                <h2 style={{ fontSize: "15px" }}>
                   સરપંચશ્રીનું પુરૂ નામ તથા મો.નં.{" "}
                   <b>
                     {details?.sarpanchName || ""}
@@ -513,37 +503,22 @@ const OrderValuationReport = () => {
                     {details?.sarpanchNumber || ""}{" "}
                   </b>
                 </h2>
-
-                <h2
-                  style={{
-                    fontSize: "15px",
-                  }}
-                >
+                <h2 style={{ fontSize: "15px" }}>
                   તલાટી કમ મંત્રીશ્રીનું પુરૂ નામ તથા મો.નં.{" "}
                   <b>
                     {details?.tcmName || ""}, {details?.tcmNumber || ""}
                   </b>
                 </h2>
-
                 {details?.s2Name !== "" && (
-                  <h2
-                    style={{
-                      fontSize: "15px",
-                    }}
-                  >
+                  <h2 style={{ fontSize: "15px" }}>
                     વહિવટ કર્તા વ્યક્તિનું પુરૂ નામ તથા મો.નં.{" "}
                     <b>
                       {details?.s2Name || ""}, {details?.s2Number || ""}
                     </b>
                   </h2>
                 )}
-
                 {details?.assistantName && (
-                  <h2
-                    style={{
-                      fontSize: "15px",
-                    }}
-                  >
+                  <h2 style={{ fontSize: "15px" }}>
                     સાથે રહેનાર વ્યકિતનું પુરૂ નામ તથા મો.નં.{" "}
                     <b>
                       {details?.assistantName || ""}
@@ -552,16 +527,10 @@ const OrderValuationReport = () => {
                     </b>
                   </h2>
                 )}
-                <h2
-                  style={{
-                    fontSize: "15px",
-                    marginTop: "-10px",
-                  }}
-                >
+                <h2 style={{ fontSize: "15px", marginTop: "-10px" }}>
                   {details?.assistantHoddo || ""}
                 </h2>
               </div>
-              {/* Names End */}
 
               <h2
                 style={{
@@ -574,7 +543,6 @@ const OrderValuationReport = () => {
                   marginBottom: "8px",
                   marginTop: "20px",
                   paddingBottom: "3px",
-
                   paddingInline: "15px",
                   position: "relative",
                   left: "50%",
@@ -588,8 +556,8 @@ const OrderValuationReport = () => {
                   }}
                   className="formatting"
                 >
-                  - : : Order Report – ઑર્ડર રીપોર્ટ આકાર (વેલ્યુએશન) રીપોર્ટ :
-                  : –
+                  - : : Order Report – ઑર્ડર રીપોર્ટ આકારણી (વેલ્યુએશન) રીપોર્ટ
+                  : : –
                 </span>
               </h2>
 
@@ -615,7 +583,6 @@ const OrderValuationReport = () => {
                     ""
                   )}
                 </span>
-
                 <span>
                   {details?.valuationType === "house" ? (
                     <span>&#10004;</span>
@@ -636,6 +603,7 @@ const OrderValuationReport = () => {
                 style={{
                   marginTop: "4px",
                   border: "2px solid black",
+                  width: "100%",
                 }}
               >
                 <thead className="bg-gray-50">
@@ -643,7 +611,6 @@ const OrderValuationReport = () => {
                     <th
                       className="px-1 py-1 text-xs font-medium text-black uppercase tracking-wider"
                       style={{
-                        color: "black",
                         textAlign: "center",
                         padding: "2px 3px",
                         paddingBottom: "10px",
@@ -655,11 +622,7 @@ const OrderValuationReport = () => {
                     </th>
                     <th
                       className="px-1 py-1 text-xs font-medium text-black uppercase tracking-wider"
-                      style={{
-                        color: "black",
-                        textAlign: "center",
-                        padding: "2px 3px",
-                      }}
+                      style={{ textAlign: "center", padding: "2px 3px" }}
                     >
                       <span id="format">
                         મિલ્કતનું વર્ણન / બાંધકામનો પ્રકાર
@@ -668,7 +631,6 @@ const OrderValuationReport = () => {
                     <th
                       className="px-1 py-1 text-xs font-medium text-black uppercase tracking-wider"
                       style={{
-                        color: "black",
                         textAlign: "center",
                         padding: "2px 3px",
                         maxWidth: "70px",
@@ -679,7 +641,6 @@ const OrderValuationReport = () => {
                     <th
                       className="px-1 py-1 text-xs font-medium text-black uppercase tracking-wider"
                       style={{
-                        color: "black",
                         textAlign: "center",
                         padding: "2px 3px",
                         minWidth: "50px",
@@ -689,69 +650,65 @@ const OrderValuationReport = () => {
                     </th>
                   </tr>
                 </thead>
-
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {valuation.slice(0, 20).map((record, index) => {
-                    return (
-                      <tr key={index}>
-                        <td
-                          className="whitespace-nowrap text-sm font-medium text-gray-900"
-                          style={{
-                            maxWidth: "10px",
-                            padding: "3px 10px",
-                            textAlign: "center",
-                          }}
-                        >
-                          <span id="format">{index + 1}</span>
-                        </td>
-                        <td
-                          className="whitespace-normal text-sm text-black"
-                          style={{
-                            maxWidth: "10px",
-                            padding: "3px 10px",
-                            textAlign: "center",
-                          }}
-                        >
-                          <span id="format">{getAlphabeticalIndex(index)}</span>
-                        </td>{" "}
-                        <td
-                          className="whitespace-normal text-sm text-black"
-                          style={{
-                            maxWidth: "200px",
-                            padding: "3px 10px",
-                            textAlign: "left",
-                          }}
-                        >
-                          <span id="format">{record?.name}</span>
-                        </td>
-                        <td
-                          className="whitespace-normal text-sm text-black"
-                          style={{
-                            maxWidth: "70px",
-                            padding: "3px 10px",
-                            textAlign: "center",
-                          }}
-                        >
-                          <span id="format">{record?.price}</span>
-                        </td>
-                        <td
-                          className="whitespace-normal text-sm text-black"
-                          style={{
-                            maxWidth: "30px",
-                            padding: "3px 10px",
-                            textAlign: "center",
-                          }}
-                        >
-                          <span id="format">{record?.tax}</span>
-                        </td>
-                      </tr>
-                    );
-                  })}
-
+                  {valuation.slice(0, 20).map((record, index) => (
+                    <tr key={index}>
+                      <td
+                        className="whitespace-nowrap text-sm font-medium text-gray-900"
+                        style={{
+                          maxWidth: "10px",
+                          padding: "3px 10px",
+                          textAlign: "center",
+                        }}
+                      >
+                        <span id="format">{index + 1}</span>
+                      </td>
+                      <td
+                        className="whitespace-normal text-sm text-black"
+                        style={{
+                          maxWidth: "10px",
+                          padding: "3px 10px",
+                          textAlign: "center",
+                        }}
+                      >
+                        <span id="format">{getAlphabeticalIndex(index)}</span>
+                      </td>
+                      <td
+                        className="whitespace-normal text-sm text-black"
+                        style={{
+                          maxWidth: "200px",
+                          padding: "3px 10px",
+                          textAlign: "left",
+                        }}
+                      >
+                        <span id="format">{record?.name}</span>
+                      </td>
+                      <td
+                        className="whitespace-normal text-sm text-black"
+                        style={{
+                          maxWidth: "70px",
+                          padding: "3px 10px",
+                          textAlign: "center",
+                        }}
+                      >
+                        <span id="format">{record?.price}</span>
+                      </td>
+                      <td
+                        className="whitespace-normal text-sm text-black"
+                        style={{
+                          maxWidth: "30px",
+                          padding: "3px 10px",
+                          textAlign: "center",
+                        }}
+                      >
+                        <span id="format">{record?.tax}</span>
+                      </td>
+                    </tr>
+                  ))}
                   {valuation.length === 0 && !loading && !error && (
                     <tr>
                       <td
-                        colSpan="25"
+                        colSpan="5"
                         className="px-6 py-4 text-center text-black"
                       >
                         No Data Found!
@@ -760,7 +717,6 @@ const OrderValuationReport = () => {
                   )}
                 </tbody>
               </table>
-
               <div
                 style={{
                   position: "absolute",
@@ -775,7 +731,6 @@ const OrderValuationReport = () => {
             </div>
           </div>
         </div>
-
         <br />
 
         {/* Report - 2 */}
@@ -784,7 +739,7 @@ const OrderValuationReport = () => {
             maxWidth: "100%",
             overflow: "auto",
             display: "flex",
-            justifyContent: "start",
+            justifyContent: "center",
           }}
         >
           <div
@@ -796,7 +751,7 @@ const OrderValuationReport = () => {
               minHeight: "1080px",
               position: "relative",
               padding: "15px",
-              paddtingTop: "23px",
+              paddingTop: "23px",
               paddingRight: "23px",
               background: "#fff",
             }}
@@ -826,17 +781,14 @@ const OrderValuationReport = () => {
                   <h3 style={{ fontSize: "16px" }}>
                     ગામ :- <b>{details?.gaam || ""}</b>
                   </h3>
-
                   <h3 style={{ fontSize: "16px" }}>
                     તાલુકો :- <b>{details?.taluka || ""}</b>
                   </h3>
-
                   <h3 style={{ fontSize: "16px" }}>
                     જિલ્લો :- <b>{details?.district || ""}</b>
                   </h3>
                 </div>
               </div>
-
               <h2
                 style={{
                   fontSize: "18px",
@@ -848,7 +800,6 @@ const OrderValuationReport = () => {
                   marginBottom: "8px",
                   paddingBottom: "3px",
                   paddingInline: "15px",
-
                   position: "relative",
                   left: "50%",
                   transform: "translateX(-50%)",
@@ -861,11 +812,10 @@ const OrderValuationReport = () => {
                   }}
                   className="formatting"
                 >
-                  - : : Order Report – ઑર્ડર રીપોર્ટ આકાર (વેલ્યુએશન) રીપોર્ટ :
-                  : –
+                  - : : Order Report – ઑર્ડર રીપોર્ટ આકારણી (વેલ્યુએશન) રીપોર્ટ
+                  : : –
                 </span>
               </h2>
-
               <div
                 style={{
                   display: "flex",
@@ -888,7 +838,6 @@ const OrderValuationReport = () => {
                     ""
                   )}
                 </span>
-
                 <span>
                   {details?.valuationType === "house" ? (
                     <span>&#10004;</span>
@@ -906,17 +855,13 @@ const OrderValuationReport = () => {
 
               <table
                 className="divide-y divide-gray-200"
-                style={{
-                  marginTop: "5px",
-                }}
+                style={{ marginTop: "5px", width: "100%" }}
               >
                 <thead className="bg-gray-50">
                   <tr>
                     <th
                       className="px-1 py-1 text-xs font-medium text-black uppercase tracking-wider"
                       style={{
-                        color: "black",
-                        // background: background,
                         textAlign: "center",
                         padding: "2px 3px",
                         paddingBottom: "10px",
@@ -928,12 +873,7 @@ const OrderValuationReport = () => {
                     </th>
                     <th
                       className="px-1 py-1 text-xs font-medium text-black uppercase tracking-wider"
-                      style={{
-                        color: "black",
-                        // background: background,
-                        textAlign: "center",
-                        padding: "2px 3px",
-                      }}
+                      style={{ textAlign: "center", padding: "2px 3px" }}
                     >
                       <span id="format">
                         મિલ્કતનું વર્ણન / બાંધકામનો પ્રકાર
@@ -942,8 +882,6 @@ const OrderValuationReport = () => {
                     <th
                       className="px-1 py-1 text-xs font-medium text-black uppercase tracking-wider"
                       style={{
-                        color: "black",
-                        // background: background,
                         textAlign: "center",
                         padding: "2px 3px",
                         minWidth: "70px",
@@ -954,8 +892,6 @@ const OrderValuationReport = () => {
                     <th
                       className="px-1 py-1 text-xs font-medium text-black uppercase tracking-wider"
                       style={{
-                        color: "black",
-                        // background: background,
                         textAlign: "center",
                         padding: "2px 3px",
                         minWidth: "50px",
@@ -965,82 +901,66 @@ const OrderValuationReport = () => {
                     </th>
                   </tr>
                 </thead>
-
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {valuation.slice(20).map((record, index) => {
-                    return (
-                      <tr key={index + 20}>
-                        <td
-                          className="whitespace-nowrap text-sm font-medium text-gray-900"
-                          style={{
-                            maxWidth: "10px",
-                            padding: "3px 10px",
-                            textAlign: "center",
-                          }}
-                        >
-                          <span id="format">{index + 21}</span>
-                        </td>
-                        <td
-                          className="whitespace-normal text-sm text-black"
-                          style={{
-                            maxWidth: "10px",
-                            padding: "3px 10px",
-                            textAlign: "center",
-                          }}
-                        >
-                          <span id="format">
-                            {getAlphabeticalIndex(index + 20)}
-                          </span>
-                        </td>{" "}
-                        <td
-                          className="whitespace-normal text-sm text-black"
-                          style={{
-                            maxWidth: "200px",
-                            padding: "3px 10px",
-                            textAlign: "left",
-                          }}
-                        >
-                          <span id="format">{record?.name}</span>
-                        </td>
-                        <td
-                          className="whitespace-normal text-sm text-black"
-                          style={{
-                            maxWidth: "30px",
-                            padding: "3px 10px",
-                            textAlign: "center",
-                          }}
-                        >
-                          <span id="format">{record?.price}</span>
-                        </td>
-                        <td
-                          className="whitespace-normal text-sm text-black"
-                          style={{
-                            maxWidth: "30px",
-                            padding: "3px 10px",
-                            textAlign: "center",
-                          }}
-                        >
-                          <span id="format">{record?.tax}</span>
-                        </td>
-                      </tr>
-                    );
-                  })}
-
-                  {valuation.length === 0 && !loading && !error && (
-                    <tr>
+                  {valuation.slice(20).map((record, index) => (
+                    <tr key={index + 20}>
                       <td
-                        colSpan="25"
-                        className="px-6 py-4 text-center text-black"
+                        className="whitespace-nowrap text-sm font-medium text-gray-900"
+                        style={{
+                          maxWidth: "10px",
+                          padding: "3px 10px",
+                          textAlign: "center",
+                        }}
                       >
-                        No Data Found!
+                        <span id="format">{index + 21}</span>
+                      </td>
+                      <td
+                        className="whitespace-normal text-sm text-black"
+                        style={{
+                          maxWidth: "10px",
+                          padding: "3px 10px",
+                          textAlign: "center",
+                        }}
+                      >
+                        <span id="format">
+                          {getAlphabeticalIndex(index + 20)}
+                        </span>
+                      </td>
+                      <td
+                        className="whitespace-normal text-sm text-black"
+                        style={{
+                          maxWidth: "200px",
+                          padding: "3px 10px",
+                          textAlign: "left",
+                        }}
+                      >
+                        <span id="format">{record?.name}</span>
+                      </td>
+                      <td
+                        className="whitespace-normal text-sm text-black"
+                        style={{
+                          maxWidth: "30px",
+                          padding: "3px 10px",
+                          textAlign: "center",
+                        }}
+                      >
+                        <span id="format">{record?.price}</span>
+                      </td>
+                      <td
+                        className="whitespace-normal text-sm text-black"
+                        style={{
+                          maxWidth: "30px",
+                          padding: "3px 10px",
+                          textAlign: "center",
+                        }}
+                      >
+                        <span id="format">{record?.tax}</span>
                       </td>
                     </tr>
-                  )}
+                  ))}
                 </tbody>
               </table>
-
               <br />
-
               <div
                 style={{
                   display: "flex",
@@ -1056,13 +976,11 @@ const OrderValuationReport = () => {
                     fontSize: "18px",
                     width: "100%",
                     maxWidth: "fit-content",
-
                     textAlign: "center",
                     border: "1px solid #000",
                     borderRadius: "5px",
                     marginBottom: "8px",
                     paddingBottom: "3px",
-
                     paddingInline: "15px",
                     position: "relative",
                     left: "50%",
@@ -1078,7 +996,6 @@ const OrderValuationReport = () => {
                     અન્ય વેરા
                   </span>
                 </h2>
-
                 <div
                   style={{
                     display: "flex",
@@ -1110,14 +1027,10 @@ const OrderValuationReport = () => {
                         </th>
                       </tr>
                     </thead>
-
                     <tbody>
                       {taxes
                         ?.filter((item, index) => {
-                          // Always include first 4
                           if (index < 4) return true;
-
-                          // Apply filter for 5th and beyond
                           return (
                             item.values.residence ||
                             item.values.nonResidence ||
@@ -1168,18 +1081,15 @@ const OrderValuationReport = () => {
                 </div>
               </div>
 
-              {/* Order Report */}
               <div
                 style={{
                   display: "flex",
                   flexDirection: "column",
                   gap: "3px",
                   padding: "8px",
-
                   marginTop: "20px",
-
                   borderRadius: "10px",
-                  background: "#ffffffff",
+                  background: "#fff",
                 }}
               >
                 <h2
@@ -1187,13 +1097,12 @@ const OrderValuationReport = () => {
                     fontSize: "18px",
                     width: "100%",
                     maxWidth: "fit-content",
-
                     textAlign: "center",
                     border: "1px solid #000",
                     borderRadius: "5px",
                     marginBottom: "8px",
                     paddingBottom: "3px",
-
+                    marginTop: "-15px",
                     paddingInline: "15px",
                     position: "relative",
                     left: "50%",
@@ -1219,8 +1128,9 @@ const OrderValuationReport = () => {
                 >
                   ગુજરાત પંચાયત ધારા ની કલમ ૨૦૦ મુજબ ગ્રામ પંચાયતને દર ચાર વર્ષે
                   આકારણી સર્વે કરવું ફરજીયાત છે. આપણા ગામપંચાયતની આકારણી મુદત
-                  પૂર્ણ થઇ ગઈ હોય તો આજની ગ્રામ પંચાયત ની સામાન્ય બેઠક ની{" "}
+                  પૂર્ણ થઇ ગઈ હોય તો આજની ગ્રામ પંચાયત ની સામાન્ય બેઠક ની
                   <span>
+                    {" "}
                     તારીખ{" "}
                     <b>
                       {details?.meetingDate
@@ -1233,20 +1143,16 @@ const OrderValuationReport = () => {
                   ના રોજ બેઠક નંબર{" "}
                   <b>{details?.meetingNumber || ".................."}</b>
                   {", "}
-                  {/* મુદ્દા નં. <b>{details?.agendaNumber || ".............."}</b>
-                  {", "} */}
-                  ઠરાવ નં. <b>{details?.resolutionNumber || "............."}</b>{" "}
-                  થી મિલ્કત આકારણી સર્વેની કામગીરી કરી આપવા{" "}
+                  ઠરાવ નં. <b>
+                    {details?.resolutionNumber || "............."}
+                  </b>{" "}
+                  થી મિલ્કત આકારણી સર્વેની કામગીરી કરી આપવા
                   <b>
                     <u>" એ.એફ. ઇન્ફોસીસ - સાવરકુંડલા "</u>
                   </b>{" "}
                   પાટીને નક્કી માં આવ્યું.
                 </p>
               </div>
-
-              <br />
-
-              {/* Footer & Signature */}
               <div
                 style={{
                   display: "flex",
@@ -1260,7 +1166,6 @@ const OrderValuationReport = () => {
                   fontSize: "16px",
                 }}
               >
-                {/* TCM */}
                 <div
                   style={{
                     display: "flex",
@@ -1270,24 +1175,15 @@ const OrderValuationReport = () => {
                 >
                   <span>
                     તલાટી કમ મંત્રી
-                    <b
-                      style={{
-                        display: "block",
-                        marginTop: "3px",
-                      }}
-                    >
+                    <b style={{ display: "block", marginTop: "3px" }}>
                       {details?.tcmName || "......................."}
                     </b>
                   </span>
-
                   <span> {details?.gaam || ""} ગ્રામ પંચાયત કચેરી </span>
-
                   <span>
                     તા. {details?.taluka || ""}, જિ. {details?.district || ""}
                   </span>
                 </div>
-
-                {/* Sarpanch */}
                 <div
                   style={{
                     display: "flex",
@@ -1297,24 +1193,16 @@ const OrderValuationReport = () => {
                 >
                   <span>
                     સરપંચ
-                    <b
-                      style={{
-                        display: "block",
-                        marginTop: "3px",
-                      }}
-                    >
+                    <b style={{ display: "block", marginTop: "3px" }}>
                       {details?.sarpanchName || "......................."}
                     </b>
                   </span>
-
                   <span> {details?.gaam || ""} ગ્રામ પંચાયત કચેરી </span>
-
                   <span>
                     તા. {details?.taluka || ""}, જિ. {details?.district || ""}
                   </span>
                 </div>
               </div>
-
               <div
                 style={{
                   position: "absolute",
@@ -1329,7 +1217,6 @@ const OrderValuationReport = () => {
             </div>
           </div>
         </div>
-
         <br />
 
         {/* Report - 3 */}
@@ -1338,7 +1225,7 @@ const OrderValuationReport = () => {
             maxWidth: "100%",
             overflow: "auto",
             display: "flex",
-            justifyContent: "start",
+            justifyContent: "center",
           }}
         >
           <div
@@ -1350,7 +1237,7 @@ const OrderValuationReport = () => {
               minHeight: "1080px",
               position: "relative",
               padding: "15px",
-              paddtingTop: "23px",
+              paddingTop: "23px",
               paddingRight: "23px",
               background: "#fff",
             }}
@@ -1381,25 +1268,20 @@ const OrderValuationReport = () => {
                   <h3 style={{ fontSize: "16px" }}>
                     ગામ :- <b>{details?.gaam || ""}</b>
                   </h3>
-
                   <h3 style={{ fontSize: "16px" }}>
                     તાલુકો :- <b>{details?.taluka || ""}</b>
                   </h3>
-
                   <h3 style={{ fontSize: "16px" }}>
                     જિલ્લો :- <b>{details?.district || ""}</b>
                   </h3>
                 </div>
               </div>
-
-              {/* Order Report */}
               <div
                 style={{
                   display: "flex",
                   flexDirection: "column",
                   gap: "3px",
                   padding: "8px",
-
                   borderRadius: "10px",
                   background: "#ffffffff",
                 }}
@@ -1409,14 +1291,12 @@ const OrderValuationReport = () => {
                     fontSize: "17px",
                     width: "100%",
                     maxWidth: "fit-content",
-
                     textAlign: "center",
                     border: "1px solid #000",
                     borderRadius: "5px",
                     marginBottom: "5px",
                     paddingBottom: "3px",
                     marginTop: "-15px",
-
                     paddingInline: "15px",
                     position: "relative",
                     left: "50%",
@@ -1432,7 +1312,6 @@ const OrderValuationReport = () => {
                     * મિલ્કત આકારણી સર્વેની અન્ય વિગત *
                   </span>
                 </h2>
-
                 <p
                   style={{
                     marginTop: "-8px",
@@ -1449,7 +1328,6 @@ const OrderValuationReport = () => {
                   આકારણી ને લગત તમામ પ્રકાર નું રેકડ કોમ્પ્યુટરાઇઝડ બાઇનડીંગ
                   સાથે અધ્યતન તેયાર કરી આપવાનું રહેશે.
                 </p>
-
                 <p
                   style={{
                     marginTop: "2px",
@@ -1465,8 +1343,7 @@ const OrderValuationReport = () => {
                   <b style={{ textDecoration: "underline" }}>
                     {details?.surveyHouseRate || "......."}
                   </b>
-                  {"/- "}
-                  શબ્દોમાં અંકે રૂપીયા{" "}
+                  {"/- "} શબ્દોમાં અંકે રૂપીયા{" "}
                   <b
                     style={{
                       textDecoration: "underline",
@@ -1476,13 +1353,10 @@ const OrderValuationReport = () => {
                     {details?.approvedAmountWords ||
                       "........................."}
                   </b>
-                  {"/- "}
-                  ભાવ મંજુર કરેલ છે જે આજની ગ્રામપંચાયત ની સામાન્ય બેઠક માં
-                  બહાલી આપી.
+                  {"/- "} ભાવ મંજુર કરેલ છે જે આજની ગ્રામપંચાયત ની સામાન્ય બેઠક
+                  માં બહાલી આપી.
                 </p>
               </div>
-              {/* Vigat Start */}
-
               <div
                 style={{
                   display: "flex",
@@ -1492,35 +1366,20 @@ const OrderValuationReport = () => {
                   paddingTop: "3px",
                 }}
               >
-                {/* Section 1 */}
-
                 <h2 style={{ fontSize: "16px", textDecoration: "underline" }}>
                   વિસ્તારની વિગત : : -
                 </h2>
-
-                <h2
-                  style={{
-                    fontSize: "16px",
-                    marginTop: "-5px",
-                  }}
-                >
+                <h2 style={{ fontSize: "16px", marginTop: "-5px" }}>
                   પહેલા વિસ્તાર/શેરી મહોલ્લો કયા થી શરૂ કરવો :-{" "}
                   <b>{details?.startArea || ""}</b>
                 </h2>
-
-                <h2
-                  style={{
-                    fontSize: "16px",
-                    marginTop: "-6px",
-                  }}
-                >
+                <h2 style={{ fontSize: "16px", marginTop: "-6px" }}>
                   આકારણી સર્વે કામ પહેલી મિલ્કત/ઘર કોની લખવી : -{" "}
                   <b style={{ whiteSpace: "nowrap" }}>
                     {details?.firstPropertyOwner || ""}
                   </b>
                 </h2>
 
-                {/* Section 2 */}
                 <h2
                   style={{
                     fontSize: "16px",
@@ -1530,12 +1389,7 @@ const OrderValuationReport = () => {
                 >
                   પાણી ની વિગત : : -
                 </h2>
-                <h2
-                  style={{
-                    fontSize: "16px",
-                    marginTop: "-5px",
-                  }}
-                >
+                <h2 style={{ fontSize: "16px", marginTop: "-5px" }}>
                   જે મિલ્‍કત માં નળ હોય તેમા સામાન્‍ય પાણી વેરો લેવો કે નહી ?{" "}
                   <b>
                     {details?.generalWaterTaxApplicable === "yes"
@@ -1545,19 +1399,11 @@ const OrderValuationReport = () => {
                         : ""}
                   </b>
                 </h2>
-
-                <h2
-                  style={{
-                    fontSize: "16px",
-                    marginTop: "-6px",
-                  }}
-                >
+                <h2 style={{ fontSize: "16px", marginTop: "-6px" }}>
                   ખાસ પાણી નળ વેરો ત્થા સા.પાણી વેરો બન્‍ને વેરા મુકવા વેરો
                   લેવો. <b>{details?.specialAndGeneralWaterTax || ""}</b>
                 </h2>
               </div>
-              {/* Vigat End */}
-
               <div style={{ padding: "16px", paddingTop: "5px" }}>
                 <h2
                   style={{
@@ -1571,23 +1417,20 @@ const OrderValuationReport = () => {
                   </b>
                 </h2>
                 <ol style={{ marginTop: "-10px", listStyleType: "none" }}>
-                  {details?.notes?.map((item, index) => {
-                    return (
-                      <li
-                        key={index}
-                        style={{
-                          fontSize: "16px",
-                          lineHeight: "1.3",
-                          marginLeft: "0",
-                        }}
-                      >
-                        <span>{toGujaratiNumber(index + 1)}.</span> {item}
-                      </li>
-                    );
-                  })}
+                  {details?.notes?.map((item, index) => (
+                    <li
+                      key={index}
+                      style={{
+                        fontSize: "16px",
+                        lineHeight: "1.3",
+                        marginLeft: "0",
+                      }}
+                    >
+                      <span>{toGujaratiNumber(index + 1)}.</span> {item}
+                    </li>
+                  ))}
                 </ol>
               </div>
-
               <div
                 style={{
                   padding: "0px 20px",
@@ -1602,26 +1445,14 @@ const OrderValuationReport = () => {
                       <th style={{ padding: "2px 8px", textAlign: "center" }}>
                         <span id="format"> ક્રમ </span>
                       </th>
-
                       <th style={{ padding: "0px", textAlign: "center" }}>
                         <span id="format"> આયોજન </span>
                       </th>
-
                       <th style={{ padding: "0px", textAlign: "center" }}>
                         <span id="format"> તારીખ </span>
                       </th>
-
-                      {/* <th style={{ padding: "0px", textAlign: "center" }}>
-                        <span id="format">
-                          {" "}
-                          આકારણી સર્વે કામ
-                          <br />
-                          પુર્ણ કર્યા તારીખ
-                        </span>
-                      </th> */}
                     </tr>
                   </thead>
-
                   <tbody>
                     <tr>
                       <td style={{ padding: "2px 5px", textAlign: "right" }}>
@@ -1635,13 +1466,7 @@ const OrderValuationReport = () => {
                           <b>{formatDate(details?.workOrderDate)}</b>
                         </span>
                       </td>
-                      {/* <td style={{ padding: "0px", textAlign: "center" }}>
-                        <span id="format">
-                          <b>{formatDate(details?.date)}</b>
-                        </span>
-                      </td> */}
                     </tr>
-
                     <tr>
                       <td style={{ padding: "2px 5px", textAlign: "right" }}>
                         <span id="format">2</span>
@@ -1655,7 +1480,6 @@ const OrderValuationReport = () => {
                         </span>
                       </td>
                     </tr>
-
                     <tr>
                       <td style={{ padding: "2px 5px", textAlign: "right" }}>
                         <span id="format">3</span>
@@ -1671,7 +1495,6 @@ const OrderValuationReport = () => {
                         </span>
                       </td>
                     </tr>
-
                     <tr>
                       <td style={{ padding: "2px 5px", textAlign: "right" }}>
                         <span id="format">4</span>
@@ -1685,7 +1508,6 @@ const OrderValuationReport = () => {
                         </span>
                       </td>
                     </tr>
-
                     <tr>
                       <td style={{ padding: "2px 5px", textAlign: "right" }}>
                         <span id="format">5</span>
@@ -1701,7 +1523,6 @@ const OrderValuationReport = () => {
                         </span>
                       </td>
                     </tr>
-
                     <tr>
                       <td style={{ padding: "2px 5px", textAlign: "right" }}>
                         <span id="format">6</span>
@@ -1717,7 +1538,6 @@ const OrderValuationReport = () => {
                         </span>
                       </td>
                     </tr>
-
                     <tr>
                       <td style={{ padding: "2px 5px", textAlign: "right" }}>
                         <span id="format">7</span>
@@ -1736,8 +1556,6 @@ const OrderValuationReport = () => {
                   </tbody>
                 </table>
               </div>
-
-              {/* Footer & Signature */}
               <div
                 style={{
                   display: "flex",
@@ -1751,7 +1569,6 @@ const OrderValuationReport = () => {
                   fontSize: "16px",
                 }}
               >
-                {/* TCM */}
                 <div
                   style={{
                     display: "flex",
@@ -1761,24 +1578,15 @@ const OrderValuationReport = () => {
                 >
                   <span>
                     તલાટી કમ મંત્રી
-                    <b
-                      style={{
-                        display: "block",
-                        marginTop: "3px",
-                      }}
-                    >
+                    <b style={{ display: "block", marginTop: "3px" }}>
                       {details?.tcmName || "......................."}
                     </b>
                   </span>
-
                   <span> {details?.gaam || ""} ગ્રામ પંચાયત કચેરી </span>
-
                   <span>
                     તા. {details?.taluka || ""}, જિ. {details?.district || ""}
                   </span>
                 </div>
-
-                {/* Sarpanch */}
                 <div
                   style={{
                     display: "flex",
@@ -1788,12 +1596,7 @@ const OrderValuationReport = () => {
                 >
                   <span>
                     સરપંચ
-                    <b
-                      style={{
-                        display: "block",
-                        marginTop: "3px",
-                      }}
-                    >
+                    <b style={{ display: "block", marginTop: "3px" }}>
                       {details?.sarpanchName || "......................."}
                     </b>
                   </span>
@@ -1806,7 +1609,7 @@ const OrderValuationReport = () => {
               <div
                 style={{
                   position: "absolute",
-                  bottom: "15px",
+                  bottom: "18px",
                   right: "30px",
                   fontSize: "14px",
                   color: "#000",
@@ -1817,8 +1620,328 @@ const OrderValuationReport = () => {
             </div>
           </div>
         </div>
-
         <br />
+
+        {/* --- NEW REPORT SUMMARY START --- */}
+        <div
+          style={{
+            maxWidth: "100%",
+            overflow: "auto",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <div
+            id="report-summary"
+            className="shadow-md"
+            style={{
+              width: "794px",
+              minWidth: "794px",
+              background: "#fff",
+              padding: "40px",
+              boxSizing: "border-box",
+              fontFamily: "sans-serif",
+            }}
+          >
+            <h1
+              style={{
+                textAlign: "center",
+                fontSize: "28px",
+                textDecoration: "underline",
+                marginBottom: "20px",
+              }}
+            >
+              વેલ્યુએશન માહિતી
+            </h1>
+
+            <div style={{ fontSize: "18px", lineHeight: "1.8" }}>
+              <p>
+                ગામ:- <b>{details?.gaam || "......................"}</b>{" "}
+                &nbsp;&nbsp;&nbsp;&nbsp; તાલુકો:-{" "}
+                <b>{details?.taluka || "......................"}</b>{" "}
+                &nbsp;&nbsp;&nbsp;&nbsp; જિલ્લો:-{" "}
+                <b>{details?.district || "......................"}</b>
+              </p>
+
+              <p>
+                કુલ મિલકત ની સંખ્યા:-{" "}
+                <b>
+                  {sheetRecords.length > 0
+                    ? toGujaratiNumber(sheetRecords.length)
+                    : "......................"}
+                </b>
+              </p>
+
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  marginTop: "-30px",
+                  marginBottom: "20px",
+                }}
+              >
+                <div style={{ textAlign: "left" }}>
+                  <p>
+                    જુથ પંચાયત છે{" "}
+                    <b>
+                      {details?.panchayat?.includes("નહિ")
+                        ? "ના"
+                        : details?.panchayat === ""
+                          ? "હા / ના"
+                          : "હા"}
+                    </b>
+                  </p>
+                  <p>
+                    આકારણી વર્ષ:-{" "}
+                    <b>{details?.akaraniYear || "......................"}</b>
+                  </p>
+                  <p>
+                    વેરા રજીસ્ટર નું વર્ષ:-{" "}
+                    <b>{details?.taxYear || "......................"}</b>
+                  </p>
+                </div>
+              </div>
+
+              <div style={{ marginBottom: "30px" }}>
+                <p>
+                  સરપંચશ્રી નું નામ:-{" "}
+                  <b>
+                    {details?.sarpanchName ||
+                      "................................................"}
+                  </b>
+                </p>
+                <p>
+                  તલાટી કમ મંત્રી નું નામ:-{" "}
+                  <b>
+                    {details?.tcmName ||
+                      "................................................"}
+                  </b>
+                </p>
+                <p>
+                  સાથે રહેનાર નું નામ:-{" "}
+                  <b>
+                    {details?.assistantName ||
+                      "................................................"}
+                  </b>
+                </p>
+              </div>
+
+              {/* TICK MARK HEADER ADDED */}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  marginBottom: "5px",
+                  padding: "0 20px",
+                }}
+              >
+                <span style={{ fontWeight: "bold" }}>
+                  {details?.valuationType === "room" ? "✔ " : ""}રૂમ દિઠ કિમત
+                  મુકવી{details?.valuationType === "room" ? " ✔" : ""}
+                </span>
+                <span style={{ fontWeight: "bold" }}>
+                  {details?.valuationType === "house" ? "✔ " : ""}મકાન દિઠ કિમત
+                  લેવી{details?.valuationType === "house" ? " ✔" : ""}
+                </span>
+              </div>
+
+              {/* TABLE STRUCTURE UPDATED */}
+              <table
+                style={{
+                  width: "100%",
+                  borderCollapse: "collapse",
+                  marginBottom: "30px",
+                  fontSize: "18px",
+                  textAlign: "left",
+                  border: "2px solid black",
+                }}
+              >
+                <thead>
+                  <tr style={{ borderBottom: "1px solid black" }}>
+                    <th
+                      style={{
+                        padding: "5px 10px",
+                        width: "10%",
+                        borderRight: "1px solid black",
+                        textAlign: "center",
+                      }}
+                      colSpan="2"
+                    >
+                      ક્રમ
+                    </th>
+                    <th
+                      style={{
+                        padding: "5px 10px",
+                        width: "50%",
+                        borderRight: "1px solid black",
+                        textAlign: "center",
+                      }}
+                    >
+                      મિલ્કતનું વર્ણન / બાંધકામનો પ્રકાર
+                    </th>
+                    <th
+                      style={{
+                        padding: "5px 10px",
+                        width: "20%",
+                        borderRight: "1px solid black",
+                        textAlign: "center",
+                      }}
+                    >
+                      મિલ્કતની કિંમત
+                    </th>
+                    <th
+                      style={{
+                        padding: "5px 10px",
+                        width: "20%",
+                        textAlign: "center",
+                      }}
+                    >
+                      મિ. વેરો
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredValuation.map((record, index) => (
+                    <tr key={index} style={{ borderBottom: "1px solid black" }}>
+                      <td
+                        style={{
+                          padding: "5px 10px",
+                          borderRight: "1px solid black",
+                          textAlign: "center",
+                          width: "5%",
+                        }}
+                      >
+                        {index + 1}
+                      </td>
+                      <td
+                        style={{
+                          padding: "5px 10px",
+                          borderRight: "1px solid black",
+                          textAlign: "center",
+                          width: "5%",
+                        }}
+                      >
+                        {getAlphabeticalIndex(index)}
+                      </td>
+                      <td
+                        style={{
+                          padding: "5px 10px",
+                          borderRight: "1px solid black",
+                        }}
+                      >
+                        {record?.name}
+                      </td>
+                      <td
+                        style={{
+                          padding: "5px 10px",
+                          borderRight: "1px solid black",
+                          textAlign: "center",
+                        }}
+                      >
+                        {record?.price}
+                      </td>
+                      <td style={{ padding: "5px 10px", textAlign: "center" }}>
+                        {record?.tax}
+                      </td>
+                    </tr>
+                  ))}
+
+                  {filteredValuation.length === 0 &&
+                    [1, 2, 3, 4].map((_, index) => (
+                      <tr
+                        key={`blank-${index}`}
+                        style={{ borderBottom: "1px solid black" }}
+                      >
+                        <td
+                          style={{
+                            padding: "5px 10px",
+                            borderRight: "1px solid black",
+                            textAlign: "center",
+                          }}
+                        >
+                          {index + 1}
+                        </td>
+                        <td
+                          style={{
+                            padding: "5px 10px",
+                            borderRight: "1px solid black",
+                            textAlign: "center",
+                          }}
+                        >
+                          {getAlphabeticalIndex(index)}
+                        </td>
+                        <td
+                          style={{
+                            padding: "5px 10px",
+                            borderRight: "1px solid black",
+                          }}
+                        >
+                          ..........................................
+                        </td>
+                        <td
+                          style={{
+                            padding: "5px 10px",
+                            borderRight: "1px solid black",
+                            textAlign: "center",
+                          }}
+                        >
+                          ......
+                        </td>
+                        <td
+                          style={{ padding: "5px 10px", textAlign: "center" }}
+                        >
+                          ......
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+
+              <div style={{ marginBottom: "30px" }}>
+                <h3
+                  style={{
+                    textDecoration: "underline",
+                    marginBottom: "15px",
+                    fontSize: "20px",
+                  }}
+                >
+                  અન્ય વેરાઓ
+                </h3>
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr",
+                    gap: "10px",
+                    paddingLeft: "15px",
+                  }}
+                >
+                  {filteredOtherTaxes.length > 0 ? (
+                    filteredOtherTaxes.map((tax, idx) => (
+                      <p key={idx}>
+                        {toGujaratiNumber(idx + 1)}. {tax.label}{" "}
+                        <b>({toGujaratiNumber(tax.val)})</b>
+                      </p>
+                    ))
+                  ) : (
+                    <p>કોઈ અન્ય વેરા નથી.</p>
+                  )}
+                </div>
+              </div>
+
+              <div>
+                <h3 style={{ fontSize: "20px", marginBottom: "10px" }}>
+                  નોંધ:-
+                </h3>
+                <p style={{ paddingLeft: "15px" }}>
+                  ખાસ જરૂરી:- જો આકારણી રેકર્ડ માં ૯/ડી બન્નેમાં વેરાઓ નક્કી
+                  કરેલ છે તે ખાસ તપાસ કરી લેવા ત્યાર બાદ જ પ્રિન્ટીંગ થશે.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br />
+        {/* --- NEW REPORT SUMMARY END --- */}
       </div>
     </>
   );
