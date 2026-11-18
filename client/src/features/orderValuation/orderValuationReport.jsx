@@ -238,13 +238,13 @@ const OrderValuationReport = () => {
   };
 
   const filteredOtherTaxes = [
-    { label: "સામાન્ય પાણી વેરો", val: getTaxValue("સામાન્ય") },
+    { label: "સામાન્ય પાણી વેરો", val: getTaxValue("સા.પાણી") },
     {
       label: "દીવાબત્તી વેરો",
-      val: getTaxValue("લાઇટ") || getTaxValue("દીવાબત્તી"),
+      val: getTaxValue("લાઈટ"),
     },
     { label: "સફાઈ વેરો", val: getTaxValue("સફાઈ") },
-    { label: "ખાસ પાણી નળ વેરો", val: getTaxValue("ખાસ") },
+    { label: "ખાસ પાણી નળ વેરો", val: getTaxValue("ખા.પાણી") },
   ].filter((tax) => tax.val > 0);
 
   return (
