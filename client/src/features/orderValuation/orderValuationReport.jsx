@@ -1971,7 +1971,7 @@ const OrderValuationReport = () => {
                     filteredOtherTaxes.map((tax, idx) => (
                       <p key={idx} style={{ margin: 0, whiteSpace: "nowrap" }}>
                         {toGujaratiNumber(idx + 1)}. {tax.label}{" "}
-                        <b> રૂ|.({toGujaratiNumber(tax.val)})/-</b>
+                        <b> રૂ|.{toGujaratiNumber(tax.val)}/-</b>
                       </p>
                     ))
                   ) : (
