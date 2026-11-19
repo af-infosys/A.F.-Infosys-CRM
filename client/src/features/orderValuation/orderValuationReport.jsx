@@ -1710,29 +1710,23 @@ const OrderValuationReport = () => {
                           : "હા"}
                     </b>
                   </p>
+
                   <p>
                     આકારણી વર્ષ:-{" "}
                     <b>{details?.akaraniYear || "......................"}</b>
                   </p>
-                  {/* 2. Added તારીખ next to વેરા રજીસ્ટર નું વર્ષ */}
-                  <div
-                    style={{
-                      display: "flex",
-                      gap: "20px",
-                      alignItems: "center",
-                    }}
-                  >
-                    <p style={{ margin: 0 }}>
-                      વેરા રજીસ્ટર નું વર્ષ:-{" "}
-                      <b>{details?.taxYear || "......................"}</b>
-                    </p>
-                    <p style={{ margin: 0 }}>
-                      તારીખ:-{" "}
-                      <b>
-                        {formatDate(details?.date) || "......................"}
-                      </b>
-                    </p>
-                  </div>
+
+                  <p>
+                    વેરા રજીસ્ટર નું વર્ષ:-{" "}
+                    <b>{details?.taxYear || "......................"}</b>
+                  </p>
+
+                  <p>
+                    તારીખ:-{" "}
+                    <b>
+                      {formatDate(details?.date) || "......................"}
+                    </b>
+                  </p>
                 </div>
               </div>
 
