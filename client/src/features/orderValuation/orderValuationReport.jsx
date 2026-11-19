@@ -1643,25 +1643,44 @@ const OrderValuationReport = () => {
               fontFamily: "sans-serif",
             }}
           >
+            {/* 1. Updated Title */}
             <h1
               style={{
                 textAlign: "center",
                 fontSize: "28px",
                 textDecoration: "underline",
-                marginBottom: "20px",
+                marginBottom: "16px",
+                fontWeight: "bold",
               }}
             >
-              વેલ્યુએશન માહિતી
+              આકારણી વેલ્યુએશન માહિતી
             </h1>
 
             <div style={{ fontSize: "18px", lineHeight: "1.8" }}>
-              <p>
-                ગામ:- <b>{details?.gaam || "......................"}</b>{" "}
-                &nbsp;&nbsp;&nbsp;&nbsp; તાલુકો:-{" "}
-                <b>{details?.taluka || "......................"}</b>{" "}
-                &nbsp;&nbsp;&nbsp;&nbsp; જિલ્લો:-{" "}
-                <b>{details?.district || "......................"}</b>
-              </p>
+              {/* 6. Increased size, 100% width, centered Gaam / Taluka / District */}
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: "30px",
+                  fontSize: "22px",
+                  marginBottom: "14px",
+                  flexWrap: "wrap",
+                }}
+              >
+                <span>
+                  ગામ:- <b>{details?.gaam || "......................"}</b>
+                </span>
+                <span>
+                  તાલુકો:- <b>{details?.taluka || "......................"}</b>
+                </span>
+                <span>
+                  જિલ્લો:-{" "}
+                  <b>{details?.district || "......................"}</b>
+                </span>
+              </div>
 
               <p>
                 કુલ મિલકત ની સંખ્યા:-{" "}
@@ -1695,14 +1714,29 @@ const OrderValuationReport = () => {
                     આકારણી વર્ષ:-{" "}
                     <b>{details?.akaraniYear || "......................"}</b>
                   </p>
-                  <p>
-                    વેરા રજીસ્ટર નું વર્ષ:-{" "}
-                    <b>{details?.taxYear || "......................"}</b>
-                  </p>
+                  {/* 2. Added તારીખ next to વેરા રજીસ્ટર નું વર્ષ */}
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "20px",
+                      alignItems: "center",
+                    }}
+                  >
+                    <p style={{ margin: 0 }}>
+                      વેરા રજીસ્ટર નું વર્ષ:-{" "}
+                      <b>{details?.taxYear || "......................"}</b>
+                    </p>
+                    <p style={{ margin: 0 }}>
+                      તારીખ:-{" "}
+                      <b>
+                        {formatDate(details?.date) || "......................"}
+                      </b>
+                    </p>
+                  </div>
                 </div>
               </div>
 
-              <div style={{ marginBottom: "30px" }}>
+              <div style={{ marginBottom: "25px" }}>
                 <p>
                   સરપંચશ્રી નું નામ:-{" "}
                   <b>
@@ -1726,26 +1760,25 @@ const OrderValuationReport = () => {
                 </p>
               </div>
 
-              {/* TICK MARK HEADER ADDED */}
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  marginBottom: "5px",
-                  padding: "0 20px",
-                }}
-              >
-                <span style={{ fontWeight: "bold" }}>
-                  {details?.valuationType === "room" ? "✔ " : ""}રૂમ દિઠ કિમત
-                  મુકવી{details?.valuationType === "room" ? " ✔" : ""}
-                </span>
-                <span style={{ fontWeight: "bold" }}>
-                  {details?.valuationType === "house" ? "✔ " : ""}મકાન દિઠ કિમત
-                  લેવી{details?.valuationType === "house" ? " ✔" : ""}
-                </span>
-              </div>
+              {/* 5. Show ONLY the selected option (no tick marks) */}
+              {details?.valuationType && (
+                <div
+                  style={{
+                    textAlign: "center",
+                    marginBottom: "8px",
+                    fontWeight: "bold",
+                    fontSize: "19px",
+                  }}
+                >
+                  {details.valuationType === "room"
+                    ? "રૂમ દિઠ કિમત મુકવી"
+                    : details.valuationType === "house"
+                      ? "મકાન દિઠ કિમત લેવી"
+                      : ""}
+                </div>
+              )}
 
-              {/* TABLE STRUCTURE UPDATED */}
+              {/* 3. Squeezed 3rd & 4th columns + 4th column renamed to "વેરો" */}
               <table
                 style={{
                   width: "100%",
@@ -1760,8 +1793,9 @@ const OrderValuationReport = () => {
                   <tr style={{ borderBottom: "1px solid black" }}>
                     <th
                       style={{
-                        padding: "5px 10px",
-                        width: "10%",
+                        padding: "5px 8px",
+                        width: "1%",
+                        whiteSpace: "nowrap",
                         borderRight: "1px solid black",
                         textAlign: "center",
                       }}
@@ -1772,7 +1806,6 @@ const OrderValuationReport = () => {
                     <th
                       style={{
                         padding: "5px 10px",
-                        width: "50%",
                         borderRight: "1px solid black",
                         textAlign: "center",
                       }}
@@ -1781,8 +1814,9 @@ const OrderValuationReport = () => {
                     </th>
                     <th
                       style={{
-                        padding: "5px 10px",
-                        width: "20%",
+                        padding: "5px 8px",
+                        width: "1%",
+                        whiteSpace: "nowrap",
                         borderRight: "1px solid black",
                         textAlign: "center",
                       }}
@@ -1791,12 +1825,13 @@ const OrderValuationReport = () => {
                     </th>
                     <th
                       style={{
-                        padding: "5px 10px",
-                        width: "20%",
+                        padding: "5px 8px",
+                        width: "1%",
+                        whiteSpace: "nowrap",
                         textAlign: "center",
                       }}
                     >
-                      મિ. વેરો
+                      વેરો
                     </th>
                   </tr>
                 </thead>
@@ -1805,20 +1840,22 @@ const OrderValuationReport = () => {
                     <tr key={index} style={{ borderBottom: "1px solid black" }}>
                       <td
                         style={{
-                          padding: "5px 10px",
+                          padding: "5px 8px",
                           borderRight: "1px solid black",
                           textAlign: "center",
-                          width: "5%",
+                          width: "1%",
+                          whiteSpace: "nowrap",
                         }}
                       >
                         {index + 1}
                       </td>
                       <td
                         style={{
-                          padding: "5px 10px",
+                          padding: "5px 8px",
                           borderRight: "1px solid black",
                           textAlign: "center",
-                          width: "5%",
+                          width: "1%",
+                          whiteSpace: "nowrap",
                         }}
                       >
                         {getAlphabeticalIndex(index)}
@@ -1833,14 +1870,23 @@ const OrderValuationReport = () => {
                       </td>
                       <td
                         style={{
-                          padding: "5px 10px",
+                          padding: "5px 8px",
                           borderRight: "1px solid black",
                           textAlign: "center",
+                          width: "1%",
+                          whiteSpace: "nowrap",
                         }}
                       >
                         {record?.price}
                       </td>
-                      <td style={{ padding: "5px 10px", textAlign: "center" }}>
+                      <td
+                        style={{
+                          padding: "5px 8px",
+                          textAlign: "center",
+                          width: "1%",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
                         {record?.tax}
                       </td>
                     </tr>
@@ -1854,18 +1900,22 @@ const OrderValuationReport = () => {
                       >
                         <td
                           style={{
-                            padding: "5px 10px",
+                            padding: "5px 8px",
                             borderRight: "1px solid black",
                             textAlign: "center",
+                            width: "1%",
+                            whiteSpace: "nowrap",
                           }}
                         >
                           {index + 1}
                         </td>
                         <td
                           style={{
-                            padding: "5px 10px",
+                            padding: "5px 8px",
                             borderRight: "1px solid black",
                             textAlign: "center",
+                            width: "1%",
+                            whiteSpace: "nowrap",
                           }}
                         >
                           {getAlphabeticalIndex(index)}
@@ -1880,15 +1930,22 @@ const OrderValuationReport = () => {
                         </td>
                         <td
                           style={{
-                            padding: "5px 10px",
+                            padding: "5px 8px",
                             borderRight: "1px solid black",
                             textAlign: "center",
+                            width: "1%",
+                            whiteSpace: "nowrap",
                           }}
                         >
                           ......
                         </td>
                         <td
-                          style={{ padding: "5px 10px", textAlign: "center" }}
+                          style={{
+                            padding: "5px 8px",
+                            textAlign: "center",
+                            width: "1%",
+                            whiteSpace: "nowrap",
+                          }}
                         >
                           ......
                         </td>
@@ -1897,11 +1954,12 @@ const OrderValuationReport = () => {
                 </tbody>
               </table>
 
+              {/* 4. Flex wrap layout for Other Taxes */}
               <div style={{ marginBottom: "30px" }}>
                 <h3
                   style={{
                     textDecoration: "underline",
-                    marginBottom: "15px",
+                    marginBottom: "12px",
                     fontSize: "20px",
                   }}
                 >
@@ -1909,21 +1967,21 @@ const OrderValuationReport = () => {
                 </h3>
                 <div
                   style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr 1fr",
-                    gap: "10px",
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: "10px 28px",
                     paddingLeft: "15px",
                   }}
                 >
                   {filteredOtherTaxes.length > 0 ? (
                     filteredOtherTaxes.map((tax, idx) => (
-                      <p key={idx}>
+                      <p key={idx} style={{ margin: 0, whiteSpace: "nowrap" }}>
                         {toGujaratiNumber(idx + 1)}. {tax.label}{" "}
-                        <b>({toGujaratiNumber(tax.val)})</b>
+                        <b> રૂ|.({toGujaratiNumber(tax.val)})/-</b>
                       </p>
                     ))
                   ) : (
-                    <p>કોઈ અન્ય વેરા નથી.</p>
+                    <p style={{ margin: 0 }}>કોઈ અન્ય વેરા નથી.</p>
                   )}
                 </div>
               </div>
