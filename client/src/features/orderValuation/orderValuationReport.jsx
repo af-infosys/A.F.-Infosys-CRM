@@ -8,6 +8,98 @@ import jsPDF from "jspdf";
 import { toast } from "react-toastify";
 import toGujaratiNumber from "../../components/toGujaratiNumber";
 
+const getOtherTaxIcon = (label = "") => {
+  const iconStyle = {
+    width: "22px",
+    height: "22px",
+    flexShrink: 0,
+    display: "inline-block",
+  };
+
+  // ૧. સામાન્ય પાણી વેરો (Water Tank)
+  if (label.includes("સા")) {
+    return (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="#000"
+        strokeWidth="1.8"
+        style={iconStyle}
+      >
+        <rect x="6" y="3" width="12" height="7" rx="1.5" fill="#e0f2fe" />
+        <line x1="8" y1="10" x2="7" y2="21" />
+        <line x1="16" y1="10" x2="17" y2="21" />
+        <line x1="12" y1="10" x2="12" y2="21" />
+        <line x1="7.5" y1="15" x2="16.5" y2="15" />
+        <line x1="7.2" y1="18.5" x2="16.8" y2="18.5" />
+      </svg>
+    );
+  }
+
+  // ૨. ખાસ પાણી નળ વેરો (Water Tap)
+  if (label.includes("ખા")) {
+    return (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="#000"
+        strokeWidth="1.8"
+        style={iconStyle}
+      >
+        <path d="M4 11h10a3 3 0 0 1 3 3v2h-3v-2H4v-3z" fill="#e0f2fe" />
+        <line x1="9" y1="11" x2="9" y2="7" />
+        <line x1="6" y1="7" x2="12" y2="7" />
+        <path
+          d="M15.5 18.5c0 1.2 1.5 2.5 1.5 2.5s1.5-1.3 1.5-2.5a1.5 1.5 0 0 0-3 0z"
+          fill="#0284c7"
+          stroke="none"
+        />
+      </svg>
+    );
+  }
+
+  // ૩. દીવાબત્તી / લાઇટ વેરો (Street Light)
+  if (label.includes("લાઈટ") || label.includes("દીવાબત્તી")) {
+    return (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="#000"
+        strokeWidth="1.8"
+        style={iconStyle}
+      >
+        <line x1="9" y1="21" x2="9" y2="5" />
+        <path d="M9 5c0-1.5 1.5-2 3-2h4" />
+        <rect x="14" y="3" width="5" height="2.5" rx="1" fill="#fde047" />
+        <line x1="6" y1="21" x2="12" y2="21" />
+        <line x1="16.5" y1="7" x2="16.5" y2="9" stroke="#eab308" />
+        <line x1="14" y1="7" x2="13" y2="8.5" stroke="#eab308" />
+        <line x1="19" y1="7" x2="20" y2="8.5" stroke="#eab308" />
+      </svg>
+    );
+  }
+
+  // ૪. સફાઈ વેરો (Broom)
+  if (label.includes("સફાઈ")) {
+    return (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="#000"
+        strokeWidth="1.8"
+        style={iconStyle}
+      >
+        <line x1="17" y1="3" x2="9" y2="14" />
+        <path d="M9 14l-5 4 3 3 5-5-3-2z" fill="#fef08a" />
+        <line x1="6.5" y1="16.5" x2="4.5" y2="19.5" />
+        <line x1="8.5" y1="17.5" x2="6.5" y2="20.5" />
+      </svg>
+    );
+  }
+
+  return null;
+};
+
 const OrderValuationReport = () => {
   const { projectId } = useParams();
   const [isPdfGenerating, setIsPdfGenerating] = useState(false);
@@ -240,7 +332,7 @@ const OrderValuationReport = () => {
   const filteredOtherTaxes = [
     { label: "સામાન્ય પાણી વેરો", val: getTaxValue("સા.પાણી") },
     {
-      label: "દીવાબત્તી વેરો",
+      label: "લાઈટ વેરો",
       val: getTaxValue("લાઈટ"),
     },
     { label: "સફાઈ વેરો", val: getTaxValue("સફાઈ") },
@@ -1621,7 +1713,6 @@ const OrderValuationReport = () => {
           </div>
         </div>
         <br />
-
         {/* --- NEW REPORT SUMMARY START --- */}
         <div
           style={{
@@ -1635,10 +1726,10 @@ const OrderValuationReport = () => {
             id="report-summary"
             className="shadow-md"
             style={{
-              width: "794px",
-              minWidth: "794px",
+              width: "680px",
+              minWidth: "680px",
               background: "#fff",
-              padding: "40px",
+              padding: "20px 24px",
               boxSizing: "border-box",
               fontFamily: "sans-serif",
             }}
@@ -1647,26 +1738,26 @@ const OrderValuationReport = () => {
             <h1
               style={{
                 textAlign: "center",
-                fontSize: "28px",
+                fontSize: "24px",
                 textDecoration: "underline",
-                marginBottom: "16px",
+                margin: "0 0 8px 0",
                 fontWeight: "bold",
               }}
             >
               આકારણી વેલ્યુએશન માહિતી
             </h1>
 
-            <div style={{ fontSize: "18px", lineHeight: "1.8" }}>
-              {/* 6. Increased size, 100% width, centered Gaam / Taluka / District */}
+            <div style={{ fontSize: "16px", lineHeight: "1.35" }}>
+              {/* 6. Centered Gaam / Taluka / District */}
               <div
                 style={{
                   width: "100%",
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
-                  gap: "30px",
-                  fontSize: "22px",
-                  marginBottom: "14px",
+                  gap: "24px",
+                  fontSize: "20px",
+                  marginBottom: "8px",
                   flexWrap: "wrap",
                 }}
               >
@@ -1682,7 +1773,7 @@ const OrderValuationReport = () => {
                 </span>
               </div>
 
-              <p>
+              <p style={{ margin: "0 0 4px 0" }}>
                 કુલ મિલકત ની સંખ્યા:-{" "}
                 <b>
                   {sheetRecords.length > 0
@@ -1695,12 +1786,12 @@ const OrderValuationReport = () => {
                 style={{
                   display: "flex",
                   justifyContent: "flex-end",
-                  marginTop: "-30px",
-                  marginBottom: "20px",
+                  marginTop: "-22px",
+                  marginBottom: "8px",
                 }}
               >
                 <div style={{ textAlign: "left" }}>
-                  <p>
+                  <p style={{ margin: "0 0 2px 0" }}>
                     જુથ પંચાયત છે{" "}
                     <b>
                       {details?.panchayat?.includes("નહિ")
@@ -1711,17 +1802,17 @@ const OrderValuationReport = () => {
                     </b>
                   </p>
 
-                  <p>
+                  <p style={{ margin: "0 0 2px 0" }}>
                     આકારણી વર્ષ:-{" "}
                     <b>{details?.akaraniYear || "......................"}</b>
                   </p>
 
-                  <p>
+                  <p style={{ margin: "0 0 2px 0" }}>
                     વેરા રજીસ્ટર નું વર્ષ:-{" "}
                     <b>{details?.taxYear || "......................"}</b>
                   </p>
 
-                  <p>
+                  <p style={{ margin: 0 }}>
                     તારીખ:-{" "}
                     <b>
                       {formatDate(details?.date) || "......................"}
@@ -1730,22 +1821,22 @@ const OrderValuationReport = () => {
                 </div>
               </div>
 
-              <div style={{ marginBottom: "25px" }}>
-                <p>
+              <div style={{ marginBottom: "10px" }}>
+                <p style={{ margin: "0 0 2px 0" }}>
                   સરપંચશ્રી નું નામ:-{" "}
                   <b>
                     {details?.sarpanchName ||
                       "................................................"}
                   </b>
                 </p>
-                <p>
+                <p style={{ margin: "0 0 2px 0" }}>
                   તલાટી કમ મંત્રી નું નામ:-{" "}
                   <b>
                     {details?.tcmName ||
                       "................................................"}
                   </b>
                 </p>
-                <p>
+                <p style={{ margin: 0 }}>
                   સાથે રહેનાર નું નામ:-{" "}
                   <b>
                     {details?.assistantName ||
@@ -1759,9 +1850,9 @@ const OrderValuationReport = () => {
                 <div
                   style={{
                     textAlign: "center",
-                    marginBottom: "8px",
+                    marginBottom: "10px",
                     fontWeight: "bold",
-                    fontSize: "19px",
+                    fontSize: "17px",
                   }}
                 >
                   {details.valuationType === "room"
@@ -1772,22 +1863,23 @@ const OrderValuationReport = () => {
                 </div>
               )}
 
-              {/* 3. Squeezed 3rd & 4th columns + 4th column renamed to "વેરો" */}
+              {/* 3. Compact Table */}
               <table
                 style={{
                   width: "100%",
                   borderCollapse: "collapse",
-                  marginBottom: "30px",
-                  fontSize: "18px",
+                  marginBottom: "12px",
+                  fontSize: "15px",
+                  lineHeight: "1.2",
                   textAlign: "left",
-                  border: "2px solid black",
+                  border: "1.5px solid black",
                 }}
               >
                 <thead>
                   <tr style={{ borderBottom: "1px solid black" }}>
                     <th
                       style={{
-                        padding: "5px 8px",
+                        padding: "3px 6px",
                         width: "1%",
                         whiteSpace: "nowrap",
                         borderRight: "1px solid black",
@@ -1795,37 +1887,39 @@ const OrderValuationReport = () => {
                       }}
                       colSpan="2"
                     >
-                      ક્રમ
+                      <span className="formatting">ક્રમ</span>
                     </th>
                     <th
                       style={{
-                        padding: "5px 10px",
+                        padding: "3px 8px",
                         borderRight: "1px solid black",
                         textAlign: "center",
                       }}
                     >
-                      મિલ્કતનું વર્ણન / બાંધકામનો પ્રકાર
+                      <span className="formatting">
+                        મિલ્કતનું વર્ણન / બાંધકામનો પ્રકાર
+                      </span>
                     </th>
                     <th
                       style={{
-                        padding: "5px 8px",
+                        padding: "3px 6px",
                         width: "1%",
                         whiteSpace: "nowrap",
                         borderRight: "1px solid black",
                         textAlign: "center",
                       }}
                     >
-                      મિલ્કતની કિંમત
+                      <span className="formatting">મિલ્કતની કિંમત</span>
                     </th>
                     <th
                       style={{
-                        padding: "5px 8px",
+                        padding: "3px 6px",
                         width: "1%",
                         whiteSpace: "nowrap",
                         textAlign: "center",
                       }}
                     >
-                      વેરો
+                      <span className="formatting">વેરો</span>
                     </th>
                   </tr>
                 </thead>
@@ -1834,54 +1928,56 @@ const OrderValuationReport = () => {
                     <tr key={index} style={{ borderBottom: "1px solid black" }}>
                       <td
                         style={{
-                          padding: "5px 8px",
+                          padding: "2px 6px",
                           borderRight: "1px solid black",
                           textAlign: "center",
                           width: "1%",
                           whiteSpace: "nowrap",
                         }}
                       >
-                        {index + 1}
+                        <span className="formatting">{index + 1}</span>
                       </td>
                       <td
                         style={{
-                          padding: "5px 8px",
+                          padding: "2px 6px",
                           borderRight: "1px solid black",
                           textAlign: "center",
                           width: "1%",
                           whiteSpace: "nowrap",
                         }}
                       >
-                        {getAlphabeticalIndex(index)}
+                        <span className="formatting">
+                          {getAlphabeticalIndex(index)}
+                        </span>
                       </td>
                       <td
                         style={{
-                          padding: "5px 10px",
+                          padding: "2px 8px",
                           borderRight: "1px solid black",
                         }}
                       >
-                        {record?.name}
+                        <span className="formatting">{record?.name}</span>
                       </td>
                       <td
                         style={{
-                          padding: "5px 8px",
+                          padding: "2px 6px",
                           borderRight: "1px solid black",
                           textAlign: "center",
                           width: "1%",
                           whiteSpace: "nowrap",
                         }}
                       >
-                        {record?.price}
+                        <span className="formatting">{record?.price}</span>
                       </td>
                       <td
                         style={{
-                          padding: "5px 8px",
+                          padding: "2px 6px",
                           textAlign: "center",
                           width: "1%",
                           whiteSpace: "nowrap",
                         }}
                       >
-                        {record?.tax}
+                        <span className="formatting">{record?.tax}</span>
                       </td>
                     </tr>
                   ))}
@@ -1894,85 +1990,111 @@ const OrderValuationReport = () => {
                       >
                         <td
                           style={{
-                            padding: "5px 8px",
+                            padding: "2px 6px",
                             borderRight: "1px solid black",
                             textAlign: "center",
                             width: "1%",
                             whiteSpace: "nowrap",
                           }}
                         >
-                          {index + 1}
+                          <span className="formatting">{index + 1}</span>
                         </td>
                         <td
                           style={{
-                            padding: "5px 8px",
+                            padding: "2px 6px",
                             borderRight: "1px solid black",
                             textAlign: "center",
                             width: "1%",
                             whiteSpace: "nowrap",
                           }}
                         >
-                          {getAlphabeticalIndex(index)}
+                          <span className="formatting">
+                            {getAlphabeticalIndex(index)}
+                          </span>
                         </td>
                         <td
                           style={{
-                            padding: "5px 10px",
+                            padding: "2px 8px",
                             borderRight: "1px solid black",
                           }}
                         >
-                          ..........................................
+                          <span className="formatting">
+                            ..........................................
+                          </span>
                         </td>
                         <td
                           style={{
-                            padding: "5px 8px",
+                            padding: "2px 6px",
                             borderRight: "1px solid black",
                             textAlign: "center",
                             width: "1%",
                             whiteSpace: "nowrap",
                           }}
                         >
-                          ......
+                          <span className="formatting">......</span>
                         </td>
                         <td
                           style={{
-                            padding: "5px 8px",
+                            padding: "2px 6px",
                             textAlign: "center",
                             width: "1%",
                             whiteSpace: "nowrap",
                           }}
                         >
-                          ......
+                          <span className="formatting">......</span>
                         </td>
                       </tr>
                     ))}
                 </tbody>
               </table>
 
-              {/* 4. Flex wrap layout for Other Taxes */}
-              <div style={{ marginBottom: "30px" }}>
+              {/* 4. Column layout with Icons & Mandatory Underline for Other Taxes */}
+              <div style={{ marginBottom: "12px" }}>
                 <h3
                   style={{
                     textDecoration: "underline",
-                    marginBottom: "12px",
-                    fontSize: "20px",
+                    margin: "0 0 15px 0",
+                    fontSize: "18px",
+                    fontWeight: "bold",
                   }}
                 >
-                  અન્ય વેરાઓ
+                  ☆☆ અન્ય વેરાઓ ☆☆
                 </h3>
                 <div
                   style={{
                     display: "flex",
-                    flexWrap: "wrap",
-                    gap: "10px 28px",
-                    paddingLeft: "15px",
+                    flexDirection: "column",
+                    gap: "5px",
+                    paddingLeft: "10px",
                   }}
                 >
                   {filteredOtherTaxes.length > 0 ? (
                     filteredOtherTaxes.map((tax, idx) => (
-                      <p key={idx} style={{ margin: 0, whiteSpace: "nowrap" }}>
-                        {toGujaratiNumber(idx + 1)}. {tax.label}{" "}
-                        <b> રૂ|.{toGujaratiNumber(tax.val)}/-</b>
-                      </p>
+                      <div
+                        key={idx}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "8px",
+                          width: "fit-content",
+                          borderBottom: "1.5px solid #000",
+                          paddingBottom: "2px",
+                        }}
+                        className="formatting"
+                      >
+                        {getOtherTaxIcon(tax.label)}
+                        <p
+                          style={{
+                            margin: 0,
+                            whiteSpace: "nowrap",
+                            transform: "translateY(-7px)",
+                          }}
+                        >
+                          ({toGujaratiNumber(idx + 1)}) {tax.label}{" "}
+                          <b>રૂ|.{toGujaratiNumber(tax.val)}/-</b>
+                          {idx < filteredOtherTaxes.length - 1 ? "," : ""}
+                        </p>
+                      </div>
                     ))
                   ) : (
                     <p style={{ margin: 0 }}>કોઈ અન્ય વેરા નથી.</p>
@@ -1981,10 +2103,10 @@ const OrderValuationReport = () => {
               </div>
 
               <div>
-                <h3 style={{ fontSize: "20px", marginBottom: "10px" }}>
+                <h3 style={{ fontSize: "17px", margin: "0 0 4px 0" }}>
                   નોંધ:-
                 </h3>
-                <p style={{ paddingLeft: "15px" }}>
+                <p style={{ margin: 0, paddingLeft: "10px", fontSize: "15px" }}>
                   ખાસ જરૂરી:- જો આકારણી રેકર્ડ માં ૯/ડી બન્નેમાં વેરાઓ નક્કી
                   કરેલ છે તે ખાસ તપાસ કરી લેવા ત્યાર બાદ જ પ્રિન્ટીંગ થશે.
                 </p>
