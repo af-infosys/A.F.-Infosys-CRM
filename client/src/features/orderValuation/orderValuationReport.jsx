@@ -1866,9 +1866,9 @@ const OrderValuationReport = () => {
               {/* 3. Compact Table */}
               <table
                 style={{
-                  width: "100%",
+                  width: "fit-content",
+                  margin: "0 auto 12px auto",
                   borderCollapse: "collapse",
-                  marginBottom: "12px",
                   fontSize: "15px",
                   lineHeight: "1.2",
                   textAlign: "left",
@@ -1879,8 +1879,7 @@ const OrderValuationReport = () => {
                   <tr style={{ borderBottom: "1px solid black" }}>
                     <th
                       style={{
-                        padding: "3px 6px",
-                        width: "1%",
+                        padding: "3px 8px",
                         whiteSpace: "nowrap",
                         borderRight: "1px solid black",
                         textAlign: "center",
@@ -1891,7 +1890,8 @@ const OrderValuationReport = () => {
                     </th>
                     <th
                       style={{
-                        padding: "3px 8px",
+                        padding: "3px 10px",
+                        whiteSpace: "nowrap",
                         borderRight: "1px solid black",
                         textAlign: "center",
                       }}
@@ -1902,8 +1902,7 @@ const OrderValuationReport = () => {
                     </th>
                     <th
                       style={{
-                        padding: "3px 6px",
-                        width: "1%",
+                        padding: "3px 8px",
                         whiteSpace: "nowrap",
                         borderRight: "1px solid black",
                         textAlign: "center",
@@ -1913,8 +1912,7 @@ const OrderValuationReport = () => {
                     </th>
                     <th
                       style={{
-                        padding: "3px 6px",
-                        width: "1%",
+                        padding: "3px 8px",
                         whiteSpace: "nowrap",
                         textAlign: "center",
                       }}
@@ -1928,10 +1926,9 @@ const OrderValuationReport = () => {
                     <tr key={index} style={{ borderBottom: "1px solid black" }}>
                       <td
                         style={{
-                          padding: "2px 6px",
+                          padding: "2px 8px",
                           borderRight: "1px solid black",
                           textAlign: "center",
-                          width: "1%",
                           whiteSpace: "nowrap",
                         }}
                       >
@@ -1939,10 +1936,9 @@ const OrderValuationReport = () => {
                       </td>
                       <td
                         style={{
-                          padding: "2px 6px",
+                          padding: "2px 8px",
                           borderRight: "1px solid black",
                           textAlign: "center",
-                          width: "1%",
                           whiteSpace: "nowrap",
                         }}
                       >
@@ -1952,18 +1948,18 @@ const OrderValuationReport = () => {
                       </td>
                       <td
                         style={{
-                          padding: "2px 8px",
+                          padding: "2px 10px",
                           borderRight: "1px solid black",
+                          whiteSpace: "nowrap",
                         }}
                       >
                         <span className="formatting">{record?.name}</span>
                       </td>
                       <td
                         style={{
-                          padding: "2px 6px",
+                          padding: "2px 8px",
                           borderRight: "1px solid black",
                           textAlign: "center",
-                          width: "1%",
                           whiteSpace: "nowrap",
                         }}
                       >
@@ -1971,9 +1967,8 @@ const OrderValuationReport = () => {
                       </td>
                       <td
                         style={{
-                          padding: "2px 6px",
+                          padding: "2px 8px",
                           textAlign: "center",
-                          width: "1%",
                           whiteSpace: "nowrap",
                         }}
                       >
@@ -1990,10 +1985,9 @@ const OrderValuationReport = () => {
                       >
                         <td
                           style={{
-                            padding: "2px 6px",
+                            padding: "2px 8px",
                             borderRight: "1px solid black",
                             textAlign: "center",
-                            width: "1%",
                             whiteSpace: "nowrap",
                           }}
                         >
@@ -2001,10 +1995,9 @@ const OrderValuationReport = () => {
                         </td>
                         <td
                           style={{
-                            padding: "2px 6px",
+                            padding: "2px 8px",
                             borderRight: "1px solid black",
                             textAlign: "center",
-                            width: "1%",
                             whiteSpace: "nowrap",
                           }}
                         >
@@ -2014,8 +2007,9 @@ const OrderValuationReport = () => {
                         </td>
                         <td
                           style={{
-                            padding: "2px 8px",
+                            padding: "2px 10px",
                             borderRight: "1px solid black",
+                            whiteSpace: "nowrap",
                           }}
                         >
                           <span className="formatting">
@@ -2024,10 +2018,9 @@ const OrderValuationReport = () => {
                         </td>
                         <td
                           style={{
-                            padding: "2px 6px",
+                            padding: "2px 8px",
                             borderRight: "1px solid black",
                             textAlign: "center",
-                            width: "1%",
                             whiteSpace: "nowrap",
                           }}
                         >
@@ -2035,9 +2028,8 @@ const OrderValuationReport = () => {
                         </td>
                         <td
                           style={{
-                            padding: "2px 6px",
+                            padding: "2px 8px",
                             textAlign: "center",
-                            width: "1%",
                             whiteSpace: "nowrap",
                           }}
                         >
