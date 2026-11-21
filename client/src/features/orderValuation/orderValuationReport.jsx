@@ -2050,7 +2050,7 @@ const OrderValuationReport = () => {
                     fontWeight: "bold",
                   }}
                 >
-                  ☆☆ અન્ય વેરાઓ ☆☆
+                  ☆ ☆ અન્ય વેરાઓ ☆ ☆
                 </h3>
                 <div
                   style={{
