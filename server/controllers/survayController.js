@@ -1093,11 +1093,434 @@ export const editTaxRecord = async (req, res) => {
   }
 };
 
+// export const calculateValuation = async (req, res) => {
+//   try {
+//     const projectId = req.params.id;
+//     console.log(req.params);
+//     // const project = await Work.findById(projectId);
+
+//     const project = await sheet.findById(
+//       process.env.GOOGLE_SHEET_ID,
+//       "Index",
+//       projectId,
+//     );
+
+//     // 1. Get full data
+//     const response = await sheets.spreadsheets.values.get({
+//       spreadsheetId: SPREADSHEET_ID,
+//       range: `${project[0]}_Main!A4:ZZ`,
+//     });
+
+//     // const orderValuation = await sheets.spreadsheets.values.get({
+//     //   spreadsheetId: SPREADSHEET_ID,
+//     //   range: `${project[0]}_OV!A2:D`, // assuming columns: A=Name, B=Amount, C=Percentage,  D=TaxAmount
+//     // });
+
+//     // const taxAmount = await sheets.spreadsheets.values.get({
+//     //   spreadsheetId: SPREADSHEET_ID,
+//     //   range: `${project[0]}_Taxes!A2:ZZ`, // assuming columns: A=Name, B=Amount, C=Percentage,  D=TaxAmount
+//     // });
+
+//     let records = response.data.values || [];
+
+//     // orderValuation.data.values || [];
+//     let detailsData = JSON.parse(project[3] || "[]");
+
+//     let valuationData = JSON.parse(project[4] || "[]");
+
+//     // let otherTaxdata = taxAmount.data.values || [];
+//     let otherTaxdata = JSON.parse(project[5] || "[]");
+
+//     console.log(valuationData, otherTaxdata);
+
+//     if (!records.length)
+//       return res.status(400).json({ error: "No data found" });
+
+//     if (!valuationData.length)
+//       return res.status(400).json({ error: "Fill Ordervaluation First" });
+
+//     // 2. Loop through rows and calculate
+//     let updates = [];
+//     records.forEach((row, rowIndex) => {
+//       if (JSON.parse(row[24] || "{}")?.freez === true) {
+//         return;
+//       } // Skip manuall edited taxes row
+
+//       const propertyCategory = row[8] || ""; // index 7
+//       const jsonData = row[15] ? JSON.parse(row[15]) : []; // index 14
+
+//       const tabConnections = Number(row[12] || "0");
+
+//       // ---- Sample Calculation Logic ----
+//       let propertyPrice = 0;
+//       let tax = 0;
+
+//       let otherTax = {};
+
+//       // calculate property price based on category
+//       if (propertyCategory === "પ્લોટ ખાનગી - ખુલ્લી જગ્યા") {
+//         propertyPrice = valuationData[14][1];
+//         tax = valuationData[14][3];
+//       }
+//       if (propertyCategory === "પ્લોટ (ફરતી દિવાલ) ખાનગી") {
+//         propertyPrice = valuationData[15][1];
+//         tax = valuationData[15][3];
+//       }
+
+//       if (propertyCategory === "રહેણાંક - મકાન") {
+//         jsonData.forEach((item) => {
+//           item.roomDetails.forEach((room) => {
+//             if (room.type === "કાચા" && room.roomHallShopGodown === "રૂમ") {
+//               let total = 0;
+
+//               total += Number(room.tinRooms);
+//               total += Number(room.woodenRooms);
+//               total += Number(room.tileRooms);
+
+//               propertyPrice += Number(valuationData[0][1]) * total;
+//               tax +=
+//                 (Number(valuationData[0][1]) *
+//                   total *
+//                   Number(valuationData[0][2])) /
+//                 100;
+//             } else if (
+//               room.type === "પાકા" &&
+//               room.roomHallShopGodown === "રૂમ" &&
+//               Number(room.slabRooms || 0) === 0
+//             ) {
+//               let total = 0;
+
+//               total += Number(room.tinRooms);
+//               total += Number(room.woodenRooms);
+//               total += Number(room.tileRooms);
+
+//               propertyPrice += Number(valuationData[1][1]) * total;
+//               tax += Number(valuationData[1][3]) * total;
+//             } else if (
+//               room.type === "પાકા" &&
+//               room.roomHallShopGodown === "રૂમ"
+//             ) {
+//               let total = 0;
+
+//               total += Number(room.slabRooms);
+
+//               propertyPrice += Number(valuationData[2][1]) * total;
+//               tax += Number(valuationData[2][3]) * total;
+//             } else if (
+//               room.type === "પાકા" &&
+//               room.roomHallShopGodown === "હોલ મોટો"
+//             ) {
+//               let total = 0;
+
+//               total += Number(room.slabRooms);
+//               total += Number(room.tinRooms);
+//               total += Number(room.woodenRooms);
+//               total += Number(room.tileRooms);
+
+//               propertyPrice += Number(valuationData[12][1]) * total;
+//               tax +=
+//                 (Number(valuationData[12][1]) *
+//                   total *
+//                   Number(valuationData[12][2])) /
+//                 100;
+//             } else if (room.roomHallShopGodown === "દુકાન નાની") {
+//               let total = 0;
+
+//               total += Number(room.slabRooms);
+//               total += Number(room.tinRooms);
+//               total += Number(room.woodenRooms);
+//               total += Number(room.tileRooms);
+
+//               propertyPrice += Number(valuationData[7][1]) * total;
+//               tax +=
+//                 (Number(valuationData[7][1]) *
+//                   total *
+//                   Number(valuationData[7][2])) /
+//                 100;
+//             } else if (room.roomHallShopGodown === "દુકાન મોટી") {
+//               let total = 0;
+
+//               total += Number(room.slabRooms);
+//               total += Number(room.tinRooms);
+//               total += Number(room.woodenRooms);
+//               total += Number(room.tileRooms);
+
+//               propertyPrice += Number(valuationData[8][1]) * total;
+//               tax +=
+//                 (Number(valuationData[8][1]) *
+//                   total *
+//                   Number(valuationData[8][2])) /
+//                 100;
+//             } else if (
+//               room.type === "પાકા" ||
+//               room.roomHallShopGodown === "ગોડાઉન નાનું"
+//             ) {
+//               let total = 0;
+
+//               total += Number(room.slabRooms);
+//               total += Number(room.tinRooms);
+//               total += Number(room.woodenRooms);
+//               total += Number(room.tileRooms);
+
+//               propertyPrice += Number(valuationData[9][1]) * total;
+//               tax +=
+//                 (Number(valuationData[9][1]) *
+//                   total *
+//                   Number(valuationData[9][2])) /
+//                 100;
+//             } else if (
+//               room.type === "પાકા" ||
+//               room.roomHallShopGodown === "ગોડાઉન મોટું"
+//             ) {
+//               let total = 0;
+
+//               total += Number(room.slabRooms);
+//               total += Number(room.tinRooms);
+//               total += Number(room.woodenRooms);
+//               total += Number(room.tileRooms);
+
+//               propertyPrice += Number(valuationData[10][1]) * total;
+//               tax +=
+//                 (Number(valuationData[10][1]) *
+//                   total *
+//                   Number(valuationData[10][2])) /
+//                 100;
+//             }
+//           });
+//         });
+
+//         // console.log(valuationData[0][1]);
+//       } else if (propertyCategory.trim() === "દુકાન") {
+//         jsonData.forEach((item) => {
+//           item.roomDetails.forEach((room) => {
+//             if (room.roomHallShopGodown === "દુકાન નાની") {
+//               let total = 0;
+
+//               total += Number(room.slabRooms);
+//               total += Number(room.tinRooms);
+//               total += Number(room.woodenRooms);
+//               total += Number(room.tileRooms);
+
+//               propertyPrice += Number(valuationData[7][1]) * total;
+//               tax +=
+//                 (Number(valuationData[7][1]) *
+//                   total *
+//                   Number(valuationData[7][2])) /
+//                 100;
+//             } else if (room.roomHallShopGodown === "દુકાન મોટી") {
+//               let total = 0;
+
+//               total += Number(room.slabRooms);
+//               total += Number(room.tinRooms);
+//               total += Number(room.woodenRooms);
+//               total += Number(room.tileRooms);
+
+//               propertyPrice += Number(valuationData[8][1]) * total;
+//               tax +=
+//                 (Number(valuationData[8][1]) *
+//                   total *
+//                   Number(valuationData[8][2])) /
+//                 100;
+//             }
+
+//             if (
+//               room.type === "પાકા" ||
+//               room.roomHallShopGodown === "ગોડાઉન નાનું"
+//             ) {
+//               let total = 0;
+
+//               total += Number(room.slabRooms);
+//               total += Number(room.tinRooms);
+//               total += Number(room.woodenRooms);
+//               total += Number(room.tileRooms);
+
+//               propertyPrice += Number(valuationData[9][1]) * total;
+//               tax +=
+//                 (Number(valuationData[9][1]) *
+//                   total *
+//                   Number(valuationData[9][2])) /
+//                 100;
+//             } else if (
+//               room.type === "પાકા" ||
+//               room.roomHallShopGodown === "ગોડાઉન મોટું"
+//             ) {
+//               let total = 0;
+
+//               total += Number(room.slabRooms);
+//               total += Number(room.tinRooms);
+//               total += Number(room.woodenRooms);
+//               total += Number(room.tileRooms);
+
+//               propertyPrice += Number(valuationData[10][1]) * total;
+//               tax +=
+//                 (Number(valuationData[10][1]) *
+//                   total *
+//                   Number(valuationData[10][2])) /
+//                 100;
+//             }
+//           });
+//         });
+//       } else if (propertyCategory.trim() === "મંડળી - સેવા સહકારી મંડળી") {
+//         jsonData.forEach((item) => {
+//           item.roomDetails.forEach((room) => {
+//             if (
+//               room.type === "પાકા" ||
+//               room.roomHallShopGodown === "ગોડાઉન નાનું"
+//             ) {
+//               let total = 0;
+
+//               total += Number(room.slabRooms);
+//               total += Number(room.tinRooms);
+//               total += Number(room.woodenRooms);
+//               total += Number(room.tileRooms);
+
+//               propertyPrice += Number(valuationData[9][1]) * total;
+//               tax +=
+//                 (Number(valuationData[9][1]) *
+//                   total *
+//                   Number(valuationData[9][2])) /
+//                 100;
+//             } else if (
+//               room.type === "પાકા" ||
+//               room.roomHallShopGodown === "ગોડાઉન મોટું"
+//             ) {
+//               let total = 0;
+
+//               total += Number(room.slabRooms);
+//               total += Number(room.tinRooms);
+//               total += Number(room.woodenRooms);
+//               total += Number(room.tileRooms);
+
+//               propertyPrice += Number(valuationData[10][1]) * total;
+//               tax +=
+//                 (Number(valuationData[10][1]) *
+//                   total *
+//                   Number(valuationData[10][2])) /
+//                 100;
+//             }
+//           });
+//         });
+//       } else if (propertyCategory.trim() === "મોબાઈલ ટાવર") {
+//         let total = 1;
+
+//         propertyPrice += Number(valuationData[9][1]) * total;
+//         tax +=
+//           (Number(valuationData[17][1]) *
+//             total *
+//             Number(valuationData[17][2])) /
+//           100;
+//       }
+
+//       // Calculating Other Taxes
+//       if (propertyCategory === "રહેણાંક - મકાન") {
+//         otherTax.normal_water = { curr: otherTaxdata[0][2] || "0" };
+
+//         if (tabConnections) {
+//           otherTax.special_water = {
+//             curr: otherTaxdata[1][2] * tabConnections || "0",
+//           };
+//         }
+
+//         otherTax.light = { curr: otherTaxdata[2][2] || "0" };
+//         otherTax.cleaning = { curr: otherTaxdata[3][2] || "0" };
+//       } else if (
+//         propertyCategory === "દુકાન" ||
+//         propertyCategory === "પ્રાઈવેટ - સંસ્થાઓ" ||
+//         propertyCategory === "કારખાના - ઇન્ડસ્ટ્રીજ઼" ||
+//         propertyCategory === "ટ્રસ્ટ મિલ્કત / NGO" ||
+//         propertyCategory === "મંડળી - સેવા સહકારી મંડળી" ||
+//         propertyCategory === "બેંક - અર્ધ સરકારી બેંક" ||
+//         propertyCategory === "બેંક - પ્રાઇટ બેંક" ||
+//         propertyCategory === "સરકારી સહાય આવાસ" ||
+//         propertyCategory === "કોમ્પપ્લેક્ષ" ||
+//         propertyCategory === "હિરાના કારખાના નાના" ||
+//         propertyCategory === "હિરાના કારખાના મોટા" ||
+//         propertyCategory === "મોબાઈલ ટાવર" ||
+//         propertyCategory === "પેટ્રોલ પંપ, ગેસ પંપ"
+//       ) {
+//         otherTax.normal_water = { curr: otherTaxdata[0][3] || "0" };
+
+//         if (tabConnections) {
+//           otherTax.special_water = {
+//             curr: otherTaxdata[1][3] * tabConnections || "0",
+//           };
+//         }
+
+//         otherTax.light = { curr: otherTaxdata[2][3] || "0" };
+//         otherTax.cleaning = { curr: otherTaxdata[3][3] || "0" };
+//       } else if (
+//         propertyCategory === "પ્લોટ ખાનગી - ખુલ્લી જગ્યા" ||
+//         propertyCategory === "પ્લોટ (ફરતી દિવાલ) ખાનગી"
+//       ) {
+//         otherTax.normal_water = { curr: otherTaxdata[0][4] || "0" };
+
+//         if (tabConnections) {
+//           otherTax.special_water = {
+//             curr: otherTaxdata[1][4] * tabConnections || "0",
+//           };
+//         }
+
+//         otherTax.light = { curr: otherTaxdata[2][4] || "0" };
+//         otherTax.cleaning = { curr: otherTaxdata[3][4] || "0" };
+//       } else if (
+//         propertyCategory === "સરકારી મિલ્ક્ત" ||
+//         propertyCategory === "બેંક - સરકારી" ||
+//         propertyCategory === "પ્લોટ સરકારી - કોમનપ્લોટ" ||
+//         propertyCategory === "પ્લોટ (ફરતી દિવાલ) સરકારી"
+//       ) {
+//         otherTax.normal_water = { curr: otherTaxdata[0][5] || "0" };
+
+//         if (tabConnections) {
+//           otherTax.special_water = {
+//             curr: otherTaxdata[1][5] * tabConnections || "0",
+//           };
+//         }
+
+//         otherTax.light = { curr: otherTaxdata[2][5] || "0" };
+//         otherTax.cleaning = { curr: otherTaxdata[3][5] || "0" };
+//       } else if (propertyCategory === "ધાર્મિક સ્થળ") {
+//         propertyPrice = 0;
+//         tax = 0;
+
+//         otherTax.normal_water = { curr: 0 };
+//         otherTax.special_water = { curr: 0 };
+//         otherTax.light = { curr: 0 };
+//         otherTax.cleaning = { curr: 0 };
+//       }
+
+//       // ---- Collect updates ----
+//       const targetRow = rowIndex + 4; // since data starts at row 4
+//       updates.push({
+//         range: `${project[0]}_Main!T${targetRow}:V${targetRow}`, // col 19= T, col 21= V
+//         values: [[propertyPrice, tax, JSON.stringify(otherTax)]],
+//       });
+//     });
+
+//     // 3. Batch Update
+//     if (updates.length > 0) {
+//       await sheets.spreadsheets.values.batchUpdate({
+//         spreadsheetId: SPREADSHEET_ID,
+//         requestBody: {
+//           valueInputOption: "USER_ENTERED",
+//           data: updates,
+//         },
+//       });
+//     }
+
+//     res.json({
+//       message: "Valuation calculated & updated",
+//       data: updates.length,
+//     });
+//   } catch (err) {
+//     console.error("Error in calculateValuation:", err);
+//     res.status(500).json({ error: err.message });
+//   }
+// };
+
 export const calculateValuation = async (req, res) => {
   try {
     const projectId = req.params.id;
     console.log(req.params);
-    // const project = await Work.findById(projectId);
 
     const project = await sheet.findById(
       process.env.GOOGLE_SHEET_ID,
@@ -1111,30 +1534,22 @@ export const calculateValuation = async (req, res) => {
       range: `${project[0]}_Main!A4:ZZ`,
     });
 
-    // const orderValuation = await sheets.spreadsheets.values.get({
-    //   spreadsheetId: SPREADSHEET_ID,
-    //   range: `${project[0]}_OV!A2:D`, // assuming columns: A=Name, B=Amount, C=Percentage,  D=TaxAmount
-    // });
-
-    // const taxAmount = await sheets.spreadsheets.values.get({
-    //   spreadsheetId: SPREADSHEET_ID,
-    //   range: `${project[0]}_Taxes!A2:ZZ`, // assuming columns: A=Name, B=Amount, C=Percentage,  D=TaxAmount
-    // });
-
     let records = response.data.values || [];
-
-    // let valuationData = orderValuation.data.values || [];
+    let detailsData = JSON.parse(project[3] || "{}");
     let valuationData = JSON.parse(project[4] || "[]");
-
-    // let otherTaxdata = taxAmount.data.values || [];
     let otherTaxdata = JSON.parse(project[5] || "[]");
+
+    // Sirf strict boolean `true` hone par hi manual mode chalega
+    // (undefined, null, ya baaki kisi bhi value par automatic chalega)
+    const isManualMode = detailsData?.isManualHouseTax === true;
+    const manualTaxPercent = Number(detailsData?.manualHouseTaxPercent || 0);
 
     console.log(valuationData, otherTaxdata);
 
     if (!records.length)
       return res.status(400).json({ error: "No data found" });
 
-    if (!valuationData.length)
+    if (!isManualMode && !valuationData.length)
       return res.status(400).json({ error: "Fill Ordervaluation First" });
 
     // 2. Loop through rows and calculate
@@ -1142,274 +1557,275 @@ export const calculateValuation = async (req, res) => {
     records.forEach((row, rowIndex) => {
       if (JSON.parse(row[24] || "{}")?.freez === true) {
         return;
-      } // Skip manuall edited taxes row
+      } // Skip manually edited taxes row
 
-      const propertyCategory = row[8] || ""; // index 7
-      const jsonData = row[15] ? JSON.parse(row[15]) : []; // index 14
-
+      const propertyCategory = row[8] || "";
+      const jsonData = row[15] ? JSON.parse(row[15]) : [];
       const tabConnections = Number(row[12] || "0");
 
-      // ---- Sample Calculation Logic ----
       let propertyPrice = 0;
       let tax = 0;
-
       let otherTax = {};
 
-      // calculate property price based on category
-      if (propertyCategory === "પ્લોટ ખાનગી - ખુલ્લી જગ્યા") {
-        propertyPrice = valuationData[14][1];
-        tax = valuationData[14][3];
-      }
-      if (propertyCategory === "પ્લોટ (ફરતી દિવાલ) ખાનગી") {
-        propertyPrice = valuationData[15][1];
-        tax = valuationData[15][3];
-      }
+      if (isManualMode) {
+        // Manual Mode: Col T (index 19) me pehle se mojud house price use karo
+        propertyPrice = Number(row[19] || 0) || 0;
+        tax = (propertyPrice * manualTaxPercent) / 100;
+      } else {
+        // Automatic Mode: normal calculation
+        if (propertyCategory === "પ્લોટ ખાનગી - ખુલ્લી જગ્યા") {
+          propertyPrice = valuationData[14][1];
+          tax = valuationData[14][3];
+        }
+        if (propertyCategory === "પ્લોટ (ફરતી દિવાલ) ખાનગી") {
+          propertyPrice = valuationData[15][1];
+          tax = valuationData[15][3];
+        }
 
-      if (propertyCategory === "રહેણાંક - મકાન") {
-        jsonData.forEach((item) => {
-          item.roomDetails.forEach((room) => {
-            if (room.type === "કાચા" && room.roomHallShopGodown === "રૂમ") {
-              let total = 0;
+        if (propertyCategory === "રહેણાંક - મકાન") {
+          jsonData.forEach((item) => {
+            item.roomDetails.forEach((room) => {
+              if (room.type === "કાચા" && room.roomHallShopGodown === "રૂમ") {
+                let total = 0;
 
-              total += Number(room.tinRooms);
-              total += Number(room.woodenRooms);
-              total += Number(room.tileRooms);
+                total += Number(room.tinRooms);
+                total += Number(room.woodenRooms);
+                total += Number(room.tileRooms);
 
-              propertyPrice += Number(valuationData[0][1]) * total;
-              tax +=
-                (Number(valuationData[0][1]) *
-                  total *
-                  Number(valuationData[0][2])) /
-                100;
-            } else if (
-              room.type === "પાકા" &&
-              room.roomHallShopGodown === "રૂમ" &&
-              Number(room.slabRooms || 0) === 0
-            ) {
-              let total = 0;
+                propertyPrice += Number(valuationData[0][1]) * total;
+                tax +=
+                  (Number(valuationData[0][1]) *
+                    total *
+                    Number(valuationData[0][2])) /
+                  100;
+              } else if (
+                room.type === "પાકા" &&
+                room.roomHallShopGodown === "રૂમ" &&
+                Number(room.slabRooms || 0) === 0
+              ) {
+                let total = 0;
 
-              total += Number(room.tinRooms);
-              total += Number(room.woodenRooms);
-              total += Number(room.tileRooms);
+                total += Number(room.tinRooms);
+                total += Number(room.woodenRooms);
+                total += Number(room.tileRooms);
 
-              propertyPrice += Number(valuationData[1][1]) * total;
-              tax += Number(valuationData[1][3]) * total;
-            } else if (
-              room.type === "પાકા" &&
-              room.roomHallShopGodown === "રૂમ"
-            ) {
-              let total = 0;
+                propertyPrice += Number(valuationData[1][1]) * total;
+                tax += Number(valuationData[1][3]) * total;
+              } else if (
+                room.type === "પાકા" &&
+                room.roomHallShopGodown === "રૂમ"
+              ) {
+                let total = 0;
 
-              total += Number(room.slabRooms);
+                total += Number(room.slabRooms);
 
-              propertyPrice += Number(valuationData[2][1]) * total;
-              tax += Number(valuationData[2][3]) * total;
-            } else if (
-              room.type === "પાકા" &&
-              room.roomHallShopGodown === "હોલ મોટો"
-            ) {
-              let total = 0;
+                propertyPrice += Number(valuationData[2][1]) * total;
+                tax += Number(valuationData[2][3]) * total;
+              } else if (
+                room.type === "પાકા" &&
+                room.roomHallShopGodown === "હોલ મોટો"
+              ) {
+                let total = 0;
 
-              total += Number(room.slabRooms);
-              total += Number(room.tinRooms);
-              total += Number(room.woodenRooms);
-              total += Number(room.tileRooms);
+                total += Number(room.slabRooms);
+                total += Number(room.tinRooms);
+                total += Number(room.woodenRooms);
+                total += Number(room.tileRooms);
 
-              propertyPrice += Number(valuationData[12][1]) * total;
-              tax +=
-                (Number(valuationData[12][1]) *
-                  total *
-                  Number(valuationData[12][2])) /
-                100;
-            } else if (room.roomHallShopGodown === "દુકાન નાની") {
-              let total = 0;
+                propertyPrice += Number(valuationData[12][1]) * total;
+                tax +=
+                  (Number(valuationData[12][1]) *
+                    total *
+                    Number(valuationData[12][2])) /
+                  100;
+              } else if (room.roomHallShopGodown === "દુકાન નાની") {
+                let total = 0;
 
-              total += Number(room.slabRooms);
-              total += Number(room.tinRooms);
-              total += Number(room.woodenRooms);
-              total += Number(room.tileRooms);
+                total += Number(room.slabRooms);
+                total += Number(room.tinRooms);
+                total += Number(room.woodenRooms);
+                total += Number(room.tileRooms);
 
-              propertyPrice += Number(valuationData[7][1]) * total;
-              tax +=
-                (Number(valuationData[7][1]) *
-                  total *
-                  Number(valuationData[7][2])) /
-                100;
-            } else if (room.roomHallShopGodown === "દુકાન મોટી") {
-              let total = 0;
+                propertyPrice += Number(valuationData[7][1]) * total;
+                tax +=
+                  (Number(valuationData[7][1]) *
+                    total *
+                    Number(valuationData[7][2])) /
+                  100;
+              } else if (room.roomHallShopGodown === "દુકાન મોટી") {
+                let total = 0;
 
-              total += Number(room.slabRooms);
-              total += Number(room.tinRooms);
-              total += Number(room.woodenRooms);
-              total += Number(room.tileRooms);
+                total += Number(room.slabRooms);
+                total += Number(room.tinRooms);
+                total += Number(room.woodenRooms);
+                total += Number(room.tileRooms);
 
-              propertyPrice += Number(valuationData[8][1]) * total;
-              tax +=
-                (Number(valuationData[8][1]) *
-                  total *
-                  Number(valuationData[8][2])) /
-                100;
-            } else if (
-              room.type === "પાકા" ||
-              room.roomHallShopGodown === "ગોડાઉન નાનું"
-            ) {
-              let total = 0;
+                propertyPrice += Number(valuationData[8][1]) * total;
+                tax +=
+                  (Number(valuationData[8][1]) *
+                    total *
+                    Number(valuationData[8][2])) /
+                  100;
+              } else if (
+                room.type === "પાકા" ||
+                room.roomHallShopGodown === "ગોડાઉન નાનું"
+              ) {
+                let total = 0;
 
-              total += Number(room.slabRooms);
-              total += Number(room.tinRooms);
-              total += Number(room.woodenRooms);
-              total += Number(room.tileRooms);
+                total += Number(room.slabRooms);
+                total += Number(room.tinRooms);
+                total += Number(room.woodenRooms);
+                total += Number(room.tileRooms);
 
-              propertyPrice += Number(valuationData[9][1]) * total;
-              tax +=
-                (Number(valuationData[9][1]) *
-                  total *
-                  Number(valuationData[9][2])) /
-                100;
-            } else if (
-              room.type === "પાકા" ||
-              room.roomHallShopGodown === "ગોડાઉન મોટું"
-            ) {
-              let total = 0;
+                propertyPrice += Number(valuationData[9][1]) * total;
+                tax +=
+                  (Number(valuationData[9][1]) *
+                    total *
+                    Number(valuationData[9][2])) /
+                  100;
+              } else if (
+                room.type === "પાકા" ||
+                room.roomHallShopGodown === "ગોડાઉન મોટું"
+              ) {
+                let total = 0;
 
-              total += Number(room.slabRooms);
-              total += Number(room.tinRooms);
-              total += Number(room.woodenRooms);
-              total += Number(room.tileRooms);
+                total += Number(room.slabRooms);
+                total += Number(room.tinRooms);
+                total += Number(room.woodenRooms);
+                total += Number(room.tileRooms);
 
-              propertyPrice += Number(valuationData[10][1]) * total;
-              tax +=
-                (Number(valuationData[10][1]) *
-                  total *
-                  Number(valuationData[10][2])) /
-                100;
-            }
+                propertyPrice += Number(valuationData[10][1]) * total;
+                tax +=
+                  (Number(valuationData[10][1]) *
+                    total *
+                    Number(valuationData[10][2])) /
+                  100;
+              }
+            });
           });
-        });
+        } else if (propertyCategory.trim() === "દુકાન") {
+          jsonData.forEach((item) => {
+            item.roomDetails.forEach((room) => {
+              if (room.roomHallShopGodown === "દુકાન નાની") {
+                let total = 0;
 
-        // console.log(valuationData[0][1]);
-      } else if (propertyCategory.trim() === "દુકાન") {
-        jsonData.forEach((item) => {
-          item.roomDetails.forEach((room) => {
-            if (room.roomHallShopGodown === "દુકાન નાની") {
-              let total = 0;
+                total += Number(room.slabRooms);
+                total += Number(room.tinRooms);
+                total += Number(room.woodenRooms);
+                total += Number(room.tileRooms);
 
-              total += Number(room.slabRooms);
-              total += Number(room.tinRooms);
-              total += Number(room.woodenRooms);
-              total += Number(room.tileRooms);
+                propertyPrice += Number(valuationData[7][1]) * total;
+                tax +=
+                  (Number(valuationData[7][1]) *
+                    total *
+                    Number(valuationData[7][2])) /
+                  100;
+              } else if (room.roomHallShopGodown === "દુકાન મોટી") {
+                let total = 0;
 
-              propertyPrice += Number(valuationData[7][1]) * total;
-              tax +=
-                (Number(valuationData[7][1]) *
-                  total *
-                  Number(valuationData[7][2])) /
-                100;
-            } else if (room.roomHallShopGodown === "દુકાન મોટી") {
-              let total = 0;
+                total += Number(room.slabRooms);
+                total += Number(room.tinRooms);
+                total += Number(room.woodenRooms);
+                total += Number(room.tileRooms);
 
-              total += Number(room.slabRooms);
-              total += Number(room.tinRooms);
-              total += Number(room.woodenRooms);
-              total += Number(room.tileRooms);
+                propertyPrice += Number(valuationData[8][1]) * total;
+                tax +=
+                  (Number(valuationData[8][1]) *
+                    total *
+                    Number(valuationData[8][2])) /
+                  100;
+              }
 
-              propertyPrice += Number(valuationData[8][1]) * total;
-              tax +=
-                (Number(valuationData[8][1]) *
-                  total *
-                  Number(valuationData[8][2])) /
-                100;
-            }
+              if (
+                room.type === "પાકા" ||
+                room.roomHallShopGodown === "ગોડાઉન નાનું"
+              ) {
+                let total = 0;
 
-            if (
-              room.type === "પાકા" ||
-              room.roomHallShopGodown === "ગોડાઉન નાનું"
-            ) {
-              let total = 0;
+                total += Number(room.slabRooms);
+                total += Number(room.tinRooms);
+                total += Number(room.woodenRooms);
+                total += Number(room.tileRooms);
 
-              total += Number(room.slabRooms);
-              total += Number(room.tinRooms);
-              total += Number(room.woodenRooms);
-              total += Number(room.tileRooms);
+                propertyPrice += Number(valuationData[9][1]) * total;
+                tax +=
+                  (Number(valuationData[9][1]) *
+                    total *
+                    Number(valuationData[9][2])) /
+                  100;
+              } else if (
+                room.type === "પાકા" ||
+                room.roomHallShopGodown === "ગોડાઉન મોટું"
+              ) {
+                let total = 0;
 
-              propertyPrice += Number(valuationData[9][1]) * total;
-              tax +=
-                (Number(valuationData[9][1]) *
-                  total *
-                  Number(valuationData[9][2])) /
-                100;
-            } else if (
-              room.type === "પાકા" ||
-              room.roomHallShopGodown === "ગોડાઉન મોટું"
-            ) {
-              let total = 0;
+                total += Number(room.slabRooms);
+                total += Number(room.tinRooms);
+                total += Number(room.woodenRooms);
+                total += Number(room.tileRooms);
 
-              total += Number(room.slabRooms);
-              total += Number(room.tinRooms);
-              total += Number(room.woodenRooms);
-              total += Number(room.tileRooms);
-
-              propertyPrice += Number(valuationData[10][1]) * total;
-              tax +=
-                (Number(valuationData[10][1]) *
-                  total *
-                  Number(valuationData[10][2])) /
-                100;
-            }
+                propertyPrice += Number(valuationData[10][1]) * total;
+                tax +=
+                  (Number(valuationData[10][1]) *
+                    total *
+                    Number(valuationData[10][2])) /
+                  100;
+              }
+            });
           });
-        });
-      } else if (propertyCategory.trim() === "મંડળી - સેવા સહકારી મંડળી") {
-        jsonData.forEach((item) => {
-          item.roomDetails.forEach((room) => {
-            if (
-              room.type === "પાકા" ||
-              room.roomHallShopGodown === "ગોડાઉન નાનું"
-            ) {
-              let total = 0;
+        } else if (propertyCategory.trim() === "મંડળી - સેવા સહકારી મંડળી") {
+          jsonData.forEach((item) => {
+            item.roomDetails.forEach((room) => {
+              if (
+                room.type === "પાકા" ||
+                room.roomHallShopGodown === "ગોડાઉન નાનું"
+              ) {
+                let total = 0;
 
-              total += Number(room.slabRooms);
-              total += Number(room.tinRooms);
-              total += Number(room.woodenRooms);
-              total += Number(room.tileRooms);
+                total += Number(room.slabRooms);
+                total += Number(room.tinRooms);
+                total += Number(room.woodenRooms);
+                total += Number(room.tileRooms);
 
-              propertyPrice += Number(valuationData[9][1]) * total;
-              tax +=
-                (Number(valuationData[9][1]) *
-                  total *
-                  Number(valuationData[9][2])) /
-                100;
-            } else if (
-              room.type === "પાકા" ||
-              room.roomHallShopGodown === "ગોડાઉન મોટું"
-            ) {
-              let total = 0;
+                propertyPrice += Number(valuationData[9][1]) * total;
+                tax +=
+                  (Number(valuationData[9][1]) *
+                    total *
+                    Number(valuationData[9][2])) /
+                  100;
+              } else if (
+                room.type === "પાકા" ||
+                room.roomHallShopGodown === "ગોડાઉન મોટું"
+              ) {
+                let total = 0;
 
-              total += Number(room.slabRooms);
-              total += Number(room.tinRooms);
-              total += Number(room.woodenRooms);
-              total += Number(room.tileRooms);
+                total += Number(room.slabRooms);
+                total += Number(room.tinRooms);
+                total += Number(room.woodenRooms);
+                total += Number(room.tileRooms);
 
-              propertyPrice += Number(valuationData[10][1]) * total;
-              tax +=
-                (Number(valuationData[10][1]) *
-                  total *
-                  Number(valuationData[10][2])) /
-                100;
-            }
+                propertyPrice += Number(valuationData[10][1]) * total;
+                tax +=
+                  (Number(valuationData[10][1]) *
+                    total *
+                    Number(valuationData[10][2])) /
+                  100;
+              }
+            });
           });
-        });
-      } else if (propertyCategory.trim() === "મોબાઈલ ટાવર") {
-        let total = 1;
+        } else if (propertyCategory.trim() === "મોબાઈલ ટાવર") {
+          let total = 1;
 
-        propertyPrice += Number(valuationData[9][1]) * total;
-        tax +=
-          (Number(valuationData[17][1]) *
-            total *
-            Number(valuationData[17][2])) /
-          100;
+          propertyPrice += Number(valuationData[9][1]) * total;
+          tax +=
+            (Number(valuationData[17][1]) *
+              total *
+              Number(valuationData[17][2])) /
+            100;
+        }
       }
 
-      // Calculating Other Taxes
+      // Calculating Other Taxes (dono mode me same chalega)
       if (propertyCategory === "રહેણાંક - મકાન") {
         otherTax.normal_water = { curr: otherTaxdata[0][2] || "0" };
 

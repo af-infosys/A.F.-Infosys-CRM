@@ -37,14 +37,15 @@ export const getDetails = async (req, res) => {
     // works.details.taluka = works.spot?.taluka;
     // works.details.district = works.spot?.district;
 
-    const spot = JSON.parse(work[1]);
-    const details = JSON.parse(work[2]);
+    const spot = JSON.parse(work[1] || "{}");
+    const details = JSON.parse(work[2] || "{}") || {};
 
-    details.gaam = spot?.gaam;
-    details.taluka = spot?.taluka;
-    details.district = spot?.district;
+    details.gaam = spot.gaam || "";
+    details.taluka = spot.taluka || "";
+    details.district = spot.district || "";
 
     res.json({
+      spot,
       details,
       valuation,
     });
@@ -180,6 +181,8 @@ export const getImageMode = async (req, res) => {
           isPtvPlot: JSON.parse(isImage[2] || {})?.pvtplot || false,
           isGovPlot: JSON.parse(isImage[2] || {})?.govplot || false,
           isMobile: JSON.parse(isImage[2] || {})?.isMobile || false,
+          isManualHouseTax:
+            JSON.parse(isImage[2] || {})?.isManualHouseTax || false,
         });
       }
     } else {

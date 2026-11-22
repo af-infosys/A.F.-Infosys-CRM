@@ -56,6 +56,8 @@ const OrderValuationForm = () => {
     pvtplot: false,
     govplot: false,
     isMobile: true,
+    isManualHouseTax: false,
+    manualHouseTaxPercent: "",
 
     comity: [
       { name: "", designation: "અધ્યક્ષ સરપંચશ્રી " },
@@ -73,9 +75,9 @@ const OrderValuationForm = () => {
   const [valuation, setValuation] = useState([
     {
       name: "કાચા ગાર માટી",
-      price: 100000,
-      per: 0.5,
-      tax: 500,
+      price: 0,
+      per: 0,
+      tax: 0,
     },
     {
       name: "નળીયા, પતરા, પીઢીયા, પાકા",
@@ -85,7 +87,7 @@ const OrderValuationForm = () => {
     },
     {
       name: "પાકા સ્લેબવાળા",
-      price: 10000,
+      price: 0,
       per: 0,
       tax: 0,
     },
@@ -182,7 +184,7 @@ const OrderValuationForm = () => {
     {
       name: "મોબાઇલ ટાવર",
       price: 0,
-      per: 3,
+      per: 0,
       tax: 0,
     },
     {
@@ -255,6 +257,12 @@ const OrderValuationForm = () => {
 
       setDetails({
         ...(data.details || details),
+        gaam: data.details?.gaam || data.spot?.gaam || "",
+        taluka: data.details?.taluka || data.spot?.taluka || "",
+        district: data.details?.district || data.spot?.district || "",
+
+        isManualHouseTax: Boolean(data.details?.isManualHouseTax),
+        manualHouseTaxPercent: data.details?.manualHouseTaxPercent ?? "",
         comity: [
           ...(data.details?.comity || [
             { name: "", designation: "અધ્યક્ષ સરપંચશ્રી" },
@@ -968,6 +976,80 @@ const OrderValuationForm = () => {
                 <span>મકાન દિઠ કિમત લેવી</span>
               </label>
             </div>
+          </div>
+
+          <br />
+          <div className="flex flex-col col-span-3 gap-3">
+            <label className="text-sm font-medium text-gray-700">
+              20. ઘરની કિંમત અને ઘર વેરો ગણતરી (House Price & Tax Mode)
+            </label>
+
+            <div className="flex flex-wrap gap-6">
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="radio"
+                  name="isManualHouseTax"
+                  checked={!details.isManualHouseTax}
+                  onChange={() =>
+                    setDetails((prev) => ({
+                      ...prev,
+                      isManualHouseTax: false,
+                    }))
+                  }
+                  className="text-blue-600 focus:ring-blue-500"
+                />
+                <span>Automatic (રૂમ/મકાન પ્રમાણે)</span>
+              </label>
+
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="radio"
+                  name="isManualHouseTax"
+                  checked={Boolean(details.isManualHouseTax)}
+                  onChange={() =>
+                    setDetails((prev) => ({
+                      ...prev,
+                      isManualHouseTax: true,
+                    }))
+                  }
+                  className="text-blue-600 focus:ring-blue-500"
+                />
+                <span>Manual House Price (કિંમત જાતે દાખલ કરવી)</span>
+              </label>
+            </div>
+
+            {/* Jab Manual select ho tabhi Percentage input dikhega */}
+            {details.isManualHouseTax && (
+              <div className="flex flex-col max-w-xs mt-1">
+                <label
+                  htmlFor="manualHouseTaxPercent"
+                  className="text-sm font-medium text-gray-700 mb-1"
+                >
+                  ઘર વેરો ટકાવારી (%) — Manual કિંમત પર
+                </label>
+                <input
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  id="manualHouseTaxPercent"
+                  name="manualHouseTaxPercent"
+                  placeholder="દા.ત. 0.5"
+                  value={details.manualHouseTaxPercent}
+                  onChange={(e) =>
+                    setDetails((prev) => ({
+                      ...prev,
+                      manualHouseTaxPercent:
+                        e.target.value === "" ? "" : Number(e.target.value),
+                    }))
+                  }
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  required
+                />
+                {/* <span className="text-xs text-gray-500 mt-1">
+                  દા.ત. કિંમત ₹1,00,000 અને 0.5% = ₹500 ઘર વેરો આપમેળે ગણાશે.
+                </span> */}
+              </div>
+            )}
           </div>
         </section>
 
