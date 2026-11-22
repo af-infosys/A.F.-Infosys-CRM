@@ -257,6 +257,9 @@ const OrderValuationForm = () => {
 
       setDetails({
         ...(data.details || details),
+
+        date: data.details?.date || new Date().toISOString().split("T")[0],
+
         gaam: data.details?.gaam || data.spot?.gaam || "",
         taluka: data.details?.taluka || data.spot?.taluka || "",
         district: data.details?.district || data.spot?.district || "",
@@ -741,7 +744,8 @@ const OrderValuationForm = () => {
                 type="date"
                 id="date"
                 name="date"
-                value={details.date || new Date().toISOString().split("T")[0]}
+                // value={details.date || new Date().toISOString().split("T")[0]}
+                value={details.date}
                 onChange={handleChangeDetails}
                 className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
                 required
