@@ -460,7 +460,7 @@ const OrderValuationReport = () => {
                       <span style={{ marginTop: "-2px" }}>
                         જુના રજી.ના ઘર <b>{details?.oldregi || ""}</b>
                       </span>
-                      {details?.imageAkarni ? (
+                      {Number(details?.imageAkarni) !== 0 ? (
                         <span style={{ marginTop: "-2px" }}>
                           ફોટા વાળી આકારણી{": "}
                           <b>
@@ -497,7 +497,7 @@ const OrderValuationReport = () => {
                     flexDirection: "column",
                     paddingRight: "5px",
                     position: "relative",
-                    transform: `translateY(-${details?.imageAkarni ? 100 : 80}px)`,
+                    transform: `translateY(-${Number(details?.imageAkarni) !== 0 ? 100 : 80}px)`,
                     paddingLeft: "3px",
                   }}
                 >
@@ -516,51 +516,63 @@ const OrderValuationReport = () => {
                   <h2 style={{ fontSize: "16px" }}>
                     તારીખ :– <b>{formatDate(details?.date)}</b>
                   </h2>
+
                   <span>
-                    જુથ પંચાયત છે (હા/ના){" "}
+                    જુથ પંચાયત છે :-{" "}
                     <b>
-                      {details?.panchayat?.includes("નહિ")
+                      {details?.panchayat?.includes("નહિ") ||
+                      details?.panchayat?.includes("ના") ||
+                      details?.panchayat === ""
                         ? "નહિ"
-                        : details?.panchayat === ""
-                          ? ""
-                          : "હા"}
+                        : "હા"}
                     </b>
                   </span>
-                  <span
-                    style={{
-                      fontSize: "16px",
-                      textAlign: "left",
-                      width: "100%",
-                      display: "flex",
-                      flexDirection: "column",
-                      paddingRight: "10px",
-                      alignItems: "start",
-                    }}
-                  >
-                    <span
-                      style={{
-                        display: "flex",
-                        justifyContent: "start",
-                        gap: "10px",
-                      }}
-                    >
-                      ગામના નામ:
-                      <b>
-                        {!details?.panchayat?.includes("નહિ") &&
-                          details?.panchayat
-                            ?.split(/\d+\./)
-                            ?.filter(Boolean)
-                            ?.map((village, index) => (
-                              <div
-                                key={index}
-                                style={{ textAlign: "left", fontSize: "15px" }}
-                              >
-                                {index + 1}. {village.trim()}
-                              </div>
-                            ))}
-                      </b>
-                    </span>
-                  </span>
+
+                  {details?.panchayat?.includes("નહિ") ||
+                  details?.panchayat?.includes("ના") ||
+                  details?.panchayat === "" ? null : (
+                    <>
+                      <span
+                        style={{
+                          fontSize: "16px",
+                          textAlign: "left",
+                          width: "100%",
+                          display: "flex",
+                          flexDirection: "column",
+                          paddingRight: "10px",
+                          alignItems: "start",
+                        }}
+                      >
+                        <span
+                          style={{
+                            display: "flex",
+                            justifyContent: "start",
+                            gap: "10px",
+                          }}
+                        >
+                          ગામના નામ:
+                          <b>
+                            {!details?.panchayat?.includes("નહિ") &&
+                              details?.panchayat
+                                ?.split(/\d+\./)
+                                ?.filter(Boolean)
+                                ?.map((village, index) => (
+                                  <div
+                                    key={index}
+                                    style={{
+                                      textAlign: "left",
+                                      fontSize: "15px",
+                                    }}
+                                  >
+                                    {index + 1}. {village.trim()}
+                                  </div>
+                                ))}
+                          </b>
+                        </span>
+                      </span>
+                    </>
+                  )}
+
                   <div
                     style={{
                       display: "flex",
@@ -601,7 +613,7 @@ const OrderValuationReport = () => {
                     {details?.tcmName || ""}, {details?.tcmNumber || ""}
                   </b>
                 </h2>
-                {details?.s2Name !== "" && (
+                {details?.s2Name && (
                   <h2 style={{ fontSize: "15px" }}>
                     વહિવટ કર્તા વ્યક્તિનું પુરૂ નામ તથા મો.નં.{" "}
                     <b>
@@ -619,9 +631,13 @@ const OrderValuationReport = () => {
                     </b>
                   </h2>
                 )}
-                <h2 style={{ fontSize: "15px", marginTop: "-10px" }}>
-                  {details?.assistantHoddo || ""}
-                </h2>
+
+                {details?.assistantHoddo && (
+                  <h2 style={{ fontSize: "15px" }}>
+                    સાથે રહેનાર વ્યક્તિનો હોદ્દો :-{" "}
+                    <b>{details?.assistantHoddo || ""}</b>
+                  </h2>
+                )}
               </div>
 
               <h2
@@ -662,32 +678,37 @@ const OrderValuationReport = () => {
                 }}
                 className="formatting"
               >
-                <span>
-                  {details?.valuationType === "room" ? (
-                    <span>&#10004;</span>
-                  ) : (
-                    ""
-                  )}{" "}
-                  રૂમ દિઠ કિમત મુકવી{" "}
-                  {details?.valuationType === "room" ? (
-                    <span>&#10004;</span>
-                  ) : (
-                    ""
-                  )}
-                </span>
-                <span>
-                  {details?.valuationType === "house" ? (
-                    <span>&#10004;</span>
-                  ) : (
-                    ""
-                  )}{" "}
-                  મકાન દિઠ કિમત લેવી{" "}
-                  {details?.valuationType === "house" ? (
-                    <span>&#10004;</span>
-                  ) : (
-                    ""
-                  )}
-                </span>
+                {details?.valuationType === "room" && (
+                  <span>
+                    {details?.valuationType === "room" ? (
+                      <span>&#10004;</span>
+                    ) : (
+                      ""
+                    )}{" "}
+                    રૂમ દિઠ કિમત મુકવી{" "}
+                    {details?.valuationType === "room" ? (
+                      <span>&#10004;</span>
+                    ) : (
+                      ""
+                    )}
+                  </span>
+                )}
+
+                {details?.valuationType === "house" && (
+                  <span>
+                    {details?.valuationType === "house" ? (
+                      <span>&#10004;</span>
+                    ) : (
+                      ""
+                    )}{" "}
+                    મકાન દિઠ કિમત લેવી{" "}
+                    {details?.valuationType === "house" ? (
+                      <span>&#10004;</span>
+                    ) : (
+                      ""
+                    )}
+                  </span>
+                )}
               </div>
 
               <table
@@ -917,32 +938,37 @@ const OrderValuationReport = () => {
                 }}
                 className="formatting"
               >
-                <span>
-                  {details?.valuationType === "room" ? (
-                    <span>&#10004;</span>
-                  ) : (
-                    ""
-                  )}{" "}
-                  રૂમ દિઠ કિમત મુકવી{" "}
-                  {details?.valuationType === "room" ? (
-                    <span>&#10004;</span>
-                  ) : (
-                    ""
-                  )}
-                </span>
-                <span>
-                  {details?.valuationType === "house" ? (
-                    <span>&#10004;</span>
-                  ) : (
-                    ""
-                  )}{" "}
-                  મકાન દિઠ કિમત લેવી{" "}
-                  {details?.valuationType === "house" ? (
-                    <span>&#10004;</span>
-                  ) : (
-                    ""
-                  )}
-                </span>
+                {details?.valuationType === "room" && (
+                  <span>
+                    {details?.valuationType === "room" ? (
+                      <span>&#10004;</span>
+                    ) : (
+                      ""
+                    )}{" "}
+                    રૂમ દિઠ કિમત મુકવી{" "}
+                    {details?.valuationType === "room" ? (
+                      <span>&#10004;</span>
+                    ) : (
+                      ""
+                    )}
+                  </span>
+                )}
+
+                {details?.valuationType === "house" && (
+                  <span>
+                    {details?.valuationType === "house" ? (
+                      <span>&#10004;</span>
+                    ) : (
+                      ""
+                    )}{" "}
+                    મકાન દિઠ કિમત લેવી{" "}
+                    {details?.valuationType === "house" ? (
+                      <span>&#10004;</span>
+                    ) : (
+                      ""
+                    )}
+                  </span>
+                )}
               </div>
 
               <table
