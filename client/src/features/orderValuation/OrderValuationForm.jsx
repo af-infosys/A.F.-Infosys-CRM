@@ -23,7 +23,8 @@ const OrderValuationForm = () => {
     gaam: "",
     taluka: "",
     district: "",
-    date: "",
+    date: new Date().toISOString().split("T")[0], // Auto today's date
+    tharavDate: "", // Separate Tharav Date
     panchayat: "",
     akaraniYear: "",
     taxYear: "",
@@ -717,6 +718,7 @@ const OrderValuationForm = () => {
                 className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
               />
             </div>
+
             <div className="flex flex-col">
               <label
                 htmlFor="district"
@@ -733,24 +735,45 @@ const OrderValuationForm = () => {
                 className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
               />
             </div>
+
+            {/* Normal Form Date (Auto today if empty) */}
             <div className="flex flex-col">
               <label
                 htmlFor="date"
                 className="text-sm font-medium text-gray-700 mb-1"
               >
-                <b>6. તારીખ (ઠરાવ તારીખ - Extension) *</b>
+                6. તારીખ (ફોર્મ તારીખ) *
               </label>
               <input
                 type="date"
                 id="date"
                 name="date"
-                // value={details.date || new Date().toISOString().split("T")[0]}
-                value={details.date}
+                value={details.date || ""}
                 onChange={handleChangeDetails}
                 className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
                 required
               />
             </div>
+
+            {/* Separate Tharav Date */}
+            <div className="flex flex-col">
+              <label
+                htmlFor="tharavDate"
+                className="text-sm font-medium text-gray-700 mb-1"
+              >
+                <b>ઠરાવ તારીખ (Extension) *</b>
+              </label>
+              <input
+                type="date"
+                id="tharavDate"
+                name="tharavDate"
+                value={details.tharavDate || ""}
+                onChange={handleChangeDetails}
+                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                required
+              />
+            </div>
+
             <div className="flex flex-col">
               <label
                 htmlFor="panchayat"
@@ -966,7 +989,7 @@ const OrderValuationForm = () => {
                   onChange={handleChangeDetails}
                   className="text-blue-600 focus:ring-blue-500"
                 />
-                <span>રૂમ દિઠ કિમત મુકવી</span>
+                <span>રૂમ દિઠ વેરો મુકવો</span>
               </label>
               <label className="flex items-center gap-2">
                 <input
@@ -977,7 +1000,7 @@ const OrderValuationForm = () => {
                   onChange={handleChangeDetails}
                   className="text-blue-600 focus:ring-blue-500"
                 />
-                <span>મકાન દિઠ કિમત લેવી</span>
+                <span>મકાન દિઠ વેરો મુકવો</span>
               </label>
             </div>
           </div>

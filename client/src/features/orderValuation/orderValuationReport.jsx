@@ -685,7 +685,7 @@ const OrderValuationReport = () => {
                     ) : (
                       ""
                     )}{" "}
-                    રૂમ દિઠ કિમત મુકવી{" "}
+                    રૂમ દિઠ વેરો મુકવો{" "}
                     {details?.valuationType === "room" ? (
                       <span>&#10004;</span>
                     ) : (
@@ -701,7 +701,7 @@ const OrderValuationReport = () => {
                     ) : (
                       ""
                     )}{" "}
-                    મકાન દિઠ કિમત લેવી{" "}
+                    મકાન દિઠ વેરો મુકવો{" "}
                     {details?.valuationType === "house" ? (
                       <span>&#10004;</span>
                     ) : (
@@ -945,7 +945,7 @@ const OrderValuationReport = () => {
                     ) : (
                       ""
                     )}{" "}
-                    રૂમ દિઠ કિમત મુકવી{" "}
+                    રૂમ દિઠ વેરો મુકવો{" "}
                     {details?.valuationType === "room" ? (
                       <span>&#10004;</span>
                     ) : (
@@ -961,7 +961,7 @@ const OrderValuationReport = () => {
                     ) : (
                       ""
                     )}{" "}
-                    મકાન દિઠ કિમત લેવી{" "}
+                    મકાન દિઠ વેરો મુકવો{" "}
                     {details?.valuationType === "house" ? (
                       <span>&#10004;</span>
                     ) : (
@@ -1752,8 +1752,8 @@ const OrderValuationReport = () => {
             id="report-summary"
             className="shadow-md"
             style={{
-              width: "680px",
-              minWidth: "680px",
+              width: "700px",
+              minWidth: "700px",
               background: "#fff",
               padding: "20px 24px",
               boxSizing: "border-box",
@@ -1770,7 +1770,7 @@ const OrderValuationReport = () => {
                 fontWeight: "bold",
               }}
             >
-              આકારણી વેલ્યુએશન માહિતી
+              આકારણી વેલ્યુએશન સમરી
             </h1>
 
             <div style={{ fontSize: "16px", lineHeight: "1.35" }}>
@@ -1818,13 +1818,13 @@ const OrderValuationReport = () => {
               >
                 <div style={{ textAlign: "left" }}>
                   <p style={{ margin: "0 0 2px 0" }}>
-                    જુથ પંચાયત છે{" "}
+                    જુથ પંચાયત છે :-{" "}
                     <b>
-                      {details?.panchayat?.includes("નહિ")
-                        ? "ના"
-                        : details?.panchayat === ""
-                          ? "હા / ના"
-                          : "હા"}
+                      {details?.panchayat?.includes("નહિ") ||
+                      details?.panchayat?.includes("ના") ||
+                      details?.panchayat === ""
+                        ? "નહિ"
+                        : "હા"}
                     </b>
                   </p>
 
@@ -1849,26 +1849,47 @@ const OrderValuationReport = () => {
 
               <div style={{ marginBottom: "10px" }}>
                 <p style={{ margin: "0 0 2px 0" }}>
-                  સરપંચશ્રી નું નામ:-{" "}
+                  {" "}
+                  સરપંચશ્રીનું પુરૂ નામ તથા મો.નં.{" "}
                   <b>
-                    {details?.sarpanchName ||
-                      "................................................"}
+                    {details?.sarpanchName || ""}
+                    {", "}
+                    {details?.sarpanchNumber || ""}{" "}
                   </b>
                 </p>
                 <p style={{ margin: "0 0 2px 0" }}>
-                  તલાટી કમ મંત્રી નું નામ:-{" "}
+                  તલાટી કમ મંત્રીશ્રીનું પુરૂ નામ તથા મો.નં.{" "}
                   <b>
-                    {details?.tcmName ||
-                      "................................................"}
+                    {details?.tcmName || ""}, {details?.tcmNumber || ""}
                   </b>
                 </p>
-                <p style={{ margin: 0 }}>
-                  સાથે રહેનાર નું નામ:-{" "}
-                  <b>
-                    {details?.assistantName ||
-                      "................................................"}
-                  </b>
-                </p>
+
+                {details?.s2Name && (
+                  <p style={{ margin: "0 0 2px 0" }}>
+                    વહિવટ કર્તા વ્યક્તિનું પુરૂ નામ તથા મો.નં.{" "}
+                    <b>
+                      {details?.s2Name || ""}, {details?.s2Number || ""}
+                    </b>
+                  </p>
+                )}
+
+                {details?.assistantName && (
+                  <p style={{ margin: "0 0 2px 0" }}>
+                    સાથે રહેનાર વ્યકિતનું પુરૂ નામ તથા મો.નં.{" "}
+                    <b>
+                      {details?.assistantName || ""}
+                      {", "}
+                      {details?.assistantNumber || ""}
+                    </b>
+                  </p>
+                )}
+
+                {details?.assistantHoddo && (
+                  <p style={{ margin: 0 }}>
+                    સાથે રહેનાર વ્યક્તિનો હોદ્દો :-{" "}
+                    <b>{details?.assistantHoddo || ""}</b>
+                  </p>
+                )}
               </div>
 
               {/* 5. Show ONLY the selected option (no tick marks) */}
@@ -1882,9 +1903,9 @@ const OrderValuationReport = () => {
                   }}
                 >
                   {details.valuationType === "room"
-                    ? "રૂમ દિઠ કિમત મુકવી"
+                    ? "રૂમ દિઠ વેરો મુકવો"
                     : details.valuationType === "house"
-                      ? "મકાન દિઠ કિમત લેવી"
+                      ? "મકાન દિઠ વેરો મુકવો"
                       : ""}
                 </div>
               )}
@@ -2066,65 +2087,166 @@ const OrderValuationReport = () => {
                 </tbody>
               </table>
 
-              {/* 4. Column layout with Icons & Mandatory Underline for Other Taxes */}
-              <div style={{ marginBottom: "12px" }}>
-                <h3
-                  style={{
-                    textDecoration: "underline",
-                    margin: "0 0 15px 0",
-                    fontSize: "18px",
-                    fontWeight: "bold",
-                  }}
-                >
-                  ☆ ☆ અન્ય વેરાઓ ☆ ☆
-                </h3>
+              {/* 4. Other Taxes (Left) + Vistar & Pani Vigat (Right) */}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "flex-start",
+                  gap: "16px",
+                  marginBottom: "14px",
+                }}
+              >
+                {/* Left Side: Other Taxes */}
+                <div style={{ flexShrink: 0 }}>
+                  <h3
+                    style={{
+                      textDecoration: "underline",
+                      margin: "0 0 12px 0",
+                      fontSize: "17px",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    ☆ ☆ અન્ય વેરાઓ ☆ ☆
+                  </h3>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "5px",
+                      paddingLeft: "6px",
+                    }}
+                  >
+                    {filteredOtherTaxes.length > 0 ? (
+                      filteredOtherTaxes.map((tax, idx) => (
+                        <div
+                          key={idx}
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "8px",
+                            width: "fit-content",
+                            borderBottom: "1.5px solid #000",
+                            paddingBottom: "2px",
+                          }}
+                          className="formatting"
+                        >
+                          {getOtherTaxIcon(tax.label)}
+                          <p
+                            style={{
+                              margin: 0,
+                              whiteSpace: "nowrap",
+                              transform: "translateY(-7px)",
+                            }}
+                          >
+                            ({toGujaratiNumber(idx + 1)}) {tax.label}{" "}
+                            <b>રૂ|.{toGujaratiNumber(tax.val)}/-</b>
+                            {idx < filteredOtherTaxes.length - 1 ? "," : ""}
+                          </p>
+                        </div>
+                      ))
+                    ) : (
+                      <p style={{ margin: 0 }}>કોઈ અન્ય વેરા નથી.</p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Right Side: Vistar ni Vigat & Pani ni Vigat */}
                 <div
                   style={{
+                    flex: 1,
                     display: "flex",
                     flexDirection: "column",
-                    gap: "5px",
-                    paddingLeft: "10px",
+                    gap: "3px",
+                    borderLeft: "1px dashed #999",
+                    paddingLeft: "12px",
+                    fontSize: "13.5px",
+                    lineHeight: "1.35",
                   }}
                 >
-                  {filteredOtherTaxes.length > 0 ? (
-                    filteredOtherTaxes.map((tax, idx) => (
-                      <div
-                        key={idx}
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "8px",
-                          width: "fit-content",
-                          borderBottom: "1.5px solid #000",
-                          paddingBottom: "2px",
-                        }}
-                        className="formatting"
-                      >
-                        {getOtherTaxIcon(tax.label)}
-                        <p
-                          style={{
-                            margin: 0,
-                            whiteSpace: "nowrap",
-                            transform: "translateY(-7px)",
-                          }}
-                        >
-                          ({toGujaratiNumber(idx + 1)}) {tax.label}{" "}
-                          <b>રૂ|.{toGujaratiNumber(tax.val)}/-</b>
-                          {idx < filteredOtherTaxes.length - 1 ? "," : ""}
-                        </p>
-                      </div>
-                    ))
-                  ) : (
-                    <p style={{ margin: 0 }}>કોઈ અન્ય વેરા નથી.</p>
-                  )}
+                  <div
+                    style={{
+                      fontWeight: "bold",
+                      textDecoration: "underline",
+                      marginBottom: "2px",
+                    }}
+                  >
+                    વિસ્તારની વિગત : : -
+                  </div>
+                  <p style={{ margin: 0 }}>
+                    પહેલા વિસ્તાર/શેરી મહોલ્લો કયા થી શરૂ કરવો :-{" "}
+                    <b>{details?.startArea || ""}</b>
+                  </p>
+                  <p style={{ margin: "0 0 6px 0" }}>
+                    આકારણી સર્વે કામ પહેલી મિલ્કત/ઘર કોની લખવી :-{" "}
+                    <b>{details?.firstPropertyOwner || ""}</b>
+                  </p>
+
+                  <div
+                    style={{
+                      fontWeight: "bold",
+                      textDecoration: "underline",
+                      marginBottom: "2px",
+                    }}
+                  >
+                    પાણી ની વિગત : : -
+                  </div>
+                  <p style={{ margin: 0 }}>
+                    જે મિલ્‍કત માં નળ હોય તેમા સામાન્‍ય પાણી વેરો લેવો કે નહી ?{" "}
+                    <b>
+                      {details?.generalWaterTaxApplicable === "yes"
+                        ? "હા"
+                        : details?.generalWaterTaxApplicable === "no"
+                          ? "ના"
+                          : ""}
+                    </b>
+                  </p>
+                  <p style={{ margin: 0 }}>
+                    ખાસ પાણી નળ વેરો ત્થા સા.પાણી વેરો બન્‍ને વેરા મુકવા વેરો
+                    લેવો. <b>{details?.specialAndGeneralWaterTax || ""}</b>
+                  </p>
                 </div>
               </div>
 
+              {/* 5. Notes Section (Dynamic Notes + Hardcoded Note) */}
               <div>
-                <h3 style={{ fontSize: "17px", margin: "0 0 4px 0" }}>
+                <h3
+                  style={{
+                    fontSize: "17px",
+                    margin: "0 0 4px 0",
+                    textDecoration: "underline",
+                    fontWeight: "bold",
+                  }}
+                >
                   નોંધ:-
                 </h3>
-                <p style={{ margin: 0, paddingLeft: "10px", fontSize: "15px" }}>
+
+                {details?.notes?.length > 0 && (
+                  <ol
+                    style={{
+                      margin: "0 0 6px 0",
+                      paddingLeft: "10px",
+                      listStyleType: "none",
+                      fontSize: "14.5px",
+                      lineHeight: "1.35",
+                    }}
+                  >
+                    {details.notes.map((item, index) => (
+                      <li key={index} style={{ marginBottom: "2px" }}>
+                        <span>{toGujaratiNumber(index + 1)}.</span> {item}
+                      </li>
+                    ))}
+                  </ol>
+                )}
+
+                <p
+                  style={{
+                    margin: 0,
+                    paddingLeft: "10px",
+                    fontSize: "14.5px",
+                    fontWeight: "600",
+                  }}
+                >
                   ખાસ જરૂરી:- જો આકારણી રેકર્ડ માં ૯/ડી બન્નેમાં વેરાઓ નક્કી
                   કરેલ છે તે ખાસ તપાસ કરી લેવા ત્યાર બાદ જ પ્રિન્ટીંગ થશે.
                 </p>
