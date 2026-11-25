@@ -1,31 +1,46 @@
 import React, { useState, useEffect, useCallback } from "react";
 import dayjs from "dayjs";
 import apiPath from "../../../isProduction";
+import { useAuth } from "../../../config/AuthContext";
 
 const SurvayorReport = () => {
+  const { user } = useAuth();
+
   const [surveyors, setSurveyors] = useState([]);
+  const [works, setWorks] = useState([]);
+  const [selectedWorkId, setSelectedWorkId] = useState("all");
+
   const [allEntry, setAllEntry] = useState([]);
-  const [selectedDate, setSelectedDate] = useState(
-    dayjs(new Date()).format("YYYY-MM-DD") // Defaulting to a date with mock data
-  );
+  const [startDate, setStartDate] = useState(dayjs().format("YYYY-MM-DD"));
+  const [endDate, setEndDate] = useState(dayjs().format("YYYY-MM-DD"));
+
   const [loading, setLoading] = useState(true);
   const [reportData, setReportData] = useState([]);
   const [selectedSurveyor, setSelectedSurveyor] = useState(null);
   const [individualReportData, setIndividualReportData] = useState([]);
   const [error, setError] = useState(null);
 
-  // Helper function to extract Surveyor ID from the 16th index (17th element)
-  const extractSurveyorId = (entry) => {
-    // The surveyor ID is provided as a JSON string at index 16 of the array
-    const surveyorJsonString = entry[16];
-    if (surveyorJsonString) {
-      try {
-        const surveyorInfo = JSON.parse(surveyorJsonString);
-        // *** CHANGE: Using 'id' instead of 'id' based on user feedback ***
-        return surveyorInfo.id;
-      } catch (e) {
-        // console.warn("Error parsing surveyor info at index 16:", e);
-        return null;
+  // Safely parse surveyor info from index 18 (primary) or index 16 (legacy fallback)
+  const parseSurveyorInfo = (entry) => {
+    if (!Array.isArray(entry)) return null;
+
+    for (const idx of [18, 16]) {
+      const raw = entry[idx];
+      if (!raw) continue;
+
+      if (typeof raw === "object" && (raw.id || raw.time || raw.name)) {
+        return raw;
+      }
+
+      if (typeof raw === "string" && raw.trim().startsWith("{")) {
+        try {
+          const parsed = JSON.parse(raw);
+          if (parsed && (parsed.id || parsed.time || parsed.name)) {
+            return parsed;
+          }
+        } catch {
+          // Ignore malformed JSON and check next fallback index
+        }
       }
     }
     return null;
@@ -33,10 +48,13 @@ const SurvayorReport = () => {
 
   // Helper to get surveyor name
   const getSurveyorName = (surveyorId) => {
-    const surveyor = surveyors.find((s) => s._id === surveyorId);
+    const surveyor = surveyors.find(
+      (s) => s._id === surveyorId || s.id === surveyorId,
+    );
     return surveyor ? surveyor.name : "Unknown Surveyor";
   };
 
+  // Fetch all surveyors
   const fetchStaffData = async () => {
     try {
       const res = await fetch(`${await apiPath()}/api/users`, {
@@ -50,9 +68,10 @@ const SurvayorReport = () => {
         throw new Error(`HTTP error! status: ${res.status}`);
       }
       const users = await res.json();
-      const surveyors = users.filter((user) => user.role === "surveyor");
-      console.log(surveyors);
-      setSurveyors(surveyors);
+      const surveyorList = (
+        Array.isArray(users) ? users : users?.data || []
+      ).filter((u) => u.role === "surveyor");
+      setSurveyors(surveyorList);
       setError(null);
     } catch (err) {
       console.error("Failed to fetch staff data:", err);
@@ -60,26 +79,125 @@ const SurvayorReport = () => {
     }
   };
 
-  const fetchCallRecords = async () => {
+  // Fetch all works / villages list for dropdown
+  const fetchWorksList = async () => {
     try {
-      const response = await fetch(`${await apiPath()}/api/sheet`);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+      const base = await apiPath();
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      };
+
+      let workList = [];
+      const res = await fetch(`${base}/api/work`, { method: "GET", headers });
+
+      if (res.ok) {
+        const result = await res.json();
+        workList = Array.isArray(result)
+          ? result
+          : result?.works || result?.data || [];
+      } else if (user?.id) {
+        // Fallback if /api/work is not exposed and only user-assigned work exists
+        const singleRes = await fetch(`${base}/api/work/${user.id}`, {
+          method: "GET",
+          headers,
+        });
+        if (singleRes.ok) {
+          const singleData = await singleRes.json();
+          if (singleData?.work) workList = [singleData.work];
+        }
       }
 
-      const result = await response.json();
-      setAllEntry(result.data);
-      console.log(result.data);
-      setError(null);
+      setWorks(workList);
+      return workList;
     } catch (err) {
-      console.error("Error fetching records:", err);
-      setError("Error fetching call records. Please try again later.");
+      console.error("Failed to fetch works list:", err);
+      return [];
     }
   };
 
-  // Core logic to generate the report
+  // Fetch entries for All Work or Specific Work (workId)
+  const fetchSheetRecords = useCallback(
+    async (workIdParam, availableWorks = works) => {
+      setLoading(true);
+      try {
+        const base = await apiPath();
+
+        if (workIdParam && workIdParam !== "all") {
+          const response = await fetch(
+            `${base}/api/sheet?workId=${workIdParam}`,
+          );
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          const result = await response.json();
+          const matchedWork = availableWorks.find((w) => w._id === workIdParam);
+          const gaamName = matchedWork?.spot?.gaam || "";
+
+          const taggedEntries = (result.data || []).map((row) => {
+            const copy = [...row];
+            copy._workId = workIdParam;
+            copy._gaam = gaamName;
+            return copy;
+          });
+
+          setAllEntry(taggedEntries);
+          setError(null);
+          return;
+        }
+
+        // Case: "all" works selected
+        // Try fetching aggregated /api/sheet first; if empty/unsupported, fetch per workId
+        let combinedEntries = [];
+        try {
+          const response = await fetch(`${base}/api/sheet`);
+          if (response.ok) {
+            const result = await response.json();
+            if (Array.isArray(result.data) && result.data.length > 0) {
+              combinedEntries = result.data;
+            }
+          }
+        } catch {
+          // Fallback to per-work fetch below
+        }
+
+        if (combinedEntries.length === 0 && availableWorks.length > 0) {
+          const allResponses = await Promise.all(
+            availableWorks.map(async (work) => {
+              try {
+                const res = await fetch(`${base}/api/sheet?workId=${work._id}`);
+                if (!res.ok) return [];
+                const json = await res.json();
+                const gaamName = work?.spot?.gaam || "";
+                return (json.data || []).map((row) => {
+                  const copy = [...row];
+                  copy._workId = work._id;
+                  copy._gaam = gaamName;
+                  return copy;
+                });
+              } catch {
+                return [];
+              }
+            }),
+          );
+          combinedEntries = allResponses.flat();
+        }
+
+        setAllEntry(combinedEntries);
+        setError(null);
+      } catch (err) {
+        console.error("Error fetching records:", err);
+        setError("Error fetching survey records. Please try again later.");
+        setAllEntry([]);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [works],
+  );
+
+  // Core logic to generate the report for Date Range + Work filter
   const generateReport = useCallback(() => {
-    // Clear individual report when generating the main report
     setSelectedSurveyor(null);
     setIndividualReportData([]);
 
@@ -88,27 +206,31 @@ const SurvayorReport = () => {
       return;
     }
 
-    const targetDate = dayjs(selectedDate).format("YYYY-MM-DD");
-
-    // 1. Filter entries by selected date (assuming date/time is at index 15)
+    // 1. Filter entries by Start Date to End Date (inclusive)
     const filteredEntries = allEntry.filter((entry) => {
-      const entryDateString = JSON.parse(entry[16])?.time || ""; // Hypothetical date/timestamp index
+      const surveyorInfo = parseSurveyorInfo(entry);
+      const entryDateString = surveyorInfo?.time || "";
       if (!entryDateString) return false;
 
-      const entryDate = dayjs(entryDateString).format("YYYY-MM-DD") || "";
+      const parsedDate = dayjs(entryDateString);
+      if (!parsedDate.isValid()) return false;
 
-      return entryDate === targetDate;
+      const entryDate = parsedDate.format("YYYY-MM-DD");
+      const isAfterStart = !startDate || entryDate >= startDate;
+      const isBeforeEnd = !endDate || entryDate <= endDate;
+
+      return isAfterStart && isBeforeEnd;
     });
 
     // 2. Group and count by Surveyor ID
     const counts = {};
-    const detailedData = {}; // Stores actual entries
+    const detailedData = {};
 
     filteredEntries.forEach((entry) => {
-      const surveyorId = extractSurveyorId(entry);
+      const surveyorInfo = parseSurveyorInfo(entry);
+      const surveyorId = surveyorInfo?.id;
 
       if (surveyorId) {
-        // *** FIX: Corrected typo from 'surveyId' to 'surveyorId' ***
         counts[surveyorId] = (counts[surveyorId] || 0) + 1;
         if (!detailedData[surveyorId]) {
           detailedData[surveyorId] = [];
@@ -117,24 +239,25 @@ const SurvayorReport = () => {
       }
     });
 
-    console.log("Counts by Surveyor ID:", counts);
-
-    // 3. Create the final report data structure
+    // 3. Create final report sorted by highest entries first
     const finalReport = surveyors.map((surveyor) => {
-      console.log("Processing surveyor:", surveyor);
+      const sid = surveyor._id || surveyor.id;
+      const entries = (detailedData[sid] || []).sort((a, b) => {
+        const tA = dayjs(parseSurveyorInfo(a)?.time || 0).valueOf();
+        const tB = dayjs(parseSurveyorInfo(b)?.time || 0).valueOf();
+        return tA - tB;
+      });
 
       return {
-        id: surveyor._id, // Matching internal state key to surveyor list ID
+        id: sid,
         name: surveyor.name,
-        entryCount: counts[surveyor._id] || 0,
-        entries: detailedData[surveyor._id] || [], // Store entries for quick detail retrieval
+        entryCount: counts[sid] || 0,
+        entries,
       };
     });
 
-    console.log("Generated Report Data:", finalReport);
-
     setReportData(finalReport);
-  }, [selectedDate, allEntry, surveyors]);
+  }, [startDate, endDate, allEntry, surveyors]);
 
   // Handle viewing the detailed report for a specific surveyor
   const viewDetails = (surveyorId) => {
@@ -143,7 +266,6 @@ const SurvayorReport = () => {
     if (surveyorReport) {
       setIndividualReportData(surveyorReport.entries);
     }
-    // Scroll to the detail section
     setTimeout(() => {
       const detailSection = document.getElementById("detail-report");
       if (detailSection) {
@@ -154,94 +276,191 @@ const SurvayorReport = () => {
 
   // Initial Data Fetch
   useEffect(() => {
-    const fetchData = async () => {
+    const init = async () => {
       setLoading(true);
-      // Use mock functions
       await fetchStaffData();
-      await fetchCallRecords();
+      const loadedWorks = await fetchWorksList();
+      await fetchSheetRecords("all", loadedWorks);
       setLoading(false);
     };
-    fetchData();
+    init();
   }, []);
 
-  // Generate Report whenever date or raw data changes
+  // Re-fetch when Work / Gaam changes
+  const handleWorkChange = async (e) => {
+    const newWorkId = e.target.value;
+    setSelectedWorkId(newWorkId);
+    await fetchSheetRecords(newWorkId, works);
+  };
+
+  // Generate Report whenever date range or raw data changes
   useEffect(() => {
     generateReport();
-  }, [selectedDate, generateReport]);
+  }, [startDate, endDate, generateReport]);
 
-  // Helper for date navigation (not strictly necessary but cleans up JSX)
-  const navigateDate = (direction) => {
-    const newDate = dayjs(selectedDate)
-      .add(direction, "day")
-      .format("YYYY-MM-DD");
-    setSelectedDate(newDate);
+  // Quick Date Range Presets
+  const applyPreset = (preset) => {
+    const today = dayjs();
+    if (preset === "today") {
+      const d = today.format("YYYY-MM-DD");
+      setStartDate(d);
+      setEndDate(d);
+    } else if (preset === "yesterday") {
+      const y = today.subtract(1, "day").format("YYYY-MM-DD");
+      setStartDate(y);
+      setEndDate(y);
+    } else if (preset === "last7") {
+      setStartDate(today.subtract(6, "day").format("YYYY-MM-DD"));
+      setEndDate(today.format("YYYY-MM-DD"));
+    } else if (preset === "thisMonth") {
+      setStartDate(today.startOf("month").format("YYYY-MM-DD"));
+      setEndDate(today.format("YYYY-MM-DD"));
+    }
   };
 
-  // --- JSX Rendering ---
+  const totalEntriesCount = reportData.reduce(
+    (sum, item) => sum + item.entryCount,
+    0,
+  );
 
-  // Hypothetical mapping of array indices to the table headers (0 to 8 after index/date)
-  const DETAIL_MAPPING = {
-    village: 0,
-    day: 1,
-    startHouse: 2,
-    endHouse: 3,
-    totalHouses: 4,
-    remarks: 5,
-    expense: 6,
-    taluka: 7,
-    district: 8,
-  };
+  const selectedWorkObj = works.find((w) => w._id === selectedWorkId);
+  const selectedWorkLabel =
+    selectedWorkId === "all"
+      ? "All Work (બધા ગામ)"
+      : selectedWorkObj?.spot?.gaam || "Selected Work";
+
+  const formattedRangeLabel =
+    startDate === endDate
+      ? dayjs(startDate).format("DD MMMM, YYYY")
+      : `${dayjs(startDate).format("DD MMM, YYYY")} — ${dayjs(endDate).format("DD MMM, YYYY")}`;
 
   return (
     <div className="min-h-screen font-sans antialiased bg-gray-50 p-4 sm:p-8">
       <div className="container mx-auto max-w-7xl">
-        <div className="space-y-8">
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-800 mb-2 border-b-2 border-purple-500 pb-2">
-            Surveyor Work Status Report
-          </h1>
-          <p className="text-gray-500">
-            View the daily data report for all Surveyors. Current Date:{" "}
-            <span className="font-bold text-purple-600">
-              {dayjs(selectedDate).format("DD MMMM, YYYY")}
-            </span>
-          </p>
+        <div className="space-y-6">
+          <div>
+            <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-800 mb-2 border-b-2 border-purple-500 pb-2">
+              Surveyor Work Status Report
+            </h1>
+            <p className="text-gray-600">
+              Work:{" "}
+              <span className="font-bold text-purple-700">
+                {selectedWorkLabel}
+              </span>{" "}
+              | Period:{" "}
+              <span className="font-bold text-purple-600">
+                {formattedRangeLabel}
+              </span>{" "}
+              | Total Entries:{" "}
+              <span className="font-bold text-green-600">
+                {totalEntriesCount}
+              </span>
+            </p>
+          </div>
 
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 bg-white rounded-xl shadow-lg border border-gray-100">
-            <div className="flex items-center gap-4 w-full sm:w-auto">
-              <label
-                htmlFor="report-date"
-                className="font-semibold text-gray-700"
-              >
-                Select Date:
-              </label>
+          {/* --- FILTER BAR: WORK SELECTOR + DATE RANGE --- */}
+          <div className="flex flex-col gap-4 p-4 bg-white rounded-xl shadow-lg border border-gray-100">
+            <div className="flex flex-wrap items-end justify-between gap-4">
+              {/* Work / Gaam Dropdown */}
+              <div className="flex flex-col w-full sm:w-64">
+                <label
+                  htmlFor="work-select"
+                  className="font-semibold text-sm text-gray-700 mb-1"
+                >
+                  Select Work / ગામ:
+                </label>
+                <select
+                  id="work-select"
+                  value={selectedWorkId}
+                  onChange={handleWorkChange}
+                  className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 bg-white text-gray-800"
+                >
+                  <option value="all">All Work (બધા ગામ)</option>
+                  {works.map((work) => (
+                    <option key={work._id} value={work._id}>
+                      {work?.spot?.gaam || work?.name || work._id}
+                      {work?.spot?.taluka ? ` (${work.spot.taluka})` : ""}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-              {/* Decrement Button */}
-              <button
-                type="button"
-                onClick={() => navigateDate(-1)}
-                className="px-3 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition shadow-md hover:shadow-lg focus:ring-2 focus:ring-red-400"
-                aria-label="Previous Day"
-              >
-                &lt;
-              </button>
+              {/* Start Date & End Date Inputs */}
+              <div className="flex flex-wrap items-end gap-4">
+                <div className="flex flex-col">
+                  <label
+                    htmlFor="start-date"
+                    className="font-semibold text-sm text-gray-700 mb-1"
+                  >
+                    Start Date:
+                  </label>
+                  <input
+                    type="date"
+                    id="start-date"
+                    value={startDate}
+                    max={endDate || undefined}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setStartDate(val);
+                      if (endDate && val > endDate) setEndDate(val);
+                    }}
+                    className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-inner w-40"
+                  />
+                </div>
 
-              <input
-                type="date"
-                id="report-date"
-                value={selectedDate}
-                onChange={(e) => setSelectedDate(e.target.value)}
-                className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition duration-200 shadow-inner w-40"
-              />
+                <div className="flex flex-col">
+                  <label
+                    htmlFor="end-date"
+                    className="font-semibold text-sm text-gray-700 mb-1"
+                  >
+                    End Date:
+                  </label>
+                  <input
+                    type="date"
+                    id="end-date"
+                    value={endDate}
+                    min={startDate || undefined}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setEndDate(val);
+                      if (startDate && val < startDate) setStartDate(val);
+                    }}
+                    className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-inner w-40"
+                  />
+                </div>
+              </div>
 
-              {/* Increment Button */}
-              <button
-                type="button"
-                onClick={() => navigateDate(1)}
-                className="px-3 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition shadow-md hover:shadow-lg focus:ring-2 focus:ring-green-400"
-                aria-label="Next Day"
-              >
-                &gt;
-              </button>
+              {/* Quick Date Range Presets */}
+              <div className="flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => applyPreset("today")}
+                  className="px-3 py-1.5 text-xs font-semibold bg-purple-100 text-purple-700 rounded-lg hover:bg-purple-200 transition"
+                >
+                  Today
+                </button>
+                <button
+                  type="button"
+                  onClick={() => applyPreset("yesterday")}
+                  className="px-3 py-1.5 text-xs font-semibold bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition"
+                >
+                  Yesterday
+                </button>
+                <button
+                  type="button"
+                  onClick={() => applyPreset("last7")}
+                  className="px-3 py-1.5 text-xs font-semibold bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition"
+                >
+                  Last 7 Days
+                </button>
+                <button
+                  type="button"
+                  onClick={() => applyPreset("thisMonth")}
+                  className="px-3 py-1.5 text-xs font-semibold bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition"
+                >
+                  This Month
+                </button>
+              </div>
             </div>
           </div>
 
@@ -265,10 +484,13 @@ const SurvayorReport = () => {
                         scope="col"
                         className="py-3 px-4 rounded-tl-xl text-purple-700"
                       >
-                        Surveyor
+                        ક્રમ
                       </th>
                       <th scope="col" className="py-3 px-4 text-purple-700">
-                        Total Survay (Entries)
+                        Surveyor Name
+                      </th>
+                      <th scope="col" className="py-3 px-4 text-purple-700">
+                        Total Survey (Entries)
                       </th>
                       <th
                         scope="col"
@@ -280,11 +502,12 @@ const SurvayorReport = () => {
                   </thead>
                   <tbody>
                     {reportData.length > 0 ? (
-                      reportData.map((surveyor) => (
+                      reportData.map((surveyor, idx) => (
                         <tr
                           key={surveyor.id}
                           className="bg-white border-b hover:bg-purple-50/50 transition-colors duration-200"
                         >
+                          <td className="py-3 px-4 text-gray-600">{idx + 1}</td>
                           <td className="py-3 px-4 font-semibold text-gray-900">
                             {surveyor.name}
                           </td>
@@ -303,8 +526,7 @@ const SurvayorReport = () => {
                             {surveyor.entryCount > 0 ? (
                               <button
                                 onClick={() => viewDetails(surveyor.id)}
-                                className="text-purple-600 hover:text-purple-800 font-semibold focus:outline-none transition-colors duration-200 disabled:opacity-50"
-                                disabled={surveyor.entryCount === 0}
+                                className="text-purple-600 hover:text-purple-800 font-semibold focus:outline-none transition-colors duration-200"
                               >
                                 View Details
                               </button>
@@ -317,10 +539,10 @@ const SurvayorReport = () => {
                     ) : (
                       <tr>
                         <td
-                          colSpan="3"
+                          colSpan="4"
                           className="py-4 text-center text-gray-500"
                         >
-                          No surveyors or data found for this date.
+                          No surveyors or data found for this selection.
                         </td>
                       </tr>
                     )}
@@ -335,63 +557,46 @@ const SurvayorReport = () => {
                   className="bg-white rounded-2xl shadow-xl p-6 border border-gray-200"
                 >
                   <h2 className="text-2xl font-bold text-gray-800 mb-4 border-b pb-2">
-                    Daily Work Report for{" "}
+                    Survey Work Report for{" "}
                     <span className="text-purple-600">
                       {getSurveyorName(selectedSurveyor)}
                     </span>{" "}
-                    on {dayjs(selectedDate).format("DD MMMM, YYYY")}
+                    ({formattedRangeLabel})
                   </h2>
                   <div className="overflow-x-auto rounded-lg border border-gray-200">
                     <table className="min-w-full text-sm text-left text-gray-500">
                       <thead className="text-xs text-gray-700 uppercase bg-gray-200">
                         <tr>
-                          <th
-                            scope="col"
-                            className="py-3 px-3 rounded-tl-lg"
-                            style={{ width: "60px" }}
-                          >
+                          <th scope="col" className="py-3 px-3 rounded-tl-lg">
                             ક્રમ (Sr. No.)
                           </th>
-                          <th
-                            scope="col"
-                            className="py-3 px-3"
-                            style={{ width: "100px" }}
-                          >
-                            તારીખ કામની (Date)
+                          <th scope="col" className="py-3 px-3">
+                            તારીખ અને સમય (Date & Time)
                           </th>
                           <th scope="col" className="py-3 px-3">
-                            ગામ સર્વે કરેલ (Village)
+                            ગામ (Gaam)
                           </th>
                           <th scope="col" className="py-3 px-3">
-                            દિવસ (Day)
+                            મિલ્કત નં. (Prop. No.)
                           </th>
                           <th scope="col" className="py-3 px-3">
-                            શરૂ કરેલ સર્વેઘર નં. (Start H.)
+                            વિસ્તાર (Area)
                           </th>
                           <th scope="col" className="py-3 px-3">
-                            પુર્ણ કરેલ સર્વેઘર નં. (End H.)
+                            માલિકનું નામ (Owner Name)
                           </th>
                           <th scope="col" className="py-3 px-3">
-                            કુલ ઘર (Total)
-                          </th>
-                          <th scope="col" className="py-3 px-3">
-                            નોંધ / રીમાર્કસ (Remarks)
-                          </th>
-                          <th scope="col" className="py-3 px-3">
-                            પરચુરણ ખર્ચ (Misc. Exp.)
-                          </th>
-                          <th scope="col" className="py-3 px-3">
-                            તાલુકો (Taluka)
+                            કેટેગરી (Category)
                           </th>
                           <th scope="col" className="py-3 px-3 rounded-tr-lg">
-                            જીલ્લો (District)
+                            નોંધ / રીમાર્કસ (Remarks)
                           </th>
                         </tr>
                       </thead>
                       <tbody>
                         {individualReportData.length > 0 ? (
                           individualReportData.map((entryData, index) => {
-                            // Using the hypothetical DETAIL_MAPPING indices
+                            const sInfo = parseSurveyorInfo(entryData);
                             return (
                               <tr
                                 key={index}
@@ -400,36 +605,32 @@ const SurvayorReport = () => {
                                 <td className="py-3 px-3 text-center">
                                   {index + 1}
                                 </td>
-                                {/* Index 15 is used for the date/timestamp */}
-                                <td className="py-3 px-3">
-                                  {dayjs(entryData[15]).format("HH:mm A")}
+                                <td className="py-3 px-3 whitespace-nowrap">
+                                  {sInfo?.time
+                                    ? dayjs(sInfo.time).format(
+                                        "DD/MM/YYYY hh:mm A",
+                                      )
+                                    : "-"}
                                 </td>
-                                <td className="py-3 px-3 capitalize font-medium text-gray-900">
-                                  {entryData[DETAIL_MAPPING.village]}
+                                <td className="py-3 px-3 font-medium text-gray-900">
+                                  {entryData._gaam ||
+                                    selectedWorkObj?.spot?.gaam ||
+                                    "-"}
                                 </td>
-                                <td className="py-3 px-3">
-                                  {entryData[DETAIL_MAPPING.day]}
-                                </td>
-                                <td className="py-3 px-3">
-                                  {entryData[DETAIL_MAPPING.startHouse]}
-                                </td>
-                                <td className="py-3 px-3">
-                                  {entryData[DETAIL_MAPPING.endHouse]}
-                                </td>
-                                <td className="py-3 px-3 font-bold text-green-700">
-                                  {entryData[DETAIL_MAPPING.totalHouses]}
+                                <td className="py-3 px-3 font-semibold text-gray-800">
+                                  {entryData[2] || entryData[0] || "-"}
                                 </td>
                                 <td className="py-3 px-3">
-                                  {entryData[DETAIL_MAPPING.remarks]}
+                                  {entryData[1] || "-"}
+                                </td>
+                                <td className="py-3 px-3 font-medium text-gray-900">
+                                  {entryData[3] || "-"}
                                 </td>
                                 <td className="py-3 px-3">
-                                  {entryData[DETAIL_MAPPING.expense]}
+                                  {entryData[8] || "-"}
                                 </td>
                                 <td className="py-3 px-3">
-                                  {entryData[DETAIL_MAPPING.taluka]}
-                                </td>
-                                <td className="py-3 px-3">
-                                  {entryData[DETAIL_MAPPING.district]}
+                                  {entryData[14] || "-"}
                                 </td>
                               </tr>
                             );
@@ -437,11 +638,11 @@ const SurvayorReport = () => {
                         ) : (
                           <tr>
                             <td
-                              colSpan="11"
+                              colSpan="8"
                               className="py-4 text-center text-gray-500"
                             >
-                              No survey entries found for this surveyor on{" "}
-                              {dayjs(selectedDate).format("DD MMMM, YYYY")}.
+                              No survey entries found for this surveyor in{" "}
+                              {formattedRangeLabel}.
                             </td>
                           </tr>
                         )}
