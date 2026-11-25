@@ -93,7 +93,7 @@ const OrderValuationForm = () => {
       tax: 0,
     },
     {
-      name: "માલ ઢોર નું ઢાળીયુ પતરા નું ત્થા વાહન રાખવાની જગ્‍યા",
+      name: "માલ ઢોર નું ઢાળીયુ પતરા નું ત્થા વાહન રાખવાની જગ્યા",
       price: 0,
       per: 0,
       tax: 0,
@@ -195,7 +195,7 @@ const OrderValuationForm = () => {
       tax: 0,
     },
     {
-      name: "હોટલ, રેસ્‍ટોરેન્‍ટ, લોજ હાઇવે પર",
+      name: "હોટલ, રેસ્ટોરેન્ટ, લોજ હાઇવે પર",
       price: 0,
       per: 0,
       tax: 0,
@@ -213,19 +213,19 @@ const OrderValuationForm = () => {
       tax: 0,
     },
     {
-      name: "કારખાના, ફેકટરી, કંપ્‍ની, ઇન્‍ડસ્‍ટીજ",
+      name: "કારખાના, ફેકટરી, કંપ્ની, ઇન્ડસ્ટીજ",
       price: 0,
       per: 0,
       tax: 0,
     },
     {
-      name: "કોલ્‍ડ સ્‍ટોરેજ",
+      name: "કોલ્ડ સ્ટોરેજ",
       price: 0,
       per: 0,
       tax: 0,
     },
     {
-      name: "લાતી / બેન્‍સો લાકડાનો",
+      name: "લાતી / બેન્સો લાકડાનો",
       price: 0,
       per: 0,
       tax: 0,
@@ -434,12 +434,15 @@ const OrderValuationForm = () => {
     });
   };
 
+  const inputClass =
+    "w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all";
+
   return (
-    <div className="min-h-screen font-sans">
+    <div className="min-h-screen font-sans pb-28 px-3 sm:px-6 lg:px-8 py-4">
       <div className="rounded-xl">
         {/* Title */}
         <header className="mb-8 text-center">
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-2">
+          <h1 className="text-2xl sm:text-4xl font-extrabold text-gray-900 mb-2">
             Order Valuation FORM <br />
             પત્રક - 1 ઑર્ડર વેલ્યુએશન ફોર્મ <br />
             (ભાગ - 1)
@@ -544,7 +547,7 @@ const OrderValuationForm = () => {
         </section>
 
         {/* Input Fields Section */}
-        <section className="bg-white p-6 rounded-lg shadow-inner mb-8 border border-gray-200">
+        <section className="bg-white p-4 sm:p-6 rounded-lg shadow-inner mb-8 border border-gray-200">
           <h2 className="text-xl font-bold text-gray-800 mb-4">
             સામાન્ય વિગતો
           </h2>
@@ -685,7 +688,6 @@ const OrderValuationForm = () => {
               />
             </div>
 
-            {/* Other details fields can be added here in a similar fashion */}
             <div className="flex flex-col">
               <label
                 htmlFor="gaam"
@@ -702,6 +704,7 @@ const OrderValuationForm = () => {
                 className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
               />
             </div>
+
             <div className="flex flex-col">
               <label
                 htmlFor="taluka"
@@ -790,6 +793,7 @@ const OrderValuationForm = () => {
                 className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
               />
             </div>
+
             <div className="flex flex-col">
               <label
                 htmlFor="akaraniYear"
@@ -806,6 +810,7 @@ const OrderValuationForm = () => {
                 className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
               />
             </div>
+
             <div className="flex flex-col">
               <label
                 htmlFor="taxYear"
@@ -822,6 +827,7 @@ const OrderValuationForm = () => {
                 className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
               />
             </div>
+
             <div className="flex flex-col">
               <label
                 htmlFor="sarpanchName"
@@ -838,6 +844,7 @@ const OrderValuationForm = () => {
                 className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
               />
             </div>
+
             <div className="flex flex-col">
               <label
                 htmlFor="sarpanchNumber"
@@ -939,6 +946,7 @@ const OrderValuationForm = () => {
                 className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
               />
             </div>
+
             <div className="flex flex-col">
               <label
                 htmlFor="assistantNumber"
@@ -979,8 +987,8 @@ const OrderValuationForm = () => {
             <label className="text-sm font-medium text-gray-700 mb-2">
               19. Valuation Type
             </label>
-            <div className="flex gap-6">
-              <label className="flex items-center gap-2">
+            <div className="flex flex-wrap gap-6">
+              <label className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="radio"
                   name="valuationType"
@@ -991,7 +999,7 @@ const OrderValuationForm = () => {
                 />
                 <span>રૂમ દિઠ વેરો મુકવો</span>
               </label>
-              <label className="flex items-center gap-2">
+              <label className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="radio"
                   name="valuationType"
@@ -1072,17 +1080,14 @@ const OrderValuationForm = () => {
                   className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   required
                 />
-                {/* <span className="text-xs text-gray-500 mt-1">
-                  દા.ત. કિંમત ₹1,00,000 અને 0.5% = ₹500 ઘર વેરો આપમેળે ગણાશે.
-                </span> */}
               </div>
             )}
           </div>
         </section>
 
-        {/* Valuation Table Section */}
+        {/* Valuation Table Section & Part 2 Form */}
         <form onSubmit={handleSave}>
-          <div className="overflow-x-auto rounded-lg shadow-md mb-6">
+          <div className="overflow-x-auto rounded-lg shadow-md mb-8 bg-white border border-gray-200">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-blue-600 text-white">
                 <tr>
@@ -1229,650 +1234,743 @@ const OrderValuationForm = () => {
               </tbody>
             </table>
 
-            <button
-              type="button"
-              onClick={handleAddRow}
-              className="px-6 py-3 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-full shadow-md transition-all duration-200 flex items-center gap-2"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                viewBox="0 0 20 20"
-                fill="currentColor"
+            <div className="p-4">
+              <button
+                type="button"
+                onClick={handleAddRow}
+                className="px-6 py-2.5 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-full shadow-md transition-all duration-200 flex items-center gap-2"
               >
-                <path
-                  fillRule="evenodd"
-                  d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <span>ઉમેરો</span>
-            </button>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                <span>ઉમેરો</span>
+              </button>
+            </div>
           </div>
 
-          <section className="bg-white p-6 rounded-lg shadow-inner mb-8 border border-gray-200">
-            <h2 className="text-xl font-bold text-gray-800 mb-4">
-              Order Valuation FORM <br />
-              પત્રક - 2 ઑર્ડર વેલ્યુએશન ફોર્મ <br />
-              (ભાગ - 2)
-            </h2>
+          {/* ================= PART 2 SECTION (REARRANGED & RESPONSIVE) ================= */}
+          <section className="bg-white p-4 sm:p-6 lg:p-8 rounded-xl shadow-sm mb-8 border border-gray-200 space-y-6">
+            {/* Section Header */}
+            <div className="border-b border-gray-200 pb-4">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 leading-snug">
+                Order Valuation FORM — પત્રક - 2 ઑર્ડર વેલ્યુએશન ફોર્મ (ભાગ - 2)
+              </h2>
+            </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-              {/* Gram Panchayat Meeting */}
-              <div className="flex flex-col">
-                <label
-                  htmlFor="meetingDate"
-                  className="text-sm font-medium text-gray-700 mb-1"
-                >
-                  1. સામાન્ય બેઠકની તારીખ ગ્રામ પંચાયતની
-                </label>
-                <input
-                  type="date"
-                  id="meetingDate"
-                  name="meetingDate"
-                  value={details.meetingDate}
-                  onChange={handleChangeDetails}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-
-              <div className="flex flex-col">
-                <label
-                  htmlFor="meetingNumber"
-                  className="text-sm font-medium text-gray-700 mb-1"
-                >
-                  2. સામાન્ય બેઠક નંબર ગ્રામ પંચાયતની
-                </label>
-                <input
-                  type="text"
-                  id="meetingNumber"
-                  name="meetingNumber"
-                  value={details.meetingNumber}
-                  onChange={handleChangeDetails}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-
-              <div className="flex flex-col">
-                <label
-                  htmlFor="agendaNumber"
-                  className="text-sm font-medium text-gray-700 mb-1"
-                >
-                  3. મુદ્દા નં. સામાન્ય બેઠકના ગ્રામ પંચાયતનો
-                </label>
-                <input
-                  type="text"
-                  id="agendaNumber"
-                  name="agendaNumber"
-                  value={details.agendaNumber}
-                  onChange={handleChangeDetails}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-
-              <div className="flex flex-col">
+            {/* 1. Resolution Number (Extension) */}
+            <div className="bg-blue-50/70 border border-blue-200 rounded-xl p-4 sm:p-5">
+              <div className="max-w-xl flex flex-col">
                 <label
                   htmlFor="resolutionNumber"
-                  className="text-sm font-medium text-gray-700 mb-1"
+                  className="text-sm sm:text-base font-bold text-gray-800 mb-2"
                 >
-                  <b>4. ઠરાવ નં. સામાન્ય બેઠકના ગ્રામ પંચાયતનો (Extension) *</b>
+                  4. ઠરાવ નં. સામાન્ય બેઠકના ગ્રામ પંચાયતનો (Extension){" "}
+                  <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
                   id="resolutionNumber"
                   name="resolutionNumber"
-                  value={details.resolutionNumber}
+                  value={details.resolutionNumber || ""}
                   onChange={handleChangeDetails}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                  placeholder="ઠરાવ નંબર દાખલ કરો..."
+                  className={inputClass}
                   required
                 />
               </div>
+            </div>
 
-              {/* Aakarani Survey Work */}
-              <div className="flex flex-col">
-                <label
-                  htmlFor="surveyHouseRate"
-                  className="text-sm font-medium text-gray-700 mb-1"
-                >
-                  5. 1-ઘર દિઠ રૂપિયા આકારણી સર્વે કામના
-                </label>
-                <input
-                  type="number"
-                  id="surveyHouseRate"
-                  name="surveyHouseRate"
-                  value={details.surveyHouseRate}
-                  onInput={(e) => {
-                    setDetails((prev) => ({
-                      ...prev,
-                      approvedAmountWords: numberToGujaratiWords(
-                        e.target.value,
-                      ),
-                    }));
+            {/* 7B. વિસ્તારની વિગત */}
+            <div className="bg-gray-50/80 border border-gray-200 rounded-xl p-4 sm:p-5">
+              <h3 className="text-base sm:text-lg font-bold text-gray-800 mb-4 pb-2 border-b border-gray-200">
+                વિસ્તારની વિગત ::-
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="flex flex-col">
+                  <label
+                    htmlFor="startArea"
+                    className="text-sm font-medium text-gray-700 mb-1.5"
+                  >
+                    7. પહેલા વિસ્તાર/શેરી મહોલ્લો કયા થી શરૂ કરવો :-
+                  </label>
+                  <input
+                    type="text"
+                    id="startArea"
+                    name="startArea"
+                    value={details.startArea || ""}
+                    onChange={handleChangeDetails}
+                    className={inputClass}
+                  />
+                </div>
 
-                    handleChangeDetails(e);
-                  }}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-
-              <div className="flex flex-col">
-                <label
-                  htmlFor="approvedAmountWords"
-                  className="text-sm font-medium text-gray-700 mb-1"
-                >
-                  6. શબ્દોમાં અંકે રૂપીયા ભાવ મંજુર કરેલ છે
-                </label>
-                <input
-                  type="text"
-                  id="approvedAmountWords"
-                  name="approvedAmountWords"
-                  value={details.approvedAmountWords}
-                  onChange={handleChangeDetails}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-
-              {/* Area Details */}
-              <div className="flex flex-col">
-                <h3>વિસ્તારની વિગત ::-</h3>
-
-                <label
-                  htmlFor="startArea"
-                  className="text-sm font-medium text-gray-700 mb-1"
-                >
-                  7. પહેલા વિસ્તાર/શેરી મહોલ્લો કયા થી શરૂ કરવો :-
-                </label>
-                <input
-                  type="text"
-                  id="startArea"
-                  name="startArea"
-                  value={details.startArea}
-                  onChange={handleChangeDetails}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-
-              <div className="flex flex-col">
-                <label
-                  htmlFor="firstPropertyOwner"
-                  className="text-sm font-medium text-gray-700 mb-1"
-                >
-                  8. આકારણી સર્વે કામ પહેલી મિલ્કત/ઘર કોની લખવી : -
-                </label>
-                <input
-                  type="text"
-                  id="firstPropertyOwner"
-                  name="firstPropertyOwner"
-                  value={details.firstPropertyOwner}
-                  onChange={handleChangeDetails}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-
-              <br />
-
-              <div className="flex flex-col">
-                <h2>પ્રસિધ્ધ આકારણી :-</h2>
-                <label
-                  htmlFor="meetingNumber2"
-                  className="text-sm font-medium text-gray-700 mb-1"
-                >
-                  i. બેઠક નંબર
-                </label>
-                <input
-                  type="text"
-                  id="meetingNumber2"
-                  name="meetingNumber2"
-                  value={details?.meetingNumber2 || ""}
-                  onChange={handleChangeDetails}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-
-              <div className="flex flex-col">
-                <label
-                  htmlFor="resolutionNumber2"
-                  className="text-sm font-medium text-gray-700 mb-1"
-                >
-                  ii. ઠરાવ નંબર
-                </label>
-                <input
-                  type="text"
-                  id="resolutionNumber2"
-                  name="resolutionNumber2"
-                  value={details?.resolutionNumber2 || ""}
-                  onChange={handleChangeDetails}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-
-              <div className="flex flex-col">
-                <label
-                  htmlFor="date2"
-                  className="text-sm font-medium text-gray-700 mb-1"
-                >
-                  iii. તારીખ
-                </label>
-                <input
-                  type="date"
-                  id="date2"
-                  name="date2"
-                  value={details?.date2 || ""}
-                  onChange={handleChangeDetails}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-
-              <br />
-
-              <div className="flex flex-col">
-                <label
-                  htmlFor="certificateDate"
-                  className="text-sm font-medium text-gray-700 mb-1"
-                >
-                  - પ્રમાણપત્ર તારીખ
-                </label>
-                <input
-                  type="date"
-                  id="certificateDate"
-                  name="certificateDate"
-                  value={details?.certificateDate || ""}
-                  onChange={handleChangeDetails}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-
-              {/* Water Details */}
-
-              <div className="flex flex-col">
-                <h3>પાણી ની વિગત ::-</h3>
-
-                <label
-                  htmlFor="generalWaterTaxApplicable"
-                  className="text-sm font-medium text-gray-700 mb-1"
-                >
-                  9. જે મિલ્‍કત માં નળ હોય તેમા સામાન્‍ય પાણી વેરો લેવો કે નહી ?
-                </label>
-
-                <select
-                  id="generalWaterTaxApplicable"
-                  name="generalWaterTaxApplicable"
-                  value={details.generalWaterTaxApplicable}
-                  onChange={handleChangeDetails}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="">Select</option>
-                  <option value="yes">હા</option>
-                  <option value="no">ના</option>
-                </select>
-              </div>
-
-              <div className="flex flex-col">
-                <label
-                  htmlFor="specialAndGeneralWaterTax"
-                  className="text-sm font-medium text-gray-700 mb-1"
-                >
-                  10. ખાસ પાણી નળ વેરો ત્થા સા.પાણી વેરો બન્‍ને વેરા મુકવા કે
-                  ફકત એક જ વેરો લેવો.
-                </label>
-
-                <select
-                  id="specialAndGeneralWaterTax"
-                  name="specialAndGeneralWaterTax"
-                  value={details.specialAndGeneralWaterTax}
-                  onChange={handleChangeDetails}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="">Select</option>
-                  <option value="સામાન્ય પાણી વેરો">સામાન્ય પાણી વેરો</option>
-                  <option value="ખાસ પાણી નળ વેરો">ખાસ પાણી નળ વેરો</option>
-                  <option value="બંને વેરા લેવા">બંને વેરા લેવા</option>
-                </select>
+                <div className="flex flex-col">
+                  <label
+                    htmlFor="firstPropertyOwner"
+                    className="text-sm font-medium text-gray-700 mb-1.5"
+                  >
+                    8. આકારણી સર્વે કામ પહેલી મિલ્કત/ઘર કોની લખવી : -
+                  </label>
+                  <input
+                    type="text"
+                    id="firstPropertyOwner"
+                    name="firstPropertyOwner"
+                    value={details.firstPropertyOwner || ""}
+                    onChange={handleChangeDetails}
+                    className={inputClass}
+                  />
+                </div>
               </div>
             </div>
 
-            <br />
+            {/* 2. પાણી ની વિગત (9 & 10) */}
+            <div className="bg-gray-50/80 border border-gray-200 rounded-xl p-4 sm:p-5">
+              <h3 className="text-base sm:text-lg font-bold text-gray-800 mb-4 pb-2 border-b border-gray-200">
+                પાણી ની વિગત ::-
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="flex flex-col justify-between">
+                  <label
+                    htmlFor="generalWaterTaxApplicable"
+                    className="text-sm font-medium text-gray-700 mb-2"
+                  >
+                    9. જે મિલ્કત માં નળ હોય તેમા સામાન્ય પાણી વેરો લેવો કે નહી ?
+                  </label>
+                  <select
+                    id="generalWaterTaxApplicable"
+                    name="generalWaterTaxApplicable"
+                    value={details.generalWaterTaxApplicable || ""}
+                    onChange={handleChangeDetails}
+                    className={inputClass}
+                  >
+                    <option value="">Select</option>
+                    <option value="yes">હા</option>
+                    <option value="no">ના</option>
+                  </select>
+                </div>
 
+                <div className="flex flex-col justify-between">
+                  <label
+                    htmlFor="specialAndGeneralWaterTax"
+                    className="text-sm font-medium text-gray-700 mb-2"
+                  >
+                    10. ખાસ પાણી નળ વેરો ત્થા સા.પાણી વેરો બન્ને વેરા મુકવા કે
+                    ફકત એક જ વેરો લેવો.
+                  </label>
+                  <select
+                    id="specialAndGeneralWaterTax"
+                    name="specialAndGeneralWaterTax"
+                    value={details.specialAndGeneralWaterTax || ""}
+                    onChange={handleChangeDetails}
+                    className={inputClass}
+                  >
+                    <option value="">Select</option>
+                    <option value="સામાન્ય પાણી વેરો">સામાન્ય પાણી વેરો</option>
+                    <option value="ખાસ પાણી નળ વેરો">ખાસ પાણી નળ વેરો</option>
+                    <option value="બંને વેરા લેવા">બંને વેરા લેવા</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            {/* 3. Plot & Display Options (11) */}
             <div
-              className="flex gap-3 mb-4 mt-2"
+              className="bg-gray-50/80 border border-gray-200 rounded-xl p-4 sm:p-5"
               style={{ userSelect: "none" }}
             >
-              <h3>11. Plot : </h3>
+              <h3 className="text-base sm:text-lg font-bold text-gray-800 mb-3">
+                11. Plot :
+              </h3>
+              <div className="flex flex-wrap gap-3 sm:gap-4">
+                <label
+                  htmlFor="pvtplot"
+                  className="flex items-center gap-2.5 px-4 py-2.5 bg-white border border-gray-300 rounded-lg cursor-pointer hover:border-blue-400 transition-colors"
+                >
+                  <input
+                    type="checkbox"
+                    id="pvtplot"
+                    checked={Boolean(details.pvtplot)}
+                    onChange={(e) => {
+                      setDetails((prev) => ({
+                        ...prev,
+                        pvtplot: e.target.checked,
+                      }));
+                    }}
+                    className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
+                  />
+                  <span className="text-sm font-medium text-gray-700">
+                    Private Plot
+                  </span>
+                </label>
 
-              <label
-                htmlFor="pvtplot"
-                className="text-sm font-medium text-gray-700 mb-1"
-              >
-                Private Plot
-              </label>
+                <label
+                  htmlFor="govplot"
+                  className="flex items-center gap-2.5 px-4 py-2.5 bg-white border border-gray-300 rounded-lg cursor-pointer hover:border-blue-400 transition-colors"
+                >
+                  <input
+                    type="checkbox"
+                    id="govplot"
+                    checked={Boolean(details.govplot)}
+                    onChange={(e) => {
+                      setDetails((prev) => ({
+                        ...prev,
+                        govplot: e.target.checked,
+                      }));
+                    }}
+                    className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
+                  />
+                  <span className="text-sm font-medium text-gray-700">
+                    Government Plot
+                  </span>
+                </label>
 
-              <input
-                type="checkbox"
-                id="pvtplot"
-                value={details.pvtplot}
-                onChange={(e) => {
-                  setDetails((prev) => ({
-                    ...prev,
-                    pvtplot: e.target.checked,
-                  }));
-                }}
-                checked={details.pvtplot}
-              />
-
-              <label
-                htmlFor="govplot"
-                className="text-sm font-medium text-gray-700 mb-1"
-              >
-                Government Plot
-              </label>
-
-              <input
-                type="checkbox"
-                id="govplot"
-                value={details.govplot}
-                onChange={(e) => {
-                  setDetails((prev) => ({
-                    ...prev,
-                    govplot: e.target.checked,
-                  }));
-                }}
-                checked={details.govplot}
-              />
-
-              <label
-                htmlFor="isMobile"
-                className="text-sm font-medium text-gray-700 mb-1"
-              >
-                Show Mobile
-              </label>
-
-              <input
-                type="checkbox"
-                id="isMobile"
-                value={details.isMobile}
-                onChange={(e) => {
-                  setDetails((prev) => ({
-                    ...prev,
-                    isMobile: e.target.checked,
-                  }));
-                }}
-                checked={details.isMobile}
-              />
+                <label
+                  htmlFor="isMobile"
+                  className="flex items-center gap-2.5 px-4 py-2.5 bg-white border border-gray-300 rounded-lg cursor-pointer hover:border-blue-400 transition-colors"
+                >
+                  <input
+                    type="checkbox"
+                    id="isMobile"
+                    checked={Boolean(details.isMobile)}
+                    onChange={(e) => {
+                      setDetails((prev) => ({
+                        ...prev,
+                        isMobile: e.target.checked,
+                      }));
+                    }}
+                    className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
+                  />
+                  <span className="text-sm font-medium text-gray-700">
+                    Show Mobile
+                  </span>
+                </label>
+              </div>
             </div>
 
-            {/* Notes Section */}
-            <div className="flex flex-col col-span-3">
-              <label className="text-sm font-medium text-gray-700 mb-1">
-                12. નોધ (Notes)
-              </label>
-              <div className="flex gap-2">
+            {/* 4. Notes Section (12) */}
+            <div className="bg-gray-50/80 border border-gray-200 rounded-xl p-4 sm:p-5">
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                <label className="text-base sm:text-lg font-bold text-gray-800">
+                  12. નોધ (Notes)
+                </label>
+                {details?.notes?.length > 0 && (
+                  <button
+                    onClick={() => setEditNote(!editNote)}
+                    className="px-3.5 py-1.5 bg-orange-500 hover:bg-orange-600 text-white text-xs sm:text-sm font-semibold rounded-lg shadow-sm transition-colors"
+                    type="button"
+                  >
+                    {!editNote ? "Edit Notes" : "Done Editing"}
+                  </button>
+                )}
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-2">
                 <input
                   type="text"
                   value={newNote}
                   onChange={(e) => setNewNote(e.target.value)}
                   placeholder="Write a note..."
-                  className="flex-1 p-2 border border-gray-300 rounded-md"
+                  className={inputClass}
                 />
                 <button
                   type="button"
                   onClick={handleAddNote}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-md"
+                  className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-sm transition-colors shrink-0"
                 >
                   Add
                 </button>
               </div>
 
-              <br />
-
-              <button
-                onClick={() => setEditNote(!editNote)}
-                className="px-4 py-2 bg-orange-600 text-white rounded-md"
-                type="button"
-                style={{ maxWidth: "fit-content" }}
-              >
-                {!editNote ? "Edit" : "View"}
-              </button>
-
-              <ul
-                className="list-disc pl-6 mt-3 text-gray-800 space-y-1"
-                style={{ maxWidth: "100%", overflow: "auto" }}
-              >
-                {details?.notes?.map((note, idx) => (
-                  <li key={idx} className="flex justify-between items-center">
-                    <span style={{ display: "flex" }}>
-                      {toGujaratiNumber(idx + 1)}.
-                      {editNote ? (
-                        <input
-                          type="text"
-                          value={note}
-                          onChange={(e) => {
-                            const newValue = e.target.value;
-                            setDetails((prev) => {
-                              const updatedNotes = [...prev.notes];
-                              updatedNotes[idx] = newValue;
-                              return { ...prev, notes: updatedNotes };
-                            });
-                          }}
-                          className="border-b border-gray-300 focus:outline-none focus:border-blue-500 px-1 text-sm bg-transparent"
-                          style={{ width: "90%", minWidth: "800px" }}
-                        />
-                      ) : (
-                        note
-                      )}
-                    </span>
-
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveNote(idx)}
-                      className="text-red-500 text-sm hover:underline"
+              {details?.notes?.length > 0 && (
+                <ul className="mt-4 space-y-2">
+                  {details.notes.map((note, idx) => (
+                    <li
+                      key={idx}
+                      className="flex items-start sm:items-center justify-between gap-3 bg-white border border-gray-200 rounded-lg px-3 py-2.5"
                     >
-                      Remove
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
+                      <div className="flex items-start sm:items-center gap-2 flex-1 min-w-0">
+                        <span className="text-sm font-semibold text-gray-600 shrink-0">
+                          {toGujaratiNumber(idx + 1)}.
+                        </span>
+                        {editNote ? (
+                          <input
+                            type="text"
+                            value={note}
+                            onChange={(e) => {
+                              const newValue = e.target.value;
+                              setDetails((prev) => {
+                                const updatedNotes = [...prev.notes];
+                                updatedNotes[idx] = newValue;
+                                return { ...prev, notes: updatedNotes };
+                              });
+                            }}
+                            className="w-full border-b border-blue-400 focus:outline-none focus:border-blue-600 px-1 py-0.5 text-sm bg-transparent"
+                          />
+                        ) : (
+                          <span className="text-sm text-gray-800 break-words">
+                            {note}
+                          </span>
+                        )}
+                      </div>
 
-            <table
-              style={{
-                marginTop: "30px",
-                maxWidth: "fit-content",
-              }}
-            >
-              <thead>
-                <tr>
-                  <th>ક્રમ</th> <th>આયોજન</th> <th>તારીખ</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>વર્ક ઓર્ડર આપ્યા તારીખ</td>
-                  <td>
-                    <input
-                      type="date"
-                      id="workOrderDate"
-                      name="workOrderDate"
-                      value={details.workOrderDate}
-                      onChange={handleChangeDetails}
-                    />
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>2</td>
-                  <td>ગામજનો માટે જાહેરાત તારીખ</td>
-                  <td>
-                    <input
-                      type="date"
-                      id="jaheratDate"
-                      name="jaheratDate"
-                      value={details.jaheratDate}
-                      onChange={handleChangeDetails}
-                    />
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>3</td>
-                  <td>આકારણી સર્વે કામ શરૂ કર્યા તારીખ (auto)</td>
-                  <td>
-                    <input
-                      type="date"
-                      id="akaraniStartDate"
-                      name="akaraniStartDate"
-                      value={details.akaraniStartDate}
-                      onChange={handleChangeDetails}
-                    />
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>4</td>
-                  <td>સર્વે કામ પુર્ણ કર્યા તારીખ (auto)</td>
-                  <td>
-                    <input
-                      type="date"
-                      id="akaraniEndDate"
-                      name="akaraniEndDate"
-                      value={details.akaraniEndDate}
-                      onChange={handleChangeDetails}
-                    />
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>5</td>
-                  <td>રફ સર્વે રજી. PDF આકારણી મોકલ્યા તારીખ </td>
-                  <td>
-                    <input
-                      type="date"
-                      id="submitionDate"
-                      name="submitionDate"
-                      value={details.submitionDate}
-                      onChange={handleChangeDetails}
-                    />
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>6</td>
-                  <td>ફાઇનલ સુધારો કરેલ સમય અને ૧૫ દિવસ તારીખ</td>
-                  <td>
-                    <input
-                      type="date"
-                      id="updationDate"
-                      name="updationDate"
-                      value={details.updationDate}
-                      onChange={handleChangeDetails}
-                    />
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>7</td>
-                  <td>
-                    પોર્ટલમાં ડેટા એન્ટ્રી કરવાની 4 મહિના બાદ તારીખ (auto)
-                  </td>
-                  <td>
-                    <input
-                      type="date"
-                      id="entryDate"
-                      name="entryDate"
-                      value={details.entryDate}
-                      onChange={handleChangeDetails}
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-
-            <table
-              style={{
-                marginTop: "50px",
-                maxWidth: "fit-content",
-              }}
-            >
-              <thead>
-                <tr>
-                  <th>ક્રમ</th>
-                  <th>આકરણી કમિટીના નામ</th>
-                  <th>હોદો</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {details?.comity?.map((comity, index) => (
-                  <tr key={index}>
-                    <td>{index + 1}</td>
-
-                    <td>
-                      <input
-                        type="text"
-                        value={comity?.name}
-                        onChange={(e) =>
-                          handleChange(index, "name", e.target.value)
-                        }
-                      />
-                    </td>
-
-                    <td>
-                      <input
-                        type="text"
-                        name="designations"
-                        list="designations"
-                        value={comity?.designation}
-                        onChange={(e) =>
-                          handleChange(index, "designation", e.target.value)
-                        }
-                      />
-                      <datalist id="designations">
-                        <option
-                          key="સચીવ શ્રી તલાટી કમ મંત્રી"
-                          value="સચીવ શ્રી તલાટી કમ મંત્રી"
-                        />
-                        <option
-                          key="અધ્યક્ષ સરપંચશ્રી"
-                          value="અધ્યક્ષ સરપંચશ્રી"
-                        />
-                        <option key="સરપંચ" value="સરપંચ" />
-                        <option key="ઉપ સરપંચ" value="ઉપ સરપંચ" />
-                        <option key="સભ્ય" value="સભ્ય" />
-                        <option key="સભ્ય સચીવ" value="સભ્ય સચીવ" />
-                      </datalist>
-                    </td>
-
-                    <td>
                       <button
                         type="button"
-                        onClick={() => deleteCommittee(index)}
+                        onClick={() => handleRemoveNote(idx)}
+                        className="text-red-600 hover:text-red-700 text-xs sm:text-sm font-medium shrink-0 px-2 py-1 rounded hover:bg-red-50 transition-colors"
                       >
-                        Delete
+                        Remove
                       </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
 
-            <button
-              type="button"
-              onClick={addCommittee}
-              style={{
-                marginTop: "30px",
-              }}
-              className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-full shadow-md transition-all duration-200 flex items-center gap-2"
-            >
-              + Add Commitee Member
-            </button>
+            {/* 5. આયોજન અને તારીખ Table */}
+            <div className="bg-gray-50/80 border border-gray-200 rounded-xl p-4 sm:p-5">
+              <h3 className="text-base sm:text-lg font-bold text-gray-800 mb-4">
+                આયોજન અને તારીખ
+              </h3>
+              <div className="overflow-x-auto rounded-lg border border-gray-200 bg-white">
+                <table className="min-w-full divide-y divide-gray-200 text-sm">
+                  <thead className="bg-gray-100 text-gray-700">
+                    <tr>
+                      <th className="px-3 sm:px-4 py-3 text-center font-bold w-14">
+                        ક્રમ
+                      </th>
+                      <th className="px-3 sm:px-4 py-3 text-left font-bold min-w-[220px]">
+                        આયોજન
+                      </th>
+                      <th className="px-3 sm:px-4 py-3 text-left font-bold min-w-[165px] sm:w-56">
+                        તારીખ
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200">
+                    <tr className="hover:bg-gray-50">
+                      <td className="px-3 sm:px-4 py-2.5 text-center font-medium text-gray-700">
+                        1
+                      </td>
+                      <td className="px-3 sm:px-4 py-2.5 text-gray-800">
+                        વર્ક ઓર્ડર આપ્યા તારીખ
+                      </td>
+                      <td className="px-3 sm:px-4 py-2.5">
+                        <input
+                          type="date"
+                          id="workOrderDate"
+                          name="workOrderDate"
+                          value={details.workOrderDate || ""}
+                          onChange={handleChangeDetails}
+                          className={inputClass}
+                        />
+                      </td>
+                    </tr>
+
+                    <tr className="hover:bg-gray-50">
+                      <td className="px-3 sm:px-4 py-2.5 text-center font-medium text-gray-700">
+                        2
+                      </td>
+                      <td className="px-3 sm:px-4 py-2.5 text-gray-800">
+                        ગામજનો માટે જાહેરાત તારીખ
+                      </td>
+                      <td className="px-3 sm:px-4 py-2.5">
+                        <input
+                          type="date"
+                          id="jaheratDate"
+                          name="jaheratDate"
+                          value={details.jaheratDate || ""}
+                          onChange={handleChangeDetails}
+                          className={inputClass}
+                        />
+                      </td>
+                    </tr>
+
+                    <tr className="hover:bg-gray-50">
+                      <td className="px-3 sm:px-4 py-2.5 text-center font-medium text-gray-700">
+                        3
+                      </td>
+                      <td className="px-3 sm:px-4 py-2.5 text-gray-800">
+                        આકારણી સર્વે કામ શરૂ કર્યા તારીખ (auto)
+                      </td>
+                      <td className="px-3 sm:px-4 py-2.5">
+                        <input
+                          type="date"
+                          id="akaraniStartDate"
+                          name="akaraniStartDate"
+                          value={details.akaraniStartDate || ""}
+                          onChange={handleChangeDetails}
+                          className={inputClass}
+                        />
+                      </td>
+                    </tr>
+
+                    <tr className="hover:bg-gray-50">
+                      <td className="px-3 sm:px-4 py-2.5 text-center font-medium text-gray-700">
+                        4
+                      </td>
+                      <td className="px-3 sm:px-4 py-2.5 text-gray-800">
+                        સર્વે કામ પુર્ણ કર્યા તારીખ (auto)
+                      </td>
+                      <td className="px-3 sm:px-4 py-2.5">
+                        <input
+                          type="date"
+                          id="akaraniEndDate"
+                          name="akaraniEndDate"
+                          value={details.akaraniEndDate || ""}
+                          onChange={handleChangeDetails}
+                          className={inputClass}
+                        />
+                      </td>
+                    </tr>
+
+                    <tr className="hover:bg-gray-50">
+                      <td className="px-3 sm:px-4 py-2.5 text-center font-medium text-gray-700">
+                        5
+                      </td>
+                      <td className="px-3 sm:px-4 py-2.5 text-gray-800">
+                        રફ સર્વે રજી. PDF આકારણી મોકલ્યા તારીખ
+                      </td>
+                      <td className="px-3 sm:px-4 py-2.5">
+                        <input
+                          type="date"
+                          id="submitionDate"
+                          name="submitionDate"
+                          value={details.submitionDate || ""}
+                          onChange={handleChangeDetails}
+                          className={inputClass}
+                        />
+                      </td>
+                    </tr>
+
+                    <tr className="hover:bg-gray-50">
+                      <td className="px-3 sm:px-4 py-2.5 text-center font-medium text-gray-700">
+                        6
+                      </td>
+                      <td className="px-3 sm:px-4 py-2.5 text-gray-800">
+                        ફાઇનલ સુધારો કરેલ સમય અને ૧૫ દિવસ તારીખ
+                      </td>
+                      <td className="px-3 sm:px-4 py-2.5">
+                        <input
+                          type="date"
+                          id="updationDate"
+                          name="updationDate"
+                          value={details.updationDate || ""}
+                          onChange={handleChangeDetails}
+                          className={inputClass}
+                        />
+                      </td>
+                    </tr>
+
+                    <tr className="hover:bg-gray-50">
+                      <td className="px-3 sm:px-4 py-2.5 text-center font-medium text-gray-700">
+                        7
+                      </td>
+                      <td className="px-3 sm:px-4 py-2.5 text-gray-800">
+                        પોર્ટલમાં ડેટા એન્ટ્રી કરવાની 4 મહિના બાદ તારીખ (auto)
+                      </td>
+                      <td className="px-3 sm:px-4 py-2.5">
+                        <input
+                          type="date"
+                          id="entryDate"
+                          name="entryDate"
+                          value={details.entryDate || ""}
+                          onChange={handleChangeDetails}
+                          className={inputClass}
+                        />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* 6. આકરણી કમિટી Table */}
+            <div className="bg-gray-50/80 border border-gray-200 rounded-xl p-4 sm:p-5">
+              <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+                <h3 className="text-base sm:text-lg font-bold text-gray-800">
+                  આકરણી કમિટીની વિગત
+                </h3>
+                <button
+                  type="button"
+                  onClick={addCommittee}
+                  className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-semibold rounded-lg shadow-sm transition-colors flex items-center gap-1.5"
+                >
+                  <span>+ Add Committee Member</span>
+                </button>
+              </div>
+
+              <div className="overflow-x-auto rounded-lg border border-gray-200 bg-white">
+                <table className="min-w-full divide-y divide-gray-200 text-sm">
+                  <thead className="bg-gray-100 text-gray-700">
+                    <tr>
+                      <th className="px-3 sm:px-4 py-3 text-center font-bold w-14">
+                        ક્રમ
+                      </th>
+                      <th className="px-3 sm:px-4 py-3 text-left font-bold min-w-[200px]">
+                        આકરણી કમિટીના નામ
+                      </th>
+                      <th className="px-3 sm:px-4 py-3 text-left font-bold min-w-[200px]">
+                        હોદો
+                      </th>
+                      <th className="px-3 sm:px-4 py-3 text-center font-bold w-24">
+                        Action
+                      </th>
+                    </tr>
+                  </thead>
+
+                  <tbody className="divide-y divide-gray-200">
+                    {details?.comity?.map((comity, index) => (
+                      <tr key={index} className="hover:bg-gray-50">
+                        <td className="px-3 sm:px-4 py-2.5 text-center font-medium text-gray-700">
+                          {index + 1}
+                        </td>
+
+                        <td className="px-3 sm:px-4 py-2.5">
+                          <input
+                            type="text"
+                            value={comity?.name || ""}
+                            placeholder="નામ લખો..."
+                            onChange={(e) =>
+                              handleChange(index, "name", e.target.value)
+                            }
+                            className={inputClass}
+                          />
+                        </td>
+
+                        <td className="px-3 sm:px-4 py-2.5">
+                          <input
+                            type="text"
+                            name="designations"
+                            list="designations"
+                            value={comity?.designation || ""}
+                            placeholder="હોદો પસંદ કરો અથવા લખો..."
+                            onChange={(e) =>
+                              handleChange(index, "designation", e.target.value)
+                            }
+                            className={inputClass}
+                          />
+                        </td>
+
+                        <td className="px-3 sm:px-4 py-2.5 text-center">
+                          <button
+                            type="button"
+                            onClick={() => deleteCommittee(index)}
+                            className="px-3 py-1.5 text-xs sm:text-sm font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-md transition-colors"
+                          >
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+
+                <datalist id="designations">
+                  <option value="સચીવ શ્રી તલાટી કમ મંત્રી" />
+                  <option value="અધ્યક્ષ સરપંચશ્રી" />
+                  <option value="સરપંચ" />
+                  <option value="ઉપ સરપંચ" />
+                  <option value="સભ્ય" />
+                  <option value="સભ્ય સચીવ" />
+                </datalist>
+              </div>
+            </div>
+
+            {/* 7. બાકી બચેલી વિગતો (Remaining Fields cleanly grouped) */}
+            <div className="space-y-6 pt-2">
+              {/* 7A. સામાન્ય બેઠક અને સર્વે ભાવની વિગત */}
+              <div className="bg-gray-50/80 border border-gray-200 rounded-xl p-4 sm:p-5">
+                <h3 className="text-base sm:text-lg font-bold text-gray-800 mb-4 pb-2 border-b border-gray-200">
+                  સામાન્ય બેઠક અને સર્વે કામની વિગત
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                  <div className="flex flex-col">
+                    <label
+                      htmlFor="meetingDate"
+                      className="text-sm font-medium text-gray-700 mb-1.5"
+                    >
+                      1. સામાન્ય બેઠકની તારીખ ગ્રામ પંચાયતની
+                    </label>
+                    <input
+                      type="date"
+                      id="meetingDate"
+                      name="meetingDate"
+                      value={details.meetingDate || ""}
+                      onChange={handleChangeDetails}
+                      className={inputClass}
+                    />
+                  </div>
+
+                  <div className="flex flex-col">
+                    <label
+                      htmlFor="meetingNumber"
+                      className="text-sm font-medium text-gray-700 mb-1.5"
+                    >
+                      2. સામાન્ય બેઠક નંબર ગ્રામ પંચાયતની
+                    </label>
+                    <input
+                      type="text"
+                      id="meetingNumber"
+                      name="meetingNumber"
+                      value={details.meetingNumber || ""}
+                      onChange={handleChangeDetails}
+                      className={inputClass}
+                    />
+                  </div>
+
+                  <div className="flex flex-col">
+                    <label
+                      htmlFor="agendaNumber"
+                      className="text-sm font-medium text-gray-700 mb-1.5"
+                    >
+                      3. મુદ્દા નં. સામાન્ય બેઠકના ગ્રામ પંચાયતનો
+                    </label>
+                    <input
+                      type="text"
+                      id="agendaNumber"
+                      name="agendaNumber"
+                      value={details.agendaNumber || ""}
+                      onChange={handleChangeDetails}
+                      className={inputClass}
+                    />
+                  </div>
+
+                  <div className="flex flex-col">
+                    <label
+                      htmlFor="surveyHouseRate"
+                      className="text-sm font-medium text-gray-700 mb-1.5"
+                    >
+                      5. 1-ઘર દિઠ રૂપિયા આકારણી સર્વે કામના
+                    </label>
+                    <input
+                      type="number"
+                      id="surveyHouseRate"
+                      name="surveyHouseRate"
+                      value={details.surveyHouseRate || ""}
+                      onInput={(e) => {
+                        setDetails((prev) => ({
+                          ...prev,
+                          approvedAmountWords: numberToGujaratiWords(
+                            e.target.value,
+                          ),
+                        }));
+
+                        handleChangeDetails(e);
+                      }}
+                      className={inputClass}
+                    />
+                  </div>
+
+                  <div className="flex flex-col sm:col-span-2">
+                    <label
+                      htmlFor="approvedAmountWords"
+                      className="text-sm font-medium text-gray-700 mb-1.5"
+                    >
+                      6. શબ્દોમાં અંકે રૂપીયા ભાવ મંજુર કરેલ છે
+                    </label>
+                    <input
+                      type="text"
+                      id="approvedAmountWords"
+                      name="approvedAmountWords"
+                      value={details.approvedAmountWords || ""}
+                      onChange={handleChangeDetails}
+                      className={inputClass}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* 7C. પ્રસિધ્ધ આકારણી અને પ્રમાણપત્ર */}
+              <div className="bg-gray-50/80 border border-gray-200 rounded-xl p-4 sm:p-5">
+                <h3 className="text-base sm:text-lg font-bold text-gray-800 mb-4 pb-2 border-b border-gray-200">
+                  પ્રસિધ્ધ આકારણી અને પ્રમાણપત્ર :-
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                  <div className="flex flex-col">
+                    <label
+                      htmlFor="meetingNumber2"
+                      className="text-sm font-medium text-gray-700 mb-1.5"
+                    >
+                      i. બેઠક નંબર
+                    </label>
+                    <input
+                      type="text"
+                      id="meetingNumber2"
+                      name="meetingNumber2"
+                      value={details?.meetingNumber2 || ""}
+                      onChange={handleChangeDetails}
+                      className={inputClass}
+                    />
+                  </div>
+
+                  <div className="flex flex-col">
+                    <label
+                      htmlFor="resolutionNumber2"
+                      className="text-sm font-medium text-gray-700 mb-1.5"
+                    >
+                      ii. ઠરાવ નંબર
+                    </label>
+                    <input
+                      type="text"
+                      id="resolutionNumber2"
+                      name="resolutionNumber2"
+                      value={details?.resolutionNumber2 || ""}
+                      onChange={handleChangeDetails}
+                      className={inputClass}
+                    />
+                  </div>
+
+                  <div className="flex flex-col">
+                    <label
+                      htmlFor="date2"
+                      className="text-sm font-medium text-gray-700 mb-1.5"
+                    >
+                      iii. તારીખ
+                    </label>
+                    <input
+                      type="date"
+                      id="date2"
+                      name="date2"
+                      value={details?.date2 || ""}
+                      onChange={handleChangeDetails}
+                      className={inputClass}
+                    />
+                  </div>
+
+                  <div className="flex flex-col">
+                    <label
+                      htmlFor="certificateDate"
+                      className="text-sm font-medium text-gray-700 mb-1.5"
+                    >
+                      - પ્રમાણપત્ર તારીખ
+                    </label>
+                    <input
+                      type="date"
+                      id="certificateDate"
+                      name="certificateDate"
+                      value={details?.certificateDate || ""}
+                      onChange={handleChangeDetails}
+                      className={inputClass}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
           </section>
 
-          <div className="flex justify-end gap-4 mt-6">
+          {/* Fixed Bottom-Right Submit Button */}
+          <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50">
             <button
               type="submit"
-              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-full shadow-md transition-all duration-200 flex items-center gap-2"
+              className="px-6 py-3 sm:px-7 sm:py-3.5 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-200 flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
               disabled={loading}
             >
               <span>{loading ? "Loading..." : "Save & Next"}</span>
