@@ -206,7 +206,7 @@ function BillView() {
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
       pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
-      pdf.save("A.F.Infosys-Bill.pdf");
+      pdf.save(`${billData?.gaam || ""}-Akarni-Bill.pdf`);
     });
   };
 
@@ -230,7 +230,7 @@ function BillView() {
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
       pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
-      pdf.save("A.F.Infosys-Quotation.pdf");
+      pdf.save(`${billData?.gaam || ""}-Akarni-Quotation.pdf`);
     });
   };
 
@@ -254,7 +254,7 @@ function BillView() {
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
       pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
-      pdf.save("A.F.Infosys-Bill.pdf");
+      pdf.save(`${billData?.gaam || ""}-Akarni-Bill.pdf`);
     });
   };
 
@@ -278,7 +278,7 @@ function BillView() {
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
       pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
-      pdf.save("A.F.Infosys-Quotation.pdf");
+      pdf.save(`${billData?.gaam || ""}-Akarni-Quotation.pdf`);
     });
   };
 
