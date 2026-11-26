@@ -560,8 +560,10 @@ function BillView() {
                     <span>
                       Invoice No.{" "}
                       <b className="text-red-700">
-                        {billData.invoiceNo}-AS-
-                        {formatDateForDisplay(billData?.date)}
+                        {billData?.invoiceNo}-AS-
+                        {new Date(billData?.date)
+                          .toLocaleDateString("en-GB")
+                          .replace(/\//g, "-")}
                       </b>
                     </span>
                     <span>
@@ -937,8 +939,10 @@ function BillView() {
                     <span>
                       Quotation No.{" "}
                       <b className="text-red-700">
-                        {billData.invoiceNo}-AS-
-                        {formatDateForDisplay(billData?.date)}
+                        {billData?.invoiceNo}-AS-
+                        {new Date(billData?.date)
+                          .toLocaleDateString("en-GB")
+                          .replace(/\//g, "-")}
                       </b>
                     </span>
                     {/* <span>
@@ -1222,8 +1226,10 @@ function BillView() {
                     <span>
                       Invoice No.{" "}
                       <b className="text-red-700">
-                        {billData.invoiceNo}-AS-
-                        {formatDateForDisplay(billData?.date)}
+                        {billData?.invoiceNo}-AS-
+                        {new Date(billData?.date)
+                          .toLocaleDateString("en-GB")
+                          .replace(/\//g, "-")}
                       </b>
                     </span>
                     <span>
@@ -1552,8 +1558,10 @@ function BillView() {
                     <span>
                       Quotation No.{" "}
                       <b className="text-red-700">
-                        {billData.invoiceNo}-AS-
-                        {formatDateForDisplay(billData?.date)}
+                        {billData?.invoiceNo}-AS-
+                        {new Date(billData?.date)
+                          .toLocaleDateString("en-GB")
+                          .replace(/\//g, "-")}
                       </b>
                     </span>
                     {/* <span>

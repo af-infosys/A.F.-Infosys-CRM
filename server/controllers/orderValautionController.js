@@ -67,29 +67,28 @@ function formatDate(dateString) {
 
   return `${day}/${month}/${year}`;
 }
-
-// Helper: Saare works me se max invoiceNo nikal kar +1 return karega
+// Helper: Saare works ("Index" sheet) me se max invoiceNo nikal kar +1 return karega
 const getNextInvoiceNumber = async () => {
-  // Apne `sheet` helper ke hisaab se method name check kar lena (e.g., sheet.find, sheet.getAll, sheet.read)
-  const allWorks = await sheet.find(SPREADSHEET_ID, "Index");
+  const response = await sheets.spreadsheets.values.get({
+    spreadsheetId: SPREADSHEET_ID,
+    range: "Index!A2:Z",
+  });
 
+  const rows = response.data.values || [];
   let maxInvoiceNo = 0;
 
-  for (const row of allWorks) {
-    if (!row || !row[2]) continue;
-
+  rows.forEach((row) => {
+    if (!row[2]) return;
     try {
-      const details = JSON.parse(row[2]);
-      const num = Number(details?.invoiceNo);
-
-      if (!isNaN(num) && num > maxInvoiceNo) {
-        maxInvoiceNo = num;
+      const rowDetails = JSON.parse(row[2]);
+      const currentNo = Number(rowDetails?.invoiceNo) || 0;
+      if (currentNo > maxInvoiceNo) {
+        maxInvoiceNo = currentNo;
       }
     } catch {
-      // Header row ya invalid JSON ho toh safely skip kar do
-      continue;
+      // Non-JSON ya empty cell ko safely skip karein
     }
-  }
+  });
 
   return maxInvoiceNo + 1;
 };
@@ -97,19 +96,21 @@ const getNextInvoiceNumber = async () => {
 export const getBillDetails = async (req, res) => {
   try {
     const workId = req.params.id;
+    const houseCount = await getHouseCount(workId);
     const work = await sheet.findById(SPREADSHEET_ID, "Index", workId);
 
-    if (!work) return res.status(404).json({ error: "Work not found" });
-
-    const houseCount = await getHouseCount(workId);
+    if (!work) {
+      return res.status(404).json({ error: "Work not found" });
+    }
 
     const spot = JSON.parse(work[1] || "{}");
     const details = JSON.parse(work[2] || "{}");
 
-    // Agar invoiceNo missing/empty/0 hai, toh saare works me se max + 1 dikhao
-    const invoiceNo = details?.invoiceNo
-      ? Number(details.invoiceNo)
-      : await getNextInvoiceNumber();
+    // Agar is work ka invoiceNo pehle se nahi hai, toh saare works ka max + 1 auto-generate karein
+    const invoiceNo =
+      Number(details?.invoiceNo) > 0
+        ? Number(details.invoiceNo)
+        : await getNextInvoiceNumber();
 
     const bill = {
       gaam: spot?.gaam,
@@ -138,17 +139,23 @@ export const updateBillDetails = async (req, res) => {
     const { invoiceNo, description, price, date } = req.body;
 
     const work = await sheet.findById(SPREADSHEET_ID, "Index", id);
-    if (!work) return res.status(404).json({ error: "Work not found" });
+    if (!work) {
+      return res.status(404).json({ error: "Work not found" });
+    }
 
     const existingDetails = JSON.parse(work[2] || "{}");
 
-    // Safety fallback: agar req.body me invoiceNo nahi aaya aur pehle se bhi nahi hai, toh max + 1 save karo
+    // Agar request me invoiceNo empty/0 aaye toh auto-generated next number save karein
     const finalInvoiceNo =
-      invoiceNo || existingDetails?.invoiceNo || (await getNextInvoiceNumber());
+      Number(invoiceNo) > 0
+        ? Number(invoiceNo)
+        : Number(existingDetails?.invoiceNo) > 0
+          ? Number(existingDetails.invoiceNo)
+          : await getNextInvoiceNumber();
 
     work[2] = JSON.stringify({
       ...existingDetails,
-      invoiceNo: Number(finalInvoiceNo),
+      invoiceNo: finalInvoiceNo,
       description,
       price,
       billDate: date,
@@ -157,7 +164,6 @@ export const updateBillDetails = async (req, res) => {
     await sheet.update(SPREADSHEET_ID, "Index", id, work);
 
     const houseCount = await getHouseCount(id);
-
     const spot = JSON.parse(work[1] || "{}");
     const details = JSON.parse(work[2] || "{}");
 
@@ -168,7 +174,7 @@ export const updateBillDetails = async (req, res) => {
       year: details?.akaraniYear,
 
       invoiceNo: details?.invoiceNo || 0,
-      description: details?.description || "",
+      description: details?.description || 0,
       price: details?.price || 0,
       date: details?.billDate,
       houseCount,
