@@ -48,6 +48,35 @@ function BillView() {
 
   const [isLoading, setIsLoading] = useState(false);
 
+  // 1. <input type="date"> ke liye "YYYY-MM-DD" format banata hai
+  const formatDateForInput = (dateVal) => {
+    if (!dateVal) {
+      const today = new Date();
+      const yyyy = today.getFullYear();
+      const mm = String(today.getMonth() + 1).padStart(2, "0");
+      const dd = String(today.getDate()).padStart(2, "0");
+      return `${yyyy}-${mm}-${dd}`;
+    }
+    // Agar pehle se "YYYY-MM-DD" ya ISO string hai
+    const d = new Date(dateVal);
+    if (isNaN(d.getTime())) return "";
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2, "0");
+    const dd = String(d.getDate()).padStart(2, "0");
+    return `${yyyy}-${mm}-${dd}`;
+  };
+
+  // 2. Bill aur Quotation PDF me dikhane ke liye "DD/MM/YYYY" format banata hai
+  const formatDateForDisplay = (dateVal) => {
+    if (!dateVal) return "///";
+    const d = new Date(dateVal);
+    if (isNaN(d.getTime())) return dateVal;
+    const dd = String(d.getDate()).padStart(2, "0");
+    const mm = String(d.getMonth() + 1).padStart(2, "0");
+    const yyyy = d.getFullYear();
+    return `${dd}/${mm}/${yyyy}`;
+  };
+
   const handleFormChange = (e) => {
     const { name, value } = e.target;
     setBillData((prev) => ({
@@ -83,7 +112,6 @@ function BillView() {
     e.preventDefault();
     setIsLoading(true);
 
-    const id = "6882180eab7cc70564b9fb4b";
     const endpoint = `${await apiPath()}/api/valuation/bill/${projectId}`;
 
     // Payload structure must match the backend controller's expectation
@@ -147,12 +175,16 @@ function BillView() {
         .then((res) => res.json())
         .then((data) => {
           console.log("Fetched Bill Details: ", data?.bill);
-          setBillData(data?.bill || {});
+          const fetchedBill = data?.bill || {};
+          setBillData({
+            ...fetchedBill,
+            date: formatDateForInput(fetchedBill.date), // Default today if empty
+          });
         });
     };
 
     fetchBillDetails();
-  }, []);
+  }, [projectId]);
 
   const handleDownloadPdf = () => {
     const input = reportRef.current;
@@ -309,7 +341,7 @@ function BillView() {
                   type="date"
                   id="date"
                   name="date"
-                  value={billData.date ? new Date(billData.date) : new Date()}
+                  value={billData.date || ""}
                   onChange={handleFormChange}
                   className="mt-1 w-full input-field"
                   required
@@ -528,7 +560,7 @@ function BillView() {
                     <span>
                       Invoice No.{" "}
                       <b className="text-red-700">
-                        AS-{billData?.year}-{billData.invoiceNo}
+                        {billData.invoiceNo}-AS-{billData?.year}
                       </b>
                     </span>
                     <span>
@@ -666,7 +698,7 @@ function BillView() {
                         }}
                       >
                         <span className="trans" style={{ textWrap: "nowrap" }}>
-                          {billData?.date}
+                          {formatDateForDisplay(billData?.date)}
                         </span>
                       </td>
                       <td
@@ -904,7 +936,7 @@ function BillView() {
                     <span>
                       Quotation No.{" "}
                       <b className="text-red-700">
-                        AS-{billData?.year}-{billData.invoiceNo}
+                        {billData.invoiceNo}-AS-{billData?.year}
                       </b>
                     </span>
                     {/* <span>
@@ -922,7 +954,10 @@ function BillView() {
 
                     <div className="flex flex-col pt-2">
                       <span className="font-semibold">
-                        Date: {billData?.date || "///"}
+                        Date:{" "}
+                        {billData?.date
+                          ? formatDateForDisplay(billData?.date)
+                          : "..............................."}
                       </span>
                       {/* <span className="font-semibold"></span> */}
                     </div>
@@ -1185,7 +1220,7 @@ function BillView() {
                     <span>
                       Invoice No.{" "}
                       <b className="text-red-700">
-                        AS-{billData?.year}-{billData.invoiceNo}
+                        {billData.invoiceNo}-AS-{billData?.year}
                       </b>
                     </span>
                     <span>
@@ -1321,7 +1356,7 @@ function BillView() {
                         }}
                       >
                         <span className="trans" style={{ textWrap: "nowrap" }}>
-                          {billData?.date}
+                          {formatDateForDisplay(billData?.date)}
                         </span>
                       </td>
                       <td
@@ -1514,7 +1549,7 @@ function BillView() {
                     <span>
                       Quotation No.{" "}
                       <b className="text-red-700">
-                        AS-{billData?.year}-{billData.invoiceNo}
+                        {billData.invoiceNo}-AS-{billData?.year}
                       </b>
                     </span>
                     {/* <span>
@@ -1532,7 +1567,10 @@ function BillView() {
 
                     <div className="flex flex-col pt-2">
                       <span className="font-semibold">
-                        Date: {billData?.date || "///"}
+                        Date:{" "}
+                        {billData?.date
+                          ? formatDateForDisplay(billData?.date)
+                          : "..............................."}
                       </span>
                       {/* <span className="font-semibold"></span> */}
                     </div>
