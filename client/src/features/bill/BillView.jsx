@@ -14,6 +14,7 @@ function BillView() {
     letterA: 20,
     letterB: 30,
   });
+
   const [letterPadView, setLetterPadView] = useState(true);
 
   const handleMarginChange = (field, value) => {
@@ -305,10 +306,10 @@ function BillView() {
                   તારીખ (Date)
                 </label>
                 <input
-                  type="text"
+                  type="date"
                   id="date"
                   name="date"
-                  value={billData.date}
+                  value={billData.date ? new Date(billData.date) : new Date()}
                   onChange={handleFormChange}
                   className="mt-1 w-full input-field"
                   required
@@ -526,13 +527,14 @@ function BillView() {
                   <div className="flex justify-between">
                     <span>
                       Invoice No.{" "}
-                      <b className="text-red-700">{billData.invoiceNo}</b>
+                      <b className="text-red-700">
+                        AS-{billData?.year}-{billData.invoiceNo}
+                      </b>
                     </span>
                     <span>
                       Date :{" "}
                       <b className="text-gray-500">
-                        {billData?.date ||
-                          "..................................."}
+                        ...................................
                       </b>
                     </span>
                   </div>
@@ -901,7 +903,9 @@ function BillView() {
                   <div className="flex justify-between">
                     <span>
                       Quotation No.{" "}
-                      <b className="text-red-700">{billData.invoiceNo}</b>
+                      <b className="text-red-700">
+                        AS-{billData?.year}-{billData.invoiceNo}
+                      </b>
                     </span>
                     {/* <span>
                   Date <b className="text-gray-500">{billData.year}</b>
@@ -1180,7 +1184,9 @@ function BillView() {
                   <div className="flex justify-between">
                     <span>
                       Invoice No.{" "}
-                      <b className="text-red-700">{billData.invoiceNo}</b>
+                      <b className="text-red-700">
+                        AS-{billData?.year}-{billData.invoiceNo}
+                      </b>
                     </span>
                     <span>
                       Date : ...................................
@@ -1507,7 +1513,9 @@ function BillView() {
                   <div className="flex justify-between">
                     <span>
                       Quotation No.{" "}
-                      <b className="text-red-700">{billData.invoiceNo}</b>
+                      <b className="text-red-700">
+                        AS-{billData?.year}-{billData.invoiceNo}
+                      </b>
                     </span>
                     {/* <span>
                   Date <b className="text-gray-500">{billData.year}</b>

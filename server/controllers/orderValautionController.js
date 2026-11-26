@@ -68,19 +68,48 @@ function formatDate(dateString) {
   return `${day}/${month}/${year}`;
 }
 
+// Helper: Saare works me se max invoiceNo nikal kar +1 return karega
+const getNextInvoiceNumber = async () => {
+  // Apne `sheet` helper ke hisaab se method name check kar lena (e.g., sheet.find, sheet.getAll, sheet.read)
+  const allWorks = await sheet.find(SPREADSHEET_ID, "Index");
+
+  let maxInvoiceNo = 0;
+
+  for (const row of allWorks) {
+    if (!row || !row[2]) continue;
+
+    try {
+      const details = JSON.parse(row[2]);
+      const num = Number(details?.invoiceNo);
+
+      if (!isNaN(num) && num > maxInvoiceNo) {
+        maxInvoiceNo = num;
+      }
+    } catch {
+      // Header row ya invalid JSON ho toh safely skip kar do
+      continue;
+    }
+  }
+
+  return maxInvoiceNo + 1;
+};
+
 export const getBillDetails = async (req, res) => {
   try {
-    // const works = await Work.findOne({ _id: req.params.id });
     const workId = req.params.id;
+    const work = await sheet.findById(SPREADSHEET_ID, "Index", workId);
 
-    // if (!works) return res.status(404).json({ error: "Work not found" });
+    if (!work) return res.status(404).json({ error: "Work not found" });
 
     const houseCount = await getHouseCount(workId);
 
-    const work = await sheet.findById(SPREADSHEET_ID, "Index", workId);
+    const spot = JSON.parse(work[1] || "{}");
+    const details = JSON.parse(work[2] || "{}");
 
-    const spot = JSON.parse(work[1]);
-    const details = JSON.parse(work[2]);
+    // Agar invoiceNo missing/empty/0 hai, toh saare works me se max + 1 dikhao
+    const invoiceNo = details?.invoiceNo
+      ? Number(details.invoiceNo)
+      : await getNextInvoiceNumber();
 
     const bill = {
       gaam: spot?.gaam,
@@ -88,16 +117,15 @@ export const getBillDetails = async (req, res) => {
       district: spot?.district,
       year: details?.taxYear,
 
-      invoiceNo: details?.invoiceNo,
+      invoiceNo,
       description: details?.description,
       price: details?.price,
-      date: details?.date,
+      date: details?.billDate,
+
       houseCount,
     };
 
-    res.json({
-      bill,
-    });
+    res.json({ bill });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error" });
@@ -107,37 +135,42 @@ export const getBillDetails = async (req, res) => {
 export const updateBillDetails = async (req, res) => {
   try {
     const { id } = req.params;
-
     const { invoiceNo, description, price, date } = req.body;
 
     const work = await sheet.findById(SPREADSHEET_ID, "Index", id);
+    if (!work) return res.status(404).json({ error: "Work not found" });
+
+    const existingDetails = JSON.parse(work[2] || "{}");
+
+    // Safety fallback: agar req.body me invoiceNo nahi aaya aur pehle se bhi nahi hai, toh max + 1 save karo
+    const finalInvoiceNo =
+      invoiceNo || existingDetails?.invoiceNo || (await getNextInvoiceNumber());
 
     work[2] = JSON.stringify({
-      ...JSON.parse(work[2] || {}),
-      invoiceNo,
+      ...existingDetails,
+      invoiceNo: Number(finalInvoiceNo),
       description,
       price,
-      date,
+      billDate: date,
     });
 
-    const updatedWork = await sheet.update(SPREADSHEET_ID, "Index", id, work);
+    await sheet.update(SPREADSHEET_ID, "Index", id, work);
 
     const houseCount = await getHouseCount(id);
 
-    const spot = JSON.parse(work[1]);
-    const details = JSON.parse(work[2]);
+    const spot = JSON.parse(work[1] || "{}");
+    const details = JSON.parse(work[2] || "{}");
 
-    // Prepare the response bill object similar to the get function
     const bill = {
-      gaam: spot?.gaam, // Unchanged
-      taluka: spot?.taluka, // Unchanged
-      district: spot?.district, // Unchanged
-      year: details?.akaraniYear, // Unchanged
+      gaam: spot?.gaam,
+      taluka: spot?.taluka,
+      district: spot?.district,
+      year: details?.akaraniYear,
 
       invoiceNo: details?.invoiceNo || 0,
-      description: details?.description || 0,
+      description: details?.description || "",
       price: details?.price || 0,
-      date: details?.date || 0,
+      date: details?.billDate,
       houseCount,
     };
 
@@ -148,7 +181,6 @@ export const updateBillDetails = async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    // You might want to check for specific validation errors here
     res.status(500).json({ error: "Server error during update" });
   }
 };
