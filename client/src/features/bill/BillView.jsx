@@ -560,7 +560,8 @@ function BillView() {
                     <span>
                       Invoice No.{" "}
                       <b className="text-red-700">
-                        {billData.invoiceNo}-AS-{billData?.year}
+                        {billData.invoiceNo}-AS-
+                        {formatDateForDisplay(billData?.date)}
                       </b>
                     </span>
                     <span>
@@ -936,7 +937,8 @@ function BillView() {
                     <span>
                       Quotation No.{" "}
                       <b className="text-red-700">
-                        {billData.invoiceNo}-AS-{billData?.year}
+                        {billData.invoiceNo}-AS-
+                        {formatDateForDisplay(billData?.date)}
                       </b>
                     </span>
                     {/* <span>
@@ -1220,7 +1222,8 @@ function BillView() {
                     <span>
                       Invoice No.{" "}
                       <b className="text-red-700">
-                        {billData.invoiceNo}-AS-{billData?.year}
+                        {billData.invoiceNo}-AS-
+                        {formatDateForDisplay(billData?.date)}
                       </b>
                     </span>
                     <span>
@@ -1549,7 +1552,8 @@ function BillView() {
                     <span>
                       Quotation No.{" "}
                       <b className="text-red-700">
-                        {billData.invoiceNo}-AS-{billData?.year}
+                        {billData.invoiceNo}-AS-
+                        {formatDateForDisplay(billData?.date)}
                       </b>
                     </span>
                     {/* <span>
