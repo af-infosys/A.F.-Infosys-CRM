@@ -96,6 +96,7 @@ import WaterTaxEntry from "../features/survay/WaterTaxEntry";
 import Subscription from "../features/staff/Subscription";
 import AddMember from "../features/staff/AddMember";
 import BookBillViewDE from "../features/bill/BookBillViewDE";
+import ManageWaterStatus from "../features/projects/ManageWaterStatus";
 
 export default function AppRoutes() {
   const { user } = useAuth();
@@ -534,7 +535,7 @@ export default function AppRoutes() {
         {/* Projects Routes Start */}
         <Route path="projects">
           {/* <Route path="add" element={<AddProject />} /> */}
-          <Route
+          {/* <Route
             path="first"
             element={
               <ProtectedRoute allowedRoles={["owner"]}>
@@ -568,13 +569,22 @@ export default function AppRoutes() {
                 <CancledProjects />
               </ProtectedRoute>
             }
-          />
+          /> */}
 
           <Route
             path="update"
             element={
               <ProtectedRoute allowedRoles={["owner"]}>
                 <ManageStatus />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="water"
+            element={
+              <ProtectedRoute allowedRoles={["owner"]}>
+                <ManageWaterStatus />
               </ProtectedRoute>
             }
           />

@@ -10,8 +10,8 @@ import toGujaratiNumber from "../../components/toGujaratiNumber";
 
 const getOtherTaxIcon = (label = "") => {
   const iconStyle = {
-    width: "22px",
-    height: "22px",
+    width: "17px",
+    height: "17px",
     flexShrink: 0,
     display: "inline-block",
   };
@@ -134,6 +134,7 @@ const OrderValuationReport = () => {
     firstPropertyOwner: "",
     generalWaterTaxApplicable: "",
     specialAndGeneralWaterTax: "",
+    seperateWaterRegister: "",
     notes: [],
   });
 
@@ -329,14 +330,19 @@ const OrderValuationReport = () => {
     return Number(tax.values.residence) || 0;
   };
 
-  const filteredOtherTaxes = [
+  const isSeparateWaterRegister =
+    details?.seperateWaterRegister === true ||
+    details?.seperateWaterRegister === "true";
+
+  const specialWaterTaxVal = getTaxValue("ખા.પાણી");
+
+  const summaryOtherTaxes = [
     { label: "સામાન્ય પાણી વેરો", val: getTaxValue("સા.પાણી") },
-    {
-      label: "લાઈટ વેરો",
-      val: getTaxValue("લાઈટ"),
-    },
+    { label: "લાઈટ વેરો", val: getTaxValue("લાઈટ") },
     { label: "સફાઈ વેરો", val: getTaxValue("સફાઈ") },
-    { label: "ખાસ પાણી નળ વેરો", val: getTaxValue("ખા.પાણી") },
+    ...(!isSeparateWaterRegister
+      ? [{ label: "ખાસ પાણી નળ વેરો", val: specialWaterTaxVal }]
+      : []),
   ].filter((tax) => tax.val > 0);
 
   return (
@@ -1517,10 +1523,26 @@ const OrderValuationReport = () => {
                         : ""}
                   </b>
                 </h2>
+
                 <h2 style={{ fontSize: "16px", marginTop: "-6px" }}>
                   ખાસ પાણી નળ વેરો ત્થા સા.પાણી વેરો બન્‍ને વેરા મુકવા વેરો
                   લેવો. <b>{details?.specialAndGeneralWaterTax || ""}</b>
                 </h2>
+
+                {details?.seperateWaterRegister === true && (
+                  <h2 style={{ fontSize: "16px", marginTop: "-6px" }}>
+                    અલગ નળ વેરા રજીસ્ટર રાખવું?{" "}
+                    <b>
+                      {details?.seperateWaterRegister === true ||
+                      details?.seperateWaterRegister === "true"
+                        ? "હા"
+                        : details?.seperateWaterRegister === false ||
+                            details?.seperateWaterRegister === "false"
+                          ? "ના"
+                          : ""}
+                    </b>
+                  </h2>
+                )}
               </div>
               <div style={{ padding: "16px", paddingTop: "5px" }}>
                 <h2
@@ -1738,7 +1760,9 @@ const OrderValuationReport = () => {
             </div>
           </div>
         </div>
+
         <br />
+
         {/* --- NEW REPORT SUMMARY START --- */}
         <div
           style={{
@@ -1752,8 +1776,8 @@ const OrderValuationReport = () => {
             id="report-summary"
             className="shadow-md"
             style={{
-              width: "700px",
-              minWidth: "700px",
+              width: "750px",
+              minWidth: "750px",
               background: "#fff",
               padding: "20px 24px",
               boxSizing: "border-box",
@@ -2088,22 +2112,23 @@ const OrderValuationReport = () => {
               </table>
 
               {/* 4. Other Taxes (Left) + Vistar & Pani Vigat (Right) */}
+              {/* 4. Other Taxes (Left) + Vistar & Pani Vigat (Right) */}
               <div
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "flex-start",
-                  gap: "16px",
-                  marginBottom: "14px",
+                  gap: "12px",
+                  marginBottom: "12px",
                 }}
               >
-                {/* Left Side: Other Taxes */}
+                {/* Left Side: Compact Other Taxes */}
                 <div style={{ flexShrink: 0 }}>
                   <h3
                     style={{
                       textDecoration: "underline",
-                      margin: "0 0 12px 0",
-                      fontSize: "17px",
+                      margin: "0 0 8px 0",
+                      fontSize: "15px",
                       fontWeight: "bold",
                     }}
                   >
@@ -2113,21 +2138,22 @@ const OrderValuationReport = () => {
                     style={{
                       display: "flex",
                       flexDirection: "column",
-                      gap: "5px",
-                      paddingLeft: "6px",
+                      gap: "3px",
+                      paddingLeft: "4px",
+                      fontSize: "13.5px",
                     }}
                   >
-                    {filteredOtherTaxes.length > 0 ? (
-                      filteredOtherTaxes.map((tax, idx) => (
+                    {summaryOtherTaxes.length > 0 ? (
+                      summaryOtherTaxes.map((tax, idx) => (
                         <div
                           key={idx}
                           style={{
                             display: "flex",
                             alignItems: "center",
-                            gap: "8px",
+                            gap: "5px",
                             width: "fit-content",
-                            borderBottom: "1.5px solid #000",
-                            paddingBottom: "2px",
+                            borderBottom: "1px solid #000",
+                            paddingBottom: "1px",
                           }}
                           className="formatting"
                         >
@@ -2136,17 +2162,19 @@ const OrderValuationReport = () => {
                             style={{
                               margin: 0,
                               whiteSpace: "nowrap",
-                              transform: "translateY(-7px)",
+                              transform: "translateY(-4px)",
                             }}
                           >
                             ({toGujaratiNumber(idx + 1)}) {tax.label}{" "}
                             <b>રૂ|.{toGujaratiNumber(tax.val)}/-</b>
-                            {idx < filteredOtherTaxes.length - 1 ? "," : ""}
+                            {idx < summaryOtherTaxes.length - 1 ? "," : ""}
                           </p>
                         </div>
                       ))
                     ) : (
-                      <p style={{ margin: 0 }}>કોઈ અન્ય વેરા નથી.</p>
+                      <p style={{ margin: 0, fontSize: "13px" }}>
+                        કોઈ અન્ય વેરા નથી.
+                      </p>
                     )}
                   </div>
                 </div>
@@ -2205,6 +2233,47 @@ const OrderValuationReport = () => {
                     ખાસ પાણી નળ વેરો ત્થા સા.પાણી વેરો બન્‍ને વેરા મુકવા વેરો
                     લેવો. <b>{details?.specialAndGeneralWaterTax || ""}</b>
                   </p>
+                  <p style={{ margin: 0 }}>
+                    અલગ પાણી વેરા રજીસ્ટર રાખવું?{" "}
+                    <b>
+                      {isSeparateWaterRegister
+                        ? "હા"
+                        : details?.seperateWaterRegister === false ||
+                            details?.seperateWaterRegister === "false"
+                          ? "ના"
+                          : ""}
+                    </b>
+                  </p>
+
+                  {/* Separate Special Water Tax (Only when seperateWaterRegister is true) */}
+                  {isSeparateWaterRegister && specialWaterTaxVal > 0 && (
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "5px",
+                        width: "fit-content",
+                        marginTop: "15px",
+                        padding: "2px 8px",
+                        border: "1px solid #000",
+                        borderRadius: "4px",
+                        fontSize: "13.5px",
+                      }}
+                      className="formatting"
+                    >
+                      {getOtherTaxIcon("ખાસ પાણી નળ વેરો")}
+                      <p
+                        style={{
+                          margin: 0,
+                          whiteSpace: "nowrap",
+                          transform: "translateY(-6px)",
+                        }}
+                      >
+                        ખાસ પાણી નળ વેરો:-{" "}
+                        <b>રૂ|.{toGujaratiNumber(specialWaterTaxVal)}/-</b>
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
 

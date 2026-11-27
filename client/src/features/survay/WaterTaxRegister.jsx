@@ -363,6 +363,59 @@ const WaterTaxRegister = () => {
     }
   };
 
+  // Check if both seperateWaterRegister & ignoreEmptyProperty are true
+  const projectDetails =
+    typeof project?.details === "string"
+      ? (() => {
+          try {
+            return JSON.parse(project.details);
+          } catch {
+            return {};
+          }
+        })()
+      : project?.details || {};
+
+  const shouldIgnoreEmptyWater =
+    (projectDetails?.seperateWaterRegister === true ||
+      projectDetails?.seperateWaterRegister === "true") &&
+    (projectDetails?.ignoreEmptyProperty === true ||
+      projectDetails?.ignoreEmptyProperty === "true");
+
+  const hasValidSpecialWaterTax = (record) => {
+    try {
+      const parsed21 = JSON.parse(record[21] || "{}");
+      const parsed23 = JSON.parse(record[23] || "{}");
+      const currWater = Number(parsed21?.special_water?.curr) || 0;
+      const prevWater = Number(parsed23?.special_water?.prev) || 0;
+      return currWater > 0 || prevWater > 0;
+    } catch {
+      return false;
+    }
+  };
+
+  // Filter empty special water tax records & re-assign sequential "કનેકશન નંબર" (index 0)
+  const processedRecords = React.useMemo(() => {
+    if (!Array.isArray(records) || records.length === 0) return [];
+    if (!shouldIgnoreEmptyWater) return records;
+
+    const filtered = records.filter(hasValidSpecialWaterTax);
+
+    // Maintain exact render order if commercial separation is active
+    const ordered =
+      projectDetails?.seperatecommercial === true
+        ? [
+            ...filtered.filter((r) => !isCommercialProperty(r)),
+            ...filtered.filter((r) => isCommercialProperty(r)),
+          ]
+        : filtered;
+
+    return ordered.map((row, idx) => {
+      const updatedRow = [...row];
+      updatedRow[0] = idx + 1; // Sequential કનેકશન નંબર (1, 2, 3...)
+      return updatedRow;
+    });
+  }, [records, shouldIgnoreEmptyWater, projectDetails?.seperatecommercial]);
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen text-gray-700">
@@ -410,7 +463,7 @@ const WaterTaxRegister = () => {
   const BUNDLE_SIZE = 100;
 
   const finalRenderPages = buildFinalPages(
-    records,
+    processedRecords,
     BUNDLE_SIZE,
     PROPERTIES_PER_PAGE,
   );
@@ -765,7 +818,7 @@ const WaterTaxRegister = () => {
       b_kul: 0,
     };
 
-    records?.forEach((record) => {
+    processedRecords?.forEach((record) => {
       const parsed21 = safeParse(record[21]);
       const parsed23 = safeParse(record[23]);
       const parsed24 = safeParse(record[24]);
@@ -1158,7 +1211,7 @@ const WaterTaxRegister = () => {
                   <TaxIndex
                     part={item.bundle}
                     project={project}
-                    totalHoouse={records?.length}
+                    totalHoouse={processedRecords?.length}
                     taxes={taxes}
                     title={item?.name} // Pass the dynamic title (Residential/Commercial)
                     commercial={item.commercial}
@@ -1173,7 +1226,7 @@ const WaterTaxRegister = () => {
                   <WaterTaxIndexRaw
                     part={item.bundle}
                     project={project}
-                    totalHoouse={records?.length}
+                    totalHoouse={processedRecords?.length}
                     taxes={taxes}
                     title={item?.name} // Pass the dynamic title (Residential/Commercial)
                     commercial={item.commercial}

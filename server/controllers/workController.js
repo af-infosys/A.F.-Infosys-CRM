@@ -298,67 +298,75 @@ export const addWork = async (req, res) => {
 
     const newWork = await sheet.insert(process.env.GOOGLE_SHEET_ID, "Index", [
       sheetId,
-      JSON.stringify(spot),
+      JSON.stringify({ ...spot, type: "akarni" }),
+      JSON.stringify({
+        gaam: spot.gaam,
+        taluka: spot.taluka,
+        district: spot.district,
+      }),
+      JSON.stringify({ status: "final" }),
       JSON.stringify([]),
       JSON.stringify([]),
-      JSON.stringify([]),
-      JSON.stringify([]),
-      new Date().toISOString(),
-      new Date().toISOString(),
+      JSON.stringify({
+        id: req.user.id,
+        name: req.user.name,
+        time: new Date().toISOString(),
+      }),
+      JSON.stringify({
+        id: req.user.id,
+        name: req.user.name,
+        time: new Date().toISOString(),
+      }),
     ]);
- 
-const spreadsheetId = process.env.GOOGLE_SHEET_ID;
-const mainTab = `${sheetId}_Main`;
-const areasTab = `${sheetId}_Areas`;
 
-await sheet.createNewTab(spreadsheetId, mainTab);
-await sheet.createNewTab(spreadsheetId, areasTab);
+    const spreadsheetId = process.env.GOOGLE_SHEET_ID;
+    const mainTab = `${sheetId}_Main`;
+    const areasTab = `${sheetId}_Areas`;
 
-const mainRows = [
-  [`${spot.gaam} Grampanchayat Database`], 
-  Array.from({ length: 29 }, (_, i) => i), 
-  [
-    "ક્રમાંક",
-    "વિસ્તારનું નામ",
-    "મિલ્કત ક્રમાંક",
-    "માલિકનું નામ",
-    "Column 29",
-    "જુનો મિલકત નંબર",
-    "મોબાઈલ નંબર",
-    "મિલ્ક્ત પર લખેલ નામ મકાન/દુકાન/ કારખાના/ કંપનીનું નામ",
-    "મકાન category",
-    "રસોડું",
-    "બાથરૂમ",
-    "ફરજો",
-    "નળ",
-    "શોચાલ્ય",
-    "રીમાર્કસ",
-    "માળની વિગતો",
-    "મિલકતનું વર્ણન",
-    "Created At",
-    "Updated At",
-    "Price",
-    "Tax",
-    "Other Tax",
-    "Special Water Tax",
-    "Light Tax",
-    "Cleaning Tax",
-    "Total Tax",
-    "img1",
-    "Img2",
-    "img3",
-  ],
-];
+    await sheet.createNewTab(spreadsheetId, mainTab);
+    await sheet.createNewTab(spreadsheetId, areasTab);
 
-for (const row of mainRows) {
-  await sheet.insert(spreadsheetId, mainTab, row);
-}
+    const mainRows = [
+      [`${spot.gaam} Grampanchayat Database`],
+      Array.from({ length: 29 }, (_, i) => i),
+      [
+        "ક્રમાંક",
+        "વિસ્તારનું નામ",
+        "મિલ્કત ક્રમાંક",
+        "માલિકનું નામ",
+        "કબ્જેદારનું નામ",
+        "જુનો મિલકત નંબર",
+        "મોબાઈલ નંબર",
+        "મિલ્ક્ત પર લખેલ નામ મકાન/દુકાન/ કારખાના/ કંપનીનું નામ",
+        "મકાન category",
+        "રસોડું",
+        "બાથરૂમ",
+        "ફરજો",
+        "નળ",
+        "શોચાલ્ય",
+        "રીમાર્કસ",
+        "માળની વિગતો",
+        "મિલકતનું વર્ણન",
+        "Created At",
+        "Updated At",
+        "House Value",
+        "Current House Tax",
+        "Current Other Tax",
+        "Previous House Tax",
+        "Previous Other Tax",
+        "Vasulat",
+        "...",
+        "img1",
+        "Img2",
+        "img3",
+      ],
+    ];
 
-await sheet.insert(spreadsheetId, areasTab, ["id", "name"]);
+    for (const row of mainRows) {
+      await sheet.insert(spreadsheetId, mainTab, row);
+    }
 
-    //     Meghraj Grampanchayat Database
-    // 0	1	2	3	4	5	6	7	8	9	10	11	12	13	14	15	16	17	18	19	20	21	22	23	24	25	26	27	28
-    // ક્રમાંક	વિસ્તારનું નામ	મિલ્કત ક્રમાંક	માલિકનું નામ	Column 29	જુનો મિલકત નંબર	મોબાઈલ નંબર	મિલ્ક્ત પર લખેલ નામ મકાન/દુકાન/ કારખાના/ કંપનીનું નામ	મકાન category	રસોડું	બાથરૂમ	ફરજો	નળ	શોચાલ્ય	રીમાર્કસ	માળની વિગતો	મિલકતનું વર્ણન	Created At	Updated At	Price	Tax	Other Tax	Special Water Tax	Light Tax	Cleaning Tax	Total Tax	img1	Img2	img3
+    await sheet.insert(spreadsheetId, areasTab, ["id", "name"]);
 
     res.status(200).json({
       message: "Work entry added successfully!",

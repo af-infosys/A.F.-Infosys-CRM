@@ -34,8 +34,25 @@ const TaxRegister = () => {
   const { projectId } = useParams();
   const [taxes, setTaxes] = useState([]);
 
-  // Check if Special Water Tax is Configured/Enabled
-  const hasSpecialWaterTax = !!taxes[1]?.values?.residence;
+  // Safely parse project.details and check seperateWaterRegister
+  const projectDetails =
+    typeof project?.details === "string"
+      ? (() => {
+          try {
+            return JSON.parse(project.details);
+          } catch {
+            return {};
+          }
+        })()
+      : project?.details || {};
+
+  const isSeparateWaterRegister =
+    projectDetails?.seperateWaterRegister === true ||
+    projectDetails?.seperateWaterRegister === "true";
+
+  // Hide Special Water Tax column & totals when seperateWaterRegister is true
+  const hasSpecialWaterTax =
+    !isSeparateWaterRegister && !!taxes[1]?.values?.residence;
 
   // Active Categories mapped for Totals and Calculation
   const activeCategories = [
@@ -171,7 +188,6 @@ const TaxRegister = () => {
   const handleDownloadPDF = async () => {
     const totalPages = finalRenderPages.length;
     let totalDuration = 0;
-    const startTime = window.performance.now();
 
     setPdfProgress({
       isGenerating: true,
@@ -318,7 +334,7 @@ const TaxRegister = () => {
     if (!allRecords || allRecords.length === 0) return [];
 
     const final = [];
-    const isSeparate = project?.details?.seperatecommercial === true;
+    const isSeparate = projectDetails?.seperatecommercial === true;
     let globalPageNumber = 1;
 
     const chunkArray = (arr, size) => {
@@ -479,7 +495,7 @@ const TaxRegister = () => {
     const safeParse = (val) => {
       try {
         return JSON.parse(val || "{}");
-      } catch (e) {
+      } catch {
         return {};
       }
     };
@@ -487,7 +503,7 @@ const TaxRegister = () => {
 
     const titleRow = [
       [
-        `ગામનો નમુના નંબર ૯ ડી - કરવેરા રજીસ્ટર - સને ${project?.details?.taxYear || "2026/27"}`,
+        `ગામનો નમુના નંબર ૯ ડી - કરવેરા રજીસ્ટર - સને ${projectDetails?.taxYear || "2026/27"}`,
       ],
     ];
     const locationRow = [
@@ -676,6 +692,21 @@ const TaxRegister = () => {
         "",
       ];
 
+      // Exclude special water tax from Vasulat total when seperateWaterRegister is true
+      const vasulatTotalPrev = isSeparateWaterRegister
+        ? getNum(parsed21?.[1]?.prev) +
+          getNum(parsed22?.[1]?.prev) +
+          getNum(parsed24?.[1]?.prev) +
+          getNum(parsed25?.[1]?.prev)
+        : getNum(parsed26?.[1]?.prev);
+
+      const vasulatTotalCurr = isSeparateWaterRegister
+        ? getNum(parsed21?.[1]?.curr) +
+          getNum(parsed22?.[1]?.curr) +
+          getNum(parsed24?.[1]?.curr) +
+          getNum(parsed25?.[1]?.curr)
+        : getNum(parsed26?.[1]?.curr);
+
       const row2 = [
         "",
         "",
@@ -702,11 +733,26 @@ const TaxRegister = () => {
         getNum(parsed25?.[1]?.prev),
         getNum(parsed25?.[1]?.curr),
         getNum(parsed25?.[1]?.prev) + getNum(parsed25?.[1]?.curr),
-        getNum(parsed26?.[1]?.prev),
-        getNum(parsed26?.[1]?.curr),
-        getNum(parsed26?.[1]?.prev) + getNum(parsed26?.[1]?.curr),
+        vasulatTotalPrev,
+        vasulatTotalCurr,
+        vasulatTotalPrev + vasulatTotalCurr,
         "",
       ];
+
+      // Exclude special water tax from Baki total when seperateWaterRegister is true
+      const bakiTotalPrev = isSeparateWaterRegister
+        ? getNum(parsed21?.[2]?.prev) +
+          getNum(parsed22?.[2]?.prev) +
+          getNum(parsed24?.[2]?.prev) +
+          getNum(parsed25?.[2]?.prev)
+        : getNum(parsed26?.[2]?.prev);
+
+      const bakiTotalCurr = isSeparateWaterRegister
+        ? getNum(parsed21?.[2]?.curr) +
+          getNum(parsed22?.[2]?.curr) +
+          getNum(parsed24?.[2]?.curr) +
+          getNum(parsed25?.[2]?.curr)
+        : getNum(parsed26?.[2]?.curr);
 
       const row3 = [
         "",
@@ -734,9 +780,9 @@ const TaxRegister = () => {
         getNum(parsed25?.[2]?.prev),
         getNum(parsed25?.[2]?.curr),
         getNum(parsed25?.[2]?.prev) + getNum(parsed25?.[2]?.curr),
-        getNum(parsed26?.[2]?.prev),
-        getNum(parsed26?.[2]?.curr),
-        getNum(parsed26?.[2]?.prev) + getNum(parsed26?.[2]?.curr),
+        bakiTotalPrev,
+        bakiTotalCurr,
+        bakiTotalPrev + bakiTotalCurr,
         "",
       ];
 
@@ -748,7 +794,7 @@ const TaxRegister = () => {
 
       dataRows.push(row1, row2, row3);
 
-      [0, 1, 2, 3, 24].forEach((colIndex) => {
+      [0, 1, 2, 3, totalCols - 1].forEach((colIndex) => {
         merges.push({
           s: { r: currentRowIndex, c: colIndex },
           e: { r: currentRowIndex + 2, c: colIndex },
@@ -911,7 +957,7 @@ const TaxRegister = () => {
         Start Calculate
       </button>
       <br /> <br />
-      {project?.details?.seperatecommercial ? (
+      {projectDetails?.seperatecommercial ? (
         <span className="text-green-600 font-bold">
           COMMERCIAL SEPARATION ACTIVE
         </span>
@@ -1055,7 +1101,7 @@ const TaxRegister = () => {
                       : item.isCommercial === false
                         ? " - રહેણાંક મિલ્કત"
                         : ""}{" "}
-                    | સને {project?.details?.taxYear || "૨૦૨૫/૨૬"}
+                    | સને {projectDetails?.taxYear || "૨૦૨૫/૨૬"}
                   </h1>
                   <div
                     className="location-info"
@@ -1516,12 +1562,51 @@ const TaxRegister = () => {
                                 JSON.parse(record[25] || "{}")?.[1]?.curr || 0,
                               );
                             } else if (cat === "total") {
-                              prev = Number(
-                                JSON.parse(record[26] || "{}")?.[1]?.prev || 0,
-                              );
-                              curr = Number(
-                                JSON.parse(record[26] || "{}")?.[1]?.curr || 0,
-                              );
+                              if (isSeparateWaterRegister) {
+                                prev =
+                                  Number(
+                                    JSON.parse(record[21] || "{}")?.[1]?.prev ||
+                                      0,
+                                  ) +
+                                  Number(
+                                    JSON.parse(record[22] || "{}")?.[1]?.prev ||
+                                      0,
+                                  ) +
+                                  Number(
+                                    JSON.parse(record[24] || "{}")?.[1]?.prev ||
+                                      0,
+                                  ) +
+                                  Number(
+                                    JSON.parse(record[25] || "{}")?.[1]?.prev ||
+                                      0,
+                                  );
+                                curr =
+                                  Number(
+                                    JSON.parse(record[21] || "{}")?.[1]?.curr ||
+                                      0,
+                                  ) +
+                                  Number(
+                                    JSON.parse(record[22] || "{}")?.[1]?.curr ||
+                                      0,
+                                  ) +
+                                  Number(
+                                    JSON.parse(record[24] || "{}")?.[1]?.curr ||
+                                      0,
+                                  ) +
+                                  Number(
+                                    JSON.parse(record[25] || "{}")?.[1]?.curr ||
+                                      0,
+                                  );
+                              } else {
+                                prev = Number(
+                                  JSON.parse(record[26] || "{}")?.[1]?.prev ||
+                                    0,
+                                );
+                                curr = Number(
+                                  JSON.parse(record[26] || "{}")?.[1]?.curr ||
+                                    0,
+                                );
+                              }
                             }
                             return (
                               <React.Fragment key={cat}>
@@ -1618,12 +1703,51 @@ const TaxRegister = () => {
                                 JSON.parse(record[25] || "{}")?.[2]?.curr || 0,
                               );
                             } else if (cat === "total") {
-                              prev = Number(
-                                JSON.parse(record[26] || "{}")?.[2]?.prev || 0,
-                              );
-                              curr = Number(
-                                JSON.parse(record[26] || "{}")?.[2]?.curr || 0,
-                              );
+                              if (isSeparateWaterRegister) {
+                                prev =
+                                  Number(
+                                    JSON.parse(record[21] || "{}")?.[2]?.prev ||
+                                      0,
+                                  ) +
+                                  Number(
+                                    JSON.parse(record[22] || "{}")?.[2]?.prev ||
+                                      0,
+                                  ) +
+                                  Number(
+                                    JSON.parse(record[24] || "{}")?.[2]?.prev ||
+                                      0,
+                                  ) +
+                                  Number(
+                                    JSON.parse(record[25] || "{}")?.[2]?.prev ||
+                                      0,
+                                  );
+                                curr =
+                                  Number(
+                                    JSON.parse(record[21] || "{}")?.[2]?.curr ||
+                                      0,
+                                  ) +
+                                  Number(
+                                    JSON.parse(record[22] || "{}")?.[2]?.curr ||
+                                      0,
+                                  ) +
+                                  Number(
+                                    JSON.parse(record[24] || "{}")?.[2]?.curr ||
+                                      0,
+                                  ) +
+                                  Number(
+                                    JSON.parse(record[25] || "{}")?.[2]?.curr ||
+                                      0,
+                                  );
+                              } else {
+                                prev = Number(
+                                  JSON.parse(record[26] || "{}")?.[2]?.prev ||
+                                    0,
+                                );
+                                curr = Number(
+                                  JSON.parse(record[26] || "{}")?.[2]?.curr ||
+                                    0,
+                                );
+                              }
                             }
                             return (
                               <React.Fragment key={cat}>
@@ -1835,12 +1959,49 @@ const TaxRegister = () => {
                               JSON.parse(record[25] || "{}")?.[1]?.curr || 0,
                             );
                           } else if (cat === "total") {
-                            prevForCategory += Number(
-                              JSON.parse(record[26] || "{}")?.[1]?.prev || 0,
-                            );
-                            currForCategory += Number(
-                              JSON.parse(record[26] || "{}")?.[1]?.curr || 0,
-                            );
+                            if (isSeparateWaterRegister) {
+                              prevForCategory +=
+                                Number(
+                                  JSON.parse(record[21] || "{}")?.[1]?.prev ||
+                                    0,
+                                ) +
+                                Number(
+                                  JSON.parse(record[22] || "{}")?.[1]?.prev ||
+                                    0,
+                                ) +
+                                Number(
+                                  JSON.parse(record[24] || "{}")?.[1]?.prev ||
+                                    0,
+                                ) +
+                                Number(
+                                  JSON.parse(record[25] || "{}")?.[1]?.prev ||
+                                    0,
+                                );
+                              currForCategory +=
+                                Number(
+                                  JSON.parse(record[21] || "{}")?.[1]?.curr ||
+                                    0,
+                                ) +
+                                Number(
+                                  JSON.parse(record[22] || "{}")?.[1]?.curr ||
+                                    0,
+                                ) +
+                                Number(
+                                  JSON.parse(record[24] || "{}")?.[1]?.curr ||
+                                    0,
+                                ) +
+                                Number(
+                                  JSON.parse(record[25] || "{}")?.[1]?.curr ||
+                                    0,
+                                );
+                            } else {
+                              prevForCategory += Number(
+                                JSON.parse(record[26] || "{}")?.[1]?.prev || 0,
+                              );
+                              currForCategory += Number(
+                                JSON.parse(record[26] || "{}")?.[1]?.curr || 0,
+                              );
+                            }
                           }
                         });
                         return (
@@ -1911,12 +2072,49 @@ const TaxRegister = () => {
                               JSON.parse(record[25] || "{}")?.[2]?.curr || 0,
                             );
                           } else if (cat === "total") {
-                            prevForCategory += Number(
-                              JSON.parse(record[26] || "{}")?.[2]?.prev || 0,
-                            );
-                            currForCategory += Number(
-                              JSON.parse(record[26] || "{}")?.[2]?.curr || 0,
-                            );
+                            if (isSeparateWaterRegister) {
+                              prevForCategory +=
+                                Number(
+                                  JSON.parse(record[21] || "{}")?.[2]?.prev ||
+                                    0,
+                                ) +
+                                Number(
+                                  JSON.parse(record[22] || "{}")?.[2]?.prev ||
+                                    0,
+                                ) +
+                                Number(
+                                  JSON.parse(record[24] || "{}")?.[2]?.prev ||
+                                    0,
+                                ) +
+                                Number(
+                                  JSON.parse(record[25] || "{}")?.[2]?.prev ||
+                                    0,
+                                );
+                              currForCategory +=
+                                Number(
+                                  JSON.parse(record[21] || "{}")?.[2]?.curr ||
+                                    0,
+                                ) +
+                                Number(
+                                  JSON.parse(record[22] || "{}")?.[2]?.curr ||
+                                    0,
+                                ) +
+                                Number(
+                                  JSON.parse(record[24] || "{}")?.[2]?.curr ||
+                                    0,
+                                ) +
+                                Number(
+                                  JSON.parse(record[25] || "{}")?.[2]?.curr ||
+                                    0,
+                                );
+                            } else {
+                              prevForCategory += Number(
+                                JSON.parse(record[26] || "{}")?.[2]?.prev || 0,
+                              );
+                              currForCategory += Number(
+                                JSON.parse(record[26] || "{}")?.[2]?.curr || 0,
+                              );
+                            }
                           }
                         });
                         return (

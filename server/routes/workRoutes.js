@@ -51,7 +51,12 @@ userRoutes.get("/:id", authenticateToken, getWorkSpot); // ✅ baad me generic
 userRoutes.get("/bill/:id", authenticateToken, getBillWork); // ✅ baad me generic
 userRoutes.get("/bill-details/:id", getBillWorkDetail);
 
-userRoutes.post("/", authenticateToken, authorizeRoles("owner"), addWork);
+userRoutes.post(
+  "/",
+  authenticateToken,
+  authorizeRoles("owner", "operator"),
+  addWork,
+);
 
 userRoutes.put("/:id", authenticateToken, authorizeRoles("owner"), editWork);
 

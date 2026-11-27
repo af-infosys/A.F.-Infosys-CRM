@@ -7,43 +7,41 @@ import { toast } from "react-toastify";
 import "./akarni.scss";
 
 const quicklinks = [
-  { id: 0, label: "Bulk Upload", path: "/survay/bulk" },
-  { id: 0.5, label: "0. Tharaav Set", path: "/orderValuation/tharav" },
-  { id: 1, label: "1. Order Valuation Report", path: "/orderValuation/report" },
+  { label: "1.1 Order Valuation Report", path: "/orderValuation/report" },
+  { label: "1.2 Order Valuation Form", path: "/orderValuation/form" },
 
-  { id: 2, label: "2. Akarni Register (No.8)", path: "/survay/akarniReport" },
+  { label: "0. Tharaav Set", path: "/orderValuation/tharav" },
+
+  { label: "Bulk Upload", path: "/survay/bulk" },
+  { label: "2. Akarni Register (No.8)", path: "/survay/akarniReport" },
 
   {
-    id: 3,
     label: "2. Akarni Register (No.8) - With Image",
     path: "/survay/akarniImgReport",
   },
-  { id: 4, label: "3.1. Vera Register (9D)", path: "/survay/taxRegister" },
+  { label: "3.1. Vera Register (9D)", path: "/survay/taxRegister" },
   {
-    id: 5,
     label: "3.2. Water Tax Register",
     path: "/survay/waterTaxRegister",
   },
 
-  { id: 6, label: "4. Magla Register", path: "/survay/manglaRegister" },
-  { id: 7, label: "5. Vasulat Register", path: "/survay/vasulatRegister" },
+  { label: "4. Magla Register", path: "/survay/manglaRegister" },
+  { label: "5. Vasulat Register", path: "/survay/vasulatRegister" },
   {
-    id: 8,
     label: "6. Index Report (પાનોત્રી બુક)",
     path: "/survay/indexReport",
   },
   {
-    id: 8.5,
     label: "6.5. Water Index Report (પાનોત્રી બુક)",
     path: "/survay/waterIndexReport",
   },
 
-  { id: 9, label: "7. Tarij Report", path: "/survay/tarij" },
-  { id: 9.5, label: "7.5. Water Tarij Report", path: "/survay/waterTarij" },
-  { id: 10, label: "8. Analysis Report", path: "/survay/analysis" },
-  { id: 11, label: "8. Analysis Kacha Report", path: "/survay/kacha" },
-  { id: 12, label: "Bill / Quotation", path: "/survay/bill" },
-  { id: 12.5, label: "Water Tax Bill / Quotation", path: "/survay/waterBill" },
+  { label: "7. Tarij Report", path: "/survay/tarij" },
+  { label: "7.5. Water Tarij Report", path: "/survay/waterTarij" },
+  { label: "8. Analysis Report", path: "/survay/analysis" },
+  { label: "8. Analysis Kacha Report", path: "/survay/kacha" },
+  { label: "Bill / Quotation", path: "/survay/bill" },
+  { label: "Water Tax Bill / Quotation", path: "/survay/waterBill" },
 ];
 
 const Akarni = () => {
@@ -52,32 +50,6 @@ const Akarni = () => {
   const [loading, setLoading] = useState(false);
 
   const { projectId } = useParams();
-
-  // const fetchProject = async () => {
-  //   try {
-  //     setLoading(true);
-  //     const { data } = await axios.get(
-  //       `${await apiPath()}/api/work/project/${projectId}`,
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //         },
-  //       }
-  //     );
-
-  //     setProject(data?.data || {});
-  //   } catch (error) {
-  //     console.error("Error fetching projects:", error);
-  //     toast.error(`Error Fetching Projects: ${error.message}`);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   fetchProject();
-  // }, []);
 
   return (
     <div className="akarni-container">
@@ -101,7 +73,6 @@ const Akarni = () => {
           <div className="quicklinks-container">
             {quicklinks.map((item) => (
               <button
-                key={item.id}
                 className="quicklinks"
                 onClick={() => navigate(`${item.path}/${projectId}`)}
               >

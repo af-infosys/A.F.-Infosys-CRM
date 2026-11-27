@@ -53,6 +53,8 @@ const OrderValuationForm = () => {
     specialAndGeneralWaterTax: "",
 
     seperatecommercial: false,
+    seperateWaterRegister: false,
+    ignoreEmptyProperty: false,
 
     pvtplot: false,
     govplot: false,
@@ -267,6 +269,13 @@ const OrderValuationForm = () => {
 
         isManualHouseTax: Boolean(data.details?.isManualHouseTax),
         manualHouseTaxPercent: data.details?.manualHouseTaxPercent ?? "",
+        seperateWaterRegister:
+          data.details?.seperateWaterRegister === true ||
+          data.details?.seperateWaterRegister === "true",
+        ignoreEmptyProperty:
+          data.details?.ignoreEmptyProperty === true ||
+          data.details?.ignoreEmptyProperty === "true",
+
         comity: [
           ...(data.details?.comity || [
             { name: "", designation: "અધ્યક્ષ સરપંચશ્રી" },
@@ -1377,6 +1386,101 @@ const OrderValuationForm = () => {
                     <option value="ખાસ પાણી નળ વેરો">ખાસ પાણી નળ વેરો</option>
                     <option value="બંને વેરા લેવા">બંને વેરા લેવા</option>
                   </select>
+                </div>
+
+                {/* Separate Water Register & Conditional Ignore Empty Property */}
+                <div className="mt-5 pt-4 border-t border-gray-200 grid grid-cols-1 md:grid-cols-2 gap-5">
+                  {/* 1. Separate Water Register Radio */}
+                  <div className="flex flex-col justify-between">
+                    <label className="text-sm font-medium text-gray-700 mb-2">
+                      અલગ પાણી વેરા રજીસ્ટર રાખવું? (Separate Water Register)
+                    </label>
+                    <div className="flex flex-wrap gap-4">
+                      <label className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg cursor-pointer hover:border-blue-400 transition-colors">
+                        <input
+                          type="radio"
+                          name="seperateWaterRegister"
+                          checked={details.seperateWaterRegister === true}
+                          onChange={() =>
+                            setDetails((prev) => ({
+                              ...prev,
+                              seperateWaterRegister: true,
+                            }))
+                          }
+                          className="w-4 h-4 text-blue-600 focus:ring-blue-500"
+                        />
+                        <span className="text-sm font-medium text-gray-700">
+                          હા (True)
+                        </span>
+                      </label>
+
+                      <label className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg cursor-pointer hover:border-blue-400 transition-colors">
+                        <input
+                          type="radio"
+                          name="seperateWaterRegister"
+                          checked={!details.seperateWaterRegister}
+                          onChange={() =>
+                            setDetails((prev) => ({
+                              ...prev,
+                              seperateWaterRegister: false,
+                              ignoreEmptyProperty: false,
+                            }))
+                          }
+                          className="w-4 h-4 text-blue-600 focus:ring-blue-500"
+                        />
+                        <span className="text-sm font-medium text-gray-700">
+                          ના (False)
+                        </span>
+                      </label>
+                    </div>
+                  </div>
+
+                  {/* 2. Ignore Empty Property Radio (Only visible when seperateWaterRegister is true) */}
+                  {details.seperateWaterRegister === true && (
+                    <div className="flex flex-col justify-between">
+                      <label className="text-sm font-medium text-gray-700 mb-2">
+                        ખાલી / 0 પાણી વેરા વાળી મિલકત બાદ રાખવી? (Ignore Empty
+                        Property)
+                      </label>
+                      <div className="flex flex-wrap gap-4">
+                        <label className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg cursor-pointer hover:border-blue-400 transition-colors">
+                          <input
+                            type="radio"
+                            name="ignoreEmptyProperty"
+                            checked={details.ignoreEmptyProperty === true}
+                            onChange={() =>
+                              setDetails((prev) => ({
+                                ...prev,
+                                ignoreEmptyProperty: true,
+                              }))
+                            }
+                            className="w-4 h-4 text-blue-600 focus:ring-blue-500"
+                          />
+                          <span className="text-sm font-medium text-gray-700">
+                            હા (True)
+                          </span>
+                        </label>
+
+                        <label className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg cursor-pointer hover:border-blue-400 transition-colors">
+                          <input
+                            type="radio"
+                            name="ignoreEmptyProperty"
+                            checked={!details.ignoreEmptyProperty}
+                            onChange={() =>
+                              setDetails((prev) => ({
+                                ...prev,
+                                ignoreEmptyProperty: false,
+                              }))
+                            }
+                            className="w-4 h-4 text-blue-600 focus:ring-blue-500"
+                          />
+                          <span className="text-sm font-medium text-gray-700">
+                            ના (False)
+                          </span>
+                        </label>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
